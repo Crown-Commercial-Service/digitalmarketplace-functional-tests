@@ -29,6 +29,10 @@ To run a specific feature run with
 
 `bundle exec cucumber -n <part of feature name>`
 
+To run features with a specific tag run
+
+`bundle exec cucumber --tags @tag-name`
+
 To include or exclude tags see [the cucumber documentation](https://github.com/cucumber/cucumber/wiki/Tags#running-a-subset-of-scenarios)
 
 ## Controlling the test environment
