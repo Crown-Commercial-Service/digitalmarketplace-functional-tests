@@ -29,24 +29,32 @@ else
   end
 end
 
-def ssp_domain()
-  ENV['SSP_DOMAIN'] || 'http://localhost:9000'
-end
-
-def dm_domain()
-  ENV['DM_DOMAIN'] || ''
-end
-
 def dm_api_domain()
-  ENV['DM_API_DOMAIN'] || ''
+  ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end
 
 def dm_api_access_token()
-  ENV['DM_API_ACCESS_TOKEN']
+  ENV['DM_API_ACCESS_TOKEN'] || 'myToken'
 end
 
-def dss_domain()
-  ENV['DSS_DOMAIN'] || ''
+def dm_search_api_domain()
+  ENV['DM_SEARCH_API_DOMAIN'] || 'http://localhost:5001'
+end
+
+def dm_search_api_access_token()
+  ENV['DM_SEARCH_API_ACCESS_TOKEN'] || 'myToken'
+end
+
+def dm_buyer_frontend_domain()
+  ENV['DM_BUYER_FRONTEND_DOMAIN'] || 'http://localhost:5002'
+end
+
+def dm_supplier_frontend_domain()
+  ENV['DM_SUPPLIER_FRONTEND_DOMAIN'] || 'http://localhost:5003'
+end
+
+def dm_admin_frontend_domain()
+  ENV['DM_ADMIN_FRONTEND_DOMAIN'] || 'http://localhost:5004'
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }
