@@ -54,6 +54,12 @@ When(/^I send a GET request to the home page$/) do
 end
 
 
+When(/^I send a GET request to "([^\"]*)"$/) do |path|
+  @response = RestClient.get("#{store.last_domain}#{path}"){|response, request, result| response }  # Don't raise exceptions but return the response
+      store.last_response = @response
+end
+
+
 Then /^the response code should be "([^\"]*)"$/ do |status|
   store.last_response.code.should == status.to_i
 end
