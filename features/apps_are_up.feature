@@ -31,5 +31,5 @@ Feature: Apps are up
   @admin-frontend
   Scenario: Check the admin frontend is up
     Given I have a URL for "dm_admin_frontend"
-    When I send a GET request to the home page
+    When I send a GET request to "/login"
     Then the response code should be "200"
