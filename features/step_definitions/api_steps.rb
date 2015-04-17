@@ -71,3 +71,8 @@ Then /^the response should contain a JSON list of "([^\"]*)"$/ do |list_name|
   assert_not_nil (top_level_list)
   top_level_list.class.should == Array
 end
+
+Then /^the response should contain a JSON object "([^\"]*)"$/ do |object_key|
+  json = JSON.parse(store.last_response.body)
+  assert_not_nil (json["#{object_key}"])
+end
