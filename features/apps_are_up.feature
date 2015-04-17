@@ -12,9 +12,9 @@ Feature: Apps are up
   Scenario: Check the search API is up
     Given I have a URL for "dm_search_api"
       And I have an auth token for "dm_search_api"
-    When I send a GET request with authorization to "/search?q=email"
+    When I send a GET request with authorization to "/"
     Then the response code should be "200"
-    And the response should contain a JSON list of "services"
+    And the response should contain a JSON object "links"
 
   @buyer-frontend
   Scenario: Check the buyer frontend is up
@@ -31,5 +31,5 @@ Feature: Apps are up
   @admin-frontend
   Scenario: Check the admin frontend is up
     Given I have a URL for "dm_admin_frontend"
-    When I send a GET request to "/login"
+    When I send a GET request to "/admin/login"
     Then the response code should be "200"
