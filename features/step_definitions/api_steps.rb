@@ -34,7 +34,7 @@ end
 Given /^I have an auth token for "([^\"]*)"$/ do |app|
   app_token= eval "#{app}_access_token"
   assert_not_nil("#{app_token}", "No access token supplied for #{app}")
-  puts("ACCESS TOKEN: #{app_token}")
+  puts("ACCESS TOKEN: #{app_token[0..2]}***#{app_token[-3..-1]}")
   @last_token = app_token
 end
 
