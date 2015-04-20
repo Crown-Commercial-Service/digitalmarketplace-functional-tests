@@ -51,6 +51,12 @@ When(/^I send a GET request to the home page$/) do
       @last_response = @response
 end
 
+When(/^I send a GET request to the status page$/) do
+  @response = RestClient.get("#{@last_domain}/_status") { |response| response }
+  puts "Release version: " + JSON.parse(@response)["version"]
+  @last_response = @response
+end
+
 
 When(/^I send a GET request to "([^\"]*)"$/) do |path|
   @response = RestClient.get("#{@last_domain}#{path}"){|response, request, result| response }  # Don't raise exceptions but return the response
@@ -67,6 +73,11 @@ Then /^the response should contain a JSON list of "([^\"]*)"$/ do |list_name|
   top_level_list = json["#{list_name}"]
   assert_not_nil (top_level_list)
   top_level_list.class.should == Array
+end
+
+Then /^the response JSON field "([^\"]*)" should be "([^\"]*)"$/ do |field, value|
+  json = JSON.parse(@last_response.body)
+  assert_equal json[field], value
 end
 
 Then /^the response should contain a JSON object "([^\"]*)"$/ do |object_key|
