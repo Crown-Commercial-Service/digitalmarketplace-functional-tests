@@ -19,48 +19,48 @@ end
 
 
 Then /^The new json file has a new service name$/ do
-    assert_equal @json['services']['serviceName'].start_with?("NEW NAME "),true
+  assert_equal @json['services']['serviceName'].start_with?("NEW NAME "),true
 end
 
 
 Given /^I have a URL for "([^\"]*)"$/ do |app|
-    app_domain= eval "#{app}_domain"
-    assert_not_nil("#{app_domain}", "No URL supplied for #{app}")
-    puts("DOMAIN  : #{app_domain}")
-    @last_domain = app_domain
+  app_domain= eval "#{app}_domain"
+  assert_not_nil("#{app_domain}", "No URL supplied for #{app}")
+  puts("DOMAIN  : #{app_domain}")
+  @last_domain = app_domain
 end
 
 
 Given /^I have an auth token for "([^\"]*)"$/ do |app|
-    app_token= eval "#{app}_access_token"
-    assert_not_nil("#{app_token}", "No access token supplied for #{app}")
-    puts("ACCESS TOKEN: #{app_token}")
-    @last_token = app_token
+  app_token= eval "#{app}_access_token"
+  assert_not_nil("#{app_token}", "No access token supplied for #{app}")
+  puts("ACCESS TOKEN: #{app_token}")
+  @last_token = app_token
 end
 
 
 When /^I send a GET request with authorization to "([^\"]*)"$/ do |path|
-    @response = RestClient.get("#{@last_domain}#{path}",
-      authorization: "Bearer #{@last_token}"){|response, request, result| response }  # Don't raise exceptions but return the response
-    @last_response = @response
+  response = RestClient.get("#{@last_domain}#{path}",
+    authorization: "Bearer #{@last_token}"){|response, request, result| response }  # Don't raise exceptions but return the response
+  @last_response = response
 end
 
 
 When(/^I send a GET request to the home page$/) do
-  @response = RestClient.get("#{@last_domain}"){|response, request, result| response }  # Don't raise exceptions but return the response
-      @last_response = @response
+  response = RestClient.get("#{@last_domain}"){|response, request, result| response }  # Don't raise exceptions but return the response
+  @last_response = response
 end
 
 When(/^I send a GET request to the status page$/) do
-  @response = RestClient.get("#{@last_domain}/_status") { |response| response }
-  puts "Release version: " + JSON.parse(@response)["version"]
-  @last_response = @response
+  response = RestClient.get("#{@last_domain}/_status") { |response| response }
+  puts "Release version: " + JSON.parse(response)["version"]
+  @last_response = response
 end
 
 
 When(/^I send a GET request to "([^\"]*)"$/) do |path|
-  @response = RestClient.get("#{@last_domain}#{path}"){|response, request, result| response }  # Don't raise exceptions but return the response
-      @last_response = @response
+  response = RestClient.get("#{@last_domain}#{path}"){|response, request, result| response }  # Don't raise exceptions but return the response
+  @last_response = response
 end
 
 
