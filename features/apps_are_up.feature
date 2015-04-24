@@ -25,7 +25,7 @@ Feature: Apps are up
   @supplier-frontend
   Scenario: Check the supplier frontend is up
     Given I have a URL for "dm_supplier_frontend"
-    When I send a GET request to "/supplier/"
+    When I send a GET request to "/suppliers/login"
     Then the response code should be "200"
 
   @admin-frontend
