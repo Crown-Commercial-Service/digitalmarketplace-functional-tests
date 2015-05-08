@@ -1,5 +1,9 @@
 Feature: Admin user journey through Digital Marketplace
 
+Scenario: Setup for tests
+  Given I have a test supplier
+  And The test supplier has a service
+  
 Scenario: As an admin user I wish to log into Digital Marketplace, search for a service and be able to edit details for that service
   Given I am on the 'Administrator' login page
   When I login as a 'Administrator' user
