@@ -45,6 +45,4 @@ The test environment can be controlled with environment variables
 | `DM_API_ACCESS_TOKEN`          | API Access Token           | myToken               |
 | `DM_SEARCH_API_DOMAIN`         | Search API Domain          | http://localhost:5001 |
 | `DM_SEARCH_API_ACCESS_TOKEN`   | Search API Access Token    | myToken               |
-| `DM_BUYER_FRONTEND_DOMAIN`     | Buyer frontend domain      | http://localhost:5002 |
-| `DM_SUPPLIER_FRONTEND_DOMAIN`  | Supplier frontend domain   | http://localhost:5003 |
-| `DM_ADMIN_FRONTEND_DOMAIN`     | Admin frontend domain      | http://localhost:5004 |
+| `DM_FRONTEND_DOMAIN`           | Frontend domain            | http://localhost:5002 |
