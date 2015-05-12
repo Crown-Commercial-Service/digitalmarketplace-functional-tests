@@ -48,6 +48,7 @@ SERVICES_JSON = '
       ],
       "serviceBenefits":[
          "First service benefit. Testing use only",
+         "2nd service benefit",
          "Last service benefit"
       ],
       "serviceFeatures":[
@@ -397,11 +398,11 @@ end
 Given /^The test supplier has a service$/ do
     url = eval "dm_api_domain"
     token = eval "dm_api_access_token"
-    
-    
+
+
     # response = RestClient.put(<url>, JSON.generate(<data>), {:content_type => :json, :authorization => auth})  - See more at: https://splash.riverbed.com/docs/DOC-1710#sthash.RtMWrrOM.dpuf
-    
-    response = RestClient.put(url + "/services/1122334455667788", SERVICES_JSON, 
+
+    response = RestClient.put(url + "/services/1122334455667788", SERVICES_JSON,
                               {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
                               ){|response, request, result| response }  # Don't raise exceptions but return the response
     print(response)

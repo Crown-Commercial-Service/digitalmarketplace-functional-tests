@@ -2,8 +2,8 @@
 require "ostruct"
 require "rest_client"
 
-store = OpenStruct.new
-store.changed_fields = store.changed_fields || Hash.new
+#store = OpenStruct.new
+#store.changed_fields = store.changed_fields || Hash.new
 
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
@@ -39,7 +39,9 @@ end
 
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   fill_in(field_name, with: value)
-  store.serviceID = value
+  #store.serviceID = value
+  @serviceID = value
+  puts @serviceID
 end
 
 And /I click the '(.*)' button$/ do |button_name|
@@ -70,20 +72,20 @@ Then /I am presented with the summary page for that service$/ do
   store.existing_values['servicesummary'] = servicesummary
 
   if store.serviceID.include?('-G')
-    store.existing_values['servicefeature2'] = ''
-    store.existing_values['servicebenefits1'] = ''
+    store.existing_values['servicefeature3'] = ''
+    store.existing_values['servicebenefits2'] = ''
   else
-    servicefeature2 = find(
+    servicefeature3 = find(
       :xpath,
       "//table[3]/tbody/tr[1]/td[2]/ul/li[1]"
     ).text()
-    store.existing_values['servicefeature2'] = servicefeature2
+    store.existing_values['servicefeature3'] = servicefeature3
 
-    servicebenefits1 = find(
+    servicebenefits2 = find(
       :xpath,
       "//table[3]/tbody/tr[2]/td[2]/ul/li[1]"
     ).text()
-    store.existing_values['servicebenefits1'] = servicebenefits1
+    store.existing_values['servicebenefits2'] = servicebenefits2
   end
 
   serviceprice = find(
@@ -199,12 +201,12 @@ And /I choose '(.*)' for '(.*)'$/ do |new_value,field_to_change|
   store.changed_fields[field_to_change] = new_value
 end
 
-And /I remove service benefit number 3$/ do
-  store.changed_fields['serviceBenefits-3'] = find(
+And /I remove service benefit number 2$/ do
+  store.changed_fields['serviceBenefits-2'] = find(
     :xpath,
-    "//*[contains(@id, 'serviceBenefits-3')]"
+    "//*[contains(@id, 'serviceBenefits-2')]"
   ).value()
-  click_link_or_button('service benefit number 3', visible: false)
+  click_link_or_button('service benefit number 2', visible: false)
 end
 
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
@@ -232,7 +234,7 @@ Then /I am presented with the summary page with the changes that were made to th
     page.should have_content(store.changed_fields['serviceName-text-box'])
     page.should have_content(store.changed_fields['serviceSummary-text-box'])
   elsif service_aspect == 'Features and benefits'
-    page.should have_content(store.changed_fields['serviceFeatures-1'])
+    page.should have_content(store.changed_fields['serviceFeatures-3'])
     page.should have_no_content(store.changed_fields['serviceBenefits-3'])
     page.should have_content(store.changed_fields['serviceBenefits'])
   elsif service_aspect == 'Pricing'
@@ -317,8 +319,8 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
   current_url.should end_with(store.existing_values['summarypageurl'])
   page.should have_content(store.existing_values['servicename'])
   page.should have_content(store.existing_values['servicesummary'])
-  page.should have_content(store.existing_values['servicefeature2'])
-  page.should have_content(store.existing_values['servicebenefits1'])
+  page.should have_content(store.existing_values['servicefeature3'])
+  page.should have_content(store.existing_values['servicebenefits2'])
   page.should have_content(store.existing_values['serviceprice'])
   page.should have_content(store.existing_values['vatincluded'])
   page.should have_content(store.existing_values['educationpricing'])
@@ -334,7 +336,7 @@ Then /I am presented with the service details page for that service$/ do
   current_url.should end_with("#{dm_admin_frontend_domain}/service/#{store.serviceID}")
   page.should have_content(store.changed_fields['serviceName-text-box'])
   page.should have_content(store.changed_fields['serviceSummary-text-box'])
-  page.should have_content(store.changed_fields['serviceFeatures-1'])
-  page.should have_no_content(store.changed_fields['serviceBenefits-3'])
+  page.should have_content(store.changed_fields['serviceFeatures-3'])
+  page.should have_no_content(store.changed_fields['serviceBenefits-2'])
   page.should have_content("£#{store.changed_fields['priceMin']} to £#{store.changed_fields['priceMax']} per #{store.changed_fields['priceUnit']} per #{store.changed_fields['priceInterval']}")
 end
