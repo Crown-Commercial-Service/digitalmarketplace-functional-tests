@@ -45,16 +45,8 @@ def dm_search_api_access_token()
   ENV['DM_SEARCH_API_ACCESS_TOKEN'] || 'myToken'
 end
 
-def dm_buyer_frontend_domain()
-  ENV['DM_BUYER_FRONTEND_DOMAIN'] || 'http://localhost:5002'
-end
-
-def dm_supplier_frontend_domain()
-  ENV['DM_SUPPLIER_FRONTEND_DOMAIN'] || 'http://localhost:5003'
-end
-
-def dm_admin_frontend_domain()
-  ENV['DM_ADMIN_FRONTEND_DOMAIN'] || 'http://localhost:5004'
+def dm_frontend_domain()
+  ENV['DM_FRONTEND_DOMAIN']
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }

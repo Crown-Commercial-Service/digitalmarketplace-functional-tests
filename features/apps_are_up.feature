@@ -18,18 +18,18 @@ Feature: Apps are up
 
   @buyer-frontend
   Scenario: Check the buyer frontend is up
-    Given I have a URL for "dm_buyer_frontend"
+    Given I have a URL for "dm_frontend"
     When I send a GET request to the home page
     Then the response code should be "200"
 
   @supplier-frontend
   Scenario: Check the supplier frontend is up
-    Given I have a URL for "dm_supplier_frontend"
+    Given I have a URL for "dm_frontend"
     When I send a GET request to "/suppliers/login"
     Then the response code should be "200"
 
   @admin-frontend
   Scenario: Check the admin frontend is up
-    Given I have a URL for "dm_admin_frontend"
+    Given I have a URL for "dm_frontend"
     When I send a GET request to "/admin/login"
     Then the response code should be "200"
