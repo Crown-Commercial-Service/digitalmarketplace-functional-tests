@@ -49,7 +49,7 @@ SERVICES_JSON = '
       "serviceBenefits":[
          "First service benefit. Testing use only",
          "2nd service benefit",
-         "Last service benefit"
+         "Third service benefit"
       ],
       "serviceFeatures":[
          "First service feature. Testing use only",
@@ -60,8 +60,7 @@ SERVICES_JSON = '
          "6th service feature. Testing use only",
          "Seventh service feature",
          "8th service feature",
-         "Ninth service feature",
-         "10th service feature"
+         "Ninth service feature"
       ],
       "serviceDefinitionDocument":"Basic Managed VM IaaS Service Description.pdf",
       "serviceDefinitionDocumentURL":"https:\/\/assets.digitalmarketplace.service.gov.uk\/documents\/11111\/1122334455667788-service-definition-document.pdf",
