@@ -52,9 +52,9 @@ When(/^I send a GET request to the home page$/) do
   @last_response = response
 end
 
-When(/^I send a GET request to the "([\"]*)" status page$/) do |path|
+When(/^I send a GET request to the "([^\"]*)" status page$/) do |path|
   response = RestClient.get("#{@last_domain}#{path}_status") { |response| response }
-  puts "Release version: " + JSON.parse(response)["version"]
+  puts "Release version: " + JSON.parse(response).fetch("version")
   @last_response = response
 end
 
