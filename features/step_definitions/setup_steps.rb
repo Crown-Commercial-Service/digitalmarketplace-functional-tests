@@ -389,7 +389,6 @@ Given /^I have a test supplier$/ do
     response = RestClient.put(url + "/suppliers/11111", SUPPLIERS_JSON,
                               {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
                               ){|response, request, result| response }  # Don't raise exceptions but return the response
-    print(response)
     response.code.should == 201
 end
 
@@ -401,9 +400,18 @@ Given /^The test supplier has a service$/ do
 
     # response = RestClient.put(<url>, JSON.generate(<data>), {:content_type => :json, :authorization => auth})  - See more at: https://splash.riverbed.com/docs/DOC-1710#sthash.RtMWrrOM.dpuf
 
-    response = RestClient.put(url + "/services/1122334455667788", SERVICES_JSON,
+    response = RestClient.get(url + "/services/1122334455667788",
                               {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-                              ){|response, request, result| response }  # Don't raise exceptions but return the response
-    print(response)
-    response.code.should == 201
+                              ){|response, request, result| response }
+    if response.code == 404
+      response = RestClient.put(url + "/services/1122334455667788", SERVICES_JSON,
+                                {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
+                                ){|response, request, result| response }  # Don't raise exceptions but return the response
+      response.code.should == 201
+    else
+      response = RestClient.post(url + "/services/1122334455667788", SERVICES_JSON,
+                                {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
+                                ){|response, request, result| response }  # Don't raise exceptions but return the response
+      response.code.should == 200
+    end  
 end
