@@ -365,7 +365,7 @@ end
 #Visit service link currently not set to go to correct place.
 Then /I am presented with the service details page for that service$/ do
   visit("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
-  current_url.should end_with("#{dm_frontend_domain}/services/#{@serviceID}")
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
   page.should have_content(@existing_values['servicename'])
   page.should have_content(@existing_values['servicesummary'])
   page.should have_content(@existing_values['servicefeature3'])
