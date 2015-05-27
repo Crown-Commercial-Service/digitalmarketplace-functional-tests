@@ -49,6 +49,7 @@ Scenario: As an admin user I wish to edit the pricing of a service
   And I set 'priceInterval' as 'Week'
   And I choose 'No' for 'vatIncluded'
   And I choose 'No' for 'educationPricing'
+  And I choose 'Yes' for 'terminationCost'
   And I choose 'Yes' for 'trialOption'
   And I choose 'No' for 'freeOption'
   And I choose 'Other' for 'minimumContractPeriod'
@@ -61,7 +62,7 @@ Scenario: As an admin user I wish to change a document of a service
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
-
+@wip
 Scenario: Admin user is able to view service details page for a service
   Given I am logged in as an 'Administrator' and am on the '1122334455667788' service summary page
   When I click 'View service'

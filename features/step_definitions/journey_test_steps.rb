@@ -63,13 +63,13 @@ Then /I am presented with the summary page for that service$/ do
 
   servicename = find(
     :xpath,
-    "//table[2]/tbody/tr[1]/td[2]"
+    "//*[contains(text(), 'Service name')]/following-sibling::*[1]"
   ).text()
   @existing_values['servicename'] = servicename
 
   servicesummary = find(
     :xpath,
-    "//table[2]/tbody/tr[2]/td[2]"
+    "//*[contains(text(), 'Service summary')]/following-sibling::*[1]"
   ).text()
   @existing_values['servicesummary'] = servicesummary
 
@@ -79,56 +79,62 @@ Then /I am presented with the summary page for that service$/ do
   else
     servicefeature3 = find(
       :xpath,
-      "//table[3]/tbody/tr[1]/td[2]/ul/li[1]"
+      "//*[contains(text(), 'Service features')]/following-sibling::*[1]/ul/li[3]"
     ).text()
     @existing_values['servicefeature3'] = servicefeature3
 
     servicebenefits2 = find(
       :xpath,
-      "//table[3]/tbody/tr[2]/td[2]/ul/li[1]"
+      "//*[contains(text(), 'Service benefits')]/following-sibling::*[1]/ul/li[2]"
     ).text()
     @existing_values['servicebenefits2'] = servicebenefits2
   end
 
   serviceprice = find(
     :xpath,
-    "//table[4]/tbody/tr[1]/td[2]"
+    "//*[contains(text(), 'Service price')]/following-sibling::*[1]"
   ).text()
   @existing_values['serviceprice'] = serviceprice
 
   vatincluded = find(
     :xpath,
-    "//table[4]/tbody/tr[2]/td[2]"
+    "//*[contains(text(), 'VAT included')]/following-sibling::*[1]"
   ).text()
   @existing_values['vatincluded'] = vatincluded
 
   educationpricing = find(
     :xpath,
-    "//table[4]/tbody/tr[3]/td[2]"
+    "//*[contains(text(), 'Education pricing')]/following-sibling::*[1]"
   ).text()
   @existing_values['educationpricing'] = educationpricing
 
+  terminationcost = find(
+    :xpath,
+    "//*[contains(text(), 'Termination cost')]/following-sibling::*[1]"
+  ).text()
+  @existing_values['terminationcost'] = terminationcost
+
   trialoption = find(
     :xpath,
-    "//table[4]/tbody/tr[4]/td[2]"
+    "//*[contains(text(), 'Trial option')]/following-sibling::*[1]"
   ).text()
   @existing_values['trialoption'] = trialoption
 
   freeoption = find(
     :xpath,
-    "//table[4]/tbody/tr[5]/td[2]"
+    "//*[contains(text(), 'Free option')]/following-sibling::*[1]"
   ).text()
   @existing_values['freeoption'] = freeoption
 
   minimumcontractperiod = find(
     :xpath,
-    "//table[4]/tbody/tr[6]/td[2]"
+    "//*[contains(text(), 'Minimum contract period')]/following-sibling::*[1]"
   ).text()
   @existing_values['minimumcontractperiod'] = minimumcontractperiod
 
   pricingdocument = find(
     :xpath,
-    "//table[5]/tbody/tr[4]/td[2]/a[@href]"
+    "//*[contains(text(), 'Pricing document')]/following-sibling::*[1]"
   ).text()
   @existing_values['pricingdocument'] = pricingdocument
 end
@@ -185,6 +191,7 @@ Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,s
     page.should have_content('Service price')
     page.should have_content('VAT included')
     page.should have_content('Education pricing')
+    page.should have_content('Termination cost')
     page.should have_content('Trial option')
     page.should have_content('Free option')
     page.should have_content('Minimum contract period')
@@ -283,6 +290,10 @@ Then /I am presented with the summary page with the changes that were made to th
     ).text().should have_content(@changed_fields['educationPricing'])
     find(
       :xpath,
+      "//*[contains(text(), 'Termination cost')]/following-sibling::*[1]"
+    ).text().should have_content(@changed_fields['terminationCost'])
+    find(
+      :xpath,
       "//*[contains(text(), 'Trial option')]/following-sibling::*[1]"
     ).text().should have_content(@changed_fields['trialOption'])
     find(
@@ -293,11 +304,12 @@ Then /I am presented with the summary page with the changes that were made to th
       :xpath,
       "//*[contains(text(), 'Minimum contract period')]/following-sibling::*[1]"
     ).text().should have_content(@changed_fields['minimumContractPeriod'])
+
   elsif service_aspect == 'Documents'
     page.should have_no_content(@existing_values['pricingdocument'])
     @newpricingdocument = find(
       :xpath,
-      "//table[5]/tbody/tr[4]/td[2]/a[@href]"
+      "//*[contains(text(), 'Pricing document')]/following-sibling::*[1]"
     ).text()
 
     if @newpricingdocument == @existing_values['pricingdocument']
@@ -325,7 +337,6 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content(service_aspect)
     page.should have_content('Service name')
     page.should have_content('Service summary')
-    page.save_screenshot('screenshot.png')
   elsif service_aspect == 'Features and benefits'
     page.should have_content(service_aspect)
     page.should have_content('Service features')
@@ -356,6 +367,7 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
   page.should have_content(@existing_values['serviceprice'])
   page.should have_content(@existing_values['vatincluded'])
   page.should have_content(@existing_values['educationpricing'])
+  page.should have_content(@existing_values['terminationcost'])
   page.should have_content(@existing_values['trialoption'])
   page.should have_content(@existing_values['freeoption'])
   page.should have_content(@existing_values['minimumcontractperiod'])
