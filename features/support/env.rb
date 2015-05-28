@@ -25,7 +25,7 @@ else
   Capybara.default_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, timeout: 180, :phantomjs_options => ['--ssl-protocol=TLSv1'])
+    Capybara::Poltergeist::Driver.new(app, timeout: 180, :phantomjs_options => ['--ssl-protocol=TLSv1', '--ignore-ssl-errors=yes', '--local-to-remote-url-access=yes'])
   end
 end
 
@@ -47,6 +47,22 @@ end
 
 def dm_frontend_domain()
   ENV['DM_FRONTEND_DOMAIN']
+end
+
+def dm_admin_uname()
+  ENV['DM_ADMINISTRATORNAME'] || 'admin'
+end
+
+def dm_admin_pass()
+  ENV['DM_ADMINISTRATORPASSWORD'] || 'admin'
+end
+
+def dm_supplier_uname()
+  ENV['DM_SUPPLIEREMAIL'] || 'admin'
+end
+
+def dm_supplier_pass()
+  ENV['DM_SUPPLIERPASSPHRASE'] || 'admin'
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }
