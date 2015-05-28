@@ -22,15 +22,15 @@ end
 
 When /I login as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
-    fill_in('username', :with => ENV['DM_ADMINISTRATORNAME'])
-    fill_in('password', :with => ENV['DM_ADMINISTRATORPASSWORD'])
+    fill_in('username', :with => (eval "dm_admin_uname"))
+    fill_in('password', :with => (eval "dm_admin_pass"))
     click_link_or_button('Log in')
     page.should have_content('Log out')
     page.should have_content('Find a service')
     page.should have_content('Service ID')
   else user_type == 'Supplier'
-    fill_in('email-address', :with => ENV['DM_SUPPLIEREMAIL'])
-    fill_in('passphrase', :with => ENV['DM_SUPPLIERPASSPHRASE'])
+    fill_in('email-address', :with => (eval "dm_supplier_uname"))
+    fill_in('passphrase', :with => (eval "dm_supplier_pass"))
     click_link_or_button('Login')
     page.should have_content('Dashboard')
   end
