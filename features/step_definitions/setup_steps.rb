@@ -29,6 +29,19 @@ SUPPLIERS_JSON = '
 }
 '
 
+USERS_JSON = '
+{
+    "users":
+      {
+          "name": "Testing.supplier.USERNaMe@DMtestemail.com",
+          "password": "testuserpassword",
+          "emailAddress": "Testing.supplier.USERNaMe@DMtestemail.com",
+          "supplierId": 11111,
+          "role": "supplier"
+      }
+}
+'
+
 SERVICES_JSON = '
 {
    "update_details": {
@@ -382,10 +395,9 @@ SERVICES_JSON = '
 }
 '
 
-
 Given /^I have a test supplier$/ do
-    url = eval "dm_api_domain"
-    token = eval "dm_api_access_token"
+    url = dm_api_domain
+    token = dm_api_access_token
     response = RestClient.put(url + "/suppliers/11111", SUPPLIERS_JSON,
                               {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
                               ){|response, request, result| response }  # Don't raise exceptions but return the response
@@ -394,24 +406,45 @@ end
 
 
 Given /^The test supplier has a service$/ do
-    url = eval "dm_api_domain"
-    token = eval "dm_api_access_token"
+    create_service("1122334455667788")
+end
 
+And /^The test supplier has a user$/ do
+  url = dm_api_domain
+  token = dm_api_access_token
+  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
+  users_data = JSON.parse(USERS_JSON)
+  email = users_data ["users"]["emailAddress"]
+  user_url = "#{url}/users?email=#{email}"
 
-    # response = RestClient.put(<url>, JSON.generate(<data>), {:content_type => :json, :authorization => auth})  - See more at: https://splash.riverbed.com/docs/DOC-1710#sthash.RtMWrrOM.dpuf
+  response = RestClient.get(user_url, headers){|response, request, result| response }
+  if response.code != 200
+    user_url = "#{url}/users"
+    response = RestClient.post(user_url, USERS_JSON, headers){|response, request, result| response }
+    response.code.should == 200
+  end
+end
 
-    response = RestClient.get(url + "/services/1122334455667788",
-                              {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-                              ){|response, request, result| response }
-    if response.code == 404
-      response = RestClient.put(url + "/services/1122334455667788", SERVICES_JSON,
-                                {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-                                ){|response, request, result| response }  # Don't raise exceptions but return the response
-      response.code.should == 201
-    else
-      response = RestClient.post(url + "/services/1122334455667788", SERVICES_JSON,
-                                {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-                                ){|response, request, result| response }  # Don't raise exceptions but return the response
-      response.code.should == 200
-    end  
+Given /^The test supplier has multiple services$/ do
+    create_service("1122334455667788")
+    create_service("1122334455667789")
+end
+
+def create_service (service_id)
+  url = dm_api_domain
+  token = dm_api_access_token
+  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
+  service_url = "#{url}/services/#{service_id}"
+
+  service_data = JSON.parse(SERVICES_JSON)
+  service_data ["services"]["id"] = service_id
+  service_data ["services"]["serviceName"] = "#{service_data ["services"]["serviceName"]} #{service_id}"
+  response = RestClient.get(service_url, headers){|response, request, result| response }
+  if response.code == 404
+    response = RestClient.put(service_url, service_data.to_json, headers){|response, request, result| response }
+    response.code.should == 201
+  else
+    response = RestClient.post(service_url, service_data.to_json, headers){|response, request, result| response }
+    response.code.should == 200
+  end
 end
