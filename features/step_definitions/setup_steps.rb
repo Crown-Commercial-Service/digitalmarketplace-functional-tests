@@ -406,7 +406,7 @@ end
 
 
 Given /^The test supplier has a service$/ do
-    create_service("1122334455667788")
+    create_service("1123456789012346","iaas")
 end
 
 And /^The test supplier has a user$/ do
@@ -426,19 +426,25 @@ And /^The test supplier has a user$/ do
 end
 
 Given /^The test supplier has multiple services$/ do
-    create_service("1122334455667788")
-    create_service("1122334455667789")
+    create_service("1123456789012346","iaas")
+    create_service("1123456789012347","paas")
+    create_service("1123456789012348","saas")
+    create_service("1123456789012349","scs")
 end
 
-def create_service (service_id)
+def create_service (service_id, lot)
+  file = File.read("./fixtures/g6-#{lot}-test-service.json")
+  json = JSON.parse(file)
+  #@json = json
+
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
   service_url = "#{url}/services/#{service_id}"
-
-  service_data = JSON.parse(SERVICES_JSON)
+  service_data = JSON.parse(file)
   service_data ["services"]["id"] = service_id
   service_data ["services"]["serviceName"] = "#{service_data ["services"]["serviceName"]} #{service_id}"
+
   response = RestClient.get(service_url, headers){|response, request, result| response }
   if response.code == 404
     response = RestClient.put(service_url, service_data.to_json, headers){|response, request, result| response }

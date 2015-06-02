@@ -1,0 +1,358 @@
+{
+  "update_details": {
+      "updated_by": "Test User",
+      "update_reason": "For testing"},
+  "services": {
+    "analyticsAvailable": true,
+    "apiAccess": true,
+    "apiType": "RESTful API",
+    "auditInformationProvided": {
+      "assurance": "Service provider assertion",
+      "value": "Data made available by negotiation"
+    },
+    "changeImpactAssessment": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "cloudDeploymentModel": {
+      "assurance": "Service provider assertion",
+      "value": "Private cloud"
+    },
+    "configurationTracking": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "dataAtRestProtections": {
+      "assurance": "Independent validation of assertion",
+      "value": [
+        "FIPS-assured encryption"
+      ]
+    },
+    "dataBackupRecovery": true,
+    "dataExtractionRemoval": true,
+    "dataManagementLocations": {
+      "assurance": "Contractual commitment",
+      "value": [
+        "UK"
+      ]
+    },
+    "dataProtectionBetweenServices": {
+      "assurance": "Service provider assertion",
+      "value": [
+        "VPN using TLS, version 1.2 or later"
+      ]
+    },
+    "dataProtectionBetweenUserAndService": {
+      "assurance": "CESG-assured components",
+      "value": [
+        "Encrypted PSN service"
+      ]
+    },
+    "dataProtectionWithinService": {
+      "assurance": "CESG-assured components",
+      "value": [
+        "VPN using TLS, version 1.2 or later"
+      ]
+    },
+    "dataRedundantEquipmentAccountsRevoked": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "dataSecureDeletion": {
+      "assurance": "Independent validation of assertion",
+      "value": "CESG or CPNI-approved erasure process"
+    },
+    "dataSecureEquipmentDisposal": {
+      "assurance": "Contractual commitment",
+      "value": true
+    },
+    "dataStorageMediaDisposal": {
+      "assurance": "Independent validation of assertion",
+      "value": "CESG-assured destruction service (CAS(T))"
+    },
+    "datacentreLocations": {
+      "assurance": "Contractual commitment",
+      "value": [
+        "UK"
+      ]
+    },
+    "datacentreProtectionDisclosure": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "datacentreTier": "TIA-942 Tier 3",
+    "datacentresEUCode": true,
+    "datacentresSpecifyLocation": true,
+    "deprovisioningTime": "1 hour",
+    "deviceAccessMethod": {
+      "assurance": "Service provider assertion",
+      "value": [
+        "Corporate/enterprise devices"
+      ]
+    },
+    "educationPricing": true,
+    "elasticCloud": true,
+    "eventMonitoring": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "frameworkName": "G-Cloud 6",
+    "freeOption": true,
+    "governanceFramework": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "guaranteedResources": true,
+    "hardwareSoftwareVerification": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "id": "1234567890000000",
+    "identityAuthenticationControls": {
+      "assurance": "CESG-assured components",
+      "value": [
+        "Username and two-factor authentication",
+        "Username and TLS client certificate",
+        "Authentication federation",
+        "Limited access over dedicated link, enterprise or community network",
+        "Username and strong password/passphrase enforcement"
+      ]
+    },
+    "incidentDefinitionPublished": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "incidentEscalation": true,
+    "incidentManagementProcess": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "incidentManagementReporting": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "interconnectionMethods": {
+      "assurance": "Independent validation of assertion",
+      "value": [
+        "Encrypted PSN service",
+        "PSN service",
+        "Private WAN"
+      ]
+    },
+    "lastCompleted": "2014-12-16T20:19:17Z",
+    "lastCompletedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "lastUpdated": "2014-12-16T20:19:13Z",
+    "lastUpdatedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "legalJurisdiction": {
+      "assurance": "Contractual commitment",
+      "value": "UK"
+    },
+    "links": {
+      "self": "https://api.beta.digitalmarketplace.service.gov.uk/services/1234567890000000"
+    },
+    "lot": "IaaS",
+    "managementInterfaceProtection": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "minimumContractPeriod": "Hour",
+    "networksConnected": [
+      "Public Services Network (PSN)",
+      "New NHS Network (N3)"
+    ],
+    "offlineWorking": false,
+    "onboardingGuidance": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "openSource": true,
+    "openStandardsSupported": true,
+    "otherConsumers": {
+      "assurance": "Service provider assertion",
+      "value": "A specific consumer group, eg Police, Defence or Health"
+    },
+    "persistentStorage": true,
+    "personnelSecurityChecks": {
+      "assurance": "Independent validation of assertion",
+      "value": [
+        "Security clearance national vetting (SC)",
+        "Baseline personnel security standard (BPSS)",
+        "Background checks in accordance with BS7858:2012",
+        "Employment checks"
+      ]
+    },
+    "priceInterval": "Month",
+    "priceMin": 9.75,
+    "priceString": "\u00a39.75 per licence per month",
+    "priceUnit": "Licence",
+    "pricingDocument": "Pricing template V1.0.pdf",
+    "pricingDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000000-pricing-document.pdf",
+    "provisioningTime": "1 working day",
+    "restrictAdministratorPermissions": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "secureConfigurationManagement": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "secureDesign": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "secureDevelopment": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "selfServiceProvisioning": true,
+    "serviceAvailabilityPercentage": {
+      "assurance": "Contractual commitment",
+      "value": 99.5
+    },
+    "serviceBenefits": [
+      "Enables remote working",
+      "Supports business continuity",
+      "Access to value-adding service propositions"
+    ],
+    "serviceConfigurationGuidance": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "serviceDefinitionDocument": "Service definition V1.1.pdf",
+    "serviceDefinitionDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000000-service-definition-document.pdf",
+    "serviceFeatures": [
+      "Access to valuable healthcare information out of the office",
+      "Low per-user monthly charge",
+      "Highly scalable",
+      "Choice of Hardware or software authentication tokens",
+      "User database can be synchronised with Customer's LDAP database",
+      "Fast, easy provisioning",
+      "Easy to use administration portal",
+      "8th service feature",
+      "Health and Social Care approved solution"
+    ],
+    "serviceManagementModel": {
+      "assurance": "Independent validation of assertion",
+      "value": [
+        "Dedicated devices for multiple community service management"
+      ]
+    },
+    "serviceName": "DM Functional Test N3 Secure Remote Access",
+    "serviceOffboarding": true,
+    "serviceOnboarding": true,
+    "serviceSummary": "InTechnology\u2019s N3 Secure Remote Access Service offers a robust, flexible and secure way for healthcare professionals to access technology applications offered by the National Health Service (NHS) whilst away from their usual location. InTechnology\u2019s N3 Secure Remote Access Service is H&SC / NHS approved and offers new approaches to healthcare.",
+    "serviceTypes": [
+      "Compute",
+      "Storage"
+    ],
+    "servicesManagementSeparation": {
+      "assurance": "CESG-assured components",
+      "value": true
+    },
+    "servicesSeparation": {
+      "assurance": "CESG-assured components",
+      "value": true
+    },
+    "sfiaRateDocument": "SFIA Rate Card V1.1.pdf",
+    "sfiaRateDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000000-sfia-rate-card.pdf",
+    "supplierId": 11111,
+    "supplierName": "DM Functional Test Supplier",
+    "supportAvailability": "Phone and email support 24/7/365.",
+    "supportForThirdParties": true,
+    "supportResponseTime": "Support is provided as soon as the support interaction is placed.",
+    "supportTypes": [
+      "Service desk",
+      "Email",
+      "Phone",
+      "Live chat",
+      "Onsite"
+    ],
+    "supportedBrowsers": [
+      "Internet Explorer 6",
+      "Internet Explorer 7",
+      "Internet Explorer 8",
+      "Internet Explorer 9",
+      "Internet Explorer 10+",
+      "Firefox",
+      "Chrome",
+      "Safari",
+      "Opera"
+    ],
+    "supportedDevices": [
+      "PC",
+      "Mac",
+      "Smartphone",
+      "Tablet"
+    ],
+    "terminationCost": false,
+    "termsAndConditionsDocument": "Ts&Cs.pdf",
+    "termsAndConditionsDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000000-terms-and-conditions.pdf",
+    "thirdPartyComplianceMonitoring": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "thirdPartyDataSharingInformation": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "thirdPartyRiskAssessment": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "thirdPartySecurityRequirements": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "title": "N3 Secure Remote Access",
+    "trainingProvided": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "trialOption": false,
+    "userAccessControlManagement": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "userAuthenticateManagement": {
+      "assurance": "Independent testing of implementation",
+      "value": true
+    },
+    "userAuthenticateSupport": {
+      "assurance": "Independent testing of implementation",
+      "value": true
+    },
+    "vatIncluded": true,
+    "vendorCertifications": [
+      "ISO27001 and ISO 9001 Certified (British Standards Institution)",
+      "Microsoft Certified Partner",
+      "NetApp Solution Provider ",
+      "EMC accredited partner",
+      "VMware Enterprise Partner",
+      "Riverbed Gold Partner",
+      "Cisco Solutions Partner",
+      "i365 Partner ",
+      "Symantec  Partner",
+      "BT Partner "
+    ],
+    "vulnerabilityAssessment": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "vulnerabilityMitigationPrioritisation": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "vulnerabilityMonitoring": {
+      "assurance": "Independent validation of assertion",
+      "value": true
+    },
+    "vulnerabilityTimescales": {
+      "assurance": "Service provider assertion",
+      "value": true
+    },
+    "vulnerabilityTracking": {
+      "assurance": "Service provider assertion",
+      "value": true
+    }
+  }
+}

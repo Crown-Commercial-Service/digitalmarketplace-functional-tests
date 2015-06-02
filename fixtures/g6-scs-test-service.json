@@ -1,0 +1,69 @@
+{
+  "update_details": {
+      "updated_by": "Test User",
+      "update_reason": "For testing"},
+  "services": {
+    "educationPricing": false,
+    "frameworkName": "G-Cloud 6",
+    "id": "1234567890000001",
+    "incidentEscalation": false,
+    "lastCompleted": "2014-12-08T20:54:48Z",
+    "lastCompletedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "lastUpdated": "2014-12-08T20:54:39Z",
+    "lastUpdatedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "links": {
+      "self": "https://api.beta.digitalmarketplace.service.gov.uk/services/1234567890000001"
+    },
+    "lot": "SCS",
+    "minimumContractPeriod": "Day",
+    "priceInterval": "Day",
+    "priceMax": 960,
+    "priceMin": 350,
+    "priceString": "\u00a3350 to \u00a3960 per person per day",
+    "priceUnit": "Person",
+    "pricingDocument": "Pricing Document.pdf",
+    "pricingDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000001-pricing-document.pdf",
+    "serviceBenefits": [
+      "Reduces project risks",
+      "Maximises ROI",
+      "Rapid transition from planning to go live"
+    ],
+    "serviceDefinitionDocument": "Service Definition.pdf",
+    "serviceDefinitionDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000001-service-definition-document.pdf",
+    "serviceFeatures": [
+      "Knowledgable experienced staff",
+      "Healthcare / clinical background",
+      "Proven success record",
+      "Turn key service available"
+    ],
+    "serviceName": "DM Functional Test Cloud Consultancy",
+    "serviceSummary": "Consultancy services to support adoption and implementation of cloud based healthcare and public sector projects. the services include initial discovery, through strategy, procurement, deployment and ongoing support.",
+    "serviceTypes": [
+      "Implementation",
+      "Ongoing support",
+      "Planning",
+      "Testing",
+      "Training"
+    ],
+    "sfiaRateDocument": "SFIA Rate Card.pdf",
+    "sfiaRateDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000001-sfia-rate-card.pdf",
+    "supplierId": 11111,
+    "supplierName": "DM Functional Test Supplier",
+    "supportAvailability": "8am to 8pm ",
+    "supportForThirdParties": true,
+    "supportResponseTime": "1 day",
+    "supportTypes": [
+      "Email",
+      "Phone",
+      "Onsite"
+    ],
+    "terminationCost": false,
+    "termsAndConditionsDocument": "Terms and Conditions.pdf",
+    "termsAndConditionsDocumentURL": "https://assets.digitalmarketplace.service.gov.uk/documents/11111/1234567890000001-terms-and-conditions.pdf",
+    "title": "Cloud Consultancy",
+    "vatIncluded": false,
+    "vendorCertifications": [
+      "ISO9001"
+    ]
+  }
+}

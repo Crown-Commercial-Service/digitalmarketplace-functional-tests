@@ -11,7 +11,7 @@ Scenario: As supplier user I wish be able to log in and to log out of Digital Ma
   Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page
   When I click 'Logout'
   Then I am logged out of Digital Marketplace as a 'Supplier' user
-@wip
+
 Scenario: As a supplier user who has logged in to Digital Marketplace, I can see all my listings
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page
   Then I can see all my listings ordered by lot name followed by listing name
