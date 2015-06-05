@@ -397,3 +397,26 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the dash board page$/ do
     Then I am presented with the '#{supplier_name}' supplier dashboard page
   }
 end
+
+#Then /I can see all my listings ordered by lot name followed by listing name$/ do
+#end
+
+When /I select the second listing from the dashboard$/ do
+  @data_store = @data_store || Hash.new
+
+  servicename = find(
+    :xpath,
+    "//*[@id='content']/table/tbody/tr[2]/td[1]/a"
+  ).text()
+  @data_store['servicename'] = servicename
+
+  page.click_link_or_button(@data_store['servicename'])
+  serviceid = URI.parse(current_url).to_s.split('service/').last
+  @data_store['serviceid'] = serviceid
+end
+
+Then /I am presented with the listing page for that specific listing$/ do
+  visit("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
+  page.should have_content(@data_store['servicename'])
+end
