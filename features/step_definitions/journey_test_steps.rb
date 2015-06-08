@@ -399,17 +399,17 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the dash board page$/ do
 end
 
 Then /I can see all my listings ordered by lot name followed by listing name$/ do
-  service_exist_on_page("1123456789012346","IaaS","1")
-  service_exist_on_page("1123456789012350","IaaS","2")
-  service_exist_on_page("1123456789012347","PaaS","3")
-  service_exist_on_page("1123456789012351","PaaS","4")
-  service_exist_on_page("1123456789012348","SaaS","5")
-  service_exist_on_page("1123456789012352","SaaS","6")
-  service_exist_on_page("1123456789012349","SCS","7")
-  service_exist_on_page("1123456789012353","SCS","8")
+  service_listed_and_in_correct_order("1123456789012346","IaaS","1")
+  service_listed_and_in_correct_order("1123456789012350","IaaS","2")
+  service_listed_and_in_correct_order("1123456789012347","PaaS","3")
+  service_listed_and_in_correct_order("1123456789012351","PaaS","4")
+  service_listed_and_in_correct_order("1123456789012348","SaaS","5")
+  service_listed_and_in_correct_order("1123456789012352","SaaS","6")
+  service_listed_and_in_correct_order("1123456789012349","SCS","7")
+  service_listed_and_in_correct_order("1123456789012353","SCS","8")
 end
 
-def service_exist_on_page (service_id,lot_name,order_number)
+def service_listed_and_in_correct_order (service_id,lot_name,order_number)
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
