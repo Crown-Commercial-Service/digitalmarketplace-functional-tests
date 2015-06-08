@@ -76,12 +76,15 @@ Given /^The test supplier has multiple services$/ do
     create_service("1123456789012347","paas")
     create_service("1123456789012348","saas")
     create_service("1123456789012349","scs")
+    create_service("1123456789012350","iaas")
+    create_service("1123456789012351","paas")
+    create_service("1123456789012352","saas")
+    create_service("1123456789012353","scs")
 end
 
 def create_service (service_id, lot)
   file = File.read("./fixtures/g6-#{lot}-test-service.json")
   json = JSON.parse(file)
-  #@json = json
 
   url = dm_api_domain
   token = dm_api_access_token
@@ -89,7 +92,7 @@ def create_service (service_id, lot)
   service_url = "#{url}/services/#{service_id}"
   service_data = JSON.parse(file)
   service_data ["services"]["id"] = service_id
-  service_data ["services"]["serviceName"] = "#{service_data ["services"]["serviceName"]} #{service_id}"
+  service_data ["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
 
   response = RestClient.get(service_url, headers){|response, request, result| response }
   if response.code == 404

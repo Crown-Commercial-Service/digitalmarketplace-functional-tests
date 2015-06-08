@@ -8,7 +8,7 @@ include Test::Unit::Assertions
 
 
 Given /^I have opened a json file$/ do
-  file = File.read('./fixtures/g6-test-iaas-service-upload.json')
+  file = File.read('./fixtures/g6-iaas-test-service.json')
   json = JSON.parse(file)
   @json = json
 end

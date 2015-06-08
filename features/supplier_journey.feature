@@ -1,10 +1,10 @@
 Feature: Supplier user journey through Digital Marketplace
-@wip
+
 Scenario: Setup for tests
   Given I have a test supplier
   And The test supplier has a user
   And The test supplier has multiple services
-@wip
+
 Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Supplier' login page
   When I login as a 'Supplier' user
