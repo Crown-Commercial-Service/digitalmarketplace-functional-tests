@@ -58,11 +58,11 @@ def dm_admin_pass()
 end
 
 def dm_supplier_uname()
-  ENV['DM_SUPPLIEREMAIL'] || 'admin'
+  ENV['DM_SUPPLIEREMAIL'] || 'testing.supplier.username@dmtestemail.com'
 end
 
 def dm_supplier_pass()
-  ENV['DM_SUPPLIERPASSPHRASE'] || 'admin'
+  ENV['DM_SUPPLIERPASSWORD'] || 'testuserpassword'
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }

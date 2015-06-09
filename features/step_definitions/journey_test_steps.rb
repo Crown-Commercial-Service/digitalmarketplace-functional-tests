@@ -12,11 +12,13 @@ Given /I am on the '(.*)' login page$/ do |user_type|
     page.should have_content("#{user_type}" ' login')
     page.should have_content('Username')
     page.should have_content('Password')
-  else user_type == 'Suppliers'
-    visit("#{dm_frontend_domain}/#{user_type.downcase}/login")
+    page.has_button?('Log in')
+  else user_type == 'Supplier'
+    visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
+    page.should have_content("#{user_type}" ' login')
     page.should have_content('Email address')
-    page.should have_content('Passphrase')
-    page.should have_content('Login')
+    page.should have_content('Password')
+    page.has_button?('Log in')
   end
 end
 
@@ -25,19 +27,16 @@ When /I login as a '(.*)' user$/ do |user_type|
     fill_in('username', :with => (eval "dm_admin_uname"))
     fill_in('password', :with => (eval "dm_admin_pass"))
     click_link_or_button('Log in')
-    page.should have_content('Log out')
-    page.should have_content('Find a service')
-    page.should have_content('Service ID')
   else user_type == 'Supplier'
-    fill_in('email-address', :with => (eval "dm_supplier_uname"))
-    fill_in('passphrase', :with => (eval "dm_supplier_pass"))
-    click_link_or_button('Login')
-    page.should have_content('Dashboard')
+    fill_in('email_address', :with => (eval "dm_supplier_uname"))
+    fill_in('password', :with => (eval "dm_supplier_pass"))
+    click_link_or_button('Log in')
   end
 end
 
 Then /I am presented with the '(.*)' page$/ do |page_name|
   page.should have_content(page_name)
+  page.should have_content('Log out')
   page.should have_content('Service ID')
 end
 
@@ -158,14 +157,14 @@ end
 Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
     page.should have_content('You have been logged out')
-    page.should have_content("#{user_type}" ' login')
     page.should have_content('Username')
-    page.should have_content('Password')
-  else user_type == 'Suppliers'
+  else user_type == 'Supplier'
+    page.should have_content("#{user_type}" ' login')
     page.should have_content('Email address')
-    page.should have_content('Passphrase')
-    page.should have_content('Login')
   end
+  page.should have_content("#{user_type}" ' login')
+  page.should have_content('Password')
+  page.has_button?('Log in')
 end
 
 Given /I click the '(.*)' link for '(.*)' on the service summary page$/ do |action,service_aspect|
@@ -384,4 +383,68 @@ Then /I am presented with the service details page for that service$/ do
   page.should have_no_content('2nd service benefit')
   page.should have_content(@existing_values['serviceprice'])
   #page.should have_content("£#{@existing_values['priceMin']} to £#{@existing_values['priceMax']} per #{@existing_values['priceUnit']} per #{@existing_values['priceInterval']}")
+end
+
+Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name|
+  page.should have_content(supplier_name)
+  page.should have_content('Logout')
+  page.should have_content(eval "dm_supplier_uname")
+end
+
+Given /I am logged in as a '(.*)' '(.*)' user and am on the dash board page$/ do |supplier_name,user_type|
+  steps %Q{
+    Given I have logged in to Digital Marketplace as a '#{user_type}' user
+    Then I am presented with the '#{supplier_name}' supplier dashboard page
+  }
+end
+
+Then /I can see all my listings ordered by lot name followed by listing name$/ do
+  service_listed_and_in_correct_order("1123456789012346","IaaS","1")
+  service_listed_and_in_correct_order("1123456789012350","IaaS","2")
+  service_listed_and_in_correct_order("1123456789012347","PaaS","3")
+  service_listed_and_in_correct_order("1123456789012351","PaaS","4")
+  service_listed_and_in_correct_order("1123456789012348","SaaS","5")
+  service_listed_and_in_correct_order("1123456789012352","SaaS","6")
+  service_listed_and_in_correct_order("1123456789012349","SCS","7")
+  service_listed_and_in_correct_order("1123456789012353","SCS","8")
+end
+
+def service_listed_and_in_correct_order (service_id,lot_name,order_number)
+  url = dm_api_domain
+  token = dm_api_access_token
+  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
+  service_url = "#{url}/services/#{service_id}"
+  response = RestClient.get(service_url, headers){|response, request, result| response }
+  json = JSON.parse(response)
+  service_name = json["services"]["serviceName"]
+  service_lot = json["services"]["lot"]
+
+  if response.code == 404
+    puts "Service #{service_id} does not exist"
+  else
+    find(
+      :xpath,
+      "//*[@id='content']/table/tbody/tr['#{order_number}'][td//text()[contains(., '#{service_name}')]]"
+    ).text().should have_content("#{lot_name}")
+  end
+end
+
+When /I select the second listing from the dashboard$/ do
+  @data_store = @data_store || Hash.new
+
+  servicename = find(
+    :xpath,
+    "//*[@id='content']/table/tbody/tr[2]/td[1]/a"
+  ).text()
+  @data_store['servicename'] = servicename
+
+  page.click_link_or_button(@data_store['servicename'])
+  serviceid = URI.parse(current_url).to_s.split('service/').last
+  @data_store['serviceid'] = serviceid
+end
+
+Then /I am presented with the listing page for that specific listing$/ do
+  visit("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
+  page.should have_content(@data_store['servicename'])
 end
