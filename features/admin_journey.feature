@@ -1,3 +1,4 @@
+@not-production
 Feature: Admin user journey through Digital Marketplace
 
 Scenario: Setup for tests

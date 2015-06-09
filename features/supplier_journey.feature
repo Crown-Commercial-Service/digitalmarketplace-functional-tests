@@ -1,3 +1,4 @@
+@not-production
 Feature: Supplier user journey through Digital Marketplace
 
 Scenario: Setup for tests
