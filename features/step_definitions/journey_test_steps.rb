@@ -409,7 +409,7 @@ Then /I can see all my listings ordered by lot name followed by listing name$/ d
   service_listed_and_in_correct_order("1123456789012353","SCS","8")
 end
 
-def service_listed_and_in_correct_order (service_id,lot_name,order_number)
+def service_listed_and_in_correct_order (service_id,order_number)
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
@@ -418,16 +418,16 @@ def service_listed_and_in_correct_order (service_id,lot_name,order_number)
   json = JSON.parse(response)
   service_name = json["services"]["serviceName"]
   service_lot = json["services"]["lot"]
+  xpath_to_check = find(:xpath, "//*[@id='content']/table/tbody/tr[#{order_number}][td/text()]").text()
 
   if response.code == 404
     puts "Service #{service_id} does not exist"
   else
-    find(
-      :xpath,
-      "//*[@id='content']/table/tbody/tr['#{order_number}'][td//text()[contains(., '#{service_name}')]]"
-    ).text().should have_content("#{lot_name}")
+    xpath_to_check.should have_content("#{service_name}")
+    xpath_to_check.should have_content("#{service_lot}")
   end
 end
+
 
 When /I select the second listing from the dashboard$/ do
   @data_store = @data_store || Hash.new
