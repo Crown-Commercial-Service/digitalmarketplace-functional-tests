@@ -331,7 +331,6 @@ end
 
 When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
   step "I click the '#{action}' link for '#{service_aspect}' on the service summary page"
-  #visit("#{store.existing_values['summarypageurl']}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}")
   if service_aspect == 'Description'
     page.should have_content(service_aspect)
     page.should have_content('Service name')
@@ -382,7 +381,6 @@ Then /I am presented with the service details page for that service$/ do
   page.should have_content(@existing_values['servicefeature3'])
   page.should have_no_content('2nd service benefit')
   page.should have_content(@existing_values['serviceprice'])
-  #page.should have_content("£#{@existing_values['priceMin']} to £#{@existing_values['priceMax']} per #{@existing_values['priceUnit']} per #{@existing_values['priceInterval']}")
 end
 
 Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name|
@@ -427,7 +425,6 @@ def service_listed_and_in_correct_order (service_id,order_number)
     xpath_to_check.should have_content("#{service_lot}")
   end
 end
-
 
 When /I select the second listing from the dashboard$/ do
   @data_store = @data_store || Hash.new
