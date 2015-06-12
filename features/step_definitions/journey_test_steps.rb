@@ -397,14 +397,14 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the dash board page$/ do
 end
 
 Then /I can see all my listings ordered by lot name followed by listing name$/ do
-  service_listed_and_in_correct_order("1123456789012346","IaaS","1")
-  service_listed_and_in_correct_order("1123456789012350","IaaS","2")
-  service_listed_and_in_correct_order("1123456789012347","PaaS","3")
-  service_listed_and_in_correct_order("1123456789012351","PaaS","4")
-  service_listed_and_in_correct_order("1123456789012348","SaaS","5")
-  service_listed_and_in_correct_order("1123456789012352","SaaS","6")
-  service_listed_and_in_correct_order("1123456789012349","SCS","7")
-  service_listed_and_in_correct_order("1123456789012353","SCS","8")
+  service_listed_and_in_correct_order("1123456789012346","1")
+  service_listed_and_in_correct_order("1123456789012350","2")
+  service_listed_and_in_correct_order("1123456789012347","3")
+  service_listed_and_in_correct_order("1123456789012351","4")
+  service_listed_and_in_correct_order("1123456789012348","5")
+  service_listed_and_in_correct_order("1123456789012352","6")
+  service_listed_and_in_correct_order("1123456789012349","7")
+  service_listed_and_in_correct_order("1123456789012353","8")
 end
 
 def service_listed_and_in_correct_order (service_id,order_number)
