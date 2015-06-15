@@ -445,3 +445,30 @@ Then /I am presented with the listing page for that specific listing$/ do
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
 end
+
+When /The service status is set to '(.*)'$/ do |service_status|
+  currentservicestatus =  find(
+    :xpath,
+    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+  ).text()
+
+  if currentservicestatus != @service_status
+    find(
+      :xpath,
+      "//*[contains(@name, 'service_status') and contains(@value, '#{service_status.downcase}')]"
+    ).click
+    step "I click the 'Update status' button"
+  end
+end
+
+Then /The service status is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
+
+end
+
+And /The service '(.*)' be searched$/ do |ability|
+
+end
+
+And /The service details page '(.*)' be viewed$/ do |ability|
+
+end

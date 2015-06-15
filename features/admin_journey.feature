@@ -68,3 +68,24 @@ Scenario: Admin user is able to view service details page for a service
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I click 'View service'
   Then I am presented with the service details page for that service
+@logout @now
+Scenario: Admin changes service status to 'Removed'. The change is reflected in the supplier and/or buyer app
+  Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
+  When The service status is set to 'Removed'
+  Then The service status is presented as 'Removed' on the supplier users dashboard
+  And The service 'can not' be searched
+  And The service details page 'can not' be viewed
+@logout @now
+Scenario: Admin changes service status to 'Public'. The change is reflected in the supplier and/or buyer app
+  Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
+  When The service status is set to 'Private'
+  Then The service status is presented as 'Private' on the supplier users dashboard
+  And The service 'can not' be searched
+  And The service details page 'can not' be viewed
+@logout @now
+Scenario: Admin changes service status to 'Private'. The change is reflected in the supplier and/or buyer app
+  Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
+  When The service status is set to 'Public'
+  Then The service status is presented as 'Public' on the supplier users dashboard
+  And The service 'can' be searched
+  And The service details page 'can' be viewed
