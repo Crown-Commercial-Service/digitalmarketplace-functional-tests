@@ -2,7 +2,16 @@
 require "ostruct"
 require "rest_client"
 
-After('@logout') do
+Before('@logoutfirst') do
+  if page.has_content?('Log out') or page.has_content?('Logout')
+    find(
+      :xpath,
+      "//a[contains(@href, '/logout')]"# and contains (text(), 'Log out')]"
+    ).click
+  end
+end
+
+After('@logoutafter') do
   page.click_link_or_button('Log out')
 end
 
@@ -446,29 +455,55 @@ Then /I am presented with the listing page for that specific listing$/ do
   page.should have_content(@data_store['servicename'])
 end
 
-When /The service status is set to '(.*)'$/ do |service_status|
-  currentservicestatus =  find(
+When /I select '(.*)' as the service status$/ do |service_status|
+  find(
+    :xpath,
+    "//*[contains(@name, 'service_status') and contains(@value, '#{service_status.downcase}')]"
+  ).click
+end
+
+Then /The service status is set as '(.*)'$/ do |service_status|
+  find(
     :xpath,
     "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
-  ).text()
+  ).text().should have_content(service_status)
+end
 
-  if currentservicestatus != @service_status
-    find(
-      :xpath,
-      "//*[contains(@name, 'service_status') and contains(@value, '#{service_status.downcase}')]"
-    ).click
-    step "I click the 'Update status' button"
+And /I am presented with the message '(.*)'$/ do |message_text|
+  page.should have_content(message_text)
+end
+
+Then /The status of the service is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
+  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page"
+  service_exist_on_dashboard = find(:xpath,
+    "//*[@id='content']/table/tbody/tr[1][td/text()]"
+  ).text().should have_content('1123456789012346')
+
+  if service_exist_on_dashboard == true
+    find(:xpath,
+      "//*[@id='content']/table/tbody/tr[1][td/text()]"
+    ).text().should have_content("#{service_status}")
   end
 end
 
-Then /The service status is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
-
-end
-
 And /The service '(.*)' be searched$/ do |ability|
-
+  visit("#{dm_frontend_domain}/g-cloud/search?q=1123456789012346")
+  if "#{ability.downcase}" == 'can'
+    @existing_values = @existing_values || Hash.new
+    page.should has_link(:xpath, "//a[contains(@href, '/services/1123456789012346')]")
+    service_name = page.find(:xpath, "//a[contains(@href, '/services/1123456789012346')]/text()")
+    @existing_values['service_name'] = service_name
+  elsif "#{ability.downcase}" == 'can not'
+    page.should has_no_link(:xpath, "//a[contains(@href, '/services/1123456789012346')]")
+  end
 end
 
 And /The service details page '(.*)' be viewed$/ do |ability|
-
+  visit("#{dm_frontend_domain}/g-cloud/services/1123456789012346")
+  if "#{ability.downcase}" == 'can'
+    page.should have_content(@existing_values['service_name'])
+  elsif "#{ability.downcase}" == 'can not'
+    page.should have_content(@existing_values['service_name'])
+    page.should have_content('Page could not be found')
+  end
 end
