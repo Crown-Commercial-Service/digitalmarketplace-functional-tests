@@ -2,7 +2,7 @@
 require "ostruct"
 require "rest_client"
 
-Before('@logoutfirst') do
+Before('@logoutbefore') do
   if page.has_content?('Log out') or page.has_content?('Logout')
     find(
       :xpath,
