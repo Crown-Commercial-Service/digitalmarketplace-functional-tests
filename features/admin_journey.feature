@@ -11,19 +11,19 @@ Scenario: As an admin user I wish be able to log in and to log out of Digital Ma
   Then I am presented with the 'Find a service' page
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Administrator' user
-@logout
+@logoutafter
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for a service
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter '1123456789012346' in the 'Service ID' field
   And I click 'Find service'
   Then I am presented with the summary page for that service
-@logout
+@logoutafter
 Scenario: Admin user should be able to abort an edit and be returned to the service summary page
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I click the 'Edit' link for 'Description' on the service summary page
   And I click 'Return without saving'
   Then I am presented with the summary page with no changes made to the 'Description'
-@logout
+@logoutafter
 Scenario: As an admin user I wish to edit the description of a service
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Description' page
@@ -31,7 +31,7 @@ Scenario: As an admin user I wish to edit the description of a service
   And I change 'serviceSummary-text-box' to 'Service summary changed'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Description'
-@logout
+@logoutafter
 Scenario: As an admin user I wish to edit the features and benefits of a service
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Features and benefits' page
@@ -40,7 +40,7 @@ Scenario: As an admin user I wish to edit the features and benefits of a service
   And I add 'New service feature' as a 'serviceFeatures'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Feature and benefits'
-@logout
+@logoutafter
 Scenario: As an admin user I wish to edit the pricing of a service
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Pricing' page
@@ -56,7 +56,7 @@ Scenario: As an admin user I wish to edit the pricing of a service
   And I choose 'Other' for 'minimumContractPeriod'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Pricing'
-@logout
+@logoutafter
 Scenario: As an admin user I wish to change a document of a service
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Documents' page
@@ -68,7 +68,7 @@ Scenario: Admin user is able to view service details page for a service
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I click 'View service'
   Then I am presented with the service details page for that service
-@logoutfirst @now
+@logoutbefore
 Scenario: Admin changes service status to 'Removed'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Removed' as the service status
@@ -78,7 +78,7 @@ Scenario: Admin changes service status to 'Removed'. The change is reflected in 
   And The status of the service is presented as 'Removed' on the supplier users dashboard
   And The service 'can not' be searched
   And The service details page 'can not' be viewed
-@logoutfirst @now
+@logoutbefore
 Scenario: Admin changes service status to 'Private'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Private' as the service status
@@ -88,7 +88,7 @@ Scenario: Admin changes service status to 'Private'. The change is reflected in 
   And The status of the service is presented as 'Private' on the supplier users dashboard
   And The service 'can not' be searched
   And The service details page 'can not' be viewed
-@logoutfirst @now
+@logoutbefore
 Scenario: Admin changes service status to 'Public'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as an 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Public' as the service status
