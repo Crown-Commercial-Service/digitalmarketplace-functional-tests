@@ -477,7 +477,7 @@ Then /The status of the service is presented as '(.*)' on the supplier users das
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page"
   service_exist_on_dashboard = find(:xpath,
     "//*[@id='content']/table/tbody/tr[1][td/text()]"
-  ).text().should have_content('1123456789012346')
+  ).text().should have_content(@serviceID)
 
   if service_exist_on_dashboard == true
     find(:xpath,
@@ -487,19 +487,29 @@ Then /The status of the service is presented as '(.*)' on the supplier users das
 end
 
 And /The service '(.*)' be searched$/ do |ability|
-  visit("#{dm_frontend_domain}/g-cloud/search?q=1123456789012346")
+  page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@serviceID}")
+  page.should have_content('Search results')
+  count_of_result = find(:xpath, "//*[@class='search-summary-count']").text()
   if "#{ability.downcase}" == 'can'
     @existing_values = @existing_values || Hash.new
-    page.should has_link(:xpath, "//a[contains(@href, '/services/1123456789012346')]")
-    service_name = page.find(:xpath, "//a[contains(@href, '/services/1123456789012346')]/text()")
+    page.find(
+      :xpath,
+      "//*[contains(@class, 'search-summary-count') and contains(text(), '1')]"
+    )
+    page.should have_selector(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]")
+    service_name = find(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]").text()
     @existing_values['service_name'] = service_name
   elsif "#{ability.downcase}" == 'can not'
-    page.should has_no_link(:xpath, "//a[contains(@href, '/services/1123456789012346')]")
+    page.find(
+      :xpath,
+      "//*[contains(@class, 'search-summary-count') and contains(text(), '0')]"
+    )
+    page.should have_no_selector(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]")
   end
 end
 
 And /The service details page '(.*)' be viewed$/ do |ability|
-  visit("#{dm_frontend_domain}/g-cloud/services/1123456789012346")
+  page.visit("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
   if "#{ability.downcase}" == 'can'
     page.should have_content(@existing_values['service_name'])
   elsif "#{ability.downcase}" == 'can not'
