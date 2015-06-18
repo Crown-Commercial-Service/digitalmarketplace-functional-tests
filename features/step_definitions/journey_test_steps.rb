@@ -2,19 +2,6 @@
 require "ostruct"
 require "rest_client"
 
-Before('@logoutbefore') do
-  if page.has_content?('Log out') or page.has_content?('Logout')
-    find(
-      :xpath,
-      "//a[contains(@href, '/logout')]"# and contains (text(), 'Log out')]"
-    ).click
-  end
-end
-
-After('@logoutafter') do
-  page.click_link_or_button('Log out')
-end
-
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
@@ -476,12 +463,12 @@ end
 Then /The status of the service is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page"
   service_exist_on_dashboard = find(:xpath,
-    "//*[@id='content']/table/tbody/tr[1][td/text()]"
-  ).text().should have_content(@serviceID)
+    "//a[contains(@href, '/service/#{@serviceID}')]"
+  )
 
   if service_exist_on_dashboard == true
     find(:xpath,
-      "//*[@id='content']/table/tbody/tr[1][td/text()]"
+      "//a[@href='#{dm_frontend_domain}/service/#{@serviceID}']/text()"
     ).text().should have_content("#{service_status}")
   end
 end
