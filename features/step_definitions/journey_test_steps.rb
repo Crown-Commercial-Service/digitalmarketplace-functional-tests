@@ -2,10 +2,6 @@
 require "ostruct"
 require "rest_client"
 
-After('@logout') do
-  page.click_link_or_button('Log out')
-end
-
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
@@ -444,4 +440,67 @@ Then /I am presented with the listing page for that specific listing$/ do
   visit("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
+end
+
+When /I select '(.*)' as the service status$/ do |service_status|
+  find(
+    :xpath,
+    "//*[contains(@name, 'service_status') and contains(@value, '#{service_status.downcase}')]"
+  ).click
+end
+
+Then /The service status is set as '(.*)'$/ do |service_status|
+  find(
+    :xpath,
+    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+  ).text().should have_content(service_status)
+end
+
+And /I am presented with the message '(.*)'$/ do |message_text|
+  page.should have_content(message_text)
+end
+
+Then /The status of the service is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
+  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page"
+  service_exist_on_dashboard = find(:xpath,
+    "//a[contains(@href, '/service/#{@serviceID}')]"
+  )
+
+  if service_exist_on_dashboard == true
+    find(:xpath,
+      "//a[@href='#{dm_frontend_domain}/service/#{@serviceID}']/text()"
+    ).text().should have_content("#{service_status}")
+  end
+end
+
+And /The service '(.*)' be searched$/ do |ability|
+  page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@serviceID}")
+  page.should have_content('Search results')
+  count_of_result = find(:xpath, "//*[@class='search-summary-count']").text()
+  if "#{ability.downcase}" == 'can'
+    @existing_values = @existing_values || Hash.new
+    page.find(
+      :xpath,
+      "//*[contains(@class, 'search-summary-count') and contains(text(), '1')]"
+    )
+    page.should have_selector(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]")
+    service_name = find(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]").text()
+    @existing_values['service_name'] = service_name
+  elsif "#{ability.downcase}" == 'can not'
+    page.find(
+      :xpath,
+      "//*[contains(@class, 'search-summary-count') and contains(text(), '0')]"
+    )
+    page.should have_no_selector(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]")
+  end
+end
+
+And /The service details page '(.*)' be viewed$/ do |ability|
+  page.visit("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
+  if "#{ability.downcase}" == 'can'
+    page.should have_content(@existing_values['service_name'])
+  elsif "#{ability.downcase}" == 'can not'
+    page.should have_content(@existing_values['service_name'])
+    page.should have_content('Page could not be found')
+  end
 end

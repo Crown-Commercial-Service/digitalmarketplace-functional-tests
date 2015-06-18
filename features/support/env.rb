@@ -3,15 +3,6 @@ require 'capybara/cucumber'
 require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
 
-module Capybara
-  class << self
-    alias :really_reset_sessions! :reset_sessions!
-
-    def reset_sessions!
-    end
-  end
-end
-
 if (ENV['BROWSER'] == 'true')
   require 'selenium-webdriver'
   Capybara.default_driver = :selenium
