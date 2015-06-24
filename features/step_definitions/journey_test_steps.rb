@@ -549,7 +549,6 @@ Then /I am taken to the search results page with results for '(.*)' lot displaye
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
       page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
-
     when 'specialist cloud services'
       lot = 'scs'
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
