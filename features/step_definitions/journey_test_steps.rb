@@ -383,16 +383,57 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   page.should have_content(supplier_name)
   page.should have_content('Logout')
   page.should have_content(eval "dm_supplier_uname")
+  current_url.should end_with("#{dm_frontend_domain}/suppliers")
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the dash board page$/ do |supplier_name,user_type|
+Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
     Then I am presented with the '#{supplier_name}' supplier dashboard page
   }
 end
 
-Then /I can see all my listings ordered by lot name followed by listing name$/ do
+Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
+  step "Given I have logged in to Digital Marketplace as a '#{user_type}' user"
+  page.visit("#{dm_frontend_domain}/suppliers/services")
+  step "Then I am presented with the '#{supplier_name}' supplier service listings page"
+end
+
+Then /I can see my supplier details on the dashboard$/ do
+  page.find(:xpath, ".//*[@id='content']/div[2]/div/h2")#"[contains(., 'Services')]")
+  ##find(:xpath, ".//*[@id='content']//*[contains(text(), 'Services')]")
+  ##find(:xpath, ".//*[@id='content']//*[contains(text(), 'Supplier information')]")
+  ##find(:xpath, ".//*[@id='content']//*[contains(text(), 'Account information')]")
+  # find(:xpath, ".//*/div[2]//*[@class='summary-item-field-name']//text()[contains(., 'G-Cloud 6')]")
+  # find(:xpath, ".//*/div[2]//*[@class='summary-item-field-content']//text()[contains(., '8 services')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Supplier summary')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Clients')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., 'None entered')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Contact name')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., 'Testing Supplier Name')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Website')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., 'www.dmfunctionaltestsupplier.com')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Email address')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., 'Testing.supplier.NaMe@DMtestemail.com')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Phone number')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., '+44 (0) 123456789')]")
+  # find(:xpath, ".//*/div[3]//*[@class='summary-item-field-name']//text()[contains(., 'Address')]")
+  #find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()[contains(., '125 Kingsway London United Kingdom WC2B 6NH')]")
+  puts find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//text()")
+  # find(:xpath, ".//*/div[4]//*[@class='summary-item-field-name']//text()[contains(., 'Email address')]")
+  # find(:xpath, ".//*/div[4]//*[@class='summary-item-field-content']//text()[contains(., 'testing.supplier.username@dmtestemail.com')]")
+
+end
+
+Then /I am presented with the '(.*)' supplier service listings page$/ do |supplier_name|
+  page.should have_content(supplier_name)
+  page.should have_content('Logout')
+  page.should have_content(eval "dm_supplier_uname")
+  current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
+end
+
+And /I can see all my listings ordered by lot name followed by listing name$/ do
   service_listed_and_in_correct_order("1123456789012346","1")
   service_listed_and_in_correct_order("1123456789012350","2")
   service_listed_and_in_correct_order("1123456789012347","3")
@@ -422,7 +463,7 @@ def service_listed_and_in_correct_order (service_id,order_number)
   end
 end
 
-When /I select the second listing from the dashboard$/ do
+When /I select the second listing on the page$/ do
   @data_store = @data_store || Hash.new
 
   servicename = find(
@@ -461,7 +502,7 @@ And /I am presented with the message '(.*)'$/ do |message_text|
 end
 
 Then /The status of the service is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
-  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page"
+  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
   service_exist_on_dashboard = find(:xpath,
     "//a[contains(@href, '/service/#{@serviceID}')]"
   )
