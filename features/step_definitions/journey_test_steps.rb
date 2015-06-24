@@ -384,6 +384,7 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   page.should have_content('Logout')
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
 Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
@@ -428,6 +429,8 @@ Then /I am presented with the '(.*)' supplier service listings page$/ do |suppli
   page.should have_content('Logout')
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2]//*[contains(text(), '#{supplier_name}')]")
 end
 
 And /I can see all my listings ordered by lot name followed by listing name$/ do
