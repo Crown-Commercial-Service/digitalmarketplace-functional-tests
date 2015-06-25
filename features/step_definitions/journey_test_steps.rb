@@ -530,59 +530,76 @@ Then /I am taken to the '(.*)' landing page$/ do |page_name|
   page.should have_link('Platform as a Service')
   page.should have_link('Infrastructure as a Service')
   page.should have_link('Specialist Cloud Services')
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2][contains(text(), '#{page_name}')]")
 end
 
 Then /I am taken to the search results page with results for '(.*)' lot displayed$/ do |lot_name|
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2]//*[contains(text(), 'Cloud technology and support')]")
+  page.should have_selector(:xpath, ".//*[@id='content']//*[@class= 'page-heading']//*[contains(text(), 'Search results')]")
+  page.should have_selector(:xpath, ".//*[@id='content']//*[@class='lot-filters']//*[contains(text(), 'Choose a category')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search') and contains(text(), 'All categories')]")
+  find(:xpath, "//*[@class='search-summary-count']").text().should_not match(/^0$/)
+  page.should have_selector(:xpath, ".//*[@id='content']//*[@class= 'search-summary']//*[contains(text(), '#{lot_name}')]")
+  page.should have_selector(:xpath, "//*/label[contains(@class, 'option-select-label') and contains(text(), 'Keywords')]")
+
   case "#{lot_name.downcase}"
     when 'software as a service'
       lot = 'saas'
+      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=iaas')]")
-      page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
     when 'platform as a service'
       lot = 'paas'
+      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=iaas')]")
-      page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
     when 'infrastructure as a service'
       lot = 'iaas'
+      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
-      page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
     when 'specialist cloud services'
       lot = 'scs'
+      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
       page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=iaas')]")
-      page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Pricing')]")
-      page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Datacentre tier')]")
-      page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Networks the service is directly connected to')]")
-      page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Interoperability')]")
-      page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
   end
 
-  if "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'platform as a service' or "#{lot_name.downcase}" == 'infrastructure as a service'
-    page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?lot=#{lot}")
+  page.should have_no_selector(:xpath, "//a[contains(@href, '/search?lot=#{lot}')]")
+end
+
+And /All filters for '(.*)' are available$/ do |lot_name|
+  page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Minimum contract period')]")
+  page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Service management')]")
+
+  if "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'infrastructure as a service' or "#{lot_name.downcase}" == 'specialist cloud services'
+    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+  elsif "#{lot_name.downcase}" == 'platform as a service'
+    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+  end
+
+  if "#{lot_name.downcase}" == 'specialist cloud services'
+    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Pricing')]")
+    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Datacentre tier')]")
+    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Networks the service is directly connected to')]")
+    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Interoperability')]")
+  elsif "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'platform as a service' or "#{lot_name.downcase}" == 'infrastructure as a service'
     page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Pricing')]")
     page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Datacentre tier')]")
     page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Networks the service is directly connected to')]")
     page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Interoperability')]")
   end
 
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?lot=#{lot}")
-  page.should have_no_selector(:xpath, "//a[contains(@href, '/search?lot=#{lot}')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search') and contains(text(), 'All categories')]")
-  page.should have_content('Search results')
-  find(:xpath,
-       "//*[@class='search-summary-count']"
-  ).text().should_not match(/^0$/)
-  find(:xpath,
-       "//*[@id='global-breadcrumb']"
-  ).text().should have_content('Digital Marketplace Cloud technology and support '"#{lot_name}")
-  find(:xpath,
-       "//*[@id='content']//em"
-  ).text().should have_content("#{lot_name}")
-  page.should have_selector(:xpath, "//*/label[contains(@class, 'option-select-label') and contains(text(), 'Keywords')]")
-  page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Minimum contract period')]")
-  page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Service management')]")
+  if "#{lot_name.downcase}" == 'software as a service'
+
+
+
+
 end
