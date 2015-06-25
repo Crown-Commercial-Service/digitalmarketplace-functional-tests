@@ -501,13 +501,13 @@ And /I am presented with the message '(.*)'$/ do |message_text|
   page.should have_content(message_text)
 end
 
-Then /The status of the service is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
-  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
-  service_exist_on_dashboard = find(:xpath,
+Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
+  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
+  service_exist_on_listings_page = find(:xpath,
     "//a[contains(@href, '/service/#{@serviceID}')]"
   )
 
-  if service_exist_on_dashboard == true
+  if service_exist_on_listings_page == true
     find(:xpath,
       "//a[@href='#{dm_frontend_domain}/service/#{@serviceID}']/text()"
     ).text().should have_content("#{service_status}")
@@ -517,7 +517,6 @@ end
 And /The service '(.*)' be searched$/ do |ability|
   page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@serviceID}")
   page.should have_content('Search results')
-  count_of_result = find(:xpath, "//*[@class='search-summary-count']").text()
   if "#{ability.downcase}" == 'can'
     @existing_values = @existing_values || Hash.new
     page.find(
