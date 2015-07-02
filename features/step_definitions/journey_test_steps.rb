@@ -575,31 +575,191 @@ Then /I am taken to the search results page with results for '(.*)' lot displaye
   page.should have_no_selector(:xpath, "//a[contains(@href, '/search?lot=#{lot}')]")
 end
 
+def filter_to_check(filter_name,filter_value,filter_exist)
+  if "#{filter_value}" == '' and "#{filter_exist}" == 'yes'
+    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
+  elsif "#{filter_value}" == '' and "#{filter_exist}" == 'no'
+    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
+  else
+    page.should have_selector(:xpath, "*//div[@class='govuk-option-select']//div[contains(text(),'#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]//following-sibling::*[@type='checkbox']")
+  end
+end
+
 And /All filters for '(.*)' are available$/ do |lot_name|
-  page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Minimum contract period')]")
-  page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Service management')]")
+  filter_to_check("Minimum contract period","","yes")
+  filter_to_check("Service management","","yes")
+  filter_to_check("Minimum contract period","Hour","")
+  filter_to_check("Minimum contract period","Day","")
+  filter_to_check("Minimum contract period","Month","")
+  filter_to_check("Minimum contract period","Year","")
+  filter_to_check("Minimum contract period","Other","")
+  filter_to_check("Service management","Support accessible to any third-party suppliers","")
 
   if "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'infrastructure as a service' or "#{lot_name.downcase}" == 'specialist cloud services'
-    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+    filter_to_check("Categories","","yes")
   elsif "#{lot_name.downcase}" == 'platform as a service'
-    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Categories')]")
+    filter_to_check("Categories","","no")
   end
 
   if "#{lot_name.downcase}" == 'specialist cloud services'
-    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Pricing')]")
-    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Datacentre tier')]")
-    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Networks the service is directly connected to')]")
-    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Interoperability')]")
+    filter_to_check("Pricing","","no")
+    filter_to_check("Datacentre tier","","no")
+    filter_to_check("Networks the service is directly connected to","","no")
+    filter_to_check("Interoperability","","no")
+    filter_to_check("Categories","Implementation","")
+    filter_to_check("Categories","Ongoing support","")
+    filter_to_check("Categories","Planning","")
+    filter_to_check("Categories","Testing","")
+    filter_to_check("Categories","Training","")
   elsif "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'platform as a service' or "#{lot_name.downcase}" == 'infrastructure as a service'
-    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Pricing')]")
-    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Datacentre tier')]")
-    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Networks the service is directly connected to')]")
-    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), 'Interoperability')]")
+    filter_to_check("Pricing","","yes")
+    filter_to_check("Datacentre tier","","yes")
+    filter_to_check("Networks the service is directly connected to","","yes")
+    filter_to_check("Interoperability","","yes")
+    filter_to_check("Pricing","Free option","")
+    filter_to_check("Pricing","Trial option","")
+    filter_to_check("Service management","Data extraction/removal plan in place","")
+    filter_to_check("Service management","Datacentres adhere to EU Code of Conduct for Operations","")
+    filter_to_check("Service management","Backup, disaster recovery and resilience plan in place","")
+    filter_to_check("Service management","Self-service provisioning supported","")
+    filter_to_check("Datacentre tier","TIA-942 Tier 1","")
+    filter_to_check("Datacentre tier","TIA-942 Tier 2","")
+    filter_to_check("Datacentre tier","TIA-942 Tier 3","")
+    filter_to_check("Datacentre tier","TIA-942 Tier 4","")
+    filter_to_check("Datacentre tier","Uptime Institute Tier 1","")
+    filter_to_check("Datacentre tier","Uptime Institute Tier 2","")
+    filter_to_check("Datacentre tier","Uptime Institute Tier 3","")
+    filter_to_check("Datacentre tier","Uptime Institute Tier 4","")
+    filter_to_check("Datacentre tier","None of the above","")
+    filter_to_check("Networks the service is directly connected to","Internet","")
+    filter_to_check("Networks the service is directly connected to","Public Services Network (PSN)","")
+    filter_to_check("Networks the service is directly connected to","Government Secure intranet (GSi)","")
+    filter_to_check("Networks the service is directly connected to","Police National Network (PNN)","")
+    filter_to_check("Networks the service is directly connected to","New NHS Network (N3)","")
+    filter_to_check("Networks the service is directly connected to","Joint Academic Network (JANET)","")
+    filter_to_check("Networks the service is directly connected to","Other","")
+    filter_to_check("Interoperability","API access available and supported","")
+    filter_to_check("Interoperability","Open standards supported and documented","")
+    filter_to_check("Interoperability","Open-source software used and supported","")
   end
 
   if "#{lot_name.downcase}" == 'software as a service'
+    filter_to_check("Categories","Accounting and finance","")
+    filter_to_check("Categories","Business intelligence and analytics","")
+    filter_to_check("Categories","Collaboration","")
+    filter_to_check("Categories","Creative and design","")
+    filter_to_check("Categories","Customer relationship management (CRM)","")
+    filter_to_check("Categories","Data management","")
+    filter_to_check("Categories","Electronic document and records management (EDRM)","")
+    filter_to_check("Categories","Energy and environment","")
+    filter_to_check("Categories","Healthcare","")
+    filter_to_check("Categories","Human resources and employee management","")
+    filter_to_check("Categories","IT management","")
+    filter_to_check("Categories","Legal","")
+    filter_to_check("Categories","Libraries","")
+    filter_to_check("Categories","Marketing","")
+    filter_to_check("Categories","Operations management","")
+    filter_to_check("Categories","Project management and planning","")
+    filter_to_check("Categories","Sales","")
+    filter_to_check("Categories","Schools and education","")
+    filter_to_check("Categories","Security","")
+    filter_to_check("Categories","Software development tools","")
+    filter_to_check("Categories","Telecoms","")
+    filter_to_check("Categories","Transport and logistics","")
+  elsif "#{lot_name.downcase}" == 'infrastructure as a service'
+    filter_to_check("Categories","Compute","")
+    filter_to_check("Categories","Storage","")
+  end
+end
 
+Then /I am taken to the search results page with a result for the service '(.*)'$/ do |value|
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{value.gsub(' ','+')}")
+  find(:xpath, "//*[@class='search-summary-count']").text().should match(/^1$/)
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{value}")
+  find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('All categories')
+  #find(:xpath, ".//p[@class='search-result-excerpt']").text().should have_content('InTechnology’s N3 Secure Remote Access Service offers a robust, flexible and secure way for) whilst away from their usual location. InTechnology’s N3 Secure Remote Access Service is H&SC / NHS approved and offers new approaches to healthcare. healthcare professionals to access technology applications offered by the National Health Service (NHS')
+  find(
+    :xpath,
+    ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value.split(' ').first} DM Functional Test N3 Secure Remote Access')]"
+  )
+  page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[1]/a")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=saas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=paas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=iaas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=scs')]")
+  page.should have_selector(:xpath, ".//p[@class='search-result-supplier'][contains(text(), 'DM Functional Test Supplier')]")
+  page.should have_selector(:xpath, ".//*[@class='search-result-metadata-item'][contains(text(), 'Infrastructure as a Service')]")
+  page.should have_selector(:xpath, ".//*[@class='search-result-metadata-item'][contains(text(), 'G-Cloud 6')]")
+end
 
+Given /I am on the search results page for the searched value of '(.*)'$/ do |search_value|
+  steps %Q{
+    Given I am on the 'Cloud technology and support' landing page
+    When I enter '#{search_value}' in the 'q' field
+    And I click 'Show services'
+    Then I am taken to the search results page with a result for the service '#{search_value}'
+  }
+end
 
+Then /Words in the search result excerpt that match the search criteria are highlighted$/ do
+  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'N3')]").text().should have_content('N3')
+  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'Secure')]").text().should have_content('Secure')
+  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'secure')]").text().should have_content('secure')
+  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'Remote')]").text().should have_content('Remote')
+  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'Access')]").text().should have_content('Access')
+  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'access')]").text().should have_content('access')
+end
 
+Given /I am on the search results page with results for '(.*)' lot displayed$/ do |lot_name|
+  steps %Q{
+    Given I am on the 'Cloud technology and support' landing page
+    When I click the '#{lot_name}' link
+    Then I am taken to the search results page with results for '#{lot_name}' lot displayed
+  }
+  @data_store = @data_store || Hash.new
+  searchsummarycount = find(:xpath, "//*[@class='search-summary-count']").text()
+  @data_store['searchsummarycount'] = searchsummarycount
+end
+
+Then /The search results is filtered returning just one result for the service '(.*)'$/ do |value|
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{value.gsub(' ','+')}&lot=iaas")
+  find(:xpath, "//*[@class='search-summary-count']").text().should match(/^1$/)
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{value}")
+  find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('Infrastructure as a Service')
+  find(
+    :xpath,
+    ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value.split(' ').first} DM Functional Test N3 Secure Remote Access')]"
+  )
+  page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[4]/a")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=saas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=paas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=scs')]")
+end
+
+When /I select '(.*)' as the filter value under the '(.*)' filter$/ do |filter_value,filter_name|
+  page.find(:xpath, "*//div[@class='govuk-option-select']//div[contains(text(),'#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]//following-sibling::*[@type='checkbox']").click
+end
+
+Then /The search results is narrowed down by the selected filter$/ do
+  current_count = find(:xpath, "//*[@class='search-summary-count']").text().to_i
+  find(:xpath, "//*[@class='search-summary-count']").text().to_i.should be < @data_store['searchsummarycount'].to_i
+  @data_store['searchsummarycount'] = current_count
+end
+
+When /I click the first record in the list of results returned$/ do
+  @data_store = @data_store || Hash.new
+  servicename = first(:xpath, ".//*[@class='search-result-title']/a").text()
+  servicesuppliername = first(:xpath, ".//p[@class='search-result-supplier']").text()
+  url = first(:xpath, ".//h2[@class='search-result-title']/a")[:href]
+  @data_store['servicename'] = servicename
+  @data_store['servicesuppliername'] = servicesuppliername
+  @data_store['url'] = url
+  page.first(:xpath, ".//*[@id='content']/*//h2/a").click
+end
+
+Then /I am taken to the service listing page of that specific record selected$/ do
+  page.should have_content(@data_store['servicename'])
+  page.should have_content(@data_store['servicesuppliername'])
+  current_url.should end_with("#{dm_frontend_domain}#{@data_store['url']}")
 end
