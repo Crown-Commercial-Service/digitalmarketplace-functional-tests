@@ -1,4 +1,4 @@
-@not-production @functional-test @now
+@not-production @functional-test
 Feature: Buyer user journey through Digital Marketplace
 
 Scenario: User is able to navigate from the digital marketplace landing page to the g-cloud landing page
