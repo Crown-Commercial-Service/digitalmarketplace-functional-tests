@@ -383,16 +383,57 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   page.should have_content(supplier_name)
   page.should have_content('Logout')
   page.should have_content(eval "dm_supplier_uname")
+  current_url.should end_with("#{dm_frontend_domain}/suppliers")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the dash board page$/ do |supplier_name,user_type|
+Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
     Then I am presented with the '#{supplier_name}' supplier dashboard page
   }
 end
 
-Then /I can see all my listings ordered by lot name followed by listing name$/ do
+Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
+  step "Given I have logged in to Digital Marketplace as a '#{user_type}' user"
+  page.visit("#{dm_frontend_domain}/suppliers/services")
+  step "Then I am presented with the '#{supplier_name}' supplier service listings page"
+end
+
+Then /I can see my supplier details on the dashboard$/ do
+  page.should have_selector(:xpath, ".//*/div[2]//*[@class='summary-item-heading'][contains(text(), 'Services')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
+  page.should have_selector(:xpath, ".//*/div[4]//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
+  page.should have_selector(:xpath, ".//*/div[2]//*[@class='summary-item-field-name'][contains(text(), 'G-Cloud 6')]")
+  page.should have_selector(:xpath, ".//*/div[2]//*[@class='summary-item-field-content'][contains(text(), '8 services')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Supplier summary')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Clients')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//*[@class='hint summary-item-no-content'][contains(text(), 'None entered')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Contact name')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'Testing Supplier Name')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Website')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'www.dmfunctionaltestsupplier.com')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Email address')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Phone number')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), '+44 (0) 123456789')]")
+  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Address')]")
+  find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']/address").text().should have_content('125 Kingsway London United Kingdom WC2B 6NH')
+  page.should have_selector(:xpath, ".//*/div[4]//*[@class='summary-item-field-name'][contains(text(), 'Email address')]")
+  page.should have_selector(:xpath, ".//*/div[4]//*[@class='summary-item-field-content'][contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+end
+
+Then /I am presented with the '(.*)' supplier service listings page$/ do |supplier_name|
+  page.should have_content(supplier_name)
+  page.should have_content('Logout')
+  page.should have_content(eval "dm_supplier_uname")
+  current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2]//*[contains(text(), '#{supplier_name}')]")
+end
+
+And /I can see all my listings ordered by lot name followed by listing name$/ do
   service_listed_and_in_correct_order("1123456789012346","1")
   service_listed_and_in_correct_order("1123456789012350","2")
   service_listed_and_in_correct_order("1123456789012347","3")
@@ -422,7 +463,7 @@ def service_listed_and_in_correct_order (service_id,order_number)
   end
 end
 
-When /I select the second listing from the dashboard$/ do
+When /I select the second listing on the page$/ do
   @data_store = @data_store || Hash.new
 
   servicename = find(
@@ -460,13 +501,13 @@ And /I am presented with the message '(.*)'$/ do |message_text|
   page.should have_content(message_text)
 end
 
-Then /The status of the service is presented as '(.*)' on the supplier users dashboard$/ do |service_status|
-  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dash board page"
-  service_exist_on_dashboard = find(:xpath,
+Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
+  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
+  service_exist_on_listings_page = find(:xpath,
     "//a[contains(@href, '/service/#{@serviceID}')]"
   )
 
-  if service_exist_on_dashboard == true
+  if service_exist_on_listings_page == true
     find(:xpath,
       "//a[@href='#{dm_frontend_domain}/service/#{@serviceID}']/text()"
     ).text().should have_content("#{service_status}")
@@ -476,7 +517,6 @@ end
 And /The service '(.*)' be searched$/ do |ability|
   page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@serviceID}")
   page.should have_content('Search results')
-  count_of_result = find(:xpath, "//*[@class='search-summary-count']").text()
   if "#{ability.downcase}" == 'can'
     @existing_values = @existing_values || Hash.new
     page.find(
