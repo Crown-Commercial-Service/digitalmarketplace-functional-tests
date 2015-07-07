@@ -5,17 +5,13 @@ require "rest_client"
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
-    page.should have_content("#{user_type}" ' login')
-    page.should have_content('Username')
-    page.should have_content('Password')
-    page.has_button?('Log in')
   else user_type == 'Supplier'
     visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
-    page.should have_content("#{user_type}" ' login')
-    page.should have_content('Email address')
-    page.should have_content('Password')
-    page.has_button?('Log in')
   end
+  page.should have_content("#{user_type}" ' login')
+  page.should have_content('Email address')
+  page.should have_content('Password')
+  page.has_button?('Log in')
 end
 
 When /I login as a '(.*)' user$/ do |user_type|
@@ -798,8 +794,46 @@ When /I click the first record in the list of results returned$/ do
   page.first(:xpath, ".//*[@id='content']/*//h2/a").click
 end
 
+Given /I am on the search results page with results for '(.*)'$/ do |search_value|
+  visit("#{dm_frontend_domain}/g-cloud/search?q=#{search_value.gsub(' ','+')}")
+  page.find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{search_value}")
+  page.find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('All categories')
+end
+
 Then /I am taken to the service listing page of that specific record selected$/ do
   page.should have_content(@data_store['servicename'])
   page.should have_content(@data_store['servicesuppliername'])
   current_url.should end_with("#{dm_frontend_domain}#{@data_store['url']}")
+end
+
+When /There is '(.*)' than 100 results returned$/ do |more_or_less|
+  @data_store = @data_store || Hash.new
+  current_count = find(:xpath, "//*[@class='search-summary-count']").text().to_i
+  number_of_pages = (current_count.to_f/100).ceil
+  @data_store['currentcount'] = current_count
+  @data_store['numberofpages'] = number_of_pages
+  @data_store['moreorless'] = more_or_less
+end
+
+Then /Pagination is '(.*)'$/ do |availability|
+  if @data_store['currentcount'] > 100 and @data_store['moreorless'] == 'more'
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  else @data_store['currentcount'] <= 100 and @data_store['moreorless'] == 'less'
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  end
+end
+
+Then /I am taken to page '(.*)' of results$/ do |page_number|
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?page=#{page_number}&lot=iaas")
+  if page_number >= '2'
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '3 of #{@data_store['numberofpages']}')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '1 of #{@data_store['numberofpages']}')]")
+  elsif page_number < '2'
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  end
 end
