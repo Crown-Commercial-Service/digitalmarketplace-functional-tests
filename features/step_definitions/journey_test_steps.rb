@@ -809,14 +809,31 @@ end
 When /There is '(.*)' than 100 results returned$/ do |more_or_less|
   @data_store = @data_store || Hash.new
   current_count = find(:xpath, "//*[@class='search-summary-count']").text().to_i
+  number_of_pages = (current_count.to_f/100).ceil
   @data_store['currentcount'] = current_count
+  @data_store['numberofpages'] = number_of_pages
   @data_store['moreorless'] = more_or_less
 end
 
 Then /Pagination is '(.*)'$/ do |availability|
   if @data_store['currentcount'] > 100 and @data_store['moreorless'] == 'more'
-    page.should have_selector(:xpath, "//*[@class='previous-next-navigation']//a[contains(@href, '/g-cloud/search?page=2&lot=')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   else @data_store['currentcount'] <= 100 and @data_store['moreorless'] == 'less'
-    page.should have_no_selector(:xpath, "//*[@class='previous-next-navigation']//a[contains(@href, '/g-cloud/search?page=2&lot=')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  end
+end
+
+Then /I am taken to page '(.*)' of results$/ do |page_number|
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?page=#{page_number}&lot=iaas")
+  if page_number >= '2'
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '3 of #{@data_store['numberofpages']}')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '1 of #{@data_store['numberofpages']}')]")
+  elsif page_number < '2'
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   end
 end

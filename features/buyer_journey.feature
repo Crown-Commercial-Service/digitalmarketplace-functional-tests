@@ -29,12 +29,18 @@ Scenario: User selects SCS lot from the g-cloud page is presented with search re
   When I click the 'Specialist Cloud Services' link
   Then I am taken to the search results page with results for 'Specialist Cloud Services' lot displayed
   And All filters for 'Specialist Cloud Services' are available
-@wip
+
 Scenario: There is pagination on the results page if there are more than 100 results
   Given I am on the search results page with results for 'Infrastructure as a Service' lot displayed
   When There is 'more' than 100 results returned
   Then Pagination is 'available'
-@wip
+
+  When I click the 'Next page' link
+  Then I am taken to page '2' of results
+
+  When I click the 'Previous page' link
+  Then I am taken to page '1' of results
+
 Scenario: There is no pagination on the results page if there is less than or equal to 100 results
   Given I am on the search results page with results for 'Infrastructure as a Service tested'
   When There is 'less' than 100 results returned
