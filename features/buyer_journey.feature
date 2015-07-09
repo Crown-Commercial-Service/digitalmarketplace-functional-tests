@@ -1,6 +1,10 @@
 @not-production @functional-test
 Feature: Buyer user journey through Digital Marketplace
 
+Scenario: Setup for tests
+  Given I have a test supplier
+  And The test supplier has a service
+
 Scenario: User is able to navigate from the digital marketplace landing page to the g-cloud landing page
   Given I am on the 'Digital Marketplace' landing page
   When I click the 'Find cloud technology and support' link
