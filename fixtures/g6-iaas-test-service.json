@@ -139,10 +139,7 @@
         "Private WAN"
       ]
     },
-    "lastCompleted": "2014-12-16T20:19:17Z",
-    "lastCompletedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
-    "lastUpdated": "2014-12-16T20:19:13Z",
-    "lastUpdatedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "createdAt": "2014-12-16T20:19:13Z",
     "legalJurisdiction": {
       "assurance": "Contractual commitment",
       "value": "UK"

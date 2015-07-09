@@ -101,10 +101,7 @@
       "assurance": "Service provider assertion",
       "value": true
     },
-    "lastCompleted": "2014-12-16T14:57:46Z",
-    "lastCompletedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
-    "lastUpdated": "2014-12-12T12:53:57Z",
-    "lastUpdatedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "createdAt": "2014-12-12T12:53:57Z",
     "legalJurisdiction": {
       "assurance": "Service provider assertion",
       "value": "UK"
