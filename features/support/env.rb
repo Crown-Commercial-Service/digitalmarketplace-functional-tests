@@ -41,19 +41,19 @@ def dm_frontend_domain()
 end
 
 def dm_admin_uname()
-  ENV['DM_ADMINISTRATORNAME'] || 'admin'
+  ENV['DM_ADMINISTRATORNAME']
 end
 
 def dm_admin_pass()
-  ENV['DM_ADMINISTRATORPASSWORD'] || 'admin'
+  ENV['DM_ADMINISTRATORPASSWORD']
 end
 
 def dm_supplier_uname()
-  ENV['DM_SUPPLIEREMAIL'] || 'testing.supplier.username@dmtestemail.com'
+  ENV['DM_SUPPLIEREMAIL']
 end
 
 def dm_supplier_pass()
-  ENV['DM_SUPPLIERPASSWORD'] || 'testuserpassword'
+  ENV['DM_SUPPLIERPASSWORD']
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }

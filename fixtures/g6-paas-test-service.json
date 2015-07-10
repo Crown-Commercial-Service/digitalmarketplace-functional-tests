@@ -134,10 +134,7 @@
         "Encrypted PSN service"
       ]
     },
-    "lastCompleted": "2014-12-17T11:51:09Z",
-    "lastCompletedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
-    "lastUpdated": "2014-12-16T16:55:45Z",
-    "lastUpdatedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "createdAt": "2014-12-16T16:55:45Z",
     "legalJurisdiction": {
       "assurance": "Service provider assertion",
       "value": "UK"

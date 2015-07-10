@@ -7,10 +7,7 @@
     "frameworkName": "G-Cloud 6",
     "id": "1234567890000001",
     "incidentEscalation": false,
-    "lastCompleted": "2014-12-08T20:54:48Z",
-    "lastCompletedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
-    "lastUpdated": "2014-12-08T20:54:39Z",
-    "lastUpdatedByEmail": "Testing.supplier.NaMe@DMtestemail.com",
+    "createdAt": "2014-12-08T20:54:39Z",
     "links": {
       "self": "https://api.beta.digitalmarketplace.service.gov.uk/services/1234567890000001"
     },

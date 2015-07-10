@@ -16,7 +16,7 @@ end
 
 When /I login as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
-    fill_in('username', :with => (eval "dm_admin_uname"))
+    fill_in('email_address', :with => (eval "dm_admin_uname"))
     fill_in('password', :with => (eval "dm_admin_pass"))
     click_link_or_button('Log in')
   else user_type == 'Supplier'
@@ -149,7 +149,7 @@ end
 Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
     page.should have_content('You have been logged out')
-    page.should have_content('Username')
+    page.should have_content('Email address')
   else user_type == 'Supplier'
     page.should have_content("#{user_type}" ' login')
     page.should have_content('Email address')
@@ -377,7 +377,7 @@ end
 
 Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name|
   page.should have_content(supplier_name)
-  page.should have_content('Logout')
+  page.should have_content('Log out')
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
@@ -397,32 +397,32 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings pag
 end
 
 Then /I can see my supplier details on the dashboard$/ do
-  page.should have_selector(:xpath, ".//*/div[2]//*[@class='summary-item-heading'][contains(text(), 'Services')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
-  page.should have_selector(:xpath, ".//*/div[4]//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
-  page.should have_selector(:xpath, ".//*/div[2]//*[@class='summary-item-field-name'][contains(text(), 'G-Cloud 6')]")
-  page.should have_selector(:xpath, ".//*/div[2]//*[@class='summary-item-field-content'][contains(text(), '8 services')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Supplier summary')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Clients')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']//*[@class='hint summary-item-no-content'][contains(text(), 'None entered')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Contact name')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'Testing Supplier Name')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Website')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'www.dmfunctionaltestsupplier.com')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Phone number')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-content'][contains(text(), '+44 (0) 123456789')]")
-  page.should have_selector(:xpath, ".//*/div[3]//*[@class='summary-item-field-name'][contains(text(), 'Address')]")
-  find(:xpath, ".//*/div[3]//*[@class='summary-item-field-content']/address").text().should have_content('125 Kingsway London United Kingdom WC2B 6NH')
-  page.should have_selector(:xpath, ".//*/div[4]//*[@class='summary-item-field-name'][contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, ".//*/div[4]//*[@class='summary-item-field-content'][contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Current services')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'G-Cloud 6')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), '8 services')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Supplier summary')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Clients')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content']//*[@class='hint summary-item-no-content'][contains(text(), 'None entered')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Contact name')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'Testing Supplier Name')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Website')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'www.dmfunctionaltestsupplier.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Email address')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Phone number')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), '+44 (0) 123456789')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Address')]")
+  find(:xpath, "//*[@class='summary-item-field-content']/address").text().should have_content('125 Kingsway London United Kingdom WC2B 6NH')
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Email address')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'testing.supplier.username@dmtestemail.com')]")
 end
 
 Then /I am presented with the '(.*)' supplier service listings page$/ do |supplier_name|
   page.should have_content(supplier_name)
-  page.should have_content('Logout')
+  page.should have_content('Log out')
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
@@ -584,40 +584,40 @@ Then /I am taken to the search results page with results for '(.*)' lot displaye
     when 'software as a service'
       lot = 'saas'
       page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=iaas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=paas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=iaas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=scs')]")
     when 'platform as a service'
       lot = 'paas'
       page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=iaas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=saas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=iaas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=scs')]")
     when 'infrastructure as a service'
       lot = 'iaas'
       page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=scs')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=saas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=paas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=scs')]")
     when 'specialist cloud services'
       lot = 'scs'
       page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=saas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=paas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?lot=iaas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=saas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=paas')]")
+      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=iaas')]")
   end
 
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?lot=#{lot}")
-  page.should have_no_selector(:xpath, "//a[contains(@href, '/search?lot=#{lot}')]")
+  page.should have_no_selector(:xpath, "//a[contains(@href, '/search?q=&lot=#{lot}')]")
 end
 
 def filter_to_check(filter_name,filter_value,filter_exist)
   if "#{filter_value}" == '' and "#{filter_exist}" == 'yes'
-    page.should have_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
+    page.should have_selector(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
   elsif "#{filter_value}" == '' and "#{filter_exist}" == 'no'
-    page.should have_no_selector(:xpath, "//*/div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
+    page.should have_no_selector(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
   else
-    page.should have_selector(:xpath, "*//div[@class='govuk-option-select']//div[contains(text(),'#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]//following-sibling::*[@type='checkbox']")
+    page.should have_selector(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]/input[@type='checkbox']")
   end
 end
 
@@ -774,7 +774,7 @@ Then /The search results is filtered returning just one result for the service '
 end
 
 When /I select '(.*)' as the filter value under the '(.*)' filter$/ do |filter_value,filter_name|
-  page.find(:xpath, "*//div[@class='govuk-option-select']//div[contains(text(),'#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]//following-sibling::*[@type='checkbox']").click
+  page.find(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]/input[@type='checkbox']").trigger('click')
 end
 
 Then /The search results is narrowed down by the selected filter$/ do

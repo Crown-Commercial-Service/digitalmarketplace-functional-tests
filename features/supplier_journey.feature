@@ -10,7 +10,7 @@ Scenario: As supplier user I wish be able to log in and to log out of Digital Ma
   Given I am on the 'Supplier' login page
   When I login as a 'Supplier' user
   Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page
-  When I click 'Logout'
+  When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Supplier' user
 
 Scenario: As a logged in supplier user, my supplier detail are available on the dashboard
