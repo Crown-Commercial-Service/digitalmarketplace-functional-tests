@@ -41,16 +41,78 @@ And /I click the '(.*)' button$/ do |button_name|
   click_link_or_button(button_name)
 end
 
+When /I click Edit for the service '(.*)'$/ do |value|
+  find(:xpath, "//*[@class='summary-item-action-field']//a[contains(text(), 'Edit') and contains(@href, '#{value}')]").click
+  @serviceID = value
+end
+
 Then /I am presented with the summary page for that service$/ do
   @existing_values = @existing_values || Hash.new
   @existing_values['summarypageurl'] = current_url
+
+  if current_url.include?('suppliers')
+    servicestatus = find(
+      :xpath,
+      "//*[@class='selection-button selection-button-inline selection-button-selected']"
+    ).text()
+    @existing_values['servicestatus'] = servicestatus
+  else
+    page.should have_content('Pricing')
+    page.should have_content('Documents')
+
+    serviceprice = find(
+      :xpath,
+      "//*[contains(text(), 'Service price')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['serviceprice'] = serviceprice
+
+    vatincluded = find(
+      :xpath,
+      "//*[contains(text(), 'VAT included')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['vatincluded'] = vatincluded
+
+    educationpricing = find(
+      :xpath,
+      "//*[contains(text(), 'Education pricing')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['educationpricing'] = educationpricing
+
+    terminationcost = find(
+      :xpath,
+      "//*[contains(text(), 'Termination cost')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['terminationcost'] = terminationcost
+
+    trialoption = find(
+      :xpath,
+      "//*[contains(text(), 'Trial option')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['trialoption'] = trialoption
+
+    freeoption = find(
+      :xpath,
+      "//*[contains(text(), 'Free option')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['freeoption'] = freeoption
+
+    minimumcontractperiod = find(
+      :xpath,
+      "//*[contains(text(), 'Minimum contract period')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['minimumcontractperiod'] = minimumcontractperiod
+
+    pricingdocument = find(
+      :xpath,
+      "//*[contains(text(), 'Pricing document')]/following-sibling::*[1]"
+    ).text()
+    @existing_values['pricingdocument'] = pricingdocument
+  end
 
   current_url.should have_content(@serviceID)
   page.should have_content('Service attributes')
   page.should have_content('Description')
   page.should have_content('Features and benefits')
-  page.should have_content('Pricing')
-  page.should have_content('Documents')
 
   servicename = find(
     :xpath,
@@ -80,54 +142,6 @@ Then /I am presented with the summary page for that service$/ do
     ).text()
     @existing_values['servicebenefits2'] = servicebenefits2
   end
-
-  serviceprice = find(
-    :xpath,
-    "//*[contains(text(), 'Service price')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['serviceprice'] = serviceprice
-
-  vatincluded = find(
-    :xpath,
-    "//*[contains(text(), 'VAT included')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['vatincluded'] = vatincluded
-
-  educationpricing = find(
-    :xpath,
-    "//*[contains(text(), 'Education pricing')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['educationpricing'] = educationpricing
-
-  terminationcost = find(
-    :xpath,
-    "//*[contains(text(), 'Termination cost')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['terminationcost'] = terminationcost
-
-  trialoption = find(
-    :xpath,
-    "//*[contains(text(), 'Trial option')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['trialoption'] = trialoption
-
-  freeoption = find(
-    :xpath,
-    "//*[contains(text(), 'Free option')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['freeoption'] = freeoption
-
-  minimumcontractperiod = find(
-    :xpath,
-    "//*[contains(text(), 'Minimum contract period')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['minimumcontractperiod'] = minimumcontractperiod
-
-  pricingdocument = find(
-    :xpath,
-    "//*[contains(text(), 'Pricing document')]/following-sibling::*[1]"
-  ).text()
-  @existing_values['pricingdocument'] = pricingdocument
 end
 
 Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
@@ -162,7 +176,7 @@ end
 Given /I click the '(.*)' link for '(.*)' on the service summary page$/ do |action,service_aspect|
   find(
     :xpath,
-    "//a[@href = '/admin/services/#{@serviceID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}']"
+    "//a[contains(@href , '/services/#{@serviceID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
   ).click
 end
 
@@ -260,8 +274,13 @@ end
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
   current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
-    page.should have_content(@changed_fields['serviceName-text-box'])
-    page.should have_content(@changed_fields['serviceSummary-text-box'])
+    if current_url.include?('suppliers')
+      page.should have_content(@changed_fields['serviceName'])
+      page.should have_content(@changed_fields['serviceSummary'])
+    else
+      page.should have_content(@changed_fields['serviceName-text-box'])
+      page.should have_content(@changed_fields['serviceSummary-text-box'])
+    end
   elsif service_aspect == 'Features and benefits'
     page.should have_content(@changed_fields['serviceFeatures-3'])
     page.should have_no_content(@changed_fields['serviceBenefits-2'])
