@@ -49,6 +49,11 @@ end
 Then /I am presented with the summary page for that service$/ do
   @existing_values = @existing_values || Hash.new
   @existing_values['summarypageurl'] = current_url
+  servicename = find(
+    :xpath,
+    "//h1"
+  ).text()
+  @existing_values['servicename'] = servicename
 
   if current_url.include?('suppliers')
     servicestatus = find(
@@ -151,13 +156,21 @@ Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
   }
 end
 
-Given /I am logged in as an '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
-  steps %Q{
-    Given I have logged in to Digital Marketplace as a '#{user_type}' user
-    When I enter '#{value}' in the 'Service ID' field
-    When I click 'Find service'
-    Then I am presented with the summary page for that service
-  }
+Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
+  if user_type == 'Administrator'
+    steps %Q{
+      Given I have logged in to Digital Marketplace as a '#{user_type}' user
+      When I enter '#{value}' in the 'Service ID' field
+      When I click 'Find service'
+      Then I am presented with the summary page for that service
+    }
+  elsif user_type == 'Supplier'
+    steps %Q{
+      Given I am logged in as a 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page
+      When I click Edit for the service '#{value}'
+      Then I am presented with the summary page for that service
+    }
+  end
 end
 
 Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
@@ -215,10 +228,15 @@ When /I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
       :xpath,
       "//*[contains(@id, '#{field_to_change.split('-').last}') and contains(@name, '#{field_to_change.split('-').first}')]"
     ).set(new_value)
-  else
+  elsif page.has_content?('Pricing')
     page.find(
       :xpath,
       "//*[contains(@id, '#{field_to_change}')]"
+    ).set(new_value)
+  else
+    page.find(
+      :xpath,
+      "//*[contains(@name, '#{field_to_change}')]"
     ).set(new_value)
   end
   @changed_fields = @changed_fields || Hash.new
@@ -249,18 +267,18 @@ And /I remove service benefit number 2$/ do
     :xpath,
     "//*[contains(@id, 'serviceBenefits-2')]"
   ).value()
-  click_link_or_button('service benefit number 2', visible: false)
+  find(:xpath, ".//*[@name='serviceBenefits']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
 end
 
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
   record_number_to_add = (10 - ((find(
     :xpath,
-    "//button[contains(text(), 'Add another service feature')]"
-  ).text()).split('Add another service feature (').last.split(' remaining').first).to_i)
+    ".//*[@id='serviceFeatures']//button[contains(text(), 'Add another')]"
+  ).text()).split(' (').last.split(' remaining').first).to_i)
 
   find(
     :xpath,
-    "//button[contains(text(), 'Add another service feature')]"
+    ".//*[@id='serviceFeatures']//button[contains(text(), 'Add another')]"
   ).click
 
   find(
@@ -274,13 +292,8 @@ end
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
   current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
-    if current_url.include?('suppliers')
-      page.should have_content(@changed_fields['serviceName'])
-      page.should have_content(@changed_fields['serviceSummary'])
-    else
-      page.should have_content(@changed_fields['serviceName-text-box'])
-      page.should have_content(@changed_fields['serviceSummary-text-box'])
-    end
+    page.should have_content(@changed_fields['serviceName'])
+    page.should have_content(@changed_fields['serviceSummary'])
   elsif service_aspect == 'Features and benefits'
     page.should have_content(@changed_fields['serviceFeatures-3'])
     page.should have_no_content(@changed_fields['serviceBenefits-2'])
@@ -496,20 +509,35 @@ Then /I am presented with the listing page for that specific listing$/ do
   visit("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
+
 end
 
 When /I select '(.*)' as the service status$/ do |service_status|
-  find(
-    :xpath,
-    "//*[contains(@name, 'service_status') and contains(@value, '#{service_status.downcase}')]"
-  ).click
+  if current_url.include?('suppliers')
+    find(
+      :xpath,
+      "//*[contains(@name, 'status') and contains(@value, '#{service_status}')]"
+    ).click
+  elsif current_url.include?('admin')
+    find(
+      :xpath,
+      "//*[contains(@name, 'status') and contains(@value, '#{service_status.downcase}')]"
+    ).click
+  end
 end
 
 Then /The service status is set as '(.*)'$/ do |service_status|
-  find(
-    :xpath,
-    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
-  ).text().should have_content(service_status)
+  if current_url.include?('suppliers')
+    find(
+      :xpath,
+      "//a[contains(text(), '#{@existing_values['servicename']}')]/../../td[contains(@class, 'summary-item-field service-status')][text()]"
+    ).text().should have_content(service_status)
+  elsif current_url.include?('admin')
+    find(
+      :xpath,
+      "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+    ).text().should have_content(service_status)
+  end
 end
 
 And /I am presented with the message '(.*)'$/ do |message_text|
@@ -527,6 +555,15 @@ Then /The status of the service is presented as '(.*)' on the supplier users ser
       "//a[@href='#{dm_frontend_domain}/service/#{@serviceID}']/text()"
     ).text().should have_content("#{service_status}")
   end
+end
+
+Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
+  step "Given I am logged in as a 'Administrator' and am on the '#{@serviceID}' service summary page"
+
+  find(
+    :xpath,
+    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+  ).text().should have_content("#{service_status}")
 end
 
 And /The service '(.*)' be searched$/ do |ability|
@@ -564,7 +601,6 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
     page.should have_content("#{page_name}")
-    page.should have_content('Find technology or people to deliver digital projects in the public sector')
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
     page.should have_link('Find specialists to work on digital projects')
