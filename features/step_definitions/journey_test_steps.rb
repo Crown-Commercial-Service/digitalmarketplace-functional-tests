@@ -545,7 +545,6 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
     page.should have_content("#{page_name}")
-    page.should have_content('Find technology or people to deliver digital projects in the public sector')
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
     page.should have_link('Find specialists to work on digital projects')
