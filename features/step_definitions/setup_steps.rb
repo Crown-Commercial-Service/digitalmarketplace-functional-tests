@@ -24,7 +24,8 @@ SUPPLIERS_JSON = '
                "postcode": "WC2B 6NH"
              }
            ],
-         "dunsNumber":"930123456789"
+         "dunsNumber":"930123456789",
+         "clients": []
       }
 }
 '
