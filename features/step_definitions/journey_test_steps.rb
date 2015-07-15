@@ -765,14 +765,10 @@ end
 
 Then /I am taken to the search results page with a result for the service '(.*)'$/ do |value|
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{value.gsub(' ','+')}")
-  find(:xpath, "//*[@class='search-summary-count']").text().should match(/^1$/)
+  find(:xpath, "//*[@class='search-summary-count']").text().to_i.should be > 0
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{value}")
   find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('All categories')
-  #find(:xpath, ".//p[@class='search-result-excerpt']").text().should have_content('InTechnology’s N3 Secure Remote Access Service offers a robust, flexible and secure way for) whilst away from their usual location. InTechnology’s N3 Secure Remote Access Service is H&SC / NHS approved and offers new approaches to healthcare. healthcare professionals to access technology applications offered by the National Health Service (NHS')
-  find(
-    :xpath,
-    ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value.split(' ').first} DM Functional Test N3 Secure Remote Access')]"
-  )
+  find(:xpath, ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value}')]")
   page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[1]/a")
   page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=saas')]")
   page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=paas')]")
