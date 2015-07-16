@@ -39,15 +39,20 @@ Scenario: User selects SCS lot from the g-cloud page is presented with search re
 
 Scenario: User able to search by service ID and have result returned
   Given I am on the 'Cloud technology and support' landing page
-  When I enter '1123456789012346' in the 'q' field
+  And I have a random service from the API
+  When I enter that service.id in the 'q' field
   And I click 'Show services'
-  Then I am taken to the search results page with a result for the service '1123456789012346'
+  Then I am on a page with that service.id in search summary text
+  And There is 1 search result
+  And I am on a page with that service in search results
 
 Scenario: User is able to search by service name and have result returned.
   Given I am on the 'Cloud technology and support' landing page
-  When I enter '1123456789012346 DM Functional Test N3 Secure Remote Access' in the 'q' field
+  And I have a random service from the API
+  When I enter that service.serviceName in the 'q' field
   And I click 'Show services'
-  Then I am taken to the search results page with a result for the service '1123456789012346 DM Functional Test N3 Secure Remote Access'
+  Then I am on a page with that service.serviceName in search summary text
+  And I am on a page with that service in search results
 
 Scenario: User is able to navigate to service listing page via selecting the service from the search results
   Given I am on the search results page with results for 'Platform as a Service' lot displayed
@@ -55,7 +60,11 @@ Scenario: User is able to navigate to service listing page via selecting the ser
   Then I am taken to the service listing page of that specific record selected
 
 Scenario: User able to search by keywords field on the search results page to narrow down the results returned
-  Given I am on the search results page with results for 'Infrastructure as a Service' lot displayed
-  When I enter '1123456789012346' in the 'q' field
+  Given I have a random service from the API
+  Given I am on the search results page with results for that service.lot displayed
+  When I enter that service.id in the 'q' field
   And I click 'Filter'
-  Then The search results is filtered returning just one result for the service '1123456789012346'
+  Then I am on a page with that service.id in search summary text
+  And There is 1 search result
+  And Selected lot is that service.lot with links to the search for that service.id
+  And I am on a page with that service in search results
