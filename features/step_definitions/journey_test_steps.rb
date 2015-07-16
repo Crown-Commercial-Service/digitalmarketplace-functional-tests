@@ -32,6 +32,10 @@ Then /I am presented with the '(.*)' page$/ do |page_name|
   page.should have_content('Service ID')
 end
 
+When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
+  step "I enter '\"#{@service[attr_name]}\"' in the '#{field_name}' field"
+end
+
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   fill_in(field_name, with: value)
   @serviceID = value
@@ -635,35 +639,7 @@ Then /I am taken to the search results page with results for '(.*)' lot displaye
   page.should have_selector(:xpath, ".//*[@id='content']//*[@class= 'search-summary']//*[contains(text(), '#{lot_name}')]")
   page.should have_selector(:xpath, "//*/label[contains(@class, 'option-select-label') and contains(text(), 'Keywords')]")
 
-  case "#{lot_name.downcase}"
-    when 'software as a service'
-      lot = 'saas'
-      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=paas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=iaas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=scs')]")
-    when 'platform as a service'
-      lot = 'paas'
-      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=saas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=iaas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=scs')]")
-    when 'infrastructure as a service'
-      lot = 'iaas'
-      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=saas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=paas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=scs')]")
-    when 'specialist cloud services'
-      lot = 'scs'
-      page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[3][contains(text(), '#{lot_name}')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=saas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=paas')]")
-      page.should have_selector(:xpath, "//a[contains(@href, '/search?q=&lot=iaas')]")
-  end
-
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?lot=#{lot}")
-  page.should have_no_selector(:xpath, "//a[contains(@href, '/search?q=&lot=#{lot}')]")
+  step "Then Selected lot is '#{lot_name}' with links to the search for ''"
 end
 
 def filter_to_check(filter_name,filter_value,filter_exist)
@@ -763,20 +739,77 @@ And /All filters for '(.*)' are available$/ do |lot_name|
   end
 end
 
+Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_name|
+  step "I am on a page with '\"#{@service[attr_name]}\"' in search summary text"
+end
+
+Then /I am on a page with '(.*)' in search summary text$/ do |value|
+  query_string = CGI.escape value
+  current_url.should include("q=#{query_string}")
+
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == value
+end
+
+Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
+  lot = full_lot(@service['lot'])
+  query = @service[attr]
+  step "Selected lot is '#{lot}' with links to the search for '\"#{query}\"'"
+end
+
+Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |selected_lot, query|
+  query = CGI.escape(query || '')
+  lots = find(:xpath, ".//div[@class='lot-filters']/ul")
+  lot_links = lots.all(:xpath, './li/a').map { |lot| lot[:href] }
+  lot_names = lots.all(:xpath, './li').map { |lot| lot.text }
+
+  LOTS.each do |lot, full_lot|
+    lot_link = "/g-cloud/search?q=#{query}"
+    lot_link += "&lot=#{lot.to_s.downcase}" if lot != :all
+    if full_lot == selected_lot
+      lot_names.should include(full_lot)
+      lot_links.should_not include(lot_link)
+      if query.empty?
+        current_url.should end_with("/g-cloud/search?lot=#{lot.to_s.downcase}")
+        find(:xpath, "//p[@class='search-summary']/em[1]").text.should == full_lot
+      else
+        current_url.should end_with(lot_link)
+        find(:xpath, "//p[@class='search-summary']/em[2]").text.should == full_lot
+      end
+      page.first(:xpath, ".//ol[@role='breadcrumbs']/li[3]").text.should == full_lot if lot != :all
+    else
+      lot_names.should include(full_lot)
+      lot_links.should include(lot_link)
+    end
+  end
+end
+
+Then /There (?:is|are) (\d+) search results?$/ do |count|
+  find(:xpath, "//*[@class='search-summary-count']").text.should == count
+end
+
 Then /I am taken to the search results page with a result for the service '(.*)'$/ do |value|
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{value.gsub(' ','+')}")
-  find(:xpath, "//*[@class='search-summary-count']").text().to_i.should be > 0
+  steps %Q{
+    Then I am on a page with '#{value}' in search summary text
+    Then Selected lot is 'All categories' with links to the search for '#{value}'
+    Then There is 1 search result
+  }
+
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{value}")
-  find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('All categories')
   find(:xpath, ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value}')]")
   page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[1]/a")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=saas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=paas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=iaas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=scs')]")
   page.should have_selector(:xpath, ".//p[@class='search-result-supplier'][contains(text(), 'DM Functional Test Supplier')]")
   page.should have_selector(:xpath, ".//*[@class='search-result-metadata-item'][contains(text(), 'Infrastructure as a Service')]")
   page.should have_selector(:xpath, ".//*[@class='search-result-metadata-item'][contains(text(), 'G-Cloud 6')]")
+end
+
+Then /I am on a page with that service in search results$/ do
+  search_results = all(:xpath, ".//div[@class='search-result']")
+  service_result = search_results.find { |r| r.first(:xpath, './h2/a')[:href].include? @service['id']}
+
+  service_result.first(:xpath, "./h2[@class='search-result-title']/a").text.should == @service['serviceName']
+  service_result.first(:xpath, "./p[@class='search-result-supplier']").text.should == @service['supplierName']
+  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == full_lot(@service['lot'])
+  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][2]").text.should == @service['frameworkName']
 end
 
 Given /I am on the search results page for the searched value of '(.*)'$/ do |search_value|
@@ -797,6 +830,10 @@ Then /Words in the search result excerpt that match the search criteria are high
   page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'access')]").text().should have_content('access')
 end
 
+Given /I am on the search results page with results for that service.lot displayed$/ do
+  step "Given I am on the search results page with results for '#{full_lot(@service['lot'])}' lot displayed"
+end
+
 Given /I am on the search results page with results for '(.*)' lot displayed$/ do |lot_name|
   steps %Q{
     Given I am on the 'Cloud technology and support' landing page
@@ -809,19 +846,20 @@ Given /I am on the search results page with results for '(.*)' lot displayed$/ d
 end
 
 Then /The search results is filtered returning just one result for the service '(.*)'$/ do |value|
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{value.gsub(' ','+')}&lot=iaas")
+  query_string = CGI.escape value
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{query_string}&lot=iaas")
   find(:xpath, "//*[@class='search-summary-count']").text().should match(/^1$/)
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{value}")
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{query_string}")
   find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('Infrastructure as a Service')
   find(
     :xpath,
-    ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value.split(' ').first} DM Functional Test N3 Secure Remote Access')]"
+    ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{query_string} DM Functional Test N3 Secure Remote Access')]"
   )
   page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[4]/a")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=saas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=paas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{value.split(' ').first}') and contains(@href, '&lot=scs')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}') and contains(@href, '&lot=saas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}') and contains(@href, '&lot=paas')]")
+  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}') and contains(@href, '&lot=scs')]")
 end
 
 When /I select '(.*)' as the filter value under the '(.*)' filter$/ do |filter_value,filter_name|
