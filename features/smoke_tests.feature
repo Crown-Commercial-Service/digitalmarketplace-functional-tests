@@ -1,6 +1,6 @@
 @smoke-test
 Feature: Smoke tests
-@not-production
+
 Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Supplier' login page
   When I login as a 'Supplier' user

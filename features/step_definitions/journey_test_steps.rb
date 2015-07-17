@@ -417,6 +417,10 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
+
+  if supplier_name == 'Digital Marketplace Team'
+    page.should have_content('You don\'t have any services on the Digital Marketplace')
+  end
 end
 
 Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
@@ -744,8 +748,6 @@ Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_n
 end
 
 Then /I am on a page with '(.*)' in search summary text$/ do |value|
-  puts value
-  puts value.gsub('  ',' ')
   query_string = CGI.escape value.gsub('  ',' ')
   current_url.should include("q=#{query_string}")
 
