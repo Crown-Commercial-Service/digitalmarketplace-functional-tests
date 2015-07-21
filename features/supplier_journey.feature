@@ -33,6 +33,24 @@ Scenario: As a logged in supplier user, I can navigate to the service summary pa
   When I click Edit for the service '1123456789012346'
   Then I am presented with the summary page for that service
 
+Scenario: As a logged in supplier user, I can edit my supplier information
+  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  When I navigate to the 'edit' 'Supplier information' page
+  And I change 'description' to 'Supplier changed the service description'
+  And I change 'clients-3' to 'Supplier changed the third client'
+  And I remove client number 2
+  And I add 'This is a new client' as a 'clients'
+  And I change 'contact_contactName' to 'Supplier changed the contact name'
+  And I change 'contact_website' to 'Supplier changed the website'
+  And I change 'contact_email' to 'Supplier.changed.the@email.com'
+  And I change 'contact_phoneNumber' to 'Supplier changed the phone number'
+  And I change 'contact_address1' to 'Supplier changed address1'
+  And I change 'contact_city' to 'Supplier changed the city'
+  And I change 'contact_country' to 'Supplier changed the country'
+  And I change 'contact_postcode' to 'PCC'
+  And I click 'Save and return'
+  Then I am presented with the dashboard page with the changes that were made to the 'Supplier information'
+
 Scenario: As a logged in supplier user, I can edit the description of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Description' page

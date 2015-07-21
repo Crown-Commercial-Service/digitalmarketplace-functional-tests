@@ -53,10 +53,7 @@ end
 Then /I am presented with the summary page for that service$/ do
   @existing_values = @existing_values || Hash.new
   @existing_values['summarypageurl'] = current_url
-  servicename = find(
-    :xpath,
-    "//h1"
-  ).text()
+  servicename = find(:xpath, "//h1").text()
   @existing_values['servicename'] = servicename
 
   if current_url.include?('suppliers')
@@ -190,11 +187,18 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   page.has_button?('Log in')
 end
 
-Given /I click the '(.*)' link for '(.*)' on the service summary page$/ do |action,service_aspect|
-  find(
-    :xpath,
-    "//a[contains(@href , '/services/#{@serviceID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
-  ).click
+Given /I click the '(.*)' link for '(.*)'$/ do |action,service_aspect|
+  if service_aspect == 'Supplier information'
+    find(
+      :xpath,
+      "//a[contains(@href , '/suppliers/edit')]"
+    ).click
+  else
+    find(
+      :xpath,
+      "//a[contains(@href , '/services/#{@serviceID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
+    ).click
+  end
 end
 
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|
@@ -237,6 +241,11 @@ When /I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
       :xpath,
       "//*[contains(@id, '#{field_to_change}')]"
     ).set(new_value)
+  elsif page.has_content?('Edit supplier information') and field_to_change.include?('lients')
+    page.find(
+      :xpath,
+      "//*[contains(@id, '#{field_to_change}')]"
+    ).set(new_value)
   else
     page.find(
       :xpath,
@@ -274,15 +283,23 @@ And /I remove service benefit number 2$/ do
   find(:xpath, ".//*[@name='serviceBenefits']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
 end
 
+And /I remove client number 2$/ do
+  @changed_fields['clients-2'] = find(
+    :xpath,
+    "//*[contains(@id, 'clients-2')]"
+  ).value()
+  find(:xpath, ".//*[@name='clients']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
+end
+
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
   record_number_to_add = (10 - ((find(
     :xpath,
-    ".//*[@id='serviceFeatures']//button[contains(text(), 'Add another')]"
+    ".//*[@id='#{item_to_add}']//button[contains(text(), 'Add another')]"
   ).text()).split(' (').last.split(' remaining').first).to_i)
 
   find(
     :xpath,
-    ".//*[@id='serviceFeatures']//button[contains(text(), 'Add another')]"
+    ".//*[@id='#{item_to_add}']//button[contains(text(), 'Add another')]"
   ).click
 
   find(
@@ -291,6 +308,58 @@ And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
   ).set(value)
 
   @changed_fields[item_to_add] = value
+end
+
+Then /I am presented with the dashboard page with the changes that were made to the '(.*)'$/ do |service_aspect|
+  current_url.should end_with(@existing_values['summarypageurl'])
+
+  find(
+    :xpath,
+    "//*[contains(text(), 'Supplier summary')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['description'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Clients')]/following-sibling::*[1]//li[2]"
+  ).text().should have_content(@changed_fields['clients-3'])
+  page.should have_no_content(@changed_fields['clients-2'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Clients')]/following-sibling::*[1]//li[3]"
+  ).text().should have_content(@changed_fields['clients'])
+
+  find(
+    :xpath,
+    "//*[contains(text(), 'Contact name')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_contactName'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Website')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_website'])
+  find(
+    :xpath,
+    "//*[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_email'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Phone number')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_phoneNumber'])
+
+  find(
+    :xpath,
+    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_address1'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_city'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_country'])
+  find(
+    :xpath,
+    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+  ).text().should have_content(@changed_fields['contact_postcode'])
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
@@ -358,7 +427,7 @@ When /I click '(.*)'$/ do |button_link_name|
 end
 
 When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
-  step "I click the '#{action}' link for '#{service_aspect}' on the service summary page"
+  step "I click the '#{action}' link for '#{service_aspect}'"
   if service_aspect == 'Description'
     page.should have_content(service_aspect)
     page.should have_content('Service name')
@@ -375,12 +444,21 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content('Trial option')
     page.should have_content('Free option')
     page.should have_content('Minimum contract period')
-  else service_aspect == 'Documents'
+  elsif service_aspect == 'Documents'
     page.should have_content(service_aspect)
     page.should have_content('Service definition document')
     page.should have_content('Please upload your terms and conditions document')
     page.should have_content('Skills Framework for the Information Age (SFIA) rate card')
     page.should have_content('Pricing document')
+  else service_aspect == 'Supplier information'
+    page.should have_content('Edit '"#{service_aspect.downcase}")
+    page.should have_content('Supplier summary')
+    page.should have_content('Clients')
+    page.should have_content('Contact name')
+    page.should have_content('Website')
+    page.should have_content('Email address')
+    page.should have_content('Phone number')
+    page.should have_content('Business address')
   end
 end
 
@@ -400,9 +478,7 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
   page.should have_content(@existing_values['pricingdocument'])
 end
 
-#Visit service link currently not set to go to correct place.
 Then /I am presented with the service details page for that service$/ do
-  visit("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
   page.should have_content(@existing_values['servicename'])
   page.should have_content(@existing_values['servicesummary'])
@@ -412,6 +488,8 @@ Then /I am presented with the service details page for that service$/ do
 end
 
 Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name|
+  @existing_values = @existing_values || Hash.new
+  @existing_values['summarypageurl'] = current_url
   page.should have_content(supplier_name)
   page.should have_content('Log out')
   page.should have_content(eval "dm_supplier_uname")
@@ -445,7 +523,10 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Supplier summary')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Clients')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-content']//*[@class='hint summary-item-no-content'][contains(text(), 'None entered')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content']//li[contains(text(), 'First client')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content']//li[contains(text(), 'Second client')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content']//li[contains(text(), '3rd client')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-content']//li[contains(text(), 'Client 4')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Contact name')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-content'][contains(text(), 'Testing Supplier Name')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-name'][contains(text(), 'Website')]")
@@ -509,15 +590,15 @@ When /I select the second listing on the page$/ do
   @data_store['servicename'] = servicename
 
   page.click_link_or_button(@data_store['servicename'])
-  serviceid = URI.parse(current_url).to_s.split('service/').last
+  serviceid = URI.parse(current_url).to_s.split('services/').last
   @data_store['serviceid'] = serviceid
 end
 
+#*There is still an issue with service links on preview linking to the production environment
 Then /I am presented with the listing page for that specific listing$/ do
   visit("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
-
 end
 
 When /I select '(.*)' as the service status$/ do |service_status|
@@ -575,6 +656,7 @@ Then /The status of the service is presented as '(.*)' on the admin users servic
 end
 
 And /The service '(.*)' be searched$/ do |ability|
+  sleep 1
   page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@serviceID}")
   page.should have_content('Search results')
   if "#{ability.downcase}" == 'can'

@@ -25,7 +25,12 @@ SUPPLIERS_JSON = '
              }
            ],
          "dunsNumber":"930123456789",
-         "clients": []
+         "clients": [
+           "First client",
+           "Second client",
+           "3rd client",
+           "Client 4"
+         ]
       }
 }
 '
