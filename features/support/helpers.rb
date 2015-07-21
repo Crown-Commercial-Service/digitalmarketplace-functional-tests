@@ -1,3 +1,5 @@
+require 'capybara/helpers'
+
 LOTS = {
   all: 'All categories',
   SaaS: 'Software as a Service',
@@ -8,4 +10,8 @@ LOTS = {
 
 def full_lot(lot)
   LOTS[lot.to_sym]
+end
+
+def normalize_whitespace(text)
+  Capybara::Helpers.normalize_whitespace(text)
 end
