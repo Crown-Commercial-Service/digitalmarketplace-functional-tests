@@ -751,7 +751,7 @@ Then /I am on a page with '(.*)' in search summary text$/ do |value|
   query_string = CGI.escape value
   current_url.should include("q=#{query_string}")
 
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == value
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
 Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
