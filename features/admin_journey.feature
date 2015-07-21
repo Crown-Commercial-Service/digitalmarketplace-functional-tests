@@ -20,7 +20,7 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
 
 Scenario: Admin user should be able to abort an edit and be returned to the service summary page
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I click the 'Edit' link for 'Description' on the service summary page
+  When I click the 'Edit' link for 'Description'
   And I click 'Return without saving'
   Then I am presented with the summary page with no changes made to the 'Description'
 
@@ -63,7 +63,7 @@ Scenario: As an admin user I wish to change a document of a service
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
-@wip
+
 Scenario: Admin user is able to view service details page for a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I click 'View service'
