@@ -245,7 +245,7 @@ When /I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
     page.find(
       :xpath,
       "//*[contains(@id, '#{field_to_change}')]"
-    ).set(new_value)#((new_value+rand(1000..9999).to_s))
+    ).set(new_value)
   else
     page.find(
       :xpath,
