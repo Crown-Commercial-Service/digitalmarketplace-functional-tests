@@ -494,7 +494,7 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   page.should have_content('Log out')
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 
   if supplier_name == 'Digital Marketplace Team'
     page.should have_content('You don\'t have any services on the Digital Marketplace')
@@ -546,8 +546,8 @@ Then /I am presented with the '(.*)' supplier service listings page$/ do |suppli
   page.should have_content('Log out')
   page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2]//*[contains(text(), '#{supplier_name}')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), '#{supplier_name}')]")
 end
 
 And /I can see all my listings ordered by lot name followed by listing name$/ do
@@ -711,13 +711,13 @@ Then /I am taken to the '(.*)' landing page$/ do |page_name|
   page.should have_link('Platform as a Service')
   page.should have_link('Infrastructure as a Service')
   page.should have_link('Specialist Cloud Services')
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2][contains(text(), '#{page_name}')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{page_name}')]")
 end
 
 Then /I am taken to the search results page with results for '(.*)' lot displayed$/ do |lot_name|
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']//*[@role='breadcrumbs']//li[2]//*[contains(text(), 'Cloud technology and support')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
   page.should have_selector(:xpath, ".//*[@id='content']//*[@class= 'page-heading']//*[contains(text(), 'Search results')]")
   page.should have_selector(:xpath, ".//*[@id='content']//*[@class='lot-filters']//*[contains(text(), 'Choose a category')]")
   page.should have_selector(:xpath, "//a[contains(@href, '/search') and contains(text(), 'All categories')]")
