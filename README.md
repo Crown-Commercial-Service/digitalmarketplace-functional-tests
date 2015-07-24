@@ -37,7 +37,8 @@ To include or exclude tags see [the cucumber documentation](https://github.com/c
 
 ## Controlling the test environment
 
-The test environment can be controlled with environment variables
+The test environment can be controlled with environment variables. Note: you should not add a trailing slash (/) to
+the domain URLs ie http://localhost:5000 not http://localhost:5000/.
 
 | Environment Variable             | Description                | Default                 |
 | -------------------------------- | -------------------------- | ----------------------- |
