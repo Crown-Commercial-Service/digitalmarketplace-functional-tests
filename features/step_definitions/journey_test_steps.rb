@@ -363,6 +363,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
+  #sleep 1
   current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
     page.should have_content(@changed_fields['serviceName'])
@@ -594,9 +595,7 @@ When /I select the second listing on the page$/ do
   @data_store['serviceid'] = serviceid
 end
 
-#*There is still an issue with service links on preview linking to the production environment
 Then /I am presented with the listing page for that specific listing$/ do
-  visit("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
 end
