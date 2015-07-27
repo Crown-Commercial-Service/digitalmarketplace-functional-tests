@@ -363,7 +363,6 @@ Then /I am presented with the dashboard page with the changes that were made to 
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
-  #sleep 1
   current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
     page.should have_content(@changed_fields['serviceName'])
@@ -634,15 +633,10 @@ end
 
 Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
-  service_exist_on_listings_page = find(:xpath,
-    "//a[contains(@href, '/service/#{@serviceID}')]"
-  )
 
-  if service_exist_on_listings_page == true
-    find(:xpath,
-      "//a[@href='#{dm_frontend_domain}/service/#{@serviceID}']/text()"
-    ).text().should have_content("#{service_status}")
-  end
+  find(:xpath,
+    "//a[contains(@href, '/g-cloud/services/#{@serviceID}')]/../../td[contains(@class, 'summary-item-field service-status-')][text()]"
+  ).text().should have_content("#{service_status}")
 end
 
 Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
