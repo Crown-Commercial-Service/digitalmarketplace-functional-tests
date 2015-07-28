@@ -46,7 +46,7 @@ And /I click the '(.*)' button$/ do |button_name|
 end
 
 When /I click Edit for the service '(.*)'$/ do |value|
-  find(:xpath, "//*[@class='summary-item-action-field']//a[contains(text(), 'Edit') and contains(@href, '#{value}')]").click
+  find(:xpath, "//*[@class='summary-item-field-with-action']//a[contains(text(), 'Edit') and contains(@href, '#{value}')]").click
   @serviceID = value
 end
 
@@ -120,34 +120,52 @@ Then /I am presented with the summary page for that service$/ do
   page.should have_content('Description')
   page.should have_content('Features and benefits')
 
-  servicename = find(
-    :xpath,
-    "//*[contains(text(), 'Service name')]/following-sibling::*[1]"
-  ).text()
+  if current_url.include?('admin')
+    servicename = find(
+      :xpath,
+      "//*[contains(text(), 'Service name')]/../td[2]"
+    ).text()
+    servicesummary = find(
+      :xpath,
+      "//*[contains(text(), 'Service summary')]/../td[2]"
+    ).text()
+  else current_url.include?('suppliers')
+    servicename = find(
+      :xpath,
+      "//*[contains(text(), 'Service name')]/../../td[2]/span"
+    ).text()
+    servicesummary = find(
+      :xpath,
+      "//*[contains(text(), 'Service summary')]/../../td[2]/span"
+    ).text()
+  end
   @existing_values['servicename'] = servicename
-
-  servicesummary = find(
-    :xpath,
-    "//*[contains(text(), 'Service summary')]/following-sibling::*[1]"
-  ).text()
   @existing_values['servicesummary'] = servicesummary
 
   if @serviceID.include?('-G')
     @existing_values['servicefeature3'] = ''
     @existing_values['servicebenefits2'] = ''
-  else
+  elsif current_url.include?('admin')
     servicefeature3 = find(
       :xpath,
-      "//*[contains(text(), 'Service features')]/following-sibling::*[1]/ul/li[3]"
+      "//*[contains(text(), 'Service features')]/..//*/li[3]"
     ).text()
-    @existing_values['servicefeature3'] = servicefeature3
-
     servicebenefits2 = find(
       :xpath,
-      "//*[contains(text(), 'Service benefits')]/following-sibling::*[1]/ul/li[2]"
+      "//*[contains(text(), 'Service benefits')]/..//*/li[2]"
     ).text()
-    @existing_values['servicebenefits2'] = servicebenefits2
+  else current_url.include?('suppliers')
+    servicefeature3 = find(
+      :xpath,
+      "//*[contains(text(), 'Service features')]/../..//*/li[3]"
+    ).text()
+    servicebenefits2 = find(
+      :xpath,
+      "//*[contains(text(), 'Service benefits')]/../..//*/li[2]"
+    ).text()
   end
+  @existing_values['servicefeature3'] = servicefeature3
+  @existing_values['servicebenefits2'] = servicebenefits2
 end
 
 Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
@@ -315,50 +333,50 @@ Then /I am presented with the dashboard page with the changes that were made to 
 
   find(
     :xpath,
-    "//*[contains(text(), 'Supplier summary')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Supplier summary')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['description'])
   find(
     :xpath,
-    "//*[contains(text(), 'Clients')]/following-sibling::*[1]//li[2]"
+    "//*[contains(text(), 'Clients')]/../..//li[2]"
   ).text().should have_content(@changed_fields['clients-3'])
   page.should have_no_content(@changed_fields['clients-2'])
   find(
     :xpath,
-    "//*[contains(text(), 'Clients')]/following-sibling::*[1]//li[3]"
+    "//*[contains(text(), 'Clients')]/../..//li[3]"
   ).text().should have_content(@changed_fields['clients'])
 
   find(
     :xpath,
-    "//*[contains(text(), 'Contact name')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Contact name')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_contactName'])
   find(
     :xpath,
-    "//*[contains(text(), 'Website')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Website')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_website'])
   find(
     :xpath,
-    "//*[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/following-sibling::*[1]"
+    "//*[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_email'])
   find(
     :xpath,
-    "//*[contains(text(), 'Phone number')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Phone number')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_phoneNumber'])
 
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_address1'])
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_city'])
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_country'])
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/following-sibling::*[1]"
+    "//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_postcode'])
 end
 
@@ -519,26 +537,29 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'G-Cloud 6')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), '8 services')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '8 services')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Supplier summary')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Clients')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'First client')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'Second client')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), '3rd client')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'Client 4')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Contact name')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'Testing Supplier Name')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'Testing Supplier Name')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Website')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'www.dmfunctionaltestsupplier.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'www.dmfunctionaltestsupplier.com')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Phone number')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), '+44 (0) 123456789')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '+44 (0) 123456789')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Address')]")
-  find(:xpath, "//*[@class='summary-item-field']/address").text().should have_content('125 Kingsway London United Kingdom WC2B 6NH')
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), '125 Kingsway')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'London')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'United Kingdom')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'WC2B 6NH')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-body']/caption[contains(text(), 'Account information')]/following-sibling::*[2]//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
 end
 
 Then /I am presented with the '(.*)' supplier service listings page$/ do |supplier_name|
@@ -584,7 +605,7 @@ When /I select the second listing on the page$/ do
 
   servicename = find(
     :xpath,
-    "//*[@id='content']/table/tbody/tr[2]/td[1]/a"
+    "//*[@id='content']/table/tbody/tr[2]/td[1]/span/a"
   ).text()
   @data_store['servicename'] = servicename
 
@@ -616,7 +637,7 @@ Then /The service status is set as '(.*)'$/ do |service_status|
   if current_url.include?('suppliers')
     find(
       :xpath,
-      "//a[contains(text(), '#{@existing_values['servicename']}')]/../../td[contains(@class, 'summary-item-field service-status')][text()]"
+      "//a[contains(text(), '#{@existing_values['servicename']}')]/../../..//td/*/span"
     ).text().should have_content(service_status)
   elsif current_url.include?('admin')
     find(
