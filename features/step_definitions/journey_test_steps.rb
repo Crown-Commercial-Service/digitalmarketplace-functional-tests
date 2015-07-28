@@ -518,36 +518,35 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Current services')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'G-Cloud 6')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'G-Cloud 6')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), '8 services')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Supplier summary')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Supplier summary')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Clients')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Clients')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'First client')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'Second client')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), '3rd client')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'Client 4')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Contact name')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Contact name')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'Testing Supplier Name')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Website')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Website')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'www.dmfunctionaltestsupplier.com')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Email address')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Phone number')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Phone number')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), '+44 (0) 123456789')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Address')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Address')]")
   find(:xpath, "//*[@class='summary-item-field']/address").text().should have_content('125 Kingsway London United Kingdom WC2B 6NH')
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first'][contains(text(), 'Email address')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-body']/caption[contains(text(), 'Account information')]/following-sibling::*[2]//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field'][contains(text(), 'testing.supplier.username@dmtestemail.com')]")
 end
 
 Then /I am presented with the '(.*)' supplier service listings page$/ do |supplier_name|
-  page.should have_content(supplier_name)
+  page.should have_content('Current services')
   page.should have_content('Log out')
-  page.should have_content(eval "dm_supplier_uname")
   current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), '#{supplier_name}')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Your account')]")
 end
 
 And /I can see all my listings ordered by lot name followed by listing name$/ do
@@ -635,7 +634,7 @@ Then /The status of the service is presented as '(.*)' on the supplier users ser
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
 
   find(:xpath,
-    "//a[contains(@href, '/g-cloud/services/#{@serviceID}')]/../../td[contains(@class, 'summary-item-field service-status-')][text()]"
+    "//a[contains(@href, '/g-cloud/services/#{@serviceID}')]/../../../td[contains(@class, 'summary-item-field')]/span/span[contains(@class, 'service-status-')][text()]"
   ).text().should have_content("#{service_status}")
 end
 
