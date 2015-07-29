@@ -381,6 +381,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
+  sleep 1
   current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
     page.should have_content(@changed_fields['serviceName'])
