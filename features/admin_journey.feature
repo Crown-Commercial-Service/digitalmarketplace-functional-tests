@@ -66,7 +66,7 @@ Scenario: As an admin user I wish to edit the pricing of a service
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Pricing'
 
-Scenario: As an admin user I wish to edit the description of a service. Service selected via supplier ID search.
+Scenario: As an admin user I wish to change a document for a service. Service selected via supplier ID search.
   Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
   When I click Edit for the service '1123456789012346'
   Then I am presented with the summary page for that service
@@ -75,7 +75,7 @@ Scenario: As an admin user I wish to edit the description of a service. Service 
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
 
-Scenario: As an admin user I wish to change a document of a service
+Scenario: As an admin user I wish to change a document for a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Documents' page
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
