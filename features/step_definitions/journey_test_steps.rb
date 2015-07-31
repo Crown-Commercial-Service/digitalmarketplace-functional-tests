@@ -29,7 +29,9 @@ end
 Then /I am presented with the '(.*)' page$/ do |page_name|
   page.should have_content(page_name)
   page.should have_content('Log out')
-  page.should have_content('Service ID')
+  page.should have_content('Find a service by service ID')
+  page.should have_content('Find services by supplier ID')
+  page.should have_content('Find users by supplier ID')
 end
 
 When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
@@ -38,7 +40,7 @@ end
 
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   fill_in(field_name, with: value)
-  @serviceID = value
+  @servicesupplierID = value
 end
 
 And /I click the '(.*)' button$/ do |button_name|
@@ -47,7 +49,7 @@ end
 
 When /I click Edit for the service '(.*)'$/ do |value|
   find(:xpath, "//*[@class='summary-item-field-with-action']//a[contains(text(), 'Edit') and contains(@href, '#{value}')]").click
-  @serviceID = value
+  @servicesupplierID = value
 end
 
 Then /I am presented with the summary page for that service$/ do
@@ -62,74 +64,7 @@ Then /I am presented with the summary page for that service$/ do
       "//*[@class='selection-button selection-button-inline selection-button-selected']"
     ).text()
     @existing_values['servicestatus'] = servicestatus
-  else
-    page.should have_content('Pricing')
-    page.should have_content('Documents')
 
-    serviceprice = find(
-      :xpath,
-      "//*[contains(text(), 'Service price')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['serviceprice'] = serviceprice
-
-    vatincluded = find(
-      :xpath,
-      "//*[contains(text(), 'VAT included')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['vatincluded'] = vatincluded
-
-    educationpricing = find(
-      :xpath,
-      "//*[contains(text(), 'Education pricing')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['educationpricing'] = educationpricing
-
-    terminationcost = find(
-      :xpath,
-      "//*[contains(text(), 'Termination cost')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['terminationcost'] = terminationcost
-
-    trialoption = find(
-      :xpath,
-      "//*[contains(text(), 'Trial option')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['trialoption'] = trialoption
-
-    freeoption = find(
-      :xpath,
-      "//*[contains(text(), 'Free option')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['freeoption'] = freeoption
-
-    minimumcontractperiod = find(
-      :xpath,
-      "//*[contains(text(), 'Minimum contract period')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['minimumcontractperiod'] = minimumcontractperiod
-
-    pricingdocument = find(
-      :xpath,
-      "//*[contains(text(), 'Pricing document')]/following-sibling::*[1]"
-    ).text()
-    @existing_values['pricingdocument'] = pricingdocument
-  end
-
-  current_url.should have_content(@serviceID)
-  page.should have_content('Service attributes')
-  page.should have_content('Description')
-  page.should have_content('Features and benefits')
-
-  if current_url.include?('admin')
-    servicename = find(
-      :xpath,
-      "//*[contains(text(), 'Service name')]/../td[2]"
-    ).text()
-    servicesummary = find(
-      :xpath,
-      "//*[contains(text(), 'Service summary')]/../td[2]"
-    ).text()
-  else current_url.include?('suppliers')
     servicename = find(
       :xpath,
       "//*[contains(text(), 'Service name')]/../../td[2]/span"
@@ -138,23 +73,6 @@ Then /I am presented with the summary page for that service$/ do
       :xpath,
       "//*[contains(text(), 'Service summary')]/../../td[2]/span"
     ).text()
-  end
-  @existing_values['servicename'] = servicename
-  @existing_values['servicesummary'] = servicesummary
-
-  if @serviceID.include?('-G')
-    @existing_values['servicefeature3'] = ''
-    @existing_values['servicebenefits2'] = ''
-  elsif current_url.include?('admin')
-    servicefeature3 = find(
-      :xpath,
-      "//*[contains(text(), 'Service features')]/..//*/li[3]"
-    ).text()
-    servicebenefits2 = find(
-      :xpath,
-      "//*[contains(text(), 'Service benefits')]/..//*/li[2]"
-    ).text()
-  else current_url.include?('suppliers')
     servicefeature3 = find(
       :xpath,
       "//*[contains(text(), 'Service features')]/../..//*/li[3]"
@@ -163,9 +81,91 @@ Then /I am presented with the summary page for that service$/ do
       :xpath,
       "//*[contains(text(), 'Service benefits')]/../..//*/li[2]"
     ).text()
+
+  elsif current_url.include?('admin')
+    page.should have_content('Pricing')
+    page.should have_content('Documents')
+
+    servicename = find(
+      :xpath,
+      "//*[contains(text(), 'Service name')]/../../td[2]/span[text()]"
+    ).text()
+    servicesummary = find(
+      :xpath,
+      "//*[contains(text(), 'Service summary')]/../../td[2]/span[text()]"
+    ).text()
+    servicefeature3 = find(
+      :xpath,
+      "//*[contains(text(), 'Service features')]/../..//*/li[3]"
+    ).text()
+    servicebenefits2 = find(
+      :xpath,
+      "//*[contains(text(), 'Service benefits')]/../..//*/li[2]"
+    ).text()
+
+    serviceprice = find(
+      :xpath,
+      "//*[contains(text(), 'Service price')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['serviceprice'] = serviceprice
+
+    vatincluded = find(
+      :xpath,
+      "//*[contains(text(), 'VAT included')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['vatincluded'] = vatincluded
+
+    educationpricing = find(
+      :xpath,
+      "//*[contains(text(), 'Education pricing')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['educationpricing'] = educationpricing
+
+    terminationcost = find(
+      :xpath,
+      "//*[contains(text(), 'Termination cost')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['terminationcost'] = terminationcost
+
+    trialoption = find(
+      :xpath,
+      "//*[contains(text(), 'Trial option')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['trialoption'] = trialoption
+
+    freeoption = find(
+      :xpath,
+      "//*[contains(text(), 'Free option')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['freeoption'] = freeoption
+
+    minimumcontractperiod = find(
+      :xpath,
+      "//*[contains(text(), 'Minimum contract period')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['minimumcontractperiod'] = minimumcontractperiod
+
+    pricingdocument = find(
+      :xpath,
+      "//*[contains(text(), 'Pricing document')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['pricingdocument'] = pricingdocument
+
+    servicedefinitiondocument = find(
+      :xpath,
+      "//*[contains(text(), 'Service definition document')]/../../td[2]/span[text()]"
+    ).text()
+    @existing_values['servicedefinitiondocument'] = servicedefinitiondocument
   end
+  @existing_values['servicename'] = servicename
+  @existing_values['servicesummary'] = servicesummary
   @existing_values['servicefeature3'] = servicefeature3
   @existing_values['servicebenefits2'] = servicebenefits2
+
+  current_url.should have_content(@serviceID)
+  page.should have_content('Service attributes')
+  page.should have_content('Description')
+  page.should have_content('Features and benefits')
 end
 
 Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
@@ -179,8 +179,8 @@ Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do
   if user_type == 'Administrator'
     steps %Q{
       Given I have logged in to Digital Marketplace as a '#{user_type}' user
-      When I enter '#{value}' in the 'Service ID' field
-      When I click 'Find service'
+      When I enter '#{value}' in the 'service_id' field
+      When I click the search button for 'service_id'
       Then I am presented with the summary page for that service
     }
   elsif user_type == 'Supplier'
@@ -214,7 +214,7 @@ Given /I click the '(.*)' link for '(.*)'$/ do |action,service_aspect|
   else
     find(
       :xpath,
-      "//a[contains(@href , '/services/#{@serviceID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
+      "//a[contains(@href , '/services/#{@servicesupplierID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
     ).click
   end
 end
@@ -381,6 +381,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
+  current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
     page.should have_content(@changed_fields['serviceName'])
     page.should have_content(@changed_fields['serviceSummary'])
@@ -391,48 +392,58 @@ Then /I am presented with the summary page with the changes that were made to th
   elsif service_aspect == 'Pricing'
     find(
       :xpath,
-      "//*[contains(text(), 'Service price')]/following-sibling::*[1]"
+      "//*[contains(text(), 'Service price')]/../../td[2]/span[text()]"
     ).text().should have_content("£#{@changed_fields['priceMin']} to £#{@changed_fields['priceMax']} per #{@changed_fields['priceUnit']} per #{@changed_fields['priceInterval']}")
     find(
       :xpath,
-      "//*[contains(text(), 'VAT included')]/following-sibling::*[1]"
+      "//*[contains(text(), 'VAT included')]/../../td[2]/span[text()]"
     ).text().should have_content(@changed_fields['vatIncluded'])
     find(
       :xpath,
-      "//*[contains(text(), 'Education pricing')]/following-sibling::*[1]"
+      "//*[contains(text(), 'Education pricing')]/../../td[2]/span[text()]"
     ).text().should have_content(@changed_fields['educationPricing'])
     find(
       :xpath,
-      "//*[contains(text(), 'Termination cost')]/following-sibling::*[1]"
+      "//*[contains(text(), 'Termination cost')]/../../td[2]/span[text()]"
     ).text().should have_content(@changed_fields['terminationCost'])
     find(
       :xpath,
-      "//*[contains(text(), 'Trial option')]/following-sibling::*[1]"
+      "//*[contains(text(), 'Trial option')]/../../td[2]/span[text()]"
     ).text().should have_content(@changed_fields['trialOption'])
     find(
       :xpath,
-      "//*[contains(text(), 'Free option')]/following-sibling::*[1]"
+      "//*[contains(text(), 'Free option')]/../../td[2]/span[text()]"
     ).text().should have_content(@changed_fields['freeOption'])
     find(
       :xpath,
-      "//*[contains(text(), 'Minimum contract period')]/following-sibling::*[1]"
+      "//*[contains(text(), 'Minimum contract period')]/../../td[2]/span[text()]"
     ).text().should have_content(@changed_fields['minimumContractPeriod'])
 
   elsif service_aspect == 'Documents'
-    page.should have_no_content(@existing_values['pricingdocument'])
-    @newpricingdocument = find(
-      :xpath,
-      "//*[contains(text(), 'Pricing document')]/following-sibling::*[1]"
-    ).text()
+    page.should have_no_content(@existing_values['originaldoc'])
 
-    if @newpricingdocument == @existing_values['pricingdocument']
+    if @existing_values['docofinterest'] == 'servicedefinitiondocument'
+      @newpdocument = find(
+        :xpath,
+        "//*[contains(text(), 'Service definition document')]/../../td[2]/span[text()]"
+      ).text()
+    elsif @existing_values['docofinterest'] == 'pricingdocument'
+      @newpdocument = find(
+        :xpath,
+        "//*[contains(text(), 'Pricing document')]/../../td[2]/span[text()]"
+      ).text()
+    end
+
+    if @newpdocument == @existing_values['originaldoc']
       raise "The pricing document has not been changed as expected"
     end
   end
-  current_url.should end_with(@existing_values['summarypageurl'])
 end
 
 When /I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
+  @existing_values = @existing_values || Hash.new
+  @existing_values['originaldoc'] = @existing_values["#{document_to_change.split('URL').first.downcase}"]
+  @existing_values['docofinterest'] = "#{document_to_change.split('URL').first.downcase}"
   find(
     :xpath,
     "//*[contains(@name, '#{document_to_change}')]"
@@ -497,7 +508,7 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
 end
 
 Then /I am presented with the service details page for that service$/ do
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@servicesupplierID}")
   page.should have_content(@existing_values['servicename'])
   page.should have_content(@existing_values['servicesummary'])
   page.should have_content(@existing_values['servicefeature3'])
@@ -526,10 +537,21 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do 
   }
 end
 
+Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
+  steps %Q{
+    Given I have logged in to Digital Marketplace as a '#{user_type}' user
+    When I enter '#{value}' in the 'supplier_id_for_services' field
+    And I click the search button for 'supplier_id_for_services'
+    Then I am presented with the '#{page_name}' page for the supplier 'DM Functional Test Supplier'
+  }
+end
+
 Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
-  step "Given I have logged in to Digital Marketplace as a '#{user_type}' user"
-  page.visit("#{dm_frontend_domain}/suppliers/services")
-  step "Then I am presented with the '#{supplier_name}' supplier service listings page"
+  steps %Q{
+    Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+    When I click 'View'
+    Then I am presented with the '#{supplier_name}' supplier current services page
+  }
 end
 
 Then /I can see my supplier details on the dashboard$/ do
@@ -562,12 +584,20 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
 end
 
-Then /I am presented with the '(.*)' supplier service listings page$/ do |supplier_name|
+Then /I am presented with the '(.*)' supplier current services page$/ do |supplier_name|
   page.should have_content('Current services')
   page.should have_content('Log out')
   current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Your account')]")
+end
+
+Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_name,supplier_name|
+  page.should have_content("#{page_name}")
+  page.should have_content('Log out')
+  current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'DM Functional Test Supplier')]")
 end
 
 And /I can see all my listings ordered by lot name followed by listing name$/ do
@@ -605,7 +635,7 @@ When /I select the second listing on the page$/ do
 
   servicename = find(
     :xpath,
-    "//*[@id='content']/table/tbody/tr[2]/td[1]/span/a"
+    "//*/table/tbody/tr[2]/td[1]/span/a"
   ).text()
   @data_store['servicename'] = servicename
 
@@ -614,7 +644,7 @@ When /I select the second listing on the page$/ do
   @data_store['serviceid'] = serviceid
 end
 
-Then /I am presented with the listing page for that specific listing$/ do
+Then /I am presented with the service page for that specific listing$/ do
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
 end
@@ -655,12 +685,12 @@ Then /The status of the service is presented as '(.*)' on the supplier users ser
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
 
   find(:xpath,
-    "//a[contains(@href, '/g-cloud/services/#{@serviceID}')]/../../../td[contains(@class, 'summary-item-field')]/span/span[contains(@class, 'service-status-')][text()]"
+    "//a[contains(@href, '/g-cloud/services/#{@servicesupplierID}')]/../../../td[contains(@class, 'summary-item-field')]/span/span[contains(@class, 'service-status-')][text()]"
   ).text().should have_content("#{service_status}")
 end
 
 Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
-  step "Given I am logged in as a 'Administrator' and am on the '#{@serviceID}' service summary page"
+  step "Given I am logged in as a 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
 
   find(
     :xpath,
@@ -670,7 +700,7 @@ end
 
 And /The service '(.*)' be searched$/ do |ability|
   sleep 1
-  page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@serviceID}")
+  page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@servicesupplierID}")
   page.should have_content('Search results')
   if "#{ability.downcase}" == 'can'
     @existing_values = @existing_values || Hash.new
@@ -691,7 +721,7 @@ And /The service '(.*)' be searched$/ do |ability|
 end
 
 And /The service details page '(.*)' be viewed$/ do |ability|
-  page.visit("#{dm_frontend_domain}/g-cloud/services/#{@serviceID}")
+  page.visit("#{dm_frontend_domain}/g-cloud/services/#{@servicesupplierID}")
   if "#{ability.downcase}" == 'can'
     page.should have_content(@existing_values['service_name'])
   elsif "#{ability.downcase}" == 'can not'
@@ -715,6 +745,10 @@ end
 
 When /I click the '(.*)' link$/ do |link_name|
   step "I click the '#{link_name}' button"
+end
+
+And /I click the search button for '(.*)'$/ do |action_field|
+  find(:xpath, "//label[@for='#{action_field}']/../input[@value='Search']").click
 end
 
 Then /I am taken to the '(.*)' landing page$/ do |page_name|

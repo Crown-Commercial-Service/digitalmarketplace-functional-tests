@@ -20,13 +20,13 @@ Scenario: As a logged in supplier user, my supplier detail are available on the 
 Scenario: As a logged in supplier user, I can navigate to the service listings page from my dashboard and can see all my listings
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'View'
-  Then I am presented with the 'DM Functional Test Supplier' supplier service listings page
+  Then I am presented with the 'DM Functional Test Supplier' supplier current services page
   And I can see all my listings ordered by lot name followed by listing name
 
 Scenario: As a logged in supplier user, I can select a listing and be presented with the listings page
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
   When I select the second listing on the page
-  Then I am presented with the listing page for that specific listing
+  Then I am presented with the service page for that specific listing
 
 Scenario: As a logged in supplier user, I can navigate to the service summary page for a specific service
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
