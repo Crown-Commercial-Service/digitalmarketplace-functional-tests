@@ -8,29 +8,38 @@ Scenario: Setup for tests
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Administrator' login page
   When I login as a 'Administrator' user
-  Then I am presented with the 'Find a service' page
+  Then I am presented with the 'Admin' page
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Administrator' user
 
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for a service
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for a service by service ID
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I enter '1123456789012346' in the 'Service ID' field
-  And I click 'Find service'
+  When I enter '1123456789012346' in the 'service_id' field
+  And I click the search button for 'service_id'
   Then I am presented with the summary page for that service
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I enter '11111' in the 'supplier_id_for_services' field
+  And I click the search button for 'supplier_id_for_services'
+  Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
+  Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
+  When I select the second listing on the page
+  Then I am presented with the service page for that specific listing
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by supplier ID
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I enter '11111' in the 'supplier_id_for_users' field
+  And I click the search button for 'supplier_id_for_users'
+  Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
 
 Scenario: Admin user should be able to abort an edit and be returned to the service summary page
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I click the 'Edit' link for 'Description'
   And I click 'Return without saving'
   Then I am presented with the summary page with no changes made to the 'Description'
-
-Scenario: As an admin user I wish to edit the description of a service
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Description' page
-  And I change 'serviceName' to 'Service name changed'
-  And I change 'serviceSummary' to 'Service summary changed'
-  And I click 'Save and return to summary'
-  Then I am presented with the summary page with the changes that were made to the 'Description'
 
 Scenario: As an admin user I wish to edit the features and benefits of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
@@ -57,7 +66,16 @@ Scenario: As an admin user I wish to edit the pricing of a service
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Pricing'
 
-Scenario: As an admin user I wish to change a document of a service
+Scenario: As an admin user I wish to change a document for a service. Service selected via supplier ID search.
+  Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
+  When I click Edit for the service '1123456789012346'
+  Then I am presented with the summary page for that service
+  When I navigate to the 'edit' 'Documents' page
+  And I change 'serviceDefinitionDocumentURL' file to '12345-test-new-service-definition-document.pdf'
+  And I click 'Save and return to summary'
+  Then I am presented with the summary page with the changes that were made to the 'Documents'
+
+Scenario: As an admin user I wish to change a document for a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Documents' page
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
