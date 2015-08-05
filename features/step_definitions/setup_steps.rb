@@ -35,19 +35,6 @@ SUPPLIERS_JSON = '
 }
 '
 
-USERS_JSON = '
-{
-    "users":
-      {
-          "name": "Testing.supplier.USERNaMe@DMtestemail.com",
-          "password": "testuserpassword",
-          "emailAddress": "Testing.supplier.USERNaMe@DMtestemail.com",
-          "supplierId": 11111,
-          "role": "supplier"
-      }
-}
-'
-
 Given /^I have a test supplier$/ do
     url = dm_api_domain
     token = dm_api_access_token
@@ -61,31 +48,30 @@ Given /^The test supplier has a service$/ do
     create_service("1123456789012346","iaas")
 end
 
-And /^The test supplier has a user$/ do
+def create_user (email,username)
+  file = File.read("./fixtures/test-supplier-user.json")
+  json = JSON.parse(file)
+
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  users_data = JSON.parse(USERS_JSON)
-  email = users_data ["users"]["emailAddress"]
-  user_url = "#{url}/users?email=#{email}"
+  user_data = JSON.parse(file)
+  user_data ["users"]["emailAddress"] = email
+  user_data ["users"]["name"] = username
+  user_url = "#{url}/users?email_address=#{email}"
 
   response = RestClient.get(user_url, headers){|response, request, result| response }
-  if response.code != 200
+  if response.code == 404
     user_url = "#{url}/users"
-    response = RestClient.post(user_url, USERS_JSON, headers){|response, request, result| response }
-    response.code.should == 200
+    response = RestClient.post(user_url, user_data.to_json, headers){|response, request, result| response }
+    response.code.should == 201
   end
 end
 
-Given /^The test supplier has multiple services$/ do
-    create_service("1123456789012346","iaas")
-    create_service("1123456789012347","paas")
-    create_service("1123456789012348","saas")
-    create_service("1123456789012349","scs")
-    create_service("1123456789012350","iaas")
-    create_service("1123456789012351","paas")
-    create_service("1123456789012352","saas")
-    create_service("1123456789012353","scs")
+And /^The test supplier has multiple users$/ do
+  create_user("Testing.supplier.USERNaMe@DMtestemail.com","DM Functional Test Supplier User 1")
+  create_user("testing.supplier.username2@dmtestemail.com","DM Functional Test Supplier User 2")
+  create_user("testing.supplier.username3@dmtestemail.com","DM Functional Test Supplier User 3")
 end
 
 def create_service (service_id, lot)
@@ -107,5 +93,49 @@ def create_service (service_id, lot)
   else
     response = RestClient.post(service_url, service_data.to_json, headers){|response, request, result| response }
     response.code.should == 200
+  end
+end
+
+Given /^The test supplier has multiple services$/ do
+    create_service("1123456789012346","iaas")
+    create_service("1123456789012347","paas")
+    create_service("1123456789012348","saas")
+    create_service("1123456789012349","scs")
+    create_service("1123456789012350","iaas")
+    create_service("1123456789012351","paas")
+    create_service("1123456789012352","saas")
+    create_service("1123456789012353","scs")
+end
+
+def activate_deactive_users (user_name)
+  button_action = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//button[text()]").text()
+  if button_action == 'Activate'
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//button[contains(text(),'#{button_action}')]").click
+  end
+end
+
+And /^Test supplier users are active$/ do
+  step "Given I have logged in to Digital Marketplace as a 'Administrator' user"
+  page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
+  activate_deactive_users("DM Functional Test Supplier User 2")
+end
+
+And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
+  visit("#{dm_frontend_domain}/suppliers/login")
+
+  url = dm_api_domain
+  token = dm_api_access_token
+  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
+  user_url = "#{url}/users?email_address=testing.supplier.username3@dmtestemail.com"
+
+  response = RestClient.get(user_url, headers){|response, request, result| response }
+  failedlogincount = JSON.parse(response.body)["users"][0]["failedLoginCount"]
+  lockstate = JSON.parse(response.body)["users"][0]["locked"]
+
+  while failedlogincount < 6 and lockstate == false
+    fill_in('email_address', :with => (eval "dm_supplier3_uname"))
+    fill_in('password', :with => 'invalidpassword')
+    click_link_or_button('Log in')
+    failedlogincount += 1
   end
 end

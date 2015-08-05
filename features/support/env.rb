@@ -56,4 +56,12 @@ def dm_supplier_pass()
   ENV['DM_SUPPLIERPASSWORD']
 end
 
+def dm_supplier2_uname()
+  ENV['DM_SUPPLIER2EMAIL']
+end
+
+def dm_supplier3_uname()
+  ENV['DM_SUPPLIER3EMAIL']
+end
+
 Capybara::Screenshot.prune_strategy = { keep: 100 }

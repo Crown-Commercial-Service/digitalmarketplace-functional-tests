@@ -5,7 +5,7 @@ require "rest_client"
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
-  else user_type == 'Supplier'
+  elsif user_type == 'Supplier'
     visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
   end
   page.should have_content("#{user_type}" ' login')
@@ -19,10 +19,31 @@ When /I login as a '(.*)' user$/ do |user_type|
     fill_in('email_address', :with => (eval "dm_admin_uname"))
     fill_in('password', :with => (eval "dm_admin_pass"))
     click_link_or_button('Log in')
-  else user_type == 'Supplier'
+  elsif user_type == 'Supplier'
     fill_in('email_address', :with => (eval "dm_supplier_uname"))
     fill_in('password', :with => (eval "dm_supplier_pass"))
     click_link_or_button('Log in')
+  end
+end
+
+And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
+  visit("#{dm_frontend_domain}/suppliers/login")
+  if user_name == 'DM Functional Test Supplier User 2'
+    fill_in('email_address', :with => (eval "dm_supplier2_uname"))
+  elsif user_name == 'DM Functional Test Supplier User 3'
+    fill_in('email_address', :with => (eval "dm_supplier3_uname"))
+  end
+
+  fill_in('password', :with => (eval "dm_supplier_pass"))
+  click_link_or_button('Log in')
+
+  if ability == 'can not'
+    page.should have_content('Sorry, we couldn\'t log you in with that username and password.
+      Accounts are locked after five failed attempts. If you think your account has been locked,
+      please contact enquiries@digitalmarketplace.service.gov.uk.'
+    )
+  elsif ability == 'can'
+    step "Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page"
   end
 end
 
@@ -45,6 +66,10 @@ end
 
 And /I click the '(.*)' button$/ do |button_name|
   click_link_or_button(button_name)
+end
+
+When /I click the '(.*)' button for the supplier user '(.*)'$/ do |button_name,user_name|
+  find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//button[contains(text(),'#{button_name}')]").click
 end
 
 When /I click Edit for the service '(.*)'$/ do |value|
@@ -196,7 +221,7 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
     page.should have_content('You have been logged out')
     page.should have_content('Email address')
-  else user_type == 'Supplier'
+  elsif user_type == 'Supplier'
     page.should have_content("#{user_type}" ' login')
     page.should have_content('Email address')
   end
@@ -239,7 +264,7 @@ Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,s
     page.should have_content('Trial option')
     page.should have_content('Free option')
     page.should have_content('Minimum contract period')
-  else service_aspect == 'Documents'
+  elsif service_aspect == 'Documents'
     page.should have_content(service_aspect)
     page.should have_content('Service definition document')
     page.should have_content('Please upload your terms and conditions document')
@@ -381,7 +406,6 @@ Then /I am presented with the dashboard page with the changes that were made to 
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
-  current_url.should end_with(@existing_values['summarypageurl'])
   if service_aspect == 'Description'
     page.should have_content(@changed_fields['serviceName'])
     page.should have_content(@changed_fields['serviceSummary'])
@@ -438,6 +462,7 @@ Then /I am presented with the summary page with the changes that were made to th
       raise "The pricing document has not been changed as expected"
     end
   end
+  current_url.should end_with(@existing_values['summarypageurl'])
 end
 
 When /I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
@@ -479,7 +504,7 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content('Please upload your terms and conditions document')
     page.should have_content('Skills Framework for the Information Age (SFIA) rate card')
     page.should have_content('Pricing document')
-  else service_aspect == 'Supplier information'
+  elsif service_aspect == 'Supplier information'
     page.should have_content('Edit '"#{service_aspect.downcase}")
     page.should have_content('Supplier summary')
     page.should have_content('Clients')
@@ -538,12 +563,21 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do 
 end
 
 Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
-  steps %Q{
-    Given I have logged in to Digital Marketplace as a '#{user_type}' user
-    When I enter '#{value}' in the 'supplier_id_for_services' field
-    And I click the search button for 'supplier_id_for_services'
-    Then I am presented with the '#{page_name}' page for the supplier 'DM Functional Test Supplier'
-  }
+  if page_name == 'Services'
+    steps %Q{
+      Given I have logged in to Digital Marketplace as a '#{user_type}' user
+      When I enter '#{value}' in the 'supplier_id_for_services' field
+      And I click the search button for 'supplier_id_for_services'
+      Then I am presented with the '#{page_name}' page for the supplier 'DM Functional Test Supplier'
+    }
+  elsif page_name == 'Users'
+    steps %Q{
+      Given I have logged in to Digital Marketplace as a '#{user_type}' user
+      When I enter '#{value}' in the 'supplier_id_for_users' field
+      And I click the search button for 'supplier_id_for_users'
+      Then I am presented with the '#{page_name}' page for the supplier 'DM Functional Test Supplier'
+    }
+  end
 end
 
 Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
@@ -600,7 +634,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'DM Functional Test Supplier')]")
 end
 
-And /I can see all my listings ordered by lot name followed by listing name$/ do
+And /I can see all listings ordered by lot name followed by listing name$/ do
   service_listed_and_in_correct_order("1123456789012346","1")
   service_listed_and_in_correct_order("1123456789012350","2")
   service_listed_and_in_correct_order("1123456789012347","3")
@@ -609,6 +643,7 @@ And /I can see all my listings ordered by lot name followed by listing name$/ do
   service_listed_and_in_correct_order("1123456789012352","6")
   service_listed_and_in_correct_order("1123456789012349","7")
   service_listed_and_in_correct_order("1123456789012353","8")
+  page.should have_no_selector(:xpath, "*//table/tbody/tr[9][td/text()]")
 end
 
 def service_listed_and_in_correct_order (service_id,order_number)
@@ -620,7 +655,7 @@ def service_listed_and_in_correct_order (service_id,order_number)
   json = JSON.parse(response)
   service_name = json["services"]["serviceName"]
   service_lot = json["services"]["lot"]
-  xpath_to_check = find(:xpath, "//*[@id='content']/table/tbody/tr[#{order_number}][td/text()]").text()
+  xpath_to_check = find(:xpath, "*//table/tbody/tr[#{order_number}][td/text()]").text()
 
   if response.code == 404
     puts "Service #{service_id} does not exist"
@@ -1041,7 +1076,7 @@ Then /Pagination is '(.*)'$/ do |availability|
   if @data_store['currentcount'] > 100 and @data_store['moreorless'] == 'more'
     page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
     page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
-  else @data_store['currentcount'] <= 100 and @data_store['moreorless'] == 'less'
+  elsif @data_store['currentcount'] <= 100 and @data_store['moreorless'] == 'less'
     page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
     page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   end
@@ -1057,5 +1092,17 @@ Then /I am taken to page '(.*)' of results$/ do |page_number|
   elsif page_number < '2'
     page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
     page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  end
+end
+
+Then /The supplier user '(.*)' is '(.*)'$/ do |user_name,user_lockoractive_state|
+  if user_lockoractive_state == 'not active'
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/../*//button[text()]").text().should match('Activate')
+  elsif user_lockoractive_state == 'active'
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/../*//button[text()]").text().should match('Deactivate')
+  elsif user_lockoractive_state == 'locked'
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'unlock')]/../*//button[text()]").text().should match('Unlock')
+  elsif user_lockoractive_state == 'not locked'
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td[5]/span[text()]").text().should match('No')
   end
 end
