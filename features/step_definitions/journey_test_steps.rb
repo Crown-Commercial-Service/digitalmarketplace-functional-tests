@@ -1106,3 +1106,12 @@ Then /The supplier user '(.*)' is '(.*)'$/ do |user_name,user_lockoractive_state
     find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td[5]/span[text()]").text().should match('No')
   end
 end
+
+Given /The supplier user '(.*)' has 5 failed login attempts$/ do |user_name|
+  step "The user '#{user_name}' is locked"
+end
+
+Then /The supplier user '(.*)' lock state is locked on the admin Users page$/ do |user_name|
+  step "I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'"
+  find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'unlock')]/../*//button[text()]").text().should match('Unlock')
+end

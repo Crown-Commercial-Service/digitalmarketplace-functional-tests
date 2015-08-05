@@ -88,3 +88,8 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And The status of the service is presented as 'Public' on the admin users service summary page
   And The service 'can' be searched
   And The service details page 'can' be viewed
+
+Scenario: Supplier user has 5 failed login attempts and is locked. Login is not allowed unless admin unlocks the user
+  Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts
+  Then The supplier user 'DM Functional Test Supplier User 3' lock state is locked on the admin Users page
+  And The supplier user 'DM Functional Test Supplier User 3' 'can not' login to Digital Marketplace
