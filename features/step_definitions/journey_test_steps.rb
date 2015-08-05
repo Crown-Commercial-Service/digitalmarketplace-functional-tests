@@ -656,6 +656,20 @@ And /I can see all listings ordered by lot name followed by listing name$/ do
   page.should have_no_selector(:xpath, "*//table/tbody/tr[9][td/text()]")
 end
 
+Then /I can see active users associated with '(.*)' on the dashboard$/ do |supplier_name|
+  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Contributors')]")
+  page.should have_selector(:xpath, "//table[@class='summary-item-body']/caption[@class='visuallyhidden'][contains(text(), 'Users for #{supplier_name}')]")
+  ['Name', 'Email address'].each do |header|
+    page.should have_selector(:xpath, "//table[@class='summary-item-body']/thead//th/span[@class='visuallyhidden'][contains(text(), '#{header}')]")
+  end
+  [
+    'DM Functional Test Supplier User 1', 'testing.supplier.username@dmtestemail.com',
+    'DM Functional Test Supplier User 2', 'testing.supplier.username2@dmtestemail.com'
+    ].each do |cell|
+    page.should have_selector(:xpath, "//table[@class='summary-item-body']/tbody/tr/td/span[contains(text(), '#{cell}')]")
+  end
+end
+
 def service_listed_and_in_correct_order (service_id,order_number)
   url = dm_api_domain
   token = dm_api_access_token

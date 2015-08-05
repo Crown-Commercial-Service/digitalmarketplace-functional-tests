@@ -14,7 +14,7 @@ Scenario: As supplier user I wish be able to log in and to log out of Digital Ma
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Supplier' user
 
-Scenario: As a logged in supplier user, my supplier detail are available on the dashboard
+Scenario: As a logged in supplier user, my supplier details are available on the dashboard
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   Then I can see my supplier details on the dashboard
 
@@ -28,6 +28,10 @@ Scenario: As a logged in supplier user, I can view the listings page of a specif
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
   When I select 'view service for the' second listing on the page
   Then I am presented with the service page for that specific listing
+
+Scenario: As a logged in supplier user, I can see my active contributors on the dashboard
+  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  Then I can see active users associated with 'DM Functional Test Supplier' on the dashboard
 
 Scenario: As a logged in supplier user, I can navigate to the service summary page for a specific service
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
