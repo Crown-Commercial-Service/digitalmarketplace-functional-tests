@@ -24,8 +24,7 @@ Feature: Submitting a new service for SCS
       Service summary for my SCS service that does stuff with stuff.
       """
     And I click 'Save and continue'
-    # TODO: The next page will be 'Service type' once document uploads have moved to the end
-    Then I should be on the 'Service definition' page
+    Then I should be on the 'Service type' page
     
   Scenario: Select a service type
     Given I am on ssp page 'service_type'
@@ -40,21 +39,17 @@ Feature: Submitting a new service for SCS
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
     
-  # TODO: Remove WIP once pricing is merged
-  @wip
   Scenario: Pricing
     Given I am on ssp page 'pricing'
-    When I fill in 'minPrice' with '100'
-    And I fill in 'maxPrice' with '1000'
-    And I select 'Unit' from 'priceUnit'
-    And I select 'Second' from 'priceInterval'
+    When I fill in 'priceStringMinPrice' with '100'
+    And I fill in 'priceStringMaxPrice' with '1000'
+    And I select 'Unit' from 'priceStringUnit'
+    And I select 'Second' from 'priceStringInterval'
     And I choose 'vatIncluded-yes'
     And I choose 'educationPricing-no'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions' page
-
-  # TODO: Remove WIP once documents moved to end
-  @wip
+    
   Scenario: Terms and conditions
     Given I am on ssp page 'terms_and_conditions'
     When I choose 'terminationCost-no'
@@ -84,35 +79,26 @@ Feature: Submitting a new service for SCS
     Given I am on ssp page 'certifications'
     When I fill in 'vendorCertifications-1' with 'Vendor certification one provided.'
     And I click 'Save and continue'
-    # TODO: The next page will be 'Service definition' once document uploads have moved to the end
-    Then I should be on the 'My SCS service name' page
-
-  # TODO: Remove WIP once documents moved to end
-  @wip    
+    Then I should be on the 'Service definition' page
+    
   Scenario: Service definition document
     Given I am on ssp page 'service_definition'
     When I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions document' page
-
-  # TODO: Remove WIP once documents moved to end
-  @wip
+    
   Scenario: Terms and conditions document
     Given I am on ssp page 'terms_and_conditions_document'
     When I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Pricing document' page
-
-  # TODO: Remove WIP once documents moved to end
-  @wip
+    
   Scenario: Pricing document
     Given I am on ssp page 'pricing_document'
     When I choose file 'test.pdf' for 'pricingDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
-
-  # TODO: Remove WIP once documents moved to end
-  @wip
+    
   Scenario: SFIA rate card document
     Given I am on ssp page 'sfia_rate_card'
     When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
@@ -128,12 +114,8 @@ Feature: Submitting a new service for SCS
 
   @delete_service
   Scenario: Delete the service
-#  TODO: Reinstate this once the delete button is there - and delete the three lines below
-#    Given I am on the summary page
-#    When I click 'Delete this service'
-#    And I click 'Yes, delete “My SCS service name”'
-#    Then I should be on the supplier home page
-#    And My service should not be in the list
-    Given The service is deleted
-    When I am at the g7 supplier dashboard page
-    Then My service should not be in the list
+    Given I am on the summary page
+    When I click 'Delete this service'
+    And I click 'Yes, delete “My SCS service name”'
+    Then I should be on the g7 supplier dashboard page
+    And My service should not be in the list
