@@ -102,3 +102,24 @@ end
 Then /^The string '(.*)' should be on the page$/ do |string|
   page.should have_content(string)
 end
+
+Then /^Summary row '(.*)' should contain '(.*)'$/ do |question, text|
+  find(
+    :xpath,
+    "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+  ).should have_content(text)
+end
+
+Then /^Summary row '(.*)' should not contain '(.*)'$/ do |question, text|
+  find(
+    :xpath,
+    "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+  ).should have_no_content(text)
+end
+
+Then /^Summary row '(.*)' should not be empty$/ do |question|
+  find(
+    :xpath,
+    "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+  ).text.should_not == ''
+end
