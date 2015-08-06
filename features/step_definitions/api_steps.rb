@@ -25,8 +25,11 @@ end
 
 
 Given /^I have a random service from the API$/ do
-  response = RestClient.get("#{dm_api_domain}/services?page=#{1 + rand(100)}",
-    authorization: "Bearer #{dm_api_access_token}")
+  response = RestClient.get(
+    "#{dm_api_domain}/services",
+    params: {page: 1 + rand(100), status: "published"},
+    authorization: "Bearer #{dm_api_access_token}"
+  )
   @service = JSON.parse(response)['services'][rand(100)]
   puts "Service ID: #{@service['id']}"
   puts "Service name: #{@service['serviceName']}"
