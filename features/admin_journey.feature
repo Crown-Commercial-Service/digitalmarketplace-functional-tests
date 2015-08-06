@@ -11,7 +11,7 @@ Scenario: Setup for tests
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Administrator' login page
   When I login as a 'Administrator' user
-  Then I am presented with the 'Admin' page
+  Then I am presented with the admin 'Admin' page
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Administrator' user
 

@@ -21,7 +21,7 @@ Scenario: As a logged in supplier user, my supplier details are available on the
 Scenario: As a logged in supplier user, I can navigate to the service listings page from my dashboard and can see all my listings
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'View'
-  Then I am presented with the 'DM Functional Test Supplier' supplier current services page
+  Then I am presented with the supplier 'DM Functional Test Supplier' 'Current services' page
   And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As a logged in supplier user, I can view the listings page of a specific service
@@ -32,6 +32,18 @@ Scenario: As a logged in supplier user, I can view the listings page of a specif
 Scenario: As a logged in supplier user, I can see my active contributors on the dashboard
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   Then I can see active users associated with 'DM Functional Test Supplier' on the dashboard
+
+Scenario: As a logged in supplier user, I can navigate to the contributors page from my dashboard and I can remove one
+  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  When I click 'Add or remove'
+  Then I am presented with the supplier 'DM Functional Test Supplier' 'Add or remove contributors' page
+  When I remove the supplier user 'DM Functional Test Supplier User 2'
+  Then I see a confirmation message after having removed supplier user 'DM Functional Test Supplier User 2'
+  And I should not see the supplier user 'DM Functional Test Supplier User 2' on the supplier dashboard page
+  When I click 'Log out'
+  Then I am logged out of Digital Marketplace as a 'Supplier' user
+  And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
+  Then The supplier user 'DM Functional Test Supplier User 2' is 'not active' on the admin Users page
 
 Scenario: As a logged in supplier user, I can navigate to the service summary page for a specific service
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
@@ -95,5 +107,5 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
 
 Scenario: Supplier user has 5 failed login attempts and is locked. Login is not allowed unless admin unlocks the user
   Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts
-  Then The supplier user 'DM Functional Test Supplier User 3' lock state is locked on the admin Users page
+  Then The supplier user 'DM Functional Test Supplier User 3' is 'locked' on the admin Users page
   And The supplier user 'DM Functional Test Supplier User 3' 'can not' login to Digital Marketplace
