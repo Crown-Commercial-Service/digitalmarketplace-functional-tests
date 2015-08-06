@@ -333,50 +333,50 @@ Then /I am presented with the dashboard page with the changes that were made to 
 
   find(
     :xpath,
-    "//*[contains(text(), 'Supplier summary')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Supplier summary')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['description'])
   find(
     :xpath,
-    "//*[contains(text(), 'Clients')]/../..//li[2]"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[2]"
   ).text().should have_content(@changed_fields['clients-3'])
   page.should have_no_content(@changed_fields['clients-2'])
   find(
     :xpath,
-    "//*[contains(text(), 'Clients')]/../..//li[3]"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[3]"
   ).text().should have_content(@changed_fields['clients'])
 
   find(
     :xpath,
-    "//*[contains(text(), 'Contact name')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Contact name')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_contactName'])
   find(
     :xpath,
-    "//*[contains(text(), 'Website')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Website')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_website'])
   find(
     :xpath,
-    "//*[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_email'])
   find(
     :xpath,
-    "//*[contains(text(), 'Phone number')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Phone number')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_phoneNumber'])
 
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_address1'])
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_city'])
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_country'])
   find(
     :xpath,
-    "//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_postcode'])
 end
 
