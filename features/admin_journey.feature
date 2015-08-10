@@ -4,6 +4,9 @@ Feature: Admin user journey through Digital Marketplace
 Scenario: Setup for tests
   Given I have a test supplier
   And The test supplier has a service
+  And The test supplier has multiple users
+  And Test supplier users are active
+  And The user 'DM Functional Test Supplier User 3' is locked
 
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Administrator' login page
@@ -23,6 +26,7 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   When I enter '11111' in the 'supplier_id_for_services' field
   And I click the search button for 'supplier_id_for_services'
   Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
+  And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
   Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
@@ -48,7 +52,7 @@ Scenario: As an admin user I wish to edit the features and benefits of a service
   And I remove service benefit number 2
   And I add 'New service feature' as a 'serviceFeatures'
   And I click 'Save and return to summary'
-  Then I am presented with the summary page with the changes that were made to the 'Feature and benefits'
+  Then I am presented with the summary page with the changes that were made to the 'Features and benefits'
 
 Scenario: As an admin user I wish to edit the pricing of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
@@ -116,3 +120,21 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And The status of the service is presented as 'Public' on the supplier users service listings page
   And The service 'can' be searched
   And The service details page 'can' be viewed
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to deactivate a supplier user
+  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  When I click the 'Deactivate' button for the supplier user 'DM Functional Test Supplier User 2'
+  Then The supplier user 'DM Functional Test Supplier User 2' is 'not active'
+  And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to activate a deactivated supplier user
+  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  When I click the 'Activate' button for the supplier user 'DM Functional Test Supplier User 2'
+  Then The supplier user 'DM Functional Test Supplier User 2' is 'active'
+  And The supplier user 'DM Functional Test Supplier User 2' 'can' login to Digital Marketplace
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish unlock a locked supplier
+  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  When I click the 'Unlock' button for the supplier user 'DM Functional Test Supplier User 3'
+  Then The supplier user 'DM Functional Test Supplier User 3' is 'not locked'
+  And The supplier user 'DM Functional Test Supplier User 3' 'can' login to Digital Marketplace

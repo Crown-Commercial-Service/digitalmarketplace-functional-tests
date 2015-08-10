@@ -3,8 +3,9 @@ Feature: Supplier user journey through Digital Marketplace
 
 Scenario: Setup for tests
   Given I have a test supplier
-  And The test supplier has a user
+  And The test supplier has multiple users
   And The test supplier has multiple services
+  And Test supplier users are active
 
 Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Supplier' login page
@@ -21,7 +22,7 @@ Scenario: As a logged in supplier user, I can navigate to the service listings p
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'View'
   Then I am presented with the 'DM Functional Test Supplier' supplier current services page
-  And I can see all my listings ordered by lot name followed by listing name
+  And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As a logged in supplier user, I can select a listing and be presented with the listings page
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
@@ -87,3 +88,8 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And The status of the service is presented as 'Public' on the admin users service summary page
   And The service 'can' be searched
   And The service details page 'can' be viewed
+
+Scenario: Supplier user has 5 failed login attempts and is locked. Login is not allowed unless admin unlocks the user
+  Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts
+  Then The supplier user 'DM Functional Test Supplier User 3' lock state is locked on the admin Users page
+  And The supplier user 'DM Functional Test Supplier User 3' 'can not' login to Digital Marketplace
