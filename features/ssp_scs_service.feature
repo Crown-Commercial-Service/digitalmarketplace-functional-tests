@@ -7,15 +7,16 @@ Feature: Submitting a new service for SCS
     Given I am on the 'Supplier' login page
     When I login as a 'Supplier' user
     Then I should be on the supplier home page
-    
+
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Apply to become a G-Cloud 7 supplier and add services'
+    And I click 'Add services'
     And I click 'Add a service'
     When I choose 'Specialist Cloud Services (SCS)'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
-    
+
   Scenario: Provide a service description
     Given I am on ssp page 'service_description'
     When I fill in 'serviceName' with 'My SCS service name'
@@ -25,7 +26,7 @@ Feature: Submitting a new service for SCS
       """
     And I click 'Save and continue'
     Then I should be on the 'Service type' page
-    
+
   Scenario: Select a service type
     Given I am on ssp page 'service_type'
     When I check 'Testing'
@@ -38,7 +39,7 @@ Feature: Submitting a new service for SCS
     And I fill in 'serviceBenefits-1' with 'Service benefits number one'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
-    
+
   Scenario: Pricing
     Given I am on ssp page 'pricing'
     When I fill in 'priceStringMinPrice' with '100'
@@ -49,7 +50,7 @@ Feature: Submitting a new service for SCS
     And I choose 'educationPricing-no'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions' page
-    
+
   Scenario: Terms and conditions
     Given I am on ssp page 'terms_and_conditions'
     When I choose 'terminationCost-no'
@@ -80,32 +81,32 @@ Feature: Submitting a new service for SCS
     When I fill in 'vendorCertifications-1' with 'Vendor certification one provided.'
     And I click 'Save and continue'
     Then I should be on the 'Service definition' page
-    
+
   Scenario: Service definition document
     Given I am on ssp page 'service_definition'
     When I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions document' page
-    
+
   Scenario: Terms and conditions document
     Given I am on ssp page 'terms_and_conditions_document'
     When I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Pricing document' page
-    
+
   Scenario: Pricing document
     Given I am on ssp page 'pricing_document'
     When I choose file 'test.pdf' for 'pricingDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
-    
+
   Scenario: SFIA rate card document
     Given I am on ssp page 'sfia_rate_card'
     When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'My SCS service name' page
-  
-  # TODO: Remove WIP once completing services is implemented 
+
+  # TODO: Remove WIP once completing services is implemented
   @wip
   Scenario: The service is complete
     Given I am on the summary page
@@ -117,5 +118,5 @@ Feature: Submitting a new service for SCS
     Given I am on the summary page
     When I click 'Delete this service'
     And I click 'Yes, delete “My SCS service name”'
-    Then I should be on the g7 supplier dashboard page
+    Then I should be on the g7 services page
     And My service should not be in the list

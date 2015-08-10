@@ -21,6 +21,10 @@ Given /^I am at the g7 supplier dashboard page$/ do
   visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7"
 end
 
+Given /^I am at the g7 services page$/ do
+  visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/services"
+end
+
 Given /^I am on the summary page$/ do
   visit("#{dm_frontend_domain}/suppliers/submission/services/#{store.current_listing}")
 end
@@ -33,10 +37,10 @@ Given /^The service is deleted$/ do
   delete_url = dm_api_domain + "/draft-services/#{store.current_listing}"
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  
+
   response = RestClient::Request.execute(method: :delete, url: delete_url,
                               payload: UPDATER_JSON, headers: headers)
-  
+
   # response = RestClient.delete(url, UPDATER_JSON, headers){|response, request, result| response }  # Don't raise exceptions but return the response
   response.code.should == 200
 end
@@ -76,6 +80,10 @@ end
 
 Then /^I should be on the g7 supplier dashboard page$/ do
   URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7"
+end
+
+Then /^I should be on the g7 services page$/ do
+  URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7/services"
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|

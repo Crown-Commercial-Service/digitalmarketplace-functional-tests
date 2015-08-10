@@ -11,6 +11,7 @@ Feature: Submitting a new service for PaaS
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Apply to become a G-Cloud 7 supplier and add services'
+    And I click 'Add services'
     And I click 'Add a service'
     When I choose 'Platform as a Service (PaaS)'
     And I click 'Save and continue'
@@ -339,7 +340,7 @@ Feature: Submitting a new service for PaaS
     And I choose 'trainingProvided--assurance-1'
     And I click 'Save and continue'
     Then I should be on the 'Service definition' page
-    
+
   Scenario: Service definition document
     Given I am on ssp page 'service_definition'
     When I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
@@ -376,5 +377,5 @@ Feature: Submitting a new service for PaaS
     Given I am on the summary page
     When I click 'Delete this service'
     And I click 'Yes, delete “My PaaS service”'
-    Then I should be on the g7 supplier dashboard page
+    Then I should be on the g7 services page
     And My service should not be in the list

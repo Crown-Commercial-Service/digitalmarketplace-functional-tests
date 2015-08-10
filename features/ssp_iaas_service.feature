@@ -11,6 +11,7 @@ Feature: Submitting a new service for IaaS
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Apply to become a G-Cloud 7 supplier and add services'
+    And I click 'Add services'
     And I click 'Add a service'
     When I choose 'Infrastructure as a Service (IaaS)'
     And I click 'Save and continue'
@@ -39,7 +40,7 @@ Feature: Submitting a new service for IaaS
     And I fill in 'serviceBenefits-1' with 'Great superness'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
-    
+
   Scenario: Pricing
     Given I am on ssp page 'pricing'
     When I fill in 'priceStringMinPrice' with '100'
@@ -88,7 +89,7 @@ Feature: Submitting a new service for IaaS
     When I choose 'analyticsAvailable-no'
     And I click 'Save and continue'
     Then I should be on the 'Cloud features' page
-    
+
   Scenario: Cloud features
     Given I am on ssp page 'cloud_features'
     When I choose 'elasticCloud-yes'
@@ -365,7 +366,7 @@ Feature: Submitting a new service for IaaS
     When I choose file 'test.pdf' for 'pricingDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
-    
+
   Scenario: SFIA rate card document
     Given I am on ssp page 'sfia_rate_card'
     When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
@@ -485,5 +486,5 @@ Feature: Submitting a new service for IaaS
     Given I am on the summary page
     When I click 'Delete this service'
     And I click 'Yes, delete “My IaaS service”'
-    Then I should be on the g7 supplier dashboard page
+    Then I should be on the g7 services page
     And My service should not be in the list

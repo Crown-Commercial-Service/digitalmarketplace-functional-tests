@@ -11,6 +11,7 @@ Feature: Submitting a new service for SaaS
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Apply to become a G-Cloud 7 supplier and add services'
+    And I click 'Add services'
     And I click 'Add a service'
     When I choose 'Software as a Service (SaaS)'
     And I click 'Save and continue'
@@ -31,7 +32,7 @@ Feature: Submitting a new service for SaaS
     When I check 'Creative and design'
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
-    
+
   Scenario: Features and benefits
     Given I am on ssp page 'features_and_benefits'
     When I fill in 'serviceFeatures-1' with 'Great superness'
@@ -361,12 +362,11 @@ Feature: Submitting a new service for SaaS
     Given I am on the summary page
     Then The string 'Answer required' should not be on the page
     And The string 'The service is complete' should be on the page
-    
+
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete this service'
     And I click 'Yes, delete “My SaaS service”'
-    Then I should be on the g7 supplier dashboard page
+    Then I should be on the g7 services page
     And My service should not be in the list
-    
