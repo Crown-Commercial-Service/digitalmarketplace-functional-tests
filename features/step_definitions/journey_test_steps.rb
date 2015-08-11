@@ -307,14 +307,11 @@ And /I set '(.*)' as '(.*)'$/ do |field_to_change,new_value|
 end
 
 And /I choose '(.*)' for '(.*)'$/ do |new_value,field_to_change|
-  if field_to_change == 'minimumContractPeriod'
-    find(
-      :xpath,
-      "//*[contains(@name, '#{field_to_change}') and contains(@value, '#{new_value}')]"
-    ).click
-  else
-    choose("#{field_to_change}-#{new_value.downcase}")
-  end
+  find(
+    :xpath,
+    "//*[contains(@name, '#{field_to_change}') and contains(../text(), '#{new_value}')]"
+  ).click
+  @changed_fields = @changed_fields || Hash.new
   @changed_fields[field_to_change] = new_value
 end
 

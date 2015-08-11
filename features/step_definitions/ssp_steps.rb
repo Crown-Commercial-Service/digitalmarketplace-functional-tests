@@ -50,10 +50,6 @@ When /^I click my service$/ do
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
 end
 
-When /^I choose '(.*)'$/ do |label|
-  choose label
-end
-
 When /^I check '(.*)'$/ do |label|
   check label
 end
