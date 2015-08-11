@@ -143,7 +143,7 @@ Feature: Submitting a new service for PaaS
 
   @listing_page
   Scenario: Go to listing page and the service is not complete
-    Given I am at the g7 supplier dashboard page
+    Given I am at the g7 services page
     When I click my service
     Then I should be on the 'My PaaS service' page
     And The string 'Answer required' should be on the page
