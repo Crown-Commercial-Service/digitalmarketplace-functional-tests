@@ -912,10 +912,10 @@ Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_n
 end
 
 Then /I am on a page with '(.*)' in search summary text$/ do |value|
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
+
   query_string = CGI.escape value
   current_url.should include("q=#{query_string}")
-
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
 Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
@@ -971,7 +971,7 @@ Then /I am taken to the search results page with a result for the service '(.*)'
 end
 
 Then /I am on a page with that service in search results$/ do
-  search_results = all(:xpath, ".//div[@class='search-result']")
+  search_results = all(:xpath, ".//div[@class='search-result']", minimum: 1)
   service_result = search_results.find { |r| r.first(:xpath, './h2/a')[:href].include? @service['id']}
 
   service_result.first(:xpath, "./h2[@class='search-result-title']/a").text.should == normalize_whitespace(@service['serviceName'])
