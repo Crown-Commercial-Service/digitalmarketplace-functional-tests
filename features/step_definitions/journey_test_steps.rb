@@ -381,7 +381,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
   ).text().should have_content(@changed_fields['contact_website'])
   find(
     :xpath,
-    "//*/table[2]/*[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_email'])
   find(
     :xpath,
