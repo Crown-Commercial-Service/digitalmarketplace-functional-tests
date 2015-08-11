@@ -1,4 +1,4 @@
-@not-production @functional-test
+@not-production @functional-test @ssp
 Feature: Submitting a new service for SCS
   In order to submit my services as a supplier user
   I want to answer questions about my service
