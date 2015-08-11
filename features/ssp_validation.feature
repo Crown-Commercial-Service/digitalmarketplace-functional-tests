@@ -4,7 +4,7 @@
 #                                                                               #
 #################################################################################
 
-@wip
+@wip @ssp
 Feature: Page validation
 
   Scenario: Select lot

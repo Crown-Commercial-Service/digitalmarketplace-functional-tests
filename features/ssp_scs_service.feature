@@ -13,7 +13,7 @@ Feature: Submitting a new service for SCS
     When I click 'Apply to become a G-Cloud 7 supplier and add services'
     And I click 'Add services'
     And I click 'Add a service'
-    When I choose 'Specialist Cloud Services (SCS)'
+    When I choose 'Specialist Cloud Services (SCS)' for 'lot'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
@@ -46,15 +46,15 @@ Feature: Submitting a new service for SCS
     And I fill in 'priceStringMaxPrice' with '1000'
     And I select 'Unit' from 'priceStringUnit'
     And I select 'Second' from 'priceStringInterval'
-    And I choose 'vatIncluded-yes'
-    And I choose 'educationPricing-no'
+    And I choose 'Yes' for 'vatIncluded'
+    And I choose 'No' for 'educationPricing'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions' page
 
   Scenario: Terms and conditions
     Given I am on ssp page 'terms_and_conditions'
-    When I choose 'terminationCost-no'
-    And I choose 'minimumContractPeriod-3'
+    When I choose 'No' for 'terminationCost'
+    And I choose 'Month' for 'minimumContractPeriod'
     And I click 'Save and continue'
     Then I should be on the 'Support' page
 
@@ -69,10 +69,10 @@ Feature: Submitting a new service for SCS
   Scenario: Support
     Given I am on ssp page 'support'
     When I check 'supportTypes-1'
-    And I choose 'supportForThirdParties-yes'
+    And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7 365 days'
     And I fill in 'supportResponseTime' with 'Within 1 hour'
-    And I choose 'incidentEscalation-yes'
+    And I choose 'Yes' for 'incidentEscalation'
     And I click 'Save and continue'
     Then I should be on the 'Certifications' page
 
