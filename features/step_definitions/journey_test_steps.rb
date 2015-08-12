@@ -5,10 +5,11 @@ require "rest_client"
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
+    page.should have_content("#{user_type} login")
   elsif user_type == 'Supplier'
     visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
+    page.should have_content('Log in to the Digital Marketplace')
   end
-  page.should have_content("#{user_type}" ' login')
   page.should have_content('Email address')
   page.should have_content('Password')
   page.has_button?('Log in')
@@ -222,10 +223,10 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
     page.should have_content('You have been logged out')
     page.should have_content('Email address')
   elsif user_type == 'Supplier'
-    page.should have_content("#{user_type}" ' login')
+    page.should have_content("#{user_type} login")
     page.should have_content('Email address')
   end
-  page.should have_content("#{user_type}" ' login')
+  page.should have_content("#{user_type} login")
   page.should have_content('Password')
   page.has_button?('Log in')
 end
@@ -403,6 +404,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
 end
 
 Then /I am presented with the summary page with the changes that were made to the '(.*)'$/ do |service_aspect|
+  page.should have_selector(:xpath, "//h2[@class='summary-item-heading'][contains(text(), '#{service_aspect}')]")
   if service_aspect == 'Description'
     page.should have_content(@changed_fields['serviceName'])
     page.should have_content(@changed_fields['serviceSummary'])
@@ -589,6 +591,7 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Current services')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Contributors')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'G-Cloud 6')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '8 services')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Supplier summary')]")
@@ -611,6 +614,12 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'London')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'United Kingdom')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'WC2B 6NH')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 1')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username2@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 3')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username3@dmtestemail.com')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-body']/caption[contains(text(), 'Account information')]/following-sibling::*[2]//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
 end
@@ -1111,4 +1120,20 @@ end
 Then /The supplier user '(.*)' lock state is locked on the admin Users page$/ do |user_name|
   step "I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'"
   find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'unlock')]/../*//button[text()]").text().should match('Unlock')
+end
+
+And /The supplier user '(.*)' '(.*)' listed as a contributor on the dashboard of another user of the same supplier$/ do |user_name,value|
+ step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+
+  if value == 'is not'
+    page.should have_no_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
+    page.should have_no_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username2@dmtestemail.com')]")
+  elsif value == 'is'
+    page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
+    page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username2@dmtestemail.com')]")
+  end
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 1')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 3')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username3@dmtestemail.com')]")
 end
