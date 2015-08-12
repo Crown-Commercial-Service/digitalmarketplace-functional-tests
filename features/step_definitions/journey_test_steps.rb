@@ -5,7 +5,7 @@ require "rest_client"
 Given /I am on the '(.*)' login page$/ do |user_type|
   if user_type == 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
-    page.should have_content("#{user_type}" ' login')
+    page.should have_content("#{user_type} login")
   elsif user_type == 'Supplier'
     visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
     page.should have_content('Log in to the Digital Marketplace')
@@ -223,10 +223,10 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
     page.should have_content('You have been logged out')
     page.should have_content('Email address')
   elsif user_type == 'Supplier'
-    page.should have_content("#{user_type}" ' login')
+    page.should have_content("#{user_type} login")
     page.should have_content('Email address')
   end
-  page.should have_content("#{user_type}" ' login')
+  page.should have_content("#{user_type} login")
   page.should have_content('Password')
   page.has_button?('Log in')
 end
