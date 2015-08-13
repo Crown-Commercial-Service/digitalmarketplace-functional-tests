@@ -48,7 +48,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 end
 
-Then /I am presented with the '(.*)' page$/ do |page_name|
+Then /I am presented with the admin '(.*)' page$/ do |page_name|
   page.should have_content(page_name)
   page.should have_content('Log out')
   page.should have_content('Find a service by service ID')
@@ -356,7 +356,6 @@ And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
 end
 
 Then /I am presented with the dashboard page with the changes that were made to the '(.*)'$/ do |service_aspect|
-  current_url.should end_with(@existing_values['summarypageurl'])
 
   find(
     :xpath,
@@ -587,7 +586,7 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings pag
   steps %Q{
     Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
     When I click 'View'
-    Then I am presented with the '#{supplier_name}' supplier current services page
+    Then I am presented with the supplier '#{supplier_name}' 'Current services' page
   }
 end
 
@@ -628,12 +627,38 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
 end
 
-Then /I am presented with the '(.*)' supplier current services page$/ do |supplier_name|
-  page.should have_content('Current services')
-  page.should have_content('Log out')
-  current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
+Then /I am presented with the supplier '(.*)' '(.*)' page$/ do |supplier_name, page_name|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Your account')]")
+  page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
+
+  if page_name == 'Current services'
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/services")
+  elsif page_name == 'Add or remove contributors'
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/users")
+  end
+
+end
+
+When /I remove the supplier user '(.*)'$/ do |user_name|
+  page.first(:xpath, ".//td[@class='summary-item-field-first']//*[contains(text(), '#{user_name}')]/../../td[@class='summary-item-field-with-action']//button").click
+end
+
+Then /I see a confirmation message after having removed supplier user '(.*)'$/ do |user_name|
+  step "I am presented with the message '#{user_name}'"
+  step "I am presented with the message 'has been removed as a contributor.'"
+end
+
+And /I should not see the supplier user '(.*)' on the supplier dashboard page$/ do |user_name|
+  steps %Q{
+    Given I click the 'Your account' link
+    Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page
+    And I should not see the supplier user '#{user_name}' in the 'Contributors' table
+    }
+end
+
+And /I should not see the supplier user '(.*)' in the '(.*)' table$/ do |user_name,summary_table_name|
+    page.should_not have_selector(:xpath, "//caption[contains(text(), '#{summary_table_name}')]/..//td/span[contains(text(), '#{user_name}')]")
 end
 
 Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_name,supplier_name|
@@ -654,6 +679,20 @@ And /I can see all listings ordered by lot name followed by listing name$/ do
   service_listed_and_in_correct_order("1123456789012349","7")
   service_listed_and_in_correct_order("1123456789012353","8")
   page.should have_no_selector(:xpath, "*//table/tbody/tr[9][td/text()]")
+end
+
+Then /I can see active users associated with '(.*)' on the dashboard$/ do |supplier_name|
+  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Contributors')]")
+  ['Name', 'Email address'].each do |header|
+    page.should have_selector(:xpath, "//caption[contains(text(), 'Contributors')]/..//th/span[contains(text(), '#{header}')]")
+  end
+  [
+    'DM Functional Test Supplier User 1', 'testing.supplier.username@dmtestemail.com',
+    'DM Functional Test Supplier User 2', 'testing.supplier.username2@dmtestemail.com',
+    'DM Functional Test Supplier User 3', 'testing.supplier.username3@dmtestemail.com'
+    ].each do |cell|
+    page.should have_selector(:xpath, "//caption[contains(text(), 'Contributors')]/..//td/span[contains(text(), '#{cell}')]")
+  end
 end
 
 def service_listed_and_in_correct_order (service_id,order_number)
@@ -940,10 +979,10 @@ Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_n
 end
 
 Then /I am on a page with '(.*)' in search summary text$/ do |value|
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
-
   query_string = CGI.escape value
   current_url.should include("q=#{query_string}")
+
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
 Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
@@ -999,7 +1038,7 @@ Then /I am taken to the search results page with a result for the service '(.*)'
 end
 
 Then /I am on a page with that service in search results$/ do
-  search_results = all(:xpath, ".//div[@class='search-result']", minimum: 1)
+  search_results = all(:xpath, ".//div[@class='search-result']")
   service_result = search_results.find { |r| r.first(:xpath, './h2/a')[:href].include? @service['id']}
 
   service_result.first(:xpath, "./h2[@class='search-result-title']/a").text.should == normalize_whitespace(@service['serviceName'])
@@ -1139,9 +1178,11 @@ Given /The supplier user '(.*)' has 5 failed login attempts$/ do |user_name|
   step "The user '#{user_name}' is locked"
 end
 
-Then /The supplier user '(.*)' lock state is locked on the admin Users page$/ do |user_name|
-  step "I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'"
-  find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'unlock')]/../*//button[text()]").text().should match('Unlock')
+Then /The supplier user '(.*)' is '(.*)' on the admin Users page$/ do |user_name, user_lockoractive_state|
+  steps %Q{
+    Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+    Then The supplier user '#{user_name}' is '#{user_lockoractive_state}'
+  }
 end
 
 And /The supplier user '(.*)' '(.*)' listed as a contributor on the dashboard of another user of the same supplier$/ do |user_name,value|
