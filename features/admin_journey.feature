@@ -30,7 +30,7 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
   Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
-  When I select the second listing on the page
+  When I select 'the' second listing on the page
   Then I am presented with the service page for that specific listing
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by supplier ID
@@ -140,3 +140,9 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish unlo
   When I click the 'Unlock' button for the supplier user 'DM Functional Test Supplier User 3'
   Then The supplier user 'DM Functional Test Supplier User 3' is 'not locked'
   And The supplier user 'DM Functional Test Supplier User 3' 'can' login to Digital Marketplace
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to send an invitation email to a new user
+  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  When I enter 'testing.supplier.username4@dmtestemail.com' in the 'email_address' field
+  And I click 'Send invitation'
+  Then I am presented with the message 'User invited'
