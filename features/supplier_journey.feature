@@ -24,14 +24,14 @@ Scenario: As a logged in supplier user, I can navigate to the service listings p
   Then I am presented with the 'DM Functional Test Supplier' supplier current services page
   And I can see all listings ordered by lot name followed by listing name
 
-Scenario: As a logged in supplier user, I can select a listing and be presented with the listings page
+Scenario: As a logged in supplier user, I can view the listings page of a specific service
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
-  When I select the second listing on the page
+  When I select 'view service for the' second listing on the page
   Then I am presented with the service page for that specific listing
 
 Scenario: As a logged in supplier user, I can navigate to the service summary page for a specific service
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
-  When I click Edit for the service '1123456789012346'
+  When I select 'the' second listing on the page
   Then I am presented with the summary page for that service
 
 Scenario: As a logged in supplier user, I can edit my supplier information

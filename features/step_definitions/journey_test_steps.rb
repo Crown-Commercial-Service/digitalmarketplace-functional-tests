@@ -83,6 +83,8 @@ Then /I am presented with the summary page for that service$/ do
   @existing_values['summarypageurl'] = current_url
   servicename = find(:xpath, "//h1").text()
   @existing_values['servicename'] = servicename
+  serviceid = URI.parse(current_url).to_s.split('services/').last
+  @existing_values['serviceid'] = serviceid
 
   if current_url.include?('suppliers')
     servicestatus = find(
@@ -188,7 +190,7 @@ Then /I am presented with the summary page for that service$/ do
   @existing_values['servicefeature3'] = servicefeature3
   @existing_values['servicebenefits2'] = servicebenefits2
 
-  current_url.should have_content(@serviceID)
+  current_url.should have_content(@existing_values['serviceid'])
   page.should have_content('Service attributes')
   page.should have_content('Description')
   page.should have_content('Features and benefits')
@@ -202,6 +204,7 @@ Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
 end
 
 Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
+  @servicesupplierID = value
   if user_type == 'Administrator'
     steps %Q{
       Given I have logged in to Digital Marketplace as a '#{user_type}' user
@@ -210,11 +213,12 @@ Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do
       Then I am presented with the summary page for that service
     }
   elsif user_type == 'Supplier'
-    steps %Q{
-      Given I am logged in as a 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page
-      When I click Edit for the service '#{value}'
-      Then I am presented with the summary page for that service
-    }
+    step "I am logged in as a 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page"
+    find(
+      :xpath,
+      ".//a[contains(@href, '/suppliers/services/#{value}')]"
+    ).click
+    step "I am presented with the summary page for that service"
   end
 end
 
@@ -240,7 +244,7 @@ Given /I click the '(.*)' link for '(.*)'$/ do |action,service_aspect|
   else
     find(
       :xpath,
-      "//a[contains(@href , '/services/#{@servicesupplierID.downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
+      "//a[contains(@href , '/services/#{@existing_values['serviceid'].downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
     ).click
   end
 end
@@ -674,6 +678,27 @@ def service_listed_and_in_correct_order (service_id,order_number)
   end
 end
 
+When /I select '(.*)' second listing on the page$/ do |value|
+  @data_store = @data_store || Hash.new
+
+  servicename = find(
+    :xpath,
+    "//*/table/tbody/tr[2]/td[1]/span/a"
+  ).text()
+  @data_store['servicename'] = servicename
+
+  if value == 'the'
+    page.click_link_or_button(@data_store['servicename'])
+  elsif value == 'view service for the'
+    find(
+      :xpath,
+      "//*/table/tbody/tr[2]/td[4]/span/a[contains(text(),'View service')]"
+    ).click
+  end
+  serviceid = URI.parse(current_url).to_s.split('services/').last
+  @data_store['serviceid'] = serviceid
+end
+
 When /I select the second listing on the page$/ do
   @data_store = @data_store || Hash.new
 
@@ -689,8 +714,8 @@ When /I select the second listing on the page$/ do
 end
 
 Then /I am presented with the service page for that specific listing$/ do
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
   page.should have_content(@data_store['servicename'])
+  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
 end
 
 When /I select '(.*)' as the service status$/ do |service_status|
@@ -709,10 +734,16 @@ end
 
 Then /The service status is set as '(.*)'$/ do |service_status|
   if current_url.include?('suppliers')
-    find(
-      :xpath,
-      "//a[contains(text(), '#{@existing_values['servicename']}')]/../../..//td/*/span"
-    ).text().should have_content(service_status)
+    if service_status == 'Public'
+      find(:xpath,
+        "//a[contains(@href, '/services/#{@servicesupplierID}')]/../../../td[4]/span/a[text()]"
+      ).text().should have_content('View service')
+    else
+      find(
+        :xpath,
+        "//a[contains(text(), '#{@existing_values['servicename']}')]/../../..//td/*/span"
+      ).text().should have_content(service_status)
+    end
   elsif current_url.include?('admin')
     find(
       :xpath,
@@ -728,14 +759,19 @@ end
 Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
 
-  find(:xpath,
-    "//a[contains(@href, '/g-cloud/services/#{@servicesupplierID}')]/../../../td[contains(@class, 'summary-item-field')]/span/span[contains(@class, 'service-status-')][text()]"
-  ).text().should have_content("#{service_status}")
+  if service_status == 'Public'
+    find(:xpath,
+      "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[4]/span/a[text()]"
+    ).text().should have_content('View service')
+  else
+    find(:xpath,
+      "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[contains(@class, 'summary-item-field')]/span/span[contains(@class, 'service-status-')][text()]"
+    ).text().should have_content("#{service_status}")
+  end
 end
 
 Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
   step "Given I am logged in as a 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
-
   find(
     :xpath,
     "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
