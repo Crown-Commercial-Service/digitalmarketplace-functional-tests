@@ -699,20 +699,6 @@ When /I select '(.*)' second listing on the page$/ do |value|
   @data_store['serviceid'] = serviceid
 end
 
-When /I select the second listing on the page$/ do
-  @data_store = @data_store || Hash.new
-
-  servicename = find(
-    :xpath,
-    "//*/table/tbody/tr[2]/td[1]/span/a"
-  ).text()
-  @data_store['servicename'] = servicename
-
-  page.click_link_or_button(@data_store['servicename'])
-  serviceid = URI.parse(current_url).to_s.split('services/').last
-  @data_store['serviceid'] = serviceid
-end
-
 Then /I am presented with the service page for that specific listing$/ do
   page.should have_content(@data_store['servicename'])
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
