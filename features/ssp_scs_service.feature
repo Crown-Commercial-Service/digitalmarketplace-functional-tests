@@ -10,17 +10,22 @@ Feature: Submitting a new service for SCS
 
   Scenario: Select lot
     Given I am at '/suppliers'
-    When I click 'Apply to become a G-Cloud 7 supplier and add services'
+    When I click 'Continue your G-Cloud 7 application'
     And I click 'Add services'
     And I click 'Add a service'
     When I choose 'Specialist Cloud Services (SCS)' for 'lot'
+    And I click 'Save and continue'
+    Then I should be on the 'Service name' page
+
+  Scenario: Provide a service name
+    Given I am on ssp page 'service_name'
+    When I fill in 'serviceName' with 'My SCS service name'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
   Scenario: Provide a service description
     Given I am on ssp page 'service_description'
-    When I fill in 'serviceName' with 'My SCS service name'
-    And I fill in 'serviceSummary' with:
+    When I fill in 'serviceSummary' with:
       """
       Service summary for my SCS service that does stuff with stuff.
       """
