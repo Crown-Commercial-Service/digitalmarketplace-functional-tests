@@ -10,17 +10,22 @@ Feature: Submitting a new service for PaaS
 
   Scenario: Select lot
     Given I am at '/suppliers'
-    When I click 'Apply to become a G-Cloud 7 supplier and add services'
+    When I click 'Continue your G-Cloud 7 application'
     And I click 'Add services'
     And I click 'Add a service'
     When I choose 'Platform as a Service (PaaS)' for 'lot'
+    And I click 'Save and continue'
+    Then I should be on the 'Service name' page
+
+  Scenario: Provide a service name
+    Given I am on ssp page 'service_name'
+    When I fill in 'serviceName' with 'My PaaS service'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
   Scenario: Provide a service description
     Given I am on ssp page 'service_description'
-    When I fill in 'serviceName' with 'My PaaS service'
-    And I fill in 'serviceSummary' with:
+    When I fill in 'serviceSummary' with:
       """
       Platform as a service (PaaS) is a category of cloud computing services that provides a computing platform and a solution stack as a service.
       """
