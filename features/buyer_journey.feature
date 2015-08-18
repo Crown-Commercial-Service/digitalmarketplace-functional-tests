@@ -2,8 +2,8 @@
 Feature: Buyer user journey through Digital Marketplace
 
 Scenario: Setup for tests
-  Given I have a test supplier
-  And The test supplier has a service
+  Given I have test suppliers
+  And The test suppliers have services
 
 Scenario: User is able to navigate from the digital marketplace landing page to the g-cloud landing page
   Given I am on the 'Digital Marketplace' landing page
@@ -94,3 +94,5 @@ Scenario: User is able to navigate to service listing page via selecting the ser
   Given I am on the search results page with results for 'Platform as a Service' lot displayed
   When I click the first record in the list of results returned
   Then I am taken to the service listing page of that specific record selected
+
+Scenario: User is able to find a specific supplier via G-Cloud supplier A-Z
