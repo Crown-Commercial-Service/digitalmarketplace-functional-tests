@@ -333,7 +333,7 @@ And /I remove client number 2$/ do
     :xpath,
     "//*[contains(@id, 'clients-2')]"
   ).value()
-  find(:xpath, ".//*[@name='input-clients']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
+  find(:xpath, ".//*[@id='list-entry-clients']//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
 end
 
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
