@@ -2,9 +2,9 @@
 Feature: Supplier user journey through Digital Marketplace
 
 Scenario: Setup for tests
-  Given I have a test supplier
-  And The test supplier has multiple users
-  And The test supplier has multiple services
+  Given I have test suppliers
+  And The test suppliers have users
+  And The test suppliers have services
   And Test supplier users are active
 
 Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace

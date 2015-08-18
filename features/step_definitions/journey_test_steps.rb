@@ -325,7 +325,7 @@ And /I remove service benefit number 2$/ do
     :xpath,
     "//*[contains(@id, 'serviceBenefits-2')]"
   ).value()
-  find(:xpath, ".//*[@name='serviceBenefits']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
+  find(:xpath, ".//*[@id='serviceBenefits']//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
 end
 
 And /I remove client number 2$/ do
@@ -333,7 +333,7 @@ And /I remove client number 2$/ do
     :xpath,
     "//*[contains(@id, 'clients-2')]"
   ).value()
-  find(:xpath, ".//*[@name='clients']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
+  find(:xpath, ".//*[@name='input-clients']/..//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
 end
 
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
@@ -356,7 +356,6 @@ And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
 end
 
 Then /I am presented with the dashboard page with the changes that were made to the '(.*)'$/ do |service_aspect|
-
   find(
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Supplier summary')]/../../td[2]/span"
@@ -370,7 +369,6 @@ Then /I am presented with the dashboard page with the changes that were made to 
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[3]"
   ).text().should have_content(@changed_fields['clients'])
-
   find(
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Contact name')]/../../td[2]/span"
@@ -387,7 +385,6 @@ Then /I am presented with the dashboard page with the changes that were made to 
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Phone number')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_phoneNumber'])
-
   find(
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"

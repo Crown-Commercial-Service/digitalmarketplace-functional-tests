@@ -2,9 +2,9 @@
 Feature: Admin user journey through Digital Marketplace
 
 Scenario: Setup for tests
-  Given I have a test supplier
-  And The test supplier has a service
-  And The test supplier has multiple users
+  Given I have test suppliers
+  And The test suppliers have users
+  And The test suppliers have services
   And Test supplier users are active
   And The user 'DM Functional Test Supplier User 3' is locked
 
