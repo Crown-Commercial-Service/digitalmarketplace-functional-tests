@@ -4,6 +4,7 @@ Feature: Buyer user journey through Digital Marketplace
 Scenario: Setup for tests
   Given I have test suppliers
   And The test suppliers have services
+  And All services for the test suppliers are Public
 
 Scenario: User is able to navigate from the digital marketplace landing page to the g-cloud landing page
   Given I am on the 'Digital Marketplace' landing page
@@ -95,4 +96,36 @@ Scenario: User is able to navigate to service listing page via selecting the ser
   When I click the first record in the list of results returned
   Then I am taken to the service listing page of that specific record selected
 
-Scenario: User is able to find a specific supplier via G-Cloud supplier A-Z
+Scenario: User is able to find a specific supplier via G-Cloud supplier A-Z when status of all services for that supplier are PUBLIC
+  Given I am on the G-Cloud supplier A-Z page
+  When I click the 'D' link
+  Then I am on the list of 'Suppliers starting with D' page
+  And The supplier 'DM Functional Test Supplier 2' is 'listed' on the page
+
+Scenario: User is able to navigate to the supplier information page of a specific supplier
+  Given I navigate to the list of 'Suppliers starting with D' page
+  When The supplier 'DM Functional Test Supplier 2' is 'listed' on the page
+  Then I click the 'DM Functional Test Supplier 2' link
+  And I am taken to the 'DM Functional Test Supplier 2' supplier information page
+
+Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of all services for that supplier are REMOVED
+  Given All services associated with supplier with ID '11112' have a status of 'Removed'
+  When I navigate to the list of 'Suppliers starting with D' page
+  Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
+
+Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of all services for that supplier are PRIVATE
+  Given All services associated with supplier with ID '11112' have a status of 'Private'
+  When I navigate to the list of 'Suppliers starting with D' page
+  Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
+
+Scenario: There is pagination on the list of suppliers page if there are more than 100 results
+  Given I navigate to the list of 'Suppliers starting with A' page
+  When I click the 'Next page' link
+  Then I am taken to page '2' of results
+
+  When I click the 'Previous page' link
+  Then I am taken to page '1' of results
+
+Scenario: There is no pagination on the list of suppliers page if there is less than or equal to 100 results
+  Given I navigate to the list of 'Suppliers starting with D' page
+  Then Pagination is 'not available'

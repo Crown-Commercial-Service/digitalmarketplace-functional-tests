@@ -72,7 +72,7 @@ Scenario: As an admin user I wish to edit the pricing of a service
 
 Scenario: As an admin user I wish to change a document for a service. Service selected via supplier ID search.
   Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
-  When I click Edit for the service '1123456789012346'
+  When I click the 'Edit' link for the service '1123456789012346'
   Then I am presented with the summary page for that service
   When I navigate to the 'edit' 'Documents' page
   And I change 'serviceDefinitionDocumentURL' file to '12345-test-new-service-definition-document.pdf'
