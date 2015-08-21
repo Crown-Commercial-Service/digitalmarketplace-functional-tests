@@ -4,7 +4,7 @@ require "rest_client"
 require "json"
 require "test/unit"
 
-def create_supplier (supplier_id, supplier_name, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
+def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
   file = File.read("./fixtures/test-supplier.json")
   json = JSON.parse(file)
 
@@ -15,6 +15,7 @@ def create_supplier (supplier_id, supplier_name, supplier_contactName, supplier_
   supplier_data = JSON.parse(file)
   supplier_data ["suppliers"]["id"] = supplier_id
   supplier_data ["suppliers"]["name"] = supplier_name
+  supplier_data ["suppliers"]["description"] = supplier_description
   supplier_data ["suppliers"]["contactInformation"][0]["contactName"] = supplier_contactName
   supplier_data ["suppliers"]["contactInformation"][0]["email"] = supplier_email
   supplier_data ["suppliers"]["contactInformation"][0]["postcode"] = supplier_postcode
@@ -36,8 +37,8 @@ def create_supplier (supplier_id, supplier_name, supplier_contactName, supplier_
 end
 
 Given /^I have test suppliers$/ do
-  create_supplier(11111,"DM Functional Test Supplier", "Testing Supplier Name", "Testing.supplier.NaMe@DMtestemail.com", "WC2B 6NH", "930123456789")
-  create_supplier(11112,"DM Functional Test Supplier 2","Testing Supplier 2 Name", "Testing.supplier.2.NaMe@DMtestemail.com", "WB1B 5QH", "931123456789")
+  create_supplier(11111,"DM Functional Test Supplier","This is a test supplier, which will be used solely for the purpose of running functional test.","Testing Supplier Name","Testing.supplier.NaMe@DMtestemail.com","WC2B 6NH","930123456789")
+  create_supplier(11112,"DM Functional Test Supplier 2","Second test supplier solely for use in functional tests.","Testing Supplier 2 Name","Testing.supplier.2.NaMe@DMtestemail.com","WB1B 5QH","931123456789")
 end
 
 def create_service (supplier_id, service_id, lot)
@@ -133,4 +134,44 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
     click_link_or_button('Log in')
     failedlogincount += 1
   end
+end
+
+def update_and_check_status (service_status)
+  page.find(:xpath,"//*[contains(@name, 'status') and contains(@value, '#{service_status.downcase}')]").click
+  steps %Q{
+    And I click the 'Update status' button
+    Then The service status is set as '#{service_status}'
+    And I am presented with the message 'Service status has been updated to: #{service_status}'
+  }
+  current_service_status = page.find(
+    :xpath,
+    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+  ).text()
+end
+
+def service_status_public (service_id)
+  page.visit("#{dm_frontend_domain}/admin/services/#{service_id}")
+  page.should have_content('Service status')
+  current_service_status = ''
+  while current_service_status != 'Public'
+    current_service_status = page.find(:xpath,"//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]").text()
+    if current_service_status == 'Removed'
+      update_and_check_status("Private")
+    elsif current_service_status == 'Private'
+      update_and_check_status("Public")
+    end
+  end
+end
+
+And /^All services for the test suppliers are Public$/ do
+  step "Given I have logged in to Digital Marketplace as a 'Administrator' user"
+  service_status_public("1123456789012346")
+  service_status_public("1123456789012347")
+  service_status_public("1123456789012348")
+  service_status_public("1123456789012349")
+  service_status_public("1123456789012350")
+  service_status_public("1123456789012351")
+  service_status_public("1123456789012352")
+  service_status_public("1123456789012353")
+  service_status_public("1123456789012354")
 end
