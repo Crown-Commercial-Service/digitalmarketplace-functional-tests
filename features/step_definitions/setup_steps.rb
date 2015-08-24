@@ -111,7 +111,10 @@ def activate_deactive_users (user_name)
 end
 
 And /^Test supplier users are active$/ do
-  step "Given I have logged in to Digital Marketplace as a 'Administrator' user"
+  steps %Q{
+    Given I have logged in to Digital Marketplace as a 'Administrator' user
+    Then I am presented with the admin 'Admin' page
+  }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
   activate_deactive_users("DM Functional Test Supplier User 2")
 end
@@ -164,7 +167,7 @@ def service_status_public (service_id)
 end
 
 And /^All services for the test suppliers are Public$/ do
-  step "Given I have logged in to Digital Marketplace as a 'Administrator' user"
+  step "I have logged in to Digital Marketplace as a 'Administrator' user"
   service_status_public("1123456789012346")
   service_status_public("1123456789012347")
   service_status_public("1123456789012348")
