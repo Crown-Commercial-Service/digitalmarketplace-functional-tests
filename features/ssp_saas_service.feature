@@ -40,17 +40,17 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Features and benefits
     Given I am on ssp page 'features_and_benefits'
-    When I fill in 'serviceFeatures-1' with 'Great superness'
-    And I fill in 'serviceBenefits-1' with 'Super greatness'
+    When I fill in 'input-serviceFeatures-1' with 'Great superness'
+    And I fill in 'input-serviceBenefits-1' with 'Super greatness'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
     Given I am on ssp page 'pricing'
-    When I fill in 'priceStringMinPrice' with '99'
-    And I fill in 'priceStringMaxPrice' with '100'
-    And I select 'Unit' from 'priceStringUnit'
-    And I select 'Second' from 'priceStringInterval'
+    When I fill in 'input-priceString-MinPrice' with '99'
+    And I fill in 'input-priceString-MaxPrice' with '100'
+    And I select 'Unit' from 'input-priceString-Unit'
+    And I select 'Second' from 'input-priceString-Interval'
     And I choose 'No' for 'vatIncluded'
     And I choose 'Yes' for 'educationPricing'
     And I choose 'Yes' for 'trialOption'
@@ -117,7 +117,7 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Code libraries
     Given I am on ssp page 'code_libraries'
-    When I fill in 'codeLibraryLanguages-1' with 'XSLT'
+    When I fill in 'input-codeLibraryLanguages-1' with 'XSLT'
     And I click 'Save and continue'
     Then I should be on the 'API Access' page
 
@@ -144,13 +144,13 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Certifications
     Given I am on ssp page 'certifications'
-    When I fill in 'vendorCertifications-1' with 'Stuff magic'
+    When I fill in 'input-vendorCertifications-1' with 'Stuff magic'
     And I click 'Save and continue'
     Then I should be on the 'Identity standards' page
 
   Scenario: Identity standards
     Given I am on ssp page 'identity_standards'
-    When I fill in 'identityStandards-1' with 'OAuth'
+    When I fill in 'input-identityStandards-1' with 'OAuth'
     And I click 'Save and continue'
     Then I should be on the 'Data storage' page
 
@@ -181,15 +181,15 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Asset protection and resilience
     Given I am on ssp page 'asset_protection_and_resilience'
-    When I check 'datacentreLocations-1'
+    When I check 'input-datacentreLocations-1'
     And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
-    And I check 'dataManagementLocations-1'
+    And I check 'input-dataManagementLocations-1'
     And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
     And I choose 'Service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
     And I choose 'Service provider assertion' for 'datacentreProtectionDisclosure--assurance'
-    And I check 'dataAtRestProtections-2'
+    And I check 'input-dataAtRestProtections-2'
     And I choose 'Service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
     And I choose 'Service provider assertion' for 'dataSecureDeletion--assurance'

@@ -127,3 +127,75 @@ Then /^Summary row '(.*)' should not be empty$/ do |question|
     "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
   ).text.should_not == ''
 end
+
+Then /I am on the '(.*)' page$/ do |page_name|
+  if page_name == 'Create suppllier account'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/create")
+    page.should have_link('www.dnb.co.uk/dandb-duns-number')
+    page.should have_link('beta.companieshouse.gov.uk/help/welcome')
+    page.should have_button('Start')
+  elsif page_name == 'DUNS number'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/duns-number")
+    page.should have_link('Find out how to get a DUNS number')
+    page.should have_button('Continue')
+  elsif page_name == 'Companies House number (optional)'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/companies-house-number")
+    page.should have_link('Visit Companies House to get your number')
+    page.should have_button('Continue')
+  elsif page_name == 'Company contact details'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-contact-details")
+    page.should have_field('contact_name')
+    page.should have_field('email_address')
+    page.should have_field('phone_number')
+    page.should have_button('Continue')
+  end
+end
+
+When /I submit a '(.*)' that is '(.*)'$/ do |field_name,value|
+  if field_name == 'DUNS number'
+    if value == 'not unique'
+      step "I enter '123456789' in the 'duns_number' field"
+    elsif value == 'unique'
+      step "I enter '000000001' in the 'duns_number' field"
+    end
+  elsif field_name == 'Companies House number'
+    if value == 'invalid'
+      step "I enter 'a@1234-' in the 'companies_house_number' field"
+    elsif value == 'valid'
+      step "I enter 'A0000001' in the 'companies_house_number' field"
+    end
+  elsif field_name == 'Company name'
+    if value == 'blank'
+      step "I enter '' in the 'company_name' field"
+    elsif value == 'valid'
+      step "I enter 'This is a test company name' in the 'company_name' field"
+    end
+  end
+  step "I click 'Continue'"
+end
+
+Then /I am presented with '(.*)' validation message$/ do |field_name|
+  if field_name == 'DUNS number'
+    steps %{
+      Then I am presented with the message 'A supplier account already exists with that #{field_name}'
+      And I am presented with the message 'If you no longer have your account details, or if you think this may be an error, please contact enquiries@digitalmarketplace.service.gov.uk'
+    }
+    page.should have_link('enquiries@digitalmarketplace.service.gov.uk')
+    step "I am presented with the message '#{field_name} already used'"
+  elsif field_name == 'Companies House number'
+    step "I am presented with the message '#{field_name}s must have 8 characters.'"
+  elsif field_name == 'company name'
+    step "I am presented with the message 'You must provide a #{field_name}.'"
+  elsif field_name == 'Company contact details'
+    steps %{
+      Then I am presented with the message 'There was a problem with the details you gave for:'
+      Then I am presented with the message 'You must provide a contact name.'
+      And I am presented with the message 'You must provide a email address.'
+      And I am presented with the message 'You must provide a phone number.'
+    }
+  end
+end

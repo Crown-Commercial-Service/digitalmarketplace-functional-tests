@@ -40,17 +40,17 @@ Feature: Submitting a new service for SCS
 
   Scenario: Features and benefits
     Given I am on ssp page 'features_and_benefits'
-    When I fill in 'serviceFeatures-1' with 'Service feature number one'
-    And I fill in 'serviceBenefits-1' with 'Service benefits number one'
+    When I fill in 'input-serviceFeatures-1' with 'Service feature number one'
+    And I fill in 'input-serviceBenefits-1' with 'Service benefits number one'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
     Given I am on ssp page 'pricing'
-    When I fill in 'priceStringMinPrice' with '100'
-    And I fill in 'priceStringMaxPrice' with '1000'
-    And I select 'Unit' from 'priceStringUnit'
-    And I select 'Second' from 'priceStringInterval'
+    When I fill in 'input-priceString-MinPrice' with '100'
+    And I fill in 'input-priceString-MaxPrice' with '1000'
+    And I select 'Unit' from 'input-priceString-Unit'
+    And I select 'Second' from 'input-priceString-Interval'
     And I choose 'Yes' for 'vatIncluded'
     And I choose 'No' for 'educationPricing'
     And I click 'Save and continue'
@@ -73,7 +73,7 @@ Feature: Submitting a new service for SCS
 
   Scenario: Support
     Given I am on ssp page 'support'
-    When I check 'supportTypes-1'
+    When I check 'input-supportTypes-1'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7 365 days'
     And I fill in 'supportResponseTime' with 'Within 1 hour'
@@ -83,7 +83,7 @@ Feature: Submitting a new service for SCS
 
   Scenario: Certifications
     Given I am on ssp page 'certifications'
-    When I fill in 'vendorCertifications-1' with 'Vendor certification one provided.'
+    When I fill in 'input-vendorCertifications-1' with 'Vendor certification one provided.'
     And I click 'Save and continue'
     Then I should be on the 'Service definition' page
 

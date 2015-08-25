@@ -40,17 +40,17 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Features and benefits
     Given I am on ssp page 'features_and_benefits'
-    When I fill in 'serviceFeatures-1' with 'Super greatness'
-    And I fill in 'serviceBenefits-1' with 'Great superness'
+    When I fill in 'input-serviceFeatures-1' with 'Super greatness'
+    And I fill in 'input-serviceBenefits-1' with 'Great superness'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
     Given I am on ssp page 'pricing'
-    When I fill in 'priceStringMinPrice' with '100'
-    And I fill in 'priceStringMaxPrice' with '1000'
-    And I select 'Unit' from 'priceStringUnit'
-    And I select 'Second' from 'priceStringInterval'
+    When I fill in 'input-priceString-MinPrice' with '100'
+    And I fill in 'input-priceString-MaxPrice' with '1000'
+    And I select 'Unit' from 'input-priceString-Unit'
+    And I select 'Second' from 'input-priceString-Interval'
     And I choose 'Yes' for 'vatIncluded'
     And I choose 'No' for 'educationPricing'
     And I choose 'Yes' for 'trialOption'
@@ -139,7 +139,7 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Certifications
     Given I am on ssp page 'certifications'
-    When I fill in 'vendorCertifications-1' with 'Stuff magic'
+    When I fill in 'input-vendorCertifications-1' with 'Stuff magic'
     And I click 'Save and continue'
     Then I should be on the 'Data storage' page
 
@@ -155,26 +155,26 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Data-in-transit protection
     Given I am on ssp page 'data_in_transit_protection'
-    When I check 'dataProtectionBetweenUserAndService-1'
+    When I check 'input-dataProtectionBetweenUserAndService-1'
     And I choose 'Independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
-    And I check 'dataProtectionWithinService-3'
+    And I check 'input-dataProtectionWithinService-3'
     And I choose 'Independent validation of assertion' for 'dataProtectionWithinService--assurance'
-    And I check 'dataProtectionBetweenServices-1'
+    And I check 'input-dataProtectionBetweenServices-1'
     And I choose 'CESG-assured components' for 'dataProtectionBetweenServices--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page
 
   Scenario: Asset protection and resilience
     Given I am on ssp page 'asset_protection_and_resilience'
-    When I check 'datacentreLocations-1'
+    When I check 'input-datacentreLocations-1'
     And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
-    And I check 'dataManagementLocations-1'
+    And I check 'input-dataManagementLocations-1'
     And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
     And I choose 'Service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
     And I choose 'Service provider assertion' for 'datacentreProtectionDisclosure--assurance'
-    And I check 'dataAtRestProtections-1'
+    And I check 'input-dataAtRestProtections-1'
     And I choose 'Service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
     And I choose 'Service provider assertion' for 'dataSecureDeletion--assurance'
@@ -423,7 +423,7 @@ Feature: Submitting a new service for IaaS
     And Summary row 'Offline working and syncing supported' should contain 'Yes'
     And Summary row 'Supported devices' should contain 'PC'
     And Summary row 'Vendor certification(s)' should contain 'Stuff magic'
-    And Summary row 'Datacentres adhere to EU Code of Conduct for Operations' should contain 'No'
+    And Summary row 'Datacentres adhere to the EU code of conduct for energy-efficient datacentres' should contain 'No'
     And Summary row 'User-defined data location' should contain 'Yes'
     And Summary row 'Datacentre tier' should contain 'Uptime Institute Tier 1'
     And Summary row 'Backup, disaster recovery and resilience plan in place' should contain 'Yes'

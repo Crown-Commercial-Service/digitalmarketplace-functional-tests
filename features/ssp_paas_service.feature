@@ -34,17 +34,17 @@ Feature: Submitting a new service for PaaS
 
   Scenario: Features and benefits
     Given I am on ssp page 'features_and_benefits'
-    When I fill in 'serviceFeatures-1' with 'Super greatness'
-    And I fill in 'serviceBenefits-1' with 'Great superness'
+    When I fill in 'input-serviceFeatures-1' with 'Super greatness'
+    And I fill in 'input-serviceBenefits-1' with 'Great superness'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
     Given I am on ssp page 'pricing'
-    When I fill in 'priceStringMinPrice' with '99'
-    And I fill in 'priceStringMaxPrice' with '100'
-    And I select 'Unit' from 'priceStringUnit'
-    And I select 'Second' from 'priceStringInterval'
+    When I fill in 'input-priceString-MinPrice' with '99'
+    And I fill in 'input-priceString-MaxPrice' with '100'
+    And I select 'Unit' from 'input-priceString-Unit'
+    And I select 'Second' from 'input-priceString-Interval'
     And I choose 'No' for 'vatIncluded'
     And I choose 'Yes' for 'educationPricing'
     And I choose 'Yes' for 'trialOption'
@@ -61,7 +61,7 @@ Feature: Submitting a new service for PaaS
 
   Scenario: Support
     Given I am on ssp page 'support'
-    When I check 'supportTypes-1'
+    When I check 'input-supportTypes-1'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7'
     And I fill in 'supportResponseTime' with '1 hour'
@@ -156,26 +156,26 @@ Feature: Submitting a new service for PaaS
 
   Scenario: Data-in-transit protection
     Given I am on ssp page 'data_in_transit_protection'
-    When I check 'dataProtectionBetweenUserAndService-1'
+    When I check 'input-dataProtectionBetweenUserAndService-1'
     And I choose 'Independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
-    And I check 'dataProtectionWithinService-3'
+    And I check 'input-dataProtectionWithinService-3'
     And I choose 'Independent validation of assertion' for 'dataProtectionWithinService--assurance'
-    And I check 'dataProtectionBetweenServices-1'
+    And I check 'input-dataProtectionBetweenServices-1'
     And I choose 'CESG-assured components' for 'dataProtectionBetweenServices--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page
 
   Scenario: Asset protection and resilience
     Given I am on ssp page 'asset_protection_and_resilience'
-    When I check 'datacentreLocations-1'
+    When I check 'input-datacentreLocations-1'
     And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
-    And I check 'dataManagementLocations-1'
+    And I check 'input-dataManagementLocations-1'
     And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
     And I choose 'Service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
     And I choose 'Service provider assertion' for 'datacentreProtectionDisclosure--assurance'
-    And I check 'dataAtRestProtections-1'
+    And I check 'input-dataAtRestProtections-1'
     And I choose 'Service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
     And I choose 'Service provider assertion' for 'dataSecureDeletion--assurance'
