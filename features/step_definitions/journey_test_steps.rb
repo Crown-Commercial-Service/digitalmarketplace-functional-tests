@@ -61,6 +61,8 @@ When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name
 end
 
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
+  @value_of_interest = @value_of_interest || Hash.new
+  @value_of_interest[field_name] = value
   page.fill_in(field_name, with: value)
   @servicesupplierID = value
 end

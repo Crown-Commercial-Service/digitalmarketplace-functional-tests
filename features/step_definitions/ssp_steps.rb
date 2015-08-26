@@ -152,50 +152,53 @@ Then /I am on the '(.*)' page$/ do |page_name|
     page.should have_field('email_address')
     page.should have_field('phone_number')
     page.should have_button('Continue')
+  elsif page_name == 'Check your company information'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-summary")
+    page.should have_button('Create supplier account')
   end
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-When /I submit a '(.*)' that is '(.*)'$/ do |field_name,value|
-  if field_name == 'DUNS number'
-    if value == 'not unique'
-      step "I enter '123456789' in the 'duns_number' field"
-    elsif value == 'unique'
-      step "I enter '000000001' in the 'duns_number' field"
-    end
-  elsif field_name == 'Companies House number'
-    if value == 'invalid'
-      step "I enter 'a@1234-' in the 'companies_house_number' field"
-    elsif value == 'valid'
-      step "I enter 'A0000001' in the 'companies_house_number' field"
-    end
-  elsif field_name == 'Company name'
-    if value == 'blank'
-      step "I enter '' in the 'company_name' field"
-    elsif value == 'valid'
-      step "I enter 'This is a test company name' in the 'company_name' field"
-    end
-  end
-  step "I click 'Continue'"
+And /All company information that were submitted is presented correctly on the page$/ do
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../../*/span[contains(text(), '#{@value_of_interest['duns_number']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../../*/span[contains(text(), '#{@value_of_interest['companies_house_number']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Company name')]/../../*/span[contains(text(), '#{@value_of_interest['company_name']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../../*/span[contains(text(), '#{@value_of_interest['contact_name']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../../*/span[contains(text(), '#{@value_of_interest['email_address']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../../*/span[contains(text(), '#{@value_of_interest['phone_number']}')]")
 end
 
-Then /I am presented with '(.*)' validation message$/ do |field_name|
-  if field_name == 'DUNS number'
-    steps %{
-      Then I am presented with the message 'A supplier account already exists with that #{field_name}'
-      And I am presented with the message 'If you no longer have your account details, or if you think this may be an error, please contact enquiries@digitalmarketplace.service.gov.uk'
-    }
-    page.should have_link('enquiries@digitalmarketplace.service.gov.uk')
-    step "I am presented with the message '#{field_name} already used'"
-  elsif field_name == 'Companies House number'
-    step "I am presented with the message '#{field_name}s must have 8 characters.'"
-  elsif field_name == 'company name'
-    step "I am presented with the message 'You must provide a #{field_name}.'"
-  elsif field_name == 'Company contact details'
-    steps %{
-      Then I am presented with the message 'There was a problem with the details you gave for:'
-      Then I am presented with the message 'You must provide a contact name.'
-      And I am presented with the message 'You must provide a email address.'
-      And I am presented with the message 'You must provide a phone number.'
-    }
+And /There is an Edit link for each of the company information$/ do
+  page.find(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../..//a[@href='/suppliers/duns-number'][text()]").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../..//a[@href='/suppliers/companies-house-number']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Company name')]/../..//a[@href='/suppliers/company-name']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
+end
+
+When /I change the '(.*)' to '(.*)'$/ do |field_name,new_value|
+  if field_name == 'duns_number'
+    page.find(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../..//a[@href='/suppliers/#{field_name.gsub('_','-').downcase}'][text()='Edit']").click
+  elsif field_name == 'companies_house_number'
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../..//a[@href='/suppliers/#{field_name.gsub('_','-').downcase}'][text()='Edit']").click
+  elsif field_name == 'contact_name'
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+  elsif field_name == 'email_address'
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+  elsif field_name == 'phone_number'
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+  else
+    page.find(:xpath, "//tr/*/span[contains(text(), '#{field_name.gsub('_',' ').downcase}')]/../..//a[@href='/suppliers/#{field_name.gsub('_','-').downcase}'][text()='Edit']").click
   end
+  steps %{
+    When I enter '#{new_value}' in the '#{field_name}' field
+    And I click 'Continue'
+  }
+  page.visit("#{dm_frontend_domain}/suppliers/company-summary")
+end
+
+Then /The change made is reflected on the '(.*)' page$/ do |value|
+  step "And All company information that were submitted is presented correctly on the page"
 end
