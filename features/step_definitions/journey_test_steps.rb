@@ -670,6 +670,25 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'DM Functional Test Supplier')]")
 end
 
+Then /I am presented with the '(.*)' page for all suppliers starting with '(.*)'$/ do |page_name,supplier_search_prefix|
+  page.should have_content("#{page_name}")
+  page.should have_content('Log out')
+  current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_search_prefix.gsub(' ','+')}")
+  page.should have_selector(:xpath, "//table/tbody/tr[1]/td[1]//*[contains(text(),'#{supplier_search_prefix}')]")
+  page.find(:xpath,
+    "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/users?supplier_id=11111')][text()]"
+  ).text().should have_content('Users')
+  page.find(:xpath,
+    "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/services?supplier_id=11111')][text()]"
+  ).text().should have_content('Services')
+  page.find(:xpath,
+    "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/users?supplier_id=11112')][text()]"
+  ).text().should have_content('Users')
+  page.find(:xpath,
+    "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/services?supplier_id=11112')][text()]"
+  ).text().should have_content('Services')
+end
+
 And /I can see all listings ordered by lot name followed by listing name$/ do
   service_listed_and_in_correct_order("1123456789012346","1")
   service_listed_and_in_correct_order("1123456789012350","2")
