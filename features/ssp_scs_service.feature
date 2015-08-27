@@ -11,7 +11,7 @@ Feature: Submitting a new service for SCS
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Continue your G-Cloud 7 application'
-    And I click 'Add services'
+    And I click 'Add, edit and delete services'
     And I click 'Add a service'
     When I choose 'Specialist Cloud Services (SCS)' for 'lot'
     And I click 'Save and continue'

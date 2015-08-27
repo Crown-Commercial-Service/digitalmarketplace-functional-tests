@@ -35,8 +35,8 @@ Scenario: As a logged in supplier user, I can see my active contributors on the 
 
 Scenario: As a logged in supplier user, I can navigate to the contributors page from my dashboard and I can remove one
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  When I click 'Add or remove'
-  Then I am presented with the supplier 'DM Functional Test Supplier' 'Add or remove contributors' page
+  When I click 'Invite or remove'
+  Then I am presented with the supplier 'DM Functional Test Supplier' 'Invite or remove contributors' page
   When I remove the supplier user 'DM Functional Test Supplier User 2'
   Then I see a confirmation message after having removed supplier user 'DM Functional Test Supplier User 2'
   And I should not see the supplier user 'DM Functional Test Supplier User 2' on the supplier dashboard page

@@ -61,6 +61,8 @@ When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name
 end
 
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
+  @value_of_interest = @value_of_interest || Hash.new
+  @value_of_interest[field_name] = value
   page.fill_in(field_name, with: value)
   @servicesupplierID = value
 end
@@ -638,14 +640,14 @@ Then /I am presented with the supplier '(.*)' '(.*)' page$/ do |supplier_name, p
 end
 
 When /I remove the supplier user '(.*)'$/ do |user_name|
+  @data_store = @data_store || Hash.new
+  supplier_user_email = page.find(:xpath, "//tr/td/span[contains(text(), 'DM Functional Test Supplier User 2')]/../../td[2][text()]").text()
+  @data_store['supplieruseremail'] = supplier_user_email
   page.first(:xpath, ".//td[@class='summary-item-field-first']//*[contains(text(), '#{user_name}')]/../../td[@class='summary-item-field-with-action']//button").click
 end
 
 Then /I see a confirmation message after having removed supplier user '(.*)'$/ do |user_name|
-  steps %Q{
-    And I am presented with the message '#{user_name}'
-    And I am presented with the message 'has been removed as a contributor.'
-  }
+  step "I am presented with the message '#{user_name} (#{@data_store['supplieruseremail']}) has been removed as a contributor. They can be invited again at any time.'"
 end
 
 And /I should not see the supplier user '(.*)' on the supplier dashboard page$/ do |user_name|

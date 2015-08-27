@@ -11,7 +11,7 @@ Feature: Submitting a new service for PaaS
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Continue your G-Cloud 7 application'
-    And I click 'Add services'
+    And I click 'Add, edit and delete services'
     And I click 'Add a service'
     When I choose 'Platform as a Service (PaaS)' for 'lot'
     And I click 'Save and continue'
