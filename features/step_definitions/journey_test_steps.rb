@@ -687,6 +687,7 @@ Then /I am presented with the '(.*)' page for all suppliers starting with '(.*)'
   page.find(:xpath,
     "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/services?supplier_id=11112')][text()]"
   ).text().should have_content('Services')
+  page.should have_no_selector(:xpath, "//table/tbody/tr[3]")
 end
 
 And /I can see all listings ordered by lot name followed by listing name$/ do
