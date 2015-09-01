@@ -314,10 +314,18 @@ And /I set '(.*)' as '(.*)'$/ do |field_to_change,new_value|
 end
 
 And /I choose '(.*)' for '(.*)'$/ do |new_value,field_to_change|
-  find(
+
+  inputs = all(
     :xpath,
-    "//*[contains(@name, '#{field_to_change}') and contains(../text(), '#{new_value}')]"
-  ).click
+    "//*[contains(@name, '#{field_to_change}')]"
+  )
+
+  input = inputs.find do |input|
+    input.find(:xpath, '..').text.downcase == new_value.downcase
+  end
+
+  input.click
+
   @changed_fields = @changed_fields || Hash.new
   @changed_fields[field_to_change] = new_value
 end
