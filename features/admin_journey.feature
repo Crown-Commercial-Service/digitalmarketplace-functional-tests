@@ -38,7 +38,7 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   When I enter '11111' in the 'supplier_id_for_users' field
   And I click the search button for 'supplier_id_for_users'
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
-@wip1
+
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
