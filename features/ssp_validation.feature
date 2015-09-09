@@ -303,10 +303,10 @@ Feature: Page validation
     And I get a summary error of 'Configuration and change management tracking' and an inline error of 'This question requires an answer.' for question 'p27q1'
     And I get a summary error of 'Change impact assessment' and an inline error of 'This question requires an answer.' for question 'p27q2'
 
-  Scenario: Vulnerabilility management - no data
+  Scenario: Vulnerability management - no data
     Given I am on ssp page '28'
     When I click 'Save and continue'
-    Then I should be on the 'Vulnerabilility management' page
+    Then I should be on the 'Vulnerability management' page
     And I get a summary error of 'Vulnerability assessment' and an inline error of 'This question requires an answer.' for question 'p28q1'
     And I get a summary error of 'Vulnerability monitoring' and an inline error of 'This question requires an answer.' for question 'p28q2'
     And I get a summary error of 'Vulnerability mitigation prioritisation' and an inline error of 'This question requires an answer.' for question 'p28q3'

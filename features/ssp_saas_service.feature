@@ -223,10 +223,10 @@ Feature: Submitting a new service for SaaS
     When I choose 'Yes' for 'changeImpactAssessment'
     And I choose 'Service provider assertion' for 'changeImpactAssessment--assurance'
     And I click 'Save and continue'
-    Then I should be on the 'Vulnerabilility management' page
+    Then I should be on the 'Vulnerability management' page
 
-  Scenario: Vulnerabilility management
-    Given I am on ssp page 'vulnerabilility_management'
+  Scenario: Vulnerability management
+    Given I am on ssp page 'vulnerability_management'
     When I choose 'Yes' for 'vulnerabilityAssessment'
     And I choose 'Service provider assertion' for 'vulnerabilityAssessment--assurance'
     And I choose 'Yes' for 'vulnerabilityMonitoring'
