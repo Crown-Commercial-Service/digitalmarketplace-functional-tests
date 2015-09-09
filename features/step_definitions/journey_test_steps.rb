@@ -62,8 +62,17 @@ end
 
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   @value_of_interest = @value_of_interest || Hash.new
-  @value_of_interest[field_name] = value
   page.fill_in(field_name, with: value)
+
+  if current_url.include?('company-contact-details')
+    field_name = 'contact_email_address'
+  elsif current_url.include?('create-your-account')
+    field_name = 'your_email_address'
+  else
+    field_name = field_name
+  end
+
+  @value_of_interest[field_name] = value
   @servicesupplierID = value
 end
 
