@@ -152,10 +152,14 @@ Then /I am on the '(.*)' page$/ do |page_name|
     page.should have_field('email_address')
     page.should have_field('phone_number')
     page.should have_button('Continue')
-  elsif page_name == 'Check your company information'
+  elsif page_name == 'Create login'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/create-your-account")
+    page.should have_button('Continue')
+  elsif page_name == 'Check your information'
     page.should have_content("#{page_name}")
     current_url.should end_with("#{dm_frontend_domain}/suppliers/company-summary")
-    page.should have_button('Create supplier account')
+    page.should have_button('Create account')
   end
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
@@ -167,6 +171,7 @@ And /All company information that were submitted is presented correctly on the p
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../../*/span[contains(text(), '#{@value_of_interest['contact_name']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../../*/span[contains(text(), '#{@value_of_interest['email_address']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../../*/span[contains(text(), '#{@value_of_interest['phone_number']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Email address')]/../../*/span[contains(text(), '#{@value_of_interest['email_address']}')]")
 end
 
 And /There is an Edit link for each of the company information$/ do
@@ -185,10 +190,14 @@ When /I change the '(.*)' to '(.*)'$/ do |field_name,new_value|
     page.find(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../..//a[@href='/suppliers/#{field_name.gsub('_','-').downcase}'][text()='Edit']").click
   elsif field_name == 'contact_name'
     page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
-  elsif field_name == 'email_address'
+  elsif field_name == 'contact_email_address'
     page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+    field_name = 'email_address'
   elsif field_name == 'phone_number'
     page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+  elsif field_name == 'your_email_address'
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Email address')]/../..//a[@href='/suppliers/create-your-account'][text()='Edit']").click
+    field_name = 'email_address'
   else
     page.find(:xpath, "//tr/*/span[contains(text(), '#{field_name.gsub('_',' ').downcase}')]/../..//a[@href='/suppliers/#{field_name.gsub('_','-').downcase}'][text()='Edit']").click
   end

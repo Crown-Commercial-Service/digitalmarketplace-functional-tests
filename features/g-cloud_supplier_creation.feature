@@ -25,7 +25,11 @@ Scenario: User steps through supplier account creation process
   Then I enter 'test.company.email@test.com' in the 'email_address' field
   Then I enter '0123456789' in the 'phone_number' field
   And I click 'Continue'
-  Then I am on the 'Check your company information' page
+  Then I am on the 'Create login' page
+
+  When I enter 'test.supplier.email@test.com' in the 'email_address' field
+  And I click 'Continue'
+  Then I am on the 'Check your information' page
   And All company information that were submitted is presented correctly on the page
   And There is an Edit link for each of the company information
 
@@ -41,8 +45,11 @@ Scenario: User steps through supplier account creation process
   When I change the 'contact_name' to 'Changed the company contact name'
   Then The change made is reflected on the 'Check your company information' page
 
-  When I change the 'email_address' to 'changed.test.company.email@test.com'
+  When I change the 'contact_email_address' to 'changed.test.company.email@test.com'
   Then The change made is reflected on the 'Check your company information' page
 
   When I change the 'phone_number' to '9876543210'
+  Then The change made is reflected on the 'Check your company information' page
+
+  When I change the 'your_email_address' to 'changed.test.supplier.email@test.com'
   Then The change made is reflected on the 'Check your company information' page
