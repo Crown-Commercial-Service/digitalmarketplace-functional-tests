@@ -104,9 +104,9 @@ And /^The test suppliers have users$/ do
 end
 
 def activate_deactive_users (user_name)
-  button_action = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//button[text()]").text()
+  button_action = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/input[contains(@type,'submit')]").value
   if button_action == 'Activate'
-    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//button[contains(text(),'#{button_action}')]").click
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//input[contains(@type, 'submit') and contains(@value,'#{button_action}')]").click
   end
 end
 

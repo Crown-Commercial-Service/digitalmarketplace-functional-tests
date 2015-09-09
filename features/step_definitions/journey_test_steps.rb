@@ -72,7 +72,7 @@ And /I click the '(.*)' button$/ do |button_name|
 end
 
 When /I click the '(.*)' button for the supplier user '(.*)'$/ do |button_name,user_name|
-  find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//button[contains(text(),'#{button_name}')]").click
+  find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//input[contains(@type, 'submit') and contains(@value,'#{button_name}')]").click
 end
 
 When /I click the '(.*)' link for the service '(.*)'$/ do |link_name,value|
@@ -1214,11 +1214,11 @@ end
 
 Then /The supplier user '(.*)' is '(.*)'$/ do |user_name,user_lockoractive_state|
   if user_lockoractive_state == 'not active'
-    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/../*//button[text()]").text().should match('Activate')
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/input[contains(@type,'submit')]").value.should match('Activate')
   elsif user_lockoractive_state == 'active'
-    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/../*//button[text()]").text().should match('Deactivate')
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/input[contains(@type,'submit')]").value.should match('Deactivate')
   elsif user_lockoractive_state == 'locked'
-    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'unlock')]/../*//button[text()]").text().should match('Unlock')
+    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'lock')]/input[contains(@type,'submit')]").value.should match('Unlock')
   elsif user_lockoractive_state == 'not locked'
     find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td[5]/span[text()]").text().should match('No')
   end
