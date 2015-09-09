@@ -39,10 +39,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   click_link_or_button('Log in')
 
   if ability == 'can not'
-    page.should have_content('Sorry, we couldn\'t log you in with that username and password.
-      Accounts are locked after five failed attempts. If you think your account has been locked,
-      please contact enquiries@digitalmarketplace.service.gov.uk.'
-    )
+    page.should have_content('Make sure you\'ve entered the right email address and password.')
   elsif ability == 'can'
     step "Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page"
   end
