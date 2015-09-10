@@ -164,7 +164,7 @@ Then /I am on the '(.*)' page$/ do |page_name|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-And /All company information that were submitted is presented correctly on the page$/ do
+And /All the information that was submitted is presented correctly on the page$/ do
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../../*/span[contains(text(), '#{@value_of_interest['duns_number']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../../*/span[contains(text(), '#{@value_of_interest['companies_house_number']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Company name')]/../../*/span[contains(text(), '#{@value_of_interest['company_name']}')]")
@@ -209,5 +209,5 @@ When /I change the '(.*)' to '(.*)'$/ do |field_name,new_value|
 end
 
 Then /The change made is reflected on the '(.*)' page$/ do |value|
-  step "And All company information that were submitted is presented correctly on the page"
+  step "And All the information that was submitted is presented correctly on the page"
 end

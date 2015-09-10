@@ -30,26 +30,26 @@ Scenario: User steps through supplier account creation process
   When I enter 'test.supplier.email@test.com' in the 'email_address' field
   And I click 'Continue'
   Then I am on the 'Check your information' page
-  And All company information that were submitted is presented correctly on the page
+  And All the information that was submitted is presented correctly on the page
   And There is an Edit link for each of the company information
 
   When I change the 'duns_number' to '000000002'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
 
   When I change the 'companies_house_number' to 'A0000002'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
 
   When I change the 'company_name' to 'Changed the test company name'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
 
   When I change the 'contact_name' to 'Changed the company contact name'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
 
   When I change the 'contact_email_address' to 'changed.test.company.email@test.com'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
 
   When I change the 'phone_number' to '9876543210'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
 
   When I change the 'your_email_address' to 'changed.test.supplier.email@test.com'
-  Then The change made is reflected on the 'Check your company information' page
+  Then The change made is reflected on the 'Check your information' page
