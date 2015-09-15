@@ -37,7 +37,7 @@ end
 
 
 Given /^I have a URL for "([^\"]*)"$/ do |app|
-  app_domain= eval "#{app}_domain"
+  app_domain = domain_for_app(app)
   assert_not_nil("#{app_domain}", "No URL supplied for #{app}")
   puts("DOMAIN  : #{app_domain}")
   @last_domain = app_domain
@@ -45,7 +45,7 @@ end
 
 
 Given /^I have an auth token for "([^\"]*)"$/ do |app|
-  app_token= eval "#{app}_access_token"
+  app_token = access_token_for_app(app)
   assert_not_nil("#{app_token}", "No access token supplied for #{app}")
   puts("ACCESS TOKEN: #{app_token[0..2]}***#{app_token[-3..-1]}")
   @last_token = app_token

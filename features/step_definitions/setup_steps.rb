@@ -132,7 +132,7 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   lockstate = JSON.parse(response.body)["users"][0]["locked"]
 
   while failedlogincount < 6 and lockstate == false
-    fill_in('email_address', :with => (eval "dm_supplier3_uname"))
+    fill_in('email_address', :with => dm_supplier3_email())
     fill_in('password', :with => 'invalidpassword')
     click_link_or_button('Log in')
     failedlogincount += 1

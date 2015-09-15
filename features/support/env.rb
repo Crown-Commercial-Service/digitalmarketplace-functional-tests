@@ -20,6 +20,32 @@ else
   end
 end
 
+def domain_for_app(app)
+  case app
+  when "dm_api"
+    dm_api_domain()
+  when "dm_search_api"
+    dm_search_api_domain()
+  when "dm_frontend"
+    dm_frontend_domain()
+  else
+    raise ArgumentError, "Invalid app name #{app}"
+  end
+end
+
+def access_token_for_app(app)
+  case app
+  when "dm_api"
+    dm_api_access_token()
+  when "dm_search_api"
+    dm_search_api_access_token()
+  when "dm_frontend"
+    dm_frontend_access_token()
+  else
+    raise ArgumentError, "Invalid app name #{app}"
+  end
+end
+
 def dm_api_domain()
   ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end
@@ -40,28 +66,28 @@ def dm_frontend_domain()
   ENV['DM_FRONTEND_DOMAIN']
 end
 
-def dm_admin_uname()
-  ENV['DM_ADMINISTRATORNAME']
+def dm_admin_email()
+  ENV['DM_ADMINISTRATORNAME'] || ENV['DM_ADMIN_EMAIL']
 end
 
-def dm_admin_pass()
-  ENV['DM_ADMINISTRATORPASSWORD']
+def dm_admin_password()
+  ENV['DM_ADMINISTRATORPASSWORD'] || ENV['DM_ADMIN_PASSWORD']
 end
 
-def dm_supplier_uname()
-  ENV['DM_SUPPLIEREMAIL']
+def dm_supplier_email()
+  ENV['DM_SUPPLIEREMAIL'] || ENV['DM_SUPPLIER_EMAIL']
 end
 
-def dm_supplier_pass()
-  ENV['DM_SUPPLIERPASSWORD']
+def dm_supplier_password()
+  ENV['DM_SUPPLIERPASSWORD'] || ENV['DM_SUPPLIER_PASSWORD']
 end
 
-def dm_supplier2_uname()
-  ENV['DM_SUPPLIER2EMAIL']
+def dm_supplier2_email()
+  ENV['DM_SUPPLIER2EMAIL'] || ENV['DM_SUPPLIER2_EMAIL']
 end
 
-def dm_supplier3_uname()
-  ENV['DM_SUPPLIER3EMAIL']
+def dm_supplier3_email()
+  ENV['DM_SUPPLIER3EMAIL'] || ENV['DM_SUPPLIER3_EMAIL']
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }
