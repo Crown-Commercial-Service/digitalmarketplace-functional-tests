@@ -119,6 +119,24 @@ And /^Test supplier users are active$/ do
   activate_deactive_users("DM Functional Test Supplier User 2")
 end
 
+def unlock_users (user_name)
+  lock_state = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td[5]/*[text()]").text
+  if lock_state != 'No'
+      find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//input[contains(@type, 'submit') and contains(@value,'Unlock')]").click
+  end
+end
+
+And /^Test supplier users are not locked$/ do
+  steps %Q{
+    Given I have logged in to Digital Marketplace as a 'Administrator' user
+    Then I am presented with the admin 'Admin' page
+  }
+  page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
+  unlock_users("DM Functional Test Supplier User 3")
+  unlock_users("DM Functional Test Supplier User 2")
+  unlock_users("DM Functional Test Supplier User 1")
+end
+
 And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   visit("#{dm_frontend_domain}/suppliers/login")
 

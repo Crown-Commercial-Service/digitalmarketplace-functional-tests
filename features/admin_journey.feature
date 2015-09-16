@@ -6,6 +6,7 @@ Scenario: Setup for tests
   And The test suppliers have users
   And The test suppliers have services
   And Test supplier users are active
+  And Test supplier users are not locked
   And The user 'DM Functional Test Supplier User 3' is locked
 
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
