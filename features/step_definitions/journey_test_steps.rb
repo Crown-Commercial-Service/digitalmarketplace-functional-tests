@@ -1014,9 +1014,6 @@ Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_n
 end
 
 Then /I am on a page with '(.*)' in search summary text$/ do |value|
-  query_string = CGI.escape value
-  current_url.should include("q=#{query_string}")
-
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
