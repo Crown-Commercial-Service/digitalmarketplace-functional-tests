@@ -1092,12 +1092,12 @@ Given /I am on the search results page for the searched value of '(.*)'$/ do |se
 end
 
 Then /Words in the search result excerpt that match the search criteria are highlighted$/ do
-  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'N3')]").text().should have_content('N3')
-  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'Secure')]").text().should have_content('Secure')
-  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'secure')]").text().should have_content('secure')
-  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'Remote')]").text().should have_content('Remote')
-  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'Access')]").text().should have_content('Access')
-  page.first(:xpath, ".//em[@class='search-result-highlighted-text'][contains(text(),'access')]").text().should have_content('access')
+  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'N3')]").text().should have_content('N3')
+  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'Secure')]").text().should have_content('Secure')
+  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'secure')]").text().should have_content('secure')
+  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'Remote')]").text().should have_content('Remote')
+  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'Access')]").text().should have_content('Access')
+  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'access')]").text().should have_content('access')
 end
 
 Given /I am on the search results page with results for that service.lot displayed$/ do
