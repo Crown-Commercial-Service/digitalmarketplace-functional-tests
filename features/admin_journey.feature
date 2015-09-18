@@ -39,12 +39,22 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   When I enter '11111' in the 'supplier_id_for_users' field
   And I click the search button for 'supplier_id_for_users'
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
+  And All users for the supplier ID 11111 are listed on the page
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
   And I click the search button for 'supplier_name_prefix'
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
+
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by email address
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I enter 'testing.supplier.username@dmtestemail.com' in the 'email_address' field
+  And I click the search button for 'email_address'
+  Then The user with email 'testing.supplier.username@dmtestemail.com' page is presented
+
+  When I click the 'DM Functional Test Supplier' link
+  Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
 
 Scenario: Admin user should be able to abort an edit and be returned to the service summary page
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page

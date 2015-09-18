@@ -650,7 +650,6 @@ Then /I am presented with the supplier '(.*)' '(.*)' page$/ do |supplier_name, p
   elsif page_name == 'Add or remove contributors'
     current_url.should end_with("#{dm_frontend_domain}/suppliers/users")
   end
-
 end
 
 When /I remove the supplier user '(.*)'$/ do |user_name|
@@ -679,9 +678,12 @@ end
 Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
   page.should have_content('Log out')
+  if supplier_name == 'DM Functional Test Supplier'
+    @servicesupplierID = '11111'
+  end
   current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'DM Functional Test Supplier')]")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
 
 Then /I am presented with the '(.*)' page for all suppliers starting with '(.*)'$/ do |page_name,supplier_search_prefix|
@@ -1332,4 +1334,17 @@ Given /All services associated with supplier with ID '(.*)' have a status of '(.
     And I click the 'Update status' button
     Then The service status is set as '#{status}'
   }
+end
+
+And /All users for the supplier ID 11111 are listed on the page$/ do
+  page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 1')]")
+  page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 2')]")
+  page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 3')]")
+end
+
+Then /The user with email '(.*)' page is presented$/ do |value|
+  page.should have_content("#{value}")
+  page.should have_content('Log out')
+  current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{value.downcase.split('@').first}%40#{value.downcase.split('@').last}")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
