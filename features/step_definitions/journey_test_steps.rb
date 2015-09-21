@@ -674,7 +674,7 @@ end
 And /I should not see the supplier user '(.*)' in the '(.*)' table$/ do |user_name,summary_table_name|
     page.should_not have_selector(:xpath, "//caption[contains(text(), '#{summary_table_name}')]/..//td/span[contains(text(), '#{user_name}')]")
 end
-#wip
+
 Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_name,supplier_name|
   if @servicesupplierID == 'testing.supplier.username@dmtestemail.com'
     @servicesupplierID = '11111'
