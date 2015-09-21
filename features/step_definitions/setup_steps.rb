@@ -73,17 +73,18 @@ Given /^The test suppliers have services$/ do
     create_service(11112,"1123456789012354","iaas")
 end
 
-def create_user (supplierid,email,username)
-  file = File.read("./fixtures/test-supplier-user.json")
-  json = JSON.parse(file)
+def create_user (email,username,password,role,supplierid=nil)
+  file = File.read("./fixtures/test-user.json")
+  user_data = JSON.parse(file)
 
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  user_data = JSON.parse(file)
-  user_data ["users"]["supplierId"] = supplierid
-  user_data ["users"]["emailAddress"] = email
-  user_data ["users"]["name"] = username
+  user_data["users"]["emailAddress"] = email
+  user_data["users"]["name"] = username
+  user_data["users"]["password"] = password
+  user_data["users"]["role"] = role
+  user_data["users"]["supplierId"] = supplierid if supplierid
   user_url = "#{url}/users?email_address=#{email}"
 
   response = RestClient.get(user_url, headers){|response, request, result| response }
@@ -94,11 +95,23 @@ def create_user (supplierid,email,username)
   end
 end
 
+def create_supplier_user (supplierid,email,username,password)
+  create_user(email,username,password,"supplier",supplierid)
+end
+
+def create_admin_user (email,username,password)
+  create_user(email,username,password,"admin")
+end
+
 And /^The test suppliers have users$/ do
-  create_user(11111,"Testing.supplier.USERNaMe@DMtestemail.com","DM Functional Test Supplier User 1")
-  create_user(11111,"testing.supplier.username2@dmtestemail.com","DM Functional Test Supplier User 2")
-  create_user(11111,"testing.supplier.username3@dmtestemail.com","DM Functional Test Supplier User 3")
-  create_user(11112,"testing.supplier2.username@dmtestemail.com","DM Functional Test Supplier2 User 1")
+  create_supplier_user(11111,dm_supplier_user_email(),"DM Functional Test Supplier User 1", dm_supplier_password())
+  create_supplier_user(11111,dm_supplier_user2_email(),"DM Functional Test Supplier User 2", dm_supplier_password())
+  create_supplier_user(11111,dm_supplier_user3_email(),"DM Functional Test Supplier User 3", dm_supplier_password())
+  create_supplier_user(11112,dm_supplier2_user_email(),"DM Functional Test Supplier 2 User 1", dm_supplier_password())
+end
+
+And /^I have an admin user$/ do
+  create_admin_user(dm_admin_email(),"DM Functional Test Admin User 1", dm_admin_password())
 end
 
 def activate_users (user_name)
@@ -150,7 +163,7 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   lockstate = JSON.parse(response.body)["users"][0]["locked"]
 
   while failedlogincount < 6 and lockstate == false
-    fill_in('email_address', :with => dm_supplier3_email())
+    fill_in('email_address', :with => dm_supplier_user3_email())
     fill_in('password', :with => 'invalidpassword')
     click_link_or_button('Log in')
     failedlogincount += 1

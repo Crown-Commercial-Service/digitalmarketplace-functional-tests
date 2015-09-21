@@ -21,7 +21,7 @@ When /I login as a '(.*)' user$/ do |user_type|
     page.fill_in('password', :with => dm_admin_password())
     page.click_link_or_button('Log in')
   elsif user_type == 'Supplier'
-    page.fill_in('email_address', :with => dm_supplier_email())
+    page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
     page.click_link_or_button('Log in')
   end
@@ -30,9 +30,9 @@ end
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
   visit("#{dm_frontend_domain}/suppliers/login")
   if user_name == 'DM Functional Test Supplier User 2'
-    page.fill_in('email_address', :with => dm_supplier2_email())
+    page.fill_in('email_address', :with => dm_supplier_user2_email())
   elsif user_name == 'DM Functional Test Supplier User 3'
-    page.fill_in('email_address', :with => dm_supplier3_email())
+    page.fill_in('email_address', :with => dm_supplier_user3_email())
   end
 
   page.fill_in('password', :with => dm_supplier_password())
@@ -561,7 +561,7 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   @existing_values['summarypageurl'] = current_url
   page.should have_content(supplier_name)
   page.should have_content('Log out')
-  page.should have_content(dm_supplier_email())
+  page.should have_content(dm_supplier_user_email())
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 
