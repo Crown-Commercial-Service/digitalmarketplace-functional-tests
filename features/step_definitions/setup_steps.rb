@@ -42,15 +42,14 @@ end
 
 def create_service (supplier_id, service_id, lot)
   file = File.read("./fixtures/#{supplier_id}-g6-#{lot}-test-service.json")
-  json = JSON.parse(file)
+  service_data = JSON.parse(file)
 
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
   service_url = "#{url}/services/#{service_id}"
-  service_data = JSON.parse(file)
-  service_data ["services"]["id"] = service_id
-  service_data ["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
+  service_data["services"]["id"] = service_id
+  service_data["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
 
   response = RestClient.get(service_url, headers){|response, request, result| response }
   if response.code == 404
