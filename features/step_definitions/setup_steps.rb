@@ -6,20 +6,19 @@ require "test/unit"
 
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
   file = File.read("./fixtures/test-supplier.json")
-  json = JSON.parse(file)
+  supplier_data = JSON.parse(file)
 
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
   supplier_url = "#{url}/suppliers/#{supplier_id}"
-  supplier_data = JSON.parse(file)
-  supplier_data ["suppliers"]["id"] = supplier_id
-  supplier_data ["suppliers"]["name"] = supplier_name
-  supplier_data ["suppliers"]["description"] = supplier_description
-  supplier_data ["suppliers"]["contactInformation"][0]["contactName"] = supplier_contactName
-  supplier_data ["suppliers"]["contactInformation"][0]["email"] = supplier_email
-  supplier_data ["suppliers"]["contactInformation"][0]["postcode"] = supplier_postcode
-  supplier_data ["suppliers"]["dunsNumber"] = supplier_dunsnumber
+  supplier_data["suppliers"]["id"] = supplier_id
+  supplier_data["suppliers"]["name"] = supplier_name
+  supplier_data["suppliers"]["description"] = supplier_description
+  supplier_data["suppliers"]["contactInformation"][0]["contactName"] = supplier_contactName
+  supplier_data["suppliers"]["contactInformation"][0]["email"] = supplier_email
+  supplier_data["suppliers"]["contactInformation"][0]["postcode"] = supplier_postcode
+  supplier_data["suppliers"]["dunsNumber"] = supplier_dunsnumber
 
   response = RestClient.get(supplier_url, headers){|response, request, result| response }
   if response.code == 404
