@@ -674,13 +674,18 @@ end
 And /I should not see the supplier user '(.*)' in the '(.*)' table$/ do |user_name,summary_table_name|
     page.should_not have_selector(:xpath, "//caption[contains(text(), '#{summary_table_name}')]/..//td/span[contains(text(), '#{user_name}')]")
 end
-
+#wip
 Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_name,supplier_name|
-  page.should have_content("#{page_name}")
-  page.should have_content('Log out')
-  if supplier_name == 'DM Functional Test Supplier'
+  if @servicesupplierID == 'testing.supplier.username@dmtestemail.com'
     @servicesupplierID = '11111'
   end
+
+  if page_name == 'Users'
+    page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{supplier_name}')]")
+  elsif page_name == 'Services'
+    page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{page_name}')]")
+  end
+  page.should have_content('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
