@@ -23,7 +23,7 @@ Then /^The new json file has a new service name$/ do
   assert_equal @json['services']['serviceName'].start_with?("NEW NAME "),true
 end
 
-
+# There aren't (potentially) that many services locally :/
 Given /^I have a random service from the API$/ do
   response = RestClient.get(
     "#{dm_api_domain}/services",
@@ -64,6 +64,7 @@ When(/^I send a GET request to the home page$/) do
   @last_response = response
 end
 
+# There is no version locally :/
 When(/^I send a GET request to the "([^\"]*)" status page$/) do |path|
   response = RestClient.get("#{@last_domain}#{path}_status") { |response| response }
   puts "Release version: " + JSON.parse(response).fetch("version")
