@@ -152,7 +152,7 @@ Feature: Submitting a new service for PaaS
     When I click my service
     Then I should be on the 'My PaaS service' page
     And The string 'Answer required' should be on the page
-    And The string 'The service is complete' should not be on the page
+    And The 'Mark as complete' button should not be on the page
 
   Scenario: Data-in-transit protection
     Given I am on ssp page 'data_in_transit_protection'
@@ -372,10 +372,10 @@ Feature: Submitting a new service for PaaS
 
   # TODO: Remove WIP once completing services is implemented
   @wip
-  Scenario: The service is complete
+  Scenario: Mark as complete
     Given I am on the summary page
     Then The string 'Answer required' should not be on the page
-    And The string 'The service is complete' should be on the page
+    And The 'Mark as complete' button should be on the page
 
   @delete_service
   Scenario: Delete the service

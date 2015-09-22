@@ -103,6 +103,14 @@ Then /^The string '(.*)' should not be on the page$/ do |string|
   page.should have_no_content(string)
 end
 
+Then /^The '(.*)' button should be on the page$/ do |string|
+  page.should have_selector(:xpath, "//input[@class='button-save'][@value='#{string}']")
+end
+
+Then /^The '(.*)' button should not be on the page$/ do |string|
+  page.should have_no_selector(:xpath, "//input[@class='button-save'][@value='#{string}']")
+end
+
 Then /^The string '(.*)' should be on the page$/ do |string|
   page.should have_content(string)
 end
