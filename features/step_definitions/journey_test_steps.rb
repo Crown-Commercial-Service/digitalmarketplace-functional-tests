@@ -1205,7 +1205,9 @@ end
 
 Then /I am taken to page '(.*)' of results$/ do |page_number|
   if current_url.include?('search?')
-    current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?page=#{page_number}&lot=iaas")
+    current_url.should include("#{dm_frontend_domain}/g-cloud/search?")
+    current_url.should include("page=#{page_number}")
+    current_url.should include("lot=iaas")
     if page_number >= '2'
       page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
       page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '3 of #{@data_store['numberofpages']}')]")
@@ -1216,7 +1218,10 @@ Then /I am taken to page '(.*)' of results$/ do |page_number|
       page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
     end
   elsif current_url.include?('suppliers?')
-    current_url.should end_with("#{dm_frontend_domain}/g-cloud/suppliers?framework=gcloud&prefix=#{@data_store['supplier_alphabet']}&page=#{page_number}")
+    current_url.should include("#{dm_frontend_domain}/g-cloud/suppliers?")
+    current_url.should include("prefix=#{@data_store['supplier_alphabet']}")
+    current_url.should include("page=#{page_number}")
+    current_url.should include("framework=gcloud")
     if page_number >= '2'
       page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
       page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
