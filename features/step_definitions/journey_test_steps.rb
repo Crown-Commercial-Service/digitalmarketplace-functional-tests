@@ -1174,10 +1174,10 @@ Then /I am taken to the service listing page of that specific record selected$/ 
   current_url.should end_with("#{dm_frontend_domain}#{@data_store['url']}")
 end
 
-When /There is '(.*)' than 100 results returned$/ do |more_or_less|
+When /There is '(.*)' than the pagination limit results returned$/ do |more_or_less|
   @data_store = @data_store || Hash.new
   current_count = find(:xpath, "//*[@class='search-summary-count']").text().to_i
-  number_of_pages = (current_count.to_f/100).ceil
+  number_of_pages = (current_count.to_f/dm_pagination_limit()).ceil
   @data_store['currentcount'] = current_count
   @data_store['numberofpages'] = number_of_pages
   @data_store['moreorless'] = more_or_less
@@ -1185,9 +1185,9 @@ end
 
 Then /Pagination is '(.*)'$/ do |availability|
   if current_url.include?('search?')
-    if @data_store['currentcount'] > 100 && @data_store['moreorless'] == 'more'
+    if @data_store['currentcount'] > dm_pagination_limit() && @data_store['moreorless'] == 'more'
       pagination_available = 'available'
-    elsif @data_store['currentcount'] <= 100 && @data_store['moreorless'] == 'less'
+    elsif @data_store['currentcount'] <= dm_pagination_limit() && @data_store['moreorless'] == 'less'
       pagination_available = 'not available'
     end
   elsif current_url.include?('suppliers?')

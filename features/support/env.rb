@@ -94,4 +94,8 @@ def dm_supplier_password()
   ENV['DM_SUPPLIERPASSWORD'] || ENV['DM_SUPPLIER_PASSWORD']
 end
 
+def dm_pagination_limit()
+  Integer(ENV['DM_PAGINATION_LIMIT']) || 100
+end
+
 Capybara::Screenshot.prune_strategy = { keep: 100 }
