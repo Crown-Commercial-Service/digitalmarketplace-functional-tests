@@ -578,21 +578,24 @@ Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do 
 end
 
 Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
-  if page_name == 'Services'
-    steps %Q{
-      Given I have logged in to Digital Marketplace as a '#{user_type}' user
-      When I enter '#{value}' in the 'supplier_id_for_services' field
-      And I click the search button for 'supplier_id_for_services'
-      Then I am presented with the '#{page_name}' page for the supplier 'DM Functional Test Supplier'
-    }
-  elsif page_name == 'Users'
-    steps %Q{
-      Given I have logged in to Digital Marketplace as a '#{user_type}' user
-      When I enter '#{value}' in the 'supplier_id_for_users' field
-      And I click the search button for 'supplier_id_for_users'
-      Then I am presented with the '#{page_name}' page for the supplier 'DM Functional Test Supplier'
-    }
+  if value == '11111'
+    supplier_name = 'DM Functional Test Supplier'
+  elsif value == '11112'
+    supplier_name = 'DM Functional Test Supplier 2'
   end
+
+  if page_name == 'Services'
+    search_button_name = 'supplier_id_for_services'
+  elsif page_name == 'Users'
+    search_button_name = 'supplier_id_for_users'
+  end
+
+  steps %Q{
+    Given I have logged in to Digital Marketplace as a '#{user_type}' user
+    When I enter '#{value}' in the '#{search_button_name}' field
+    And I click the search button for '#{search_button_name}'
+    Then I am presented with the '#{page_name}' page for the supplier '#{supplier_name}'
+  }
 end
 
 Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
