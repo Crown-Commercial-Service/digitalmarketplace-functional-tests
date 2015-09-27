@@ -47,7 +47,11 @@ the domain URLs ie http://localhost:5000 not http://localhost:5000/.
 | ``DM_SEARCH_API_DOMAIN``         | Search API Domain          | http://localhost:5001   |
 | ``DM_SEARCH_API_ACCESS_TOKEN``   | Search API Access Token    | myToken                 |
 | ``DM_FRONTEND_DOMAIN``           | Frontend domain            |                         |
-| ``DM_ADMINISTRATORNAME``         | Administrator email        | admin@example.com       |
-| ``DM_ADMINISTRATORPASSWORD``     | Administrator password     | adminPassword           |
-| ``DM_SUPPLIEREMAIL``             | Supplier email             | supplier@example.com    |
-| ``DM_SUPPLIERPASSWORD``          | Supplier password          | supplierPassword        |
+| ``DM_ADMIN_EMAIL``               | Administrator email        | admin@example.com       |
+| ``DM_ADMIN_PASSWORD``            | Administrator password     | adminPassword           |
+| ``DM_SUPPLIER_EMAIL``            | Supplier 1 user 1 email    | supplier@example.com    |
+| ``DM_SUPPLIER_PASSWORD``         | Supplier password          | supplierPassword        |
+| ``DM_SUPPLIER2_EMAIL``           | Supplier 1 user 2 email    | supplier2@example.com   |
+| ``DM_SUPPLIER3_EMAIL``           | Supplier 1 user 3 email    | supplier3@example.com   |
+| ``DM_SUPPLIER2_USER_EMAIL``      | Supplier 2 user 1 email    | supplier4@example.com   |
+| ``DM_PAGINATION_LIMIT``          | Results returned on search page | 100                |
