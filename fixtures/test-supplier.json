@@ -8,7 +8,12 @@
              {
                "email": "",
                "contactName": "",
-               "postcode": ""
+               "postcode": "",
+               "website": "www.dmfunctionaltestsupplier.com",
+               "phoneNumber": "+44 (0) 123456789",
+               "address1": "125 Kingsway",
+               "city": "London",
+               "country": "United Kingdom"
              }
            ],
          "dunsNumber": "",
