@@ -103,7 +103,7 @@ And /^The test suppliers have users$/ do
   create_user(11112,"testing.supplier2.username@dmtestemail.com","DM Functional Test Supplier2 User 1")
 end
 
-def activate_deactive_users (user_name)
+def activate_users (user_name)
   button_action = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/input[contains(@type,'submit')]").value
   if button_action == 'Activate'
     find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//input[contains(@type, 'submit') and contains(@value,'#{button_action}')]").click
@@ -116,7 +116,9 @@ And /^Test supplier users are active$/ do
     Then I am presented with the admin 'Admin' page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
-  activate_deactive_users("DM Functional Test Supplier User 2")
+  activate_users("DM Functional Test Supplier User 3")
+  activate_users("DM Functional Test Supplier User 2")
+  activate_users("DM Functional Test Supplier User 1")
 end
 
 def unlock_users (user_name)
