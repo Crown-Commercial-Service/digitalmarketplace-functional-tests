@@ -663,7 +663,7 @@ When /I remove the supplier user '(.*)'$/ do |user_name|
 end
 
 Then /I see a confirmation message after having removed supplier user '(.*)'$/ do |user_name|
-  step "I am presented with the message '#{user_name} (#{@data_store['supplieruseremail']}) has been removed as a contributor. They can be invited again at any time.'"
+  step "I am presented with the message '#{user_name} (#{@data_store['supplieruseremail']}) has been removed as a contributor.'"
 end
 
 And /I should not see the supplier user '(.*)' on the supplier dashboard page$/ do |user_name|
