@@ -14,7 +14,7 @@ UPDATER_JSON = '
 '
 
 Given /^I am at '(.*)'$/ do |path|
-  visit "#{dm_frontend_domain}#{path}"
+  visit URI.join("#{dm_frontend_domain}", "#{path}")
 end
 
 Given /^I am at the g7 supplier dashboard page$/ do
