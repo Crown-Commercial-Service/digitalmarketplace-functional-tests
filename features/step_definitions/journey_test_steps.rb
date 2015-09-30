@@ -19,11 +19,11 @@ When /I login as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
     page.fill_in('email_address', :with => dm_admin_email())
     page.fill_in('password', :with => dm_admin_password())
-    click_link_or_button('Log in')
+    page.click_link_or_button('Log in')
   elsif user_type == 'Supplier'
     page.fill_in('email_address', :with => dm_supplier_email())
     page.fill_in('password', :with => dm_supplier_password())
-    click_link_or_button('Log in')
+    page.click_link_or_button('Log in')
   end
 end
 
@@ -36,7 +36,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 
   page.fill_in('password', :with => dm_supplier_password())
-  click_link_or_button('Log in')
+  page.click_link_or_button('Log in')
 
   if ability == 'can not'
     page.should have_content('Make sure you\'ve entered the right email address and password.')
@@ -74,7 +74,7 @@ When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
 end
 
 And /I click the '(.*)' button$/ do |button_name|
-  click_link_or_button(button_name)
+  page.click_link_or_button(button_name)
 end
 
 When /I click the '(.*)' button for the supplier user '(.*)'$/ do |button_name,user_name|
