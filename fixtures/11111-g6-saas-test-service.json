@@ -132,7 +132,7 @@
       ]
     },
     "priceInterval": "",
-    "priceMin": 5800,
+    "priceMin": "5800",
     "priceString": "\u00a35800 per licence",
     "priceUnit": "Licence",
     "pricingDocument": "Pricing Document.pdf",
