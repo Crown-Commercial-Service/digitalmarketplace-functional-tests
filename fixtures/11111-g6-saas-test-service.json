@@ -133,6 +133,7 @@
     },
     "priceInterval": "",
     "priceMin": "5800",
+    "priceMax": "",
     "priceString": "\u00a35800 per licence",
     "priceUnit": "Licence",
     "pricingDocument": "Pricing Document.pdf",
