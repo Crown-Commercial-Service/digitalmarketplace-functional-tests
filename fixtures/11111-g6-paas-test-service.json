@@ -173,6 +173,7 @@
     },
     "priceInterval": "Month",
     "priceMin": "2000",
+    "priceMax": "",
     "priceString": "\u00a32000 per unit per month",
     "priceUnit": "Unit",
     "pricingDocument": "Pricing Document.pdf",
