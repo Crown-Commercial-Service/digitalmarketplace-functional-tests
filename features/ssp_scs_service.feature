@@ -69,7 +69,7 @@ Feature: Submitting a new service for SCS
     When I click my service
     Then I should be on the 'My SCS service name' page
     And The string 'Answer required' should be on the page
-    And The string 'The service is complete' should not be on the page
+    And The 'Mark as complete' button should not be on the page
 
   Scenario: Support
     Given I am on ssp page 'support'
@@ -113,10 +113,10 @@ Feature: Submitting a new service for SCS
 
   # TODO: Remove WIP once completing services is implemented
   @wip
-  Scenario: The service is complete
+  Scenario: Mark as complete
     Given I am on the summary page
     Then The string 'Answer required' should not be on the page
-    And The string 'The service is complete' should be on the page
+    And The 'Mark as complete' button should be on the page
 
   @delete_service
   Scenario: Delete the service

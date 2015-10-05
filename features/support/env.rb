@@ -16,7 +16,8 @@ else
   Capybara.default_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, timeout: 180, :phantomjs_options => ['--ssl-protocol=TLSv1', '--ignore-ssl-errors=yes', '--local-to-remote-url-access=yes'])
+    Capybara::Poltergeist::Driver.new(
+      app, :timeout => 180, :phantomjs_logger => File.open(File::NULL, "w"), :phantomjs_options => ['--ssl-protocol=TLSv1', '--ignore-ssl-errors=yes', '--local-to-remote-url-access=yes'])
   end
 end
 
@@ -74,20 +75,28 @@ def dm_admin_password()
   ENV['DM_ADMINISTRATORPASSWORD'] || ENV['DM_ADMIN_PASSWORD']
 end
 
-def dm_supplier_email()
+def dm_supplier_user_email()
   ENV['DM_SUPPLIEREMAIL'] || ENV['DM_SUPPLIER_EMAIL']
+end
+
+def dm_supplier_user2_email()
+  ENV['DM_SUPPLIER2EMAIL'] || ENV['DM_SUPPLIER2_EMAIL']
+end
+
+def dm_supplier_user3_email()
+  ENV['DM_SUPPLIER3EMAIL'] || ENV['DM_SUPPLIER3_EMAIL']
+end
+
+def dm_supplier2_user_email()
+  ENV['DM_SUPPLIER2_USER_EMAIL']
 end
 
 def dm_supplier_password()
   ENV['DM_SUPPLIERPASSWORD'] || ENV['DM_SUPPLIER_PASSWORD']
 end
 
-def dm_supplier2_email()
-  ENV['DM_SUPPLIER2EMAIL'] || ENV['DM_SUPPLIER2_EMAIL']
-end
-
-def dm_supplier3_email()
-  ENV['DM_SUPPLIER3EMAIL'] || ENV['DM_SUPPLIER3_EMAIL']
+def dm_pagination_limit()
+  Integer(ENV['DM_PAGINATION_LIMIT']) || 100
 end
 
 Capybara::Screenshot.prune_strategy = { keep: 100 }

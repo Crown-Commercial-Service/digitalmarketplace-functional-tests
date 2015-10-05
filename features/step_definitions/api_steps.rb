@@ -23,14 +23,13 @@ Then /^The new json file has a new service name$/ do
   assert_equal @json['services']['serviceName'].start_with?("NEW NAME "),true
 end
 
-
 Given /^I have a random service from the API$/ do
   response = RestClient.get(
     "#{dm_api_domain}/services",
-    params: {page: 1 + rand(100), status: "published"},
+    params: {page: 1 + rand(dm_pagination_limit()), status: "published"},
     authorization: "Bearer #{dm_api_access_token}"
   )
-  @service = JSON.parse(response)['services'][rand(100)]
+  @service = JSON.parse(response)['services'][rand(dm_pagination_limit())]
   puts "Service ID: #{@service['id']}"
   puts "Service name: #{@service['serviceName']}"
 end
@@ -64,6 +63,7 @@ When(/^I send a GET request to the home page$/) do
   @last_response = response
 end
 
+# There is no version locally :/
 When(/^I send a GET request to the "([^\"]*)" status page$/) do |path|
   response = RestClient.get("#{@last_domain}#{path}_status") { |response| response }
   puts "Release version: " + JSON.parse(response).fetch("version")
