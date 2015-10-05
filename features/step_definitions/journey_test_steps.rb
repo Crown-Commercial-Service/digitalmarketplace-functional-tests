@@ -183,14 +183,14 @@ Then /I am presented with the summary page for that service$/ do
 
     pricingdocument = find(
       :xpath,
-      "//*[contains(text(), 'Pricing document')]/../../td[2]/span[text()]"
-    ).text()
+      "//*[contains(text(), 'Pricing document')]/../../td[2]/span/a"
+    )['href']
     @existing_values['pricingdocument'] = pricingdocument
 
     servicedefinitiondocument = find(
       :xpath,
-      "//*[contains(text(), 'Service definition document')]/../../td[2]/span[text()]"
-    ).text()
+      "//*[contains(text(), 'Service definition document')]/../../td[2]/span/a"
+    )['href']
     @existing_values['servicedefinitiondocument'] = servicedefinitiondocument
   end
   @existing_values['servicename'] = servicename
@@ -429,10 +429,12 @@ Then /I am presented with the summary page with the changes that were made to th
     page.should have_no_content(@changed_fields['serviceBenefits-2'])
     page.should have_content(@changed_fields['serviceFeatures'])
   elsif service_aspect == 'Pricing'
+    price_string = "£#{@changed_fields['input-priceString-MinPrice']} to £#{@changed_fields['input-priceString-MaxPrice']} " \
+                   "per #{@changed_fields['input-priceString-Unit']} per #{@changed_fields['input-priceString-Interval']}"
     find(
       :xpath,
       "//*[contains(text(), 'Service price')]/../../td[2]/span[text()]"
-    ).text().should have_content("£#{@changed_fields['priceMin']} to £#{@changed_fields['priceMax']} per #{@changed_fields['priceUnit']} per #{@changed_fields['priceInterval']}")
+    ).text().should have_content(price_string)
     find(
       :xpath,
       "//*[contains(text(), 'VAT included')]/../../td[2]/span[text()]"
@@ -507,7 +509,7 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content('Service benefits')
   elsif service_aspect == 'Pricing'
     page.should have_content(service_aspect)
-    page.should have_content('Service price')
+    page.should have_content('Pricing')
     page.should have_content('VAT included')
     page.should have_content('Education pricing')
     page.should have_content('Trial option')
@@ -544,7 +546,8 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
   page.should have_content(@existing_values['trialoption'])
   page.should have_content(@existing_values['freeoption'])
   page.should have_content(@existing_values['minimumcontractperiod'])
-  page.should have_content(@existing_values['pricingdocument'])
+  page.should have_selector(:xpath,
+                            "//a[@href = '#{@existing_values['pricingdocument']}']")
 end
 
 Then /I am presented with the service details page for that service$/ do

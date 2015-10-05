@@ -74,10 +74,10 @@ Scenario: As an admin user I wish to edit the features and benefits of a service
 Scenario: As an admin user I wish to edit the pricing of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'edit' 'Pricing' page
-  And I change 'priceMin' to '100'
-  And I change 'priceMax' to '1234'
-  And I set 'priceUnit' as 'Person'
-  And I set 'priceInterval' as 'Week'
+  And I change 'input-priceString-MinPrice' to '100'
+  And I change 'input-priceString-MaxPrice' to '1234'
+  And I set 'input-priceString-Unit' as 'Person'
+  And I set 'input-priceString-Interval' as 'Week'
   And I choose 'No' for 'vatIncluded'
   And I choose 'No' for 'educationPricing'
   And I choose 'Yes' for 'terminationCost'
