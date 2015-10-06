@@ -47,10 +47,14 @@ end
 
 Then /I am presented with the admin '(.*)' page$/ do |page_name|
   page.should have_content(page_name)
+  page.should have_link('Service Updates')
   page.should have_content('Log out')
   page.should have_content('Find a service by service ID')
   page.should have_content('Find services by supplier ID')
   page.should have_content('Find users by supplier ID')
+  page.should have_content('Find suppliers by name prefix')
+  page.should have_content('Find users by email address')
+  page.should have_link('G-Cloud 7 statistics')
 end
 
 When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
@@ -1353,4 +1357,18 @@ Then /The user with email '(.*)' page is presented$/ do |value|
   page.should have_content('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{value.downcase.split('@').first}%40#{value.downcase.split('@').last}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+end
+
+
+Then /I am presented with the '(.*)' page$/ do |value|
+  page.find(
+    :xpath,
+    "//p[contains(text(), '#{value.split(' Statistics').first}')]/../h1[contains(text(), '#{value.split('7 ').last}')]"
+    )
+    current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
+    page.should have_link('Big screen view')
+    page.should have_content('Services by status')
+    page.should have_content('Services by lot')
+    page.should have_content('Suppliers')
+    page.should have_content('Users by last login time')
 end
