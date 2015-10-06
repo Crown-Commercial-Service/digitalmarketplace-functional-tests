@@ -1359,10 +1359,10 @@ Then /The user with email '(.*)' page is presented$/ do |value|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-Then /I am presented with the '(.*)' page$/ do |value|
+Then /I am presented with the G-Cloud 7 Statistics page$/ do
   page.find(
     :xpath,
-    "//p[contains(text(), '#{value.split(' Statistics').first}')]/../h1[contains(text(), '#{value.split('7 ').last}')]"
+    "//p[contains(text(), 'G-Cloud 7')]/../h1[contains(text(), 'Statistics')]"
     )
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
     page.should have_link('Big screen view')
@@ -1373,4 +1373,8 @@ Then /I am presented with the '(.*)' page$/ do |value|
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
     page.should have_link('Service Updates')
     page.should have_content('Log out')
+end
+
+Then /I am presented with the Service Updates page$/ do
+
 end

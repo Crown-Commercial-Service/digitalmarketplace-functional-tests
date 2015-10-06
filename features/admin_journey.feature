@@ -164,7 +164,13 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I click 'Send invitation'
   Then I am presented with the message 'User invited'
 
-  Scenario: As an admin user I want to view G-Cloud 7 statistics
-    Given I have logged in to Digital Marketplace as a 'Administrator' user
-    When I click 'G-Cloud 7 statistics'
-    Then I am presented with the 'G-Cloud 7 Statistics' page
+@WIP
+Scenario: As an admin user I want to view G-Cloud 7 statistics
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'G-Cloud 7 statistics'
+  Then I am presented with the G-Cloud 7 Statistics page
+
+Scenario: As an admin user I want to view Service Updates
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'Service Updates'
+  Then I am presented with the Service Updates page
