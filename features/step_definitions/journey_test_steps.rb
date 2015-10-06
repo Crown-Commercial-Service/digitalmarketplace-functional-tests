@@ -1359,7 +1359,6 @@ Then /The user with email '(.*)' page is presented$/ do |value|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-
 Then /I am presented with the '(.*)' page$/ do |value|
   page.find(
     :xpath,
