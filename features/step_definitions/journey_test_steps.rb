@@ -1371,4 +1371,7 @@ Then /I am presented with the '(.*)' page$/ do |value|
     page.should have_content('Services by lot')
     page.should have_content('Suppliers')
     page.should have_content('Users by last login time')
+    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+    page.should have_link('Service Updates')
+    page.should have_content('Log out')
 end
