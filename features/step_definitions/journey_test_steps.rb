@@ -90,10 +90,17 @@ When /I click the '(.*)' link for the service '(.*)'$/ do |link_name,value|
   @servicesupplierID = value
 end
 
-When /I click the '(.*)' link for the supplier '(.*)'$/ do |link_name,supplier_name|
-  @servicesupplierID = find(:xpath, "//tr[@class='summary-item-row']//span[contains(text(),'#{supplier_name}')]/../..//a[contains(text(),'#{link_name}')]")[:href]
-  @servicesupplierID = "#{@servicesupplierID.split('suppliers/').last.split('/').first}"
-  find(:xpath, "//tr[@class='summary-item-row']//span[contains(text(),'#{supplier_name}')]/../..//a[contains(@href,'/edit/name') and contains(text(),'#{link_name}')]").click
+When /I click the '(.*)' link for the supplier '(.*)'$/ do |link_name, supplier_name|
+  @supplierName = supplier_name
+  rows = page.all(:css, "tr.summary-item-row").select do |row|
+    row.all(:css, "td").first.text() == supplier_name
+  end
+
+  link = rows.first.find_link(link_name)
+  if match = link['href'].match(%r"/admin/suppliers/(\d+)/")
+    @supplierID = @servicesupplierID = match.captures[0]
+  end
+  link.click
 end
 
 Then /I am presented with the summary page for that service$/ do
@@ -253,18 +260,13 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   page.has_button?('Log in')
 end
 
-Given /I click the '(.*)' link for '(.*)'$/ do |action,service_aspect|
-  if service_aspect == 'Supplier information'
-    find(
-      :xpath,
-      "//a[contains(@href , '/suppliers/edit')]"
-    ).click
-  else
-    find(
-      :xpath,
-      "//a[contains(@href , '/services/#{@existing_values['serviceid'].downcase}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}')]"
-    ).click
+Given /I click the '(.*)' link for '(.*)'$/ do |action, summary_heading|
+  all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
+    element.text() == summary_heading
   end
+  top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
+  top_level_action.text().should == action
+  top_level_action.click
 end
 
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|

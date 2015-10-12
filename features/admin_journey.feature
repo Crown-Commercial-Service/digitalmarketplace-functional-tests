@@ -64,7 +64,7 @@ Scenario: Admin user should be able to abort an edit and be returned to the serv
 
 Scenario: As an admin user I wish to edit the features and benefits of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Features and benefits' page
+  When I navigate to the 'Edit' 'Features and benefits' page
   And I change 'serviceFeatures-3' to 'Service feature changed'
   And I remove service benefit number 2
   And I add 'New service feature' as a 'serviceFeatures'
@@ -73,7 +73,7 @@ Scenario: As an admin user I wish to edit the features and benefits of a service
 
 Scenario: As an admin user I wish to edit the pricing of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Pricing' page
+  When I navigate to the 'Edit' 'Pricing' page
   And I change 'input-priceString-MinPrice' to '100'
   And I change 'input-priceString-MaxPrice' to '1234'
   And I set 'input-priceString-Unit' as 'Person'
@@ -91,14 +91,14 @@ Scenario: As an admin user I wish to change a document for a service. Service se
   Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
   When I click the 'Edit' link for the service '1123456789012346'
   Then I am presented with the summary page for that service
-  When I navigate to the 'edit' 'Documents' page
+  When I navigate to the 'Edit' 'Documents' page
   And I change 'serviceDefinitionDocumentURL' file to '12345-test-new-service-definition-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
 
 Scenario: As an admin user I wish to change a document for a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Documents' page
+  When I navigate to the 'Edit' 'Documents' page
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
