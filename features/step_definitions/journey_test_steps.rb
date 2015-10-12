@@ -618,7 +618,7 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
     When I enter '#{name_prefix}' in the 'supplier_name_prefix' field
     And I click the search button for 'supplier_name_prefix'
-    Then I am presented with the '#{page_name}' page for all suppliers starting with '#{name_prefix}'
+    Then I am presented with the 'Suppliers' page for all suppliers starting with '#{name_prefix}'
   }
 end
 
@@ -727,30 +727,37 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
 
-Then /I am presented with the '(.*)' page for all suppliers starting with '(.*)'$/ do |page_name,supplier_search_prefix|
-  page.should have_content("#{page_name}")
+Then /I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'$/ do ||
+  search_prefix = 'DM Functional Test Supplier'
+  page.should have_content('Suppliers')
   page.should have_content('Log out')
-  current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_search_prefix.gsub(' ','+')}")
-  page.should have_selector(:xpath, "//table/tbody/tr[1]/td[1]//*[contains(text(),'#{supplier_search_prefix}')]")
-  page.find(:xpath,
-    "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/11111/edit/name')][text()]"
-  ).text().should have_content('Change name')
-  page.find(:xpath,
-    "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/users?supplier_id=11111')][text()]"
-  ).text().should have_content('Users')
-  page.find(:xpath,
-    "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/services?supplier_id=11111')][text()]"
-  ).text().should have_content('Services')
-  page.find(:xpath,
-    "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/11112/edit/name')][text()]"
-  ).text().should have_content('Change name')
-  page.find(:xpath,
-    "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/users?supplier_id=11112')][text()]"
-  ).text().should have_content('Users')
-  page.find(:xpath,
-    "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/services?supplier_id=11112')][text()]"
-  ).text().should have_content('Services')
-  page.should have_no_selector(:xpath, "//table/tbody/tr[3]")
+  URI.decode_www_form(URI.parse(current_url).query).assoc('supplier_name_prefix').last.should == search_prefix
+
+  table_rows = page.all(:css, "tr.summary-item-row")
+  table_rows.length.should == 2
+
+  table_rows.each do |row|
+    row.all(:css, "td").first.text.should start_with(search_prefix)
+  end
+
+  case @user_type
+  when 'Administrator'
+    expected_links = ['Change name', 'Users', 'Services']
+  when 'CCS Sourcing'
+    expected_links = ['G-Cloud 7 declaration']
+  else
+    fail("Invalid user on admin suppliers page #{@user_type}")
+  end
+
+  table_rows[0].all(:css, "td").first.text.should == "DM Functional Test Supplier"
+  expected_links.each do |expected_link|
+    table_rows[0].all(:css, "a").map(&:text).should include(expected_link)
+  end
+  
+  table_rows[1].all(:css, "td").first.text.should == "DM Functional Test Supplier 2"
+  expected_links.each do |expected_link|
+    table_rows[1].all(:css, "a").map(&:text).should include(expected_link)
+  end
 end
 
 And /I can see all listings ordered by lot name followed by listing name$/ do
