@@ -110,6 +110,20 @@ And /^The test suppliers have users$/ do
   create_supplier_user(11112,dm_supplier2_user_email(),"DM Functional Test Supplier 2 User 1", dm_supplier_password())
 end
 
+And /^The test suppliers have declarations$/ do
+  declaration = JSON.parse(File.read("./fixtures/11111-g7-declaration.json"))
+  payload = {
+    "declaration" => declaration,
+    "updated_by" => "Test User",
+  }
+
+  url = "#{dm_api_domain}/suppliers/11111/frameworks/g-cloud-7/declaration"
+  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{dm_api_access_token}"}
+
+  response = RestClient.put(url, payload.to_json, headers){|response, request, result| response}
+  response.code.should == 200
+end
+
 And /^I have an admin user$/ do
   create_admin_user(dm_admin_email(),"DM Functional Test Admin User 1", dm_admin_password())
 end
