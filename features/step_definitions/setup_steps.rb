@@ -124,7 +124,7 @@ end
 And /^Test supplier users are active$/ do
   steps %Q{
     Given I have logged in to Digital Marketplace as a 'Administrator' user
-    Then I am presented with the admin 'Admin' page
+    Then I am presented with the admin search page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
   activate_users("DM Functional Test Supplier User 3")
@@ -142,7 +142,7 @@ end
 And /^Test supplier users are not locked$/ do
   steps %Q{
     Given I have logged in to Digital Marketplace as a 'Administrator' user
-    Then I am presented with the admin 'Admin' page
+    Then I am presented with the admin search page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
   unlock_users("DM Functional Test Supplier User 3")

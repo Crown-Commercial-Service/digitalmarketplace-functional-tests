@@ -45,8 +45,8 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 end
 
-Then /I am presented with the admin '(.*)' page$/ do |page_name|
-  page.should have_content(page_name)
+Then /I am presented with the admin search page$/ do
+  page.should have_content('Admin')
   page.should have_link('Service Updates')
   page.should have_content('Log out')
   page.should have_content('Find a service by service ID')
