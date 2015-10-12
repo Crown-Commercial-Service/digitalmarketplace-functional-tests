@@ -3,12 +3,15 @@ require "ostruct"
 require "rest_client"
 
 Given /I am on the '(.*)' login page$/ do |user_type|
-  if user_type == 'Administrator'
+  case user_type
+  when 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
     page.should have_content("#{user_type} login")
-  elsif user_type == 'Supplier'
+  when 'Supplier'
     visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
     page.should have_content('Log in to the Digital Marketplace')
+  else
+    fail("Unrecognised user login page '#{user_type}'")
   end
   page.should have_content('Email address')
   page.should have_content('Password')
@@ -16,15 +19,21 @@ Given /I am on the '(.*)' login page$/ do |user_type|
 end
 
 When /I login as a '(.*)' user$/ do |user_type|
-  if user_type == 'Administrator'
+  case user_type
+  when 'Administrator'
     page.fill_in('email_address', :with => dm_admin_email())
     page.fill_in('password', :with => dm_admin_password())
-    page.click_link_or_button('Log in')
-  elsif user_type == 'Supplier'
+  when 'Supplier'
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
-    page.click_link_or_button('Log in')
+  when 'CCS Sourcing'
+    page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
+    page.fill_in('password', :with => dm_admin_password())
+  else
+    fail("Unrecognised user type '#{user_type}'")
   end
+  @user_type = user_type
+  page.click_link_or_button('Log in')
 end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
@@ -223,7 +232,7 @@ end
 
 Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
   steps %Q{
-    Given I am on the '#{user_type}' login page
+    Given I am on the '#{login_page_type(user_type)}' login page
     When I login as a '#{user_type}' user
   }
 end
@@ -611,6 +620,14 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
     And I click the search button for '#{search_button_name}'
     Then I am presented with the '#{page_name}' page for the supplier '#{supplier_name}'
   }
+end
+
+def login_page_type(user_type)
+  if user_type == "CCS Sourcing"
+    return "Administrator"
+  else
+    return user_type
+  end
 end
 
 Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on suppliers by name prefix '(.*)'$/ do |user_type,page_name,name_prefix|
