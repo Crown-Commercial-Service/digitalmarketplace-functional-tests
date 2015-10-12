@@ -90,6 +90,12 @@ When /I click the '(.*)' link for the service '(.*)'$/ do |link_name,value|
   @servicesupplierID = value
 end
 
+When /I click the '(.*)' link for the supplier '(.*)'$/ do |link_name,supplier_name|
+  @servicesupplierID = find(:xpath, "//tr[@class='summary-item-row']//span[contains(text(),'#{supplier_name}')]/../..//a[contains(text(),'#{link_name}')]")[:href]
+  @servicesupplierID = "#{@servicesupplierID.split('suppliers/').last.split('/').first}"
+  find(:xpath, "//tr[@class='summary-item-row']//span[contains(text(),'#{supplier_name}')]/../..//a[contains(@href,'/edit/name') and contains(text(),'#{link_name}')]").click
+end
+
 Then /I am presented with the summary page for that service$/ do
   @existing_values = @existing_values || Hash.new
   @existing_values['summarypageurl'] = current_url
@@ -605,6 +611,15 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
   }
 end
 
+Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on suppliers by name prefix '(.*)'$/ do |user_type,page_name,name_prefix|
+  steps %Q{
+    Given I have logged in to Digital Marketplace as a '#{user_type}' user
+    When I enter '#{name_prefix}' in the 'supplier_name_prefix' field
+    And I click the search button for 'supplier_name_prefix'
+    Then I am presented with the '#{page_name}' page for all suppliers starting with '#{name_prefix}'
+  }
+end
+
 Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
   steps %Q{
     Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
@@ -686,17 +701,26 @@ And /I should not see the supplier user '(.*)' in the '(.*)' table$/ do |user_na
 end
 
 Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_name,supplier_name|
-  if @servicesupplierID == 'testing.supplier.username@dmtestemail.com'
-    @servicesupplierID = '11111'
-  end
-
-  if page_name == 'Users'
-    page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{supplier_name}')]")
-  elsif page_name == 'Services'
+  if page_name == 'Change supplier name'
     page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{page_name}')]")
+    page.should have_selector(:xpath, "//div[@id='new_supplier_name']//*[contains(text(),'New name')]")
+    page.should have_selector(:xpath, "//input[contains(@class,'text-box') and contains(@value,'#{supplier_name}')]")
+    page.should have_button('Save')
+    #@servicesupplierID = '11112'
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{@servicesupplierID}/edit/name")
+  else
+    if @servicesupplierID == 'testing.supplier.username@dmtestemail.com'
+      @servicesupplierID = '11111'
+    end
+
+    if page_name == 'Users'
+      page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{supplier_name}')]")
+    elsif page_name == 'Services'
+      page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{page_name}')]")
+    end
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   end
   page.should have_content('Log out')
-  current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
@@ -707,11 +731,17 @@ Then /I am presented with the '(.*)' page for all suppliers starting with '(.*)'
   current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_search_prefix.gsub(' ','+')}")
   page.should have_selector(:xpath, "//table/tbody/tr[1]/td[1]//*[contains(text(),'#{supplier_search_prefix}')]")
   page.find(:xpath,
+    "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/11111/edit/name')][text()]"
+  ).text().should have_content('Change name')
+  page.find(:xpath,
     "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/users?supplier_id=11111')][text()]"
   ).text().should have_content('Users')
   page.find(:xpath,
     "//table/tbody/tr[1]//*[contains(text(),'DM Functional Test Supplier')]/../..//a[contains(@href,'/admin/suppliers/services?supplier_id=11111')][text()]"
   ).text().should have_content('Services')
+  page.find(:xpath,
+    "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/11112/edit/name')][text()]"
+  ).text().should have_content('Change name')
   page.find(:xpath,
     "//table/tbody/tr[2]//*[contains(text(),'DM Functional Test Supplier 2')]/../..//a[contains(@href,'/admin/suppliers/users?supplier_id=11112')][text()]"
   ).text().should have_content('Users')
@@ -1382,4 +1412,12 @@ Then /I am presented with the '(.*)' page$/ do |value|
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
     page.should have_link('Service Updates')
     page.should have_content('Log out')
+end
+
+Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
+  page.should have_content("#{page_name}")
+  page.should have_content('Log out')
+  page.should have_link('Log out')
+  current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_name.split('M Functional Test Supplier').first}")
+  page.should have_selector(:xpath, "//table/tbody/tr/td/span[contains(text(),'#{supplier_name}')]")
 end

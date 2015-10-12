@@ -164,7 +164,16 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I click 'Send invitation'
   Then I am presented with the message 'User invited'
 
-  Scenario: As an admin user I want to view G-Cloud 7 statistics
-    Given I have logged in to Digital Marketplace as a 'Administrator' user
-    When I click 'G-Cloud 7 statistics'
-    Then I am presented with the 'G-Cloud 7 Statistics' page
+Scenario: As an admin user I want to view G-Cloud 7 statistics
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'G-Cloud 7 statistics'
+  Then I am presented with the 'G-Cloud 7 Statistics' page
+
+Scenario: As an admin user I want to change the supplier name of a current supplier
+  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  When I click the 'Change name' link for the supplier 'DM Functional Test Supplier 2'
+  Then I am presented with the 'Change supplier name' page for the supplier 'DM Functional Test Supplier 2'
+
+  When I change 'new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
+  And I click 'Save'
+  Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page
