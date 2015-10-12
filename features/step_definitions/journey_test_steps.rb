@@ -54,6 +54,45 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 end
 
+Then /I am presented with the admin G-Cloud 7 declaration page$/ do
+  page.find(:css, "h1").text().should == "G-Cloud 7 declaration"
+  page.find(:css, "header p.context").text().should == @supplierName
+
+  section_headings = page.all(:css, "h2.summary-item-heading")
+  section_headings.length.should == 4
+  section_headings[0].text().should == "G-Cloud 7 essentials"
+  section_headings[1].text().should == "About you"
+  section_headings[2].text().should == "Grounds for mandatory exclusion"
+  section_headings[3].text().should == "Grounds for discretionary exclusion"
+
+  section_edit_links = page.all(:css, "a.summary-change-link")
+  section_edit_links.length.should == 4
+  section_edit_links[0][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/g_cloud_7_essentials"
+  section_edit_links[1][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/about_you"
+  section_edit_links[2][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds_for_mandatory_exclusion"
+  section_edit_links[3][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds_for_discretionary_exclusion"
+
+  page.all(:css, "table.summary-item-body").each do |section_table|
+    column_headings = section_table.all(:css, "thead th")
+    column_headings.length.should == 2
+    column_headings[0].text().should == "Declaration question"
+    column_headings[1].text().should == "Declaration answer"
+  end
+
+  declaration_answers = page.all(:xpath, "//tr[@class='summary-item-row']//td[2]")
+  declaration_answers[0].text().should == "Yes"
+  declaration_answers[17].text().should == "Button Moon"
+  declaration_answers[30].text().should == "small"
+end
+
+Then /I am presented with the updated admin G-Cloud 7 declaration page$/ do
+  page.find(:css, "h1").text().should == "G-Cloud 7 declaration"
+  page.find(:css, "header p.context").text().should == @supplierName
+
+  declaration_answers = page.all(:xpath, "//tr[@class='summary-item-row']//td[2]")
+  declaration_answers[0].text().should == "No"
+end
+
 Then /I am presented with the admin search page$/ do
   page.should have_content('Admin')
   page.should have_link('Service Updates')
@@ -1446,4 +1485,12 @@ Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' 
   page.should have_link('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_name.split('M Functional Test Supplier').first}")
   page.should have_selector(:xpath, "//table/tbody/tr/td/span[contains(text(),'#{supplier_name}')]")
+end
+
+Then /^there is no '(.*)' link for any supplier$/ do |link_text|
+  page.all(:css, "tr.summary-item-row").each do |row|
+    row.all(:css, "td a").each do |link|
+      link.text().should_not == link_text
+    end
+  end
 end
