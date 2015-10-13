@@ -15,6 +15,9 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
     When I click the 'Edit' link for 'G-Cloud 7 essentials'
     And I choose 'No' for 'PR1'
     And I click 'Save and return to summary'
+    And I click the 'Edit' link for 'Grounds for discretionary exclusion'
+    And I change 'SQ3-1k' to 'Everything'
+    And I click 'Save and return to summary'
     Then I am presented with the updated admin G-Cloud 7 declaration page
 
 Scenario: As a normal admin user I should not be able to edit a supplier declaration

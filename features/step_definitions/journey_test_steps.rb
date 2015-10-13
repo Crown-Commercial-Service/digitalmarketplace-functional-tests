@@ -91,6 +91,7 @@ Then /I am presented with the updated admin G-Cloud 7 declaration page$/ do
 
   declaration_answers = page.all(:xpath, "//tr[@class='summary-item-row']//td[2]")
   declaration_answers[0].text().should == "No"
+  declaration_answers[51].text().should == "Everything"
 end
 
 Then /I am presented with the admin search page$/ do
