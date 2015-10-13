@@ -168,7 +168,7 @@ Scenario: As an admin user I want to view G-Cloud 7 statistics
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'G-Cloud 7 statistics'
   Then I am presented with the G-Cloud 7 Statistics page
-  
+
 @WIP
 Scenario: As an admin user I want to view Service Updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user

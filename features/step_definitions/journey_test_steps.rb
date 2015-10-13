@@ -1375,15 +1375,18 @@ Then /I am presented with the G-Cloud 7 Statistics page$/ do
     page.should have_content('Log out')
 end
 
-Then /I am presented with the Service Updates page$/ do
-  time = Time.new
-  todays_date= time.strftime("%A %d %B %Y")
-  page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
-  page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
-  page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
-  page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
-  page.should have_selector(:xpath, "//*/div[@class='options-container']//label[1]/input[contains(@id,'acknowledged-1') and contains(@type,'radio')]/../text()[2]").text().should match('All')
-  page.should have_selector(:xpath, "//*/div[@class='options-container']//label[2]/input[contains(@id,'acknowledged-2') and contains(@type,'radio')]/../text()[2]").text().should match('All')
-  page.should have_selector(:xpath, "//*/div[@class='options-container']//label[3]/input[contains(@id,'acknowledged-3') and contains(@type,'radio')]/../text()[2]").text().should match('All')
-  page.should have_selector(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]".text().should match('All')
-end
+@WIP
+  Then /I am presented with the Service Updates page$/ do
+    time = Time.new
+    todays_date= time.strftime("%A %d %B %Y")
+    page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
+    page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
+    page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
+    page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
+    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
+    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledge')
+    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
+    page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
+    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+    page.should have_content('Log out')
+  end
