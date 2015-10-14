@@ -52,7 +52,7 @@ Scenario: As a logged in supplier user, I can navigate to the service summary pa
 
 Scenario: As a logged in supplier user, I can edit my supplier information
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  When I navigate to the 'edit' 'Supplier information' page
+  When I navigate to the 'Edit' 'Supplier information' page
   And I change 'description' to 'Supplier changed the service description'
   And I change 'clients-3' to 'Supplier changed the third client'
   And I remove client number 2
@@ -70,7 +70,7 @@ Scenario: As a logged in supplier user, I can edit my supplier information
 
 Scenario: As a logged in supplier user, I can edit the description of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Description' page
+  When I navigate to the 'Edit' 'Description' page
   And I change 'serviceName' to 'Supplier changed the service name'
   And I change 'serviceSummary' to 'Supplier changed the service summary'
   And I click 'Save and return to service'
@@ -78,7 +78,7 @@ Scenario: As a logged in supplier user, I can edit the description of a service
 
 Scenario: As a logged in supplier user, I can edit the features and benefits of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Features and benefits' page
+  When I navigate to the 'Edit' 'Features and benefits' page
   And I change 'serviceFeatures-3' to 'Supplier changed this service feature'
   And I remove service benefit number 2
   And I add 'This is a new service feature' as a 'serviceFeatures'

@@ -8,4 +8,4 @@ bundle install
 mkdir -p reports
 rm -f screenshot*
 
-bundle exec cucumber --tags ~@ssp --tags ~@wip --tags @functional-test --color --format html --out reports/index.html --format pretty
+bundle exec cucumber -r features --tags ~@ssp --tags ~@wip --tags @functional-test --color --format html --out reports/index.html --format pretty
