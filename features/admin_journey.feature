@@ -169,8 +169,12 @@ Scenario: As an admin user I want to view G-Cloud 7 statistics
   When I click 'G-Cloud 7 statistics'
   Then I am presented with the G-Cloud 7 Statistics page
 
-@WIP
 Scenario: As an admin user I want to view Service Updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'Service Updates'
   Then I am presented with the Service Updates page
+
+#Scenario: As an admin user I want to filter  the search results on the Service Upadates by date
+  Given I am on the Service Updates page
+  When I enter dates in the audit date box
+  Then I am presented with search results within the specific dates
