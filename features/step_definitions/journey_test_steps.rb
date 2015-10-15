@@ -1375,7 +1375,7 @@ Then /I am presented with the G-Cloud 7 Statistics page$/ do
     page.should have_content('Log out')
 end
 
-@WIP
+
   Then /I am presented with the Service Updates page$/ do
     time = Time.new
     todays_date= time.strftime("%A %d %B %Y")
