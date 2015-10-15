@@ -810,7 +810,7 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   expected_links.each do |expected_link|
     table_rows[0].all(:css, "a").map(&:text).should include(expected_link)
   end
-  
+
   table_rows[1].all(:css, "td").first.text.should == "DM Functional Test Supplier 2"
   expected_links.each do |expected_link|
     table_rows[1].all(:css, "a").map(&:text).should include(expected_link)
@@ -1464,10 +1464,10 @@ Then /The user with email '(.*)' page is presented$/ do |value|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-Then /I am presented with the '(.*)' page$/ do |value|
+Then /I am presented with the G-Cloud 7 Statistics page$/ do
   page.find(
     :xpath,
-    "//p[contains(text(), '#{value.split(' Statistics').first}')]/../h1[contains(text(), '#{value.split('7 ').last}')]"
+    "//p[contains(text(), 'G-Cloud 7')]/../h1[contains(text(), 'Statistics')]"
     )
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
     page.should have_link('Big screen view')
@@ -1479,6 +1479,23 @@ Then /I am presented with the '(.*)' page$/ do |value|
     page.should have_link('Service Updates')
     page.should have_content('Log out')
 end
+
+
+  Then /I am presented with the Service Updates page$/ do
+    time = Time.new
+    todays_date= time.strftime("%A %d %B %Y")
+    page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
+    page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
+    page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
+    page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
+    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
+    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledge')
+    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
+    page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
+    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
+    page.should have_content('Log out')
+  end
 
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
