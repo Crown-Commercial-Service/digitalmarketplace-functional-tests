@@ -179,7 +179,8 @@
       ]
     },
     "priceInterval": "Month",
-    "priceMin": 9.75,
+    "priceMin": "9.75",
+    "priceMax": "",
     "priceString": "\u00a39.75 per licence per month",
     "priceUnit": "Licence",
     "pricingDocument": "Pricing template V1.0.pdf",

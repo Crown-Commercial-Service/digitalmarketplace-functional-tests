@@ -257,7 +257,7 @@ Feature: Submitting a new service for IaaS
     When I click my service
     Then I should be on the 'My IaaS service' page
     And The string 'Answer required' should be on the page
-    And The string 'The service is complete' should not be on the page
+    And The 'Mark as complete' button should not be on the page
 
   Scenario: Personnel security
     Given I am on ssp page 'personnel_security'
@@ -379,10 +379,10 @@ Feature: Submitting a new service for IaaS
 
   # TODO: Remove WIP once completing services is implemented
   @wip
-  Scenario: The service is complete
+  Scenario: Mark as complete
     Given I am on the summary page
     Then The string 'Answer required' should not be on the page
-    And The string 'The service is complete' should be on the page
+    And The 'Mark as complete' button should be on the page
 
   Scenario: Verify text on summary page
     Given I am on the summary page

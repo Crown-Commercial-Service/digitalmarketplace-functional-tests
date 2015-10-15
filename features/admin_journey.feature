@@ -12,7 +12,7 @@ Scenario: Setup for tests
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Administrator' login page
   When I login as a 'Administrator' user
-  Then I am presented with the admin 'Admin' page
+  Then I am presented with the admin search page
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Administrator' user
 
@@ -64,7 +64,7 @@ Scenario: Admin user should be able to abort an edit and be returned to the serv
 
 Scenario: As an admin user I wish to edit the features and benefits of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Features and benefits' page
+  When I navigate to the 'Edit' 'Features and benefits' page
   And I change 'serviceFeatures-3' to 'Service feature changed'
   And I remove service benefit number 2
   And I add 'New service feature' as a 'serviceFeatures'
@@ -73,11 +73,11 @@ Scenario: As an admin user I wish to edit the features and benefits of a service
 
 Scenario: As an admin user I wish to edit the pricing of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Pricing' page
-  And I change 'priceMin' to '100'
-  And I change 'priceMax' to '1234'
-  And I set 'priceUnit' as 'Person'
-  And I set 'priceInterval' as 'Week'
+  When I navigate to the 'Edit' 'Pricing' page
+  And I change 'input-priceString-MinPrice' to '100'
+  And I change 'input-priceString-MaxPrice' to '1234'
+  And I set 'input-priceString-Unit' as 'Person'
+  And I set 'input-priceString-Interval' as 'Week'
   And I choose 'No' for 'vatIncluded'
   And I choose 'No' for 'educationPricing'
   And I choose 'Yes' for 'terminationCost'
@@ -91,14 +91,14 @@ Scenario: As an admin user I wish to change a document for a service. Service se
   Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
   When I click the 'Edit' link for the service '1123456789012346'
   Then I am presented with the summary page for that service
-  When I navigate to the 'edit' 'Documents' page
+  When I navigate to the 'Edit' 'Documents' page
   And I change 'serviceDefinitionDocumentURL' file to '12345-test-new-service-definition-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
 
 Scenario: As an admin user I wish to change a document for a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
-  When I navigate to the 'edit' 'Documents' page
+  When I navigate to the 'Edit' 'Documents' page
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
@@ -174,7 +174,11 @@ Scenario: As an admin user I want to view Service Updates
   When I click 'Service Updates'
   Then I am presented with the Service Updates page
 
-#Scenario: As an admin user I want to filter  the search results on the Service Upadates by date
-  Given I am on the Service Updates page
-  When I enter dates in the audit date box
-  Then I am presented with search results within the specific dates
+Scenario: As an admin user I want to change the supplier name of a current supplier
+  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  When I click the 'Change name' link for the supplier 'DM Functional Test Supplier 2'
+  Then I am presented with the 'Change supplier name' page for the supplier 'DM Functional Test Supplier 2'
+
+  When I change 'new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
+  And I click 'Save'
+  Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page

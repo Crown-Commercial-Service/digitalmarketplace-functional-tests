@@ -3,7 +3,7 @@ Feature: Create new G-Cloud supplier account
 
 Scenario: User steps through supplier account creation process
   Given I am on the 'Digital Marketplace' landing page
-  When I click 'Create new supplier account'
+  When I click 'Create supplier account'
   Then I am on the 'Create supplier account' page
 
   When I click the 'Start' button

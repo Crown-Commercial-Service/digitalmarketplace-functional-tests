@@ -2,22 +2,21 @@
   "updated_by":"functional tests",
    "suppliers":
       {
-         "id":11111,
-         "name":"DM Functional Test Supplier",
-         "description":"This is a test supplier, which will be used solely for the purpose of running functional test.",
+         "id": 0,
+         "name": "",
          "contactInformation": [
              {
+               "email": "",
+               "contactName": "",
+               "postcode": "",
                "website": "www.dmfunctionaltestsupplier.com",
-               "contactName": "Testing Supplier Name",
-               "email": "Testing.supplier.NaMe@DMtestemail.com",
                "phoneNumber": "+44 (0) 123456789",
                "address1": "125 Kingsway",
                "city": "London",
-               "country": "United Kingdom",
-               "postcode": "WC2B 6NH"
+               "country": "United Kingdom"
              }
            ],
-         "dunsNumber":"930123456789",
+         "dunsNumber": "",
          "clients": [
            "First client",
            "Second client",

@@ -6,20 +6,19 @@ require "test/unit"
 
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
   file = File.read("./fixtures/test-supplier.json")
-  json = JSON.parse(file)
+  supplier_data = JSON.parse(file)
 
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
   supplier_url = "#{url}/suppliers/#{supplier_id}"
-  supplier_data = JSON.parse(file)
-  supplier_data ["suppliers"]["id"] = supplier_id
-  supplier_data ["suppliers"]["name"] = supplier_name
-  supplier_data ["suppliers"]["description"] = supplier_description
-  supplier_data ["suppliers"]["contactInformation"][0]["contactName"] = supplier_contactName
-  supplier_data ["suppliers"]["contactInformation"][0]["email"] = supplier_email
-  supplier_data ["suppliers"]["contactInformation"][0]["postcode"] = supplier_postcode
-  supplier_data ["suppliers"]["dunsNumber"] = supplier_dunsnumber
+  supplier_data["suppliers"]["id"] = supplier_id
+  supplier_data["suppliers"]["name"] = supplier_name
+  supplier_data["suppliers"]["description"] = supplier_description
+  supplier_data["suppliers"]["contactInformation"][0]["contactName"] = supplier_contactName
+  supplier_data["suppliers"]["contactInformation"][0]["email"] = supplier_email
+  supplier_data["suppliers"]["contactInformation"][0]["postcode"] = supplier_postcode
+  supplier_data["suppliers"]["dunsNumber"] = supplier_dunsnumber
 
   response = RestClient.get(supplier_url, headers){|response, request, result| response }
   if response.code == 404
@@ -43,15 +42,14 @@ end
 
 def create_service (supplier_id, service_id, lot)
   file = File.read("./fixtures/#{supplier_id}-g6-#{lot}-test-service.json")
-  json = JSON.parse(file)
+  service_data = JSON.parse(file)
 
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
   service_url = "#{url}/services/#{service_id}"
-  service_data = JSON.parse(file)
-  service_data ["services"]["id"] = service_id
-  service_data ["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
+  service_data["services"]["id"] = service_id
+  service_data["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
 
   response = RestClient.get(service_url, headers){|response, request, result| response }
   if response.code == 404
@@ -75,17 +73,18 @@ Given /^The test suppliers have services$/ do
     create_service(11112,"1123456789012354","iaas")
 end
 
-def create_user (supplierid,email,username)
-  file = File.read("./fixtures/test-supplier-user.json")
-  json = JSON.parse(file)
+def create_user (email,username,password,role,supplierid=nil)
+  file = File.read("./fixtures/test-user.json")
+  user_data = JSON.parse(file)
 
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  user_data = JSON.parse(file)
-  user_data ["users"]["supplierId"] = supplierid
-  user_data ["users"]["emailAddress"] = email
-  user_data ["users"]["name"] = username
+  user_data["users"]["emailAddress"] = email
+  user_data["users"]["name"] = username
+  user_data["users"]["password"] = password
+  user_data["users"]["role"] = role
+  user_data["users"]["supplierId"] = supplierid if supplierid
   user_url = "#{url}/users?email_address=#{email}"
 
   response = RestClient.get(user_url, headers){|response, request, result| response }
@@ -96,11 +95,37 @@ def create_user (supplierid,email,username)
   end
 end
 
+def create_supplier_user (supplierid,email,username,password)
+  create_user(email,username,password,"supplier",supplierid)
+end
+
+def create_admin_user (email,username,password)
+  create_user(email,username,password,"admin")
+end
+
 And /^The test suppliers have users$/ do
-  create_user(11111,"Testing.supplier.USERNaMe@DMtestemail.com","DM Functional Test Supplier User 1")
-  create_user(11111,"testing.supplier.username2@dmtestemail.com","DM Functional Test Supplier User 2")
-  create_user(11111,"testing.supplier.username3@dmtestemail.com","DM Functional Test Supplier User 3")
-  create_user(11112,"testing.supplier2.username@dmtestemail.com","DM Functional Test Supplier2 User 1")
+  create_supplier_user(11111,dm_supplier_user_email(),"DM Functional Test Supplier User 1", dm_supplier_password())
+  create_supplier_user(11111,dm_supplier_user2_email(),"DM Functional Test Supplier User 2", dm_supplier_password())
+  create_supplier_user(11111,dm_supplier_user3_email(),"DM Functional Test Supplier User 3", dm_supplier_password())
+  create_supplier_user(11112,dm_supplier2_user_email(),"DM Functional Test Supplier 2 User 1", dm_supplier_password())
+end
+
+And /^The test suppliers have declarations$/ do
+  declaration = JSON.parse(File.read("./fixtures/11111-g7-declaration.json"))
+  payload = {
+    "declaration" => declaration,
+    "updated_by" => "Test User",
+  }
+
+  url = "#{dm_api_domain}/suppliers/11111/frameworks/g-cloud-7/declaration"
+  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{dm_api_access_token}"}
+
+  response = RestClient.put(url, payload.to_json, headers){|response, request, result| response}
+  response.code.should == 200
+end
+
+And /^I have an admin user$/ do
+  create_admin_user(dm_admin_email(),"DM Functional Test Admin User 1", dm_admin_password())
 end
 
 def activate_users (user_name)
@@ -113,7 +138,7 @@ end
 And /^Test supplier users are active$/ do
   steps %Q{
     Given I have logged in to Digital Marketplace as a 'Administrator' user
-    Then I am presented with the admin 'Admin' page
+    Then I am presented with the admin search page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
   activate_users("DM Functional Test Supplier User 3")
@@ -131,7 +156,7 @@ end
 And /^Test supplier users are not locked$/ do
   steps %Q{
     Given I have logged in to Digital Marketplace as a 'Administrator' user
-    Then I am presented with the admin 'Admin' page
+    Then I am presented with the admin search page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
   unlock_users("DM Functional Test Supplier User 3")
@@ -152,7 +177,7 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   lockstate = JSON.parse(response.body)["users"][0]["locked"]
 
   while failedlogincount < 6 and lockstate == false
-    fill_in('email_address', :with => dm_supplier3_email())
+    fill_in('email_address', :with => dm_supplier_user3_email())
     fill_in('password', :with => 'invalidpassword')
     click_link_or_button('Log in')
     failedlogincount += 1
