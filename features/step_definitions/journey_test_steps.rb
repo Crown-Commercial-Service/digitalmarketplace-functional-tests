@@ -1493,6 +1493,7 @@ end
     page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
     page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
     page.should have_content('Log out')
   end
 
