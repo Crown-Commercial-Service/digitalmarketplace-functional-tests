@@ -96,7 +96,7 @@
       "assurance": "Independent validation of assertion",
       "value": true
     },
-    "frameworkName": "G-Cloud 6",
+    "frameworkSlug": "g-cloud-6",
     "freeOption": false,
     "governanceFramework": {
       "assurance": "Independent validation of assertion",
@@ -142,7 +142,7 @@
     "links": {
       "self": "https://api.beta.digitalmarketplace.service.gov.uk/services/1234567890000001"
     },
-    "lot": "PaaS",
+    "lot": "paas",
     "managementInterfaceProtection": {
       "assurance": "Service provider assertion",
       "value": true

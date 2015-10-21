@@ -4,14 +4,14 @@
       "update_reason": "For testing"},
   "services": {
     "educationPricing": false,
-    "frameworkName": "G-Cloud 6",
+    "frameworkSlug": "g-cloud-6",
     "id": "1234567890000001",
     "incidentEscalation": false,
     "createdAt": "2014-12-08T20:54:39Z",
     "links": {
       "self": "https://api.beta.digitalmarketplace.service.gov.uk/services/1234567890000001"
     },
-    "lot": "SCS",
+    "lot": "scs",
     "minimumContractPeriod": "Day",
     "priceInterval": "Day",
     "priceMax": "960",
