@@ -110,6 +110,15 @@ When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name
   step "I enter '\"#{@service[attr_name]}\"' in the '#{field_name}' field"
 end
 
+When /I enter the email address for the '(.*)' user in the '(.*)' field$/ do |user,field_name|
+  user_email = {
+    "DM Functional Test Supplier User 1" => dm_supplier_user_email(),
+    "DM Functional Test Supplier User 2" => dm_supplier_user2_email(),
+    "DM Functional Test Supplier User 3" => dm_supplier_user3_email()
+  }[user]
+  step "I enter '#{user_email}' in the '#{field_name}' field"
+end
+
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   @value_of_interest = @value_of_interest || Hash.new
   page.fill_in(field_name, with: value)
@@ -1458,6 +1467,15 @@ And /All users for the supplier ID 11111 are listed on the page$/ do
   page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 1')]")
   page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 2')]")
   page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 3')]")
+end
+
+Then /The page for the '(.*)' user is presented$/ do |user|
+  user_email = {
+    "DM Functional Test Supplier User 1" => dm_supplier_user_email(),
+    "DM Functional Test Supplier User 2" => dm_supplier_user2_email(),
+    "DM Functional Test Supplier User 3" => dm_supplier_user3_email()
+  }[user]
+  step "The user with email '#{user_email}' page is presented"
 end
 
 Then /The user with email '(.*)' page is presented$/ do |value|
