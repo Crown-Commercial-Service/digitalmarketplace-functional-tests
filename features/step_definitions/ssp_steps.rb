@@ -26,11 +26,11 @@ Given /^I am at the g7 services page$/ do
 end
 
 Given /^I am on the summary page$/ do
-  visit("#{dm_frontend_domain}/suppliers/submission/services/#{store.current_listing}")
+  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}")
 end
 
 Given /^I am on ssp page '(.+)'$/ do |page_name|
-  visit("#{dm_frontend_domain}/suppliers/submission/services/#{store.current_listing}/edit/#{page_name}/")
+  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}/edit/#{page_name}/")
 end
 
 Given /^The service is deleted$/ do
