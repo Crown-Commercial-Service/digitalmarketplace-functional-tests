@@ -818,15 +818,16 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
 end
 
 And /I can see all listings ordered by lot name followed by listing name$/ do
-  service_listed_and_in_correct_order("1123456789012346","1")
-  service_listed_and_in_correct_order("1123456789012350","2")
-  service_listed_and_in_correct_order("1123456789012347","3")
-  service_listed_and_in_correct_order("1123456789012351","4")
-  # OS differences beween Linux and OSX mean that "SaaS" and "SCS" are ordered differently
-  # service_listed_and_in_correct_order("1123456789012348","5")
-  # service_listed_and_in_correct_order("1123456789012352","6")
-  # service_listed_and_in_correct_order("1123456789012349","7")
-  # service_listed_and_in_correct_order("1123456789012353","8")
+  services_listed([
+    "1123456789012348",
+    "1123456789012352",
+    "1123456789012347",
+    "1123456789012351",
+    "1123456789012346",
+    "1123456789012350",
+    "1123456789012349",
+    "1123456789012353",
+  ])
   page.should have_no_selector(:xpath, "*//table/tbody/tr[9][td/text()]")
 end
 
@@ -844,22 +845,24 @@ Then /I can see active users associated with '(.*)' on the dashboard$/ do |suppl
   end
 end
 
-def service_listed_and_in_correct_order (service_id,order_number)
+def services_listed(service_ids)
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  service_url = "#{url}/services/#{service_id}"
-  response = RestClient.get(service_url, headers){|response, request, result| response }
-  json = JSON.parse(response)
-  service_name = json["services"]["serviceName"]
-  service_lot = json["services"]["lot"]
-  xpath_to_check = find(:xpath, "*//table/tbody/tr[#{order_number}][td/text()]").text()
+  service_ids.each.with_index(1) do |service_id, order_number|
+    service_url = "#{url}/services/#{service_id}"
+    response = RestClient.get(service_url, headers){|response, request, result| response }
+    json = JSON.parse(response)
+    service_name = json["services"]["serviceName"]
+    service_lot = json["services"]["lotName"]
+    xpath_to_check = find(:xpath, "*//table/tbody/tr[#{order_number}][td/text()]").text()
 
-  if response.code == 404
-    puts "Service #{service_id} does not exist"
-  else
-    xpath_to_check.should have_content("#{service_name}")
-    xpath_to_check.should have_content("#{service_lot}")
+    if response.code == 404
+      puts "Service #{service_id} does not exist"
+    else
+      xpath_to_check.should have_content("#{service_name}")
+      xpath_to_check.should have_content("#{service_lot}")
+    end
   end
 end
 
@@ -1133,7 +1136,7 @@ Then /I am on a page with '(.*)' in search summary text$/ do |value|
 end
 
 Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
-  lot = full_lot(@service['lot'])
+  lot = @service['lotName']
   query = @service[attr]
   step "Selected lot is '#{lot}' with links to the search for '\"#{query}\"'"
 end
@@ -1190,7 +1193,7 @@ Then /I am on a page with that service in search results$/ do
 
   service_result.first(:xpath, "./h2[@class='search-result-title']/a").text.should == normalize_whitespace(@service['serviceName'])
   service_result.first(:xpath, "./p[@class='search-result-supplier']").text.should == normalize_whitespace(@service['supplierName'])
-  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == full_lot(@service['lot'])
+  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == @service['lotName']
   service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][2]").text.should == @service['frameworkName']
 end
 
@@ -1213,7 +1216,7 @@ Then /Words in the search result excerpt that match the search criteria are high
 end
 
 Given /I am on the search results page with results for that service.lot displayed$/ do
-  step "Given I am on the search results page with results for '#{full_lot(@service['lot'])}' lot displayed"
+  step "Given I am on the search results page with results for '#{@service['lotName']}' lot displayed"
 end
 
 Given /I am on the search results page with results for '(.*)' lot displayed$/ do |lot_name|

@@ -54,7 +54,7 @@ def create_service (supplier_id, service_id, lot)
   response = RestClient.get(service_url, headers){|response, request, result| response }
   if response.code == 404
     response = RestClient.put(service_url, service_data.to_json, headers){|response, request, result| response }
-    response.code.should == 201
+    response.code.should be(201), response.body
   else
     response = RestClient.post(service_url, service_data.to_json, headers){|response, request, result| response }
     response.code.should == 200

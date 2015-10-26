@@ -71,7 +71,7 @@
       "assurance": "Service provider assertion",
       "value": true
     },
-    "frameworkName": "G-Cloud 6",
+    "frameworkSlug": "g-cloud-6",
     "freeOption": false,
     "governanceFramework": {
       "assurance": "Service provider assertion",
@@ -109,7 +109,7 @@
     "links": {
       "self": "https://api.beta.digitalmarketplace.service.gov.uk/services/1234567890000002"
     },
-    "lot": "SaaS",
+    "lot": "saas",
     "minimumContractPeriod": "Year",
     "networksConnected": [
       "Internet",
