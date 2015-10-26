@@ -1136,7 +1136,7 @@ Then /I am on a page with '(.*)' in search summary text$/ do |value|
 end
 
 Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
-  lot = full_lot(@service['lot'])
+  lot = @service['lotName']
   query = @service[attr]
   step "Selected lot is '#{lot}' with links to the search for '\"#{query}\"'"
 end
@@ -1193,7 +1193,7 @@ Then /I am on a page with that service in search results$/ do
 
   service_result.first(:xpath, "./h2[@class='search-result-title']/a").text.should == normalize_whitespace(@service['serviceName'])
   service_result.first(:xpath, "./p[@class='search-result-supplier']").text.should == normalize_whitespace(@service['supplierName'])
-  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == full_lot(@service['lot'])
+  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == @service['lotName']
   service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][2]").text.should == @service['frameworkName']
 end
 
@@ -1216,7 +1216,7 @@ Then /Words in the search result excerpt that match the search criteria are high
 end
 
 Given /I am on the search results page with results for that service.lot displayed$/ do
-  step "Given I am on the search results page with results for '#{full_lot(@service['lot'])}' lot displayed"
+  step "Given I am on the search results page with results for '#{@service['lotName']}' lot displayed"
 end
 
 Given /I am on the search results page with results for '(.*)' lot displayed$/ do |lot_name|
