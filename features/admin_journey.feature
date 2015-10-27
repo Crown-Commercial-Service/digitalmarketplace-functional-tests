@@ -49,9 +49,9 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by email address
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I enter 'testing.supplier.username@dmtestemail.com' in the 'email_address' field
+  When I enter the email address for the 'DM Functional Test Supplier User 1' user in the 'email_address' field
   And I click the search button for 'email_address'
-  Then The user with email 'testing.supplier.username@dmtestemail.com' page is presented
+  Then The page for the 'DM Functional Test Supplier User 1' user is presented
 
   When I click the 'DM Functional Test Supplier' link
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'

@@ -110,6 +110,15 @@ When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name
   step "I enter '\"#{@service[attr_name]}\"' in the '#{field_name}' field"
 end
 
+When /I enter the email address for the '(.*)' user in the '(.*)' field$/ do |user,field_name|
+  user_email = {
+    "DM Functional Test Supplier User 1" => dm_supplier_user_email(),
+    "DM Functional Test Supplier User 2" => dm_supplier_user2_email(),
+    "DM Functional Test Supplier User 3" => dm_supplier_user3_email()
+  }[user]
+  step "I enter '#{user_email}' in the '#{field_name}' field"
+end
+
 When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   @value_of_interest = @value_of_interest || Hash.new
   page.fill_in(field_name, with: value)
@@ -715,13 +724,13 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'United Kingdom')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'WC2B 6NH')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 1')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user_email()}')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username2@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user2_email()}')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 3')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username3@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user3_email()}')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-body']/caption[contains(text(), 'Account information')]/following-sibling::*[2]//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user_email()}')]")
 end
 
 Then /I am presented with the supplier '(.*)' '(.*)' page$/ do |supplier_name, page_name|
@@ -768,7 +777,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     #@servicesupplierID = '11112'
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{@servicesupplierID}/edit/name")
   else
-    if @servicesupplierID == 'testing.supplier.username@dmtestemail.com'
+    if @servicesupplierID == dm_supplier_user_email()
       @servicesupplierID = '11111'
     end
 
@@ -837,9 +846,9 @@ Then /I can see active users associated with '(.*)' on the dashboard$/ do |suppl
     page.should have_selector(:xpath, "//caption[contains(text(), 'Contributors')]/..//th/span[contains(text(), '#{header}')]")
   end
   [
-    'DM Functional Test Supplier User 1', 'testing.supplier.username@dmtestemail.com',
-    'DM Functional Test Supplier User 2', 'testing.supplier.username2@dmtestemail.com',
-    'DM Functional Test Supplier User 3', 'testing.supplier.username3@dmtestemail.com'
+    'DM Functional Test Supplier User 1', dm_supplier_user_email(),
+    'DM Functional Test Supplier User 2', dm_supplier_user2_email(),
+    'DM Functional Test Supplier User 3', dm_supplier_user3_email()
     ].each do |cell|
     page.should have_selector(:xpath, "//caption[contains(text(), 'Contributors')]/..//td/span[contains(text(), '#{cell}')]")
   end
@@ -1366,15 +1375,15 @@ And /The supplier user '(.*)' '(.*)' listed as a contributor on the dashboard of
 
   if value == 'is not'
     page.should have_no_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
-    page.should have_no_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username2@dmtestemail.com')]")
+    page.should have_no_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user2_email()}')]")
   elsif value == 'is'
     page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
-    page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username2@dmtestemail.com')]")
+    page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user2_email()}')]")
   end
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 1')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user_email()}')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 3')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'testing.supplier.username3@dmtestemail.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user3_email()}')]")
 end
 
 Given /I am on the G-Cloud supplier A-Z page$/ do
@@ -1460,10 +1469,16 @@ And /All users for the supplier ID 11111 are listed on the page$/ do
   page.should have_selector(:xpath, "//table/caption[contains(text(),'Users')]/../tbody/*//span[contains(text(),'DM Functional Test Supplier User 3')]")
 end
 
-Then /The user with email '(.*)' page is presented$/ do |value|
-  page.should have_content("#{value}")
+Then /The page for the '(.*)' user is presented$/ do |user|
+  user_email = {
+    "DM Functional Test Supplier User 1" => dm_supplier_user_email(),
+    "DM Functional Test Supplier User 2" => dm_supplier_user2_email(),
+    "DM Functional Test Supplier User 3" => dm_supplier_user3_email()
+  }[user]
+
+  page.should have_content("#{user_email}")
   page.should have_content('Log out')
-  current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{value.downcase.split('@').first}%40#{value.downcase.split('@').last}")
+  current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{user_email.downcase.split('@').first}%40#{user_email.downcase.split('@').last}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 

@@ -170,7 +170,7 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   url = dm_api_domain
   token = dm_api_access_token
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  user_url = "#{url}/users?email_address=testing.supplier.username3@dmtestemail.com"
+  user_url = "#{url}/users?email_address=#{dm_supplier_user3_email()}"
 
   response = RestClient.get(user_url, headers){|response, request, result| response }
   failedlogincount = JSON.parse(response.body)["users"][0]["failedLoginCount"]
