@@ -1475,13 +1475,10 @@ Then /The page for the '(.*)' user is presented$/ do |user|
     "DM Functional Test Supplier User 2" => dm_supplier_user2_email(),
     "DM Functional Test Supplier User 3" => dm_supplier_user3_email()
   }[user]
-  step "The user with email '#{user_email}' page is presented"
-end
 
-Then /The user with email '(.*)' page is presented$/ do |value|
-  page.should have_content("#{value}")
+  page.should have_content("#{user_email}")
   page.should have_content('Log out')
-  current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{value.downcase.split('@').first}%40#{value.downcase.split('@').last}")
+  current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{user_email.downcase.split('@').first}%40#{user_email.downcase.split('@').last}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
