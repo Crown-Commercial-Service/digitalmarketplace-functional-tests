@@ -55,3 +55,10 @@ the domain URLs ie http://localhost:5000 not http://localhost:5000/.
 | ``DM_SUPPLIER3_EMAIL``           | Supplier 1 user 3 email    | supplier3@example.com   |
 | ``DM_SUPPLIER2_USER_EMAIL``      | Supplier 2 user 1 email    | supplier4@example.com   |
 | ``DM_PAGINATION_LIMIT``          | Results returned on search page | 100                |
+
+## Run tests against local services
+
+In order to run the functional tests against local apps you will need a reverse proxy
+that serves the application through the same host / port. There is an Nginx config provided
+with a bootstrap script at `nginx/bootstrap.sh`. Once this has been run and all the
+applications are running the functional tests can be run with `scripts/run_tests.sh`.
