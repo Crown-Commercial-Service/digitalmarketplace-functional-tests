@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "capybara", "2.1.0"
-gem "cucumber", "1.3.10"
+gem "cucumber", "1.3.20"
 gem "launchy", "2.4.2"
 gem "nokogiri", "1.6.1"
 gem "rake", "10.1.1"
