@@ -58,7 +58,24 @@ the domain URLs ie http://localhost:5000 not http://localhost:5000/.
 
 ## Run tests against local services
 
+First you need to create a file to set up your local environment variables - this must be in 
+the `scripts/envs` directory. There is an example file `scripts/envs/example.sh`.  Copy this 
+to `scripts/envs/local.sh` - this should hopefully work out of the box, but YMMV.
+
+Next set up local users by running the create users script (requires only the API to be running):  
+This script takes an environment name as an argument, so if you created `scripts/envs/local.sh` 
+in the first step above then you will need to run 
+
+`scripts/create_users.sh local`
+
+This creates the users required by the functional tests. You will need to re-run the script if you 
+ever re-create your database.
+
 In order to run the functional tests against local apps you will need a reverse proxy
 that serves the application through the same host / port. There is an Nginx config provided
 with a bootstrap script at `nginx/bootstrap.sh`. Once this has been run and all the
-applications are running the functional tests can be run with `scripts/run_tests.sh`.
+applications are running the functional tests can be run with 
+
+`scripts/run_tests.sh local`
+
+(or you can substitute `local` with the name of whatever `scripts/envs/*.sh` environment file you're using.
