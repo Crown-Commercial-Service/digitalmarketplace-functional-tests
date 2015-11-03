@@ -23,15 +23,15 @@ def create_supplier (supplier_id, supplier_name, supplier_description, supplier_
   response = RestClient.get(supplier_url, headers){|response, request, result| response }
   if response.code == 404
     response = RestClient.put(supplier_url, supplier_data.to_json, headers){|response, request, result| response }
-    response.code.should == 201
+    response.code.should be(201), response.body
   else
     response = RestClient.post(supplier_url, supplier_data.to_json, headers){|response, request, result| response }
-    response.code.should == 200
+    response.code.should be(200), response.body
     contact_id = JSON.parse(response.body)["suppliers"]["contactInformation"][0]["id"]
     contact_url = "#{url}/suppliers/#{supplier_id}/contact-information/#{contact_id}"
     contact_data = JSON.parse("{\"updated_by\":\"Functional tests\", \"contactInformation\":#{supplier_data ["suppliers"]["contactInformation"][0].to_json}}")
     response = RestClient.post(contact_url, contact_data.to_json, headers){|response, request, result| response }
-    response.code.should == 200
+    response.code.should be(200), response.body
   end
 end
 
@@ -57,7 +57,7 @@ def create_service (supplier_id, service_id, lot)
     response.code.should be(201), response.body
   else
     response = RestClient.post(service_url, service_data.to_json, headers){|response, request, result| response }
-    response.code.should == 200
+    response.code.should be(200), response.body
   end
 end
 
@@ -91,7 +91,7 @@ def create_user (email,username,password,role,supplierid=nil)
   if response.code == 404
     user_url = "#{url}/users"
     response = RestClient.post(user_url, user_data.to_json, headers){|response, request, result| response }
-    response.code.should == 201
+    response.code.should be(201), response.body
   end
 end
 
@@ -121,7 +121,7 @@ And /^The test suppliers have declarations$/ do
   headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{dm_api_access_token}"}
 
   response = RestClient.put(url, payload.to_json, headers){|response, request, result| response}
-  response.code.should == 200
+  response.code.should be(200), response.body
 end
 
 And /^I have an admin user$/ do

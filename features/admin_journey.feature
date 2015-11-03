@@ -65,7 +65,8 @@ Scenario: Admin user should be able to abort an edit and be returned to the serv
 Scenario: As an admin user I wish to edit the features and benefits of a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Features and benefits' page
-  And I change 'serviceFeatures-3' to 'Service feature changed'
+  #And I change 'serviceFeatures-3' to 'Service feature changed'
+  And I change 'input-serviceFeatures-3' to 'Service feature changed'
   And I remove service benefit number 2
   And I add 'New service feature' as a 'serviceFeatures'
   And I click 'Save and return to summary'
@@ -179,6 +180,7 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
   When I click the 'Change name' link for the supplier 'DM Functional Test Supplier 2'
   Then I am presented with the 'Change supplier name' page for the supplier 'DM Functional Test Supplier 2'
 
-  When I change 'new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
+  #When I change 'new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
+  When I change 'input-new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
   And I click 'Save'
   Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page
