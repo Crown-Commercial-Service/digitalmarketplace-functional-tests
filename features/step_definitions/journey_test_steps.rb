@@ -311,7 +311,7 @@ end
 
 Given /I click the '(.*)' link for '(.*)'$/ do |action, summary_heading|
   all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
-        element.text() == summary_heading
+    element.text() == summary_heading
   end
   top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
   top_level_action.text().should == action
