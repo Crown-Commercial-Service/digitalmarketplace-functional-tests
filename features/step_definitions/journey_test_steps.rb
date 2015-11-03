@@ -357,27 +357,11 @@ Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,s
 end
 
 When /I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
-  if page.has_content?('Features and benefits')
-    page.find(
-      :xpath,
-      "//*[contains(@id, '#{field_to_change.split('-').last}') and contains(@name, '#{field_to_change.split('-').first}')]"
-    ).set(new_value)
-  elsif page.has_content?('Pricing')
-    page.find(
-      :xpath,
-      "//*[contains(@id, '#{field_to_change}')]"
-    ).set(new_value)
-  elsif page.has_content?('Edit supplier information') and field_to_change.include?('lients')
-    page.find(
-      :xpath,
-      "//*[contains(@id, '#{field_to_change}')]"
-    ).set(new_value)
-  else
-    page.find(
-      :xpath,
-      "//*[contains(@name, '#{field_to_change}')]"
-    ).set(new_value)
-  end
+  page.find(
+    :xpath,
+    "//*[contains(@id, '#{field_to_change}')]"
+  ).set(new_value)
+
   @changed_fields = @changed_fields || Hash.new
   @changed_fields[field_to_change] = new_value
 end
