@@ -127,5 +127,5 @@ Scenario: There is pagination on the list of suppliers page if there are more th
   Then I am taken to page '1' of results
 
 Scenario: There is no pagination on the list of suppliers page if there is less than or equal to 100 results
-  Given I navigate to the list of 'Suppliers starting with D' page
+  Given I navigate to the list of 'Suppliers starting with Q' page
   Then Pagination is 'not available'
