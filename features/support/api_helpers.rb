@@ -15,6 +15,10 @@ def call_api(method, path, options={})
   end
 end
 
+def _error(response, message)
+  "#{message}\n#{response.code} - #{response.body}"
+end
+
 def update_framework_status(framework_slug, status)
   response = call_api(:get, "/frameworks/#{framework_slug}")
   framework = JSON.parse(response.body)["frameworks"]
@@ -23,14 +27,14 @@ def update_framework_status(framework_slug, status)
       "frameworks" => {"status" => status},
       "updated_by" => "functional tests",
     })
-    response.code.should == 200
+    response.code.should be(200), _error(response, "Failed to update framework status #{framework_slug} #{status}")
   end
   return framework['status']
 end
 
 def ensure_no_framework_agreements_exist(framework_slug)
   response = call_api(:get, "/frameworks/#{framework_slug}/suppliers")
-  response.code.should == 200
+  response.code.should be(200), _error(response, "Failed to get framework #{framework_slug}")
   supplier_frameworks = JSON.parse(response.body)["supplierFrameworks"]
   supplier_frameworks.each do |supplier_framework|
     update_framework_agreement_status(framework_slug, supplier_framework["supplierId"], false)
@@ -42,7 +46,7 @@ def update_framework_agreement_status(framework_slug, supplier_id, status)
     "frameworkInterest" => {"agreementReturned" => status},
     "update_details" => {"updated_by" => "functional tests"},
   })
-  response.code.should == 200
+  response.code.should be(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
 end
 
 def register_interest_in_framework(framework_slug, supplier_id)
@@ -52,7 +56,7 @@ def register_interest_in_framework(framework_slug, supplier_id)
     response = call_api(:put, path, payload: {
       "update_details" => {"updated_by" => "functional tests"}
     })
-    response.code.should == 200
+    response.code.should be(200), _error(request, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
   end
 end
 
@@ -62,5 +66,5 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
     "declaration" => declaration,
     "updated_by" => "functional tests",
   })
-  [200, 201].should include(response.code)
+  [200, 201].should include(response.code), _error(request, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
 end
