@@ -1137,7 +1137,7 @@ Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |s
     lot_link += "&lot=#{lot.to_s.downcase}" if lot != :all
     if full_lot == selected_lot
       lot_names.should include(full_lot)
-      lot_links.should_not include(lot_link)
+      lot_links.should_not include_url(lot_link)
       if query.empty?
         current_url.should end_with("/g-cloud/search?lot=#{lot.to_s.downcase}")
         find(:xpath, "//p[@class='search-summary']/em[1]").text.should == full_lot
@@ -1148,7 +1148,7 @@ Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |s
       page.first(:xpath, ".//ol[@role='breadcrumbs']/li[3]").text.should == full_lot if lot != :all
     else
       lot_names.should include(full_lot)
-      lot_links.should include(lot_link)
+      lot_links.should include_url(lot_link)
     end
   end
 end
