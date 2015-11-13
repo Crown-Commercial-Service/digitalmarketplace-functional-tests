@@ -1137,7 +1137,7 @@ Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |s
     lot_link += "&lot=#{lot.to_s.downcase}" if lot != :all
     if full_lot == selected_lot
       lot_names.should include(full_lot)
-      lot_links.should_not include(lot_link)
+      lot_links.should_not include_url(lot_link)
       if query.empty?
         current_url.should end_with("/g-cloud/search?lot=#{lot.to_s.downcase}")
         find(:xpath, "//p[@class='search-summary']/em[1]").text.should == full_lot
@@ -1148,7 +1148,7 @@ Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |s
       page.first(:xpath, ".//ol[@role='breadcrumbs']/li[3]").text.should == full_lot if lot != :all
     else
       lot_names.should include(full_lot)
-      lot_links.should include(lot_link)
+      lot_links.should include_url(lot_link)
     end
   end
 end
@@ -1505,4 +1505,38 @@ Then /^there is no '(.*)' link for any supplier$/ do |link_text|
       link.text().should_not == link_text
     end
   end
+end
+
+Given /^no '(.*)' framework agreements exist$/ do |framework_slug|
+  ensure_no_framework_agreements_exist(framework_slug)
+end
+
+Given /^a '(.*)' signed agreement is uploaded for supplier '(\d+)'$/ do |framework_slug, supplier_id|
+  original_framework_status = update_framework_status(framework_slug, "open")
+  register_interest_in_framework(framework_slug, supplier_id)
+  submit_supplier_declaration(framework_slug, supplier_id, {
+    "status" => "complete", "SQ1-1a" => "company name"
+  })
+  update_framework_agreement_status(framework_slug, supplier_id, true)
+  update_framework_status(framework_slug, original_framework_status)
+end
+
+Then /^the framework agreement list is empty$/ do
+  page.all(:css, ".summary-item-row").length.should == 0
+end
+
+Then /^the first signed agreement should be for supplier '(.*)'$/ do |supplier_name|
+  page.first(:css, ".summary-item-row").first("td").text().should == supplier_name
+end
+
+When /^I click the first download agreement link$/ do
+  path = page.first(:css, ".summary-item-row a")[:href]
+  url = "#{dm_frontend_domain}#{path}"
+  headers = {"Cookie" => page.response_headers['Set-Cookie']}
+  @response = RestClient.get(url, headers){|response, request, result| response}
+end
+
+Then /^I should get redirected to the correct '(.+)' S3 URL for supplier '(\d+)'$/ do |framework_slug, supplier_id|
+  @response.code.should == 302
+  @response.headers[:location].should match(%r"/#{framework_slug}/agreements/#{supplier_id}/.*signed-framework-agreement.pdf")
 end

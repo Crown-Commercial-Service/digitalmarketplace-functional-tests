@@ -7,11 +7,6 @@ require "test/unit"
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
   file = File.read("./fixtures/test-supplier.json")
   supplier_data = JSON.parse(file)
-
-  url = dm_api_domain
-  token = dm_api_access_token
-  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  supplier_url = "#{url}/suppliers/#{supplier_id}"
   supplier_data["suppliers"]["id"] = supplier_id
   supplier_data["suppliers"]["name"] = supplier_name
   supplier_data["suppliers"]["description"] = supplier_description
@@ -20,17 +15,19 @@ def create_supplier (supplier_id, supplier_name, supplier_description, supplier_
   supplier_data["suppliers"]["contactInformation"][0]["postcode"] = supplier_postcode
   supplier_data["suppliers"]["dunsNumber"] = supplier_dunsnumber
 
-  response = RestClient.get(supplier_url, headers){|response, request, result| response }
+  supplier_path = "/suppliers/#{supplier_id}"
+
+  response = call_api(:get, supplier_path)
   if response.code == 404
-    response = RestClient.put(supplier_url, supplier_data.to_json, headers){|response, request, result| response }
+    response = call_api(:put, supplier_path, payload: supplier_data)
     response.code.should be(201), response.body
   else
-    response = RestClient.post(supplier_url, supplier_data.to_json, headers){|response, request, result| response }
+    response = call_api(:post, supplier_path, payload: supplier_data)
     response.code.should be(200), response.body
+
     contact_id = JSON.parse(response.body)["suppliers"]["contactInformation"][0]["id"]
-    contact_url = "#{url}/suppliers/#{supplier_id}/contact-information/#{contact_id}"
     contact_data = JSON.parse("{\"updated_by\":\"Functional tests\", \"contactInformation\":#{supplier_data ["suppliers"]["contactInformation"][0].to_json}}")
-    response = RestClient.post(contact_url, contact_data.to_json, headers){|response, request, result| response }
+    response = call_api(:post, "/suppliers/#{supplier_id}/contact-information/#{contact_id}", payload: contact_data)
     response.code.should be(200), response.body
   end
 end
@@ -43,20 +40,17 @@ end
 def create_service (supplier_id, service_id, lot)
   file = File.read("./fixtures/#{supplier_id}-g6-#{lot}-test-service.json")
   service_data = JSON.parse(file)
-
-  url = dm_api_domain
-  token = dm_api_access_token
-  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  service_url = "#{url}/services/#{service_id}"
   service_data["services"]["id"] = service_id
   service_data["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
 
-  response = RestClient.get(service_url, headers){|response, request, result| response }
+  service_path = "/services/#{service_id}"
+
+  response = call_api(:get, service_path)
   if response.code == 404
-    response = RestClient.put(service_url, service_data.to_json, headers){|response, request, result| response }
+    response = call_api(:put, service_path, payload: service_data)
     response.code.should be(201), response.body
   else
-    response = RestClient.post(service_url, service_data.to_json, headers){|response, request, result| response }
+    response = call_api(:post, service_path, payload: service_data)
     response.code.should be(200), response.body
   end
 end
@@ -76,21 +70,15 @@ end
 def create_user (email,username,password,role,supplierid=nil)
   file = File.read("./fixtures/test-user.json")
   user_data = JSON.parse(file)
-
-  url = dm_api_domain
-  token = dm_api_access_token
-  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
   user_data["users"]["emailAddress"] = email
   user_data["users"]["name"] = username
   user_data["users"]["password"] = password
   user_data["users"]["role"] = role
   user_data["users"]["supplierId"] = supplierid if supplierid
-  user_url = "#{url}/users?email_address=#{email}"
 
-  response = RestClient.get(user_url, headers){|response, request, result| response }
+  response = call_api(:get, "/users", params: {email_address: email})
   if response.code == 404
-    user_url = "#{url}/users"
-    response = RestClient.post(user_url, user_data.to_json, headers){|response, request, result| response }
+    response = call_api(:post, "/users", payload: user_data)
     response.code.should be(201), response.body
   end
 end
@@ -116,11 +104,8 @@ And /^The test suppliers have declarations$/ do
     "declaration" => declaration,
     "updated_by" => "Test User",
   }
-
-  url = "#{dm_api_domain}/suppliers/11111/frameworks/g-cloud-7/declaration"
-  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{dm_api_access_token}"}
-
-  response = RestClient.put(url, payload.to_json, headers){|response, request, result| response}
+  path = "/suppliers/11111/frameworks/g-cloud-7/declaration"
+  response = call_api(:put, path, payload: payload)
   response.code.should be(200), response.body
 end
 
@@ -167,12 +152,7 @@ end
 And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   visit("#{dm_frontend_domain}/suppliers/login")
 
-  url = dm_api_domain
-  token = dm_api_access_token
-  headers = {:content_type => :json, :accept => :json, :authorization => "Bearer #{token}"}
-  user_url = "#{url}/users?email_address=#{dm_supplier_user3_email()}"
-
-  response = RestClient.get(user_url, headers){|response, request, result| response }
+  response = call_api(:get, "/users", params: {email_address: dm_supplier_user3_email()})
   failedlogincount = JSON.parse(response.body)["users"][0]["failedLoginCount"]
   lockstate = JSON.parse(response.body)["users"][0]["locked"]
 
