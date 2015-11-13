@@ -1,12 +1,13 @@
 
 def call_api(method, path, options={})
   domain = options.delete(:domain) || dm_api_domain
+  auth_token = options.delete(:auth_token) || dm_api_access_token
   url = "#{domain}#{path}"
   payload = options.delete(:payload)
   options.merge!({
     :content_type => :json,
     :accept => :json,
-    :authorization => "Bearer #{dm_api_access_token}"
+    :authorization => "Bearer #{auth_token}"
   })
   if payload.nil?
     RestClient.send(method, url, options) {|response, request, result| response}
@@ -56,7 +57,7 @@ def register_interest_in_framework(framework_slug, supplier_id)
     response = call_api(:put, path, payload: {
       "update_details" => {"updated_by" => "functional tests"}
     })
-    response.code.should be(200), _error(request, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
+    response.code.should be(200), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
   end
 end
 
@@ -66,5 +67,5 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
     "declaration" => declaration,
     "updated_by" => "functional tests",
   })
-  [200, 201].should include(response.code), _error(request, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
+  [200, 201].should include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
 end

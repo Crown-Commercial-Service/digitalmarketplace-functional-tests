@@ -48,7 +48,7 @@ end
 
 
 When /^I send a GET request with authorization to "([^\"]*)"$/ do |path|
-  @last_response = call_api(:get, path, domain: @last_domain)
+  @last_response = call_api(:get, path, domain: @last_domain, auth_token: @last_token)
 end
 
 
