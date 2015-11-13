@@ -24,12 +24,8 @@ Then /^The new json file has a new service name$/ do
 end
 
 Given /^I have a random service from the API$/ do
-  response = RestClient.get(
-    "#{dm_api_domain}/services",
-    params: {page: 1 + rand(dm_pagination_limit()), status: "published"},
-    authorization: "Bearer #{dm_api_access_token}"
-  )
-  @service = JSON.parse(response)['services'][rand(dm_pagination_limit())]
+  response = call_api(:get, "/services", params: {page: 1 + rand(dm_pagination_limit()), status: "published"})
+  @service = JSON.parse(response.body)['services'][rand(dm_pagination_limit())]
   puts "Service ID: #{@service['id']}"
   puts "Service name: #{@service['serviceName']}"
 end
@@ -52,22 +48,18 @@ end
 
 
 When /^I send a GET request with authorization to "([^\"]*)"$/ do |path|
-  response = RestClient.get("#{@last_domain}#{path}",
-    authorization: "Bearer #{@last_token}"){|response, request, result| response }  # Don't raise exceptions but return the response
-  @last_response = response
+  @last_response = call_api(:get, path, domain: @last_domain)
 end
 
 
 When(/^I send a GET request to the home page$/) do
-  response = RestClient.get("#{@last_domain}"){|response, request, result| response }  # Don't raise exceptions but return the response
-  @last_response = response
+  @last_response = call_api(:get, "/", domain: @last_domain)
 end
 
 # There is no version locally :/
 When(/^I send a GET request to the "([^\"]*)" status page$/) do |path|
-  response = RestClient.get("#{@last_domain}#{path}_status") { |response| response }
-  puts "Release version: " + JSON.parse(response).fetch("version")
-  @last_response = response
+  @last_response = call_api(:get, "#{path}_status", domain: @last_domain)
+  puts("Release version: #{JSON.parse(@last_response.body).fetch("version")}")
 end
 
 

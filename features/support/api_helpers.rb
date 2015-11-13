@@ -1,15 +1,17 @@
 
-def call_api(method, path, payload=nil)
-  headers = {
+def call_api(method, path, options={})
+  domain = options.delete(:domain) || dm_api_domain
+  url = "#{domain}#{path}"
+  payload = options.delete(:payload)
+  options.merge!({
     :content_type => :json,
     :accept => :json,
     :authorization => "Bearer #{dm_api_access_token}"
-  }
-  url = "#{dm_api_domain}#{path}"
+  })
   if payload.nil?
-    return RestClient.send(method, url, headers) {|response, request, result| response}
+    RestClient.send(method, url, options) {|response, request, result| response}
   else
-    return RestClient.send(method, url, payload.to_json, headers) {|response, request, result| response}
+    RestClient.send(method, url, payload.to_json, options) {|response, request, result| response}
   end
 end
 
@@ -17,7 +19,7 @@ def update_framework_status(framework_slug, status)
   response = call_api(:get, "/frameworks/#{framework_slug}")
   framework = JSON.parse(response.body)["frameworks"]
   if framework['status'] != status
-    response = call_api(:post, "/frameworks/#{framework_slug}", {
+    response = call_api(:post, "/frameworks/#{framework_slug}", payload: {
       "frameworks" => {"status" => status},
       "updated_by" => "functional tests",
     })
@@ -36,7 +38,7 @@ def ensure_no_framework_agreements_exist(framework_slug)
 end
 
 def update_framework_agreement_status(framework_slug, supplier_id, status)
-  response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", {
+  response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", payload: {
     "frameworkInterest" => {"agreementReturned" => status},
     "update_details" => {"updated_by" => "functional tests"},
   })
@@ -47,18 +49,16 @@ def register_interest_in_framework(framework_slug, supplier_id)
   path = "/suppliers/#{supplier_id}/frameworks/#{framework_slug}"
   response = call_api(:get, path)
   if response.code == 404
-    response = call_api(:put, path, {
+    response = call_api(:put, path, payload: {
       "update_details" => {"updated_by" => "functional tests"}
     })
-    if response.code == 400
-      puts(response.body)
-    end
+    response.code.should == 200
   end
 end
 
 def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   path = "/suppliers/#{supplier_id}/frameworks/#{framework_slug}/declaration"
-  response = call_api(:put, path, {
+  response = call_api(:put, path, payload: {
     "declaration" => declaration,
     "updated_by" => "functional tests",
   })
