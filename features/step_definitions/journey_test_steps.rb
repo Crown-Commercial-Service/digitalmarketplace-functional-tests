@@ -613,10 +613,6 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   page.should have_content(dm_supplier_user_email())
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-
-  if supplier_name == 'Digital Marketplace Team'
-    page.should have_content('You don\'t have any services on the Digital Marketplace')
-  end
 end
 
 Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
