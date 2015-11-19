@@ -1,5 +1,5 @@
 @not-production @functional-test @ssp
-Feature: Submitting a new service for IaaS
+Feature: Submitting a new service for PaaS
   In order to submit my services as a supplier user
   I want to answer questions about my service
 
@@ -13,13 +13,13 @@ Feature: Submitting a new service for IaaS
     When I click 'Continue your G-Cloud 7 application'
     And I click 'Add, edit and delete services'
     And I click 'Add a service'
-    When I choose 'Infrastructure as a Service (IaaS)' for 'lot'
+    When I choose 'Platform as a Service (PaaS)' for 'lot'
     And I click 'Save and continue'
     Then I should be on the 'Service name' page
 
   Scenario: Provide a service name
     Given I am on ssp page 'service_name'
-    When I fill in 'serviceName' with 'My IaaS service'
+    When I fill in 'serviceName' with 'My PaaS service'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
@@ -27,14 +27,8 @@ Feature: Submitting a new service for IaaS
     Given I am on ssp page 'service_description'
     When I fill in 'serviceSummary' with:
       """
-      My IaaS service that does stuff with stuff.
+      Platform as a service (PaaS) is a category of cloud computing services that provides a computing platform and a solution stack as a service.
       """
-    And I click 'Save and continue'
-    Then I should be on the 'Service type' page
-
-  Scenario: Select a service type
-    Given I am on ssp page 'service_type'
-    When I check 'Compute'
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
 
@@ -47,12 +41,12 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Pricing
     Given I am on ssp page 'pricing'
-    When I fill in 'input-priceString-MinPrice' with '100'
-    And I fill in 'input-priceString-MaxPrice' with '1000'
+    When I fill in 'input-priceString-MinPrice' with '99'
+    And I fill in 'input-priceString-MaxPrice' with '100'
     And I select 'Unit' from 'input-priceString-Unit'
     And I select 'Second' from 'input-priceString-Interval'
-    And I choose 'Yes' for 'vatIncluded'
-    And I choose 'No' for 'educationPricing'
+    And I choose 'No' for 'vatIncluded'
+    And I choose 'Yes' for 'educationPricing'
     And I choose 'Yes' for 'trialOption'
     And I choose 'No' for 'freeOption'
     And I click 'Save and continue'
@@ -60,14 +54,14 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Terms and conditions
     Given I am on ssp page 'terms_and_conditions'
-    When I choose 'No' for 'terminationCost'
+    When I choose 'Yes' for 'terminationCost'
     And I choose 'Month' for 'minimumContractPeriod'
     And I click 'Save and continue'
     Then I should be on the 'Support' page
 
   Scenario: Support
     Given I am on ssp page 'support'
-    When I check 'Service desk'
+    When I check 'input-supportTypes-1' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7'
     And I fill in 'supportResponseTime' with '1 hour'
@@ -119,28 +113,27 @@ Feature: Submitting a new service for IaaS
   Scenario: API access
     Given I am on ssp page 'api_access'
     When I choose 'Yes' for 'apiAccess'
-    And I fill in 'apiType' with 'JSON'
+    And I fill in 'apiType' with 'SOAP'
     And I click 'Save and continue'
     Then I should be on the 'Networks and connectivity' page
 
   Scenario: Networks and connectivity
     Given I am on ssp page 'networks_and_connectivity'
-    When I check 'Internet'
+    When I check 'Internet' for 'networksConnected'
     And I click 'Save and continue'
     Then I should be on the 'Access' page
 
   Scenario: Access
     Given I am on ssp page 'access'
-    When I check 'Opera'
+    When I check 'Opera' for 'supportedBrowsers'
     And I choose 'Yes' for 'offlineWorking'
-    And I check 'PC'
+    And I check 'PC' for 'supportedDevices'
     And I click 'Save and continue'
     Then I should be on the 'Certifications' page
 
   Scenario: Certifications
     Given I am on ssp page 'certifications'
-    When I fill in 'input-vendorCertifications-1' with 'Stuff magic'
-    And I click 'Save and continue'
+    When I click 'Save and continue'
     Then I should be on the 'Data storage' page
 
   Scenario: Data storage
@@ -153,28 +146,36 @@ Feature: Submitting a new service for IaaS
     And I click 'Save and continue'
     Then I should be on the 'Data-in-transit protection' page
 
+  @listing_page
+  Scenario: Go to listing page and the service is not complete
+    Given I am at the g7 services page
+    When I click my service
+    Then I should be on the 'My PaaS service' page
+    And The string 'Answer required' should be on the page
+    And The 'Mark as complete' button should not be on the page
+
   Scenario: Data-in-transit protection
     Given I am on ssp page 'data_in_transit_protection'
-    When I check 'input-dataProtectionBetweenUserAndService-1'
+    When I check 'input-dataProtectionBetweenUserAndService-1' for 'dataProtectionBetweenUserAndService'
     And I choose 'Independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
-    And I check 'input-dataProtectionWithinService-3'
+    And I check 'input-dataProtectionWithinService-3' for 'dataProtectionWithinService'
     And I choose 'Independent validation of assertion' for 'dataProtectionWithinService--assurance'
-    And I check 'input-dataProtectionBetweenServices-1'
+    And I check 'input-dataProtectionBetweenServices-1' for 'dataProtectionBetweenServices'
     And I choose 'CESG-assured components' for 'dataProtectionBetweenServices--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page
 
   Scenario: Asset protection and resilience
     Given I am on ssp page 'asset_protection_and_resilience'
-    When I check 'input-datacentreLocations-1'
+    When I check 'input-datacentreLocations-1' for 'datacentreLocations'
     And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
-    And I check 'input-dataManagementLocations-1'
+    And I check 'input-dataManagementLocations-1' for 'dataManagementLocations'
     And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
     And I choose 'Service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
     And I choose 'Service provider assertion' for 'datacentreProtectionDisclosure--assurance'
-    And I check 'input-dataAtRestProtections-1'
+    And I check 'input-dataAtRestProtections-1' for 'dataAtRestProtections'
     And I choose 'Service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
     And I choose 'Service provider assertion' for 'dataSecureDeletion--assurance'
@@ -251,17 +252,9 @@ Feature: Submitting a new service for IaaS
     And I click 'Save and continue'
     Then I should be on the 'Personnel security' page
 
-  @listing_page
-  Scenario: Go to listing page and the service is not complete
-    Given I am at the g7 services page
-    When I click my service
-    Then I should be on the 'My IaaS service' page
-    And The string 'Answer required' should be on the page
-    And The 'Mark as complete' button should not be on the page
-
   Scenario: Personnel security
     Given I am on ssp page 'personnel_security'
-    When I check 'Security clearance national vetting (SC)'
+    When I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
     And I choose 'Service provider assertion' for 'personnelSecurityChecks--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure development' page
@@ -314,7 +307,7 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Identity and authentication
     Given I am on ssp page 'identity_and_authentication'
-    When I check 'Username and two-factor authentication'
+    When I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
     And I choose 'Service provider assertion' for 'identityAuthenticationControls--assurance'
     And I click 'Save and continue'
     Then I should be on the 'External interface protection' page
@@ -323,14 +316,14 @@ Feature: Submitting a new service for IaaS
     Given I am on ssp page 'external_interface_protection'
     When I choose 'Yes' for 'onboardingGuidance'
     And I choose 'Service provider assertion' for 'onboardingGuidance--assurance'
-    And I check 'Encrypted PSN service'
+    And I check 'Encrypted PSN service' for 'interconnectionMethods'
     And I choose 'Service provider assertion' for 'interconnectionMethods--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure service administration' page
 
   Scenario: Secure service administration
     Given I am on ssp page 'secure_service_administration'
-    When I check 'Dedicated devices on a segregated network'
+    When I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
     And I choose 'Service provider assertion' for 'serviceManagementModel--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Audit information provision to consumers' page
@@ -344,7 +337,7 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Secure use of the service by the customer
     Given I am on ssp page 'secure_use_of_the_service_by_the_customer'
-    When I check 'Corporate/enterprise devices'
+    When I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
     And I choose 'Service provider assertion' for 'deviceAccessMethod--assurance'
     And I choose 'Yes' for 'serviceConfigurationGuidance'
     And I choose 'Service provider assertion' for 'serviceConfigurationGuidance--assurance'
@@ -375,7 +368,7 @@ Feature: Submitting a new service for IaaS
     Given I am on ssp page 'sfia_rate_card'
     When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
-    Then I should be on the 'My IaaS service' page
+    Then I should be on the 'My PaaS service' page
 
   # TODO: Remove WIP once completing services is implemented
   @wip
@@ -384,111 +377,10 @@ Feature: Submitting a new service for IaaS
     Then The string 'Answer required' should not be on the page
     And The 'Mark as complete' button should be on the page
 
-  Scenario: Verify text on summary page
-    Given I am on the summary page
-    Then Summary row 'Service type' should contain 'IaaS'
-    And Summary row 'Service name' should contain 'My IaaS service'
-    And Summary row 'Service summary' should contain 'My IaaS service that does stuff with stuff.'
-    # TODO: Uncomment once serviceType bug has been fixed
-    # And Summary row 'Service type' should contain 'Compute'
-    And Summary row 'Service features' should contain 'Super greatness'
-    And Summary row 'Service benefits' should contain 'Great superness'
-    And Summary row 'Service price' should contain '£100 to £1000 per unit per second'
-    And Summary row 'VAT included' should contain 'Yes'
-    And Summary row 'Education pricing' should contain 'No'
-    And Summary row 'Trial option' should contain 'Yes'
-    And Summary row 'Free option' should contain 'No'
-    And Summary row 'Termination cost' should contain 'No'
-    And Summary row 'Minimum contract period' should contain 'Month'
-    And Summary row 'Support service type' should contain 'Service desk'
-    And Summary row 'Support accessible to any third-party suppliers' should contain 'Yes'
-    And Summary row 'Support availability' should contain '24/7'
-    And Summary row 'Standard support response times' should contain '1 hour'
-    And Summary row 'Incident escalation process available' should contain 'No'
-    And Summary row 'Open standards supported and documented' should contain 'Yes'
-    And Summary row 'Service onboarding process included' should contain 'No'
-    And Summary row 'Service offboarding process included' should contain 'Yes'
-    And Summary row 'Real-time management information available' should contain 'No'
-    And Summary row 'Elastic cloud approach supported' should contain 'Yes'
-    And Summary row 'Guaranteed resources defined' should contain 'No'
-    And Summary row 'Persistent storage supported' should contain 'No'
-    And Summary row 'Self-service provisioning supported' should contain 'Yes'
-    And Summary row 'Service provisioning time' should contain '5 hours'
-    And Summary row 'Service deprovisioning time' should contain '6 hours'
-    And Summary row 'Open-source software used and supported' should contain 'Yes'
-    And Summary row 'API access available and supported' should contain 'Yes'
-    And Summary row 'API type' should contain 'JSON'
-    And Summary row 'Networks the service is directly connected to' should contain 'Internet'
-    And Summary row 'Supported web browsers' should contain 'Opera'
-    And Summary row 'Offline working and syncing supported' should contain 'Yes'
-    And Summary row 'Supported devices' should contain 'PC'
-    And Summary row 'Vendor certification(s)' should contain 'Stuff magic'
-    And Summary row 'Datacentres adhere to the EU code of conduct for energy-efficient datacentres' should contain 'No'
-    And Summary row 'User-defined data location' should contain 'Yes'
-    And Summary row 'Datacentre tier' should contain 'Uptime Institute Tier 1'
-    And Summary row 'Backup, disaster recovery and resilience plan in place' should contain 'Yes'
-    And Summary row 'Data extraction/removal plan in place' should contain 'Yes'
-    And Summary row 'Data protection between user device and service' should contain 'Encrypted PSN service, assured by independent validation of assertion'
-    And Summary row 'Data protection within service' should contain 'VLAN, assured by independent validation of assertion'
-    And Summary row 'Data protection between services' should contain 'Encrypted PSN service, assured by CESG-assured components'
-    And Summary row 'Datacentre location' should contain 'UK'
-    And Summary row 'Data management location' should contain 'UK'
-    And Summary row 'Legal jurisdiction of service provider' should contain 'UK'
-    And Summary row 'Datacentre protection' should contain 'Yes'
-    And Summary row 'Data-at-rest protection' should contain 'CPA Foundation-grade assured components'
-    And Summary row 'Secure data deletion' should contain 'CESG or CPNI-approved erasure process'
-    And Summary row 'Storage media disposal' should contain 'CESG-assured destruction service (CAS(T))'
-    And Summary row 'Secure equipment disposal' should contain 'Yes'
-    And Summary row 'Redundant equipment accounts revoked' should contain 'No'
-    And Summary row 'Service availability' should contain '99.99%'
-    And Summary row 'Cloud deployment model' should contain 'Public cloud'
-    And Summary row 'Type of consumer' should contain 'No other consumer'
-    And Summary row 'Services separation' should contain 'Yes'
-    And Summary row 'Services management separation' should contain 'Yes'
-    And Summary row 'Governance framework' should contain 'Yes'
-    And Summary row 'Configuration and change management tracking' should contain 'Yes'
-    And Summary row 'Change impact assessment' should contain 'Yes'
-    And Summary row 'Vulnerability assessment' should contain 'Yes'
-    And Summary row 'Vulnerability monitoring' should contain 'Yes'
-    And Summary row 'Vulnerability mitigation prioritisation' should contain 'No'
-    And Summary row 'Vulnerability tracking' should contain 'Yes'
-    And Summary row 'Vulnerability mitigation timescales' should contain 'Yes'
-    And Summary row 'Event monitoring' should contain 'Yes'
-    And Summary row 'Incident management processes' should contain 'Yes'
-    And Summary row 'Consumer reporting of security incidents' should contain 'No'
-    And Summary row 'Security incident definition published' should contain 'Yes'
-    And Summary row 'Personnel security checks' should contain 'Security clearance national vetting (SC)'
-    And Summary row 'Secure development' should contain 'Yes'
-    And Summary row 'Secure design, coding, testing and deployment' should contain 'Yes'
-    And Summary row 'Software configuration management' should contain 'Yes'
-    And Summary row 'Visibility of data shared with third-party suppliers' should contain 'Yes'
-    And Summary row 'Third-party supplier security requirements' should contain 'Yes'
-    And Summary row 'Third-party supplier risk assessment' should contain 'Yes'
-    And Summary row 'Third-party supplier compliance monitoring' should contain 'Yes'
-    And Summary row 'Hardware and software verification' should contain 'Yes'
-    And Summary row 'User authentication and access management' should contain 'Yes'
-    And Summary row 'User access control through support channels' should contain 'Yes'
-    And Summary row 'User access control within management interfaces' should contain 'Yes'
-    And Summary row 'Administrator permissions' should contain 'Yes'
-    And Summary row 'Management interface protection' should contain 'Yes'
-    And Summary row 'Identity and authentication controls' should contain 'Username and two-factor authentication'
-    And Summary row 'Onboarding guidance provided' should contain 'Yes'
-    And Summary row 'Interconnection method provided' should contain 'Encrypted PSN service'
-    And Summary row 'Service management model' should contain 'Dedicated devices on a segregated network'
-    And Summary row 'Audit information provided' should contain 'None'
-    And Summary row 'Device access method' should contain 'Corporate/enterprise devices'
-    And Summary row 'Service configuration guidance' should contain 'Yes'
-    And Summary row 'Training' should contain 'Yes'
-    And Summary row 'Service definition document' should not contain 'Answer required'
-    # TODO: Uncomment once SSP content change has been merged
-    # And Summary row 'Terms and conditions document' should not contain 'Answer required'
-    And Summary row 'Pricing document' should not contain 'Answer required'
-    And Summary row 'Skills Framework for the Information Age (SFIA) rate card' should not be empty
-
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete this service'
-    And I click 'Yes, delete “My IaaS service”'
+    And I click 'Yes, delete “My PaaS service”'
     Then I should be on the g7 services page
     And My service should not be in the list

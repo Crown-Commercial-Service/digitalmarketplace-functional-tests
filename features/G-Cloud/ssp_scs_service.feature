@@ -34,7 +34,7 @@ Feature: Submitting a new service for SCS
 
   Scenario: Select a service type
     Given I am on ssp page 'service_type'
-    When I check 'Testing'
+    When I check 'Testing' for 'serviceTypes
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
 
@@ -73,7 +73,7 @@ Feature: Submitting a new service for SCS
 
   Scenario: Support
     Given I am on ssp page 'support'
-    When I check 'input-supportTypes-1'
+    When I check 'Service desk' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7 365 days'
     And I fill in 'supportResponseTime' with 'Within 1 hour'

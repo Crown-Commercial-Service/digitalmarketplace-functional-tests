@@ -30,7 +30,8 @@ Given /^I am on the summary page$/ do
 end
 
 Given /^I am on ssp page '(.+)'$/ do |page_name|
-  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}/edit/#{page_name}/")
+  #visit("#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.current_listing}/edit/#{page_name}/")
+  visit("#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{page_name}/#{store.current_listing}")
 end
 
 Given /^The service is deleted$/ do
@@ -50,8 +51,14 @@ When /^I click my service$/ do
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
 end
 
-When /^I check '(.*)'$/ do |label|
-  check label
+# When /^I check '(.*)'$/ do |label|
+#   check label
+# end
+
+And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
+  within "##{field_name}" do
+    check label
+  end
 end
 
 When /^I fill in '(.*)' with '(.*)'$/ do |label, value|
@@ -80,6 +87,11 @@ end
 
 Then /^I should be on the g7 services page$/ do
   URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7/services"
+end
+
+Then /^I am taken to the '(.*)' page$/ do |page_name|
+  find('h1').should have_content(/#{page_name}/i)
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|

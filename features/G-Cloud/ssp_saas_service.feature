@@ -34,7 +34,7 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Select a service type
     Given I am on ssp page 'service_type'
-    When I check 'Creative and design'
+    When I check 'Creative and design' for 'serviceTypes'
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
 
@@ -66,7 +66,7 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Support
     Given I am on ssp page 'support'
-    When I check 'Service desk'
+    When I check 'Service desk' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7'
     And I fill in 'supportResponseTime' with '1 hour'
@@ -130,15 +130,15 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Networks and connectivity
     Given I am on ssp page 'networks_and_connectivity'
-    When I check 'Internet'
+    When I check 'Internet' for 'networksConnected'
     And I click 'Save and continue'
     Then I should be on the 'Access' page
 
   Scenario: Access
     Given I am on ssp page 'access'
-    When I check 'Opera'
+    When I check 'Opera' for 'supportedBrowsers'
     And I choose 'Yes' for 'offlineWorking'
-    And I check 'PC'
+    And I check 'PC' for 'supportedDevices'
     And I click 'Save and continue'
     Then I should be on the 'Certifications' page
 
@@ -174,22 +174,22 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Data-in-transit protection
     Given I am on ssp page 'data_in_transit_protection'
-    When I check 'Encrypted PSN service'
+    When I check 'Encrypted PSN service' for 'dataProtectionBetweenUserAndService'
     And I choose 'Independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page
 
   Scenario: Asset protection and resilience
     Given I am on ssp page 'asset_protection_and_resilience'
-    When I check 'input-datacentreLocations-1'
+    When I check 'input-datacentreLocations-1' for 'datacentreLocations'
     And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
-    And I check 'input-dataManagementLocations-1'
+    And I check 'input-dataManagementLocations-1' for 'dataManagementLocations'
     And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
     And I choose 'Service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
     And I choose 'Service provider assertion' for 'datacentreProtectionDisclosure--assurance'
-    And I check 'input-dataAtRestProtections-2'
+    And I check 'input-dataAtRestProtections-2' for 'dataAtRestProtections'
     And I choose 'Service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
     And I choose 'Service provider assertion' for 'dataSecureDeletion--assurance'
@@ -260,7 +260,7 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Personnel security
     Given I am on ssp page 'personnel_security'
-    When I check 'Security clearance national vetting (SC)'
+    When I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
     And I choose 'Service provider assertion' for 'personnelSecurityChecks--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure development' page
@@ -309,14 +309,14 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Identity and authentication
     Given I am on ssp page 'identity_and_authentication'
-    When I check 'Username and two-factor authentication'
+    When I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
     And I choose 'Service provider assertion' for 'identityAuthenticationControls--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure service administration' page
 
   Scenario: Secure service administration
     Given I am on ssp page 'secure_service_administration'
-    When I check 'Dedicated devices on a segregated network'
+    When I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
     And I choose 'Service provider assertion' for 'serviceManagementModel--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Audit information provision to consumers' page
@@ -330,7 +330,7 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Secure use of the service by the customer
     Given I am on ssp page 'secure_use_of_the_service_by_the_customer'
-    When I check 'Corporate/enterprise devices'
+    When I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
     And I choose 'Service provider assertion' for 'deviceAccessMethod--assurance'
     And I choose 'Yes' for 'trainingProvided'
     And I choose 'Service provider assertion' for 'trainingProvided--assurance'
