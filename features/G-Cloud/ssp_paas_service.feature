@@ -18,14 +18,16 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Service name' page
 
   Scenario: Provide a service name
-    Given I am on ssp page 'service_name'
-    When I fill in 'serviceName' with 'My PaaS service'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Service name' page
+    And I fill in 'serviceName' with 'My PaaS service'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
   Scenario: Provide a service description
-    Given I am on ssp page 'service_description'
-    When I fill in 'serviceSummary' with:
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Service description' page
+    And I fill in 'serviceSummary' with:
       """
       Platform as a service (PaaS) is a category of cloud computing services that provides a computing platform and a solution stack as a service.
       """
@@ -33,15 +35,17 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Features and benefits' page
 
   Scenario: Features and benefits
-    Given I am on ssp page 'features_and_benefits'
-    When I fill in 'input-serviceFeatures-1' with 'Super greatness'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Features and benefits' page
+    And I fill in 'input-serviceFeatures-1' with 'Super greatness'
     And I fill in 'input-serviceBenefits-1' with 'Great superness'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
-    Given I am on ssp page 'pricing'
-    When I fill in 'input-priceString-MinPrice' with '99'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Pricing' page
+    And I fill in 'input-priceString-MinPrice' with '99'
     And I fill in 'input-priceString-MaxPrice' with '100'
     And I select 'Unit' from 'input-priceString-Unit'
     And I select 'Second' from 'input-priceString-Interval'
@@ -53,15 +57,17 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Terms and conditions' page
 
   Scenario: Terms and conditions
-    Given I am on ssp page 'terms_and_conditions'
-    When I choose 'Yes' for 'terminationCost'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Terms and conditions' page
+    And I choose 'Yes' for 'terminationCost'
     And I choose 'Month' for 'minimumContractPeriod'
     And I click 'Save and continue'
     Then I should be on the 'Support' page
 
   Scenario: Support
-    Given I am on ssp page 'support'
-    When I check 'input-supportTypes-1' for 'supportTypes'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Support' page
+    And I check 'input-supportTypes-1' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7'
     And I fill in 'supportResponseTime' with '1 hour'
@@ -70,75 +76,86 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Open standards' page
 
   Scenario: Open standards
-    Given I am on ssp page 'open_standards'
-    When I choose 'Yes' for 'openStandardsSupported'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Open standards' page
+    And I choose 'Yes' for 'openStandardsSupported'
     And I click 'Save and continue'
     Then I should be on the 'Onboarding and offboarding' page
 
   Scenario: Onboarding and offboarding
-    Given I am on ssp page 'onboarding_and_offboarding'
-    When I choose 'No' for 'serviceOnboarding'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Onboarding and offboarding' page
+    And I choose 'No' for 'serviceOnboarding'
     And I choose 'Yes' for 'serviceOffboarding'
     And I click 'Save and continue'
     Then I should be on the 'Analytics' page
 
   Scenario: Analytics
-    Given I am on ssp page 'analytics'
-    When I choose 'No' for 'analyticsAvailable'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Analytics' page
+    And I choose 'No' for 'analyticsAvailable'
     And I click 'Save and continue'
     Then I should be on the 'Cloud features' page
 
   Scenario: Cloud features
-    Given I am on ssp page 'cloud_features'
-    When I choose 'Yes' for 'elasticCloud'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Cloud features' page
+    And I choose 'Yes' for 'elasticCloud'
     And I choose 'No' for 'guaranteedResources'
     And I choose 'No' for 'persistentStorage'
     And I click 'Save and continue'
     Then I should be on the 'Provisioning' page
 
   Scenario: Provisioning
-    Given I am on ssp page 'provisioning'
-    When I choose 'Yes' for 'selfServiceProvisioning'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Provisioning' page
+    And I choose 'Yes' for 'selfServiceProvisioning'
     And I fill in 'provisioningTime' with '5 hours'
     And I fill in 'deprovisioningTime' with '6 hours'
     And I click 'Save and continue'
     Then I should be on the 'Open source' page
 
   Scenario: Open source
-    Given I am on ssp page 'open_source'
-    When I choose 'Yes' for 'openSource'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Open source' page
+    And I choose 'Yes' for 'openSource'
     And I click 'Save and continue'
     Then I should be on the 'API access' page
 
   Scenario: API access
-    Given I am on ssp page 'api_access'
-    When I choose 'Yes' for 'apiAccess'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'API access' page
+    And I choose 'Yes' for 'apiAccess'
     And I fill in 'apiType' with 'SOAP'
     And I click 'Save and continue'
     Then I should be on the 'Networks and connectivity' page
 
   Scenario: Networks and connectivity
-    Given I am on ssp page 'networks_and_connectivity'
-    When I check 'Internet' for 'networksConnected'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Networks and connectivity' page
+    And I check 'Internet' for 'networksConnected'
     And I click 'Save and continue'
     Then I should be on the 'Access' page
 
   Scenario: Access
-    Given I am on ssp page 'access'
-    When I check 'Opera' for 'supportedBrowsers'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Access' page
+    And I check 'Opera' for 'supportedBrowsers'
     And I choose 'Yes' for 'offlineWorking'
     And I check 'PC' for 'supportedDevices'
     And I click 'Save and continue'
     Then I should be on the 'Certifications' page
 
   Scenario: Certifications
-    Given I am on ssp page 'certifications'
-    When I click 'Save and continue'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Certifications' page
+    And I click 'Save and continue'
     Then I should be on the 'Data storage' page
 
   Scenario: Data storage
-    Given I am on ssp page 'data_storage'
-    When I choose 'No' for 'datacentresEUCode'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Data storage' page
+    And I choose 'No' for 'datacentresEUCode'
     And I choose 'Yes' for 'datacentresSpecifyLocation'
     And I choose 'Uptime Institute Tier 1' for 'datacentreTier'
     And I choose 'Yes' for 'dataBackupRecovery'
@@ -155,8 +172,9 @@ Feature: Submitting a new service for PaaS
     And The 'Mark as complete' button should not be on the page
 
   Scenario: Data-in-transit protection
-    Given I am on ssp page 'data_in_transit_protection'
-    When I check 'input-dataProtectionBetweenUserAndService-1' for 'dataProtectionBetweenUserAndService'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Data-in-transit protection' page
+    And I check 'input-dataProtectionBetweenUserAndService-1' for 'dataProtectionBetweenUserAndService'
     And I choose 'Independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
     And I check 'input-dataProtectionWithinService-3' for 'dataProtectionWithinService'
     And I choose 'Independent validation of assertion' for 'dataProtectionWithinService--assurance'
@@ -166,8 +184,9 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Asset protection and resilience' page
 
   Scenario: Asset protection and resilience
-    Given I am on ssp page 'asset_protection_and_resilience'
-    When I check 'input-datacentreLocations-1' for 'datacentreLocations'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Asset protection and resilience' page
+    And I check 'input-datacentreLocations-1' for 'datacentreLocations'
     And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
     And I check 'input-dataManagementLocations-1' for 'dataManagementLocations'
     And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
@@ -191,8 +210,9 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Separation between consumers' page
 
   Scenario: Separation between consumers
-    Given I am on ssp page 'separation_between_consumers'
-    When I choose 'Public cloud' for 'cloudDeploymentModel'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Separation between consumers' page
+    And I choose 'Public cloud' for 'cloudDeploymentModel'
     And I choose 'Service provider assertion' for 'cloudDeploymentModel--assurance'
     And I choose 'No other consumer' for 'otherConsumers'
     And I choose 'Service provider assertion' for 'otherConsumers--assurance'
@@ -204,15 +224,17 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Governance' page
 
   Scenario: Governance
-    Given I am on ssp page 'governance'
-    When I choose 'Yes' for 'governanceFramework'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Governance' page
+    And I choose 'Yes' for 'governanceFramework'
     And I choose 'Service provider assertion' for 'governanceFramework--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Configuration and change management' page
 
   Scenario: Configuration and change management
-    Given I am on ssp page 'configuration_and_change_management'
-    When I choose 'Yes' for 'configurationTracking'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Configuration and change management' page
+    And I choose 'Yes' for 'configurationTracking'
     And I choose 'Service provider assertion' for 'configurationTracking--assurance'
     And I choose 'Yes' for 'changeImpactAssessment'
     And I choose 'Service provider assertion' for 'changeImpactAssessment--assurance'
@@ -220,8 +242,9 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Vulnerability management' page
 
   Scenario: Vulnerability management
-    Given I am on ssp page 'vulnerability_management'
-    When I choose 'Yes' for 'vulnerabilityAssessment'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Vulnerability management' page
+    And I choose 'Yes' for 'vulnerabilityAssessment'
     And I choose 'Service provider assertion' for 'vulnerabilityAssessment--assurance'
     And I choose 'Yes' for 'vulnerabilityMonitoring'
     And I choose 'Service provider assertion' for 'vulnerabilityMonitoring--assurance'
@@ -235,15 +258,17 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Event monitoring' page
 
   Scenario: Event monitoring
-    Given I am on ssp page 'event_monitoring'
-    When I choose 'Yes' for 'eventMonitoring'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Event monitoring' page
+    And I choose 'Yes' for 'eventMonitoring'
     And I choose 'Service provider assertion' for 'eventMonitoring--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Incident management' page
 
   Scenario: Incident management
-    Given I am on ssp page 'incident_management'
-    When I choose 'Yes' for 'incidentManagementProcess'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Incident management' page
+    And I choose 'Yes' for 'incidentManagementProcess'
     And I choose 'Service provider assertion' for 'incidentManagementProcess--assurance'
     And I choose 'No' for 'incidentManagementReporting'
     And I choose 'Service provider assertion' for 'incidentManagementReporting--assurance'
@@ -253,15 +278,17 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Personnel security' page
 
   Scenario: Personnel security
-    Given I am on ssp page 'personnel_security'
-    When I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Personnel security' page
+    And I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
     And I choose 'Service provider assertion' for 'personnelSecurityChecks--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure development' page
 
   Scenario: Secure development
-    Given I am on ssp page 'secure_development'
-    When I choose 'Yes' for 'secureDevelopment'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Secure development' page
+    And I choose 'Yes' for 'secureDevelopment'
     And I choose 'Service provider assertion' for 'secureDevelopment--assurance'
     And I choose 'Yes' for 'secureDesign'
     And I choose 'Service provider assertion' for 'secureDesign--assurance'
@@ -271,8 +298,9 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Supply-chain security' page
 
   Scenario: Supply-chain security
-    Given I am on ssp page 'supply_chain_security'
-    When I choose 'Yes' for 'thirdPartyDataSharingInformation'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Supply-chain security' page
+    And I choose 'Yes' for 'thirdPartyDataSharingInformation'
     And I choose 'Service provider assertion' for 'thirdPartyDataSharingInformation--assurance'
     And I choose 'Yes' for 'thirdPartySecurityRequirements'
     And I choose 'Service provider assertion' for 'thirdPartySecurityRequirements--assurance'
@@ -286,8 +314,9 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Authentication of consumers' page
 
   Scenario: Authentication of consumers
-    Given I am on ssp page 'authentication_of_consumers'
-    When I choose 'Yes' for 'userAuthenticateManagement'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Authentication of consumers' page
+    And I choose 'Yes' for 'userAuthenticateManagement'
     And I choose 'Service provider assertion' for 'userAuthenticateManagement--assurance'
     And I choose 'Yes' for 'userAuthenticateSupport'
     And I choose 'Service provider assertion' for 'userAuthenticateSupport--assurance'
@@ -295,8 +324,9 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Separation and access control within management interfaces' page
 
   Scenario: Separation and access control within management interfaces
-    Given I am on ssp page 'separation_and_access_control_within_management_interfaces'
-    When I choose 'Yes' for 'userAccessControlManagement'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Separation and access control within management interfaces' page
+    And I choose 'Yes' for 'userAccessControlManagement'
     And I choose 'Service provider assertion' for 'userAccessControlManagement--assurance'
     And I choose 'Yes' for 'restrictAdministratorPermissions'
     And I choose 'Service provider assertion' for 'restrictAdministratorPermissions--assurance'
@@ -306,15 +336,17 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Identity and authentication' page
 
   Scenario: Identity and authentication
-    Given I am on ssp page 'identity_and_authentication'
-    When I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Identity and authentication' page
+    And I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
     And I choose 'Service provider assertion' for 'identityAuthenticationControls--assurance'
     And I click 'Save and continue'
     Then I should be on the 'External interface protection' page
 
   Scenario: External interface protection
-    Given I am on ssp page 'external_interface_protection'
-    When I choose 'Yes' for 'onboardingGuidance'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'External interface protection' page
+    And I choose 'Yes' for 'onboardingGuidance'
     And I choose 'Service provider assertion' for 'onboardingGuidance--assurance'
     And I check 'Encrypted PSN service' for 'interconnectionMethods'
     And I choose 'Service provider assertion' for 'interconnectionMethods--assurance'
@@ -322,22 +354,25 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Secure service administration' page
 
   Scenario: Secure service administration
-    Given I am on ssp page 'secure_service_administration'
-    When I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Secure service administration' page
+    And I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
     And I choose 'Service provider assertion' for 'serviceManagementModel--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Audit information provision to consumers' page
 
   Scenario: Audit information provision to consumers
-    Given I am on ssp page 'audit_information_provision_to_consumers'
-    When I choose 'None' for 'auditInformationProvided'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Audit information provision to consumers' page
+    And I choose 'None' for 'auditInformationProvided'
     And I choose 'Service provider assertion' for 'auditInformationProvided--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure use of the service by the customer' page
 
   Scenario: Secure use of the service by the customer
-    Given I am on ssp page 'secure_use_of_the_service_by_the_customer'
-    When I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Secure use of the service by the customer' page
+    And I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
     And I choose 'Service provider assertion' for 'deviceAccessMethod--assurance'
     And I choose 'Yes' for 'serviceConfigurationGuidance'
     And I choose 'Service provider assertion' for 'serviceConfigurationGuidance--assurance'
@@ -347,26 +382,30 @@ Feature: Submitting a new service for PaaS
     Then I should be on the 'Service definition' page
 
   Scenario: Service definition document
-    Given I am on ssp page 'service_definition'
-    When I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Service definition document' page
+    And I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions document' page
 
   Scenario: Terms and conditions document
-    Given I am on ssp page 'terms_and_conditions_document'
-    When I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Terms and conditions document' page
+    And I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Pricing document' page
 
   Scenario: Pricing document
-    Given I am on ssp page 'pricing_document'
-    When I choose file 'test.pdf' for 'pricingDocumentURL'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'Pricing document' page
+    And I choose file 'test.pdf' for 'pricingDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
 
   Scenario: SFIA rate card document
-    Given I am on ssp page 'sfia_rate_card'
-    When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
+    Given I am on ssp page 'paas'
+    When I navigate to the 'Edit' 'SFIA rate card document' page
+    And I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'My PaaS service' page
 

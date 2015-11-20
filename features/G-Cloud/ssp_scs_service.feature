@@ -18,14 +18,16 @@ Feature: Submitting a new service for SCS
     Then I should be on the 'Service name' page
 
   Scenario: Provide a service name
-    Given I am on ssp page 'service_name'
-    When I fill in 'serviceName' with 'My SCS service name'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Service name' page
+    And I fill in 'serviceName' with 'My SCS service name'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
   Scenario: Provide a service description
-    Given I am on ssp page 'service_description'
-    When I fill in 'serviceSummary' with:
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Service description' page
+    And I fill in 'serviceSummary' with:
       """
       Service summary for my SCS service that does stuff with stuff.
       """
@@ -33,21 +35,24 @@ Feature: Submitting a new service for SCS
     Then I should be on the 'Service type' page
 
   Scenario: Select a service type
-    Given I am on ssp page 'service_type'
-    When I check 'Testing' for 'serviceTypes
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Service type' page
+    And I check 'Testing' for 'serviceTypes'
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
 
   Scenario: Features and benefits
-    Given I am on ssp page 'features_and_benefits'
-    When I fill in 'input-serviceFeatures-1' with 'Service feature number one'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Features and benefits' page
+    And I fill in 'input-serviceFeatures-1' with 'Service feature number one'
     And I fill in 'input-serviceBenefits-1' with 'Service benefits number one'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
-    Given I am on ssp page 'pricing'
-    When I fill in 'input-priceString-MinPrice' with '100'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Pricing' page
+    And I fill in 'input-priceString-MinPrice' with '100'
     And I fill in 'input-priceString-MaxPrice' with '1000'
     And I select 'Unit' from 'input-priceString-Unit'
     And I select 'Second' from 'input-priceString-Interval'
@@ -57,8 +62,9 @@ Feature: Submitting a new service for SCS
     Then I should be on the 'Terms and conditions' page
 
   Scenario: Terms and conditions
-    Given I am on ssp page 'terms_and_conditions'
-    When I choose 'No' for 'terminationCost'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Terms and conditions' page
+    And I choose 'No' for 'terminationCost'
     And I choose 'Month' for 'minimumContractPeriod'
     And I click 'Save and continue'
     Then I should be on the 'Support' page
@@ -72,8 +78,9 @@ Feature: Submitting a new service for SCS
     And The 'Mark as complete' button should not be on the page
 
   Scenario: Support
-    Given I am on ssp page 'support'
-    When I check 'Service desk' for 'supportTypes'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Support' page
+    And I check 'Service desk' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7 365 days'
     And I fill in 'supportResponseTime' with 'Within 1 hour'
@@ -82,32 +89,37 @@ Feature: Submitting a new service for SCS
     Then I should be on the 'Certifications' page
 
   Scenario: Certifications
-    Given I am on ssp page 'certifications'
-    When I fill in 'input-vendorCertifications-1' with 'Vendor certification one provided.'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Certifications' page
+    And I fill in 'input-vendorCertifications-1' with 'Vendor certification one provided.'
     And I click 'Save and continue'
     Then I should be on the 'Service definition' page
 
   Scenario: Service definition document
-    Given I am on ssp page 'service_definition'
-    When I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Service definition' page
+    And I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions document' page
 
   Scenario: Terms and conditions document
-    Given I am on ssp page 'terms_and_conditions_document'
-    When I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Terms and conditions document' page
+    And I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Pricing document' page
 
   Scenario: Pricing document
-    Given I am on ssp page 'pricing_document'
-    When I choose file 'test.pdf' for 'pricingDocumentURL'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'Pricing document' page
+    And I choose file 'test.pdf' for 'pricingDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
 
   Scenario: SFIA rate card document
-    Given I am on ssp page 'sfia_rate_card'
-    When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
+    Given I am on ssp page 'scs'
+    When I navigate to the 'Edit' 'SFIA rate card document' page
+    And I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'My SCS service name' page
 
