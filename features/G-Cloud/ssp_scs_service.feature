@@ -12,15 +12,21 @@ Feature: Submitting a new service for SCS
     Given I am at '/suppliers'
     When I click 'Continue your G-Cloud 7 application'
     And I click 'Add, edit and delete services'
+
+    When I click 'Specialist Cloud Services (SCS)'
     And I click 'Add a service'
-    When I choose 'Specialist Cloud Services (SCS)' for 'lot'
-    And I click 'Save and continue'
-    Then I should be on the 'Service name' page
+    Then I am taken to the 'Service name' page
 
   Scenario: Provide a service name
+    Given I am on the service name page for 'scs'
+    When I fill in 'serviceName' with 'My SCS'
+    And I click 'Save and continue'
+    Then I should be on the 'My SCS' page
+
+  Scenario: Edit a service name
     Given I am on ssp page 'scs'
     When I navigate to the 'Edit' 'Service name' page
-    And I fill in 'serviceName' with 'My SCS service name'
+    When I fill in 'serviceName' with 'My SCS service'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
@@ -72,8 +78,8 @@ Feature: Submitting a new service for SCS
   @listing_page
   Scenario: Go to listing page and the service is not complete
     Given I am at the g7 services page
-    When I click my service
-    Then I should be on the 'My SCS service name' page
+    When I click 'My SCS service'
+    Then I should be on the 'My SCS service' page
     And The string 'Answer required' should be on the page
     And The 'Mark as complete' button should not be on the page
 
@@ -95,7 +101,7 @@ Feature: Submitting a new service for SCS
     And I click 'Save and continue'
     Then I should be on the 'Service definition' page
 
-  Scenario: Service definition document
+  Scenario: Service definition
     Given I am on ssp page 'scs'
     When I navigate to the 'Edit' 'Service definition' page
     And I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
@@ -116,12 +122,12 @@ Feature: Submitting a new service for SCS
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
 
-  Scenario: SFIA rate card document
+  Scenario: SFIA rate card
     Given I am on ssp page 'scs'
-    When I navigate to the 'Edit' 'SFIA rate card document' page
+    When I navigate to the 'Edit' 'SFIA rate card' page
     And I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
-    Then I should be on the 'My SCS service name' page
+    Then I should be on the 'My SCS service' page
 
   # TODO: Remove WIP once completing services is implemented
   @wip
@@ -134,6 +140,6 @@ Feature: Submitting a new service for SCS
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete this service'
-    And I click 'Yes, delete “My SCS service name”'
+    And I click 'Yes, delete “My SCS service'
     Then I should be on the g7 services page
     And My service should not be in the list

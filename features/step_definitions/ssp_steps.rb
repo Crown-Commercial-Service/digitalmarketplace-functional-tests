@@ -22,11 +22,18 @@ Given /^I am at the g7 supplier dashboard page$/ do
 end
 
 Given /^I am at the g7 services page$/ do
-  visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/services"
+  #visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/services"
+  visit "#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}"
+  #{store.framework_name}/submissions/#{page_name}/#{store.current_listing}
 end
 
 Given /^I am on the summary page$/ do
-  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}")
+  #visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}")
+  visit "#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}"
+end
+
+Given /^I am on the service name page for '(.*)'$/ do |lot_name|
+  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{lot_name}/create")
 end
 
 Given /^I am on ssp page '(.+)'$/ do |page_name|
@@ -82,16 +89,19 @@ Then /^I should be on the supplier home page$/ do
 end
 
 Then /^I should be on the g7 supplier dashboard page$/ do
-  URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7"
+  #URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7"
+  URI.parse(current_url).path.should == "/suppliers/frameworks/#{store.framework_name}"
 end
 
 Then /^I should be on the g7 services page$/ do
-  URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7/services"
+  #URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7/services"
+  URI.parse(current_url).path.should == "/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}"
 end
 
 Then /^I am taken to the '(.*)' page$/ do |page_name|
   find('h1').should have_content(/#{page_name}/i)
   store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|

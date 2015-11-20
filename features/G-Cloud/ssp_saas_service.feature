@@ -12,15 +12,21 @@ Feature: Submitting a new service for SaaS
     Given I am at '/suppliers'
     When I click 'Continue your G-Cloud 7 application'
     And I click 'Add, edit and delete services'
+
+    When I click 'Software as a Service (SaaS)'
     And I click 'Add a service'
-    When I choose 'Software as a Service (SaaS)' for 'lot'
-    And I click 'Save and continue'
-    Then I should be on the 'Service name' page
+    Then I am taken to the 'Service name' page
 
   Scenario: Provide a service name
+    Given I am on the service name page for 'saas'
+    When I fill in 'serviceName' with 'My SaaS'
+    And I click 'Save and continue'
+    Then I should be on the 'My SaaS' page
+
+  Scenario: Edit a service name
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Service name' page
-    And I fill in 'serviceName' with 'My SaaS service'
+    When I fill in 'serviceName' with 'My SaaS service'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
@@ -187,7 +193,7 @@ Feature: Submitting a new service for SaaS
   @listing_page
   Scenario: Go to listing page and the service is not complete
     Given I am at the g7 services page
-    When I click my service
+    When I click 'My SaaS service'
     Then I should be on the 'My SaaS service' page
     And The string 'Answer required' should be on the page
     And The 'Mark as complete' button should not be on the page
@@ -196,7 +202,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Data-in-transit protection' page
     And I check 'Encrypted PSN service' for 'dataProtectionBetweenUserAndService'
-    And I choose 'Independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
+    And I choose 'independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page
 
@@ -204,19 +210,19 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Asset protection and resilience' page
     And I check 'input-datacentreLocations-1' for 'datacentreLocations'
-    And I choose 'Service provider assertion' for 'datacentreLocations--assurance'
+    And I choose 'service provider assertion' for 'datacentreLocations--assurance'
     And I check 'input-dataManagementLocations-1' for 'dataManagementLocations'
-    And I choose 'Service provider assertion' for 'dataManagementLocations--assurance'
+    And I choose 'service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
-    And I choose 'Service provider assertion' for 'legalJurisdiction--assurance'
+    And I choose 'service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
-    And I choose 'Service provider assertion' for 'datacentreProtectionDisclosure--assurance'
+    And I choose 'service provider assertion' for 'datacentreProtectionDisclosure--assurance'
     And I check 'input-dataAtRestProtections-2' for 'dataAtRestProtections'
-    And I choose 'Service provider assertion' for 'dataAtRestProtections--assurance'
+    And I choose 'service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
-    And I choose 'Service provider assertion' for 'dataSecureDeletion--assurance'
+    And I choose 'service provider assertion' for 'dataSecureDeletion--assurance'
     And I fill in 'serviceAvailabilityPercentage' with '99'
-    And I choose 'Service provider assertion' for 'serviceAvailabilityPercentage--assurance'
+    And I choose 'service provider assertion' for 'serviceAvailabilityPercentage--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Separation between consumers' page
 
@@ -224,13 +230,13 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Separation between consumers' page
     And I choose 'Public cloud' for 'cloudDeploymentModel'
-    And I choose 'Service provider assertion' for 'cloudDeploymentModel--assurance'
+    And I choose 'service provider assertion' for 'cloudDeploymentModel--assurance'
     And I choose 'No other consumer' for 'otherConsumers'
-    And I choose 'Service provider assertion' for 'otherConsumers--assurance'
+    And I choose 'service provider assertion' for 'otherConsumers--assurance'
     And I choose 'Yes' for 'servicesSeparation'
-    And I choose 'Service provider assertion' for 'servicesSeparation--assurance'
+    And I choose 'service provider assertion' for 'servicesSeparation--assurance'
     And I choose 'Yes' for 'servicesManagementSeparation'
-    And I choose 'Service provider assertion' for 'servicesManagementSeparation--assurance'
+    And I choose 'service provider assertion' for 'servicesManagementSeparation--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Governance' page
 
@@ -238,7 +244,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Governance' page
     And I choose 'Yes' for 'governanceFramework'
-    And I choose 'Service provider assertion' for 'governanceFramework--assurance'
+    And I choose 'service provider assertion' for 'governanceFramework--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Configuration and change management' page
 
@@ -246,7 +252,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Configuration and change management' page
     And I choose 'Yes' for 'changeImpactAssessment'
-    And I choose 'Service provider assertion' for 'changeImpactAssessment--assurance'
+    And I choose 'service provider assertion' for 'changeImpactAssessment--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Vulnerability management' page
 
@@ -254,15 +260,15 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Vulnerability management' page
     And I choose 'Yes' for 'vulnerabilityAssessment'
-    And I choose 'Service provider assertion' for 'vulnerabilityAssessment--assurance'
+    And I choose 'service provider assertion' for 'vulnerabilityAssessment--assurance'
     And I choose 'Yes' for 'vulnerabilityMonitoring'
-    And I choose 'Service provider assertion' for 'vulnerabilityMonitoring--assurance'
+    And I choose 'service provider assertion' for 'vulnerabilityMonitoring--assurance'
     And I choose 'No' for 'vulnerabilityMitigationPrioritisation'
-    And I choose 'Service provider assertion' for 'vulnerabilityMitigationPrioritisation--assurance'
+    And I choose 'service provider assertion' for 'vulnerabilityMitigationPrioritisation--assurance'
     And I choose 'Yes' for 'vulnerabilityTracking'
-    And I choose 'Service provider assertion' for 'vulnerabilityTracking--assurance'
+    And I choose 'service provider assertion' for 'vulnerabilityTracking--assurance'
     And I choose 'Yes' for 'vulnerabilityTimescales'
-    And I choose 'Service provider assertion' for 'vulnerabilityTimescales--assurance'
+    And I choose 'service provider assertion' for 'vulnerabilityTimescales--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Event monitoring' page
 
@@ -270,7 +276,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Event monitoring' page
     And I choose 'Yes' for 'eventMonitoring'
-    And I choose 'Service provider assertion' for 'eventMonitoring--assurance'
+    And I choose 'service provider assertion' for 'eventMonitoring--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Incident management' page
 
@@ -278,11 +284,11 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Incident management' page
     And I choose 'Yes' for 'incidentManagementProcess'
-    And I choose 'Service provider assertion' for 'incidentManagementProcess--assurance'
+    And I choose 'service provider assertion' for 'incidentManagementProcess--assurance'
     And I choose 'No' for 'incidentManagementReporting'
-    And I choose 'Service provider assertion' for 'incidentManagementReporting--assurance'
+    And I choose 'service provider assertion' for 'incidentManagementReporting--assurance'
     And I choose 'Yes' for 'incidentDefinitionPublished'
-    And I choose 'Service provider assertion' for 'incidentDefinitionPublished--assurance'
+    And I choose 'service provider assertion' for 'incidentDefinitionPublished--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Personnel security' page
 
@@ -290,7 +296,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Personnel security' page
     And I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
-    And I choose 'Service provider assertion' for 'personnelSecurityChecks--assurance'
+    And I choose 'service provider assertion' for 'personnelSecurityChecks--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure development' page
 
@@ -298,11 +304,11 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Secure development' page
     And I choose 'Yes' for 'secureDevelopment'
-    And I choose 'Service provider assertion' for 'secureDevelopment--assurance'
+    And I choose 'service provider assertion' for 'secureDevelopment--assurance'
     And I choose 'Yes' for 'secureDesign'
-    And I choose 'Service provider assertion' for 'secureDesign--assurance'
+    And I choose 'service provider assertion' for 'secureDesign--assurance'
     And I choose 'Yes' for 'secureConfigurationManagement'
-    And I choose 'Service provider assertion' for 'secureConfigurationManagement--assurance'
+    And I choose 'service provider assertion' for 'secureConfigurationManagement--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Supply-chain security' page
 
@@ -310,13 +316,13 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Supply-chain security' page
     And I choose 'Yes' for 'thirdPartyDataSharingInformation'
-    And I choose 'Service provider assertion' for 'thirdPartyDataSharingInformation--assurance'
+    And I choose 'service provider assertion' for 'thirdPartyDataSharingInformation--assurance'
     And I choose 'Yes' for 'thirdPartySecurityRequirements'
-    And I choose 'Service provider assertion' for 'thirdPartySecurityRequirements--assurance'
+    And I choose 'service provider assertion' for 'thirdPartySecurityRequirements--assurance'
     And I choose 'Yes' for 'thirdPartyRiskAssessment'
-    And I choose 'Service provider assertion' for 'thirdPartyRiskAssessment--assurance'
+    And I choose 'service provider assertion' for 'thirdPartyRiskAssessment--assurance'
     And I choose 'Yes' for 'thirdPartyComplianceMonitoring'
-    And I choose 'Service provider assertion' for 'thirdPartyComplianceMonitoring--assurance'
+    And I choose 'service provider assertion' for 'thirdPartyComplianceMonitoring--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Authentication of consumers' page
 
@@ -324,9 +330,9 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Authentication of consumers' page
     And I choose 'Yes' for 'userAuthenticateManagement'
-    And I choose 'Service provider assertion' for 'userAuthenticateManagement--assurance'
+    And I choose 'service provider assertion' for 'userAuthenticateManagement--assurance'
     And I choose 'Yes' for 'userAuthenticateSupport'
-    And I choose 'Service provider assertion' for 'userAuthenticateSupport--assurance'
+    And I choose 'service provider assertion' for 'userAuthenticateSupport--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Separation and access control within management interfaces' page
 
@@ -334,9 +340,9 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Separation and access control within management interfaces' page
     And I choose 'Yes' for 'userAccessControlManagement'
-    And I choose 'Service provider assertion' for 'userAccessControlManagement--assurance'
+    And I choose 'service provider assertion' for 'userAccessControlManagement--assurance'
     And I choose 'Yes' for 'restrictAdministratorPermissions'
-    And I choose 'Service provider assertion' for 'restrictAdministratorPermissions--assurance'
+    And I choose 'service provider assertion' for 'restrictAdministratorPermissions--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Identity and authentication' page
 
@@ -344,7 +350,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Identity and authentication' page
     And I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
-    And I choose 'Service provider assertion' for 'identityAuthenticationControls--assurance'
+    And I choose 'service provider assertion' for 'identityAuthenticationControls--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure service administration' page
 
@@ -352,7 +358,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Secure service administration' page
     And I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
-    And I choose 'Service provider assertion' for 'serviceManagementModel--assurance'
+    And I choose 'service provider assertion' for 'serviceManagementModel--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Audit information provision to consumers' page
 
@@ -360,7 +366,7 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Audit information provision to consumers' page
     And I choose 'None' for 'auditInformationProvided'
-    And I choose 'Service provider assertion' for 'auditInformationProvided--assurance'
+    And I choose 'service provider assertion' for 'auditInformationProvided--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure use of the service by the customer' page
 
@@ -368,13 +374,13 @@ Feature: Submitting a new service for SaaS
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Secure use of the service by the customer' page
     And I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
-    And I choose 'Service provider assertion' for 'deviceAccessMethod--assurance'
+    And I choose 'service provider assertion' for 'deviceAccessMethod--assurance'
     And I choose 'Yes' for 'trainingProvided'
-    And I choose 'Service provider assertion' for 'trainingProvided--assurance'
+    And I choose 'service provider assertion' for 'trainingProvided--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Service definition' page
 
-  Scenario: Service definition document
+  Scenario: Service definition
     Given I am on ssp page 'saas'
     When I navigate to the 'Edit' 'Service definition' page
     And I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
@@ -395,9 +401,9 @@ Feature: Submitting a new service for SaaS
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
 
-  Scenario: SFIA rate card document
+  Scenario: SFIA rate card
     Given I am on ssp page 'saas'
-    When I navigate to the 'Edit' 'SFIA rate card document' page
+    When I navigate to the 'Edit' 'SFIA rate card' page
     And I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'My SaaS service' page
