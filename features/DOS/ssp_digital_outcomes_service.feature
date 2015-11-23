@@ -30,6 +30,10 @@ Feature: Submitting a new DOS service for Digital outcomes
     And I click 'Save and continue'
     Then I should be on the 'Team capabilities' page
 
+  Scenario: A draft service has been created
+    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
+    Then There is 'a' draft 'Digital outcomes' service
+
   Scenario: Provide Team capabilities
     Given I am on ssp page 'digital-outcomes'
     When I navigate to the 'Edit' 'Team capabilities' page
@@ -64,3 +68,11 @@ Feature: Submitting a new DOS service for Digital outcomes
     And I check 'Northern Ireland' for 'outcomesLocations'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
+
+  @delete_service
+  Scenario: Delete the service
+    Given I am on the summary page
+    When I click 'Delete this service'
+    And I click 'Yes, delete “Digital outcomes”'
+    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And There is 'no' draft 'Digital outcomes' service

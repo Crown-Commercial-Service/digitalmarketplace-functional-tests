@@ -53,6 +53,14 @@ Given /^The service is deleted$/ do
   response.code.should == 200
 end
 
+And /^There is '(.*)' draft '(.*)' service$/ do |availability,service_type|
+  if "#{availability.downcase}" == 'no'
+    page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service_type}')]/../../*/p[contains(text(),'1 draft service')]")
+  elsif "#{availability.downcase}" == 'a'
+    page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service_type}')]/../../*/p[contains(text(),'1 draft service')]")
+  end
+end
+
 When /^I click my service$/ do
   # Find link with the current listing in the href
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
@@ -111,6 +119,8 @@ Then /^I should be on the '(.*)' page$/ do |title|
     parts.pop
   end
   store.current_listing = parts.pop
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^My service should be in the list$/ do
