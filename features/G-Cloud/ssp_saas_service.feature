@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp
+@not-production @functional-test @ssp-gcloud
 Feature: Submitting a new service for SaaS
   In order to submit my services as a supplier user
   I want to answer questions about my service
