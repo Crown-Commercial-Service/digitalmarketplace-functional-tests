@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp
+@not-production @functional-test @ssp @wip1
 Feature: Submitting a new DOS service for Digital outcomes
   In order to submit my services as a supplier user
   I want to answer questions about my service

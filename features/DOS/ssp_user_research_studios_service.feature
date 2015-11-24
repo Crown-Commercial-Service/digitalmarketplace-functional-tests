@@ -1,5 +1,5 @@
 @not-production @functional-test @ssp @wip1
-Feature: Submitting a new DOS service for Digital outcomes
+Feature: Submitting a new DOS service for User research studios
   In order to submit my services as a supplier user
   I want to answer questions about my service
 
@@ -20,7 +20,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I am taken to the 'User research studios services' page
 
   Scenario: Provide a service name
-    Given I am on ssp page 'user-research-studios'
+    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
     When I click 'Add a service'
     Then I am taken to the 'Lab name' page
 
@@ -55,6 +55,9 @@ Feature: Submitting a new DOS service for Digital outcomes
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
     Then There is 'a' draft 'User research studios' service
+
+    When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
+    Then There is 'a' draft 'My user research studio service' service
 
   Scenario: Provide Lab size
     Given I am on ssp page 'user-research-studios'
@@ -122,4 +125,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Delete this service'
     And I click 'Yes, delete “My user research studio service”'
     Then I am taken to the 'User research studios services' page
-    #And There is 'no' draft 'Digital outcomes' service
+    And There is 'no' draft 'My user research studio service' service
+
+    When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
+    And There is 'no' draft 'User research studios' service

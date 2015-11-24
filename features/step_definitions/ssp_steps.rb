@@ -53,11 +53,20 @@ Given /^The service is deleted$/ do
   response.code.should == 200
 end
 
-And /^There is '(.*)' draft '(.*)' service$/ do |availability,service_type|
-  if "#{availability.downcase}" == 'no'
-    page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service_type}')]/../../*/p[contains(text(),'1 draft service')]")
-  elsif "#{availability.downcase}" == 'a'
-    page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service_type}')]/../../*/p[contains(text(),'1 draft service')]")
+And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
+  service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+  if service_type == ''
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+    elsif "#{availability.downcase}" == 'a'
+      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+    end
+  else
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+    elsif "#{availability.downcase}" == 'a'
+      page.should have_selector(:xpath, ".//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+    end
   end
 end
 
