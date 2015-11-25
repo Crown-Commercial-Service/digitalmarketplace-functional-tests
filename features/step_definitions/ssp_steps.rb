@@ -57,9 +57,9 @@ And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
   service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
   if service_type == ''
     if "#{availability.downcase}" == 'no'
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft service wasn’t submitted')]")
     elsif "#{availability.downcase}" == 'a'
-      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft service wasn’t submitted')]")
     end
   else
     if "#{availability.downcase}" == 'no'

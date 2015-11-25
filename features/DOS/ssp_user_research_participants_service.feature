@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp
+@not-production @functional-test @ssp @wip1
 Feature: Submitting a new DOS service for User research participants
   In order to submit my services as a supplier user
   I want to answer questions about my service
@@ -42,10 +42,18 @@ Feature: Submitting a new DOS service for User research participants
   Scenario: Provide Recruitment approach
     Given I am on ssp page 'user-research-participants'
     When I navigate to the 'Edit' 'Recruitment approach' page
-    And I choose 'Yes' for 'recruitMethods'
+    And I choose 'Initial recruitment offline, but then contact them online' for 'recruitMethods'
     And I choose 'Yes' for 'recruitFromList'
     And I click 'Save and continue'
     Then I should be on the 'User research participants' page
+
+  Scenario: Verify text on summary page
+    Given I am on the summary page
+    Then Summary row 'Can you, if asked, recruit participants without revealing details of the organisation you're recruiting for?' should contain 'Yes'
+    And Summary row 'Do you agree to manage any incentives to user research participants? ' should contain 'No'
+    And Summary row 'Where can you recruit participants from?' should contain 'North East England'
+    And Summary row 'How do you recruit participants?' should contain 'Yes'
+    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' should contain 'Yes'
 
   @delete_service
   Scenario: Delete the service
