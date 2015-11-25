@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp
+@not-production @functional-test @ssp-dos
 Feature: Submitting a new DOS service for User research studios
   In order to submit my services as a supplier user
   I want to answer questions about my service
@@ -128,4 +128,4 @@ Feature: Submitting a new DOS service for User research studios
     And There is 'no' draft 'My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    And There is 'no' draft 'User research studios' service
+    Then There is 'no' draft 'User research studios' service

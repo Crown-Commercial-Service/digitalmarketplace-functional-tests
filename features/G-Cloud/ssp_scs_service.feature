@@ -77,7 +77,9 @@ Feature: Submitting a new service for SCS
 
   @listing_page
   Scenario: Go to listing page and the service is not complete
-    Given I am at the g7 services page
+    Given I am at the 'Specialist Cloud Services services' page
+    Then My service should be in the list
+
     When I click 'My SCS service'
     Then I should be on the 'My SCS service' page
     And The string 'Answer required' should be on the page
@@ -129,8 +131,6 @@ Feature: Submitting a new service for SCS
     And I click 'Save and continue'
     Then I should be on the 'My SCS service' page
 
-  # TODO: Remove WIP once completing services is implemented
-  @wip
   Scenario: Mark as complete
     Given I am on the summary page
     Then The string 'Answer required' should not be on the page
@@ -141,5 +141,5 @@ Feature: Submitting a new service for SCS
     Given I am on the summary page
     When I click 'Delete this service'
     And I click 'Yes, delete “My SCS service'
-    Then I should be on the g7 services page
+    Then I am returned to the 'Specialist Cloud Services services' page
     And My service should not be in the list
