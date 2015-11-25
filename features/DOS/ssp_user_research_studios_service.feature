@@ -109,7 +109,7 @@ Feature: Submitting a new DOS service for User research studios
     And I click 'Save and continue'
     Then I should be on the 'Price' page
 
-  Scenario: Provide Accessibility info
+  Scenario: Provide Pricing info
     Given I am on ssp page 'user-research-studios'
     When I navigate to the 'Edit' 'Price' page
     And I fill in 'input-labPrice-MinPrice' with '100'
@@ -118,6 +118,29 @@ Feature: Submitting a new DOS service for User research studios
     And I select '6 months' from 'input-labPrice-Interval'
     And I click 'Save and continue'
     Then I should be on the 'My user research studio' page
+
+  Scenario: Verify text on summary page
+    Given I am on the summary page
+    Then Summary row 'What is the name of the lab?' should contain 'My user research studio service'
+    And Summary row 'Building and street' should contain 'No 1 Test Street'
+    And Summary row 'Town or city' should contain 'Test Town'
+    And Summary row 'Postcode' should contain 'TE57ME'
+    And Summary row 'How do visitors get to your studio using public transport?' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
+    And Summary row 'Where can visitors to your studio park?' should contain 'Customer parking available underground'
+    And Summary row 'How many people can the lab accommodate?' should contain 'Thirty 2'
+    And Summary row 'Do you have an viewing area?' should contain 'Yes – included as standard'
+    And Summary row 'Do you provide remote streaming from the lab?' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you stream a view of the desktop or laptop screen?' should contain 'Yes – included as standard'
+    And Summary row 'Do you stream a view of a mobile or tablet device?' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you provide eye-tracking?' should contain 'No'
+    And Summary row 'Do you provide Wi-Fi?' should contain 'No'
+    And Summary row 'Do you provide help with studio equipment and streaming?' should contain 'TE57ME'
+    And Summary row 'Do you welcome and host participants?' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you provide a waiting area?' should contain 'Yes – included as standard'
+    And Summary row 'Do you provide toilets?' should contain 'Yes'
+    And Summary row 'Do you provide baby-changing facilities?' should contain 'No'
+    And Summary row 'How accessible is your studio?' should contain 'Wheelchair accessible, lifts and toilets accomodate wheelchairs'
+    And Summary row 'What is the minimum amount of time your studio can be booked for and how much does it cost?' should contain 'TE57ME'
 
   @delete_service
   Scenario: Delete the service

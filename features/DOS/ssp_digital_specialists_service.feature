@@ -1,5 +1,5 @@
-@not-production @functional-test @ssp-dos
-Feature: Submitting a new DOS service for Digital outcomes
+@not-production @functional-test @ssp @wip2
+Feature: Submitting a new DOS service for Digital specialists
   In order to submit my services as a supplier user
   I want to answer questions about my service
 
@@ -8,7 +8,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I login as a 'Supplier' user
     Then I should be on the supplier home page
 
-  Scenario: Select Digital outcomes as a service to add
+  Scenario: Select Digital specialists as a service to add
     Given I am at '/suppliers'
     When I click 'Continue your Digital Outcomes and Specialists application'
     Then I am taken to the 'Apply to Digital Outcomes and Specialists' page
@@ -16,27 +16,27 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Add, edit and delete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'Digital outcomes'
-    Then I should be on the 'Digital outcomes' page
+    When I click 'Digital specialists'
+    Then I should be on the 'Digital specialists' page
 
   Scenario: Provide Service essentials
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on ssp page 'digital-specialists'
     When I navigate to the 'Edit' 'Service essentials' page
-    And I choose 'Yes' for 'helpGovernmentImproveServices'
-    And I choose 'No' for 'bespokeSystemInformation'
-    And I choose 'Yes' for 'dataProtocols'
-    And I choose 'Yes' for 'openStandardsPrinciples'
-    #And I choose 'No' for 'openSourceLicence'
+    And I choose 'No' for 'helpGovernmentImproveServices'
+    And I choose 'Yes' for 'bespokeSystemInformation'
+    And I choose 'No' for 'dataProtocols'
+    And I choose 'No' for 'openStandardsPrinciples'
+    And I choose 'Yes' for 'openSourceLicence'
     And I click 'Save and continue'
-    Then I should be on the 'Team capabilities' page
+    Then I should be on the 'Individual specialist roles' page
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Digital outcomes' service
+    Then There is 'a' draft 'Digital specialists' service
 
-  Scenario: Provide Team capabilities
-    Given I am on ssp page 'digital-outcomes'
-    When I navigate to the 'Edit' 'Team capabilities' page
+  Scenario: Provide Individual specialist roles
+    Given I am on ssp page 'digital-specialists'
+    When I navigate to the 'Edit' 'Individual specialist roles' page
     And I check 'Data analysis' for 'performanceAnalysisTypes'
     And I check 'Statistical modelling' for 'performanceAnalysisTypes'
     And I check 'A/B and multivariate testing' for 'performanceAnalysisTypes'
@@ -60,7 +60,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Outcomes locations' page
 
   Scenario: Provide Outcomes locations
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on ssp page 'digital-specialists'
     When I navigate to the 'Edit' 'Outcomes locations' page
     And I check 'Scotland' for 'outcomesLocations'
     And I check 'Wales' for 'outcomesLocations'
@@ -81,6 +81,6 @@ Feature: Submitting a new DOS service for Digital outcomes
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete this service'
-    And I click 'Yes, delete “Digital outcomes”'
+    And I click 'Yes, delete “Digital specialists'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
-    And There is 'no' draft 'Digital outcomes' service
+    And There is 'no' draft 'Digital specialists' service
