@@ -555,12 +555,20 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content('Service benefits')
   elsif service_aspect == 'Pricing'
     page.should have_content(service_aspect)
-    page.should have_content('Pricing')
     page.should have_content('VAT included')
     page.should have_content('Education pricing')
-    page.should have_content('Trial option')
-    page.should have_content('Free option')
-    page.should have_content('Minimum contract period')
+    if current_url.include?('submissions')
+      service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+      page.should have_no_content('Minimum contract period')
+      if service_type.include?('scs')
+        page.should have_no_content('Trial option')
+        page.should have_no_content('Free option')
+      end
+    else
+      page.should have_content('Trial option')
+      page.should have_content('Free option')
+      page.should have_content('Minimum contract period')
+    end
   elsif service_aspect == 'Documents'
     page.should have_content(service_aspect)
     page.should have_content('Service definition document')

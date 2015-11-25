@@ -17,20 +17,20 @@ Given /^I am at '(.*)'$/ do |path|
   visit URI.join("#{dm_frontend_domain}", "#{path}")
 end
 
-Given /^I am at the g7 supplier dashboard page$/ do
-  visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7"
-end
-
-Given /^I am at the g7 services page$/ do
-  visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/services"
+Given /^I am at the '(.*)' page$/ do |service_type_services|
+  visit "#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}"
 end
 
 Given /^I am on the summary page$/ do
-  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}")
+  visit "#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}"
+end
+
+Given /^I am on the service name page for '(.*)'$/ do |lot_name|
+  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{lot_name}/create")
 end
 
 Given /^I am on ssp page '(.+)'$/ do |page_name|
-  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}/edit/#{page_name}/")
+  visit("#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{page_name}/#{store.current_listing}")
 end
 
 Given /^The service is deleted$/ do
@@ -45,13 +45,32 @@ Given /^The service is deleted$/ do
   response.code.should == 200
 end
 
+And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
+  service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+  if service_type == ''
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+    elsif "#{availability.downcase}" == 'a'
+      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+    end
+  else
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+    elsif "#{availability.downcase}" == 'a'
+      page.should have_selector(:xpath, ".//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+    end
+  end
+end
+
 When /^I click my service$/ do
   # Find link with the current listing in the href
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
 end
 
-When /^I check '(.*)'$/ do |label|
-  check label
+And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
+  within "##{field_name}" do
+    check label
+  end
 end
 
 When /^I fill in '(.*)' with '(.*)'$/ do |label, value|
@@ -74,12 +93,14 @@ Then /^I should be on the supplier home page$/ do
   URI.parse(current_url).path.should == "/suppliers"
 end
 
-Then /^I should be on the g7 supplier dashboard page$/ do
-  URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7"
+Then /^I am returned to the '(.*)' page$/ do |service_type_services|
+  URI.parse(current_url).path.should == "/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}"
 end
 
-Then /^I should be on the g7 services page$/ do
-  URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7/services"
+Then /^I am taken to the '(.*)' page$/ do |page_name|
+  find('h1').should have_content(/#{page_name}/i)
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|
@@ -89,14 +110,16 @@ Then /^I should be on the '(.*)' page$/ do |title|
     parts.pop
   end
   store.current_listing = parts.pop
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^My service should be in the list$/ do
-  page.should have_selector(:xpath, "//a[@href='/suppliers/submission/services/#{store.current_listing}']")
+  page.should have_selector(:xpath, "//a[@href='/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}']")
 end
 
 Then /^My service should not be in the list$/ do
-  page.should have_no_selector(:xpath, "//a[@href='/suppliers/submission/services/#{store.current_listing}']")
+  page.should have_no_selector(:xpath, "//a[@href='/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}']")
 end
 
 Then /^The string '(.*)' should not be on the page$/ do |string|
