@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp @wip1
+@not-production @functional-test @ssp-dos @wip1
 Feature: Submitting a new DOS service for User research participants
   In order to submit my services as a supplier user
   I want to answer questions about my service

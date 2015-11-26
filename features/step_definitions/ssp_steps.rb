@@ -17,18 +17,11 @@ Given /^I am at '(.*)'$/ do |path|
   visit URI.join("#{dm_frontend_domain}", "#{path}")
 end
 
-Given /^I am at the g7 supplier dashboard page$/ do
-  visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7"
-end
-
-Given /^I am at the g7 services page$/ do
-  #visit "#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/services"
+Given /^I am at the '(.*)' page$/ do |service_type_services|
   visit "#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}"
-  #{store.framework_name}/submissions/#{page_name}/#{store.current_listing}
 end
 
 Given /^I am on the summary page$/ do
-  #visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{store.current_listing}")
   visit "#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}"
 end
 
@@ -37,7 +30,6 @@ Given /^I am on the service name page for '(.*)'$/ do |lot_name|
 end
 
 Given /^I am on ssp page '(.+)'$/ do |page_name|
-  #visit("#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{store.current_listing}/edit/#{page_name}/")
   visit("#{dm_frontend_domain}/suppliers/frameworks/#{store.framework_name}/submissions/#{page_name}/#{store.current_listing}")
 end
 
@@ -75,10 +67,6 @@ When /^I click my service$/ do
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
 end
 
-# When /^I check '(.*)'$/ do |label|
-#   check label
-# end
-
 And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
   within "##{field_name}" do
     check label
@@ -105,13 +93,7 @@ Then /^I should be on the supplier home page$/ do
   URI.parse(current_url).path.should == "/suppliers"
 end
 
-Then /^I should be on the g7 supplier dashboard page$/ do
-  #URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7"
-  URI.parse(current_url).path.should == "/suppliers/frameworks/#{store.framework_name}"
-end
-
-Then /^I should be on the g7 services page$/ do
-  #URI.parse(current_url).path.should == "/suppliers/frameworks/g-cloud-7/services"
+Then /^I am returned to the '(.*)' page$/ do |service_type_services|
   URI.parse(current_url).path.should == "/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}"
 end
 
@@ -133,11 +115,11 @@ Then /^I should be on the '(.*)' page$/ do |title|
 end
 
 Then /^My service should be in the list$/ do
-  page.should have_selector(:xpath, "//a[@href='/suppliers/submission/services/#{store.current_listing}']")
+  page.should have_selector(:xpath, "//a[@href='/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}']")
 end
 
 Then /^My service should not be in the list$/ do
-  page.should have_no_selector(:xpath, "//a[@href='/suppliers/submission/services/#{store.current_listing}']")
+  page.should have_no_selector(:xpath, "//a[@href='/suppliers/frameworks/#{store.framework_name}/submissions/#{store.service_type}/#{store.current_listing}']")
 end
 
 Then /^The string '(.*)' should not be on the page$/ do |string|
