@@ -25,7 +25,7 @@ def update_framework_status(framework_slug, status)
   framework = JSON.parse(response.body)["frameworks"]
   if framework['status'] != status
     response = call_api(:post, "/frameworks/#{framework_slug}", payload: {
-      "frameworks" => {"status" => status},
+      "frameworks" => {"status" => status, "clarificationQuestionsOpen" => status == 'open'},
       "updated_by" => "functional tests",
     })
     response.code.should be(200), _error(response, "Failed to update framework status #{framework_slug} #{status}")
