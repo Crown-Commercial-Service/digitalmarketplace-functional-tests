@@ -318,13 +318,25 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   page.has_button?('Log in')
 end
 
-Given /I click the '(.*)' link for '(.*)'$/ do |action, summary_heading|
+Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
   all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
-    element.text() == summary_heading
+    element.text() == text_of_interest
   end
-  top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
-  top_level_action.text().should == action
-  top_level_action.click
+
+  if all_headings.length >= 1
+    top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
+    top_level_action.text().should == action
+    top_level_action.click
+
+  else
+    all_item_text = page.all(:css, ".summary-item-field-first>span").select do |element|
+      element.text() == text_of_interest
+    end
+
+    top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a")
+    top_level_action.text().should == action
+    top_level_action.click
+  end
 end
 
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|
@@ -557,18 +569,9 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content(service_aspect)
     page.should have_content('VAT included')
     page.should have_content('Education pricing')
-    if current_url.include?('submissions')
-      service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
-      page.should have_no_content('Minimum contract period')
-      if service_type.include?('scs')
-        page.should have_no_content('Trial option')
-        page.should have_no_content('Free option')
-      end
-    else
-      page.should have_content('Trial option')
-      page.should have_content('Free option')
-      page.should have_content('Minimum contract period')
-    end
+    page.should have_content('Trial option')
+    page.should have_content('Free option')
+    page.should have_content('Minimum contract period')
   elsif service_aspect == 'Documents'
     page.should have_content(service_aspect)
     page.should have_content('Service definition document')
@@ -754,7 +757,6 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     page.should have_selector(:xpath, "//div[@id='new_supplier_name']//*[contains(text(),'New name')]")
     page.should have_selector(:xpath, "//input[contains(@class,'text-box') and contains(@value,'#{supplier_name}')]")
     page.should have_button('Save')
-    #@servicesupplierID = '11112'
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{@servicesupplierID}/edit/name")
   else
     if @servicesupplierID == dm_supplier_user_email()
