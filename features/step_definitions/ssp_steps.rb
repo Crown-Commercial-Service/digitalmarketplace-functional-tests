@@ -47,11 +47,26 @@ end
 
 And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
   service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+
+  case store.service_type
+    when 'user-research-studios'
+      lab_service = 'lab'
+    else
+      lab_service = 'service'
+    end
+
   if service_type == ''
-    if "#{availability.downcase}" == 'no'
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft service wasn’t submitted')]")
+     if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
     elsif "#{availability.downcase}" == 'a'
-      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft service wasn’t submitted')]")
+      if ['digital-outcomes','digital-specialists','user-research-participants'].include? store.service_type
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
+      else
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+      end
     end
   else
     if "#{availability.downcase}" == 'no'
@@ -70,6 +85,12 @@ end
 And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
   within "##{field_name}" do
     check label
+  end
+end
+
+And /^I uncheck '(.*)' for '(.*)'$/ do |label,field_name|
+  within "##{field_name}" do
+    uncheck label
   end
 end
 
@@ -99,8 +120,8 @@ end
 
 Then /^I am taken to the '(.*)' page$/ do |page_name|
   find('h1').should have_content(/#{page_name}/i)
-  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+  #store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  #store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|
