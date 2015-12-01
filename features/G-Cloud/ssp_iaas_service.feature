@@ -11,7 +11,7 @@ Feature: Submitting a new service for IaaS
   Scenario: Select lot
     Given I am at '/suppliers'
     When I click 'Continue your G-Cloud 7 application'
-    And I click 'Add, edit and delete services'
+    And I click 'Add, edit and complete services'
 
     When I click 'Infrastructure as a Service (IaaS)'
     And I click 'Add a service'
@@ -25,15 +25,19 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Edit a service name
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Service name' page
+    When I click the 'Edit' link for 'Service name'
+    Then I should be on the 'Service name' page
+
     When I fill in 'serviceName' with 'My IaaS service'
     And I click 'Save and continue'
     Then I should be on the 'Service description' page
 
   Scenario: Provide a service description
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Service description' page
-    And I fill in 'serviceSummary' with:
+    When I click the 'Edit' link for 'Service description'
+    Then I should be on the 'Service description' page
+
+    When I fill in 'serviceSummary' with:
       """
       My IaaS service that does stuff with stuff.
       """
@@ -42,26 +46,32 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Select a service type
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Service type' page
-    And I check 'Compute' for 'serviceTypes'
+    When I click the 'Edit' link for 'Service type'
+    Then I should be on the 'Service type' page
+
+    When I check 'Compute' for 'serviceTypes'
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
 
   Scenario: Features and benefits
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Features and benefits' page
-    And I fill in 'input-serviceFeatures-1' with 'Super greatness'
+    When I click the 'Edit' link for 'Features and benefits'
+    Then I should be on the 'Features and benefits' page
+
+    When I fill in 'input-serviceFeatures-1' with 'Super greatness'
     And I fill in 'input-serviceBenefits-1' with 'Great superness'
     And I click 'Save and continue'
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Pricing' page
-    And I fill in 'input-priceString-MinPrice' with '100'
-    And I fill in 'input-priceString-MaxPrice' with '1000'
-    And I select 'Unit' from 'input-priceString-Unit'
-    And I select 'Second' from 'input-priceString-Interval'
+    When I click the 'Edit' link for 'Pricing'
+    Then I should be on the 'Pricing' page
+
+    When I fill in 'priceMin' with '100'
+    And I fill in 'priceMax' with '1000'
+    And I select 'Unit' from 'priceUnit'
+    And I select 'Second' from 'priceInterval'
     And I choose 'Yes' for 'vatIncluded'
     And I choose 'No' for 'educationPricing'
     And I choose 'Yes' for 'trialOption'
@@ -71,16 +81,20 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Terms and conditions
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Terms and conditions' page
-    And I choose 'No' for 'terminationCost'
+    When I click the 'Edit' link for 'Terms and conditions'
+    Then I should be on the 'Terms and conditions' page
+
+    When I choose 'No' for 'terminationCost'
     And I choose 'Month' for 'minimumContractPeriod'
     And I click 'Save and continue'
     Then I should be on the 'Support' page
 
   Scenario: Support
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Support' page
-    And I check 'Service desk' for 'supportTypes'
+    When I click the 'Edit' link for 'Support'
+    Then I should be on the 'Support' page
+
+    When I check 'Service desk' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7'
     And I fill in 'supportResponseTime' with '1 hour'
@@ -90,30 +104,38 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Open standards
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Open standards' page
-    And I choose 'Yes' for 'openStandardsSupported'
+    When I click the 'Edit' link for 'Open standards'
+    Then I should be on the 'Open standards' page
+
+    When I choose 'Yes' for 'openStandardsSupported'
     And I click 'Save and continue'
     Then I should be on the 'Onboarding and offboarding' page
 
   Scenario: Onboarding and offboarding
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Onboarding and offboarding' page
-    And I choose 'No' for 'serviceOnboarding'
+    When I click the 'Edit' link for 'Onboarding and offboarding'
+    Then I should be on the 'Onboarding and offboarding' page
+
+    When I choose 'No' for 'serviceOnboarding'
     And I choose 'Yes' for 'serviceOffboarding'
     And I click 'Save and continue'
     Then I should be on the 'Analytics' page
 
   Scenario: Analytics
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Analytics' page
-    And I choose 'No' for 'analyticsAvailable'
+    When I click the 'Edit' link for 'Analytics'
+    Then I should be on the 'Analytics' page
+
+    When I choose 'No' for 'analyticsAvailable'
     And I click 'Save and continue'
     Then I should be on the 'Cloud features' page
 
   Scenario: Cloud features
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Cloud features' page
-    And I choose 'Yes' for 'elasticCloud'
+    When I click the 'Edit' link for 'Cloud features'
+    Then I should be on the 'Cloud features' page
+
+    When I choose 'Yes' for 'elasticCloud'
     And I choose 'No' for 'guaranteedResources'
     And I choose 'No' for 'persistentStorage'
     And I click 'Save and continue'
@@ -121,8 +143,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Provisioning
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Provisioning' page
-    And I choose 'Yes' for 'selfServiceProvisioning'
+    When I click the 'Edit' link for 'Provisioning'
+    Then I should be on the 'Provisioning' page
+
+    When I choose 'Yes' for 'selfServiceProvisioning'
     And I fill in 'provisioningTime' with '5 hours'
     And I fill in 'deprovisioningTime' with '6 hours'
     And I click 'Save and continue'
@@ -130,30 +154,38 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Open source
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Open source' page
-    And I choose 'Yes' for 'openSource'
+    When I click the 'Edit' link for 'Open source'
+    Then I should be on the 'Open source' page
+
+    When I choose 'Yes' for 'openSource'
     And I click 'Save and continue'
     Then I should be on the 'API access' page
 
   Scenario: API access
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'API access' page
-    And I choose 'Yes' for 'apiAccess'
+    When I click the 'Edit' link for 'API access'
+    Then I should be on the 'API access' page
+
+    When I choose 'Yes' for 'apiAccess'
     And I fill in 'apiType' with 'JSON'
     And I click 'Save and continue'
     Then I should be on the 'Networks and connectivity' page
 
   Scenario: Networks and connectivity
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Networks and connectivity' page
-    And I check 'Internet' for 'networksConnected'
+    When I click the 'Edit' link for 'Networks and connectivity'
+    Then I should be on the 'Networks and connectivity' page
+
+    When I check 'Internet' for 'networksConnected'
     And I click 'Save and continue'
     Then I should be on the 'Access' page
 
   Scenario: Access
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Access' page
-    And I check 'Opera' for 'supportedBrowsers'
+    When I click the 'Edit' link for 'Access'
+    Then I should be on the 'Access' page
+
+    When I check 'Opera' for 'supportedBrowsers'
     And I choose 'Yes' for 'offlineWorking'
     And I check 'PC' for 'supportedDevices'
     And I click 'Save and continue'
@@ -161,15 +193,19 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Certifications
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Certifications' page
-    And I fill in 'input-vendorCertifications-1' with 'Stuff magic'
+    When I click the 'Edit' link for 'Certifications'
+    Then I should be on the 'Certifications' page
+
+    When I fill in 'input-vendorCertifications-1' with 'Stuff magic'
     And I click 'Save and continue'
     Then I should be on the 'Data storage' page
 
   Scenario: Data storage
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Data storage' page
-    And I choose 'No' for 'datacentresEUCode'
+    When I click the 'Edit' link for 'Data storage'
+    Then I should be on the 'Data storage' page
+
+    When I choose 'No' for 'datacentresEUCode'
     And I choose 'Yes' for 'datacentresSpecifyLocation'
     And I choose 'Uptime Institute Tier 1' for 'datacentreTier'
     And I choose 'Yes' for 'dataBackupRecovery'
@@ -179,8 +215,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Data-in-transit protection
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Data-in-transit protection' page
-    And I check 'input-dataProtectionBetweenUserAndService-1' for 'dataProtectionBetweenUserAndService'
+    When I click the 'Edit' link for 'Data-in-transit protection'
+    Then I should be on the 'Data-in-transit protection' page
+
+    When I check 'input-dataProtectionBetweenUserAndService-1' for 'dataProtectionBetweenUserAndService'
     And I choose 'independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
     And I check 'input-dataProtectionWithinService-3' for 'dataProtectionWithinService'
     And I choose 'independent validation of assertion' for 'dataProtectionWithinService--assurance'
@@ -191,8 +229,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Asset protection and resilience
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Asset protection and resilience' page
-    And I check 'input-datacentreLocations-1' for 'datacentreLocations'
+    When I click the 'Edit' link for 'Asset protection and resilience'
+    Then I should be on the 'Asset protection and resilience' page
+
+    When I check 'input-datacentreLocations-1' for 'datacentreLocations'
     And I choose 'service provider assertion' for 'datacentreLocations--assurance'
     And I check 'input-dataManagementLocations-1' for 'dataManagementLocations'
     And I choose 'service provider assertion' for 'dataManagementLocations--assurance'
@@ -217,8 +257,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Separation between consumers
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Separation between consumers' page
-    And I choose 'Public cloud' for 'cloudDeploymentModel'
+    When I click the 'Edit' link for 'Separation between consumers'
+    Then I should be on the 'Separation between consumers' page
+
+    When I choose 'Public cloud' for 'cloudDeploymentModel'
     And I choose 'service provider assertion' for 'cloudDeploymentModel--assurance'
     And I choose 'No other consumer' for 'otherConsumers'
     And I choose 'service provider assertion' for 'otherConsumers--assurance'
@@ -231,16 +273,20 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Governance
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Governance' page
-    And I choose 'Yes' for 'governanceFramework'
+    When I click the 'Edit' link for 'Governance'
+    Then I should be on the 'Governance' page
+
+    When I choose 'Yes' for 'governanceFramework'
     And I choose 'service provider assertion' for 'governanceFramework--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Configuration and change management' page
 
   Scenario: Configuration and change management
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Configuration and change management' page
-    And I choose 'Yes' for 'configurationTracking'
+    When I click the 'Edit' link for 'Configuration and change management'
+    Then I should be on the 'Configuration and change management' page
+
+    When I choose 'Yes' for 'configurationTracking'
     And I choose 'service provider assertion' for 'configurationTracking--assurance'
     And I choose 'Yes' for 'changeImpactAssessment'
     And I choose 'service provider assertion' for 'changeImpactAssessment--assurance'
@@ -249,8 +295,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Vulnerability management
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Vulnerability management' page
-    And I choose 'Yes' for 'vulnerabilityAssessment'
+    When I click the 'Edit' link for 'Vulnerability management'
+    Then I should be on the 'Vulnerability management' page
+
+    When I choose 'Yes' for 'vulnerabilityAssessment'
     And I choose 'service provider assertion' for 'vulnerabilityAssessment--assurance'
     And I choose 'Yes' for 'vulnerabilityMonitoring'
     And I choose 'service provider assertion' for 'vulnerabilityMonitoring--assurance'
@@ -265,16 +313,20 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Event monitoring
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Event monitoring' page
-    And I choose 'Yes' for 'eventMonitoring'
+    When I click the 'Edit' link for 'Event monitoring'
+    Then I should be on the 'Event monitoring' page
+
+    When I choose 'Yes' for 'eventMonitoring'
     And I choose 'service provider assertion' for 'eventMonitoring--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Incident management' page
 
   Scenario: Incident management
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Incident management' page
-    And I choose 'Yes' for 'incidentManagementProcess'
+    When I click the 'Edit' link for 'Incident management'
+    Then I should be on the 'Incident management' page
+
+    When I choose 'Yes' for 'incidentManagementProcess'
     And I choose 'service provider assertion' for 'incidentManagementProcess--assurance'
     And I choose 'No' for 'incidentManagementReporting'
     And I choose 'service provider assertion' for 'incidentManagementReporting--assurance'
@@ -295,16 +347,20 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Personnel security
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Personnel security' page
-    And I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
+    When I click the 'Edit' link for 'Personnel security'
+    Then I should be on the 'Personnel security' page
+
+    When I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
     And I choose 'service provider assertion' for 'personnelSecurityChecks--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure development' page
 
   Scenario: Secure development
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Secure development' page
-    And I choose 'Yes' for 'secureDevelopment'
+    When I click the 'Edit' link for 'Secure development'
+    Then I should be on the 'Secure development' page
+
+    When I choose 'Yes' for 'secureDevelopment'
     And I choose 'service provider assertion' for 'secureDevelopment--assurance'
     And I choose 'Yes' for 'secureDesign'
     And I choose 'service provider assertion' for 'secureDesign--assurance'
@@ -315,8 +371,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Supply-chain security
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Supply-chain security' page
-    And I choose 'Yes' for 'thirdPartyDataSharingInformation'
+    When I click the 'Edit' link for 'Supply-chain security'
+    Then I should be on the 'Supply-chain security' page
+
+    When I choose 'Yes' for 'thirdPartyDataSharingInformation'
     And I choose 'service provider assertion' for 'thirdPartyDataSharingInformation--assurance'
     And I choose 'Yes' for 'thirdPartySecurityRequirements'
     And I choose 'service provider assertion' for 'thirdPartySecurityRequirements--assurance'
@@ -331,8 +389,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Authentication of consumers
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Authentication of consumers' page
-    And I choose 'Yes' for 'userAuthenticateManagement'
+    When I click the 'Edit' link for 'Authentication of consumers'
+    Then I should be on the 'Authentication of consumers' page
+
+    When I choose 'Yes' for 'userAuthenticateManagement'
     And I choose 'service provider assertion' for 'userAuthenticateManagement--assurance'
     And I choose 'Yes' for 'userAuthenticateSupport'
     And I choose 'service provider assertion' for 'userAuthenticateSupport--assurance'
@@ -341,8 +401,10 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Separation and access control within management interfaces
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Separation and access control within management interfaces' page
-    And I choose 'Yes' for 'userAccessControlManagement'
+    When I click the 'Edit' link for 'Separation and access control within management interfaces'
+    Then I should be on the 'Separation and access control within management interfaces' page
+
+    When I choose 'Yes' for 'userAccessControlManagement'
     And I choose 'service provider assertion' for 'userAccessControlManagement--assurance'
     And I choose 'Yes' for 'restrictAdministratorPermissions'
     And I choose 'service provider assertion' for 'restrictAdministratorPermissions--assurance'
@@ -353,16 +415,20 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Identity and authentication
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Identity and authentication' page
-    And I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
+    When I click the 'Edit' link for 'Identity and authentication'
+    Then I should be on the 'Identity and authentication' page
+
+    When I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
     And I choose 'service provider assertion' for 'identityAuthenticationControls--assurance'
     And I click 'Save and continue'
     Then I should be on the 'External interface protection' page
 
   Scenario: External interface protection
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'External interface protection' page
-    And I choose 'Yes' for 'onboardingGuidance'
+    When I click the 'Edit' link for 'External interface protection'
+    Then I should be on the 'External interface protection' page
+
+    When I choose 'Yes' for 'onboardingGuidance'
     And I choose 'service provider assertion' for 'onboardingGuidance--assurance'
     And I check 'Encrypted PSN service' for 'interconnectionMethods'
     And I choose 'service provider assertion' for 'interconnectionMethods--assurance'
@@ -371,24 +437,30 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Secure service administration
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Secure service administration' page
-    And I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
+    When I click the 'Edit' link for 'Secure service administration'
+    Then I should be on the 'Secure service administration' page
+
+    When I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
     And I choose 'service provider assertion' for 'serviceManagementModel--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Audit information provision to consumers' page
 
   Scenario: Audit information provision to consumers
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Audit information provision to consumers' page
-    And I choose 'None' for 'auditInformationProvided'
+    When I click the 'Edit' link for 'Audit information provision to consumers'
+    Then I should be on the 'Audit information provision to consumers' page
+
+    When I choose 'None' for 'auditInformationProvided'
     And I choose 'service provider assertion' for 'auditInformationProvided--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure use of the service by the customer' page
 
   Scenario: Secure use of the service by the customer
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Secure use of the service by the customer' page
-    And I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
+    When I click the 'Edit' link for 'Secure use of the service by the customer'
+    Then I should be on the 'Secure use of the service by the customer' page
+
+    When I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
     And I choose 'service provider assertion' for 'deviceAccessMethod--assurance'
     And I choose 'Yes' for 'serviceConfigurationGuidance'
     And I choose 'service provider assertion' for 'serviceConfigurationGuidance--assurance'
@@ -399,29 +471,37 @@ Feature: Submitting a new service for IaaS
 
   Scenario: Service definition
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Service definition' page
-    And I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
+    When I click the 'Edit' link for 'Service definition'
+    Then I should be on the 'Service definition' page
+
+    When I choose file 'test.pdf' for 'serviceDefinitionDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Terms and conditions document' page
 
   Scenario: Terms and conditions document
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Terms and conditions document' page
-    And I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
+    When I click the 'Edit' link for 'Terms and conditions document'
+    Then I should be on the 'Terms and conditions document' page
+
+    When I choose file 'test.pdf' for 'termsAndConditionsDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'Pricing document' page
 
   Scenario: Pricing document
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'Pricing document' page
-    And I choose file 'test.pdf' for 'pricingDocumentURL'
+    When I click the 'Edit' link for 'Pricing document'
+    Then I should be on the 'Pricing document' page
+
+    When I choose file 'test.pdf' for 'pricingDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'SFIA rate card' page
 
   Scenario: SFIA rate card document
     Given I am on ssp page 'iaas'
-    When I navigate to the 'Edit' 'SFIA rate card' page
-    And I choose file 'test.pdf' for 'sfiaRateDocumentURL'
+    When I click the 'Edit' link for 'SFIA rate card'
+    Then I should be on the 'SFIA rate card' page
+
+    When I choose file 'test.pdf' for 'sfiaRateDocumentURL'
     And I click 'Save and continue'
     Then I should be on the 'My IaaS service' page
 
