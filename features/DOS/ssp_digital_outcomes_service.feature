@@ -136,7 +136,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Given I am on the summary page
     Then Summary row 'Share non-personal data' should contain 'Yes'
     And Summary row 'Share systems information' should contain 'No'
-    And Summary row 'Interoperability of systems' should contain 'Yes'
+    And Summary row 'Standard data protocols' should contain 'Yes'
     And Summary row 'Use of open standards' should contain 'Yes'
     And Summary row 'Performance analysis and data' should contain 'A/B and multivariate testing'
     And Summary row 'Performance analysis and data' should contain 'Data analysis'
@@ -164,6 +164,6 @@ Feature: Submitting a new DOS service for Digital outcomes
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete ‘digital outcomes’'
-    And I click 'Yes, delete “Digital outcomes”'
+    And I click 'Yes, delete digital outcomes'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And There is 'no' draft 'Digital outcomes' service

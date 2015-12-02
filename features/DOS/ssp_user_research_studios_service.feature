@@ -35,12 +35,12 @@ Feature: Submitting a new DOS service for User research studios
 
     When I fill in 'serviceName' with 'My user research studio service'
     And I click 'Save and continue'
-    Then I should be on the 'Address' page
+    Then I should be on the 'Lab address' page
 
-  Scenario: Provide Address
+  Scenario: Provide Lab address
     Given I am on ssp page 'user-research-studios'
-    When I click the 'Edit' link for 'Address'
-    Then I should be on the 'Address' page
+    When I click the 'Edit' link for 'Lab address'
+    Then I should be on the 'Lab address' page
 
     When I fill in 'labAddressBuilding' with 'No 1 Test Street'
     And I fill in 'labAddressTown' with 'Test Town'
@@ -131,8 +131,8 @@ Feature: Submitting a new DOS service for User research studios
     When I click the 'Edit' link for 'Price'
     Then I should be on the 'Price' page
 
-    When I fill in 'labPriceMin' with '100'
-    And I fill in 'labPriceMax' with '1000'
+    When I fill in 'labPriceMin' with '158'
+    And I select '2 hours' from 'labTimeMin'
     And I click 'Save and continue'
     Then I should be on the 'My user research studio' page
 
@@ -157,13 +157,13 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'Do you provide toilets?' should contain 'Yes'
     And Summary row 'Do you provide baby-changing facilities?' should contain 'No'
     And Summary row 'How accessible is your studio?' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' should contain '£100 to £1000 per lab per day'
+    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' should contain '£158 per lab'
 
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete this service'
-    And I click 'Yes, delete “My user research studio service”'
+    And I click 'Yes, delete my user research studio service'
     Then I am taken to the 'User research studios services' page
     And There is 'no' draft 'My user research studio service' service
 
