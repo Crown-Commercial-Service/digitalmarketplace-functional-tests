@@ -132,6 +132,6 @@ Feature: Submitting a new DOS service for Digital specialists
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete ‘digital specialists’'
-    And I click 'Yes, delete “Digital specialists”'
+    And I click 'Yes, delete digital specialists'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And There is 'no' draft 'Digital specialists' service

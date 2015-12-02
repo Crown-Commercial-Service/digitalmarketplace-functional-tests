@@ -66,6 +66,6 @@ Feature: Submitting a new DOS service for User research participants
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete ‘user research participants’'
-    And I click 'Yes, delete “User research participants”'
+    And I click 'Yes, delete user research participants'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And There is 'no' draft 'User research participants' service
