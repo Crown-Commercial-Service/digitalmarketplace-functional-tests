@@ -171,6 +171,20 @@ Then /^Summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,tabl
   end
 end
 
+Then /^Multi summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,table_name, text|
+    find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+    ).should have_content("#{text}")
+end
+
+Then /^Multi summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name, text|
+    find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+    ).should have_no_content("#{text}")
+end
+
 Then /^Summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name,text|
   find(
     :xpath,
