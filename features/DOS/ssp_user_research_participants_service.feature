@@ -27,7 +27,7 @@ Feature: Submitting a new DOS service for User research participants
     When I choose 'Yes' for 'anonymousRecruitment'
     And I choose 'No' for 'manageIncentives'
     And I click 'Save and continue'
-    Then I should be on the 'Location' page
+    Then I should be on the 'User research participants' page
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
@@ -41,7 +41,7 @@ Feature: Submitting a new DOS service for User research participants
     When I check 'North East England' for 'recruitLocations'
     And I check 'Yorkshire and the Humber' for 'recruitLocations'
     And I click 'Save and continue'
-    Then I should be on the 'Recruitment approach' page
+    Then I should be on the 'User research participants' page
 
   Scenario: Provide Recruitment approach
     Given I am on ssp page 'user-research-participants'
@@ -55,17 +55,20 @@ Feature: Submitting a new DOS service for User research participants
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Summary row 'Provide discreet recruitment' should contain 'Yes'
-    And Summary row 'Manage incentives' should contain 'No'
-    And Summary row 'Where can you recruit participants from?' should contain 'North East England'
-    And Summary row 'Where can you recruit participants from?' should contain 'Yorkshire and the Humber'
-    And Summary row 'How do you recruit participants?' should contain 'Initial recruitment offline, but then contact them online'
-    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' should contain 'Yes'
+    Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should contain 'Yes'
+    And Summary row 'Manage incentives' under 'User research participants essentials' should contain 'No'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'North East England'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Yorkshire and the Humber'
+    And Summary row 'How do you recruit participants?' under 'Recruitment approach' should contain 'Initial recruitment offline, but then contact them online'
+    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should contain 'Yes'
 
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete ‘user research participants’'
-    And I click 'Yes, delete “User research participants”'
+    Then I am presented with the message 'Are you sure you want to delete this service?'
+
+    When I click 'Yes, delete user research participants'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And I am presented with the message 'User research participants was deleted'
     And There is 'no' draft 'User research participants' service

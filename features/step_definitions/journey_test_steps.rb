@@ -333,7 +333,11 @@ Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
       element.text() == text_of_interest
     end
 
+<<<<<<< HEAD
     top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a")
+=======
+    top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a[contains(text(),'#{action}')]")
+>>>>>>> 2abdcf607a3de30ace1dca9122cd31102360757a
     top_level_action.text().should == action
     top_level_action.click
   end

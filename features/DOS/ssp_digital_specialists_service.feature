@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp
+@not-production @functional-test @ssp-dos
 Feature: Submitting a new DOS service for Digital specialists
   In order to submit my services as a supplier user
   I want to answer questions about my service
@@ -86,19 +86,24 @@ Feature: Submitting a new DOS service for Digital specialists
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Summary row 'Agile coach' should contain 'Off-site'
-    And Summary row 'Agile coach' should contain 'Scotland'
-    And Summary row 'Agile coach' should contain 'Wales'
-    And Summary row 'Agile coach' should contain 'London'
-    And Summary row 'Agile coach' should contain 'Northern Ireland'
-    And Summary row 'Agile coach' should contain '£214 to £581 per person per day'
+    Then Summary row 'Share non-personal data' under 'Service essentials' should contain 'No'
+    And Summary row 'Share systems information' under 'Service essentials' should contain 'Yes'
+    And Summary row 'Standard data protocols' under 'Service essentials' should contain 'No'
+    And Summary row 'Use of open standards' under 'Service essentials' should contain 'No'
 
-    Then Summary row 'User researcher' should contain 'Yorkshire and the Humber'
-    And Summary row 'User researcher' should contain 'The Midlands'
-    And Summary row 'User researcher' should contain '£198 to £345 per person per day'
+    Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Off-site'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Scotland'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Wales'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'London'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Northern Ireland'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain '£214 to £581 per person per day'
 
-    Then Summary row 'Web operations engineer' should contain 'South East England'
-    And Summary row 'Web operations engineer' should contain '£310 to £701 per person per day'
+    Then Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'Yorkshire and the Humber'
+    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'The Midlands'
+    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain '£198 to £345 per person per day'
+
+    Then Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain 'South East England'
+    And Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain '£310 to £701 per person per day'
 
   Scenario: Edit-Agile coach locations
     Given I am on ssp page 'digital-specialists'
@@ -113,25 +118,28 @@ Feature: Submitting a new DOS service for Digital specialists
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Summary row 'Agile coach' should contain 'Off-site'
-    And Summary row 'Agile coach' should not contain 'Scotland'
-    And Summary row 'Agile coach' should contain 'Wales'
-    And Summary row 'Agile coach' should contain 'London'
-    And Summary row 'Agile coach' should not contain 'Northern Ireland'
-    And Summary row 'Agile coach' should contain 'West England'
-    And Summary row 'Agile coach' should contain '£214 to £581 per person per day'
+    Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Off-site'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should not contain 'Scotland'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Wales'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'London'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should not contain 'Northern Ireland'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'West England'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain '£214 to £581 per person per day'
 
-    Then Summary row 'User researcher' should contain 'Yorkshire and the Humber'
-    And Summary row 'User researcher' should contain 'The Midlands'
-    And Summary row 'User researcher' should contain '£198 to £345 per person per day'
+    Then Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'Yorkshire and the Humber'
+    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'The Midlands'
+    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain '£198 to £345 per person per day'
 
-    Then Summary row 'Web operations engineer' should contain 'South East England'
-    And Summary row 'Web operations engineer' should contain '£310 to £701 per person per day'
+    Then Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain 'South East England'
+    And Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain '£310 to £701 per person per day'
 
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete ‘digital specialists’'
-    And I click 'Yes, delete “Digital specialists”'
+    Then I am presented with the message 'Are you sure you want to delete this service?'
+
+    When I click 'Yes, delete digital specialists'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And I am presented with the message 'Digital specialists was deleted'
     And There is 'no' draft 'Digital specialists' service

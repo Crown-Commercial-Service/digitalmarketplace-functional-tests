@@ -29,7 +29,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     And I choose 'Yes' for 'dataProtocols'
     And I choose 'Yes' for 'openStandardsPrinciples'
     And I click 'Save and continue'
-    Then I should be on the 'Outcomes locations' page
+    Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Outcomes locations
     Given I am on ssp page 'digital-outcomes'
@@ -134,6 +134,53 @@ Feature: Submitting a new DOS service for Digital outcomes
 
   Scenario: Verify text on summary page
     Given I am on the summary page
+    Then Summary row 'Share non-personal data' under 'Service essentials' should contain 'Yes'
+    And Summary row 'Share systems information' under 'Service essentials' should contain 'No'
+    And Summary row 'Standard data protocols' under 'Service essentials' should contain 'Yes'
+    And Summary row 'Use of open standards' under 'Service essentials' should contain 'Yes'
+    And Summary row 'Performance analysis and data' under 'Team capabilities' should contain 'A/B and multivariate testing'
+    And Summary row 'Performance analysis and data' under 'Team capabilities' should contain 'Data analysis'
+    And Summary row 'Performance analysis and data' under 'Team capabilities' should contain 'Statistical modelling'
+    And Summary row 'Security' under 'Team capabilities' should contain 'Firewall audit'
+    And Summary row 'Security' under 'Team capabilities' should contain 'Security policy'
+    And Summary row 'Service delivery' under 'Team capabilities' should contain 'Agile coaching and training'
+    And Summary row 'Service delivery' under 'Team capabilities' should contain 'Digital communication and engagement'
+    And Summary row 'Service delivery' under 'Team capabilities' should contain 'Project management'
+    And Summary row 'Software development' under 'Team capabilities' should contain 'API development'
+    And Summary row 'Software development' under 'Team capabilities' should contain 'Frontend web application development'
+    And Summary row 'Software development' under 'Team capabilities' should contain 'Geographic information systems (GIS) development'
+    And Summary row 'Software development' under 'Team capabilities' should contain 'Mainframe'
+    And Summary row 'Support and operations' under 'Team capabilities' should contain 'Incident management'
+    And Summary row 'Testing and auditing' under 'Team capabilities' should contain 'Application testing'
+    And Summary row 'User experience and design' under 'Team capabilities' should contain 'User experience and design strategy'
+    And Summary row 'User research' under 'Team capabilities' should contain 'Creating personas'
+    And Summary row 'User research' under 'Team capabilities' should contain 'Quantitative research'
+    And Summary row 'User research' under 'Team capabilities' should contain 'Surveys'
+    And Summary row 'User research' under 'Team capabilities' should contain 'Usability testing'
+    And Summary row 'User research' under 'Team capabilities' should contain 'User journey mapping'
+    And Summary row 'User research' under 'Team capabilities' should contain 'User needs and insights'
+
+  Scenario: Remove Team capabilities-Testing and auditing
+    Given I am on ssp page 'digital-outcomes'
+    When I click the 'Remove' link for 'Testing and auditing'
+    Then I am presented with the message 'Are you sure you want to remove testing and auditing?'
+
+    When I click 'Yes – remove testing and auditing'
+    Then I am presented with the message 'Testing and auditing was deleted'
+    And Summary row 'Testing and auditing' under 'Team capabilities' should contain 'You haven't added any testing and auditing capabilities'
+
+  #@mark_as_complete
+  #Scenario: Go to listing page and the service is not complete
+  #  Given I am at the 'Infrastructure as a Service services' page
+  #  Then My service should be in the list
+
+  #  When I click my service
+  #  Then I should be on the 'My IaaS service' page
+  #  And The string 'Answer required' should be on the page
+  #  And The 'Mark as complete' button should not be on the page
+
+  Scenario: Verify text on summary page
+    Given I am on the summary page
     Then Summary row 'Share non-personal data' should contain 'Yes'
     And Summary row 'Share systems information' should contain 'No'
     And Summary row 'Interoperability of systems' should contain 'Yes'
@@ -164,6 +211,9 @@ Feature: Submitting a new DOS service for Digital outcomes
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete ‘digital outcomes’'
-    And I click 'Yes, delete “Digital outcomes”'
+    Then I am presented with the message 'Are you sure you want to delete this service?'
+
+    When I click 'Yes, delete digital outcomes'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And I am presented with the message 'Digital outcomes was deleted'
     And There is 'no' draft 'Digital outcomes' service
