@@ -47,11 +47,26 @@ end
 
 And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
   service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+
+  case store.service_type
+    when 'user-research-studios'
+      lab_service = 'lab'
+    else
+      lab_service = 'service'
+    end
+
   if service_type == ''
-    if "#{availability.downcase}" == 'no'
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+     if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
     elsif "#{availability.downcase}" == 'a'
-      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' draft service')]")
+      if ['digital-outcomes','digital-specialists','user-research-participants'].include? store.service_type
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
+      else
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+      end
     end
   else
     if "#{availability.downcase}" == 'no'
@@ -70,6 +85,12 @@ end
 And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
   within "##{field_name}" do
     check label
+  end
+end
+
+And /^I uncheck '(.*)' for '(.*)'$/ do |label,field_name|
+  within "##{field_name}" do
+    uncheck label
   end
 end
 
@@ -99,8 +120,6 @@ end
 
 Then /^I am taken to the '(.*)' page$/ do |page_name|
   find('h1').should have_content(/#{page_name}/i)
-  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|
@@ -138,21 +157,42 @@ Then /^The string '(.*)' should be on the page$/ do |string|
   page.should have_content(string)
 end
 
-Then /^Summary row '(.*)' should contain '(.*)'$/ do |question, text|
-  find(
-    :xpath,
-    "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
-  ).should have_content(text)
+Then /^Summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,table_name, text|
+  if ['Individual specialist roles','Team capabilities'].include? table_name
+    page.find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
+    ).should have_content("#{text}")
+  else
+    page.find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+    ).should have_content("#{text}")
+  end
 end
 
-Then /^Summary row '(.*)' should not contain '(.*)'$/ do |question, text|
+Then /^Multi summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,table_name, text|
+    find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+    ).should have_content("#{text}")
+end
+
+Then /^Multi summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name, text|
+    find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+    ).should have_no_content("#{text}")
+end
+
+Then /^Summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name,text|
   find(
     :xpath,
     "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
   ).should have_no_content(text)
 end
 
-Then /^Summary row '(.*)' should not be empty$/ do |question|
+Then /^Summary row '(.*)' under '(.*)' should not be empty$/ do |question,table_name|
   find(
     :xpath,
     "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
