@@ -158,17 +158,28 @@ Then /^The string '(.*)' should be on the page$/ do |string|
 end
 
 Then /^Summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,table_name, text|
-  if ['Individual specialist roles','Team capabilities'].include? table_name
-    page.find(
-      :xpath,
-      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
-    ).should have_content("#{text}")
-  else
-    page.find(
-      :xpath,
-      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
-    ).should have_content("#{text}")
-  end
+  case table_name
+    when 'Individual specialist roles'
+      if text.include?('£')
+        divnum=2
+      else
+        divnum=1
+      end
+        page.find(
+          :xpath,
+          "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/div[#{divnum}]"
+        ).should have_content("#{text}")
+    when 'Team capabilities'
+      page.find(
+        :xpath,
+        "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
+      ).should have_content("#{text}")
+    else
+      page.find(
+        :xpath,
+        "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+      ).should have_content("#{text}")
+    end
 end
 
 Then /^Summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name,text|

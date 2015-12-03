@@ -169,7 +169,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I am presented with the message 'Testing and auditing was deleted'
     And Summary row 'Testing and auditing' under 'Team capabilities' should contain 'You haven't added any testing and auditing capabilities'
 
-@wip
+
   #@mark_as_complete
   #Scenario: Go to listing page and the service is not complete
   #  Given I am at the 'Infrastructure as a Service services' page
