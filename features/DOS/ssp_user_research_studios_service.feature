@@ -35,7 +35,7 @@ Feature: Submitting a new DOS service for User research studios
 
     When I fill in 'serviceName' with 'My user research studio service'
     And I click 'Save and continue'
-    Then I should be on the 'Lab address' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Lab address
     Given I am on ssp page 'user-research-studios'
@@ -46,7 +46,7 @@ Feature: Submitting a new DOS service for User research studios
     And I fill in 'labAddressTown' with 'Test Town'
     And I fill in 'labAddressPostcode' with 'TE57ME'
     And I click 'Save and continue'
-    Then I should be on the 'Location' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Location
     Given I am on ssp page 'user-research-studios'
@@ -56,7 +56,7 @@ Feature: Submitting a new DOS service for User research studios
     When I fill in 'labPublicTransport' with 'Take bus 786 towards the radio tower and get off at the Testlington Street'
     And I fill in 'labCarPark' with 'Customer parking available underground'
     And I click 'Save and continue'
-    Then I should be on the 'Lab size' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
@@ -72,7 +72,7 @@ Feature: Submitting a new DOS service for User research studios
 
     When I fill in 'labSize' with 'Thirty 2'
     And I click 'Save and continue'
-    Then I should be on the 'Viewing' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Viewing info
     Given I am on ssp page 'user-research-studios'
@@ -86,7 +86,7 @@ Feature: Submitting a new DOS service for User research studios
     And I choose 'No' for 'labEyeTracking'
     And I choose 'No' for 'labWiFi'
     And I click 'Save and continue'
-    Then I should be on the 'Technical assistance' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Technical assistance info
     Given I am on ssp page 'user-research-studios'
@@ -95,7 +95,7 @@ Feature: Submitting a new DOS service for User research studios
 
     When I choose 'Yes – included as standard' for 'labTechAssistance'
     And I click 'Save and continue'
-    Then I should be on the 'Hospitality' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Hospitality info
     Given I am on ssp page 'user-research-studios'
@@ -105,7 +105,7 @@ Feature: Submitting a new DOS service for User research studios
     When I choose 'Yes – for an additional cost' for 'labHosting'
     And I choose 'Yes – included as standard' for 'labWaitingArea'
     And I click 'Save and continue'
-    Then I should be on the 'Facilities' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Facilities info
     Given I am on ssp page 'user-research-studios'
@@ -115,7 +115,7 @@ Feature: Submitting a new DOS service for User research studios
     When I choose 'Yes' for 'labToilets'
     And I choose 'No' for 'labBabyChanging'
     And I click 'Save and continue'
-    Then I should be on the 'Accessibility' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Accessibility info
     Given I am on ssp page 'user-research-studios'
@@ -124,7 +124,7 @@ Feature: Submitting a new DOS service for User research studios
 
     When I fill in 'labAccessibility' with 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
     And I click 'Save and continue'
-    Then I should be on the 'Price' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Provide Price info
     Given I am on ssp page 'user-research-studios'
@@ -134,37 +134,40 @@ Feature: Submitting a new DOS service for User research studios
     When I fill in 'labPriceMin' with '158'
     And I select '2 hours' from 'labTimeMin'
     And I click 'Save and continue'
-    Then I should be on the 'My user research studio' page
+    Then I should be on the 'My user research studio service' page
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Summary row 'What is the name of the lab?' should contain 'My user research studio service'
-    And Summary row 'Building and street' should contain 'No 1 Test Street'
-    And Summary row 'Town or city' should contain 'Test Town'
-    And Summary row 'Postcode' should contain 'TE57ME'
-    And Summary row 'How do visitors get to your studio using public transport?' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
-    And Summary row 'Where can visitors to your studio park?' should contain 'Customer parking available underground'
-    And Summary row 'How many people can the lab accommodate?' should contain 'Thirty 2'
-    And Summary row 'Do you have an viewing area?' should contain 'Yes – included as standard'
-    And Summary row 'Do you provide remote streaming from the lab?' should contain 'Yes – for an additional cost'
-    And Summary row 'Do you stream a view of the desktop or laptop screen?' should contain 'No'
-    And Summary row 'Do you stream a view of a mobile or tablet device?' should contain 'Yes – for an additional cost'
-    And Summary row 'Do you provide eye-tracking?' should contain 'No'
-    And Summary row 'Do you provide Wi-Fi?' should contain 'No'
-    And Summary row 'Do you provide help with studio equipment and streaming?' should contain 'Yes – included as standard'
-    And Summary row 'Do you welcome and host participants?' should contain 'Yes – for an additional cost'
-    And Summary row 'Do you provide a waiting area?' should contain 'Yes – included as standard'
-    And Summary row 'Do you provide toilets?' should contain 'Yes'
-    And Summary row 'Do you provide baby-changing facilities?' should contain 'No'
-    And Summary row 'How accessible is your studio?' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' should contain '£158 per lab'
+    Then Summary row 'What is the name of the lab?' under 'Lab name' should contain 'My user research studio service'
+    And Summary row 'Building and street' under 'Lab address' should contain 'No 1 Test Street'
+    And Summary row 'Town or city' under 'Lab address' should contain 'Test Town'
+    And Summary row 'Postcode' under 'Lab address' should contain 'TE57ME'
+    And Summary row 'How do visitors get to your studio using public transport?' under 'Location' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
+    And Summary row 'Where can visitors to your studio park?' under 'Location' should contain 'Customer parking available underground'
+    And Summary row 'How many people can the lab accommodate?' under 'Lab size' should contain 'Thirty 2'
+    And Summary row 'Do you have an viewing area?' under 'Viewing' should contain 'Yes – included as standard'
+    And Summary row 'Do you provide remote streaming from the lab?' under 'Viewing' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you stream a view of the desktop or laptop screen?' under 'Viewing' should contain 'No'
+    And Summary row 'Do you stream a view of a mobile or tablet device?' under 'Viewing' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you provide eye-tracking?' under 'Viewing' should contain 'No'
+    And Summary row 'Do you provide Wi-Fi?' under 'Viewing' should contain 'No'
+    And Summary row 'Do you provide help with studio equipment and streaming?' under 'Technical assistance' should contain 'Yes – included as standard'
+    And Summary row 'Do you welcome and host participants?' under 'Hospitality' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you provide a waiting area?' under 'Hospitality' should contain 'Yes – included as standard'
+    And Summary row 'Do you provide toilets?' under 'Facilities' should contain 'Yes'
+    And Summary row 'Do you provide baby-changing facilities?' under 'Facilities' should contain 'No'
+    And Summary row 'How accessible is your studio?' under 'Accessibility' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
+    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under 'Price' should contain '£158 per lab'
 
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
     When I click 'Delete this service'
-    And I click 'Yes, delete my user research studio service'
+    Then I am presented with the message 'Are you sure you want to delete this service?'
+
+    When I click 'Yes, delete my user research studio service'
     Then I am taken to the 'User research studios services' page
+    And I am presented with the message 'My user research studio service was deleted'
     And There is 'no' draft 'My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'

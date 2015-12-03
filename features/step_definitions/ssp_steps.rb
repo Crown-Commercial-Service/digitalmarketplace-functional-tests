@@ -120,8 +120,6 @@ end
 
 Then /^I am taken to the '(.*)' page$/ do |page_name|
   find('h1').should have_content(/#{page_name}/i)
-  #store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  #store.service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 end
 
 Then /^I should be on the '(.*)' page$/ do |title|
@@ -159,21 +157,28 @@ Then /^The string '(.*)' should be on the page$/ do |string|
   page.should have_content(string)
 end
 
-Then /^Summary row '(.*)' should contain '(.*)'$/ do |question, text|
-  find(
-    :xpath,
-    "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
-  ).should have_content(text)
+Then /^Summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,table_name, text|
+  if ['Individual specialist roles','Team capabilities'].include? table_name
+    page.find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
+    ).should have_content("#{text}")
+  else
+    page.find(
+      :xpath,
+      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+    ).should have_content("#{text}")
+  end
 end
 
-Then /^Summary row '(.*)' should not contain '(.*)'$/ do |question, text|
+Then /^Summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name,text|
   find(
     :xpath,
     "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
   ).should have_no_content(text)
 end
 
-Then /^Summary row '(.*)' should not be empty$/ do |question|
+Then /^Summary row '(.*)' under '(.*)' should not be empty$/ do |question,table_name|
   find(
     :xpath,
     "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
