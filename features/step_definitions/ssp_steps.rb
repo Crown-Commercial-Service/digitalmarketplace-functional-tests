@@ -48,25 +48,17 @@ end
 And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
   service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 
-  case store.service_type
-    when 'user-research-studios'
-      lab_service = 'lab'
-    else
-      lab_service = 'service'
-    end
-
   if service_type == ''
-     if "#{availability.downcase}" == 'no'
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft ')]")
       page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
     elsif "#{availability.downcase}" == 'a'
-      if ['digital-outcomes','digital-specialists','user-research-participants'].include? store.service_type
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
-      else
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+      if store.framework_name == 'digital-outcomes-and-specialists' and store.service_type == 'user-research-studios'
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft lab')]")
+      elsif store.framework_name == 'g-cloud-7'
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft service')]")
       end
+      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
     end
   else
     if "#{availability.downcase}" == 'no'
