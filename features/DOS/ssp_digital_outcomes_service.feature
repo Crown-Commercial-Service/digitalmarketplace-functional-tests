@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'Digital outcomes'
+    When I click 'Apply to provide teams for digital outcomes'
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Service essentials
