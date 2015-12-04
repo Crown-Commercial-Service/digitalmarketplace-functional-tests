@@ -696,7 +696,7 @@ Then /I can see my supplier details on the dashboard$/ do
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Contact name')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'Testing Supplier Name')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Website')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'www.dmfunctionaltestsupplier.com')]")
+  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span/a[contains(text(), 'www.dmfunctionaltestsupplier.com')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
   page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Phone number')]")
