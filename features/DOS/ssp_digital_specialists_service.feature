@@ -55,7 +55,7 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click the 'Add' link for 'User researcher'
     Then I should be on the 'User researcher' page
 
-    When I check 'The Midlands' for 'userResearcherLocations'
+    When I check 'West Midlands' for 'userResearcherLocations'
     And I check 'Yorkshire and the Humber' for 'userResearcherLocations'
     And I fill in 'userResearcherPriceMin' with '187'
     And I fill in 'userResearcherPriceMax' with '345'
@@ -77,7 +77,7 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click the 'Add' link for 'Web operations engineer'
     Then I should be on the 'Web operations engineer' page
 
-    When I check 'The Midlands' for 'webOperationsLocations'
+    When I check 'West Midlands' for 'webOperationsLocations'
     And I check 'South East England' for 'webOperationsLocations'
     And I fill in 'webOperationsPriceMin' with '310'
     And I fill in 'webOperationsPriceMax' with '701'
@@ -99,7 +99,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain '£214 to £581 per person per day'
 
     Then Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'Yorkshire and the Humber'
-    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'The Midlands'
+    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'West Midlands'
     And Multi summary row 'User researcher' under 'Individual specialist roles' should contain '£198 to £345 per person per day'
 
     Then Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain 'South East England'
@@ -127,7 +127,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain '£214 to £581 per person per day'
 
     Then Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'Yorkshire and the Humber'
-    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'The Midlands'
+    And Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'West Midlands'
     And Multi summary row 'User researcher' under 'Individual specialist roles' should contain '£198 to £345 per person per day'
 
     Then Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain 'South East England'
