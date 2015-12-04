@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for User research participants
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'User research participants'
+    When I click 'Apply to provide user research participant recruitment'
     Then I should be on the 'User research participants' page
 
   Scenario: Provide User research participants essentials
@@ -31,7 +31,7 @@ Feature: Submitting a new DOS service for User research participants
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'User research participants' service
+    Then There is 'a' draft 'Apply to provide user research participant recruitment' service
 
   Scenario: Provide Location
     Given I am on ssp page 'user-research-participants'
@@ -65,10 +65,10 @@ Feature: Submitting a new DOS service for User research participants
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
-    When I click 'Delete ‘user research participants’'
-    Then I am presented with the message 'Are you sure you want to delete this service?'
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete user research participants?'
 
-    When I click 'Yes, delete user research participants'
+    When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'User research participants was deleted'
     And There is 'no' draft 'User research participants' service

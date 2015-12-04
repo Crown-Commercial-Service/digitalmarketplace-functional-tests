@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'Digital specialists'
+    When I click 'Apply to provide individual digital specialists'
     Then I should be on the 'Digital specialists' page
 
   Scenario: Provide Service essentials
@@ -33,7 +33,7 @@ Feature: Submitting a new DOS service for Digital specialists
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Digital specialists' service
+    Then There is 'a' draft 'Apply to provide individual digital specialists' service
 
   Scenario: Provide Individual specialist roles-Agile coach
     Given I am on ssp page 'digital-specialists'
@@ -44,7 +44,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And I check 'London' for 'agileCoachLocations'
     And I check 'Northern Ireland' for 'agileCoachLocations'
     And I check 'Wales' for 'agileCoachLocations'
-    And I check 'Off-site' for 'agileCoachLocations'
+    And I check 'Offsite' for 'agileCoachLocations'
     And I fill in 'agileCoachPriceMin' with '214'
     And I fill in 'agileCoachPriceMax' with '581'
     And I click 'Save and continue'
@@ -91,7 +91,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And Summary row 'Standard data protocols' under 'Service essentials' should contain 'No'
     And Summary row 'Use of open standards' under 'Service essentials' should contain 'No'
 
-    Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Off-site'
+    Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Offsite'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Scotland'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Wales'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'London'
@@ -118,7 +118,7 @@ Feature: Submitting a new DOS service for Digital specialists
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Off-site'
+    Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Offsite'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should not contain 'Scotland'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Wales'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'London'
@@ -136,10 +136,10 @@ Feature: Submitting a new DOS service for Digital specialists
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
-    When I click 'Delete ‘digital specialists’'
-    Then I am presented with the message 'Are you sure you want to delete this service?'
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete digital specialists?'
 
-    When I click 'Yes, delete digital specialists'
+    When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital specialists was deleted'
     And There is 'no' draft 'Digital specialists' service

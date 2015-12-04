@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'Digital outcomes'
+    When I click 'Apply to provide teams for digital outcomes'
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Service essentials
@@ -45,7 +45,7 @@ Feature: Submitting a new DOS service for Digital outcomes
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Digital outcomes' service
+    Then There is 'a' draft 'Apply to provide teams for digital outcomes' service
 
   Scenario: Provide Team capabilities-Performance analysis and data
     Given I am on ssp page 'digital-outcomes'
@@ -182,10 +182,10 @@ Feature: Submitting a new DOS service for Digital outcomes
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
-    When I click 'Delete ‘digital outcomes’'
-    Then I am presented with the message 'Are you sure you want to delete this service?'
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete digital outcomes?'
 
-    When I click 'Yes, delete digital outcomes'
+    When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was deleted'
     And There is 'no' draft 'Digital outcomes' service
