@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for User research participants
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'User research participants'
+    When I click 'Apply to provide user research participants'
     Then I should be on the 'User research participants' page
 
   Scenario: Provide User research participants essentials

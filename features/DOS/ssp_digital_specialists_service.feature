@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'Digital specialists'
+    When I click 'Apply to provide individual digital specialists'
     Then I should be on the 'Digital specialists' page
 
   Scenario: Provide Service essentials
