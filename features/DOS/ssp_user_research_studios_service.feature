@@ -145,7 +145,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'How do visitors get to your studio using public transport?' under 'Location' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
     And Summary row 'Where can visitors to your studio park?' under 'Location' should contain 'Customer parking available underground'
     And Summary row 'How many people can the lab accommodate?' under 'Lab size' should contain 'Thirty 2'
-    And Summary row 'Do you have an viewing area?' under 'Viewing' should contain 'Yes – included as standard'
+    And Summary row 'Do you have a viewing area?' under 'Viewing' should contain 'Yes – included as standard'
     And Summary row 'Do you provide remote streaming from the lab?' under 'Viewing' should contain 'Yes – for an additional cost'
     And Summary row 'Do you stream a view of the desktop or laptop screen?' under 'Viewing' should contain 'No'
     And Summary row 'Do you stream a view of a mobile or tablet device?' under 'Viewing' should contain 'Yes – for an additional cost'
