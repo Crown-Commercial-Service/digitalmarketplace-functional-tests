@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'Digital outcomes'
+    When I click 'Apply to provide teams for digital outcomes'
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Service essentials
@@ -45,7 +45,7 @@ Feature: Submitting a new DOS service for Digital outcomes
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Digital outcomes' service
+    Then There is 'a' draft 'Apply to provide teams for digital outcomes' service
 
   Scenario: Provide Team capabilities-Performance analysis and data
     Given I am on ssp page 'digital-outcomes'
@@ -73,7 +73,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Service delivery'
     Then I should be on the 'Service delivery' page
 
-    When I check 'Agile coaching and training' for 'deliveryTypes'
+    When I check 'Agile coaching' for 'deliveryTypes'
     And I check 'Project management' for 'deliveryTypes'
     And I check 'Digital communication and engagement' for 'deliveryTypes'
     And I click 'Save and continue'
@@ -84,7 +84,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Software development'
     Then I should be on the 'Software development' page
 
-    When I check 'Frontend web application development' for 'softwareDevelopmentTypes'
+    When I check 'Front-end web application development' for 'softwareDevelopmentTypes'
     And I check 'API development' for 'softwareDevelopmentTypes'
     And I check 'Geographic information systems (GIS) development' for 'softwareDevelopmentTypes'
     And I check 'Mainframe' for 'softwareDevelopmentTypes'
@@ -128,7 +128,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     And I check 'Creating personas' for 'userResearchTypes'
     And I check 'Usability testing' for 'userResearchTypes'
     And I check 'Quantitative research' for 'userResearchTypes'
-    And I check 'Surveys' for 'userResearchTypes'
+    And I check 'Quantitative research' for 'userResearchTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -143,11 +143,11 @@ Feature: Submitting a new DOS service for Digital outcomes
     And Summary row 'Performance analysis and data' under 'Team capabilities' should contain 'Statistical modelling'
     And Summary row 'Security' under 'Team capabilities' should contain 'Firewall audit'
     And Summary row 'Security' under 'Team capabilities' should contain 'Security policy'
-    And Summary row 'Service delivery' under 'Team capabilities' should contain 'Agile coaching and training'
+    And Summary row 'Service delivery' under 'Team capabilities' should contain 'Agile coaching'
     And Summary row 'Service delivery' under 'Team capabilities' should contain 'Digital communication and engagement'
     And Summary row 'Service delivery' under 'Team capabilities' should contain 'Project management'
     And Summary row 'Software development' under 'Team capabilities' should contain 'API development'
-    And Summary row 'Software development' under 'Team capabilities' should contain 'Frontend web application development'
+    And Summary row 'Software development' under 'Team capabilities' should contain 'Front-end web application development'
     And Summary row 'Software development' under 'Team capabilities' should contain 'Geographic information systems (GIS) development'
     And Summary row 'Software development' under 'Team capabilities' should contain 'Mainframe'
     And Summary row 'Support and operations' under 'Team capabilities' should contain 'Incident management'
@@ -155,7 +155,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     And Summary row 'User experience and design' under 'Team capabilities' should contain 'User experience and design strategy'
     And Summary row 'User research' under 'Team capabilities' should contain 'Creating personas'
     And Summary row 'User research' under 'Team capabilities' should contain 'Quantitative research'
-    And Summary row 'User research' under 'Team capabilities' should contain 'Surveys'
+    And Summary row 'User research' under 'Team capabilities' should contain 'Quantitative research'
     And Summary row 'User research' under 'Team capabilities' should contain 'Usability testing'
     And Summary row 'User research' under 'Team capabilities' should contain 'User journey mapping'
     And Summary row 'User research' under 'Team capabilities' should contain 'User needs and insights'
@@ -182,10 +182,10 @@ Feature: Submitting a new DOS service for Digital outcomes
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
-    When I click 'Delete ‘digital outcomes’'
-    Then I am presented with the message 'Are you sure you want to delete this service?'
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete digital outcomes?'
 
-    When I click 'Yes, delete digital outcomes'
+    When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was deleted'
     And There is 'no' draft 'Digital outcomes' service

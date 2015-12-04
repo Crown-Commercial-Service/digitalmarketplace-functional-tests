@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for User research studios
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'User research studios'
+    When I click 'Apply to provide user research studios'
     Then I am taken to the 'User research studios services' page
 
   Scenario: Provide a lab name
@@ -50,8 +50,8 @@ Feature: Submitting a new DOS service for User research studios
 
   Scenario: Provide Location
     Given I am on ssp page 'user-research-studios'
-    When I click the 'Edit' link for 'Location'
-    Then I should be on the 'Location' page
+    When I click the 'Edit' link for 'Transport'
+    Then I should be on the 'Transport' page
 
     When I fill in 'labPublicTransport' with 'Take bus 786 towards the radio tower and get off at the Testlington Street'
     And I fill in 'labCarPark' with 'Customer parking available underground'
@@ -60,7 +60,7 @@ Feature: Submitting a new DOS service for User research studios
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'User research studios' service
+    Then There is 'a' draft 'Apply to provide user research studios' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
     Then There is 'a' draft 'My user research studio service' service
@@ -162,10 +162,10 @@ Feature: Submitting a new DOS service for User research studios
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
-    When I click 'Delete this service'
-    Then I am presented with the message 'Are you sure you want to delete this service?'
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete this lab?'
 
-    When I click 'Yes, delete my user research studio service'
+    When I click 'Yes, delete'
     Then I am taken to the 'User research studios services' page
     And I am presented with the message 'My user research studio service was deleted'
     And There is 'no' draft 'My user research studio service' service
