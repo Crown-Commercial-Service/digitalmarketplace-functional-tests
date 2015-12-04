@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp-dos
+@not-production @functional-test @ssp-dos1
 Feature: Submitting a new DOS service for Digital outcomes
   In order to submit my services as a supplier user
   I want to answer questions about my service
@@ -43,6 +43,10 @@ Feature: Submitting a new DOS service for Digital outcomes
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
+    #Service can't be completed unless at least one "Team capability" has been defined
+    And The 'Mark as complete' button should not be on the page
+    #And The service 'can't' be marked as complete
+
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
     Then There is 'a' draft 'Digital outcomes' service
@@ -57,6 +61,10 @@ Feature: Submitting a new DOS service for Digital outcomes
     And I check 'A/B and multivariate testing' for 'performanceAnalysisTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
+
+    #Service can now be completed as one "Team capability" has been defined
+    And The 'Mark as complete' button should be on the page
+    #And The service 'can' be marked as complete
 
   Scenario: Provide Team capabilities-Security
     Given I am on ssp page 'digital-outcomes'
@@ -169,15 +177,14 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I am presented with the message 'Testing and auditing was deleted'
     And Summary row 'Testing and auditing' under 'Team capabilities' should contain 'You haven't added any testing and auditing capabilities'
 
-  #@mark_as_complete
-  #Scenario: Go to listing page and the service is not complete
-  #  Given I am at the 'Infrastructure as a Service services' page
-  #  Then My service should be in the list
-
-  #  When I click my service
-  #  Then I should be on the 'My IaaS service' page
-  #  And The string 'Answer required' should be on the page
-  #  And The 'Mark as complete' button should not be on the page
+  @mark_as_complete
+  Scenario: Mark service as complete
+    Given I am on ssp page 'digital-outcomes'
+    When I click the 'Mark as complete' button at the 'bottom' of the page
+    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And I am presented with the message 'Digital outcomes was marked as complete'
+    And There is 'a' complete 'Digital outcomes' service
+    And There is 'no' draft 'Digital outcomes' service
 
   @delete_service
   Scenario: Delete the service

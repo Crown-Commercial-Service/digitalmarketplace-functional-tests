@@ -1,4 +1,4 @@
-@not-production @functional-test @ssp-dos
+@not-production @functional-test @ssp-dos1
 Feature: Submitting a new DOS service for User research studios
   In order to submit my services as a supplier user
   I want to answer questions about my service
@@ -27,6 +27,16 @@ Feature: Submitting a new DOS service for User research studios
     When I fill in 'serviceName' with 'My user research studio'
     And I click 'Save and continue'
     Then I should be on the 'My user research studio' page
+
+  @listing_page
+  Scenario: Go to listing page and the service that is not complete
+    Given I am at the 'User research studios services' page
+    Then My service should be in the list
+
+    When I click my service
+    Then I should be on the 'My user research studio' page
+    And The string 'Answer required' should be on the page
+    And The 'Mark as complete' button should not be on the page
 
   Scenario: Edit lab name
     Given I am on ssp page 'user-research-studios'
@@ -159,9 +169,57 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'How accessible is your studio?' under 'Accessibility' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
     And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under 'Price' should contain '£158 per lab'
 
+  @mark_as_complete
+  Scenario: Mark service as complete
+    Given I am on ssp page 'user-research-studios'
+    When I click the 'Mark as complete' button at the 'top' of the page
+    Then I am taken to the 'User research studios services' page
+    And I am presented with the message 'My user research studio service was marked as complete'
+    And There is 'a' complete 'My user research studio service' service
+
+    When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
+    Then There is 'no' draft 'User research studios' service
+    And There is 'a' complete 'User research studios' service
+
+  Scenario: Add another user research studio service
+    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
+    When I click 'Add a service'
+    Then I am taken to the 'Lab name' page
+
+    When I fill in 'serviceName' with 'My second user research studio service'
+    And I click 'Save and continue'
+    Then I should be on the 'My second user research studio service' page
+
+  @listing_page
+  Scenario: The listing page should show draft services and complete services
+    Given I am at the 'User research studios services' page
+    Then There is 'a' draft 'My second user research studio service' service
+    And There is 'a' complete 'My user research studio service' service
+
   @delete_service
-  Scenario: Delete the service
-    Given I am on the summary page
+  Scenario: Delete the draft service
+    Given I am at the 'User research studios services' page
+    When I click my service
+    Then I should be on the 'My second user research studio service' page
+
+    When I click 'Delete this service'
+    Then I am presented with the message 'Are you sure you want to delete this service?'
+
+    When I click 'Yes, delete my second user research studio service'
+    Then I am taken to the 'User research studios services' page
+    And I am presented with the message 'My second user research studio service was deleted'
+    And There is 'no' draft 'My second user research studio service' service
+    And There is 'a' complete 'My user research studio service' service
+
+    When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
+    Then There is 'no' draft 'User research studios' service
+    And There is 'a' complete 'User research studio' service
+
+  Scenario: Delete the completed service
+    Given I am at the 'user-research-studios' page
+    When I click my completed service
+    Then I should be on the 'My user research studio service' page
+
     When I click 'Delete this service'
     Then I am presented with the message 'Are you sure you want to delete this service?'
 
@@ -169,6 +227,8 @@ Feature: Submitting a new DOS service for User research studios
     Then I am taken to the 'User research studios services' page
     And I am presented with the message 'My user research studio service was deleted'
     And There is 'no' draft 'My user research studio service' service
+    And There is 'no' complete 'My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'no' draft 'User research studios' service
+    And There is 'no' draft 'User research studio' service
+    And There is 'no' complete 'User research studio' service
