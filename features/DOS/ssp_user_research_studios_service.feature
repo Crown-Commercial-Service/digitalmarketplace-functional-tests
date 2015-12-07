@@ -58,7 +58,7 @@ Feature: Submitting a new DOS service for User research studios
     And I click 'Save and continue'
     Then I should be on the 'My user research studio service' page
 
-  Scenario: Provide Location
+  Scenario: Provide Transport
     Given I am on ssp page 'user-research-studios'
     When I click the 'Edit' link for 'Transport'
     Then I should be on the 'Transport' page
@@ -70,7 +70,7 @@ Feature: Submitting a new DOS service for User research studios
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Apply to provide user research studios' service
+    Then There is 'a' draft 'user research studios' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
     Then There is 'a' draft 'My user research studio service' service
@@ -152,8 +152,8 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'Building and street' under 'Lab address' should contain 'No 1 Test Street'
     And Summary row 'Town or city' under 'Lab address' should contain 'Test Town'
     And Summary row 'Postcode' under 'Lab address' should contain 'TE57ME'
-    And Summary row 'How do visitors get to your studio using public transport?' under 'Location' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
-    And Summary row 'Where can visitors to your studio park?' under 'Location' should contain 'Customer parking available underground'
+    And Summary row 'How do visitors get to your studio using public transport?' under 'Transport' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
+    And Summary row 'Where can visitors to your studio park?' under 'Transport' should contain 'Customer parking available underground'
     And Summary row 'How many people can the lab accommodate?' under 'Lab size' should contain 'Thirty 2'
     And Summary row 'Do you have a viewing area?' under 'Viewing' should contain 'Yes – included as standard'
     And Summary row 'Do you provide remote streaming from the lab?' under 'Viewing' should contain 'Yes – for an additional cost'
@@ -178,8 +178,85 @@ Feature: Submitting a new DOS service for User research studios
     And There is 'a' complete 'My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'no' draft 'Apply to provide user research studios' service
-    And There is 'a' complete 'Apply to provide user research studios' service
+    Then There is 'no' draft 'user research studios' service
+    And There is 'a' complete 'user research studios' service
+
+  Scenario: Edit service that has been completed
+    Given I am at the 'user-research-studios' page
+    When I click my completed service
+    And I click the 'Edit' link for 'Lab name'
+    And I fill in 'serviceName' with 'NEW-My user research studio service'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Lab address'
+    And I fill in 'labAddressBuilding' with 'NEW-No 1 Test Street'
+    And I fill in 'labAddressTown' with 'NEW-Test Town'
+    And I fill in 'labAddressPostcode' with 'NEW-TE57ME'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Transport'
+    And I fill in 'labPublicTransport' with 'NEW-Take bus 786 towards the radio tower and get off at the Testlington Street'
+    And I fill in 'labCarPark' with 'NEW-Customer parking available underground'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Lab size'
+    And I fill in 'labSize' with 'NEW-Thirty 2'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Viewing'
+    And I choose 'No' for 'labViewingArea'
+    And I choose 'No' for 'labStreaming'
+    And I choose 'Yes – for an additional cost' for 'labDesktopStreaming'
+    And I choose 'No' for 'labDeviceStreaming'
+    And I choose 'Yes – for an additional cost' for 'labEyeTracking'
+    And I choose 'Yes' for 'labWiFi'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Technical assistance'
+    And I choose 'Yes – for an additional cost' for 'labTechAssistance'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Hospitality'
+    And I choose 'No' for 'labHosting'
+    And I choose 'No' for 'labWaitingArea'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Facilities'
+    And I choose 'No' for 'labToilets'
+    And I choose 'Yes' for 'labBabyChanging'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Accessibility'
+    And I fill in 'labAccessibility' with 'NEW-Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Price'
+    And I fill in 'labPriceMin' with '4321'
+    And I select '8 hours' from 'labTimeMin'
+    And I click 'Save and continue'
+
+  Scenario: Verify text of edit made on service that is marked as completed
+    Given I am on the summary page
+    Then Summary row 'What is the name of the lab?' under 'Lab name' should contain 'NEW-My user research studio service'
+    And Summary row 'Building and street' under 'Lab address' should contain 'NEW-No 1 Test Street'
+    And Summary row 'Town or city' under 'Lab address' should contain 'NEW-Test Town'
+    And Summary row 'Postcode' under 'Lab address' should contain 'NEW-TE57ME'
+    And Summary row 'How do visitors get to your studio using public transport?' under 'Transport' should contain 'NEW-Take bus 786 towards the radio tower and get off at the Testlington Street'
+    And Summary row 'Where can visitors to your studio park?' under 'Transport' should contain 'NEW-Customer parking available underground'
+    And Summary row 'How many people can the lab accommodate?' under 'Lab size' should contain 'NEW-Thirty 2'
+    And Summary row 'Do you have a viewing area?' under 'Viewing' should contain 'No'
+    And Summary row 'Do you provide remote streaming from the lab?' under 'Viewing' should contain 'No'
+    And Summary row 'Do you stream a view of the desktop or laptop screen?' under 'Viewing' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you stream a view of a mobile or tablet device?' under 'Viewing' should contain 'No'
+    And Summary row 'Do you provide eye-tracking?' under 'Viewing' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you provide Wi-Fi?' under 'Viewing' should contain 'Yes'
+    And Summary row 'Do you provide help with studio equipment and streaming?' under 'Technical assistance' should contain 'Yes – for an additional cost'
+    And Summary row 'Do you welcome and host participants?' under 'Hospitality' should contain 'No'
+    And Summary row 'Do you provide a waiting area?' under 'Hospitality' should contain 'No'
+    And Summary row 'Do you provide toilets?' under 'Facilities' should contain 'No'
+    And Summary row 'Do you provide baby-changing facilities?' under 'Facilities' should contain 'Yes'
+    And Summary row 'How accessible is your studio?' under 'Accessibility' should contain 'NEW-Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
+    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under 'Price' should contain '£4321 per lab'
 
   Scenario: Add another user research studio service
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
@@ -194,7 +271,7 @@ Feature: Submitting a new DOS service for User research studios
   Scenario: The listing page should show draft services and complete services
     Given I am at the 'User research studios services' page
     Then There is 'a' draft 'My second user research studio service' service
-    And There is 'a' complete 'My user research studio service' service
+    And There is 'a' complete 'NEW-My user research studio service' service
 
   @delete_service
   Scenario: Delete the draft service
@@ -209,27 +286,27 @@ Feature: Submitting a new DOS service for User research studios
     Then I am taken to the 'User research studios services' page
     And I am presented with the message 'My second user research studio service was deleted'
     And There is 'no' draft 'My second user research studio service' service
-    And There is 'a' complete 'My user research studio service' service
+    And There is 'a' complete 'NEW-My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'no' draft 'Apply to provide user research studios' service
-    And There is 'a' complete 'Apply to provide user research studios' service
+    Then There is 'no' draft 'user research studios' service
+    And There is 'a' complete 'user research studios' service
 
+  @delete_service
   Scenario: Delete the completed service
     Given I am at the 'user-research-studios' page
     When I click my completed service
-    Then I should be on the 'My user research studio service' page
+    Then I should be on the 'NEW-My user research studio service' page
 
     When I click 'Delete'
     Then I am presented with the message 'Are you sure you want to delete this lab?'
 
-
     When I click 'Yes, delete'
     Then I am taken to the 'User research studios services' page
-    And I am presented with the message 'My user research studio service was deleted'
-    And There is 'no' draft 'My user research studio service' service
-    And There is 'no' complete 'My user research studio service' service
+    And I am presented with the message 'NEW-My user research studio service was deleted'
+    And There is 'no' draft 'NEW-My user research studio service' service
+    And There is 'no' complete 'NEW-My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    And There is 'no' draft 'User research studio' service
-    And There is 'no' complete 'User research studio' service
+    And There is 'no' draft 'user research studios' service
+    And There is 'no' complete 'user research studios' service

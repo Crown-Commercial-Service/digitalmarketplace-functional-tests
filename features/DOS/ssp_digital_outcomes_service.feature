@@ -45,11 +45,11 @@ Feature: Submitting a new DOS service for Digital outcomes
 
     #Service can't be completed unless at least one "Team capability" has been defined
     And The 'Mark as complete' button should not be on the page
-    #And The service 'can't' be marked as complete
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Apply to provide teams for digital outcomes' service
+    Then There is 'a' draft 'digital outcomes' service
+    And There is 'no' complete 'digital outcomes' service
 
   Scenario: Provide Team capabilities-Performance analysis and data
     Given I am on ssp page 'digital-outcomes'
@@ -64,7 +64,6 @@ Feature: Submitting a new DOS service for Digital outcomes
 
     #Service can now be completed as one "Team capability" has been defined
     And The 'Mark as complete' button should be on the page
-    #And The service 'can' be marked as complete
 
   Scenario: Provide Team capabilities-Security
     Given I am on ssp page 'digital-outcomes'
@@ -183,36 +182,8 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Mark as complete' button at the 'bottom' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was marked as complete'
-    And There is 'a' complete 'Apply to provide teams for digital outcomes' service
-    And There is 'no' draft 'Apply to provide teams for digital outcomes' service
-
-  Scenario: Verify text on summary page
-    Given I am on the summary page
-    Then Summary row 'Share non-personal data' should contain 'Yes'
-    And Summary row 'Share systems information' should contain 'No'
-    And Summary row 'Interoperability of systems' should contain 'Yes'
-    And Summary row 'Use of open standards' should contain 'Yes'
-    And Summary row 'Performance analysis and data' should contain 'A/B and multivariate testing'
-    And Summary row 'Performance analysis and data' should contain 'Data analysis'
-    And Summary row 'Performance analysis and data' should contain 'Statistical modelling'
-    And Summary row 'Security' should contain 'Firewall audit'
-    And Summary row 'Security' should contain 'Security policy'
-    And Summary row 'Service delivery' should contain 'Agile coaching and training'
-    And Summary row 'Service delivery' should contain 'Digital communication and engagement'
-    And Summary row 'Service delivery' should contain 'Project management'
-    And Summary row 'Software development' should contain 'API development'
-    And Summary row 'Software development' should contain 'Frontend web application development'
-    And Summary row 'Software development' should contain 'Geographic information systems (GIS) development'
-    And Summary row 'Software development' should contain 'Mainframe'
-    And Summary row 'Support and operations' should contain 'Incident management'
-    And Summary row 'Testing and auditing' should contain 'Application testing'
-    And Summary row 'User experience and design' should contain 'User experience and design strategy'
-    And Summary row 'User research' should contain 'Creating personas'
-    And Summary row 'User research' should contain 'Quantitative research'
-    And Summary row 'User research' should contain 'Surveys'
-    And Summary row 'User research' should contain 'Usability testing'
-    And Summary row 'User research' should contain 'User journey mapping'
-    And Summary row 'User research' should contain 'User needs and insights'
+    And There is 'a' complete 'digital outcomes' service
+    And There is 'no' draft 'digital outcomes' service
 
   @delete_service
   Scenario: Delete the service
@@ -223,4 +194,5 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was deleted'
-    And There is 'no' draft 'Apply to provide teams for digital outcomes' service
+    And There is 'no' draft 'digital outcomes' service
+    And There is 'no' complete 'digital outcomes' service
