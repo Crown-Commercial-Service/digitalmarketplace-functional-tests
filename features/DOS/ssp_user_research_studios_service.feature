@@ -16,7 +16,7 @@ Feature: Submitting a new DOS service for User research studios
     When I click 'Add, edit and complete services'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
 
-    When I click 'User research studios'
+    When I click 'Apply to provide user research studios'
     Then I am taken to the 'User research studios services' page
 
   Scenario: Provide a lab name
@@ -27,6 +27,16 @@ Feature: Submitting a new DOS service for User research studios
     When I fill in 'serviceName' with 'My user research studio'
     And I click 'Save and continue'
     Then I should be on the 'My user research studio' page
+
+  @listing_page
+  Scenario: Go to listing page and the service that is not complete
+    Given I am at the 'User research studios services' page
+    Then My service should be in the list
+
+    When I click my service
+    Then I should be on the 'My user research studio' page
+    And The string 'Answer required' should be on the page
+    And The 'Mark as complete' button should not be on the page
 
   Scenario: Edit lab name
     Given I am on ssp page 'user-research-studios'
@@ -50,8 +60,8 @@ Feature: Submitting a new DOS service for User research studios
 
   Scenario: Provide Location
     Given I am on ssp page 'user-research-studios'
-    When I click the 'Edit' link for 'Location'
-    Then I should be on the 'Location' page
+    When I click the 'Edit' link for 'Transport'
+    Then I should be on the 'Transport' page
 
     When I fill in 'labPublicTransport' with 'Take bus 786 towards the radio tower and get off at the Testlington Street'
     And I fill in 'labCarPark' with 'Customer parking available underground'
@@ -60,7 +70,7 @@ Feature: Submitting a new DOS service for User research studios
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'User research studios' service
+    Then There is 'a' draft 'Apply to provide user research studios' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
     Then There is 'a' draft 'My user research studio service' service
@@ -145,7 +155,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'How do visitors get to your studio using public transport?' under 'Location' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
     And Summary row 'Where can visitors to your studio park?' under 'Location' should contain 'Customer parking available underground'
     And Summary row 'How many people can the lab accommodate?' under 'Lab size' should contain 'Thirty 2'
-    And Summary row 'Do you have an viewing area?' under 'Viewing' should contain 'Yes – included as standard'
+    And Summary row 'Do you have a viewing area?' under 'Viewing' should contain 'Yes – included as standard'
     And Summary row 'Do you provide remote streaming from the lab?' under 'Viewing' should contain 'Yes – for an additional cost'
     And Summary row 'Do you stream a view of the desktop or laptop screen?' under 'Viewing' should contain 'No'
     And Summary row 'Do you stream a view of a mobile or tablet device?' under 'Viewing' should contain 'Yes – for an additional cost'
@@ -159,39 +169,67 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'How accessible is your studio?' under 'Accessibility' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
     And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under 'Price' should contain '£158 per lab'
 
-  Scenario: Verify text on summary page
-    Given I am on the summary page
-    Then Summary row 'What is the name of the lab?' should contain 'My user research studio service'
-    And Summary row 'Building and street' should contain 'No 1 Test Street'
-    And Summary row 'Town or city' should contain 'Test Town'
-    And Summary row 'Postcode' should contain 'TE57ME'
-    And Summary row 'How do visitors get to your studio using public transport?' should contain 'Take bus 786 towards the radio tower and get off at the Testlington Street'
-    And Summary row 'Where can visitors to your studio park?' should contain 'Customer parking available underground'
-    And Summary row 'How many people can the lab accommodate?' should contain 'Thirty 2'
-    And Summary row 'Do you have an viewing area?' should contain 'Yes – included as standard'
-    And Summary row 'Do you provide remote streaming from the lab?' should contain 'Yes – for an additional cost'
-    And Summary row 'Do you stream a view of the desktop or laptop screen?' should contain 'No'
-    And Summary row 'Do you stream a view of a mobile or tablet device?' should contain 'Yes – for an additional cost'
-    And Summary row 'Do you provide eye-tracking?' should contain 'No'
-    And Summary row 'Do you provide Wi-Fi?' should contain 'No'
-    And Summary row 'Do you provide help with studio equipment and streaming?' should contain 'Yes – included as standard'
-    And Summary row 'Do you welcome and host participants?' should contain 'Yes – for an additional cost'
-    And Summary row 'Do you provide a waiting area?' should contain 'Yes – included as standard'
-    And Summary row 'Do you provide toilets?' should contain 'Yes'
-    And Summary row 'Do you provide baby-changing facilities?' should contain 'No'
-    And Summary row 'How accessible is your studio?' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' should contain '£100 to £1000 per lab per day'
+  @mark_as_complete
+  Scenario: Mark service as complete
+    Given I am on ssp page 'user-research-studios'
+    When I click the 'Mark as complete' button at the 'top' of the page
+    Then I am taken to the 'User research studios services' page
+    And I am presented with the message 'My user research studio service was marked as complete'
+    And There is 'a' complete 'My user research studio service' service
+
+    When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
+    Then There is 'no' draft 'Apply to provide user research studios' service
+    And There is 'a' complete 'Apply to provide user research studios' service
+
+  Scenario: Add another user research studio service
+    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions/user-research-studios'
+    When I click 'Add a service'
+    Then I am taken to the 'Lab name' page
+
+    When I fill in 'serviceName' with 'My second user research studio service'
+    And I click 'Save and continue'
+    Then I should be on the 'My second user research studio service' page
+
+  @listing_page
+  Scenario: The listing page should show draft services and complete services
+    Given I am at the 'User research studios services' page
+    Then There is 'a' draft 'My second user research studio service' service
+    And There is 'a' complete 'My user research studio service' service
 
   @delete_service
-  Scenario: Delete the service
-    Given I am on the summary page
-    When I click 'Delete this service'
-    Then I am presented with the message 'Are you sure you want to delete this service?'
+  Scenario: Delete the draft service
+    Given I am at the 'User research studios services' page
+    When I click my service
+    Then I should be on the 'My second user research studio service' page
 
-    When I click 'Yes, delete my user research studio service'
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete this lab?'
+
+    When I click 'Yes, delete'
+    Then I am taken to the 'User research studios services' page
+    And I am presented with the message 'My second user research studio service was deleted'
+    And There is 'no' draft 'My second user research studio service' service
+    And There is 'a' complete 'My user research studio service' service
+
+    When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
+    Then There is 'no' draft 'Apply to provide user research studios' service
+    And There is 'a' complete 'Apply to provide user research studios' service
+
+  Scenario: Delete the completed service
+    Given I am at the 'user-research-studios' page
+    When I click my completed service
+    Then I should be on the 'My user research studio service' page
+
+    When I click 'Delete'
+    Then I am presented with the message 'Are you sure you want to delete this lab?'
+
+
+    When I click 'Yes, delete'
     Then I am taken to the 'User research studios services' page
     And I am presented with the message 'My user research studio service was deleted'
     And There is 'no' draft 'My user research studio service' service
+    And There is 'no' complete 'My user research studio service' service
 
     When I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'no' draft 'User research studios' service
+    And There is 'no' draft 'User research studio' service
+    And There is 'no' complete 'User research studio' service

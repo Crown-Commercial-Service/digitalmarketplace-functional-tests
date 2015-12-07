@@ -48,31 +48,23 @@ end
 And /^There is '(.*)' draft '(.*)' service$/ do |availability,service|
   service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
 
-  case store.service_type
-    when 'user-research-studios'
-      lab_service = 'lab'
-    else
-      lab_service = 'service'
-    end
-
   if service_type == ''
-     if "#{availability.downcase}" == 'no'
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft ')]")
       page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
-      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
     elsif "#{availability.downcase}" == 'a'
-      if ['digital-outcomes','digital-specialists','user-research-participants'].include? store.service_type
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
-      else
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Answer all the questions and mark as complete')]")
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft #{lab_service}')]")
+      if store.framework_name == 'digital-outcomes-and-specialists' and store.service_type == 'user-research-studios'
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft lab')]")
+      elsif store.framework_name == 'g-cloud-7'
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 draft service')]")
       end
+      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
     end
   else
     if "#{availability.downcase}" == 'no'
       page.should have_no_selector(:xpath, ".//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
     elsif "#{availability.downcase}" == 'a'
-      page.should have_selector(:xpath, ".//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+      page.should have_selector(:xpath, ".//table/caption[contains(text(),'Draft services')]/..//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
     end
   end
 end
@@ -80,6 +72,11 @@ end
 When /^I click my service$/ do
   # Find link with the current listing in the href
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
+end
+
+When /^I click my completed service$/ do
+  # Find link with the completed listing in the href
+  find(:xpath, "//a[contains(@href, '#{store.complete_listing}')]").click
 end
 
 And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
@@ -281,4 +278,44 @@ end
 
 Then /The change made is reflected on the '(.*)' page$/ do |value|
   step "And All the information that was submitted is presented correctly on the page"
+end
+
+And /^There is '(.*)' complete '(.*)' service$/ do |availability,service|
+  service_type = URI.parse(current_url).path.split('submissions/').last.split('/').first
+
+  if service_type == ''
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 lab marked as complete')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Marked as complete')]")
+      page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'You can edit it until the deadline')]")
+    elsif "#{availability.downcase}" == 'a'
+      if store.framework_name == 'digital-outcomes-and-specialists' and store.service_type == 'user-research-studios'
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'1 lab marked as complete')]")
+      elsif store.framework_name == 'g-cloud-7'
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Marked as complete')]")
+      end
+      page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'You can edit it until the deadline')]")
+    end
+  else
+    if "#{availability.downcase}" == 'no'
+      page.should have_no_selector(:xpath, ".//table/caption[contains(text(),'Complete services')]/..//span/a[contains(@href,'#{store.complete_listing}') and contains(text(),'#{service}')]")
+      page.should have_no_selector(:xpath, ".//table/caption[contains(text(),'Complete services')]/..//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+    elsif "#{availability.downcase}" == 'a'
+      if store.complete_listing != ''
+        page.should have_selector(:xpath, ".//table/caption[contains(text(),'Complete services')]/..//span/a[contains(@href,'#{store.complete_listing}') and contains(text(),'#{service}')]")
+      else
+      page.should have_selector(:xpath, ".//table/caption[contains(text(),'Complete services')]/..//span/a[contains(@href,'#{store.current_listing}') and contains(text(),'#{service}')]")
+      end
+    end
+  end
+end
+
+When /^I click the '(.*)' button at the '(.*)' of the page$/ do |button,location|
+  store.complete_listing = store.current_listing
+  case location
+    when 'top'
+      page.first(:xpath, "//input[contains(@class,'button-save') and contains(@value,'#{button}')]").click
+    else 'bottom'
+      page.find(:xpath, "//div[3]//input[contains(@class,'button-save') and contains(@value,'#{button}')]").click
+    end
 end
