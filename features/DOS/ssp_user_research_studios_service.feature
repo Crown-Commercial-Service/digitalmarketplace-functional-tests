@@ -167,7 +167,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary row 'Do you provide toilets?' under 'Facilities' should contain 'Yes'
     And Summary row 'Do you provide baby-changing facilities?' under 'Facilities' should contain 'No'
     And Summary row 'How accessible is your studio?' under 'Accessibility' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under 'Price' should contain '£158 per lab'
+    And Summary row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under 'Price' should contain '2 hours for £158'
 
   @mark_as_complete
   Scenario: Mark service as complete
