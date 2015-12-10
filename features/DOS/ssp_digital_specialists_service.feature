@@ -31,9 +31,13 @@ Feature: Submitting a new DOS service for Digital specialists
     And I click 'Save and continue'
     Then I should be on the 'Digital specialists' page
 
+    #Service can't be completed unless at least one "Individual specialist roles" has been defined
+    And The 'Mark as complete' button should not be on the page
+
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Apply to provide individual digital specialists' service
+    Then There is 'a' draft 'digital specialists' service
+    And There is 'no' complete 'digital specialists' service
 
   Scenario: Provide Individual specialist roles-Agile coach
     Given I am on ssp page 'digital-specialists'
@@ -49,6 +53,9 @@ Feature: Submitting a new DOS service for Digital specialists
     And I fill in 'agileCoachPriceMax' with '581'
     And I click 'Save and continue'
     Then I should be on the 'Digital specialists' page
+
+    #Service can now be completed as a "Individual specialist roles" has been defined
+    And The 'Mark as complete' button should be on the page
 
   Scenario: Provide Individual specialist roles-User researcher
     Given I am on ssp page 'digital-specialists'
@@ -133,6 +140,15 @@ Feature: Submitting a new DOS service for Digital specialists
     Then Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain 'South East England'
     And Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain '£310 to £701 per person per day'
 
+  @mark_as_complete
+  Scenario: Mark service as complete
+    Given I am on ssp page 'digital-specialists'
+    When I click the 'Mark as complete' button at the 'top' of the page
+    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And I am presented with the message 'Digital specialists was marked as complete'
+    And There is 'a' complete 'digital specialists' service
+    And There is 'no' draft 'digital specialists' service
+
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
@@ -142,4 +158,5 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital specialists was deleted'
-    And There is 'no' draft 'Digital specialists' service
+    And There is 'no' draft 'digital specialists' service
+    And There is 'no' complete 'digital specialists' service

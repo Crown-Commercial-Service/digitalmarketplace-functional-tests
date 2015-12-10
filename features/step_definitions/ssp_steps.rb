@@ -158,12 +158,12 @@ Then /^Summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,tabl
   if ['Individual specialist roles','Team capabilities'].include? table_name
     page.find(
       :xpath,
-      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
+      "//*/table/caption[contains(text(),'#{table_name}')]/../..//span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
     ).should have_content("#{text}")
   else
     page.find(
       :xpath,
-      "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+      "//*/table/caption[contains(text(),'#{table_name}')]/../..//span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
     ).should have_content("#{text}")
   end
 end

@@ -45,11 +45,11 @@ Feature: Submitting a new DOS service for Digital outcomes
 
     #Service can't be completed unless at least one "Team capability" has been defined
     And The 'Mark as complete' button should not be on the page
-    #And The service 'can't' be marked as complete
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Apply to provide teams for digital outcomes' service
+    Then There is 'a' draft 'digital outcomes' service
+    And There is 'no' complete 'digital outcomes' service
 
   Scenario: Provide Team capabilities-Performance analysis and data
     Given I am on ssp page 'digital-outcomes'
@@ -64,7 +64,6 @@ Feature: Submitting a new DOS service for Digital outcomes
 
     #Service can now be completed as one "Team capability" has been defined
     And The 'Mark as complete' button should be on the page
-    #And The service 'can' be marked as complete
 
   Scenario: Provide Team capabilities-Security
     Given I am on ssp page 'digital-outcomes'
@@ -183,8 +182,8 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Mark as complete' button at the 'bottom' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was marked as complete'
-    And There is 'a' complete 'Apply to provide teams for digital outcomes' service
-    And There is 'no' draft 'Apply to provide teams for digital outcomes' service
+    And There is 'a' complete 'digital outcomes' service
+    And There is 'no' draft 'digital outcomes' service
 
   @delete_service
   Scenario: Delete the service
@@ -195,4 +194,5 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was deleted'
-    And There is 'no' draft 'Apply to provide teams for digital outcomes' service
+    And There is 'no' draft 'digital outcomes' service
+    And There is 'no' complete 'digital outcomes' service

@@ -31,7 +31,8 @@ Feature: Submitting a new DOS service for User research participants
 
   Scenario: A draft service has been created
     Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'Apply to provide user research participant recruitment' service
+    Then There is 'a' draft 'user research participant recruitment' service
+    And There is 'no' complete 'user research participant recruitment' service
 
   Scenario: Provide Location
     Given I am on ssp page 'user-research-participants'
@@ -43,6 +44,9 @@ Feature: Submitting a new DOS service for User research participants
     And I click 'Save and continue'
     Then I should be on the 'User research participants' page
 
+    #Service can't be completed unless "Recruitment approach" has also been defined
+    And The 'Mark as complete' button should not be on the page
+
   Scenario: Provide Recruitment approach
     Given I am on ssp page 'user-research-participants'
     When I click the 'Edit' link for 'Recruitment approach'
@@ -53,6 +57,9 @@ Feature: Submitting a new DOS service for User research participants
     And I click 'Save and continue'
     Then I should be on the 'User research participants' page
 
+    #Service can now be completed as all questions have been answered
+    And The 'Mark as complete' button should be on the page
+
   Scenario: Verify text on summary page
     Given I am on the summary page
     Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should contain 'Yes'
@@ -61,6 +68,57 @@ Feature: Submitting a new DOS service for User research participants
     And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Yorkshire and the Humber'
     And Summary row 'How do you recruit participants?' under 'Recruitment approach' should contain 'Initial recruitment offline, but then contact them online'
     And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should contain 'Yes'
+
+  Scenario: Edit answers to all questions
+    Given I am on ssp page 'user-research-participants'
+    When I click the 'Edit' link for 'User research participants essentials'
+    And I choose 'No' for 'anonymousRecruitment'
+    And I choose 'Yes' for 'manageIncentives'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Recruitment approach'
+    And I choose 'Entirely online' for 'recruitMethods'
+    And I uncheck 'Initial recruitment offline, but then contact them online' for 'recruitMethods'
+    And I choose 'No' for 'recruitFromList'
+    And I click 'Save and continue'
+
+    When I click the 'Edit' link for 'Location'
+    And I uncheck 'North East England' for 'recruitLocations'
+    And I uncheck 'Yorkshire and the Humber' for 'recruitLocations'
+    And I check 'Scotland' for 'recruitLocations'
+    And I check 'Wales' for 'recruitLocations'
+    And I check 'London' for 'recruitLocations'
+    And I check 'International (outside the UK)' for 'recruitLocations'
+    And I click 'Save and continue'
+
+  Scenario: Verify text on summary page after edit
+    Given I am on the summary page
+    #Previous answeres should no longer be presented
+    Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should not contain 'Yes'
+    And Summary row 'Manage incentives' under 'User research participants essentials' should not contain 'No'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should not contain 'North East England'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should not contain 'Yorkshire and the Humber'
+    And Summary row 'How do you recruit participants?' under 'Recruitment approach' should not contain 'Initial recruitment offline, but then contact them online'
+    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should not contain 'Yes'
+
+    #New answeres should be presented
+    Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should contain 'No'
+    And Summary row 'Manage incentives' under 'User research participants essentials' should contain 'Yes'
+    And Summary row 'How do you recruit participants?' under 'Recruitment approach' should contain 'Entirely online'
+    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should contain 'No'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Scotland'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Wales'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'London'
+    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'International (outside the UK)'
+
+  @mark_as_complete
+  Scenario: Mark service as complete
+    Given I am on ssp page 'digital-specialists'
+    When I click the 'Mark as complete' button at the 'bottom' of the page
+    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    And I am presented with the message 'User research participants was marked as complete'
+    And There is 'a' complete 'user research participant recruitment' service
+    And There is 'no' draft 'user research participant recruitment' service
 
   @delete_service
   Scenario: Delete the service
@@ -71,4 +129,5 @@ Feature: Submitting a new DOS service for User research participants
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'User research participants was deleted'
-    And There is 'no' draft 'User research participants' service
+    And There is 'no' draft 'user research participant recruitment' service
+    And There is 'no' complete 'user research participant recruitment' service
