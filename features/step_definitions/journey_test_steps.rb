@@ -6,9 +6,15 @@ Given /I am on the '(.*)' login page$/ do |user_type|
   case user_type
   when 'Administrator'
     visit("#{dm_frontend_domain}/admin/login")
+    if page.has_link?("Log out")
+      page.click_link_or_button("Log out")
+    end
     page.should have_content("#{user_type} login")
   when 'Supplier'
     visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
+    if page.has_link?("Log out")
+      page.click_link_or_button("Log out")
+    end
     page.should have_content('Log in to the Digital Marketplace')
   else
     fail("Unrecognised user login page '#{user_type}'")
