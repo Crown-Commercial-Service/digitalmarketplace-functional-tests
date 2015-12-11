@@ -20,7 +20,7 @@ Feature: Submitting a new DOS service for Digital specialists
     Then I should be on the 'Digital specialists' page
 
   Scenario: Provide Service essentials
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Edit' link for 'Service essentials'
     Then I should be on the 'Service essentials' page
 
@@ -35,12 +35,12 @@ Feature: Submitting a new DOS service for Digital specialists
     And The 'Mark as complete' button should not be on the page
 
   Scenario: A draft service has been created
-    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'digital specialists' service
-    And There is 'no' complete 'digital specialists' service
+    Given I am at the 'Your Digital Outcomes and Specialists services' page
+    Then There 'is a' draft 'digital specialists' service(s)
+    And There 'is no' completed 'digital specialists' service(s)
 
   Scenario: Provide Individual specialist roles-Agile coach
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Add' link for 'Agile coach'
     Then I should be on the 'Agile coach' page
 
@@ -58,7 +58,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And The 'Mark as complete' button should be on the page
 
   Scenario: Provide Individual specialist roles-User researcher
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Add' link for 'User researcher'
     Then I should be on the 'User researcher' page
 
@@ -70,7 +70,7 @@ Feature: Submitting a new DOS service for Digital specialists
     Then I should be on the 'Digital specialists' page
 
   Scenario: Edit-User researcher price
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Edit' link for 'User researcher'
     Then I should be on the 'User researcher' page
 
@@ -80,7 +80,7 @@ Feature: Submitting a new DOS service for Digital specialists
     Then I should be on the 'Digital specialists' page
 
   Scenario: Provide Individual specialist roles-User researcher
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Add' link for 'Web operations engineer'
     Then I should be on the 'Web operations engineer' page
 
@@ -113,7 +113,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And Multi summary row 'Web operations engineer' under 'Individual specialist roles' should contain '£310 to £701 per person per day'
 
   Scenario: Edit-Agile coach locations
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Edit' link for 'Agile coach'
     Then I should be on the 'Agile coach' page
 
@@ -142,12 +142,12 @@ Feature: Submitting a new DOS service for Digital specialists
 
   @mark_as_complete
   Scenario: Mark service as complete
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Mark as complete' button at the 'top' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital specialists was marked as complete'
-    And There is 'a' complete 'digital specialists' service
-    And There is 'no' draft 'digital specialists' service
+    And There 'is a' completed 'digital specialists' service(s)
+    And There 'is no' draft 'digital specialists' service(s)
 
   @delete_service
   Scenario: Delete the service
@@ -158,5 +158,5 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital specialists was deleted'
-    And There is 'no' draft 'digital specialists' service
-    And There is 'no' complete 'digital specialists' service
+    And There 'is no' draft 'digital specialists' service(s)
+    And There 'is no' completed 'digital specialists' service(s)

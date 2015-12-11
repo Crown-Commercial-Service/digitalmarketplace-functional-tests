@@ -20,7 +20,7 @@ Feature: Submitting a new DOS service for User research participants
     Then I should be on the 'User research participants' page
 
   Scenario: Provide User research participants essentials
-    Given I am on ssp page 'user-research-participants'
+    Given I am on the ssp page for the 'user-research-participants' service
     When I click the 'Edit' link for 'User research participants essentials'
     Then I should be on the 'User research participants essentials' page
 
@@ -30,12 +30,12 @@ Feature: Submitting a new DOS service for User research participants
     Then I should be on the 'User research participants' page
 
   Scenario: A draft service has been created
-    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'user research participant recruitment' service
-    And There is 'no' complete 'user research participant recruitment' service
+    Given I am at the 'Your Digital Outcomes and Specialists services' page
+    Then There 'is a' draft 'user research participant recruitment' service(s)
+    And There 'is no' completed 'user research participant recruitment' service(s)
 
   Scenario: Provide Location
-    Given I am on ssp page 'user-research-participants'
+    Given I am on the ssp page for the 'user-research-participants' service
     When I click the 'Edit' link for 'Location'
     Then I should be on the 'Location' page
 
@@ -48,7 +48,7 @@ Feature: Submitting a new DOS service for User research participants
     And The 'Mark as complete' button should not be on the page
 
   Scenario: Provide Recruitment approach
-    Given I am on ssp page 'user-research-participants'
+    Given I am on the ssp page for the 'user-research-participants' service
     When I click the 'Edit' link for 'Recruitment approach'
     Then I should be on the 'Recruitment approach' page
 
@@ -70,7 +70,7 @@ Feature: Submitting a new DOS service for User research participants
     And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should contain 'Yes'
 
   Scenario: Edit answers to all questions
-    Given I am on ssp page 'user-research-participants'
+    Given I am on the ssp page for the 'user-research-participants' service
     When I click the 'Edit' link for 'User research participants essentials'
     And I choose 'No' for 'anonymousRecruitment'
     And I choose 'Yes' for 'manageIncentives'
@@ -113,12 +113,12 @@ Feature: Submitting a new DOS service for User research participants
 
   @mark_as_complete
   Scenario: Mark service as complete
-    Given I am on ssp page 'digital-specialists'
+    Given I am on the ssp page for the 'user-research-participants' service
     When I click the 'Mark as complete' button at the 'bottom' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'User research participants was marked as complete'
-    And There is 'a' complete 'user research participant recruitment' service
-    And There is 'no' draft 'user research participant recruitment' service
+    And There 'is a' completed 'user research participant recruitment' service(s)
+    And There 'is no' draft 'user research participant recruitment' service(s)
 
   @delete_service
   Scenario: Delete the service
@@ -129,5 +129,5 @@ Feature: Submitting a new DOS service for User research participants
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'User research participants was deleted'
-    And There is 'no' draft 'user research participant recruitment' service
-    And There is 'no' complete 'user research participant recruitment' service
+    And There 'is no' draft 'user research participant recruitment' service(s)
+    And There 'is no' completed 'user research participant recruitment' service(s)
