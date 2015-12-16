@@ -20,7 +20,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Service essentials
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Edit' link for 'Service essentials'
     Then I should be on the 'Service essentials' page
 
@@ -32,7 +32,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Outcomes locations
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Edit' link for 'Outcomes locations'
     Then I should be on the 'Outcomes locations' page
 
@@ -47,12 +47,12 @@ Feature: Submitting a new DOS service for Digital outcomes
     And The 'Mark as complete' button should not be on the page
 
   Scenario: A draft service has been created
-    Given I am at '/suppliers/frameworks/digital-outcomes-and-specialists/submissions'
-    Then There is 'a' draft 'digital outcomes' service
-    And There is 'no' complete 'digital outcomes' service
+    Given I am at the 'Your Digital Outcomes and Specialists services' page
+    Then There 'is a' draft 'digital outcomes' service(s)
+    And There 'is no' completed 'digital outcomes' service(s)
 
   Scenario: Provide Team capabilities-Performance analysis and data
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'Performance analysis and data'
     Then I should be on the 'Performance analysis and data' page
 
@@ -66,7 +66,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     And The 'Mark as complete' button should be on the page
 
   Scenario: Provide Team capabilities-Security
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'Security'
     Then I should be on the 'Security' page
 
@@ -76,7 +76,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Team capabilities-Service delivery
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'Service delivery'
     Then I should be on the 'Service delivery' page
 
@@ -87,7 +87,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Team capabilities-Software development
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'Software development'
     Then I should be on the 'Software development' page
 
@@ -99,7 +99,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Team capabilities-Support and operations
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'Support and operations'
     Then I should be on the 'Support and operations' page
 
@@ -108,7 +108,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Team capabilities-Testing and auditing
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'Testing and auditing'
     Then I should be on the 'Testing and auditing' page
 
@@ -117,7 +117,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Team capabilities-User experience and design
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'User experience and design'
     Then I should be on the 'User experience and design' page
 
@@ -126,7 +126,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     Then I should be on the 'Digital outcomes' page
 
   Scenario: Provide Team capabilities-User research
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Add' link for 'User research'
     Then I should be on the 'User research' page
 
@@ -168,7 +168,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     And Summary row 'User research' under 'Team capabilities' should contain 'User needs and insights'
 
   Scenario: Remove Team capabilities-Testing and auditing
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Remove' link for 'Testing and auditing'
     Then I am presented with the message 'Are you sure you want to remove testing and auditing?'
 
@@ -178,12 +178,12 @@ Feature: Submitting a new DOS service for Digital outcomes
 
   @mark_as_complete
   Scenario: Mark service as complete
-    Given I am on ssp page 'digital-outcomes'
+    Given I am on the ssp page for the 'digital-outcomes' service
     When I click the 'Mark as complete' button at the 'bottom' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was marked as complete'
-    And There is 'a' complete 'digital outcomes' service
-    And There is 'no' draft 'digital outcomes' service
+    And There 'is a' completed 'digital outcomes' service(s)
+    And There 'is no' draft 'digital outcomes' service(s)
 
   @delete_service
   Scenario: Delete the service
@@ -194,5 +194,5 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
     And I am presented with the message 'Digital outcomes was deleted'
-    And There is 'no' draft 'digital outcomes' service
-    And There is 'no' complete 'digital outcomes' service
+    And There 'is no' draft 'digital outcomes' service(s)
+    And There 'is no' completed 'digital outcomes' service(s)
