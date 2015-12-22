@@ -73,10 +73,10 @@ Then /I am presented with the admin G-Cloud 7 declaration page$/ do
 
   section_edit_links = page.all(:css, "a.summary-change-link")
   section_edit_links.length.should == 4
-  section_edit_links[0][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/g_cloud_7_essentials"
-  section_edit_links[1][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/about_you"
-  section_edit_links[2][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds_for_mandatory_exclusion"
-  section_edit_links[3][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds_for_discretionary_exclusion"
+  section_edit_links[0][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/g-cloud-7-essentials"
+  section_edit_links[1][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/about-you"
+  section_edit_links[2][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds-for-mandatory-exclusion"
+  section_edit_links[3][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds-for-discretionary-exclusion"
 
   page.all(:css, "table.summary-item-body").each do |section_table|
     column_headings = section_table.all(:css, "thead th")
