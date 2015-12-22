@@ -119,7 +119,7 @@ Feature: Submitting a new DOS service for Digital specialists
 
     When I uncheck 'Scotland' for 'agileCoachLocations'
     And I uncheck 'Northern Ireland' for 'agileCoachLocations'
-    And I check 'West England' for 'agileCoachLocations'
+    And I check 'South West England' for 'agileCoachLocations'
     And I click 'Save and continue'
     Then I should be on the 'Digital specialists' page
 
@@ -130,7 +130,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Wales'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'London'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should not contain 'Northern Ireland'
-    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'West England'
+    And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'South West England'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain '£214 to £581 per person per day'
 
     Then Multi summary row 'User researcher' under 'Individual specialist roles' should contain 'Yorkshire and the Humber'
