@@ -493,8 +493,8 @@ Then /I am presented with the summary page with the changes that were made to th
     page.should have_no_content(@changed_fields['serviceBenefits-2'])
     page.should have_content(@changed_fields['serviceFeatures'])
   elsif service_aspect == 'Pricing'
-    price_string = "£#{@changed_fields['input-priceString-MinPrice']} to £#{@changed_fields['input-priceString-MaxPrice']} " \
-                   "per #{@changed_fields['input-priceString-Unit']} per #{@changed_fields['input-priceString-Interval']}"
+    price_string = "£#{@changed_fields['input-minimum-price']} to £#{@changed_fields['input-maximum-price']} " \
+                   "per #{@changed_fields['input-price-unit']} per #{@changed_fields['input-pricing-interval']}"
     find(
       :xpath,
       "//*[contains(text(), 'Service price')]/../../td[2]/span[text()]"
