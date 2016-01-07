@@ -102,8 +102,9 @@ end
 
 Then /I am presented with the admin search page$/ do
   page.should have_content('Admin')
-  page.should have_link('Service Updates')
-  page.should have_content('Log out')
+  page.should have_link('Service updates')
+  page.should have_link('Service status changes')
+  page.should have_link('Log out')
   page.should have_content('Find a service by service ID')
   page.should have_content('Find services by supplier ID')
   page.should have_content('Find users by supplier ID')
@@ -626,7 +627,7 @@ Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name
   @existing_values = @existing_values || Hash.new
   @existing_values['summarypageurl'] = current_url
   page.should have_content(supplier_name)
-  page.should have_content('Log out')
+  page.should have_link('Log out')
   page.should have_content(dm_supplier_user_email())
   current_url.should end_with("#{dm_frontend_domain}/suppliers")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
@@ -776,7 +777,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     end
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   end
-  page.should have_content('Log out')
+  page.should have_link('Log out')
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
@@ -784,7 +785,7 @@ end
 Then /I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'$/ do ||
   search_prefix = 'DM Functional Test Supplier'
   page.should have_content('Suppliers')
-  page.should have_content('Log out')
+  page.should have_link('Log out')
   URI.decode_www_form(URI.parse(current_url).query).assoc('supplier_name_prefix').last.should == search_prefix
 
   table_rows = page.all(:css, "tr.summary-item-row")
@@ -1465,7 +1466,7 @@ Then /The page for the '(.*)' user is presented$/ do |user|
   }[user]
 
   page.should have_content("#{user_email}")
-  page.should have_content('Log out')
+  page.should have_link('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{user_email.downcase.split('@').first}%40#{user_email.downcase.split('@').last}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
@@ -1482,12 +1483,13 @@ Then /I am presented with the G-Cloud 7 Statistics page$/ do
     page.should have_content('Suppliers')
     page.should have_content('Users by last login time')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
-    page.should have_link('Service Updates')
-    page.should have_content('Log out')
+    page.should have_link('Service updates')
+    page.should have_link('Service status changes')
+    page.should have_link('Log out')
 end
 
 
-  Then /I am presented with the Service Updates page$/ do
+  Then /I am presented with the Service updates page$/ do
     time = Time.new
     todays_date= time.strftime("%A %d %B %Y")
     page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
@@ -1500,12 +1502,11 @@ end
     page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
-    page.should have_content('Log out')
+    page.should have_link('Log out')
   end
 
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
-  page.should have_content('Log out')
   page.should have_link('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_name.split('M Functional Test Supplier').first}")
   page.should have_selector(:xpath, "//table/tbody/tr/td/span[contains(text(),'#{supplier_name}')]")
