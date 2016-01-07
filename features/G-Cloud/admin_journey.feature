@@ -169,10 +169,10 @@ Scenario: As an admin user I want to view G-Cloud 7 statistics
   When I click 'G-Cloud 7 statistics'
   Then I am presented with the G-Cloud 7 Statistics page
 
-Scenario: As an admin user I want to view Service Updates
+Scenario: As an admin user I want to view Service updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'Service Updates'
-  Then I am presented with the Service Updates page
+  When I click 'Service updates'
+  Then I am presented with the Service updates page
 
 Scenario: As an admin user I want to change the supplier name of a current supplier
   Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
