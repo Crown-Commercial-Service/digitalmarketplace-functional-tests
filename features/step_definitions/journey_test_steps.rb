@@ -2,6 +2,8 @@
 require "ostruct"
 require "rest_client"
 
+store = OpenStruct.new
+
 Given /I am on the '(.*)' login page$/ do |user_type|
   case user_type
   when 'Administrator'
@@ -610,8 +612,7 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
   page.should have_content(@existing_values['trialoption'])
   page.should have_content(@existing_values['freeoption'])
   page.should have_content(@existing_values['minimumcontractperiod'])
-  page.should have_selector(:xpath,
-                            "//a[@href = '#{@existing_values['pricingdocument']}']")
+  page.should have_selector(:xpath, "//a[@href = '#{@existing_values['pricingdocument']}']")
 end
 
 Then /I am presented with the service details page for that service$/ do
@@ -1472,15 +1473,27 @@ Then /The page for the '(.*)' user is presented$/ do |user|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-Then /I am presented with the G-Cloud 7 Statistics page$/ do
-  page.find(
-    :xpath,
-    "//p[contains(text(), 'G-Cloud 7')]/../h1[contains(text(), 'Statistics')]"
-    )
-    current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
+Then /I am presented with the '(.*)' page$/ do |statistics_page|
+  case statistics_page
+  when 'G-Cloud 7 statistics'
+    page.find(
+      :xpath,
+      "//p[contains(text(), 'G-Cloud 7')]/../h1[contains(text(), 'Statistics')]"
+      )
+      current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
+  when 'Digital Outcomes and Specialists statistics'
+    page.find(
+      :xpath,
+      "//p[contains(text(), 'Digital Outcomes and Specialists')]/../h1[contains(text(), 'Statistics')]"
+      )
+      current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
+  else
+    fail("There is no such framework statistics page for \"#{statistics_page}\"")
+  end
+
     page.should have_link('Big screen view')
     page.should have_content('Services by status')
-    page.should have_content('Services by lot')
+    page.should have_content('Complete services by lot')
     page.should have_content('Suppliers')
     page.should have_content('Users by last login time')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
@@ -1489,21 +1502,73 @@ Then /I am presented with the G-Cloud 7 Statistics page$/ do
     page.should have_link('Log out')
 end
 
-  Then /I am presented with the Service updates page$/ do
-    time = Time.new
-    todays_date = time.strftime("%A %d %B %Y")
-    page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
-    page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
-    page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
-    page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
-    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
-    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledge')
-    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
-    page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
-    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
-    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
-    page.should have_link('Log out')
+Then /I am presented with the Service updates page$/ do
+  todays_date = Time.new.strftime("%A %d %B %Y")
+  page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
+  page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
+  page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
+  page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledge')
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
+  page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
+  page.should have_link('Service updates')
+  page.should have_link('Service status changes')
+  page.should have_link('Log out')
+end
+
+Then /I am presented with the Service status changes page for changes made '(.*)'$/ do |day|
+  #get total count of rows, count of live and count of removed
+  store.total_count = page.all(:css, "tr.summary-item-row").length
+  store.live_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Live')]").length
+  store.removed_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Removed')]").length
+  page.should have_selector(:xpath, "//h1[contains(text(),'Service status changes')]")
+  todays_date = Date.today.strftime("%A %d %B %Y")
+  yesterdays_date = (Date.today-1).strftime("%A %d %B %Y")
+
+  case day
+  when 'today'
+    tomorrows_date = (Date.today+1).strftime("%A %d %B %Y")
+    page.find(:xpath,"//h2[contains(text(), '#{todays_date}')]")
+    page.should have_no_link('Next day')
+    page.should have_no_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{tomorrows_date}']")
+    page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{yesterdays_date}']")
+  when 'yesterday'
+    previous_date = (Date.today-2).strftime("%A %d %B %Y")
+    page.find(:xpath,"//h2[contains(text(), '#{yesterdays_date}')]")
+    page.should have_link('Next day')
+    page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{previous_date}']")
+    page.should have_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{todays_date}']")
+  else
+    fail("There is no Service status changes page for \"#{day}\"")
   end
+
+  page.should have_link('Previous day')
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
+  page.should have_link('Service updates')
+  page.should have_link('Service status changes')
+  page.should have_link('Log out')
+end
+
+And /There is a new row for the '(.*)' status change in the service status change page$/ do |service_status|
+  page.visit("#{dm_frontend_domain}/admin/service-status-updates/#{Date.today}")
+  page.should have_css("tr.summary-item-row", :count => store.total_count+1)
+  store.total_count = page.all(:css, "tr.summary-item-row").length
+
+  case service_status
+  when 'Live'
+    page.should have_xpath("//tbody/tr/td/span[contains(text(),'Live')]", :count => store.live_count+1)
+    store.live_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Live')]").length
+  when 'Removed'
+    page.should have_xpath("//tbody/tr/td/span[contains(text(),'Removed')]", :count => store.removed_count+1)
+    store.removed_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Removed')]").length
+  else
+    fail("There is no such service status: \"#{service_status}\"")
+  end
+end
 
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
