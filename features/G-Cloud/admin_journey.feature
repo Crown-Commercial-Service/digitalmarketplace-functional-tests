@@ -1,4 +1,4 @@
-@not-production @functional-test @wip1
+@not-production @functional-test
 Feature: Admin user journey through Digital Marketplace
 
 Scenario: Setup for tests
