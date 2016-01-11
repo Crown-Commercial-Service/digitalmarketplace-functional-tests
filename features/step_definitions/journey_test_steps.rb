@@ -1473,22 +1473,18 @@ Then /The page for the '(.*)' user is presented$/ do |user|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-Then /I am presented with the '(.*)' page$/ do |statistics_page|
-  case statistics_page
-  when 'G-Cloud 7 statistics'
-    page.find(
-      :xpath,
-      "//p[contains(text(), 'G-Cloud 7')]/../h1[contains(text(), 'Statistics')]"
-      )
-      current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
-  when 'Digital Outcomes and Specialists statistics'
-    page.find(
-      :xpath,
-      "//p[contains(text(), 'Digital Outcomes and Specialists')]/../h1[contains(text(), 'Statistics')]"
-      )
-      current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
+Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
+  page.find(
+    :xpath,
+    "//p[contains(text(), '#{framework_name}')]/../h1[contains(text(), 'Statistics')]"
+    )
+  case framework_name
+  when 'G-Cloud 7'
+    current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
+  when 'Digital Outcomes and Specialists'
+    current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
   else
-    fail("There is no such framework statistics page for \"#{statistics_page}\"")
+    fail("There is no such framework statistics page for \"#{framework_name}\"")
   end
 
     page.should have_link('Big screen view')
@@ -1509,8 +1505,8 @@ Then /I am presented with the Service updates page$/ do
   page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
   page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
   page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
-  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledge')
-  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledged')
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledged')
   page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
