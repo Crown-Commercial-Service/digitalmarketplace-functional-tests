@@ -950,6 +950,19 @@ Then /The status of the service is presented as '(.*)' on the admin users servic
   ).text().should have_content("#{service_status}")
 end
 
+And /The message 'This service has been removed' is presented on the suppliers view of the service summary page$/ do
+  page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
+  page.find(:xpath, "//h2[@class='question-heading service-status-removed']").text().should have_content('This service has been removed')
+end
+
+And /A message stating the supplier has stopped providing this service on todays date is presented on the service listing page$/ do
+  time = Time.new
+  todays_date = time.strftime("%A %d %B %Y")
+  page.find(:xpath,
+    "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'DM Functional Test Supplier stopped providing this service on #{todays_date}.')]/following-sibling::p[@class='banner-message'][contains(text(),'Any existing contracts for this service are still valid.')]"
+  )
+end
+
 And /The service '(.*)' be searched$/ do |ability|
   sleep 1
   page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@servicesupplierID}")
@@ -1488,10 +1501,9 @@ Then /I am presented with the G-Cloud 7 Statistics page$/ do
     page.should have_link('Log out')
 end
 
-
   Then /I am presented with the Service updates page$/ do
     time = Time.new
-    todays_date= time.strftime("%A %d %B %Y")
+    todays_date = time.strftime("%A %d %B %Y")
     page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
     page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
     page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
