@@ -119,7 +119,7 @@ Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of
   Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
 
 Scenario: There is pagination on the list of suppliers page if there are more than 100 results
-  Given I navigate to the list of 'Suppliers starting with T' page
+  Given I navigate to the list of 'Suppliers starting with S' page
   When I click the 'Next page' link
   Then I am taken to page '2' of results
 
