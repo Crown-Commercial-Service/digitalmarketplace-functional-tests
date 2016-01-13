@@ -1515,33 +1515,54 @@ Then /I am presented with the Service updates page$/ do
   page.should have_link('Log out')
 end
 
+When /I navigate to the Service status changes page for changes made yesterday$/ do
+  page.visit("#{dm_frontend_domain}/admin/service-status-updates/#{(Date.today-1)}")
+end
+
 Then /I am presented with the Service status changes page for changes made '(.*)'$/ do |day|
-  #get total count of rows, count of live and count of removed
-  store.total_count = page.all(:css, "tr.summary-item-row").length
-  store.live_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Live')]").length
-  store.removed_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Removed')]").length
   page.should have_selector(:xpath, "//h1[contains(text(),'Service status changes')]")
   todays_date = Date.today.strftime("%A %d %B %Y")
   yesterdays_date = (Date.today-1).strftime("%A %d %B %Y")
+  tomorrows_date = (Date.today+1).strftime("%A %d %B %Y")
+  previous_date = (Date.today-2).strftime("%A %d %B %Y")
 
-  case day
-  when 'today'
-    tomorrows_date = (Date.today+1).strftime("%A %d %B %Y")
-    page.find(:xpath,"//h2[contains(text(), '#{todays_date}')]")
-    page.should have_no_link('Next day')
-    page.should have_no_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{tomorrows_date}']")
-    page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{yesterdays_date}']")
-  when 'yesterday'
-    previous_date = (Date.today-2).strftime("%A %d %B %Y")
-    page.find(:xpath,"//h2[contains(text(), '#{yesterdays_date}')]")
-    page.should have_link('Next day')
-    page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{previous_date}']")
-    page.should have_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{todays_date}']")
+  if page.all(:css, "tr.summary-item-row").length == 0
+    page.should have_selector(:xpath, "//p[@class='summary-item-no-content'][contains(text(),'No changes')]")
   else
-    fail("There is no Service status changes page for \"#{day}\"")
+
+    case day
+    when 'today'
+      top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
+      store.first_time = DateTime.parse(top_record_time_stamp)
+      page.find(:xpath,"//h2[contains(text(), '#{todays_date}')]")
+      page.should have_no_link('Next day')
+      page.should have_no_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{tomorrows_date}']")
+      date_of_interest = todays_date
+    when 'yesterday'
+      page.find(:xpath,"//h2[contains(text(), '#{yesterdays_date}')]")
+      page.should have_link('Next day')
+      page.should have_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{todays_date}']")
+      date_of_interest = yesterdays_date
+    else
+      fail("There is no Service status changes page for \"#{day}\"")
+    end
+
+    next_pagination_part_title = page.find(:xpath, "//a[@rel='next']/span[@class='pagination-part-title']").text()
+    if next_pagination_part_title == "Page 2"
+      page.should have_link('Page 2')
+      page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='of #{date_of_interest}']")
+    elsif next_pagination_part_title == "Previous day"
+      page.should have_link('Previous day')
+      if day == "today"
+        page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{yesterdays_date}']")
+      elsif day == "yesterday"
+        page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{previous_date}']")
+      end
+    else
+      fail("There is an error with pagination links/label on the page \"#{next_pagination_label}\"")
+    end
   end
 
-  page.should have_link('Previous day')
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
   page.should have_link('Service updates')
@@ -1551,18 +1572,21 @@ end
 
 And /There is a new row for the '(.*)' status change in the service status change page$/ do |service_status|
   page.visit("#{dm_frontend_domain}/admin/service-status-updates/#{Date.today}")
-  page.should have_css("tr.summary-item-row", :count => store.total_count+1)
-  store.total_count = page.all(:css, "tr.summary-item-row").length
+  top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
+  second_time = DateTime.parse(top_record_time_stamp)
 
-  case service_status
-  when 'Live'
-    page.should have_xpath("//tbody/tr/td/span[contains(text(),'Live')]", :count => store.live_count+1)
-    store.live_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Live')]").length
-  when 'Removed'
-    page.should have_xpath("//tbody/tr/td/span[contains(text(),'Removed')]", :count => store.removed_count+1)
-    store.removed_count = page.all(:xpath, "//tbody/tr/td/span[contains(text(),'Removed')]").length
-  else
-    fail("There is no such service status: \"#{service_status}\"")
+  if store.first_time < second_time
+    case service_status
+    when 'Live'
+      page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Live')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
+    when 'Removed'
+      page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Removed')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
+    else
+      fail("There is no such service status: \"#{service_status}\"")
+    end
+
+  elsif store.first_time == second_time
+      fail("An error has occured: There has not been any new status changes recorded")
   end
 end
 

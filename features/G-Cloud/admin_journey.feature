@@ -107,17 +107,19 @@ Scenario: Admin user is able to view service details page for a service
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I click 'View service'
   Then I am presented with the service details page for that service
-
+@wip1
 Scenario: As an admin user I want to view Service status changes
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'Service status changes'
   Then I am presented with the Service status changes page for changes made 'today'
 
-  When I click 'Previous day'
+  When I navigate to the Service status changes page for changes made yesterday
   Then I am presented with the Service status changes page for changes made 'yesterday'
+  #When I click 'Previous day'
+  #Then I am presented with the Service status changes page for changes made 'yesterday'
 
-  When I click 'Next day'
-  Then I am presented with the Service status changes page for changes made 'today'
+  #When I click 'Next day'
+  #Then I am presented with the Service status changes page for changes made 'today'
 
 Scenario: Admin changes service status to 'Removed'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
