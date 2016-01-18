@@ -126,7 +126,7 @@ Scenario: Admin changes service status to 'Private'. The change is reflected in 
   And I click the 'Update status' button
   Then The service status is set as 'Private'
   And I am presented with the message 'Service status has been updated to: Private'
-  And The status of the service is presented as 'Private' on the supplier users service listings page
+  And The status of the service is presented as 'Removed' on the supplier users service listings page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
   And A message stating the supplier has stopped providing this service on todays date is presented on the service listing page
@@ -137,7 +137,7 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And I click the 'Update status' button
   Then The service status is set as 'Public'
   And I am presented with the message 'Service status has been updated to: Public'
-  And The status of the service is presented as 'Public' on the supplier users service listings page
+  And The status of the service is presented as 'Live' on the supplier users service listings page
   And The service 'can' be searched
   And The service details page 'can' be viewed
 
