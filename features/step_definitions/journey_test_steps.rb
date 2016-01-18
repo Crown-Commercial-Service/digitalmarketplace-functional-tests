@@ -906,16 +906,10 @@ end
 
 Then /The service status is set as '(.*)'$/ do |service_status|
   if current_url.include?('suppliers')
-    if service_status == 'Public'
-      find(:xpath,
-        "//a[contains(@href, '/services/#{@servicesupplierID}')]/../../../td[4]/span/a[text()]"
-      ).text().should have_content('View service')
-    else
-      find(
-        :xpath,
-        "//a[contains(text(), '#{@existing_values['servicename']}')]/../../..//td/*/span"
-      ).text().should have_content(service_status)
-    end
+    find(
+      :xpath,
+      "//a[contains(text(), '#{@existing_values['servicename']}')]/../../..//td[4]/span"
+    ).text().should have_content(service_status)
   elsif current_url.include?('admin')
     find(
       :xpath,
@@ -931,15 +925,9 @@ end
 Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
   step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
 
-  if service_status == 'Public'
-    find(:xpath,
-      "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[4]/span/a[text()]"
-    ).text().should have_content('View service')
-  else
-    find(:xpath,
-      "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[contains(@class, 'summary-item-field')]/span/span[contains(@class, 'service-status-')][text()]"
-    ).text().should have_content("#{service_status}")
-  end
+  find(:xpath,
+    "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[4]/span"
+  ).text().should have_content("#{service_status}")
 end
 
 Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|

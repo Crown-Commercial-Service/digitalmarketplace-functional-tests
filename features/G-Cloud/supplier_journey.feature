@@ -26,7 +26,8 @@ Scenario: As a logged in supplier user, I can navigate to the service listings p
 
 Scenario: As a logged in supplier user, I can view the listings page of a specific service
   Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
-  When I select 'view service for the' second listing on the page
+  When I select 'the' second listing on the page
+  And I click 'View service'
   Then I am presented with the service page for that specific listing
 
 Scenario: As a logged in supplier user, I can see my active contributors on the dashboard
@@ -89,7 +90,7 @@ Scenario: Supplier user changes service status to 'Private'. The change is refle
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I select 'Private' as the service status
   And I click the 'Save and return' button
-  Then The service status is set as 'Private'
+  Then The service status is set as 'Removed'
   And I am presented with the message 'Supplier changed the service name is now private'
   And The status of the service is presented as 'Private' on the admin users service summary page
   And The service 'can not' be searched
@@ -100,7 +101,7 @@ Scenario: Supplier user changes service status to 'Public'. The change is reflec
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I select 'Public' as the service status
   And I click the 'Save and return' button
-  Then The service status is set as 'Public'
+  Then The service status is set as 'Live'
   And I am presented with the message 'Supplier changed the service name is now public'
   And The status of the service is presented as 'Public' on the admin users service summary page
   And The service 'can' be searched
