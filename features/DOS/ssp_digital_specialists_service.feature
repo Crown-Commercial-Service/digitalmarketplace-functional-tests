@@ -145,7 +145,7 @@ Feature: Submitting a new DOS service for Digital specialists
     Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Mark as complete' button at the 'top' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
-    And I am presented with the message 'Digital specialists was marked as complete'
+    And I am presented with the message 'Digital Specialists was marked as complete'
     And There 'is a' completed 'digital specialists' service(s)
     And There 'is no' draft 'digital specialists' service(s)
 
@@ -157,6 +157,6 @@ Feature: Submitting a new DOS service for Digital specialists
 
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
-    And I am presented with the message 'Digital specialists was deleted'
+    And I am presented with the message 'Digital Specialists was deleted'
     And There 'is no' draft 'digital specialists' service(s)
     And There 'is no' completed 'digital specialists' service(s)
