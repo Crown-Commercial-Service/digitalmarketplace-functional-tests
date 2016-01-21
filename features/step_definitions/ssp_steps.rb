@@ -315,8 +315,7 @@ And /^There '(.*)' completed '(.*)' service\(s\)$/ do |availability,service|
       page.should have_no_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'You can edit it until the deadline')]")
     else
       if store.framework_name == 'digital-outcomes-and-specialists' and store.service_type == 'user-research-studios'
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'#{store.completed_count} lab marked as complete')]")
-        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),' marked as complete')]")
+        page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'#{store.completed_count} lab will be submitted')]")
       elsif store.framework_name == 'g-cloud-7'
         page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Marked as complete')]")
       end
