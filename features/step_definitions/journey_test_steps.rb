@@ -179,11 +179,16 @@ Then /I am presented with the summary page for that service$/ do
   @existing_values['serviceid'] = serviceid
 
   if current_url.include?('suppliers')
-    servicestatus = find(
+    # if the remove button exists
+    remove_button = first(
       :xpath,
-      "//*[@class='selection-button selection-button-inline selection-button-selected']"
-    ).text()
-    @existing_values['servicestatus'] = servicestatus
+      "//input[@class='button-destructive' and @value='Remove service']"
+    )
+    if remove_button
+      @existing_values['servicestatus'] = 'Live'
+    else
+      @existing_values['servicestatus'] = 'Removed'
+    end
 
     servicename = find(
       :xpath,
