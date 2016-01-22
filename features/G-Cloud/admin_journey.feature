@@ -108,12 +108,21 @@ Scenario: Admin user is able to view service details page for a service
   When I click 'View service'
   Then I am presented with the service details page for that service
 
+Scenario: As an admin user I want to view Service status changes
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'Service status changes'
+  Then I am presented with the Service status changes page for changes made 'today'
+
+  When I navigate to the Service status changes page for changes made yesterday
+  Then I am presented with the Service status changes page for changes made 'yesterday'
+
 Scenario: Admin changes service status to 'Removed'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Removed' as the service status
   And I click the 'Update status' button
   Then The service status is set as 'Removed'
   And I am presented with the message 'Service status has been updated to: Removed'
+  And There is a new row for the 'Removed' status change in the service status change page
   And The status of the service is presented as 'Removed' on the supplier users service listings page
   And The message 'This service has been removed' is presented on the suppliers view of the service summary page
   And The service 'can not' be searched
@@ -126,6 +135,7 @@ Scenario: Admin changes service status to 'Private'. The change is reflected in 
   And I click the 'Update status' button
   Then The service status is set as 'Private'
   And I am presented with the message 'Service status has been updated to: Private'
+  And There is a new row for the 'Removed' status change in the service status change page
   And The status of the service is presented as 'Removed' on the supplier users service listings page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
@@ -137,6 +147,7 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And I click the 'Update status' button
   Then The service status is set as 'Public'
   And I am presented with the message 'Service status has been updated to: Public'
+  And There is a new row for the 'Live' status change in the service status change page
   And The status of the service is presented as 'Live' on the supplier users service listings page
   And The service 'can' be searched
   And The service details page 'can' be viewed
@@ -170,7 +181,12 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
 Scenario: As an admin user I want to view G-Cloud 7 statistics
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'G-Cloud 7 statistics'
-  Then I am presented with the G-Cloud 7 Statistics page
+  Then I am presented with the 'G-Cloud 7' statistics page
+
+Scenario: As an admin user I want to view Digital Outcomes and Specialists statistics
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'Digital Outcomes and Specialists statistics'
+  Then I am presented with the 'Digital Outcomes and Specialists' statistics page
 
 Scenario: As an admin user I want to view Service updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user

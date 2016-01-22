@@ -2,6 +2,8 @@
 require "ostruct"
 require "rest_client"
 
+store = OpenStruct.new
+
 Given /I am on the '(.*)' login page$/ do |user_type|
   case user_type
   when 'Administrator'
@@ -610,8 +612,7 @@ Then /I am presented with the summary page with no changes made to the '(.*)'$/ 
   page.should have_content(@existing_values['trialoption'])
   page.should have_content(@existing_values['freeoption'])
   page.should have_content(@existing_values['minimumcontractperiod'])
-  page.should have_selector(:xpath,
-                            "//a[@href = '#{@existing_values['pricingdocument']}']")
+  page.should have_selector(:xpath, "//a[@href = '#{@existing_values['pricingdocument']}']")
 end
 
 Then /I am presented with the service details page for that service$/ do
@@ -1472,15 +1473,23 @@ Then /The page for the '(.*)' user is presented$/ do |user|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-Then /I am presented with the G-Cloud 7 Statistics page$/ do
+Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
   page.find(
     :xpath,
-    "//p[contains(text(), 'G-Cloud 7')]/../h1[contains(text(), 'Statistics')]"
+    "//p[contains(text(), '#{framework_name}')]/../h1[contains(text(), 'Statistics')]"
     )
+  case framework_name
+  when 'G-Cloud 7'
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
+  when 'Digital Outcomes and Specialists'
+    current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
+  else
+    fail("There is no such framework statistics page for \"#{framework_name}\"")
+  end
+
     page.should have_link('Big screen view')
     page.should have_content('Services by status')
-    page.should have_content('Services by lot')
+    page.should have_content('Complete services by lot')
     page.should have_content('Suppliers')
     page.should have_content('Users by last login time')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
@@ -1489,21 +1498,105 @@ Then /I am presented with the G-Cloud 7 Statistics page$/ do
     page.should have_link('Log out')
 end
 
-  Then /I am presented with the Service updates page$/ do
-    time = Time.new
-    todays_date = time.strftime("%A %d %B %Y")
-    page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
-    page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
-    page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
-    page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
-    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
-    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledge')
-    page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledge')
-    page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
-    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
-    page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
-    page.should have_link('Log out')
+Then /I am presented with the Service updates page$/ do
+  todays_date = Time.new.strftime("%A %d %B %Y")
+  page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
+  page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
+  page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
+  page.should have_selector(:xpath, "//*/div[@class='option-select-label'][contains(text(), 'Show')]")
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-1']/input[@type='radio']/..").text().should match('All')
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-2']/input[@type='radio']/..").text().should match('Acknowledged')
+  page.find(:xpath, "//*/div[@class='options-container']//label[@for='acknowledged-3']/input[@type='radio']/..").text().should match('Not acknowledged')
+  page.find(:xpath, "//*/button[contains(@class, 'button-save') and contains(@type, 'submit')][text()]").text().should match('Filter')
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
+  page.should have_link('Service updates')
+  page.should have_link('Service status changes')
+  page.should have_link('Log out')
+end
+
+When /I navigate to the Service status changes page for changes made yesterday$/ do
+  page.visit("#{dm_frontend_domain}/admin/service-status-updates/#{(Date.today-1)}")
+end
+
+Then /I am presented with the Service status changes page for changes made '(.*)'$/ do |day|
+  page.should have_selector(:xpath, "//h1[contains(text(),'Service status changes')]")
+  todays_date = Date.today.strftime("%A %d %B %Y")
+  yesterdays_date = (Date.today-1).strftime("%A %d %B %Y")
+  tomorrows_date = (Date.today+1).strftime("%A %d %B %Y")
+  previous_date = (Date.today-2).strftime("%A %d %B %Y")
+
+  if page.all(:css, "tr.summary-item-row").length == 0
+    page.should have_selector(:xpath, "//p[@class='summary-item-no-content'][contains(text(),'No changes')]")
+  else
+
+    case day
+    when 'today'
+      top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
+      store.first_time = DateTime.parse(top_record_time_stamp)
+      page.find(:xpath,"//h2[contains(text(), '#{todays_date}')]")
+      page.should have_no_link('Next day')
+      page.should have_no_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{tomorrows_date}']")
+      date_of_interest = todays_date
+    when 'yesterday'
+      page.find(:xpath,"//h2[contains(text(), '#{yesterdays_date}')]")
+      page.should have_link('Next day')
+      page.should have_selector(:xpath, "//a[@rel='previous']/span[@class='pagination-label'][text()='#{todays_date}']")
+      date_of_interest = yesterdays_date
+    else
+      fail("There is no Service status changes page for \"#{day}\"")
+    end
+
+    next_pagination_part_title = page.find(:xpath, "//a[@rel='next']/span[@class='pagination-part-title']").text()
+    if next_pagination_part_title == "Page 2"
+      page.should have_link('Page 2')
+      page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='of #{date_of_interest}']")
+    elsif next_pagination_part_title == "Previous day"
+      page.should have_link('Previous day')
+      if day == "today"
+        page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{yesterdays_date}']")
+      elsif day == "yesterday"
+        page.should have_selector(:xpath, "//a[@rel='next']/span[@class='pagination-label'][text()='#{previous_date}']")
+      end
+    else
+      fail("There is an error with pagination links/label on the page \"#{next_pagination_label}\"")
+    end
   end
+
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), 'Audits')]")
+  page.should have_link('Service updates')
+  page.should have_link('Service status changes')
+  page.should have_link('Log out')
+end
+
+And /There is a new row for the '(.*)' status change in the service status change page$/ do |service_status|
+  page.visit("#{dm_frontend_domain}/admin/service-status-updates/#{Date.today}")
+  top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
+  second_time = DateTime.parse(top_record_time_stamp)
+
+  def check_latest_row_correct(service_status)
+    top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
+    case service_status
+    when 'Live'
+      page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Live')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
+    when 'Removed'
+      page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Removed')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
+    else
+      fail("There is no such service status: \"#{service_status}\"")
+    end
+  end
+
+  if store.first_time == nil
+    check_latest_row_correct(service_status)
+    store.first_time = DateTime.parse(top_record_time_stamp)
+  elsif store.first_time < second_time
+    check_latest_row_correct(service_status)
+
+  elsif store.first_time == second_time
+      fail("An error has occured: There has not been any new status changes recorded")
+  end
+end
 
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
