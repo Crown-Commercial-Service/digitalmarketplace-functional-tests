@@ -1575,7 +1575,8 @@ And /There is a new row for the '(.*)' status change in the service status chang
   top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
   second_time = DateTime.parse(top_record_time_stamp)
 
-  if store.first_time < second_time
+  def check_latest_row_correct(service_status)
+    top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
     case service_status
     when 'Live'
       page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Live')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
@@ -1584,6 +1585,13 @@ And /There is a new row for the '(.*)' status change in the service status chang
     else
       fail("There is no such service status: \"#{service_status}\"")
     end
+  end
+
+  if store.first_time == nil
+    check_latest_row_correct(service_status)
+    store.first_time = DateTime.parse(top_record_time_stamp)
+  elsif store.first_time < second_time
+    check_latest_row_correct(service_status)
 
   elsif store.first_time == second_time
       fail("An error has occured: There has not been any new status changes recorded")
