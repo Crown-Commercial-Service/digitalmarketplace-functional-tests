@@ -127,7 +127,7 @@ Scenario: Admin changes service status to 'Removed'. The change is reflected in 
   And The message 'This service has been removed' is presented on the suppliers view of the service summary page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
-  And A message stating the supplier has stopped offering this service on todays date is presented on the service listing page
+  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
 
 Scenario: Admin changes service status to 'Private'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
@@ -139,7 +139,7 @@ Scenario: Admin changes service status to 'Private'. The change is reflected in 
   And The status of the service is presented as 'Removed' on the supplier users service listings page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
-  And A message stating the supplier has stopped offering this service on todays date is presented on the service listing page
+  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
 
 Scenario: Admin changes service status to 'Public'. The change is reflected in the supplier and/or buyer app
   Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
