@@ -950,6 +950,7 @@ And /A message stating the supplier has stopped offering this service on todays 
 
   case user_type
   when 'Supplier'
+    step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
     page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
     page.find(:xpath,
       "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'This service was removed on #{todays_date}')]/following-sibling::p[@class='banner-message'][contains(text(),'If you don’t know why this service was removed')]"
