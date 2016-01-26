@@ -95,7 +95,7 @@ Scenario: Supplier user changes service status to 'Private'. The change is refle
   And The status of the service is presented as 'Private' on the admin users service summary page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
-  And A message stating the supplier has stopped providing this service on todays date is presented on the service listing page
+  And A message stating the supplier has stopped offering this service on todays date is presented on the service listing page
 
 Scenario: Supplier user changes service status to 'Public'. The change is reflected in the admin and/or buyer app
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
