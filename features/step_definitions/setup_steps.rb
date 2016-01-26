@@ -37,7 +37,7 @@ Given /^I have test suppliers$/ do
   create_supplier(11112,"DM Functional Test Supplier 2","Second test supplier solely for use in functional tests.","Testing Supplier 2 Name","Testing.supplier.2.NaMe@DMtestemail.com","WB1B 5QH","931123456789")
 end
 
-def create_service (supplier_id, service_id, lot)
+def create_live_service (supplier_id, service_id, lot)
   file = File.read("./fixtures/#{supplier_id}-g6-#{lot}-test-service.json")
   service_data = JSON.parse(file)
   service_data["services"]["id"] = service_id
@@ -52,19 +52,23 @@ def create_service (supplier_id, service_id, lot)
   else
     response = call_api(:post, service_path, payload: service_data)
     response.code.should be(200), response.body
+
+    service_data.delete("services")
+    response = call_api(:post, service_path + "/status/published", payload: service_data)
+    response.code.should be(200), response.body
   end
 end
 
-Given /^The test suppliers have services$/ do
-    create_service(11111,"1123456789012346","iaas")
-    create_service(11111,"1123456789012347","paas")
-    create_service(11111,"1123456789012348","saas")
-    create_service(11111,"1123456789012349","scs")
-    create_service(11111,"1123456789012350","iaas")
-    create_service(11111,"1123456789012351","paas")
-    create_service(11111,"1123456789012352","saas")
-    create_service(11111,"1123456789012353","scs")
-    create_service(11112,"1123456789012354","iaas")
+Given /^The test suppliers have live services$/ do
+    create_live_service(11111,"1123456789012346","iaas")
+    create_live_service(11111,"1123456789012347","paas")
+    create_live_service(11111,"1123456789012348","saas")
+    create_live_service(11111,"1123456789012349","scs")
+    create_live_service(11111,"1123456789012350","iaas")
+    create_live_service(11111,"1123456789012351","paas")
+    create_live_service(11111,"1123456789012352","saas")
+    create_live_service(11111,"1123456789012353","scs")
+    create_live_service(11112,"1123456789012354","iaas")
 end
 
 def create_user (email,username,password,role,supplierid=nil)

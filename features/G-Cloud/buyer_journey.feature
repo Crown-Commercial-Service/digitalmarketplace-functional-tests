@@ -3,7 +3,7 @@ Feature: Buyer user journey through Digital Marketplace
 
 Scenario: Setup for tests
   Given I have test suppliers
-  And The test suppliers have services
+  And The test suppliers have live services
   And All services for the test suppliers are Public
 
 Scenario: User is able to navigate from the digital marketplace landing page to the g-cloud landing page
