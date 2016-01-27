@@ -9,7 +9,6 @@ bundle install
 
 if [ "$DM_ENVIRONMENT" = "local" ]; then
   echo -e "\033[0;34mBootstrapping local environment\033[0m"
-  ./nginx/bootstrap.sh
   ./scripts/create_users.sh "$DM_ENVIRONMENT"
   exit
 fi

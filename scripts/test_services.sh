@@ -17,7 +17,7 @@ function fail {
 
 test_url "${DM_API_DOMAIN}/_status" || fail "Data API is not up"
 test_url "${DM_SEARCH_API_DOMAIN}/_status" || fail "Search API is not up"
-test_url "${DM_FRONTEND_DOMAIN}/_status" || fail "Buyer frontend is not up"
+test_url "${DM_FRONTEND_DOMAIN}/_status" || fail "Buyer frontend is not up$([ "$DM_ENVIRONMENT" = "local" ] && echo -n "; you may need to run ./nginx/bootstrap.sh")"
 test_url "${DM_FRONTEND_DOMAIN}/suppliers/_status" || fail "Supplier frontend is not up"
 test_url "${DM_FRONTEND_DOMAIN}/admin/_status" || fail "Admin frontend is not up"
 
