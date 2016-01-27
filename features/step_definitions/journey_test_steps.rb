@@ -957,7 +957,7 @@ And /A message stating the supplier has stopped offering this service on todays 
     )
   when 'Buyer'
     page.find(:xpath,
-      "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'DM Functional Test Supplier stopped providing this service on #{todays_date}.')]/following-sibling::p[@class='banner-message'][contains(text(),'Any existing contracts for this service are still valid')]"
+      "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'DM Functional Test Supplier stopped offering this service on #{todays_date}.')]/following-sibling::p[@class='banner-message'][contains(text(),'Any existing contracts for this service are still valid')]"
     )
   else
     fail("Unrecognised user type: '#{user_type}'")

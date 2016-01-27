@@ -124,7 +124,7 @@ Scenario: Admin changes service status to 'Removed'. The change is reflected in 
   And I am presented with the message 'Service status has been updated to: Removed'
   And There is a new row for the 'Removed' status change in the service status change page
   And The status of the service is presented as 'Removed' on the supplier users service listings page
-  And A message stating the supplier has stopped providing this service on todays date is presented on the 'Supplier' service summary page
+  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
   And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
@@ -137,7 +137,7 @@ Scenario: Admin changes service status to 'Private'. The change is reflected in 
   And I am presented with the message 'Service status has been updated to: Private'
   And There is a new row for the 'Removed' status change in the service status change page
   And The status of the service is presented as 'Removed' on the supplier users service listings page
-  And A message stating the supplier has stopped providing this service on todays date is presented on the 'Supplier' service summary page
+  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
   And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
