@@ -93,7 +93,7 @@ Scenario: Supplier user changes service status to 'Removed'. The change is refle
   When I click 'Remove service'
   Then I am presented with the message 'Are you sure you want to remove your service?'
   When I click 'Remove service'
-  And I am presented with the message 'Supplier changed the service name has been removed.'
+  And I am presented with a service removal message for the '1123456789012346' service
   And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
   And The service 'can not' be searched
   And The service details page 'can' be viewed

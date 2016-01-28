@@ -924,6 +924,14 @@ Then /The service status is set as '(.*)'$/ do |service_status|
   end
 end
 
+And /I am presented with a service removal message for the '(.*)' service$/ do |value|
+  service_name = find(:xpath,
+    "//a[contains(@href, '/suppliers/services/#{value}')]"
+  ).text()
+
+  step "And I am presented with the message '#{service_name} has been removed.'"
+end
+
 And /I am presented with the message '(.*)'$/ do |message_text|
   page.should have_content(message_text)
 end
