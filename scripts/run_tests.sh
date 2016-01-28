@@ -10,7 +10,6 @@ bundle install
 if [ "$DM_ENVIRONMENT" = "local" ]; then
   echo -e "\033[0;34mBootstrapping local environment\033[0m"
   ./scripts/create_users.sh "$DM_ENVIRONMENT"
-  exit
 fi
 
 mkdir -p reports
