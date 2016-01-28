@@ -28,6 +28,7 @@ function create_user {
   }
 }
 EOF
+  echo -n "Creating admin user $email... "
   STATUS_CODE=$(curl -sL -w "%{http_code}" -o /dev/null -X POST -H 'Content-type: application/json' -H "Authorization: Bearer ${DM_API_ACCESS_TOKEN}" -d "${USER_PAYLOAD}" "${DM_API_DOMAIN}/users")
   if [ "$STATUS_CODE" == "409" ]; then
     echo "Already exists"
