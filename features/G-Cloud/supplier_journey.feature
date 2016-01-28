@@ -69,6 +69,7 @@ Scenario: As a logged in supplier user, I can edit my supplier information
   And I click 'Save and return'
   Then I am presented with the dashboard page with the changes that were made to the 'Supplier information'
 
+@wip
 Scenario: As a logged in supplier user, I can edit the description of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Description' page
@@ -77,6 +78,7 @@ Scenario: As a logged in supplier user, I can edit the description of a service
   And I click 'Save and return to service'
   Then I am presented with the summary page with the changes that were made to the 'Description'
 
+@wip
 Scenario: As a logged in supplier user, I can edit the features and benefits of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Features and benefits' page
