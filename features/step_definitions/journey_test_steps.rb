@@ -45,7 +45,7 @@ When /I login as a '(.*)' user$/ do |user_type|
 end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
-  visit("#{dm_frontend_domain}/suppliers/login")
+  visit("#{dm_frontend_domain}/login")
   if user_name == 'DM Functional Test Supplier User 2'
     page.fill_in('email_address', :with => dm_supplier_user2_email())
   elsif user_name == 'DM Functional Test Supplier User 3'
@@ -53,7 +53,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 
   page.fill_in('password', :with => dm_supplier_password())
-  page.click_link_or_button('Log in')
+  page.click_button('Log in')
 
   if ability == 'can not'
     page.should have_content('Make sure you\'ve entered the right email address and password.')
