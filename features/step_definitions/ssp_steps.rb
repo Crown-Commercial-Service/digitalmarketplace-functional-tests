@@ -342,7 +342,7 @@ When /^I click the '(.*)' button at the '(.*)' of the page$/ do |button,location
     when 'top'
       page.first(:xpath, "//input[contains(@class,'button-save') and contains(@value,'#{button}')]").click
     else 'bottom'
-      page.find(:xpath, "//div[3]//input[contains(@class,'button-save') and contains(@value,'#{button}')]").click
+      page.all(:xpath, "//input[contains(@class,'button-save') and contains(@value,'#{button}')]").last.click
     end
 end
 

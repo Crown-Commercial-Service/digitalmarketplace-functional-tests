@@ -179,11 +179,16 @@ Then /I am presented with the summary page for that service$/ do
   @existing_values['serviceid'] = serviceid
 
   if current_url.include?('suppliers')
-    servicestatus = find(
+    # if the remove button exists
+    remove_button = first(
       :xpath,
-      "//*[@class='selection-button selection-button-inline selection-button-selected']"
-    ).text()
-    @existing_values['servicestatus'] = servicestatus
+      "//input[@class='button-destructive' and @value='Remove service']"
+    )
+    if remove_button
+      @existing_values['servicestatus'] = 'Live'
+    else
+      @existing_values['servicestatus'] = 'Removed'
+    end
 
     servicename = find(
       :xpath,
@@ -919,6 +924,14 @@ Then /The service status is set as '(.*)'$/ do |service_status|
   end
 end
 
+And /I am presented with a service removal message for the '(.*)' service$/ do |value|
+  service_name = find(:xpath,
+    "//a[contains(@href, '/suppliers/services/#{value}')]"
+  ).text()
+
+  step "And I am presented with the message '#{service_name} has been removed.'"
+end
+
 And /I am presented with the message '(.*)'$/ do |message_text|
   page.should have_content(message_text)
 end
@@ -939,17 +952,24 @@ Then /The status of the service is presented as '(.*)' on the admin users servic
   ).text().should have_content("#{service_status}")
 end
 
-And /The message 'This service has been removed' is presented on the suppliers view of the service summary page$/ do
-  page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
-  page.find(:xpath, "//h2[@class='question-heading service-status-removed']").text().should have_content('This service has been removed')
-end
-
-And /A message stating the supplier has stopped offering this service on todays date is presented on the service listing page$/ do
+And /A message stating the supplier has stopped offering this service on todays date is presented on the '(.*)' service summary page$/ do |user_type|
   time = Time.new
   todays_date = time.strftime("%A %d %B %Y")
-  page.find(:xpath,
-    "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'DM Functional Test Supplier stopped offering this service on #{todays_date}.')]/following-sibling::p[@class='banner-message'][contains(text(),'Any existing contracts for this service are still valid.')]"
-  )
+
+  case user_type
+  when 'Supplier'
+    step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+    page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
+    page.find(:xpath,
+      "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'This service was removed on #{todays_date}')]/following-sibling::p[@class='banner-message'][contains(text(),'If you don’t know why this service was removed')]"
+    )
+  when 'Buyer'
+    page.find(:xpath,
+      "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'DM Functional Test Supplier stopped offering this service on #{todays_date}.')]/following-sibling::p[@class='banner-message'][contains(text(),'Any existing contracts for this service are still valid')]"
+    )
+  else
+    fail("Unrecognised user type: '#{user_type}'")
+  end
 end
 
 And /The service '(.*)' be searched$/ do |ability|

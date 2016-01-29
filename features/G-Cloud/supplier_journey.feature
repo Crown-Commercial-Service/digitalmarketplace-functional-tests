@@ -69,6 +69,7 @@ Scenario: As a logged in supplier user, I can edit my supplier information
   And I click 'Save and return'
   Then I am presented with the dashboard page with the changes that were made to the 'Supplier information'
 
+@wip
 Scenario: As a logged in supplier user, I can edit the description of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Description' page
@@ -77,6 +78,7 @@ Scenario: As a logged in supplier user, I can edit the description of a service
   And I click 'Save and return to service'
   Then I am presented with the summary page with the changes that were made to the 'Description'
 
+@wip
 Scenario: As a logged in supplier user, I can edit the features and benefits of a service
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Features and benefits' page
@@ -86,26 +88,17 @@ Scenario: As a logged in supplier user, I can edit the features and benefits of 
   And I click 'Save and return to service'
   Then I am presented with the summary page with the changes that were made to the 'Features and benefits'
 
-Scenario: Supplier user changes service status to 'Private'. The change is reflected in the admin and/or buyer app
+Scenario: Supplier user changes service status to 'Removed'. The change is reflected in the admin and/or buyer app
   Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
-  When I select 'Private' as the service status
-  And I click the 'Save and return' button
-  Then The service status is set as 'Removed'
-  And I am presented with the message 'Supplier changed the service name is now private'
-  And The status of the service is presented as 'Private' on the admin users service summary page
+  When I click 'Remove service'
+  Then I am presented with the message 'Are you sure you want to remove your service?'
+  When I click 'Remove service'
+  And I am presented with a service removal message for the '1123456789012346' service
+  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
   And The service 'can not' be searched
   And The service details page 'can' be viewed
-  And A message stating the supplier has stopped offering this service on todays date is presented on the service listing page
-
-Scenario: Supplier user changes service status to 'Public'. The change is reflected in the admin and/or buyer app
-  Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
-  When I select 'Public' as the service status
-  And I click the 'Save and return' button
-  Then The service status is set as 'Live'
-  And I am presented with the message 'Supplier changed the service name is now public'
-  And The status of the service is presented as 'Public' on the admin users service summary page
-  And The service 'can' be searched
-  And The service details page 'can' be viewed
+  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
+  And The status of the service is presented as 'Private' on the admin users service summary page
 
 Scenario: Supplier user has 5 failed login attempts and is locked. Login is not allowed unless admin unlocks the user
   Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts
