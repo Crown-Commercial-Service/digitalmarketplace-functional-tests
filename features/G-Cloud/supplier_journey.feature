@@ -104,3 +104,12 @@ Scenario: Supplier user has 5 failed login attempts and is locked. Login is not 
   Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts
   Then The supplier user 'DM Functional Test Supplier User 3' is 'locked' on the admin Users page
   And The supplier user 'DM Functional Test Supplier User 3' 'can not' login to Digital Marketplace
+
+Scenario: Supplier has forgotten password and requests for a password reset
+  Given I am on the 'account' login page
+  When I click 'Forgotten password'
+  Then I am presented with the /"Reset password" page/
+
+  When I enter 'testing.supplier.username4@dmtestemail.com' in the 'email_address' field
+  And I click 'Send reset email'
+  Then I am presented with the message 'If the email address you've entered belongs to a Digital Marketplace account, we'll send a link to reset the password.'
