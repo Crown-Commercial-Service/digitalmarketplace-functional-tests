@@ -6,42 +6,42 @@ store = OpenStruct.new
 
 Given /I am on the '(.*)' login page$/ do |user_type|
   case user_type
-  when 'Administrator'
+  when "Administrator"
     visit("#{dm_frontend_domain}/admin/login")
     if page.has_link?("Log out")
-      page.click_link_or_button("Log out")
+      page.click_link("Log out")
     end
     page.should have_content("#{user_type} login")
-  when 'Supplier'
-    visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
+  when "Supplier", "Buyer"
+    visit("#{dm_frontend_domain}/login")
     if page.has_link?("Log out")
-      page.click_link_or_button("Log out")
+      page.click_link("Log out")
     end
     page.should have_content('Log in to the Digital Marketplace')
   else
     fail("Unrecognised user login page '#{user_type}'")
   end
-  page.should have_content('Email address')
-  page.should have_content('Password')
-  page.has_button?('Log in')
+  page.should have_content("Email address")
+  page.should have_content("Password")
+  page.has_button?("Log in")
 end
 
 When /I login as a '(.*)' user$/ do |user_type|
   case user_type
-  when 'Administrator'
+  when "Administrator"
     page.fill_in('email_address', :with => dm_admin_email())
     page.fill_in('password', :with => dm_admin_password())
-  when 'Supplier'
+  when "Supplier"
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
-  when 'CCS Sourcing'
+  when "CCS Sourcing"
     page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
     page.fill_in('password', :with => dm_admin_password())
   else
     fail("Unrecognised user type '#{user_type}'")
   end
   @user_type = user_type
-  page.click_link_or_button('Log in')
+  page.click_button("Log in")
 end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
