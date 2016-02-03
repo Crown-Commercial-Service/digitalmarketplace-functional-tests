@@ -91,6 +91,14 @@ def dm_supplier_user3_email()
   ENV['DM_SUPPLIER3EMAIL'] || ENV['DM_SUPPLIER3_EMAIL']
 end
 
+def dm_supplier_user_emails()
+  [
+    dm_supplier_user_email(),
+    dm_supplier_user2_email(),
+    dm_supplier_user3_email(),
+  ]
+end
+
 def dm_supplier2_user_email()
   ENV['DM_SUPPLIER2_USER_EMAIL']
 end
