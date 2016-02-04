@@ -1672,7 +1672,3 @@ Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
   page.should have_field("Email address")
   page.should have_button("Send reset email")
 end
-
-# Then /^I am presented with the message \/"(.*?)"\/$/ do |message_text|
-#   page.should have_content(message_text)
-# end
