@@ -13,6 +13,12 @@ if [ "$(diff "$local_config" "$installed_config" | wc -l)" -gt 0 ]; then
   config_updated=1
 fi
 
+if [ ! -d /tmp/nginx ]; then
+  echo "Creating temporary directory for nginx to use for uploads"
+  mkdir /tmp/nginx
+  config_updated=1
+fi
+
 if ps -xU nobody > /dev/null 2>&1; then
   if [ "$config_updated" -eq 1 ]; then
     echo "Nginx running, reloading config"
