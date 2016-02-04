@@ -35,4 +35,5 @@ fi
 mkdir -p reports
 rm -f screenshot*
 
+echo -e "\033[0;34mRunning functional tests\033[0m"
 bundle exec cucumber -r features $COMMAND --color --format html --out reports/index.html --format pretty
