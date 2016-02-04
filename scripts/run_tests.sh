@@ -17,9 +17,9 @@ DM_ENVIRONMENT=${1:-local}
 shift
 
 if [ "$#" -gt 0 ]; then
-  COMMAND="features --tags ~@wip  --tags ~@ssp-gcloud  --tags ~@ssp-dos  --tags @functional-test"
-else
   COMMAND="$*"
+else
+  COMMAND="features --tags ~@wip  --tags ~@ssp-gcloud  --tags ~@ssp-dos  --tags @functional-test"
 fi
 
 bundle install
