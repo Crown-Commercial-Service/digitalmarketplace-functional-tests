@@ -117,10 +117,13 @@ And /^I have an admin user$/ do
   create_admin_user(dm_admin_email(),"DM Functional Test Admin User 1", dm_admin_password())
 end
 
-def activate_users (user_name)
-  button_action = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*/form[contains(@action,'activate')]/input[contains(@type,'submit')]").value
-  if button_action == 'Activate'
-    find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//input[contains(@type, 'submit') and contains(@value,'#{button_action}')]").click
+def activate_users (email)
+  button = find(
+    :xpath,
+    "//span[contains(text(), '#{email}')]/../../td//form[contains(@action, 'activate')]/input[contains(@type, 'submit')]"
+  )
+  if button.value == 'Activate'
+    button.click
   end
 end
 
@@ -130,15 +133,18 @@ And /^Test supplier users are active$/ do
     Then I am presented with the admin search page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
-  activate_users("DM Functional Test Supplier User 3")
-  activate_users("DM Functional Test Supplier User 2")
-  activate_users("DM Functional Test Supplier User 1")
+  dm_supplier_user_emails().each do |email|
+    activate_users(email)
+  end
 end
 
-def unlock_users (user_name)
-  lock_state = find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td[5]/*[text()]").text
-  if lock_state != 'No'
-      find(:xpath, "//*/span[contains(text(),'#{user_name}')]/../../td/*//input[contains(@type, 'submit') and contains(@value,'Unlock')]").click
+def unlock_users (email)
+  row = find(
+    :xpath,
+    "//span[contains(text(), '#{email}')]/../.."
+  )
+  if not row.find(:xpath, 'td[5]').has_content?('No')
+    row.find(:xpath, "td//input[contains(@type, 'submit') and contains(@value, 'Unlock')]").click
   end
 end
 
@@ -148,9 +154,9 @@ And /^Test supplier users are not locked$/ do
     Then I am presented with the admin search page
   }
   page.visit("#{dm_frontend_domain}/admin/suppliers/users?supplier_id=11111")
-  unlock_users("DM Functional Test Supplier User 3")
-  unlock_users("DM Functional Test Supplier User 2")
-  unlock_users("DM Functional Test Supplier User 1")
+  dm_supplier_user_emails().each do |email|
+    unlock_users(email)
+  end
 end
 
 And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
