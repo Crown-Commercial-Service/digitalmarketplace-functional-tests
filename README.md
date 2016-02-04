@@ -84,4 +84,4 @@ applications are running the functional tests can be run with
 ### Let the tests email Mandrill
 
 To stub out calls to the Mandrill email API, ensure you set the `DM_MANDRILL_API_KEY` environment variable
-to the key for preview when running the admin app.
+to a test key when running the admin app.
