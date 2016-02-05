@@ -160,7 +160,7 @@ And /^Test supplier users are not locked$/ do
 end
 
 And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
-  visit("#{dm_frontend_domain}/suppliers/login")
+  visit("#{dm_frontend_domain}/login")
 
   response = call_api(:get, "/users", params: {email_address: dm_supplier_user3_email()})
   failedlogincount = JSON.parse(response.body)["users"][0]["failedLoginCount"]
@@ -169,7 +169,7 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   while failedlogincount < 6 and lockstate == false
     fill_in('email_address', :with => dm_supplier_user3_email())
     fill_in('password', :with => 'invalidpassword')
-    click_link_or_button('Log in')
+    click_button('Log in')
     failedlogincount += 1
   end
 end

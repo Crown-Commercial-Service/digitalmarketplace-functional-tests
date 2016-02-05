@@ -6,46 +6,46 @@ store = OpenStruct.new
 
 Given /I am on the '(.*)' login page$/ do |user_type|
   case user_type
-  when 'Administrator'
+  when "Administrator"
     visit("#{dm_frontend_domain}/admin/login")
     if page.has_link?("Log out")
-      page.click_link_or_button("Log out")
+      page.click_link("Log out")
     end
     page.should have_content("#{user_type} login")
-  when 'Supplier'
-    visit("#{dm_frontend_domain}/#{user_type.downcase}s/login")
+  when "Supplier", "Buyer", "account" #AC-01/02/16: remove "Supplier", "Buyer" when final login page is available
+    visit("#{dm_frontend_domain}/login")
     if page.has_link?("Log out")
-      page.click_link_or_button("Log out")
+      page.click_link("Log out")
     end
     page.should have_content('Log in to the Digital Marketplace')
   else
     fail("Unrecognised user login page '#{user_type}'")
   end
-  page.should have_content('Email address')
-  page.should have_content('Password')
-  page.has_button?('Log in')
+  page.should have_content("Email address")
+  page.should have_content("Password")
+  page.has_button?("Log in")
 end
 
 When /I login as a '(.*)' user$/ do |user_type|
   case user_type
-  when 'Administrator'
+  when "Administrator"
     page.fill_in('email_address', :with => dm_admin_email())
     page.fill_in('password', :with => dm_admin_password())
-  when 'Supplier'
+  when "Supplier"
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
-  when 'CCS Sourcing'
+  when "CCS Sourcing"
     page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
     page.fill_in('password', :with => dm_admin_password())
   else
     fail("Unrecognised user type '#{user_type}'")
   end
   @user_type = user_type
-  page.click_link_or_button('Log in')
+  page.click_button("Log in")
 end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
-  visit("#{dm_frontend_domain}/suppliers/login")
+  visit("#{dm_frontend_domain}/login")
   if user_name == 'DM Functional Test Supplier User 2'
     page.fill_in('email_address', :with => dm_supplier_user2_email())
   elsif user_name == 'DM Functional Test Supplier User 3'
@@ -53,7 +53,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 
   page.fill_in('password', :with => dm_supplier_password())
-  page.click_link_or_button('Log in')
+  page.click_button('Log in')
 
   if ability == 'can not'
     page.should have_content('Make sure you\'ve entered the right email address and password.')
@@ -322,14 +322,14 @@ end
 Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
     page.should have_content('You have been logged out')
-    page.should have_content('Email address')
-  elsif user_type == 'Supplier'
-    page.should have_content("#{user_type} login")
-    page.should have_content('Email address')
+    page.should have_content('Administrator login')
   end
-  page.should have_content("#{user_type} login")
+  page.has_link?("Log in")
+  page.has_link?('Create supplier account')
+  page.should have_content('Email address')
   page.should have_content('Password')
   page.has_button?('Log in')
+  page.has_link?('Forgotten password')
 end
 
 Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
@@ -1664,4 +1664,11 @@ end
 Then /^I should get redirected to the correct '(.+)' S3 URL for supplier '(\d+)'$/ do |framework_slug, supplier_id|
   @response.code.should == 302
   @response.headers[:location].should match(%r"/#{framework_slug}/agreements/#{supplier_id}/.*signed-framework-agreement.pdf")
+end
+
+Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
+  current_url.should end_with("#{dm_frontend_domain}/reset-password")
+  page.should have_content(page_name)
+  page.should have_field("Email address")
+  page.should have_button("Send reset email")
 end
