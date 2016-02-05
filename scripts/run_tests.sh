@@ -17,15 +17,15 @@ DM_ENVIRONMENT=${1:-local}
 shift
 
 if [ "$#" -gt 0 ]; then
-  COMMAND="features --tags ~@wip  --tags ~@ssp-gcloud  --tags ~@ssp-dos  --tags @functional-test"
-else
   COMMAND="$*"
+else
+  COMMAND="features --tags ~@wip  --tags ~@ssp-gcloud  --tags ~@ssp-dos  --tags @functional-test"
 fi
 
 bundle install
 . "./scripts/envs/${DM_ENVIRONMENT}.sh"
 
-./scripts/test_services.sh "$DM_ENVIRONMENT" || exit 1
+./scripts/test_dependencies.sh "$DM_ENVIRONMENT" || exit 1
 
 if [ "$DM_ENVIRONMENT" = "local" ]; then
   echo -e "\033[0;34mBootstrapping local environment\033[0m"
