@@ -322,14 +322,14 @@ end
 Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   if user_type == 'Administrator'
     page.should have_content('You have been logged out')
-    page.should have_content('Email address')
-  elsif user_type == 'Supplier'
-    page.should have_content("#{user_type} login")
-    page.should have_content('Email address')
+    page.should have_content('Administrator login')
   end
-  page.should have_content("#{user_type} login")
+  page.has_link?("Log in")
+  page.has_link?('Create supplier account')
+  page.should have_content('Email address')
   page.should have_content('Password')
   page.has_button?('Log in')
+  page.has_link?('Forgotten password')
 end
 
 Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
