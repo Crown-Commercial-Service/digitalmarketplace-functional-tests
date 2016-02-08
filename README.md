@@ -60,7 +60,8 @@ the domain URLs ie http://localhost:5000 not http://localhost:5000/.
 
 First you need to create a file to set up your local environment variables - this must be in 
 the `scripts/envs` directory. There is an example file `scripts/envs/example.sh`.  Copy this 
-to `scripts/envs/local.sh` - this should hopefully work out of the box, but YMMV.
+to `scripts/envs/local.sh` - this should hopefully work out of the box, but you might have a
+different experience depending on your setup.
 
 Next set up local users by running the create users script (requires only the API to be running):  
 This script takes an environment name as an argument, so if you created `scripts/envs/local.sh` 
@@ -79,3 +80,8 @@ applications are running the functional tests can be run with
 `scripts/run_tests.sh local`
 
 (or you can substitute `local` with the name of whatever `scripts/envs/*.sh` environment file you're using.
+
+### Let the tests email Mandrill
+
+To stub out calls to the Mandrill email API, ensure you set the `DM_MANDRILL_API_KEY` environment variable
+to a test key when running the admin app.
