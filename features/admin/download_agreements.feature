@@ -1,4 +1,4 @@
-@not-production @functional-test @wip1
+@not-production @functional-test
 Feature: Admin users can download signed framework agreements
 
 Background:
