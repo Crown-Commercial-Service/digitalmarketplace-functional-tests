@@ -806,6 +806,9 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
     expected_links = ['Change name', 'Users', 'Services']
   when 'CCS Sourcing'
     expected_links = ['G-Cloud 7 declaration']
+    expected_links = ['Digital Outcomes and Specialists declaration']
+    expected_links = ['Download G-Cloud 7 agreement']
+    expected_links = ['Upload G-Cloud 7 countersigned agreement']
   else
     fail("Invalid user on admin suppliers page #{@user_type}")
   end
