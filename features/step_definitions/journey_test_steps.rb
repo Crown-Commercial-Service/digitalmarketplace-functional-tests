@@ -1515,9 +1515,6 @@ Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
     page.should have_content('Suppliers')
     page.should have_content('Users by last login time')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
-    page.should have_link('Service updates')
-    page.should have_link('Service status changes')
-    page.should have_link('Log out')
 end
 
 Then /I am presented with the Service updates page$/ do
@@ -1674,4 +1671,16 @@ Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
   page.should have_content(page_name)
   page.should have_field("Email address")
   page.should have_button("Send reset email")
+end
+
+When /^I attempt navigate to the page directly via the URL '(.*)'$/ do |url|
+  page.visit("#{dm_frontend_domain}/#{url}")
+end
+
+Then /^I am presented with the '(.*)' warning page$/ do |warning_message|
+  page.should have_content(warning_message)
+end
+
+Then /^There should not be a link for '(.*)'$/ do |link_text|
+  page.should_not have_link(link_text)
 end

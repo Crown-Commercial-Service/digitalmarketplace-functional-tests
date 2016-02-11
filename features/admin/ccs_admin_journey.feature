@@ -1,7 +1,7 @@
-@not-production @functional-test @wip1
+@not-production @functional-test
 Feature: CCS admin user journey through Digital Marketplace
 
-Background:
+Scenario: Setup for tests
     Given I have test suppliers
     And The test suppliers have declarations
 
@@ -23,4 +23,23 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
     And I click 'Save and return to summary'
     Then I am presented with the updated admin G-Cloud 7 declaration page
 
-Scenario: CCS Sourcing user can not load Admin specific pages
+Scenario: CCS Sourcing should not have access to Admin specific pages
+  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
+  Then There should not be a link for 'Digital Outcomes and Specialists communications'
+  And There should not be a link for 'Download user list'
+
+  When I attempt navigate to the page directly via the URL 'admin/communications/digital-outcomes-and-specialists'
+  Then I am presented with the 'You don’t have permission to perform this action' warning page
+
+  When I attempt navigate to the page directly via the URL 'admin/users/download'
+  Then I am presented with the 'You don’t have permission to perform this action' warning page
+
+Scenario: As a CCS Sourcing user I want to view G-Cloud 7 statistics
+  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
+  When I click 'G-Cloud 7 statistics'
+  Then I am presented with the 'G-Cloud 7' statistics page
+
+Scenario: As a CCS Sourcing user I want to view Digital Outcomes and Specialists statistics
+  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
+  When I click 'Digital Outcomes and Specialists statistics'
+  Then I am presented with the 'Digital Outcomes and Specialists' statistics page
