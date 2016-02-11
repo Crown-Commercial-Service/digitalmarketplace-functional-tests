@@ -218,3 +218,12 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
   When I change 'input-new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
   And I click 'Save'
   Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page
+
+Scenario: As an admin user I want to upload upload Digital Outcomes and Specialists communications
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'Digital Outcomes and Specialists communications'
+  Then I am presented with the 'Upload Digital Outcomes and Specialists communications' page
+
+  When I choose file 'test.pdf' for 'communication'
+  And I click 'Upload files'
+  Then I am presented with the message 'New communication was uploaded.'

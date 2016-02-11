@@ -1684,3 +1684,10 @@ end
 Then /^There should not be a link for '(.*)'$/ do |link_text|
   page.should_not have_link(link_text)
 end
+
+Then /^I am presented with the '(.*)' page$/ do |page_name|
+  current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
+  page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
+  page.should have_button("Upload files")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+end
