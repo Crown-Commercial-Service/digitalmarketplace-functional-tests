@@ -806,6 +806,9 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
     expected_links = ['Change name', 'Users', 'Services']
   when 'CCS Sourcing'
     expected_links = ['G-Cloud 7 declaration']
+    expected_links = ['Digital Outcomes and Specialists declaration']
+    expected_links = ['Download G-Cloud 7 agreement']
+    expected_links = ['Upload G-Cloud 7 countersigned agreement']
   else
     fail("Invalid user on admin suppliers page #{@user_type}")
   end
@@ -1512,9 +1515,6 @@ Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
     page.should have_content('Suppliers')
     page.should have_content('Users by last login time')
     page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
-    page.should have_link('Service updates')
-    page.should have_link('Service status changes')
-    page.should have_link('Log out')
 end
 
 Then /I am presented with the Service updates page$/ do
@@ -1671,4 +1671,23 @@ Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
   page.should have_content(page_name)
   page.should have_field("Email address")
   page.should have_button("Send reset email")
+end
+
+When /^I attempt navigate to the page directly via the URL '(.*)'$/ do |url|
+  page.visit("#{dm_frontend_domain}/#{url}")
+end
+
+Then /^I am presented with the '(.*)' warning page$/ do |warning_message|
+  page.should have_content(warning_message)
+end
+
+Then /^There should not be a link for '(.*)'$/ do |link_text|
+  page.should_not have_link(link_text)
+end
+
+Then /^I am presented with the '(.*)' page$/ do |page_name|
+  current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
+  page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
+  page.should have_button("Upload files")
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end

@@ -194,6 +194,22 @@ Scenario: As an admin user I want to view Service updates
   When I click 'Service updates'
   Then I am presented with the Service updates page
 
+Scenario: As a normal admin user I should not be able to edit a supplier declaration. Link should not exist on the services page.(This is only available to a CCS admin user)
+  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Then there is no 'G-Cloud 7 declaration' link for any supplier
+  Then there is no 'Digital Outcomes and Specialists declaration' link for any supplier
+
+  When I attempt navigate to the page directly via the URL 'admin/suppliers/11111/edit/declarations/digital-outcomes-and-specialists'
+  Then I am presented with the 'You don’t have permission to perform this action' warning page
+
+Scenario: As a normal admin user I should not be able to upload a contersigned agreement for any supplier. Link should not exist on the services page.(This is only available to a CCS admin user)
+  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Then there is no 'Upload G-Cloud 7 countersigned agreement' link for any supplier
+  Then there is no 'Upload Digital Outcomes and Specialists countersigned agreement' link for any supplier
+
+  When I attempt navigate to the page directly via the URL 'admin/suppliers/11111/countersigned-agreements/g-cloud-7'
+  Then I am presented with the 'You don’t have permission to perform this action' warning page
+
 Scenario: As an admin user I want to change the supplier name of a current supplier
   Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Change name' link for the supplier 'DM Functional Test Supplier 2'
@@ -202,3 +218,12 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
   When I change 'input-new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
   And I click 'Save'
   Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page
+
+Scenario: As an admin user I want to upload upload Digital Outcomes and Specialists communications
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'Digital Outcomes and Specialists communications'
+  Then I am presented with the 'Upload Digital Outcomes and Specialists communications' page
+
+  When I choose file 'test.pdf' for 'communication'
+  And I click 'Upload files'
+  Then I am presented with the message 'New communication was uploaded.'
