@@ -19,7 +19,3 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
     And I change 'input-SQ3-1k' to 'Everything'
     And I click 'Save and return to summary'
     Then I am presented with the updated admin G-Cloud 7 declaration page
-
-#Scenario: As a normal admin user I should not be able to edit a supplier declaration
-#    Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-#    Then there is no 'G-Cloud 7 declaration' link for any supplier
