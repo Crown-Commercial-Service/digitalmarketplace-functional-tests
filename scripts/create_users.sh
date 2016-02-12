@@ -41,3 +41,4 @@ EOF
 
 create_user "$DM_ADMIN_EMAIL" "Admin" "admin" "$DM_ADMIN_PASSWORD"
 create_user "$DM_ADMIN_CCS_SOURCING_EMAIL" "Admin" "admin-ccs-sourcing" "$DM_ADMIN_PASSWORD"
+create_user "$DM_ADMIN_CCS_CATEGORY_EMAIL" "Admin" "admin-ccs-category" "$DM_ADMIN_PASSWORD"

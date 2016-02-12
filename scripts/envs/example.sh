@@ -7,6 +7,7 @@ export DM_SEARCH_API_ACCESS_TOKEN=${DM_SEARCH_API_ACCESS_TOKEN:=myToken}
 export DM_FRONTEND_DOMAIN=${DM_FRONTEND_DOMAIN:=http://localhost}
 export DM_ADMIN_EMAIL=${DM_ADMIN_EMAIL:=admin@admin.dmdev}
 export DM_ADMIN_CCS_SOURCING_EMAIL=${DM_ADMIN_CCS_SOURCING_EMAIL:=ccs-sourcing@example.com}
+export DM_ADMIN_CCS_CATEGORY_EMAIL=${DM_ADMIN_CCS_CATEGORY_EMAIL:=ccs-category@example.com}
 export DM_ADMIN_PASSWORD=${DM_ADMIN_PASSWORD:=Admin12345}
 export DM_SUPPLIER_EMAIL=${DM_SUPPLIER_EMAIL:=testing.supplier.username@dmtestemail.com}
 export DM_SUPPLIER2_EMAIL=${DM_SUPPLIER2_EMAIL:=testing.supplier.username2@dmtestemail.com}

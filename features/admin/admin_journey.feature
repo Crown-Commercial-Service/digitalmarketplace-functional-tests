@@ -194,7 +194,7 @@ Scenario: As an admin user I want to view Service updates
   When I click 'Service updates'
   Then I am presented with the Service updates page
 
-Scenario: As a normal admin user I should not be able to edit a supplier declaration. Link should not exist on the services page.(This is only available to a CCS admin user)
+Scenario: As a normal admin user I should not be able to edit a supplier declaration. Link should not exist on the services page.(This is only available to a CCS sourcing admin user)
   Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   Then there is no 'G-Cloud 7 declaration' link for any supplier
   Then there is no 'Digital Outcomes and Specialists declaration' link for any supplier
@@ -202,7 +202,7 @@ Scenario: As a normal admin user I should not be able to edit a supplier declara
   When I attempt navigate to the page directly via the URL 'admin/suppliers/11111/edit/declarations/digital-outcomes-and-specialists'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
-Scenario: As a normal admin user I should not be able to upload a contersigned agreement for any supplier. Link should not exist on the services page.(This is only available to a CCS admin user)
+Scenario: As a normal admin user I should not be able to upload a contersigned agreement for any supplier. Link should not exist on the services page.(This is only available to a CCS sourcing admin user)
   Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   Then there is no 'Upload G-Cloud 7 countersigned agreement' link for any supplier
   Then there is no 'Upload Digital Outcomes and Specialists countersigned agreement' link for any supplier
@@ -227,3 +227,8 @@ Scenario: As an admin user I want to upload upload Digital Outcomes and Speciali
   When I choose file 'test.pdf' for 'communication'
   And I click 'Upload files'
   Then I am presented with the message 'New communication was uploaded.'
+
+Scenario: As an admin user I want to download user list for Digital Outcomes and Specialists
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When I click 'Download user list'
+  Then I am presented with the 'Download user list' page

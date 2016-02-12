@@ -75,6 +75,10 @@ def dm_admin_ccs_sourcing_email()
   ENV['DM_ADMIN_CCS_SOURCING_EMAIL']
 end
 
+def dm_admin_ccs_category_email()
+  ENV['DM_ADMIN_CCS_CATEGORY_EMAIL']
+end
+
 def dm_admin_password()
   ENV['DM_ADMINISTRATORPASSWORD'] || ENV['DM_ADMIN_PASSWORD']
 end
