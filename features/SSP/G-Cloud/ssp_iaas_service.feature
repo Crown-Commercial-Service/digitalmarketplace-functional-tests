@@ -4,7 +4,7 @@ Feature: Submitting a new service for IaaS
   I want to answer questions about my service
 
   Background: Log in as a supplier
-    Given I am on the 'Supplier' login page
+    Given I am on the 'Digital Marketplace' login page
     When I login as a 'Supplier' user
     Then I should be on the supplier home page
 

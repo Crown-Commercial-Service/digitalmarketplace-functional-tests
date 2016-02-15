@@ -228,7 +228,13 @@ Scenario: As an admin user I want to upload upload Digital Outcomes and Speciali
   And I click 'Upload files'
   Then I am presented with the message 'New communication was uploaded.'
 
-Scenario: As an admin user I want to download user list for Digital Outcomes and Specialists
+Scenario: As an admin user I want to download the user list for a specific framework
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'Download user list'
   Then I am presented with the 'Download user list' page
+
+  When I click 'G-Cloud 7'
+  Then The correct file of 'users-g-cloud-7.csv' with file content type of 'text/csv' is made available
+
+  When I click 'Digital Outcomes and Specialists'
+  Then The correct file of 'users-digital-outcomes-and-specialists.csv' with file content type of 'text/csv' is made available
