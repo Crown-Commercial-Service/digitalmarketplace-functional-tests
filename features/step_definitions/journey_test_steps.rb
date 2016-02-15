@@ -12,7 +12,7 @@ Given /I am on the '(.*)' login page$/ do |user_type|
       page.click_link("Log out")
     end
     page.should have_content("#{user_type} login")
-  when "Digital Marketplace"
+  when "Digital Marketplace", "Supplier"
     visit("#{dm_frontend_domain}/login")
     if page.has_link?("Log out")
       page.click_link("Log out")
@@ -1687,7 +1687,7 @@ end
 
 Then /^I am presented with the '(.*)' page$/ do |page_name|
   case page_name
-  when 'Digital Outcomes and Specialists communications'
+  when 'Upload Digital Outcomes and Specialists communications'
     current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
     page.should have_button("Upload files")
   when 'Download user list'
@@ -1695,7 +1695,7 @@ Then /^I am presented with the '(.*)' page$/ do |page_name|
     page.should have_link("Digital Outcomes and Specialists")
     page.should have_link("G-Cloud 7")
   else
-    fail("There is no such page: \"#{service_status}\"")
+    fail("There is no such page: \"#{page_name}\"")
   end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
