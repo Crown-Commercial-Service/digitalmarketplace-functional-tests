@@ -2,7 +2,7 @@
 Feature: Smoke tests
 
 Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
-  Given I am on the 'Supplier' login page
+  Given I am on the 'Digital Marketplace' login page
   When I login as a 'Supplier' user
   Then I am presented with the 'Digital Marketplace Team' supplier dashboard page
 

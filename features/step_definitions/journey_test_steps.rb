@@ -12,7 +12,7 @@ Given /I am on the '(.*)' login page$/ do |user_type|
       page.click_link("Log out")
     end
     page.should have_content("#{user_type} login")
-  when "Supplier", "Buyer", "account" #AC-01/02/16: remove "Supplier", "Buyer" when final login page is available
+  when "Digital Marketplace", "Supplier"
     visit("#{dm_frontend_domain}/login")
     if page.has_link?("Log out")
       page.click_link("Log out")
@@ -1686,8 +1686,26 @@ Then /^There should not be a link for '(.*)'$/ do |link_text|
 end
 
 Then /^I am presented with the '(.*)' page$/ do |page_name|
-  current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
+  case page_name
+  when 'Upload Digital Outcomes and Specialists communications'
+    current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
+    page.should have_button("Upload files")
+  when 'Download user list'
+    current_url.should end_with("#{dm_frontend_domain}/admin/users/download")
+    page.should have_link("Digital Outcomes and Specialists")
+    page.should have_link("G-Cloud 7")
+  else
+    fail("There is no such page: \"#{page_name}\"")
+  end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
-  page.should have_button("Upload files")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
+end
+
+Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made available$/ do |file, content_type|
+  header = page.response_headers
+  header_file = header['Content-Disposition']
+  header_content_type = header['Content-Type']
+  header_file.should match /^attachment/
+  header_file.should match /filename=#{file}$/
+  header_content_type.should match /#{content_type}/
 end
