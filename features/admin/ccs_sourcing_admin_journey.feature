@@ -1,9 +1,6 @@
 @not-production @functional-test
 Feature: CCS admin user journey through Digital Marketplace
 
-  The CCS Sourcing team should be able to edit supplier framework declarations.
-  No other admin roles should be able to view or edit these declarations
-@wip2
 Scenario: Setup for tests
   Given I have test suppliers
   And The test suppliers have declarations
@@ -14,7 +11,7 @@ Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier n
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
   And I click the search button for 'supplier_name_prefix'
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
-@wip2
+
 Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
   Given I am logged in as a 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'G-Cloud 7 declaration' link for the supplier 'DM Functional Test Supplier'
