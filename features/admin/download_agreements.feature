@@ -1,4 +1,4 @@
-@not-production @functional-test
+@not-production @functional-test @delete
 Feature: Admin users can download signed framework agreements
 
 Scenario: Setup for tests

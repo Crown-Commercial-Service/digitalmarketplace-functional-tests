@@ -3,11 +3,13 @@ Feature: Admin user journey through Digital Marketplace
 
 Scenario: Setup for tests
   Given I have test suppliers
-  And The test suppliers have users
+  Given The test suppliers have users
   And The test suppliers have live services
   And Test supplier users are active
   And Test supplier users are not locked
   And The user 'DM Functional Test Supplier User 3' is locked
+  And no 'g-cloud-7' framework agreements exist
+  And no 'digital-outcomes-and-specialists' framework agreements exist
 
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Administrator' login page
@@ -46,12 +48,27 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
   And I click the search button for 'supplier_name_prefix'
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
-
+@wip1
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Users page via the supplier(s) by supplier name prefix page
+  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  When I click the 'Users' link for the supplier 'DM Functional Test Supplier'
+  Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
+@wip1
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Services page via the supplier(s) by supplier name prefix page
+  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  When I click the 'Services' link for the supplier 'DM Functional Test Supplier'
+  Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
+  And I can see all listings ordered by lot name followed by listing name
+@wip1
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by email address
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter the email address for the 'DM Functional Test Supplier User 1' user in the 'email_address' field
   And I click the search button for 'email_address'
   Then The page for the 'DM Functional Test Supplier User 1' user is presented
+
+  When I enter the email address for the 'DM Functional Test Supplier User 3' user in the 'email_address' field
+  And I click the search button for 'email_address'
+  Then The page for the 'DM Functional Test Supplier User 3' user is presented
 
   When I click the 'DM Functional Test Supplier' link
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
@@ -199,7 +216,7 @@ Scenario: As a normal admin user I should not be able to edit a supplier declara
   Then there is no 'G-Cloud 7 declaration' link for any supplier
   Then there is no 'Digital Outcomes and Specialists declaration' link for any supplier
 
-  When I attempt navigate to the page directly via the URL 'admin/suppliers/11111/edit/declarations/digital-outcomes-and-specialists'
+  When I attempt to load the 'Digital Outcomes and Specialists declaration' page directly via the URL 'admin/suppliers/11111/edit/declarations/digital-outcomes-and-specialists'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
 Scenario: As a normal admin user I should not be able to upload a contersigned agreement for any supplier. Link should not exist on the services page.(This is only available to a CCS sourcing admin user)
@@ -207,7 +224,7 @@ Scenario: As a normal admin user I should not be able to upload a contersigned a
   Then there is no 'Upload G-Cloud 7 countersigned agreement' link for any supplier
   Then there is no 'Upload Digital Outcomes and Specialists countersigned agreement' link for any supplier
 
-  When I attempt navigate to the page directly via the URL 'admin/suppliers/11111/countersigned-agreements/g-cloud-7'
+  When I attempt to load the 'Upload a G-Cloud 7 countersigned agreement' page directly via the URL 'admin/suppliers/11111/countersigned-agreements/g-cloud-7'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
 Scenario: As an admin user I want to change the supplier name of a current supplier
@@ -219,7 +236,31 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
   And I click 'Save'
   Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page
 
-Scenario: As an admin user I want to upload upload Digital Outcomes and Specialists communications
+Scenario: When there are no framework agreements the list is empty: G-Cloud 7
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  And I click 'G-Cloud 7 agreements'
+  Then the framework agreement list is empty
+
+Scenario: Most recently uploaded agreements should be shown first: Digital Outcomes and Specialists
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
+  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11112'
+  When I click 'Digital Outcomes and Specialists agreements'
+  Then the first signed agreement should be for supplier 'DM Functional Test Supplier 2 name changed'
+  When I click the first download agreement link
+  Then I should get redirected to the correct 'digital-outcomes-and-specialists' S3 URL for supplier '11112'
+
+Scenario: Re-uploading an agreement brings it to the top of the list: G-Cloud 7
+  Given I have logged in to Digital Marketplace as a 'Administrator' user
+  When a 'g-cloud-7' signed agreement is uploaded for supplier '11111'
+  And a 'g-cloud-7' signed agreement is uploaded for supplier '11112'
+  And a 'g-cloud-7' signed agreement is uploaded for supplier '11111'
+  When I click 'G-Cloud 7 agreements'
+  Then the first signed agreement should be for supplier 'DM Functional Test Supplier'
+  When I click the first download agreement link
+  Then I should get redirected to the correct 'g-cloud-7' S3 URL for supplier '11111'
+
+Scenario: As an admin user I want to upload Digital Outcomes and Specialists communications
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'Digital Outcomes and Specialists communications'
   Then I am presented with the 'Upload Digital Outcomes and Specialists communications' page
