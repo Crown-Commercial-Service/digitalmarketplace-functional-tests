@@ -1742,8 +1742,6 @@ Then /^I am presented with the '(.*)' page$/ do |page_name|
       page.should have_link("Remove")
     end
     page.should have_button("Upload file")
-  else
-    fail("There is no such page: \"#{page_name}\"")
   end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")

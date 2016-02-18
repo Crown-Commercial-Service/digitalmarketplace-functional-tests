@@ -3,7 +3,7 @@ Feature: CCS admin user journey through Digital Marketplace
 
   The CCS Sourcing team should be able to edit supplier framework declarations.
   No other admin roles should be able to view or edit these declarations
-
+@wip2
 Scenario: Setup for tests
   Given I have test suppliers
   And The test suppliers have declarations
