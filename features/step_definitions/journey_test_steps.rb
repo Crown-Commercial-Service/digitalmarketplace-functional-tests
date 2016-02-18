@@ -34,8 +34,12 @@ When /I login as a '(.*)' user$/ do |user_type|
   when "Supplier"
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
-  when "CCS Sourcing"
-    page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
+  when "CCS Sourcing", "CCS Category"
+    if user_type == "CCS Sourcing"
+      page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
+    elsif user_type == "CCS Category"
+      page.fill_in('email_address', :with => dm_admin_ccs_category_email())
+    end
     page.fill_in('password', :with => dm_admin_password())
   else
     fail("Unrecognised user type '#{user_type}'")
@@ -65,6 +69,7 @@ end
 Then /I am presented with the admin G-Cloud 7 declaration page$/ do
   page.find(:css, "h1").text().should == "G-Cloud 7 declaration"
   page.find(:css, "header p.context").text().should == @supplierName
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 
   section_headings = page.all(:css, "h2.summary-item-heading")
   section_headings.length.should == 4
@@ -96,6 +101,7 @@ end
 Then /I am presented with the updated admin G-Cloud 7 declaration page$/ do
   page.find(:css, "h1").text().should == "G-Cloud 7 declaration"
   page.find(:css, "header p.context").text().should == @supplierName
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 
   declaration_answers = page.all(:xpath, "//tr[@class='summary-item-row']//td[2]")
   declaration_answers[0].text().should == "No"
@@ -667,8 +673,19 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
   }
 end
 
+Given /I am logged in as a '(.*)' and navigated to the '(.*)' page for supplier '(.*)'$/ do |user_type,page_name,value|
+  step "I have logged in to Digital Marketplace as a '#{user_type}' user"
+  if value == 'DM Functional Test Supplier'
+    supplierID = '11111'
+  end
+
+  if page_name == 'Upload a G-Cloud 7 countersigned agreement'
+    page.visit("#{dm_frontend_domain}/admin/suppliers/#{supplierID}/countersigned-agreements/g-cloud-7")
+  end
+end
+
 def login_page_type(user_type)
-  if user_type == "CCS Sourcing"
+  if user_type == "CCS Sourcing" or user_type == "CCS Category"
     return "Administrator"
   else
     return user_type
@@ -772,12 +789,22 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     page.should have_button('Save')
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{@servicesupplierID}/edit/name")
   else
-    if @servicesupplierID == dm_supplier_user_email()
+    if dm_supplier_user_emails().include?(@servicesupplierID) or @servicesupplierID == "DM Functional Test Supplier"
       @servicesupplierID = '11111'
     end
 
     if page_name == 'Users'
       page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{supplier_name}')]")
+      case @user_type
+      when 'Administrator'
+        page.should have_button('Deactivate')
+        page.should have_button('Remove from supplier')
+      when 'CCS Category'
+        page.should have_no_button('Deactivate')
+        page.should have_no_button('Remove from supplier')
+      else
+        fail("Invalid user on admin suppliers page #{@user_type}")
+      end
     elsif page_name == 'Services'
       page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{page_name}')]")
     end
@@ -804,11 +831,25 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   case @user_type
   when 'Administrator'
     expected_links = ['Change name', 'Users', 'Services']
+    page.should have_no_link('G-Cloud 7 declaration')
+    page.should have_no_link('Digital Outcomes and Specialists declaration')
+    page.should have_no_link('Download G-Cloud 7 agreement')
+    page.should have_no_link('Upload G-Cloud 7 countersigned agreement')
   when 'CCS Sourcing'
     expected_links = ['G-Cloud 7 declaration']
     expected_links = ['Digital Outcomes and Specialists declaration']
     expected_links = ['Download G-Cloud 7 agreement']
     expected_links = ['Upload G-Cloud 7 countersigned agreement']
+    page.should have_no_link('Change name')
+    page.should have_no_link('Users')
+    page.should have_no_link('Services')
+  when 'CCS Category'
+    expected_links = ['Users', 'Services']
+    page.should have_no_link('Change name')
+    page.should have_no_link('G-Cloud 7 declaration')
+    page.should have_no_link('Digital Outcomes and Specialists declaration')
+    page.should have_no_link('Download G-Cloud 7 agreement')
+    page.should have_no_link('Upload G-Cloud 7 countersigned agreement')
   else
     fail("Invalid user on admin suppliers page #{@user_type}")
   end
@@ -1673,7 +1714,7 @@ Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
   page.should have_button("Send reset email")
 end
 
-When /^I attempt navigate to the page directly via the URL '(.*)'$/ do |url|
+When /^I attempt to load the '(.*)' page directly via the URL '(.*)'$/ do |page_name,url|
   page.visit("#{dm_frontend_domain}/#{url}")
 end
 
@@ -1681,7 +1722,7 @@ Then /^I am presented with the '(.*)' warning page$/ do |warning_message|
   page.should have_content(warning_message)
 end
 
-Then /^There should not be a link for '(.*)'$/ do |link_text|
+Then /^There is no '(.*)' link$/ do |link_text|
   page.should_not have_link(link_text)
 end
 
@@ -1694,18 +1735,28 @@ Then /^I am presented with the '(.*)' page$/ do |page_name|
     current_url.should end_with("#{dm_frontend_domain}/admin/users/download")
     page.should have_link("Digital Outcomes and Specialists")
     page.should have_link("G-Cloud 7")
-  else
-    fail("There is no such page: \"#{page_name}\"")
+  when 'Upload a G-Cloud 7 countersigned agreement'
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/countersigned-agreements/g-cloud-7")
+    if page.has_no_content?('No agreements have been uploaded')
+      page.should have_link("Download agreement")
+      page.should have_link("Remove")
+    end
+    page.should have_button("Upload file")
   end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
 
-Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made available$/ do |file, content_type|
+Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made available$/ do |file_name, content_type|
   header = page.response_headers
   header_file = header['Content-Disposition']
   header_content_type = header['Content-Type']
   header_file.should match /^attachment/
-  header_file.should match /filename=#{file}$/
+  header_file.should match /filename=#{file_name}$/
   header_content_type.should match /#{content_type}/
+end
+
+And /There is no agreement available on the page$/ do
+  page.should have_content('No agreements have been uploaded')
+  page.should have_no_selector(:xpath, "//tbody/tr[@class='summary-item-row']/*/span[contains(text(), 'G-Cloud 7 countersigned agreement')]")
 end
