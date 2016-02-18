@@ -48,18 +48,18 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
   And I click the search button for 'supplier_name_prefix'
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
-@wip1
+
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Users page via the supplier(s) by supplier name prefix page
   Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Users' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
-@wip1
+
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Services page via the supplier(s) by supplier name prefix page
   Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Services' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
   And I can see all listings ordered by lot name followed by listing name
-@wip1
+
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by email address
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter the email address for the 'DM Functional Test Supplier User 1' user in the 'email_address' field

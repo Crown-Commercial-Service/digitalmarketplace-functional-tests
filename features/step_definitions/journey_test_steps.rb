@@ -789,7 +789,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     page.should have_button('Save')
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{@servicesupplierID}/edit/name")
   else
-    if @servicesupplierID == dm_supplier_user_email()
+    if dm_supplier_user_emails().include?(@servicesupplierID) or @servicesupplierID == "DM Functional Test Supplier"
       @servicesupplierID = '11111'
     end
 
