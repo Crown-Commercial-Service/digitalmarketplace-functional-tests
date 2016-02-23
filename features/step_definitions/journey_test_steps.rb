@@ -34,12 +34,11 @@ When /I login as a '(.*)' user$/ do |user_type|
   when "Supplier"
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
-  when "CCS Sourcing", "CCS Category"
-    if user_type == "CCS Sourcing"
-      page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
-    elsif user_type == "CCS Category"
-      page.fill_in('email_address', :with => dm_admin_ccs_category_email())
-    end
+  when "CCS Sourcing"
+    page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
+    page.fill_in('password', :with => dm_admin_password())
+  when "CCS Category"
+    page.fill_in('email_address', :with => dm_admin_ccs_category_email())
     page.fill_in('password', :with => dm_admin_password())
   else
     fail("Unrecognised user type '#{user_type}'")
@@ -914,7 +913,7 @@ def services_listed(service_ids)
   end
 end
 
-When /I select '(.*)' second listing on the page$/ do |value|
+When /I click the service name link for the second listing on the page$/ do
   @data_store = @data_store || Hash.new
 
   servicename = find(
@@ -923,14 +922,14 @@ When /I select '(.*)' second listing on the page$/ do |value|
   ).text()
   @data_store['servicename'] = servicename
 
-  if value == 'the'
-    page.click_link_or_button(@data_store['servicename'])
-  elsif value == 'view service for the'
-    find(
-      :xpath,
-      "//*/table/tbody/tr[2]/td[4]/span/a[contains(text(),'View service')]"
-    ).click
-  end
+  # if value == 'service name link'
+  page.click_link_or_button(@data_store['servicename'])
+  # elsif value == 'view service for the'
+  #   find(
+  #     :xpath,
+  #     "//*/table/tbody/tr[2]/td[4]/span/a[contains(text(),'View service')]"
+  #   ).click
+  # end
   serviceid = URI.parse(current_url).to_s.split('services/').last
   @data_store['serviceid'] = serviceid
 end
@@ -1052,9 +1051,14 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
     page.should have_content("#{page_name}")
+    page.should have_link('Find an individual specialist')
+    page.should have_link('Find a team to provide an outcome')
+    page.should have_link('Find user research participants')
+    page.should have_link('Find a user research lab')
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
-    page.should have_link('Find specialists to work on digital projects')
+    page.should have_link('View your briefs and supplier responses')
+    page.should have_no_link('Find specialists to work on digital projects')
   elsif page_name == 'Cloud technology and support'
     page.visit("#{dm_frontend_domain}/g-cloud")
     step "Then I am taken to the '#{page_name}' landing page"
@@ -1063,6 +1067,12 @@ end
 
 When /I click the '(.*)' link$/ do |link_name|
   step "I click the '#{link_name}' button"
+end
+
+Then /^I download the contersigned agreement$/ do
+    href = page.find(:xpath, './/a[@download=""][contains(text(),"Download agreement")]')[:href]
+    url_to_visit=("#{dm_frontend_domain}#{href}")
+    page.visit(url_to_visit)
 end
 
 And /I click the search button for '(.*)'$/ do |action_field|
@@ -1292,6 +1302,15 @@ Given /I am on the search results page with results for '(.*)' lot displayed$/ d
   @data_store = @data_store || Hash.new
   searchsummarycount = find(:xpath, "//*[@class='search-summary-count']").text()
   @data_store['searchsummarycount'] = searchsummarycount
+end
+
+When /^I choose file '(.*)' for '(.*)'$/ do |file, label|
+  attach_file(label, File.join(Dir.pwd, 'fixtures', file))
+  if file == 'test.pdf'
+    store.content_length = '16'
+  elsif file == 'test2.pdf'
+    store.content_length = '41451'
+  end
 end
 
 Then /The search results is filtered returning just one result for the service '(.*)'$/ do |value|
@@ -1749,10 +1768,24 @@ end
 
 Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made available$/ do |file_name, content_type|
   header = page.response_headers
-  header_file = header['Content-Disposition']
+  if header['Content-Disposition'] != nil
+    header_file = header['Content-Disposition']
+    header_file.should match /^attachment/
+    header_file.should match /filename=#{file_name}$/
+  else
+    header_content_length = header['Content-Length']
+    if store.content_length = '16'
+      store.file_num = '1'
+    elsif store.content_length = '41451'
+      store.file_num = '2'
+    elsif store.content_length == nil
+      fail("No countersigned agreement file was uploaded")
+    end
+
+    #how to check that file uploaded is the new file
+  end
+
   header_content_type = header['Content-Type']
-  header_file.should match /^attachment/
-  header_file.should match /filename=#{file_name}$/
   header_content_type.should match /#{content_type}/
 end
 

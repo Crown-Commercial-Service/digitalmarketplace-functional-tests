@@ -131,10 +131,6 @@ When /^I select '(.*)' from '(.*)'$/ do |option, selector|
   select(option, from: selector)
 end
 
-When /^I choose file '(.*)' for '(.*)'$/ do |file, label|
-  attach_file(label, File.join(Dir.pwd, 'fixtures', file))
-end
-
 Then /^I should be on the supplier home page$/ do
   URI.parse(current_url).path.should == "/suppliers"
 end

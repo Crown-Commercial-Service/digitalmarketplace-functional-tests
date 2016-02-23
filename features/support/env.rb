@@ -68,7 +68,11 @@ def dm_frontend_domain()
 end
 
 def dm_admin_email()
-  ENV['DM_ADMINISTRATORNAME'] || ENV['DM_ADMIN_EMAIL']
+  ENV['DM_ADMIN_EMAIL']
+end
+
+def dm_admin_password()
+  ENV['DM_ADMIN_PASSWORD']
 end
 
 def dm_admin_ccs_sourcing_email()
@@ -77,10 +81,6 @@ end
 
 def dm_admin_ccs_category_email()
   ENV['DM_ADMIN_CCS_CATEGORY_EMAIL']
-end
-
-def dm_admin_password()
-  ENV['DM_ADMINISTRATORPASSWORD'] || ENV['DM_ADMIN_PASSWORD']
 end
 
 def dm_supplier_user_email()

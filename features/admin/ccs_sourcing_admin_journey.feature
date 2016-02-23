@@ -25,19 +25,19 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
   And I change 'input-SQ3-1k' to 'Everything'
   And I click 'Save and return to summary'
   Then I am presented with the updated admin G-Cloud 7 declaration page
-
+@wip1
 Scenario: As a CCS Sourcing user I wish to upload G-Cloud 7 countersigned agreements
   Given I am logged in as a 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Upload G-Cloud 7 countersigned agreement' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
 
-  When I choose file 'test.pdf' for 'countersigned_agreement'
+  When I choose file 'test2.pdf' for 'countersigned_agreement'
   And I click 'Upload file'
   Then I am presented with the message 'Countersigned agreement file was uploaded'
-@wip
+@wip1
 Scenario: As a CCS Sourcing user I want to download the agreement
   Given I am logged in as a 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
-  When I click 'Download agreement'
+  When I download the contersigned agreement
   Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I wish to remove a countersigned agreement
