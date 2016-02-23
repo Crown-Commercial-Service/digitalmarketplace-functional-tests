@@ -34,12 +34,11 @@ When /I login as a '(.*)' user$/ do |user_type|
   when "Supplier"
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
-  when "CCS Sourcing", "CCS Category"
-    if user_type == "CCS Sourcing"
-      page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
-    elsif user_type == "CCS Category"
-      page.fill_in('email_address', :with => dm_admin_ccs_category_email())
-    end
+  when "CCS Sourcing"
+    page.fill_in('email_address', :with => dm_admin_ccs_sourcing_email())
+    page.fill_in('password', :with => dm_admin_password())
+  when "CCS Category"
+    page.fill_in('email_address', :with => dm_admin_ccs_category_email())
     page.fill_in('password', :with => dm_admin_password())
   else
     fail("Unrecognised user type '#{user_type}'")
@@ -914,7 +913,7 @@ def services_listed(service_ids)
   end
 end
 
-When /I select '(.*)' second listing on the page$/ do |value|
+When /I click the service name link for the second listing on the page$/ do
   @data_store = @data_store || Hash.new
 
   servicename = find(
@@ -923,14 +922,7 @@ When /I select '(.*)' second listing on the page$/ do |value|
   ).text()
   @data_store['servicename'] = servicename
 
-  if value == 'the'
-    page.click_link_or_button(@data_store['servicename'])
-  elsif value == 'view service for the'
-    find(
-      :xpath,
-      "//*/table/tbody/tr[2]/td[4]/span/a[contains(text(),'View service')]"
-    ).click
-  end
+  page.click_link_or_button(@data_store['servicename'])
   serviceid = URI.parse(current_url).to_s.split('services/').last
   @data_store['serviceid'] = serviceid
 end

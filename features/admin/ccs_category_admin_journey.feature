@@ -30,7 +30,7 @@ Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wis
 
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
   Given I am logged in as a 'CCS Category' and navigated to the 'Services' page by searching on supplier ID '11111'
-  When I select 'the' second listing on the page
+  When I click the service name link for the second listing on the page
   Then I am presented with the service page for that specific listing
 
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to search for users by supplier ID
