@@ -1073,6 +1073,8 @@ Then /^I download the contersigned agreement$/ do
     href = page.find(:xpath, './/a[@download=""][contains(text(),"Download agreement")]')[:href]
     url_to_visit=("#{dm_frontend_domain}#{href}")
     page.visit(url_to_visit)
+    header = page.response_headers
+    store.content_length = header['Content-Length']
 end
 
 And /I click the search button for '(.*)'$/ do |action_field|
@@ -1306,11 +1308,6 @@ end
 
 When /^I choose file '(.*)' for '(.*)'$/ do |file, label|
   attach_file(label, File.join(Dir.pwd, 'fixtures', file))
-  if file == 'test.pdf'
-    store.content_length = '16'
-  elsif file == 'test2.pdf'
-    store.content_length = '41451'
-  end
 end
 
 Then /The search results is filtered returning just one result for the service '(.*)'$/ do |value|
@@ -1774,15 +1771,7 @@ Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made av
     header_file.should match /filename=#{file_name}$/
   else
     header_content_length = header['Content-Length']
-    if store.content_length = '16'
-      store.file_num = '1'
-    elsif store.content_length = '41451'
-      store.file_num = '2'
-    elsif store.content_length == nil
-      fail("No countersigned agreement file was uploaded")
-    end
-
-    #how to check that file uploaded is the new file
+    header_content_length.should match store.content_length
   end
 
   header_content_type = header['Content-Type']

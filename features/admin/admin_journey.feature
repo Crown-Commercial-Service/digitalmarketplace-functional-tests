@@ -268,7 +268,7 @@ Scenario: As an admin user I want to upload Digital Outcomes and Specialists com
   When I choose file 'test.pdf' for 'communication'
   And I click 'Upload files'
   Then I am presented with the message 'New communication was uploaded.'
-@wip1
+
 Scenario: As an admin user I want to download the user list for a specific framework
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I click 'Download user list'
