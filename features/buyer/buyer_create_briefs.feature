@@ -1,10 +1,8 @@
 @not-production @functional-test @wip
 Feature: Create new buyer account
 
-#Scenario: User steps through supplier account creation process
-#  Given I am on the 'Digital Marketplace' landing page
-#  When I click 'Create supplier account'
-#  Then I am on the 'Create supplier account' page
+Scenario: Setup for tests
+  Given I have a buyer user account
 
 Scenario: Logged in buyer attempts to access a supplier page
 

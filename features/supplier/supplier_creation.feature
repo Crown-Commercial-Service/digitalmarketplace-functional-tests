@@ -1,4 +1,4 @@
-@not-production @functional-test
+@not-production @functional-test 
 Feature: Create new G-Cloud supplier account
 
 Scenario: User steps through supplier account creation process

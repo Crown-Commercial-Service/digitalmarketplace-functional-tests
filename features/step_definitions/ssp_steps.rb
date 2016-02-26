@@ -217,42 +217,6 @@ Then /^Summary row '(.*)' under '(.*)' should not be empty$/ do |question,table_
   ).text.should_not == ''
 end
 
-Then /I am on the '(.*)' page$/ do |page_name|
-  if page_name == 'Create suppllier account'
-    page.should have_content("#{page_name}")
-    current_url.should end_with("#{dm_frontend_domain}/suppliers/create")
-    page.should have_link('www.dnb.co.uk/dandb-duns-number')
-    page.should have_link('beta.companieshouse.gov.uk/help/welcome')
-    page.should have_button('Start')
-  elsif page_name == 'DUNS number'
-    page.should have_content("#{page_name}")
-    current_url.should end_with("#{dm_frontend_domain}/suppliers/duns-number")
-    page.should have_link('Find out how to get a DUNS number')
-    page.should have_button('Continue')
-  elsif page_name == 'Companies House number (optional)'
-    page.should have_content("#{page_name}")
-    current_url.should end_with("#{dm_frontend_domain}/suppliers/companies-house-number")
-    page.should have_link('Visit Companies House to get your number')
-    page.should have_button('Continue')
-  elsif page_name == 'Company contact details'
-    page.should have_content("#{page_name}")
-    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-contact-details")
-    page.should have_field('contact_name')
-    page.should have_field('email_address')
-    page.should have_field('phone_number')
-    page.should have_button('Continue')
-  elsif page_name == 'Create login'
-    page.should have_content("#{page_name}")
-    current_url.should end_with("#{dm_frontend_domain}/suppliers/create-your-account")
-    page.should have_button('Continue')
-  elsif page_name == 'Check your information'
-    page.should have_content("#{page_name}")
-    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-summary")
-    page.should have_button('Create account')
-  end
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-end
-
 And /All the information that was submitted is presented correctly on the page$/ do
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../../*/span[contains(text(), '#{@value_of_interest['duns_number']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../../*/span[contains(text(), '#{@value_of_interest['companies_house_number']}')]")

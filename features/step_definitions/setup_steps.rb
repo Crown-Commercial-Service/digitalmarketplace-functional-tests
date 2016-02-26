@@ -87,6 +87,10 @@ def create_user (email,username,password,role,supplierid=nil)
   end
 end
 
+def create_buyer_user (email,username,password)
+  create_user(email,username,password,"buyer")
+end
+
 def create_supplier_user (supplierid,email,username,password)
   create_user(email,username,password,"supplier",supplierid)
 end
@@ -100,6 +104,10 @@ And /^The test suppliers have users$/ do
   create_supplier_user(11111,dm_supplier_user2_email(),"DM Functional Test Supplier User 2", dm_supplier_password())
   create_supplier_user(11111,dm_supplier_user3_email(),"DM Functional Test Supplier User 3", dm_supplier_password())
   create_supplier_user(11112,dm_supplier2_user_email(),"DM Functional Test Supplier 2 User 1", dm_supplier_password())
+end
+
+Given /^I have a buyer user account$/ do
+  create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
 end
 
 And /^The test suppliers have declarations$/ do
