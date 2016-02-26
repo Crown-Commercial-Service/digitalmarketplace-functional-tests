@@ -34,11 +34,6 @@ Scenario: As a CCS Sourcing user I wish to upload G-Cloud 7 countersigned agreem
   When I choose file 'test.pdf' for 'countersigned_agreement'
   And I click 'Upload file'
   Then I am presented with the message 'Countersigned agreement file was uploaded'
-@wip
-Scenario: As a CCS Sourcing user I want to download the agreement
-  Given I am logged in as a 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
-  When I click 'Download agreement'
-  Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I wish to remove a countersigned agreement
   Given I am logged in as a 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
@@ -48,6 +43,15 @@ Scenario: As a CCS Sourcing user I wish to remove a countersigned agreement
   When I click 'Yes'
   Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
   And There is no agreement available on the page
+
+Scenario: As a CCS Sourcing user I want to download the agreement
+  Given I am logged in as a 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
+  When I choose file 'test2.pdf' for 'countersigned_agreement'
+  And I click 'Upload file'
+  Then I am presented with the message 'Countersigned agreement file was uploaded'
+
+  When I download the contersigned agreement
+  Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I want to view G-Cloud 7 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user

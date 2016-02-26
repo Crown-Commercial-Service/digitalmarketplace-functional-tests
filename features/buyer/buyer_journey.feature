@@ -3,8 +3,16 @@ Feature: Buyer user journey through Digital Marketplace
 
 Scenario: Setup for tests
   Given I have test suppliers
+  And I have a buyer user account
   And The test suppliers have live services
   And All services for the test suppliers are Public
+
+Scenario: As buyer user I wish be able to log in and to log out of Digital Marketplace
+  Given I am on the 'Digital Marketplace' login page
+  When I login as a 'Buyer' user
+  Then I am presented with the 'DM Functional Test Buyer User 1' 'Buyer' dashboard page
+  When I click 'Log out'
+  Then I am logged out of Digital Marketplace as a 'Buyer' user
 
 Scenario: User is able to navigate from the digital marketplace landing page to the g-cloud landing page
   Given I am on the 'Digital Marketplace' landing page

@@ -67,6 +67,14 @@ def dm_frontend_domain()
   ENV['DM_FRONTEND_DOMAIN']
 end
 
+def dm_buyer_email()
+  ENV['DM_BUYER_EMAIL']
+end
+
+def dm_buyer_password()
+  ENV['DM_BUYER_PASSWORD']
+end
+
 def dm_admin_email()
   ENV['DM_ADMIN_EMAIL']
 end
