@@ -96,16 +96,10 @@ When /^I click the link for '(.*)'$/ do |target_service|
   find(:xpath, "//a[contains(@href, '/#{service_listing}')]").click
 end
 
-
 When /^I click my service$/ do
   # Find link with the current listing in the href
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
 end
-
-# When /^I click my completed service$/ do
-#   # Find link with the completed listing in the href
-#   find(:xpath, "//a[contains(@href, '#{store.completed_listing}')]").click
-# end
 
 And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
   within "##{field_name}" do

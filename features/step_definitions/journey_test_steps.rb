@@ -347,27 +347,6 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   end
 end
 
-Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
-  all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
-    element.text() == text_of_interest
-  end
-
-  if all_headings.length >= 1
-    top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
-    top_level_action.text().should == action
-    top_level_action.click
-
-  else
-    all_item_text = page.all(:css, ".summary-item-field-first>span").select do |element|
-      element.text() == text_of_interest
-    end
-
-    top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a[contains(text(),'#{action}')]")
-    top_level_action.text().should == action
-    top_level_action.click
-  end
-end
-
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|
   current_url.should end_with("#{@existing_values['summarypageurl']}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}")
 
@@ -414,13 +393,13 @@ And /I set '(.*)' as '(.*)'$/ do |field_to_change,new_value|
   @changed_fields[field_to_change] = new_value.downcase
 end
 
-And /I choose '(.*)' for '(.*)'$/ do |new_value,field_to_change|
-  within "##{field_to_change}" do
-    page.find(:xpath, ".//label[contains(text(), '#{new_value}')]").click
+And /I choose '(.*)' for '(.*)'$/ do |value,field_name|
+  within "##{field_name}" do
+    page.find(:xpath, ".//label[contains(text(), '#{value}')]").click
   end
 
   @changed_fields = @changed_fields || Hash.new
-  @changed_fields[field_to_change] = new_value
+  @changed_fields[field_name] = value
 end
 
 And /I remove service benefit number 2$/ do
@@ -645,8 +624,6 @@ Then /I am presented with the service details page for that service$/ do
 end
 
 Then /I am presented with the '(.*)' '(.*)' dashboard page$/ do |user_type_name, user_type|
-  # @existing_values = @existing_values || Hash.new
-  # @existing_values['summarypageurl'] = current_url
   user_type = user_type.downcase
   case user_type
   when "buyer"
@@ -710,7 +687,7 @@ def login_page_type(user_type)
   case user_type
   when "CCS Sourcing", "CCS Category", "Administrator"
     return "Administrator"
-  when "Supplier"
+  when "Supplier", "Buyer"
     return "Digital Marketplace"
   else
     fail("User type \"#{user_type}\" does not exist")
@@ -1812,7 +1789,7 @@ Then /I am on the '(.*)' page$/ do |page_name|
     current_url.should end_with("#{dm_frontend_domain}/suppliers/create")
     page.should have_link('www.dnb.co.uk/dandb-duns-number')
     page.should have_link('beta.companieshouse.gov.uk/help/welcome')
-    page.should have_button('Start')
+    page.should have_link('Start')
   elsif page_name == 'Create a buyer account'
     current_url.should end_with("#{dm_frontend_domain}/buyers/create")
     page.should have_content("#{page_name}")
@@ -1847,6 +1824,7 @@ Then /I am on the '(.*)' page$/ do |page_name|
 end
 
 Then /I am taken to the buyers '(.*)' page$/ do |page_name|
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
   case page_name
   when "Find an individual specialist"
     page.should have_link('View published requirements')
@@ -1855,21 +1833,86 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/digital-outcomes-and-specialists/requirements/digital-specialists")
+    store.service_type = "digital-specialists"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
   when "Find a team to provide an outcome"
-
-
+    page.should have_link('View published requirements')
+    page.should have_link('View supplier A to Z')
+    page.should have_link('Find out how suppliers are evaluated')
+    page.should have_link('How to talk to suppliers before you start')
+    page.should have_link('how to buy')
+    page.should have_button('Choose specialist role')
+    store.service_type = "digital-outcomes"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
   when "Find user research participants"
-
+    page.should have_link('View published requirements')
+    page.should have_link('View supplier A to Z')
+    page.should have_link('Find out how suppliers are evaluated')
+    page.should have_link('How to talk to suppliers before you start')
+    page.should have_link('how to buy')
+    page.should have_button('Choose specialist role')
+    store.service_type = "user-research-participants"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
   when "Find a user research lab"
-
+    puts "page slow has not been defined/developed"
   else
     fail("The page \"#{page_name}\" does not exist")
   end
 
-
-
-
-
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
+end
+
+Given /^I am on the "Overview of work" page for the buyer brief$/ do
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}"
+end
+
+Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
+  page.find('h1').should have_content("#{brief_name}")
+  page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
+  parts = URI.parse(current_url).path.split('/')
+  store.current_listing = (parts.select {|v| v =~ /^\d+$/}).last
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.service_type = URI.parse(current_url).path.split('requirements/').last.split('/').first
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}")
+end
+
+Then /^Summary row '(.*)' should contain '(.*)'$/ do |field_name, field_value|
+  page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
+end
+
+Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
+  all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
+    element.text() == text_of_interest
+  end
+
+  if all_headings.length >= 1
+    top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
+    top_level_action.text().should == action
+    top_level_action.click
+
+  else
+    all_item_text = page.all(:css, ".summary-item-field-first>span").select do |element|
+      element.text() == text_of_interest
+    end
+
+    if current_url.include?('submissions') or action == 'Edit'
+      top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a[contains(text(),'#{action}')]")
+    elsif current_url.include?('requirements')
+      top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field']/span/a[contains(text(),'#{action}')]")
+    end
+
+    top_level_action.text().should == action
+    top_level_action.click
+  end
+end
+
+And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
+  case availability
+  when "made"
+    page.should have_button("#{button_name}")
+  when "not"
+    page.should have_no_button("#{button_name}")
+  else
+    fail("Unrecognised variable: '#{availability}'")
+  end
 end
