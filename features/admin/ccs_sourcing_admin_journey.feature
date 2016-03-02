@@ -13,7 +13,7 @@ Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier n
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
 
 Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
-  Given I am logged in as a 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'G-Cloud 7 declaration' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the admin G-Cloud 7 declaration page
   When I click the 'Edit' link for 'G-Cloud 7 essentials'
@@ -27,27 +27,31 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
   Then I am presented with the updated admin G-Cloud 7 declaration page
 
 Scenario: As a CCS Sourcing user I wish to upload G-Cloud 7 countersigned agreements
-  Given I am logged in as a 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Upload G-Cloud 7 countersigned agreement' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
 
   When I choose file 'test.pdf' for 'countersigned_agreement'
   And I click 'Upload file'
   Then I am presented with the message 'Countersigned agreement file was uploaded'
-@wip
-Scenario: As a CCS Sourcing user I want to download the agreement
-  Given I am logged in as a 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
-  When I click 'Download agreement'
-  Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I wish to remove a countersigned agreement
-  Given I am logged in as a 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
+  Given I am logged in as 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
   When I click 'Remove'
   Then I am presented with the message 'Do you want to remove the countersigned agreement?'
 
   When I click 'Yes'
   Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
   And There is no agreement available on the page
+
+Scenario: As a CCS Sourcing user I want to download the agreement
+  Given I am logged in as 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
+  When I choose file 'test2.pdf' for 'countersigned_agreement'
+  And I click 'Upload file'
+  Then I am presented with the message 'Countersigned agreement file was uploaded'
+
+  When I download the contersigned agreement
+  Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I want to view G-Cloud 7 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user

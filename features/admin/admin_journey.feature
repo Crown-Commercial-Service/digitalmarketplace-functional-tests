@@ -32,7 +32,7 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
-  Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
   When I click the service name link for the second listing on the page
   Then I am presented with the service page for that specific listing
 
@@ -50,12 +50,12 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Users page via the supplier(s) by supplier name prefix page
-  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Users' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Services page via the supplier(s) by supplier name prefix page
-  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Services' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
   And I can see all listings ordered by lot name followed by listing name
@@ -74,13 +74,13 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
 
 Scenario: Admin user should be able to abort an edit and be returned to the service summary page
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I click the 'Edit' link for 'Description'
   And I click 'Return without saving'
   Then I am presented with the summary page with no changes made to the 'Description'
 
 Scenario: As an admin user I wish to edit the features and benefits of a service
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Features and benefits' page
   And I change 'input-serviceFeatures-3' to 'Service feature changed'
   And I remove service benefit number 2
@@ -89,7 +89,7 @@ Scenario: As an admin user I wish to edit the features and benefits of a service
   Then I am presented with the summary page with the changes that were made to the 'Features and benefits'
 
 Scenario: As an admin user I wish to edit the pricing of a service
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Pricing' page
   And I change 'input-minimum-price' to '100'
   And I change 'input-maximum-price' to '1234'
@@ -105,7 +105,7 @@ Scenario: As an admin user I wish to edit the pricing of a service
   Then I am presented with the summary page with the changes that were made to the 'Pricing'
 
 Scenario: As an admin user I wish to change a document for a service. Service selected via supplier ID search.
-  Given I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
   When I click the 'Edit' link for the service '1123456789012346'
   Then I am presented with the summary page for that service
   When I navigate to the 'Edit' 'Documents' page
@@ -114,14 +114,14 @@ Scenario: As an admin user I wish to change a document for a service. Service se
   Then I am presented with the summary page with the changes that were made to the 'Documents'
 
 Scenario: As an admin user I wish to change a document for a service
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Documents' page
   And I change 'pricingDocumentURL' file to '12345-test-new-pricing-document.pdf'
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Documents'
 
 Scenario: Admin user is able to view service details page for a service
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I click 'View service'
   Then I am presented with the service details page for that service
 
@@ -134,7 +134,7 @@ Scenario: As an admin user I want to view Service status changes
   Then I am presented with the Service status changes page for changes made 'yesterday'
 
 Scenario: Admin changes service status to 'Removed'. The change is reflected in the supplier and/or buyer app
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Removed' as the service status
   And I click the 'Update status' button
   Then The service status is set as 'Removed'
@@ -147,7 +147,7 @@ Scenario: Admin changes service status to 'Removed'. The change is reflected in 
   And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
 
 Scenario: Admin changes service status to 'Private'. The change is reflected in the supplier and/or buyer app
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Private' as the service status
   And I click the 'Update status' button
   Then The service status is set as 'Private'
@@ -160,7 +160,7 @@ Scenario: Admin changes service status to 'Private'. The change is reflected in 
   And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
 
 Scenario: Admin changes service status to 'Public'. The change is reflected in the supplier and/or buyer app
-  Given I am logged in as a 'Administrator' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I select 'Public' as the service status
   And I click the 'Update status' button
   Then The service status is set as 'Public'
@@ -171,27 +171,27 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And The service details page 'can' be viewed
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to deactivate a supplier user
-  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
   When I click the 'Deactivate' button for the supplier user 'DM Functional Test Supplier User 2'
   Then The supplier user 'DM Functional Test Supplier User 2' is 'not active'
   And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
   And The supplier user 'DM Functional Test Supplier User 2' 'is not' listed as a contributor on the dashboard of another user of the same supplier
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to activate a deactivated supplier user
-  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
   When I click the 'Activate' button for the supplier user 'DM Functional Test Supplier User 2'
   Then The supplier user 'DM Functional Test Supplier User 2' is 'active'
   And The supplier user 'DM Functional Test Supplier User 2' 'can' login to Digital Marketplace
   And The supplier user 'DM Functional Test Supplier User 2' 'is' listed as a contributor on the dashboard of another user of the same supplier
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish unlock a locked supplier
-  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
   When I click the 'Unlock' button for the supplier user 'DM Functional Test Supplier User 3'
   Then The supplier user 'DM Functional Test Supplier User 3' is 'not locked'
   And The supplier user 'DM Functional Test Supplier User 3' 'can' login to Digital Marketplace
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to send an invitation email to a new user
-  Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
   When I enter 'testing.supplier.username4@dmtestemail.com' in the 'email_address' field
   And I click 'Send invitation'
   Then I am presented with the message 'User invited'
@@ -212,7 +212,7 @@ Scenario: As an admin user I want to view Service updates
   Then I am presented with the Service updates page
 
 Scenario: As a normal admin user I should not be able to edit a supplier declaration. Link should not exist on the services page.(This is only available to a CCS sourcing admin user)
-  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   Then there is no 'G-Cloud 7 declaration' link for any supplier
   Then there is no 'Digital Outcomes and Specialists declaration' link for any supplier
 
@@ -220,7 +220,7 @@ Scenario: As a normal admin user I should not be able to edit a supplier declara
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
 Scenario: As a normal admin user I should not be able to upload a contersigned agreement for any supplier. Link should not exist on the services page.(This is only available to a CCS sourcing admin user)
-  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   Then there is no 'Upload G-Cloud 7 countersigned agreement' link for any supplier
   Then there is no 'Upload Digital Outcomes and Specialists countersigned agreement' link for any supplier
 
@@ -228,7 +228,7 @@ Scenario: As a normal admin user I should not be able to upload a contersigned a
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
 Scenario: As an admin user I want to change the supplier name of a current supplier
-  Given I am logged in as a 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Change name' link for the supplier 'DM Functional Test Supplier 2'
   Then I am presented with the 'Change supplier name' page for the supplier 'DM Functional Test Supplier 2'
 
