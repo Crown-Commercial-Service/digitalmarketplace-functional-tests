@@ -310,7 +310,7 @@ Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
   }
 end
 
-Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
+Given /^I am logged in as '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
   @servicesupplierID = value
   if user_type == 'Administrator'
     steps %Q{
@@ -320,7 +320,7 @@ Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do
       Then I am presented with the summary page for that service
     }
   elsif user_type == 'Supplier'
-    step "I am logged in as a 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page"
+    step "I am logged in as 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page"
     find(
       :xpath,
       ".//a[contains(@href, '/suppliers/services/#{value}')]"
@@ -644,14 +644,14 @@ Then /I am presented with the '(.*)' '(.*)' dashboard page$/ do |user_type_name,
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
+Given /^I am logged in as '(.*)' '(.*)' user and am on the dashboard page$/ do |user_name,user_type|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
-    Then I am presented with the '#{supplier_name}' 'Supplier' dashboard page
+    Then I am presented with the '#{user_name}' '#{user_type}' dashboard page
   }
 end
 
-Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
+Given /^I am logged in as '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
   if value == '11111'
     supplier_name = 'DM Functional Test Supplier'
   elsif value == '11112'
@@ -672,7 +672,7 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
   }
 end
 
-Given /I am logged in as a '(.*)' and navigated to the '(.*)' page for supplier '(.*)'$/ do |user_type,page_name,value|
+Given /^I am logged in as '(.*)' and navigated to the '(.*)' page for supplier '(.*)'$/ do |user_type,page_name,value|
   step "I have logged in to Digital Marketplace as a '#{user_type}' user"
   if value == 'DM Functional Test Supplier'
     supplierID = '11111'
@@ -694,7 +694,7 @@ def login_page_type(user_type)
   end
 end
 
-Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on suppliers by name prefix '(.*)'$/ do |user_type,page_name,name_prefix|
+Given /^I am logged in as '(.*)' and navigated to the '(.*)' page by searching on suppliers by name prefix '(.*)'$/ do |user_type,page_name,name_prefix|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
     When I enter '#{name_prefix}' in the 'supplier_name_prefix' field
@@ -703,9 +703,9 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
   }
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
+Given /^I am logged in as '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
   steps %Q{
-    Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+    Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
     When I click 'View'
     Then I am presented with the supplier '#{supplier_name}' 'Current services' page
   }
@@ -971,12 +971,12 @@ And /I am presented with a service removal message for the '(.*)' service$/ do |
   step "And I am presented with the message '#{service_name} has been removed.'"
 end
 
-And /I am presented with the message '(.*)'$/ do |message_text|
+And /^I am presented with the message '(.*?)'$/ do |message_text|
   page.should have_content(message_text)
 end
 
 Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
-  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
+  step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
 
   find(:xpath,
     "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[4]/span"
@@ -984,7 +984,7 @@ Then /The status of the service is presented as '(.*)' on the supplier users ser
 end
 
 Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
-  step "Given I am logged in as a 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
+  step "I am logged in as 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
   find(
     :xpath,
     "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
@@ -997,7 +997,7 @@ And /A message stating the supplier has stopped offering this service on todays 
 
   case user_type
   when 'Supplier'
-    step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+    step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
     page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
     page.find(:xpath,
       "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'This service was removed on #{todays_date}')]/following-sibling::p[@class='banner-message'][contains(text(),'If you don’t know why this service was removed')]"
@@ -1432,13 +1432,13 @@ end
 
 Then /The supplier user '(.*)' is '(.*)' on the admin Users page$/ do |user_name, user_lockoractive_state|
   steps %Q{
-    Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+    Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
     Then The supplier user '#{user_name}' is '#{user_lockoractive_state}'
   }
 end
 
 And /The supplier user '(.*)' '(.*)' listed as a contributor on the dashboard of another user of the same supplier$/ do |user_name,value|
- step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+ step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
 
   if value == 'is not'
     page.should have_no_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
@@ -1515,7 +1515,7 @@ And /I am taken to the '(.*)' supplier information page$/ do |value|
 end
 
 Given /All services associated with supplier with ID '(.*)' have a status of '(.*)'$/ do |value,status|
-  step "I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '#{value}'"
+  step "I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '#{value}'"
   current_service_status = page.find(:xpath,"//*[@class='summary-item-field-with-action']//*[contains(@href, '1123456789012354')]/../../../td[5][text()]").text()
   if current_service_status == 'Public' || current_service_status == 'Private'
     step "I click the 'Edit' link for the service '1123456789012354'"
@@ -1912,6 +1912,33 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
     page.should have_button("#{button_name}")
   when "not"
     page.should have_no_button("#{button_name}")
+  else
+    fail("Unrecognised variable: '#{availability}'")
+  end
+end
+#Change below inplementation with direct brief creation via the API?
+Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of work" page for that brief$/ do |brief_type, brief_name|
+  steps %Q{
+    Given I am on the 'Digital Marketplace' landing page
+    When I click the '#{brief_type}' link
+    Then I am taken to the buyers '#{brief_type}' page
+    When I click the 'Choose specialist role' button
+    Then I am taken to the 'Requirements title' page
+    When I enter '#{brief_name}' in the 'title' field
+    And I click the 'Save and continue' button
+    Then I am taken to the 'Location' page
+    When I choose 'Scotland' for 'location'
+    And I click 'Save and continue'
+    Then I should be on the "Overview of work" page for the buyer brief '#{brief_name}'
+  }
+end
+
+Then /^The buyer brief '(.*)' is '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
+  case availability
+  when ""
+    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+  when "not"
+    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
   else
     fail("Unrecognised variable: '#{availability}'")
   end

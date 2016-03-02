@@ -1,4 +1,4 @@
-@not-production @functional-test 
+@not-production @functional-test
 Feature: Supplier user journey through Digital Marketplace
 
 Scenario: Setup for tests
@@ -15,27 +15,27 @@ Scenario: As supplier user I wish be able to log in and to log out of Digital Ma
   Then I am logged out of Digital Marketplace as a 'Supplier' user
 
 Scenario: As a logged in supplier user, my supplier details are available on the dashboard
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   Then I can see my supplier details on the dashboard
 
 Scenario: As a logged in supplier user, I can navigate to the service listings page from my dashboard and can see all my listings
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'View'
   Then I am presented with the supplier 'DM Functional Test Supplier' 'Current services' page
   And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As a logged in supplier user, I can view the listings page of a specific service
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
   When I click the service name link for the second listing on the page
   And I click 'View service'
   Then I am presented with the service page for that specific listing
 
 Scenario: As a logged in supplier user, I can see my active contributors on the dashboard
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   Then I can see active users associated with 'DM Functional Test Supplier' on the dashboard
 
 Scenario: As a logged in supplier user, I can navigate to the contributors page from my dashboard and I can remove one
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'Invite or remove'
   Then I am presented with the supplier 'DM Functional Test Supplier' 'Invite or remove contributors' page
   When I remove the supplier user 'DM Functional Test Supplier User 2'
@@ -47,12 +47,12 @@ Scenario: As a logged in supplier user, I can navigate to the contributors page 
   Then The supplier user 'DM Functional Test Supplier User 2' is 'not active' on the admin Users page
 
 Scenario: As a logged in supplier user, I can navigate to the service summary page for a specific service
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
   When I click the service name link for the second listing on the page
   Then I am presented with the summary page for that service
 
 Scenario: As a logged in supplier user, I can edit my supplier information
-  Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I navigate to the 'Edit' 'Supplier information' page
   And I change 'input-description' to 'Supplier changed the service description'
   And I change 'input-clients-3' to 'Supplier changed the third client'
@@ -71,7 +71,7 @@ Scenario: As a logged in supplier user, I can edit my supplier information
 
 @wip
 Scenario: As a logged in supplier user, I can edit the description of a service
-  Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Description' page
   And I change 'input-serviceName' to 'Supplier changed the service name'
   And I change 'input-serviceSummary' to 'Supplier changed the service summary'
@@ -80,7 +80,7 @@ Scenario: As a logged in supplier user, I can edit the description of a service
 
 @wip
 Scenario: As a logged in supplier user, I can edit the features and benefits of a service
-  Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Supplier' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Features and benefits' page
   And I change 'input-serviceFeatures-3' to 'Supplier changed this service feature'
   And I remove service benefit number 2
@@ -89,7 +89,7 @@ Scenario: As a logged in supplier user, I can edit the features and benefits of 
   Then I am presented with the summary page with the changes that were made to the 'Features and benefits'
 
 Scenario: Supplier user changes service status to 'Removed'. The change is reflected in the admin and/or buyer app
-  Given I am logged in as a 'Supplier' and am on the '1123456789012346' service summary page
+  Given I am logged in as 'Supplier' and am on the '1123456789012346' service summary page
   When I click 'Remove service'
   Then I am presented with the message 'Are you sure you want to remove your service?'
   When I click 'Remove service'
