@@ -29,7 +29,7 @@ Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wis
   And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
-  Given I am logged in as a 'CCS Category' and navigated to the 'Services' page by searching on supplier ID '11111'
+  Given I am logged in as 'CCS Category' and navigated to the 'Services' page by searching on supplier ID '11111'
   When I click the service name link for the second listing on the page
   Then I am presented with the service page for that specific listing
 
@@ -47,12 +47,12 @@ Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wis
   Then I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'
 
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Users page via the supplier(s) by supplier name prefix page
-  Given I am logged in as a 'CCS Category' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'CCS Category' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Users' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
 
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Services page via the supplier(s) by supplier name prefix page
-  Given I am logged in as a 'CCS Category' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  Given I am logged in as 'CCS Category' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Services' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
   And I can see all listings ordered by lot name followed by listing name

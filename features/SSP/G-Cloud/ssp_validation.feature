@@ -8,7 +8,7 @@
 Feature: Page validation
 
   Scenario: Select lot
-    Given I am logged in as a 'supplier'
+    Given I am logged in as 'supplier'
     And I am at '/addservice'
     When I choose 'Infrastructure as a Service (IaaS)'
     And I click 'Save and continue'
