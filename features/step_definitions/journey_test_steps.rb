@@ -644,20 +644,31 @@ Then /I am presented with the service details page for that service$/ do
   page.should have_content(@existing_values['serviceprice'])
 end
 
-Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name|
-  @existing_values = @existing_values || Hash.new
-  @existing_values['summarypageurl'] = current_url
-  page.should have_content(supplier_name)
+Then /I am presented with the '(.*)' '(.*)' dashboard page$/ do |user_type_name, user_type|
+  user_type = user_type.downcase
+  case user_type
+  when "buyer"
+    ['Unpublished requirements', 'Published requirements'].each do |header|
+      page.should have_selector(:xpath, ".//h2[@class='summary-item-heading'][contains(text(), '#{header}')]")
+    end
+    page.should have_content(dm_buyer_email())
+  when "supplier"
+    @existing_values = @existing_values || Hash.new
+    @existing_values['summarypageurl'] = current_url
+    page.should have_content(dm_supplier_user_email())
+  else
+    fail("User type \"#{user_type}\" does not exist")
+  end
+  page.should have_content(user_type_name)
   page.should have_link('Log out')
-  page.should have_content(dm_supplier_user_email())
-  current_url.should end_with("#{dm_frontend_domain}/suppliers")
+  current_url.should end_with("#{dm_frontend_domain}/#{user_type}s")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
+Given /^I am logged in as '(.*)' '(.*)' user and am on the dashboard page$/ do |user_name,user_type|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
-    Then I am presented with the '#{supplier_name}' supplier dashboard page
+    Then I am presented with the '#{user_name}' '#{user_type}' dashboard page
   }
 end
 
@@ -1781,4 +1792,44 @@ end
 And /There is no agreement available on the page$/ do
   page.should have_content('No agreements have been uploaded')
   page.should have_no_selector(:xpath, "//tbody/tr[@class='summary-item-row']/*/span[contains(text(), 'G-Cloud 7 countersigned agreement')]")
+end
+
+Then /I am on the '(.*)' page$/ do |page_name|
+  if page_name == 'Create supplier account'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/create")
+    page.should have_link('www.dnb.co.uk/dandb-duns-number')
+    page.should have_link('beta.companieshouse.gov.uk/help/welcome')
+    page.should have_link('Start')
+  elsif page_name == 'Create a buyer account'
+    current_url.should end_with("#{dm_frontend_domain}/buyers/create")
+    page.should have_content("#{page_name}")
+    page.should have_button('Create account')
+  elsif page_name == 'DUNS number'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/duns-number")
+    page.should have_link('Find out how to get a DUNS number')
+    page.should have_button('Continue')
+  elsif page_name == 'Companies House number (optional)'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/companies-house-number")
+    page.should have_link('Visit Companies House to get your number')
+    page.should have_button('Continue')
+  elsif page_name == 'Company contact details'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-contact-details")
+    page.should have_field('contact_name')
+    page.should have_field('email_address')
+    page.should have_field('phone_number')
+    page.should have_button('Continue')
+  elsif page_name == 'Create login'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/create-your-account")
+    page.should have_button('Continue')
+  elsif page_name == 'Check your information'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-summary")
+    page.should have_button('Create account')
+  end
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
