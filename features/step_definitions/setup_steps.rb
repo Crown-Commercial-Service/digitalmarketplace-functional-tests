@@ -145,6 +145,10 @@ def create_buyer_user (email,username,password)
   return create_and_return_user(email,username,password,"buyer")
 end
 
+def create_buyer_user (email,username,password)
+  create_user(email,username,password,"buyer")
+end
+
 def create_admin_user (email,username,password)
   return create_and_return_user(email,username,password,"admin")
 end
@@ -300,4 +304,29 @@ Given /^I have deleted all draft briefs$/ do
     fail(ArgumentError.new('No buyer user found!!'))
   end
   delete_all_draft_briefs(@buyer_id)
+end
+#@wip-create a buyer brief
+def create_buyer_brief (brief_name,framework_slug,lot,user_id)
+  file = File.read("./fixtures/briefs-DOS.json")
+  brief_data = JSON.parse(file)
+  brief_data["briefs"]["title"] = brief_name
+  brief_data["briefs"]["location"] = "Scotland"
+  brief_data["briefs"]["frameworkSlug"] = framework_slug
+  brief_data["briefs"]["lot"] = lot
+  brief_data["briefs"]["userId"] = user_id
+
+  response = call_api(:get, "/briefs", params: {user_id: user_id})
+  # puts response.body
+  JSON.parse(response.body)["briefs"].each do |brief|
+    puts brief["title"]
+  end
+  # if response.
+  # if response.code == 404
+  #   response = call_api(:post, "/users", payload: user_data)
+  #   response.code.should be(201), response.body
+  # end
+end
+#@wip-create a buyer brief
+Given /^I have brief$/ do
+  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10348)
 end
