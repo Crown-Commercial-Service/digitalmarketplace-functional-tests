@@ -91,6 +91,10 @@ def create_supplier_user (supplierid,email,username,password)
   create_user(email,username,password,"supplier",supplierid)
 end
 
+def create_buyer_user (email,username,password)
+  create_user(email,username,password,"buyer")
+end
+
 def create_admin_user (email,username,password)
   create_user(email,username,password,"admin")
 end
@@ -100,6 +104,10 @@ And /^The test suppliers have users$/ do
   create_supplier_user(11111,dm_supplier_user2_email(),"DM Functional Test Supplier User 2", dm_supplier_password())
   create_supplier_user(11111,dm_supplier_user3_email(),"DM Functional Test Supplier User 3", dm_supplier_password())
   create_supplier_user(11112,dm_supplier2_user_email(),"DM Functional Test Supplier 2 User 1", dm_supplier_password())
+end
+
+Given /^I have a buyer user account$/ do
+  create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
 end
 
 And /^The test suppliers have declarations$/ do
@@ -212,4 +220,29 @@ And /^All services for the test suppliers are Public$/ do
   service_status_public("1123456789012352")
   service_status_public("1123456789012353")
   service_status_public("1123456789012354")
+end
+#@wip-create a buyer brief
+def create_buyer_brief (brief_name,framework_slug,lot,user_id)
+  file = File.read("./fixtures/briefs-DOS.json")
+  brief_data = JSON.parse(file)
+  brief_data["briefs"]["title"] = brief_name
+  brief_data["briefs"]["location"] = "Scotland"
+  brief_data["briefs"]["frameworkSlug"] = framework_slug
+  brief_data["briefs"]["lot"] = lot
+  brief_data["briefs"]["userId"] = user_id
+
+  response = call_api(:get, "/briefs", params: {user_id: user_id})
+  # puts response.body
+  JSON.parse(response.body)["briefs"].each do |brief|
+    puts brief["title"]
+  end
+  # if response.
+  # if response.code == 404
+  #   response = call_api(:post, "/users", payload: user_data)
+  #   response.code.should be(201), response.body
+  # end
+end
+#@wip-create a buyer brief
+Given /^I have brief$/ do
+  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10348)
 end
