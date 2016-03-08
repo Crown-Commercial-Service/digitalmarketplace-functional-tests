@@ -4,23 +4,25 @@ require "rest_client"
 
 store = OpenStruct.new
 
-Given /I am on the '(.*)' login page$/ do |user_type|
-  case user_type
+Given /I am on the '(.*)' login page$/ do |value|
+  case value
   when "Administrator"
-    visit("#{dm_frontend_domain}/admin/login")
-    if page.has_link?("Log out")
-      page.click_link("Log out")
-    end
-    page.should have_content("#{user_type} login")
-  when "Digital Marketplace", "Supplier"
-    visit("#{dm_frontend_domain}/login")
-    if page.has_link?("Log out")
-      page.click_link("Log out")
-    end
-    page.should have_content('Log in to the Digital Marketplace')
+    url = "#{dm_frontend_domain}/admin/login"
+    page_header = "#{value} login"
+  when "Digital Marketplace"
+    url = "#{dm_frontend_domain}/login"
+    page_header = "Log in to the Digital Marketplace"
   else
-    fail("Unrecognised user login page '#{user_type}'")
+    fail("Unrecognised login page: '#{value}'")
   end
+
+  visit(url)
+  if page.has_link?("Log out")
+    page.click_link("Log out")
+  end
+
+  page.should have_content(page_header)
+  current_url.should end_with(url)
   page.should have_content("Email address")
   page.should have_content("Password")
   page.has_button?("Log in")
@@ -31,6 +33,9 @@ When /I login as a '(.*)' user$/ do |user_type|
   when "Administrator"
     page.fill_in('email_address', :with => dm_admin_email())
     page.fill_in('password', :with => dm_admin_password())
+  when "Buyer"
+    page.fill_in('email_address', :with => dm_buyer_email())
+    page.fill_in('password', :with => dm_buyer_password())
   when "Supplier"
     page.fill_in('email_address', :with => dm_supplier_user_email())
     page.fill_in('password', :with => dm_supplier_password())
@@ -61,7 +66,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   if ability == 'can not'
     page.should have_content('Make sure you\'ve entered the right email address and password.')
   elsif ability == 'can'
-    step "Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page"
+    step "Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page"
   end
 end
 
@@ -305,7 +310,7 @@ Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
   }
 end
 
-Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
+Given /^I am logged in as '(.*)' and am on the '(.*)' service summary page$/ do |user_type,value|
   @servicesupplierID = value
   if user_type == 'Administrator'
     steps %Q{
@@ -315,7 +320,7 @@ Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do
       Then I am presented with the summary page for that service
     }
   elsif user_type == 'Supplier'
-    step "I am logged in as a 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page"
+    step "I am logged in as 'DM Functional Test Supplier' '#{user_type}' user and am on the service listings page"
     find(
       :xpath,
       ".//a[contains(@href, '/suppliers/services/#{value}')]"
@@ -325,16 +330,21 @@ Given /I am logged in as a '(.*)' and am on the '(.*)' service summary page$/ do
 end
 
 Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
-  if user_type == 'Administrator'
+  case user_type
+  when "Administrator"
     page.should have_content('You have been logged out')
     page.should have_content('Administrator login')
-  end
+  when "Buyer" , "Supplier"
   page.has_link?("Log in")
   page.has_link?('Create supplier account')
+  page.should have_content('Log in to the Digital Marketplace')
   page.should have_content('Email address')
   page.should have_content('Password')
   page.has_button?('Log in')
   page.has_link?('Forgotten password')
+  else
+    fail("User type \"#{user_type}\" does not exist")
+  end
 end
 
 Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
@@ -404,13 +414,13 @@ And /I set '(.*)' as '(.*)'$/ do |field_to_change,new_value|
   @changed_fields[field_to_change] = new_value.downcase
 end
 
-And /I choose '(.*)' for '(.*)'$/ do |new_value,field_to_change|
-  within "##{field_to_change}" do
-    page.find(:xpath, ".//label[contains(text(), '#{new_value}')]").click
+And /I choose '(.*)' for '(.*)'$/ do |value,field_name|
+  within "##{field_name}" do
+    page.find(:xpath, ".//label[contains(text(), '#{value}')]").click
   end
 
   @changed_fields = @changed_fields || Hash.new
-  @changed_fields[field_to_change] = new_value
+  @changed_fields[field_name] = value
 end
 
 And /I remove service benefit number 2$/ do
@@ -634,24 +644,35 @@ Then /I am presented with the service details page for that service$/ do
   page.should have_content(@existing_values['serviceprice'])
 end
 
-Then /I am presented with the '(.*)' supplier dashboard page$/ do |supplier_name|
-  @existing_values = @existing_values || Hash.new
-  @existing_values['summarypageurl'] = current_url
-  page.should have_content(supplier_name)
+Then /I am presented with the '(.*)' '(.*)' dashboard page$/ do |user_type_name, user_type|
+  user_type = user_type.downcase
+  case user_type
+  when "buyer"
+    ['Unpublished requirements', 'Published requirements'].each do |header|
+      page.should have_selector(:xpath, ".//h2[@class='summary-item-heading'][contains(text(), '#{header}')]")
+    end
+    page.should have_content(dm_buyer_email())
+  when "supplier"
+    @existing_values = @existing_values || Hash.new
+    @existing_values['summarypageurl'] = current_url
+    page.should have_content(dm_supplier_user_email())
+  else
+    fail("User type \"#{user_type}\" does not exist")
+  end
+  page.should have_content(user_type_name)
   page.should have_link('Log out')
-  page.should have_content(dm_supplier_user_email())
-  current_url.should end_with("#{dm_frontend_domain}/suppliers")
+  current_url.should end_with("#{dm_frontend_domain}/#{user_type}s")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the dashboard page$/ do |supplier_name,user_type|
+Given /^I am logged in as '(.*)' '(.*)' user and am on the dashboard page$/ do |user_name,user_type|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
-    Then I am presented with the '#{supplier_name}' supplier dashboard page
+    Then I am presented with the '#{user_name}' '#{user_type}' dashboard page
   }
 end
 
-Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
+Given /^I am logged in as '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
   if value == '11111'
     supplier_name = 'DM Functional Test Supplier'
   elsif value == '11112'
@@ -672,7 +693,7 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
   }
 end
 
-Given /I am logged in as a '(.*)' and navigated to the '(.*)' page for supplier '(.*)'$/ do |user_type,page_name,value|
+Given /^I am logged in as '(.*)' and navigated to the '(.*)' page for supplier '(.*)'$/ do |user_type,page_name,value|
   step "I have logged in to Digital Marketplace as a '#{user_type}' user"
   if value == 'DM Functional Test Supplier'
     supplierID = '11111'
@@ -684,14 +705,17 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page for supplier 
 end
 
 def login_page_type(user_type)
-  if user_type == "CCS Sourcing" or user_type == "CCS Category"
+  case user_type
+  when "CCS Sourcing", "CCS Category", "Administrator"
     return "Administrator"
+  when "Supplier", "Buyer"
+    return "Digital Marketplace"
   else
-    return user_type
+    fail("User type \"#{user_type}\" does not exist")
   end
 end
 
-Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching on suppliers by name prefix '(.*)'$/ do |user_type,page_name,name_prefix|
+Given /^I am logged in as '(.*)' and navigated to the '(.*)' page by searching on suppliers by name prefix '(.*)'$/ do |user_type,page_name,name_prefix|
   steps %Q{
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
     When I enter '#{name_prefix}' in the 'supplier_name_prefix' field
@@ -700,9 +724,9 @@ Given /I am logged in as a '(.*)' and navigated to the '(.*)' page by searching 
   }
 end
 
-Given /I am logged in as a '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
+Given /^I am logged in as '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
   steps %Q{
-    Given I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+    Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
     When I click 'View'
     Then I am presented with the supplier '#{supplier_name}' 'Current services' page
   }
@@ -771,7 +795,7 @@ end
 And /I should not see the supplier user '(.*)' on the supplier dashboard page$/ do |user_name|
   steps %Q{
     Given I click the 'Your account' link
-    Then I am presented with the 'DM Functional Test Supplier' supplier dashboard page
+    Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page
     And I should not see the supplier user '#{user_name}' in the 'Contributors' table
     }
 end
@@ -973,7 +997,7 @@ And /I am presented with the message '(.*)'$/ do |message_text|
 end
 
 Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
-  step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
+  step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
 
   find(:xpath,
     "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[4]/span"
@@ -981,7 +1005,7 @@ Then /The status of the service is presented as '(.*)' on the supplier users ser
 end
 
 Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
-  step "Given I am logged in as a 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
+  step "I am logged in as 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
   find(
     :xpath,
     "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
@@ -994,7 +1018,7 @@ And /A message stating the supplier has stopped offering this service on todays 
 
   case user_type
   when 'Supplier'
-    step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+    step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
     page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
     page.find(:xpath,
       "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'This service was removed on #{todays_date}')]/following-sibling::p[@class='banner-message'][contains(text(),'If you don’t know why this service was removed')]"
@@ -1054,6 +1078,14 @@ end
 
 When /I click the '(.*)' link$/ do |link_name|
   step "I click the '#{link_name}' button"
+end
+
+Then /^I download the contersigned agreement$/ do
+    href = page.find(:xpath, './/a[@download=""][contains(text(),"Download agreement")]')[:href]
+    url_to_visit=("#{dm_frontend_domain}#{href}")
+    page.visit(url_to_visit)
+    header = page.response_headers
+    store.content_length = header['Content-Length']
 end
 
 And /I click the search button for '(.*)'$/ do |action_field|
@@ -1285,6 +1317,10 @@ Given /I am on the search results page with results for '(.*)' lot displayed$/ d
   @data_store['searchsummarycount'] = searchsummarycount
 end
 
+When /^I choose file '(.*)' for '(.*)'$/ do |file, label|
+  attach_file(label, File.join(Dir.pwd, 'fixtures', file))
+end
+
 Then /The search results is filtered returning just one result for the service '(.*)'$/ do |value|
   query_string = CGI.escape value
   current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{query_string}&lot=iaas")
@@ -1411,13 +1447,13 @@ end
 
 Then /The supplier user '(.*)' is '(.*)' on the admin Users page$/ do |user_name, user_lockoractive_state|
   steps %Q{
-    Given I am logged in as a 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+    Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
     Then The supplier user '#{user_name}' is '#{user_lockoractive_state}'
   }
 end
 
 And /The supplier user '(.*)' '(.*)' listed as a contributor on the dashboard of another user of the same supplier$/ do |user_name,value|
- step "I am logged in as a 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+ step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
 
   if value == 'is not'
     page.should have_no_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
@@ -1494,7 +1530,7 @@ And /I am taken to the '(.*)' supplier information page$/ do |value|
 end
 
 Given /All services associated with supplier with ID '(.*)' have a status of '(.*)'$/ do |value,status|
-  step "I am logged in as a 'Administrator' and navigated to the 'Services' page by searching on supplier ID '#{value}'"
+  step "I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '#{value}'"
   current_service_status = page.find(:xpath,"//*[@class='summary-item-field-with-action']//*[contains(@href, '1123456789012354')]/../../../td[5][text()]").text()
   if current_service_status == 'Public' || current_service_status == 'Private'
     step "I click the 'Edit' link for the service '1123456789012354'"
@@ -1717,7 +1753,7 @@ Then /^There is no '(.*)' link$/ do |link_text|
   page.should_not have_link(link_text)
 end
 
-Then /^I am presented with the '(.*)' page$/ do |page_name|
+Then /^I am presented with the '(.*)' page$/ do |page_name| #Specific to admin pages only as it checks for the "Admin home" breadcrumb
   case page_name
   when 'Upload Digital Outcomes and Specialists communications'
     current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
@@ -1740,14 +1776,60 @@ end
 
 Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made available$/ do |file_name, content_type|
   header = page.response_headers
-  header_file = header['Content-Disposition']
+  if header['Content-Disposition'] != nil
+    header_file = header['Content-Disposition']
+    header_file.should match /^attachment/
+    header_file.should match /filename=#{file_name}$/
+  else
+    header_content_length = header['Content-Length']
+    header_content_length.should match store.content_length
+  end
+
   header_content_type = header['Content-Type']
-  header_file.should match /^attachment/
-  header_file.should match /filename=#{file_name}$/
   header_content_type.should match /#{content_type}/
 end
 
 And /There is no agreement available on the page$/ do
   page.should have_content('No agreements have been uploaded')
   page.should have_no_selector(:xpath, "//tbody/tr[@class='summary-item-row']/*/span[contains(text(), 'G-Cloud 7 countersigned agreement')]")
+end
+
+Then /I am on the '(.*)' page$/ do |page_name|
+  if page_name == 'Create supplier account'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/create")
+    page.should have_link('www.dnb.co.uk/dandb-duns-number')
+    page.should have_link('beta.companieshouse.gov.uk/help/welcome')
+    page.should have_link('Start')
+  elsif page_name == 'Create a buyer account'
+    current_url.should end_with("#{dm_frontend_domain}/buyers/create")
+    page.should have_content("#{page_name}")
+    page.should have_button('Create account')
+  elsif page_name == 'DUNS number'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/duns-number")
+    page.should have_link('Find out how to get a DUNS number')
+    page.should have_button('Continue')
+  elsif page_name == 'Companies House number (optional)'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/companies-house-number")
+    page.should have_link('Visit Companies House to get your number')
+    page.should have_button('Continue')
+  elsif page_name == 'Company contact details'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-contact-details")
+    page.should have_field('contact_name')
+    page.should have_field('email_address')
+    page.should have_field('phone_number')
+    page.should have_button('Continue')
+  elsif page_name == 'Create login'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/create-your-account")
+    page.should have_button('Continue')
+  elsif page_name == 'Check your information'
+    page.should have_content("#{page_name}")
+    current_url.should end_with("#{dm_frontend_domain}/suppliers/company-summary")
+    page.should have_button('Create account')
+  end
+  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
