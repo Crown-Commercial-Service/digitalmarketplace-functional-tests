@@ -391,10 +391,10 @@ Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,s
   end
 end
 
-When /I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
+When /^I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
   page.find(
     :xpath,
-    "//*[contains(@id, '#{field_to_change}')]"
+    "//*[contains(@id, '#{field_to_change}') and contains(@class, 'text-box')]"
   ).set(new_value)
 
   @changed_fields = @changed_fields || Hash.new
@@ -563,7 +563,7 @@ Then /I am presented with the summary page with the changes that were made to th
   current_url.should end_with(@existing_values['summarypageurl'])
 end
 
-When /I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
+When /^I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
   @existing_values = @existing_values || Hash.new
   @existing_values['originaldoc'] = @existing_values["#{document_to_change.split('URL').first.downcase}"]
   @existing_values['docofinterest'] = "#{document_to_change.split('URL').first.downcase}"
@@ -578,31 +578,31 @@ When /I click '(.*)'$/ do |button_link_name|
   page.click_link_or_button(button_link_name)
 end
 
-When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
-  step "I click the '#{action}' link for '#{service_aspect}'"
-  if service_aspect == 'Description'
-    page.should have_content(service_aspect)
+When /I navigate to the '(.*)' '(.*)' page$/ do |action,page_name|
+  step "I click the '#{action}' link for '#{page_name}'"
+  if page_name == 'Description'
+    page.should have_content(page_name)
     page.should have_content('Service name')
     page.should have_content('Service summary')
-  elsif service_aspect == 'Features and benefits'
-    page.should have_content(service_aspect)
+  elsif page_name == 'Features and benefits'
+    page.should have_content(page_name)
     page.should have_content('Service features')
     page.should have_content('Service benefits')
-  elsif service_aspect == 'Pricing'
-    page.should have_content(service_aspect)
+  elsif page_name == 'Pricing'
+    page.should have_content(page_name)
     page.should have_content('VAT included')
     page.should have_content('Education pricing')
     page.should have_content('Trial option')
     page.should have_content('Free option')
     page.should have_content('Minimum contract period')
-  elsif service_aspect == 'Documents'
-    page.should have_content(service_aspect)
+  elsif page_name == 'Documents'
+    page.should have_content(page_name)
     page.should have_content('Service definition document')
     page.should have_content('Please upload your terms and conditions document')
     page.should have_content('Skills Framework for the Information Age (SFIA) rate card')
     page.should have_content('Pricing document')
-  elsif service_aspect == 'Supplier information'
-    page.should have_content('Edit '"#{service_aspect.downcase}")
+  elsif page_name == 'Supplier information'
+    page.should have_content('Edit '"#{page_name.downcase}")
     page.should have_content('Supplier summary')
     page.should have_content('Clients')
     page.should have_content('Contact name')
@@ -610,6 +610,8 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content('Email address')
     page.should have_content('Phone number')
     page.should have_content('Business address')
+  else
+    page.should have_content(page_name)
   end
 end
 
@@ -1984,4 +1986,36 @@ Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief
   else
     fail("Unrecognised variable: '#{availability}'")
   end
+end
+
+When /^I edit '(.*)' by changing '(.*)' to '(.*)'$/ do |item_to_change,field_name,new_value|#Step implementation specific to buyer brief
+  step "I navigate to the 'Edit' '#{item_to_change}' page"
+
+  case item_to_change
+  when "Specialist role", "Location"
+    step "I choose '#{new_value}' for '#{field_name}'"
+  else
+    step "I change '#{field_name}' to '#{new_value}'"
+  end
+
+  steps %Q{
+    And I click 'Save and continue'
+    Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief-edited'
+  }
+end
+
+When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,field_name,new_value|#Step implementation specific to buyer brief
+  step "I navigate to the 'Edit' '#{item_to_change}' page"
+
+  case action
+  when "checking", "unchecking"
+    step "I '#{action}' '#{new_value}' for '#{field_name}'"
+  when "removing", "adding"
+    puts "in here for removing and adding"
+  end
+
+  steps %Q{
+    And I click 'Save and continue'
+    Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief-edited'
+  }
 end

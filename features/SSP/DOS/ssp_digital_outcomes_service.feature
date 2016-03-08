@@ -36,10 +36,10 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Edit' link for 'Outcomes locations'
     Then I should be on the 'Outcomes locations' page
 
-    When I check 'Scotland' for 'outcomesLocations'
-    And I check 'Wales' for 'outcomesLocations'
-    And I check 'London' for 'outcomesLocations'
-    And I check 'Northern Ireland' for 'outcomesLocations'
+    When I 'check' 'Scotland' for 'outcomesLocations'
+    And I 'check' 'Wales' for 'outcomesLocations'
+    And I 'check' 'London' for 'outcomesLocations'
+    And I 'check' 'Northern Ireland' for 'outcomesLocations'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -56,9 +56,9 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Performance analysis and data'
     Then I should be on the 'Performance analysis and data' page
 
-    When I check 'Data analysis' for 'performanceAnalysisTypes'
-    And I check 'Statistical modelling' for 'performanceAnalysisTypes'
-    And I check 'A/B and multivariate testing' for 'performanceAnalysisTypes'
+    When I 'check' 'Data analysis' for 'performanceAnalysisTypes'
+    And I 'check' 'Statistical modelling' for 'performanceAnalysisTypes'
+    And I 'check' 'A/B and multivariate testing' for 'performanceAnalysisTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -70,8 +70,8 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Security'
     Then I should be on the 'Security' page
 
-    When I check 'Security policy' for 'securityTypes'
-    And I check 'Firewall audit' for 'securityTypes'
+    When I 'check' 'Security policy' for 'securityTypes'
+    And I 'check' 'Firewall audit' for 'securityTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -80,9 +80,9 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Service delivery'
     Then I should be on the 'Service delivery' page
 
-    When I check 'Agile coaching' for 'deliveryTypes'
-    And I check 'Project management' for 'deliveryTypes'
-    And I check 'Digital communication and engagement' for 'deliveryTypes'
+    When I 'check' 'Agile coaching' for 'deliveryTypes'
+    And I 'check' 'Project management' for 'deliveryTypes'
+    And I 'check' 'Digital communication and engagement' for 'deliveryTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -91,10 +91,10 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Software development'
     Then I should be on the 'Software development' page
 
-    When I check 'Front-end web application development' for 'softwareDevelopmentTypes'
-    And I check 'API development' for 'softwareDevelopmentTypes'
-    And I check 'Geographic information systems (GIS) development' for 'softwareDevelopmentTypes'
-    And I check 'Mainframe' for 'softwareDevelopmentTypes'
+    When I 'check' 'Front-end web application development' for 'softwareDevelopmentTypes'
+    And I 'check' 'API development' for 'softwareDevelopmentTypes'
+    And I 'check' 'Geographic information systems (GIS) development' for 'softwareDevelopmentTypes'
+    And I 'check' 'Mainframe' for 'softwareDevelopmentTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -103,7 +103,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Support and operations'
     Then I should be on the 'Support and operations' page
 
-    When I check 'Incident management' for 'supportAndOperationsTypes'
+    When I 'check' 'Incident management' for 'supportAndOperationsTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -112,7 +112,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'Testing and auditing'
     Then I should be on the 'Testing and auditing' page
 
-    When I check 'Application testing' for 'testingAndAuditingTypes'
+    When I 'check' 'Application testing' for 'testingAndAuditingTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -121,7 +121,7 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'User experience and design'
     Then I should be on the 'User experience and design' page
 
-    When I check 'User experience and design strategy' for 'userExperienceAndDesignTypes'
+    When I 'check' 'User experience and design strategy' for 'userExperienceAndDesignTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 
@@ -130,12 +130,12 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Add' link for 'User research'
     Then I should be on the 'User research' page
 
-    When I check 'User needs and insights' for 'userResearchTypes'
-    And I check 'User journey mapping' for 'userResearchTypes'
-    And I check 'Creating personas' for 'userResearchTypes'
-    And I check 'Usability testing' for 'userResearchTypes'
-    And I check 'Quantitative research' for 'userResearchTypes'
-    And I check 'Quantitative research' for 'userResearchTypes'
+    When I 'check' 'User needs and insights' for 'userResearchTypes'
+    And I 'check' 'User journey mapping' for 'userResearchTypes'
+    And I 'check' 'Creating personas' for 'userResearchTypes'
+    And I 'check' 'Usability testing' for 'userResearchTypes'
+    And I 'check' 'Quantitative research' for 'userResearchTypes'
+    And I 'check' 'Quantitative research' for 'userResearchTypes'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 

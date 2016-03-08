@@ -78,13 +78,13 @@ Feature: Submitting a new DOS service for User research participants
 
     When I click the 'Edit' link for 'Recruitment approach'
     And I choose 'Entirely online' for 'recruitMethods'
-    And I uncheck 'Initial recruitment offline, but then contact them online' for 'recruitMethods'
+    And I 'uncheck' 'Initial recruitment offline, but then contact them online' for 'recruitMethods'
     And I choose 'No' for 'recruitFromList'
     And I click 'Save and continue'
 
     When I click the 'Edit' link for 'Location'
-    And I uncheck 'North East England' for 'recruitLocations'
-    And I uncheck 'Yorkshire and the Humber' for 'recruitLocations'
+    And I 'uncheck' 'North East England' for 'recruitLocations'
+    And I 'uncheck' 'Yorkshire and the Humber' for 'recruitLocations'
     And I check 'Scotland' for 'recruitLocations'
     And I check 'Wales' for 'recruitLocations'
     And I check 'London' for 'recruitLocations'

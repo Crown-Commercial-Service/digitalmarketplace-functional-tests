@@ -4,7 +4,7 @@ Feature: Buyer create briefs
 Background: Login to Digital Marketplace as the newly created buyer
   Given I have a buyer user account
   When I have logged in to Digital Marketplace as a 'Buyer' user
-
+@wip1
 Scenario: Start brief creation for an individual specialist
   Given I am on the 'Digital Marketplace' landing page
   When I click the 'Find an individual specialist' link
@@ -31,7 +31,7 @@ Scenario: Verify text on summary page for information that has been provided so 
   Then Summary row 'Requirements title' should contain 'Find an individual specialist brief'
   And Summary row 'Location' should contain 'North East England'
   And The 'Ready to publish' button is 'not' available
-
+@wip1
 Scenario: Complete all mandatory requirements questions. "Ready to publish" is only available on completing all mandatory requirement questions
   Given I am on the "Overview of work" page for the buyer brief
   When I click the 'Choose specialist role' link for 'Specialist role'
@@ -97,15 +97,17 @@ Scenario: Complete all mandatory requirements questions. "Ready to publish" is o
   When I click the 'Choose evaluation types' link for 'Evaluating suppliers'
   Then I am taken to the 'Evaluating suppliers' page
 
-  When I check 'pitch' for 'evaluationType'
-  And I check 'provide a written proposal' for 'evaluationType'
+  When I 'check' 'pitch' for 'evaluationType'
+  And I 'check' 'provide a written proposal' for 'evaluationType'
   And I click the 'Save and continue' button
   Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
   And The 'Ready to publish' button is 'made' available
-
+@wip1
 Scenario: Verify all text on summary page after adding mandatory information
   Given I am on the "Overview of work" page for the buyer brief
-  Then Summary row 'Specialist role' should contain 'Quality assurance analyst'
+  Then Summary row 'Requirements title' should contain 'Find an individual specialist brief'
+  And Summary row 'Location' should contain 'North East England'
+  And Summary row 'Specialist role' should contain 'Quality assurance analyst'
   And Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team'
   And Summary row 'Background information' should contain 'Background information for Digital Marketplace Team'
   And Summary row 'Start date' should contain '01/01/2020'
@@ -158,20 +160,95 @@ Scenario: Complete all optional requirements questions
   When I enter 'Second nice-to-have requirement for Digital Marketplace Team' in the 'input-niceToHaveRequirements-2' field
   And I click the 'Save and continue' button
   Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
-
+@wip1
 Scenario: Verify all text on summary page after adding optional information
   Given I am on the "Overview of work" page for the buyer brief
-  Then Summary row 'Current technologies' should contain 'Current technologies for Digital Marketplace Team: Java SQL .net'
+  Then Summary row 'Requirements title' should contain 'Find an individual specialist brief'
+  And Summary row 'Location' should contain 'North East England'
+  And Summary row 'Specialist role' should contain 'Quality assurance analyst'
+  And Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team'
+  And Summary row 'Background information' should contain 'Background information for Digital Marketplace Team'
+  And Summary row 'Start date' should contain '01/01/2020'
+  And Summary row 'Contract length' should contain '24 months'
+  And Summary row 'Important dates' should contain '21/05/2021'
+  And Summary row 'Essential requirements' should contain 'First in list'
+  And Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
+  And Summary row 'Essential requirements' should contain 'A third row for essential requirements'
+  And Summary row 'Evaluating suppliers' should contain 'pitch'
+  And Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
+  And Summary row 'Current technologies' should contain 'Current technologies for Digital Marketplace Team: Java SQL .net'
   And Summary row 'Working arrangements' should contain 'Working arrangements for Digital Marketplace Team'
   And Summary row 'Additional terms and conditions' should contain 'Addition terms and conditions for Digital Marketplace Team'
   And Summary row 'Nice-to-have requirements' should contain 'First nice-to-have requirement for Digital Marketplace Team'
   And Summary row 'Nice-to-have requirements' should contain 'Second nice-to-have requirement for Digital Marketplace Team'
-
-@wip
-Scenario: Edit contents of brief and verify all text on summary page
+@wip1
+Scenario: Edit Requirements title and verify the change made, on the summary page(Mandatory requirement)
   Given I am on the "Overview of work" page for the buyer brief
-  And There is an Edit link for each of the company information do
-  And All the information that was submitted is presented correctly on the page do
+  And I navigate to the 'Edit' 'Requirements title' page
+
+  When I change 'title' to 'Find an individual specialist brief-edited'
+  And I click 'Save and continue'
+  Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
+  And Summary row 'Requirements title' should contain 'Find an individual specialist brief-edited'
+@wip1
+Scenario: Edit Current technologies and verify the change made, on the summary page(Optional requirement)
+  Given I am on the "Overview of work" page for the buyer brief
+  And I navigate to the 'Edit' 'Current technologies' page
+  When I change 'currentTechnologies' to 'Current technologies-edited'
+  And I click 'Save and continue'
+  Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
+  And Summary row 'Current technologies' should contain 'Current technologies-edited'
+@wip1
+Scenario: Edit all other requirements and verify the change made, on the summary page
+  Given I am on the "Overview of work" page for the buyer brief
+  When I edit 'Location' by changing 'location' to 'Offsite'
+  Then Summary row 'Location' should contain 'Offsite'
+
+  When I edit 'Specialist role' by changing 'specialistRole' to 'Content designer'
+  Then Summary row 'Specialist role' should contain 'Content designer'
+
+  When I edit 'Your organisation' by changing 'organisation' to 'Organisation-Digital Marketplace Team-edited'
+  Then Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team-edited'
+
+  When I edit 'Background information' by changing 'backgroundInformation' to 'Background information for Digital Marketplace Team-edited'
+  Then Summary row 'Background information' should contain 'Background information for Digital Marketplace Team-edited'
+
+  When I edit 'Start date' by changing 'startDate' to '12/12/2030'
+  Then Summary row 'Start date' should contain '12/12/2030'
+
+  When I edit 'Contract length' by changing 'contractLength' to '365 days'
+  Then Summary row 'Contract length' should contain '365 days'
+
+  When I edit 'Important dates' by changing 'importantDates' to '21 May 2031'
+  Then Summary row 'Important dates' should contain '21 May 2031'
+
+  When I edit 'Working arrangements' by changing 'workingArrangements' to 'Working arrangements for Digital Marketplace Team-edited'
+  Then Summary row 'Working arrangements' should contain 'Working arrangements for Digital Marketplace Team-edited'
+
+  When I edit 'Additional terms and conditions' by changing 'additionalTerms' to 'Addition terms and conditions for Digital Marketplace Team-edited'
+  Then Summary row 'Additional terms and conditions' should contain 'Addition terms and conditions for Digital Marketplace Team-edited'
+
+  When I edit 'Essential requirements' by changing 'input-essentialRequirements-1' to 'First in list-edited'
+  When I edit 'Essential requirements' by 'removing' 'A third row for essential requirements' for 'input-essentialRequirements-3'
+  Then Summary row 'Essential requirements' should contain 'First in list-edited'
+  Then Summary row 'Essential requirements' should not contain 'A third row for essential requirements'
+  Then Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
+
+  When I edit 'Nice-to-have requirements' by changing 'input-niceToHaveRequirements-2' to 'Second nice-to-have requirement for Digital Marketplace Team-edited'
+  When I edit 'Nice-to-have requirements' by 'adding' 'Third requirement-edited' for 'input-niceToHaveRequirements-3'
+  Then Summary row 'Nice-to-have requirements' should contain 'Second nice-to-have requirement for Digital Marketplace Team-edited'
+  Then Summary row 'Nice-to-have requirements' should contain 'First nice-to-have requirement for Digital Marketplace Team'
+  Then Summary row 'Nice-to-have requirements' should contain 'Third requirement-edited'
+
+  When I edit 'Evaluating suppliers' by 'unchecking' 'pitch' for 'evaluationType'
+  And I edit 'Evaluating suppliers' by 'checking' 'provide a case study or evidence of previous work' for 'evaluationType'
+  Then Summary row 'Evaluating suppliers' should contain 'provide a case study or evidence of previous work'
+  Then Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
+  And Summary row 'Evaluating suppliers' should not contain 'pitch'
+
+@wip3
+Scenario: Createa a brief
+  Given I have brief
 
 Scenario: Created brief can be deleted
   Given A 'Find an individual specialist' brief with the name 'Individual Specialist-Brief deletion test' exists and I am on the "Overview of work" page for that brief
