@@ -4,6 +4,7 @@ Feature: CCS admin user journey through Digital Marketplace
 Scenario: Setup for tests
   Given I have test suppliers
   And The test suppliers have declarations
+  And no 'g-cloud-7' framework agreements exist
   And no 'digital-outcomes-and-specialists' framework agreements exist
 
 Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier name prefix
