@@ -1058,10 +1058,6 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
 
-#TODO - delete the below line when DOS goes live as it will no longer exist
-    page.should have_link('Find specialists to work on digital projects')
-
-
   elsif page_name == 'Cloud technology and support'
     page.visit("#{dm_frontend_domain}/g-cloud")
     step "Then I am taken to the '#{page_name}' landing page"
