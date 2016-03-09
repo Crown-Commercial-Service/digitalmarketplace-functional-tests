@@ -108,15 +108,9 @@ And /^I '(.*)' '(.*)' for '(.*)'$/ do |action,label,field_name|
       check label
     when "uncheck"
       uncheck label
-    end    
+    end
   end
 end
-
-# And /^I uncheck '(.*)' for '(.*)'$/ do |label,field_name|
-#   within "##{field_name}" do
-#     uncheck label
-#   end
-# end
 
 When /^I fill in '(.*)' with '(.*)'$/ do |label, value|
   fill_in(label, :with => value)
