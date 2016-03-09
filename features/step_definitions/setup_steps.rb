@@ -243,6 +243,6 @@ def create_buyer_brief (brief_name,framework_slug,lot,user_id)
   # end
 end
 #@wip-create a buyer brief
-Given /^I have brief$/ do
+Given /^I have a brief$/ do
   create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10348)
 end

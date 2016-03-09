@@ -1916,6 +1916,7 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
     fail("Unrecognised variable: '#{availability}'")
   end
 end
+
 #Change below inplementation with direct brief creation via the API?
 Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of work" page for that brief$/ do |brief_type, brief_name|
   steps %Q{
@@ -1933,11 +1934,11 @@ Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of 
   }
 end
 
-Then /^The buyer brief '(.*)' is '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
+Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
   case availability
-  when ""
+  when "is"
     page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
-  when "not"
+  when "is not"
     page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
   else
     fail("Unrecognised variable: '#{availability}'")

@@ -23,7 +23,7 @@ Scenario: Start brief creation for an individual specialist
   @wip
 Scenario: Newly created brief should be listed on the buyer's dashboard and the count of unanswered questions is correct
   Given I am logged in as 'DM Functional Test Buyer User 1' 'Buyer' user and am on the dashboard page
-  Then The buyer brief 'Find an individual specialist brief' is '' listed on the buyer's dashboard
+  Then The buyer brief 'Find an individual specialist brief' 'is' listed on the buyer's dashboard
 
 Scenario: Verify text on summary page for information that has been provided so far. "Ready to publish" button should not exist
   Given I am on the "Overview of work" page for the buyer brief
@@ -115,10 +115,11 @@ Scenario: Verify all text on summary page after adding mandatory information
   And Summary row 'Essential requirements' should contain 'A third row for essential requirements'
   And Summary row 'Evaluating suppliers' should contain 'pitch'
   And Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
+
 @wip
 Scenario: Count of unanswered questions should be updated accordingly
   Given I am logged in as 'DM Functional Test Buyer User 1' 'Buyer' user and am on the dashboard page
-  Then The buyer brief 'Find an individual specialist brief' is '' listed on the buyer's dashboard
+  Then The buyer brief 'Find an individual specialist brief' 'is' listed on the buyer's dashboard
 
 Scenario: Complete all optional requirements questions
   Given I am on the "Overview of work" page for the buyer brief
@@ -171,10 +172,6 @@ Scenario: Edit contents of brief and verify all text on summary page
   And There is an Edit link for each of the company information do
   And All the information that was submitted is presented correctly on the page do
 
-@wip1
-Scenario: Createa a brief
-  Given I have brief
-
 Scenario: Created brief can be deleted
   Given A 'Find an individual specialist' brief with the name 'Individual Specialist-Brief deletion test' exists and I am on the "Overview of work" page for that brief
   When I click 'Delete'
@@ -183,4 +180,4 @@ Scenario: Created brief can be deleted
   When I click 'Yes, delete'
   Then I am presented with the 'DM Functional Test Buyer User 1' 'Buyer' dashboard page
   And I am presented with the message 'Your requirements ‘Individual Specialist-Brief deletion test’ were deleted'
-  And The buyer brief 'Individual Specialist brief-Deletion test' is 'not' listed on the buyer's dashboard
+  And The buyer brief 'Individual Specialist brief-Deletion test' 'is not' listed on the buyer's dashboard
