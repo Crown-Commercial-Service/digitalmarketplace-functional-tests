@@ -46,14 +46,19 @@ the domain URLs ie http://localhost:5000 not http://localhost:5000/.
 | ``DM_API_ACCESS_TOKEN``          | API Access Token           | myToken                 |
 | ``DM_SEARCH_API_DOMAIN``         | Search API Domain          | http://localhost:5001   |
 | ``DM_SEARCH_API_ACCESS_TOKEN``   | Search API Access Token    | myToken                 |
-| ``DM_FRONTEND_DOMAIN``           | Frontend domain            |                         |
+| ``DM_FRONTEND_DOMAIN``           | Frontend domain            | http://localhost        |
 | ``DM_ADMIN_EMAIL``               | Administrator email        | admin@example.com       |
+| ``DM_ADMIN_CCS_SOURCING_EMAIL``  | CSS Sourcing email         | ccs-sourcing@example.com |
+| ``DM_ADMIN_CCS_CATEGORY_EMAIL``  | CSS Category email         | ccs-category@example.com |
 | ``DM_ADMIN_PASSWORD``            | Administrator password     | adminPassword           |
+| ``DM_BUYER_EMAIL``               | Buyer user email           | buyer@example.com       |
+| ``DM_BUYER_PASSWORD``            | Buyer password             | buyerPassword           |
 | ``DM_SUPPLIER_EMAIL``            | Supplier 1 user 1 email    | supplier@example.com    |
 | ``DM_SUPPLIER_PASSWORD``         | Supplier password          | supplierPassword        |
 | ``DM_SUPPLIER2_EMAIL``           | Supplier 1 user 2 email    | supplier2@example.com   |
 | ``DM_SUPPLIER3_EMAIL``           | Supplier 1 user 3 email    | supplier3@example.com   |
 | ``DM_SUPPLIER2_USER_EMAIL``      | Supplier 2 user 1 email    | supplier4@example.com   |
+| ``DM_MANDRILL_API_KEY``          | Mandrill API key           | mandrillKey             |
 | ``DM_PAGINATION_LIMIT``          | Results returned on search page | 100                |
 
 ## Run tests against local services
