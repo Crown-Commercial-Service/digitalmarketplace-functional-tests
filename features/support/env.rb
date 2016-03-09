@@ -75,6 +75,14 @@ def dm_admin_password()
   ENV['DM_ADMIN_PASSWORD']
 end
 
+def dm_buyer_email()
+  ENV['DM_BUYER_EMAIL']
+end
+
+def dm_buyer_password()
+  ENV['DM_BUYER_PASSWORD']
+end
+
 def dm_admin_ccs_sourcing_email()
   ENV['DM_ADMIN_CCS_SOURCING_EMAIL']
 end

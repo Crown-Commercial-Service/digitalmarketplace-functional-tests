@@ -347,27 +347,6 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   end
 end
 
-Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
-  all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
-    element.text() == text_of_interest
-  end
-
-  if all_headings.length >= 1
-    top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
-    top_level_action.text().should == action
-    top_level_action.click
-
-  else
-    all_item_text = page.all(:css, ".summary-item-field-first>span").select do |element|
-      element.text() == text_of_interest
-    end
-
-    top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a[contains(text(),'#{action}')]")
-    top_level_action.text().should == action
-    top_level_action.click
-  end
-end
-
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|
   current_url.should end_with("#{@existing_values['summarypageurl']}/#{action.downcase}/#{service_aspect.gsub(' ','_').downcase}")
 
@@ -1068,8 +1047,14 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
     page.should have_content("#{page_name}")
+    page.should have_link('Find an individual specialist')
+    page.should have_link('Find a team to provide an outcome')
+    page.should have_link('Find user research participants')
+    page.should have_link('Find a user research lab')
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
+    page.should have_link('View your briefs and supplier responses')
+
   elsif page_name == 'Cloud technology and support'
     page.visit("#{dm_frontend_domain}/g-cloud")
     step "Then I am taken to the '#{page_name}' landing page"
@@ -1794,6 +1779,10 @@ And /There is no agreement available on the page$/ do
   page.should have_no_selector(:xpath, "//tbody/tr[@class='summary-item-row']/*/span[contains(text(), 'G-Cloud 7 countersigned agreement')]")
 end
 
+Given /^I navigate directly to the page '(.*)'$/ do |url|
+  page.visit("#{dm_frontend_domain}#{url}")
+end
+
 Then /I am on the '(.*)' page$/ do |page_name|
   if page_name == 'Create supplier account'
     page.should have_content("#{page_name}")
@@ -1832,4 +1821,126 @@ Then /I am on the '(.*)' page$/ do |page_name|
     page.should have_button('Create account')
   end
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
+end
+
+Then /I am taken to the buyers '(.*)' page$/ do |page_name|
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  case page_name
+  when "Find an individual specialist"
+    page.should have_link('View published requirements')
+    page.should have_link('View supplier A to Z')
+    page.should have_link('Find out how suppliers are evaluated')
+    page.should have_link('How to talk to suppliers before you start')
+    page.should have_link('how to buy')
+    page.should have_button('Choose specialist role')
+    store.service_type = "digital-specialists"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+  when "Find a team to provide an outcome"
+    page.should have_link('View published requirements')
+    page.should have_link('View supplier A to Z')
+    page.should have_link('Find out how suppliers are evaluated')
+    page.should have_link('How to talk to suppliers before you start')
+    page.should have_link('how to buy')
+    page.should have_button('Choose specialist role')
+    store.service_type = "digital-outcomes"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+  when "Find user research participants"
+    page.should have_link('View published requirements')
+    page.should have_link('View supplier A to Z')
+    page.should have_link('Find out how suppliers are evaluated')
+    page.should have_link('How to talk to suppliers before you start')
+    page.should have_link('how to buy')
+    page.should have_button('Choose specialist role')
+    store.service_type = "user-research-participants"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+  when "Find a user research lab"
+    puts "page slow has not been defined/developed"
+  else
+    fail("The page \"#{page_name}\" does not exist")
+  end
+
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
+end
+
+Given /^I am on the "Overview of work" page for the buyer brief$/ do
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}"
+end
+
+Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
+  page.find('h1').should have_content("#{brief_name}")
+  page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
+  parts = URI.parse(current_url).path.split('/')
+  store.current_listing = (parts.select {|v| v =~ /^\d+$/}).last
+  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.service_type = URI.parse(current_url).path.split('requirements/').last.split('/').first
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}")
+end
+
+Then /^Summary row '(.*)' should contain '(.*)'$/ do |field_name, field_value|
+  page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
+end
+
+Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
+  all_headings = page.all(:css, "h2.summary-item-heading").select do |element|
+    element.text() == text_of_interest
+  end
+
+  if all_headings.length >= 1
+    top_level_action = all_headings.first.find(:xpath, "./following-sibling::p[1]/a")
+    top_level_action.text().should == action
+    top_level_action.click
+
+  else
+    all_item_text = page.all(:css, ".summary-item-field-first>span").select do |element|
+      element.text() == text_of_interest
+    end
+
+    if current_url.include?('submissions') or action == 'Edit'
+      top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field-with-action']/span/a[contains(text(),'#{action}')]")
+    elsif current_url.include?('requirements')
+      top_level_action = all_item_text.first.find(:xpath, "./../../*[@class='summary-item-field']/span/a[contains(text(),'#{action}')]")
+    end
+
+    top_level_action.text().should == action
+    top_level_action.click
+  end
+end
+
+And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
+  case availability
+  when "made"
+    page.should have_button("#{button_name}")
+  when "not"
+    page.should have_no_button("#{button_name}")
+  else
+    fail("Unrecognised variable: '#{availability}'")
+  end
+end
+
+#Change below inplementation with direct brief creation via the API?
+Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of work" page for that brief$/ do |brief_type, brief_name|
+  steps %Q{
+    Given I am on the 'Digital Marketplace' landing page
+    When I click the '#{brief_type}' link
+    Then I am taken to the buyers '#{brief_type}' page
+    When I click the 'Choose specialist role' button
+    Then I am taken to the 'Requirements title' page
+    When I enter '#{brief_name}' in the 'title' field
+    And I click the 'Save and continue' button
+    Then I am taken to the 'Location' page
+    When I choose 'Scotland' for 'location'
+    And I click 'Save and continue'
+    Then I should be on the "Overview of work" page for the buyer brief '#{brief_name}'
+  }
+end
+
+Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
+  case availability
+  when "is"
+    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+  when "is not"
+    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+  else
+    fail("Unrecognised variable: '#{availability}'")
+  end
 end
