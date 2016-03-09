@@ -1047,13 +1047,20 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
     page.should have_content("#{page_name}")
-    page.should have_link('Find an individual specialist')
-    page.should have_link('Find a team to provide an outcome')
-    page.should have_link('Find user research participants')
-    page.should have_link('Find a user research lab')
+
+#TODO - uncomment the following block when DOS goes live
+    # page.should have_link('Find an individual specialist')
+    # page.should have_link('Find a team to provide an outcome')
+    # page.should have_link('Find user research participants')
+    # page.should have_link('Find a user research lab')
+    # page.should have_link('View your briefs and supplier responses')
+
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
-    page.should have_link('View your briefs and supplier responses')
+
+#TODO - delete the below line when DOS goes live as it will no longer exist
+    page.should have_link('Find specialists to work on digital projects')
+
 
   elsif page_name == 'Cloud technology and support'
     page.visit("#{dm_frontend_domain}/g-cloud")
