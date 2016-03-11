@@ -1879,6 +1879,28 @@ Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ d
   current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}")
 end
 
+Given /^I am on the supplier response page for the brief$/ do
+  brief_id = @published_brief['id']
+  visit "#{dm_frontend_domain}/suppliers/opportunities/#{brief_id}/responses/create"
+end
+
+And /^I see correct brief title and requirements for the brief$/ do
+  brief_title = @published_brief['title']
+  brief_requirements = @published_brief['essentialRequirements'] + @published_brief['niceToHaveRequirements']
+
+  page.find('h1').should have_content("#{brief_title}")
+  brief_requirements.each_with_index do |brief_requirement, index|
+    page.all('span.question-heading p')[index].should have_content("#{brief_requirement}")
+  end
+end
+
+Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
+  @published_brief[requirements].each_with_index do |_, index|
+    input_id = "#{requirements}-#{index}"
+    step "I choose \'#{value}\' for \'#{input_id}\'"
+  end
+end
+
 Then /^Summary row '(.*)' should contain '(.*)'$/ do |field_name, field_value|
   page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
 end
