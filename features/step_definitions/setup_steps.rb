@@ -320,13 +320,34 @@ def create_buyer_brief (brief_name,framework_slug,lot,user_id)
   JSON.parse(response.body)["briefs"].each do |brief|
     puts brief["title"]
   end
-  # if response.
-  # if response.code == 404
-  #   response = call_api(:post, "/users", payload: user_data)
-  #   response.code.should be(201), response.body
-  # end
+  puts response.code
+  if response.code == 404
+    puts 'in here'
+    response = call_api(:post, "/briefs", payload: brief_data)
+    response.code.should be(201), response.body
+  end
 end
 #@wip-create a buyer brief
-Given /^I have brief$/ do
-  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10348)
+Given /^I have a draft brief$/ do
+  #delete all existing draft briefs first
+  delete_all_draft_briefs("10349")
+  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10349)
+end
+
+def delete_all_draft_briefs (user_id)
+  response = call_api(:get, "/briefs", params: {user_id: user_id})
+
+  JSON.parse(response.body)["briefs"].each do |brief|
+    puts brief["id"]
+    brief_id = brief["id"]
+
+    updated_by = JSON.parse("{\"updated_by\":\"Functional tests\"}").to_json
+
+    if brief["status"] != "live"
+      puts "#{brief_id}"
+      response = call_api(:delete, "/briefs/#{brief_id}", payload: updated_by)
+      puts response
+      response.code.should be(200), response.body
+    end
+  end
 end

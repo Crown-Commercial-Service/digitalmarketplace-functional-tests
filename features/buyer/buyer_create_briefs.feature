@@ -4,7 +4,8 @@ Feature: Buyer create briefs
 Background: Login to Digital Marketplace as the newly created buyer
   Given I have a buyer user account
   When I have logged in to Digital Marketplace as a 'Buyer' user
-@wip1
+
+@wip
 Scenario: Start brief creation for an individual specialist
   Given I am on the 'Digital Marketplace' landing page
   When I click the 'Find an individual specialist' link
@@ -246,9 +247,9 @@ Scenario: Edit all other requirements and verify the change made, on the summary
   Then Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
   And Summary row 'Evaluating suppliers' should not contain 'pitch'
 
-@wip3
+@wip
 Scenario: Createa a brief
-  Given I have brief
+  Given I have a draft brief
 
 Scenario: Created brief can be deleted
   Given A 'Find an individual specialist' brief with the name 'Individual Specialist-Brief deletion test' exists and I am on the "Overview of work" page for that brief
