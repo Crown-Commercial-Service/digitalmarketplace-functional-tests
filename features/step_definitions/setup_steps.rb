@@ -3,6 +3,9 @@ require "rubygems"
 require "rest_client"
 require "json"
 require "test/unit"
+require "ostruct"
+
+store = OpenStruct.new
 
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
   file = File.read("./fixtures/test-supplier.json")
@@ -71,7 +74,7 @@ Given /^The test suppliers have live services$/ do
     create_live_service(11112,"1123456789012354","iaas")
 end
 
-def create_user (email,username,password,role,supplierid=nil)
+def create_and_return_user (email,username,password,role,supplierid=nil)
   file = File.read("./fixtures/test-user.json")
   user_data = JSON.parse(file)
   user_data["users"]["emailAddress"] = email
@@ -85,18 +88,20 @@ def create_user (email,username,password,role,supplierid=nil)
     response = call_api(:post, "/users", payload: user_data)
     response.code.should be(201), response.body
   end
+  user = JSON.parse(response.body)["users"][0]
+  return user
 end
 
 def create_supplier_user (supplierid,email,username,password)
-  create_user(email,username,password,"supplier",supplierid)
+  return create_and_return_user(email,username,password,"supplier",supplierid)
 end
 
 def create_buyer_user (email,username,password)
-  create_user(email,username,password,"buyer")
+  return create_and_return_user(email,username,password,"buyer")
 end
 
 def create_admin_user (email,username,password)
-  create_user(email,username,password,"admin")
+  return create_and_return_user(email,username,password,"admin")
 end
 
 And /^The test suppliers have users$/ do
@@ -107,7 +112,8 @@ And /^The test suppliers have users$/ do
 end
 
 Given /^I have a buyer user account$/ do
-  create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
+  user = create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
+  store.buyer_id = user["id"]
 end
 
 And /^The test suppliers have declarations$/ do
@@ -221,8 +227,8 @@ And /^All services for the test suppliers are Public$/ do
   service_status_public("1123456789012353")
   service_status_public("1123456789012354")
 end
-#@wip-create a buyer brief
-def create_buyer_brief (brief_name,framework_slug,lot,user_id)
+
+def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   file = File.read("./fixtures/briefs-DOS.json")
   brief_data = JSON.parse(file)
   brief_data["briefs"]["title"] = brief_name
@@ -230,19 +236,43 @@ def create_buyer_brief (brief_name,framework_slug,lot,user_id)
   brief_data["briefs"]["frameworkSlug"] = framework_slug
   brief_data["briefs"]["lot"] = lot
   brief_data["briefs"]["userId"] = user_id
+  brief_data["briefs"]["startDate"] = '31/12/2016'
+  brief_data["briefs"]["specialistRole"] = 'developer'
+  brief_data["briefs"]["organisation"] = 'Driver and Vehicle Licensing Agency'
+  brief_data["briefs"]["importantDates"] = 'Yesterday'
+  brief_data["briefs"]["evaluationType"] = ['pitch']
+  brief_data["briefs"]["contractLength"] = '1 day'
+  brief_data["briefs"]["backgroundInformation"] = 'Make a flappy bird clone except where the bird drives very safely'
+  brief_data["briefs"]["essentialRequirements"] = ['Can you do coding?', 'Can you do Python?']
+  brief_data["briefs"]["niceToHaveRequirements"] = ['Do you like cats?', 'Is your cat named Eva?']
+  brief_data["updated_by"] = "functional tests"
 
-  response = call_api(:get, "/briefs", params: {user_id: user_id})
-  # puts response.body
-  JSON.parse(response.body)["briefs"].each do |brief|
-    puts brief["title"]
+  response = call_api(:post, "/briefs", payload: brief_data)
+  response.code.should be(201), response.body
+  brief = JSON.parse(response.body)["briefs"]
+  return brief
+end
+
+def publish_buyer_brief(brief_id)
+  publish_brief_data = {
+    updated_by: "functional tests",
+    briefs: {status: "live"}
+  }
+  response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
+  response.code.should be(200), response.body
+  puts response
+end
+
+Given /^I have a '(.*)' brief$/ do |brief_state|
+  if not store.buyer_id
+    fail(ArgumentError.new('No buyer user found!!'))
   end
-  # if response.
-  # if response.code == 404
-  #   response = call_api(:post, "/users", payload: user_data)
-  #   response.code.should be(201), response.body
-  # end
+  brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", store.buyer_id)
+
+  if brief_state == 'published'
+    brief_id = brief["id"]
+    publish_buyer_brief(brief_id)
+  end
 end
-#@wip-create a buyer brief
-Given /^I have a brief$/ do
-  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10348)
-end
+
+
