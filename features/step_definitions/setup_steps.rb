@@ -3,9 +3,13 @@ require "rubygems"
 require "rest_client"
 require "json"
 require "test/unit"
+require "ostruct"
+
+store = OpenStruct.new
 
 # suppliers
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
+
   file = File.read("./fixtures/test-supplier.json")
   supplier_data = JSON.parse(file)
   supplier_data["suppliers"]["id"] = supplier_id
@@ -145,10 +149,6 @@ def create_buyer_user (email,username,password)
   return create_and_return_user(email,username,password,"buyer")
 end
 
-def create_buyer_user (email,username,password)
-  create_user(email,username,password,"buyer")
-end
-
 def create_admin_user (email,username,password)
   return create_and_return_user(email,username,password,"admin")
 end
@@ -162,7 +162,7 @@ end
 
 Given /^I have a buyer user account$/ do
   user = create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
-  @buyer_id = user["id"]
+  store.buyer_id = user["id"]
 end
 
 And /^The test suppliers have declarations$/ do
@@ -305,8 +305,8 @@ Given /^I have deleted all draft briefs$/ do
   end
   delete_all_draft_briefs(@buyer_id)
 end
-#@wip-create a buyer brief
-def create_buyer_brief (brief_name,framework_slug,lot,user_id)
+
+def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   file = File.read("./fixtures/briefs-DOS.json")
   brief_data = JSON.parse(file)
   brief_data["briefs"]["title"] = brief_name
@@ -314,40 +314,69 @@ def create_buyer_brief (brief_name,framework_slug,lot,user_id)
   brief_data["briefs"]["frameworkSlug"] = framework_slug
   brief_data["briefs"]["lot"] = lot
   brief_data["briefs"]["userId"] = user_id
+  brief_data["briefs"]["startDate"] = '31/12/2016'
+  brief_data["briefs"]["specialistRole"] = 'developer'
+  brief_data["briefs"]["organisation"] = 'Driver and Vehicle Licensing Agency'
+  brief_data["briefs"]["importantDates"] = 'Yesterday'
+  brief_data["briefs"]["evaluationType"] = ['pitch']
+  brief_data["briefs"]["contractLength"] = '1 day'
+  brief_data["briefs"]["backgroundInformation"] = 'Make a flappy bird clone except where the bird drives very safely'
+  brief_data["briefs"]["essentialRequirements"] = ['Can you do coding?']
+  brief_data["updated_by"] = "functional tests"
 
-  response = call_api(:get, "/briefs", params: {user_id: user_id})
-  # puts response.body
-  JSON.parse(response.body)["briefs"].each do |brief|
-    puts brief["title"]
-  end
-  puts response.code
-  if response.code == 404
-    puts 'in here'
-    response = call_api(:post, "/briefs", payload: brief_data)
-    response.code.should be(201), response.body
-  end
+  response = call_api(:post, "/briefs", payload: brief_data)
+  response.code.should be(201), response.body
+  brief = JSON.parse(response.body)["briefs"]
+  return brief
 end
-#@wip-create a buyer brief
-Given /^I have a draft brief$/ do
-  #delete all existing draft briefs first
-  delete_all_draft_briefs("10349")
-  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10349)
+
+def publish_buyer_brief(brief_id)
+  publish_brief_data = {
+    updated_by: "functional tests",
+    briefs: {status: "live"}
+  }
+  response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
+  response.code.should be(200), response.body
 end
 
 def delete_all_draft_briefs (user_id)
   response = call_api(:get, "/briefs", params: {user_id: user_id})
 
   JSON.parse(response.body)["briefs"].each do |brief|
-    puts brief["id"]
     brief_id = brief["id"]
 
-    updated_by = JSON.parse("{\"updated_by\":\"Functional tests\"}").to_json
+    updated_by = {updated_by: "Functional tests"}
 
     if brief["status"] != "live"
-      puts "#{brief_id}"
+      puts "deleting draft: #{brief_id}"
       response = call_api(:delete, "/briefs/#{brief_id}", payload: updated_by)
-      puts response
       response.code.should be(200), response.body
     end
   end
+end
+
+Given /^I have a '(.*)' brief$/ do |brief_state|
+  if not store.buyer_id
+    fail(ArgumentError.new('No buyer user found!!'))
+  end
+  brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", store.buyer_id)
+  store.framework = brief["frameworkSlug"]
+  store.lot = brief["lotSlug"]
+  store.current_brief = brief["id"]
+
+  if brief_state == 'published'
+    brief_id = brief["id"]
+    publish_buyer_brief(brief_id)
+  end
+end
+
+Given /^I am on the "Overview of work" page for the newly created draft brief$/ do
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
+end
+
+Given /^I have deleted all draft briefs$/ do
+  if not store.buyer_id
+    fail(ArgumentError.new('No buyer user found!!'))
+   end
+   delete_all_draft_briefs(store.buyer_id)
 end

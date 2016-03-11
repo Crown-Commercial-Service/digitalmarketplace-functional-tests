@@ -2,10 +2,12 @@
 Feature: Buyer create briefs
 
 Background: Login to Digital Marketplace as the newly created buyer
-  Given I have a buyer user account
-  When I have logged in to Digital Marketplace as a 'Buyer' user
+  Given I have logged in to Digital Marketplace as a 'Buyer' user
 
-@wip
+Scenario: Test setup
+  Given I have a buyer user account
+  And I have deleted all draft briefs
+
 Scenario: Start brief creation for an individual specialist
   Given I am on the 'Digital Marketplace' landing page
   When I click the 'Find an individual specialist' link
@@ -106,19 +108,19 @@ Scenario: Complete all mandatory requirements questions. "Ready to publish" is o
 @wip1
 Scenario: Verify all text on summary page after adding mandatory information
   Given I am on the "Overview of work" page for the buyer brief
-  Then Summary row 'Requirements title' should contain 'Find an individual specialist brief'
-  And Summary row 'Location' should contain 'North East England'
-  And Summary row 'Specialist role' should contain 'Quality assurance analyst'
-  And Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team'
-  And Summary row 'Background information' should contain 'Background information for Digital Marketplace Team'
-  And Summary row 'Start date' should contain '01/01/2020'
-  And Summary row 'Contract length' should contain '24 months'
-  And Summary row 'Important dates' should contain '21/05/2021'
-  And Summary row 'Essential requirements' should contain 'First in list'
-  And Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
-  And Summary row 'Essential requirements' should contain 'A third row for essential requirements'
-  And Summary row 'Evaluating suppliers' should contain 'pitch'
-  And Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
+  Then Summary row 'Requirements title' 'should' contain 'Find an individual specialist brief'
+  And Summary row 'Location' 'should' contain 'North East England'
+  And Summary row 'Specialist role' 'should' contain 'Quality assurance analyst'
+  And Summary row 'Your organisation' 'should' contain 'Organisation-Digital Marketplace Team'
+  And Summary row 'Background information' 'should' contain 'Background information for Digital Marketplace Team'
+  And Summary row 'Start date' 'should' contain '01/01/2020'
+  And Summary row 'Contract length' 'should' contain '24 months'
+  And Summary row 'Important dates' 'should' contain '21/05/2021'
+  And Summary row 'Essential requirements' 'should' contain 'First in list'
+  And Summary row 'Essential requirements' 'should' contain 'Second essential requirement for Digital Marketplace Team'
+  And Summary row 'Essential requirements' 'should' contain 'A third row for essential requirements'
+  And Summary row 'Evaluating suppliers' 'should' contain 'pitch'
+  And Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
 
 @wip
 Scenario: Count of unanswered questions should be updated accordingly
@@ -246,10 +248,6 @@ Scenario: Edit all other requirements and verify the change made, on the summary
   Then Summary row 'Evaluating suppliers' should contain 'provide a case study or evidence of previous work'
   Then Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
   And Summary row 'Evaluating suppliers' should not contain 'pitch'
-
-@wip
-Scenario: Createa a brief
-  Given I have a draft brief
 
 Scenario: Created brief can be deleted
   Given A 'Find an individual specialist' brief with the name 'Individual Specialist-Brief deletion test' exists and I am on the "Overview of work" page for that brief

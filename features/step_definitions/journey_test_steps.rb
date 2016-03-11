@@ -1845,7 +1845,7 @@ Then /I am on the '(.*)' page$/ do |page_name|
 end
 
 Then /I am taken to the buyers '(.*)' page$/ do |page_name|
-  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
   case page_name
   when "Find an individual specialist"
     page.should have_link('View published requirements')
@@ -1854,8 +1854,8 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    store.service_type = "digital-specialists"
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+    store.lot = "digital-specialists"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find a team to provide an outcome"
     page.should have_link('View published requirements')
     page.should have_link('View supplier A to Z')
@@ -1863,8 +1863,8 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    store.service_type = "digital-outcomes"
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+    store.lot = "digital-outcomes"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find user research participants"
     page.should have_link('View published requirements')
     page.should have_link('View supplier A to Z')
@@ -1872,8 +1872,8 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    store.service_type = "user-research-participants"
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+    store.lot = "user-research-participants"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find a user research lab"
     puts "page slow has not been defined/developed"
   else
@@ -1884,17 +1884,17 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
 end
 
 Given /^I am on the "Overview of work" page for the buyer brief$/ do
-  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}"
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
 end
 
 Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
   page.find('h1').should have_content("#{brief_name}")
   page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
   parts = URI.parse(current_url).path.split('/')
-  store.current_listing = (parts.select {|v| v =~ /^\d+$/}).last
-  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  store.service_type = URI.parse(current_url).path.split('requirements/').last.split('/').first
-  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}")
+  store.current_brief = (parts.select {|v| v =~ /^\d+$/}).last
+  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}")
 end
 
 Given /^I am on the supplier response page for the brief$/ do
@@ -1960,29 +1960,19 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
   end
 end
 
-#Change below inplementation with direct brief creation via the API?
 Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of work" page for that brief$/ do |brief_type, brief_name|
   steps %Q{
-    Given I am on the 'Digital Marketplace' landing page
-    When I click the '#{brief_type}' link
-    Then I am taken to the buyers '#{brief_type}' page
-    When I click the 'Choose specialist role' button
-    Then I am taken to the 'Requirements title' page
-    When I enter '#{brief_name}' in the 'title' field
-    And I click the 'Save and continue' button
-    Then I am taken to the 'Location' page
-    When I choose 'Scotland' for 'location'
-    And I click 'Save and continue'
-    Then I should be on the "Overview of work" page for the buyer brief '#{brief_name}'
+    Given I have a 'draft' brief
+    And I am on the "Overview of work" page for the newly created draft brief
   }
 end
 
 Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
   case availability
   when "is"
-    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}') and contains(text(), '#{brief_name}')]")
   when "is not"
-    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}') and contains(text(), '#{brief_name}')]")
   else
     fail("Unrecognised variable: '#{availability}'")
   end
