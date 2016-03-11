@@ -20,7 +20,8 @@ Scenario: Start brief creation for an individual specialist
   When I choose 'North East England' for 'location'
   And I click 'Save and continue'
   Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
-  @wip
+
+@wip
 Scenario: Newly created brief should be listed on the buyer's dashboard and the count of unanswered questions is correct
   Given I am logged in as 'DM Functional Test Buyer User 1' 'Buyer' user and am on the dashboard page
   Then The buyer brief 'Find an individual specialist brief' 'is' listed on the buyer's dashboard

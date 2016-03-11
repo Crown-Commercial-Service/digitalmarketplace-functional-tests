@@ -260,7 +260,22 @@ def publish_buyer_brief(brief_id)
   }
   response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
   response.code.should be(200), response.body
-  puts response
+end
+
+
+def delete_all_draft_briefs (user_id)
+  response = call_api(:get, "/briefs", params: {user_id: user_id})
+
+  JSON.parse(response.body)["briefs"].each do |brief|
+    brief_id = brief["id"]
+    updated_by = {updated_by: "Functional tests"}
+
+    if brief["status"] != "live"
+      puts "deleting draft: #{brief_id}"
+      response = call_api(:delete, "/briefs/#{brief_id}", payload: updated_by)
+      response.code.should be(200), response.body
+    end
+  end
 end
 
 Given /^I have a '(.*)' brief$/ do |brief_state|
@@ -275,4 +290,9 @@ Given /^I have a '(.*)' brief$/ do |brief_state|
   end
 end
 
-
+Given /^I have deleted all draft briefs$/ do
+  if not store.buyer_id
+    fail(ArgumentError.new('No buyer user found!!'))
+  end
+  delete_all_draft_briefs(store.buyer_id)
+end
