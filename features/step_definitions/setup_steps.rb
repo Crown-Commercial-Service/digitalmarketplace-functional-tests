@@ -3,9 +3,6 @@ require "rubygems"
 require "rest_client"
 require "json"
 require "test/unit"
-require "ostruct"
-
-store = OpenStruct.new
 
 # suppliers
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
@@ -156,7 +153,7 @@ end
 
 Given /^I have a buyer user account$/ do
   user = create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
-  store.buyer_id = user["id"]
+  @buyer_id = user["id"]
 end
 
 And /^The test suppliers have declarations$/ do
@@ -283,20 +280,19 @@ def delete_all_draft_briefs (user_id)
 end
 
 Given /^I have a '(.*)' brief$/ do |brief_state|
-  if not store.buyer_id
+  if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", store.buyer_id)
+  @published_brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
 
   if brief_state == 'published'
-    brief_id = brief["id"]
-    publish_buyer_brief(brief_id)
+    publish_buyer_brief(@published_brief['id'])
   end
 end
 
 Given /^I have deleted all draft briefs$/ do
-  if not store.buyer_id
+  if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  delete_all_draft_briefs(store.buyer_id)
+  delete_all_draft_briefs(@buyer_id)
 end
