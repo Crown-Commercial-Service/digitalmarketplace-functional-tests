@@ -1775,6 +1775,8 @@ Then /^I am presented with the '(.*)' page$/ do |page_name| #Specific to admin p
       page.should have_link("Remove")
     end
     page.should have_button("Upload file")
+  else
+    fail("Unrecognised page name: '#{page_name}'")
   end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
@@ -1916,11 +1918,16 @@ Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
   @published_brief[requirements].each_with_index do |_, index|
     input_id = "#{requirements}-#{index}"
     step "I choose \'#{value}\' for \'#{input_id}\'"
-  end
-end
 
-Then /^Summary row '(.*)' should contain '(.*)'$/ do |field_name, field_value|
-  page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
+Then /^Summary row '(.*)' '(.*)' contain '(.*)'$/ do |field_name, availability, field_value|
+  case availability
+  when "should"
+    page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
+  when "should not"
+    page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_no_content("#{field_value}")
+  else
+    fail("Unrecognised value provided: '#{availability}'")
+  end
 end
 
 Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
@@ -2001,8 +2008,14 @@ When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,fie
   when "checking", "unchecking"
     step "I '#{action}' '#{new_value}' for '#{field_name}'"
   when "removing", "adding"
-    puts "in here for removing and adding"
-  end
+    if action == "removing"
+      find(:xpath, ".//*[@id='#{field_name}']/../*[@class='button-secondary list-entry-remove']").click
+    elsif action == "adding"
+      step "I add '#{value}' as a '#{field_name}'"
+    end
+  else
+    fail("Unrecognised action: '#{action}'")
+end
 
   steps %Q{
     And I click 'Save and continue'
