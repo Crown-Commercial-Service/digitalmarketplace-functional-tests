@@ -250,11 +250,11 @@ Scenario: Edit all other requirements and verify the change made, on the summary
   And Summary row 'Evaluating suppliers' should not contain 'pitch'
 
 Scenario: Created brief can be deleted
-  Given A 'Find an individual specialist' brief with the name 'Individual Specialist-Brief deletion test' exists and I am on the "Overview of work" page for that brief
+  Given A 'Find an individual specialist' brief with the name 'Individual Specialist Brief' exists and I am on the "Overview of work" page for that brief
   When I click 'Delete'
   Then I am presented with the message 'Are you sure you want to delete these requirements?'
 
   When I click 'Yes, delete'
   Then I am presented with the 'DM Functional Test Buyer User 1' 'Buyer' dashboard page
-  And I am presented with the message 'Your requirements ‘Individual Specialist-Brief deletion test’ were deleted'
+  And I am presented with the message 'Your requirements ‘Individual Specialist Brief’ were deleted'
   And The buyer brief 'Individual Specialist brief-Deletion test' 'is not' listed on the buyer's dashboard

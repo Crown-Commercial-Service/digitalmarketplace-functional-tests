@@ -359,7 +359,7 @@ Given /^I have a '(.*)' brief$/ do |brief_state|
   if not store.buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", store.buyer_id)
+  brief = create_and_return_buyer_brief("Individual Specialist Brief", "digital-outcomes-and-specialists", "digital-specialists", store.buyer_id)
   store.framework = brief["frameworkSlug"]
   store.lot = brief["lotSlug"]
   store.current_brief = brief["id"]
