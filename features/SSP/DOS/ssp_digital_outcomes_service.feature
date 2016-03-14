@@ -36,10 +36,10 @@ Feature: Submitting a new DOS service for Digital outcomes
     When I click the 'Edit' link for 'Outcomes locations'
     Then I should be on the 'Outcomes locations' page
 
-    When I 'check' 'Scotland' for 'outcomesLocations'
-    And I 'check' 'Wales' for 'outcomesLocations'
-    And I 'check' 'London' for 'outcomesLocations'
-    And I 'check' 'Northern Ireland' for 'outcomesLocations'
+    When I 'check' 'Scotland' for 'locations'
+    And I 'check' 'Wales' for 'locations'
+    And I 'check' 'London' for 'locations'
+    And I 'check' 'Northern Ireland' for 'locations'
     And I click 'Save and continue'
     Then I should be on the 'Digital outcomes' page
 

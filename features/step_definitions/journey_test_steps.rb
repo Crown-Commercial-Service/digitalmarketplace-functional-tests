@@ -1775,8 +1775,14 @@ Then /^I am presented with the '(.*)' page$/ do |page_name| #Specific to admin p
       page.should have_link("Remove")
     end
     page.should have_button("Upload file")
+  when 'Grounds for discretionary exclusion'
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/edit/declarations/g-cloud-7/grounds-for-discretionary-exclusion")
+    page.should have_button("Save and return to summary")
+    page.should have_link("Return without saving")
   else
-    fail("Unrecognised page name: '#{page_name}'")
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/edit/declarations/g-cloud-7/g-cloud-7-essentials")
+    page.should have_button("Save and return to summary")
+    page.should have_link("Return without saving")
   end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
@@ -1887,6 +1893,7 @@ end
 
 Given /^I am on the "Overview of work" page for the buyer brief$/ do
   visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}"
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
 Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
