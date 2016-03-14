@@ -191,17 +191,17 @@ Scenario: Edit Requirements title and verify the change made, on the summary pag
 
   When I change 'title' to 'Find an individual specialist brief-edited'
   And I click 'Save and continue'
-  Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
-  And Summary row 'Requirements title' should contain 'Find an individual specialist brief-edited'
-@wip1
+  Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief-edited'
+  And Summary row 'Requirements title' 'should' contain 'Find an individual specialist brief-edited'
+
 Scenario: Edit Current technologies and verify the change made, on the summary page(Optional requirement)
   Given I am on the "Overview of work" page for the buyer brief
   And I navigate to the 'Edit' 'Current technologies' page
   When I change 'currentTechnologies' to 'Current technologies-edited'
   And I click 'Save and continue'
-  Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief'
-  And Summary row 'Current technologies' should contain 'Current technologies-edited'
-@wip1
+  Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief-edited'
+  And Summary row 'Current technologies' 'should' contain 'Current technologies-edited'
+
 Scenario: Edit all other requirements and verify the change made, on the summary page
   Given I am on the "Overview of work" page for the buyer brief
   When I edit 'Location' by changing 'location' to 'Offsite'

@@ -1884,17 +1884,17 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
 end
 
 Given /^I am on the "Overview of work" page for the buyer brief$/ do
-  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}"
 end
 
 Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
   page.find('h1').should have_content("#{brief_name}")
   page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
   parts = URI.parse(current_url).path.split('/')
-  store.current_brief = (parts.select {|v| v =~ /^\d+$/}).last
+  store.current_brief_id = (parts.select {|v| v =~ /^\d+$/}).last
   store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
   store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
-  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}")
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
 Given /^I am on the supplier response page for the brief$/ do
@@ -1970,9 +1970,9 @@ end
 Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
   case availability
   when "is"
-    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}') and contains(text(), '#{brief_name}')]")
+    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}') and contains(text(), '#{brief_name}')]")
   when "is not"
-    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}') and contains(text(), '#{brief_name}')]")
+    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}') and contains(text(), '#{brief_name}')]")
   else
     fail("Unrecognised variable: '#{availability}'")
   end
