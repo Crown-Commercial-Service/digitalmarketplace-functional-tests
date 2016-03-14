@@ -180,6 +180,21 @@ When /I click the '(.*)' link for the supplier '(.*)'$/ do |link_name, supplier_
   link.click
 end
 
+When /I click the '(.*)' link in the '(.*)' column for the supplier '(.*)'/ do |link_name, column_name, supplier_name|
+  @supplierName = supplier_name
+  column_index = page.all(:css, "thead tr th").find_index {|elem| elem.text == column_name}
+  row = page.all(:css, "tr.summary-item-row").select do |candidate_row|
+    candidate_row.first(:css, "td").text == supplier_name
+  end.first
+
+  column = row.all(:css, "td").at(column_index)
+  link = column.find_link(link_name)
+  if match = link['href'].match(%r"/admin/suppliers/(\d+)/")
+    @supplierID = @servicesupplierID = match.captures[0]
+  end
+  link.click
+end
+
 Then /I am presented with the summary page for that service$/ do
   @existing_values = @existing_values || Hash.new
   @existing_values['summarypageurl'] = current_url
@@ -833,25 +848,22 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   case @user_type
   when 'Administrator'
     expected_links = ['Change name', 'Users', 'Services']
-    page.should have_no_link('G-Cloud 7 declaration')
-    page.should have_no_link('Digital Outcomes and Specialists declaration')
-    page.should have_no_link('Download G-Cloud 7 agreement')
-    page.should have_no_link('Upload G-Cloud 7 countersigned agreement')
+    page.should have_no_link('Edit declaration')
+    page.should have_no_link('Download agreement')
+    page.should have_no_link('Upload countersigned agreement')
   when 'CCS Sourcing'
-    expected_links = ['G-Cloud 7 declaration']
-    expected_links = ['Digital Outcomes and Specialists declaration']
-    expected_links = ['Download G-Cloud 7 agreement']
-    expected_links = ['Upload G-Cloud 7 countersigned agreement']
+    expected_links = ['Edit declaration']
+    expected_links = ['Download agreement']
+    expected_links = ['Upload countersigned agreement']
     page.should have_no_link('Change name')
     page.should have_no_link('Users')
     page.should have_no_link('Services')
   when 'CCS Category'
     expected_links = ['Users', 'Services']
     page.should have_no_link('Change name')
-    page.should have_no_link('G-Cloud 7 declaration')
-    page.should have_no_link('Digital Outcomes and Specialists declaration')
-    page.should have_no_link('Download G-Cloud 7 agreement')
-    page.should have_no_link('Upload G-Cloud 7 countersigned agreement')
+    page.should have_no_link('Edit declaration')
+    page.should have_no_link('Download agreement')
+    page.should have_no_link('Upload countersigned agreement')
   else
     fail("Invalid user on admin suppliers page #{@user_type}")
   end
