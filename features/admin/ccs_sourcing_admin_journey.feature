@@ -14,7 +14,7 @@ Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier n
 
 Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
   Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'G-Cloud 7 declaration' link for the supplier 'DM Functional Test Supplier'
+  When I click the 'Edit declaration' link in the 'G-Cloud 7' column for the supplier 'DM Functional Test Supplier'
   Then I am presented with the admin G-Cloud 7 declaration page
   When I click the 'Edit' link for 'G-Cloud 7 essentials'
   Then I am presented with the 'G-Cloud 7 essentials' page
@@ -28,7 +28,7 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
 
 Scenario: As a CCS Sourcing user I wish to upload G-Cloud 7 countersigned agreements
   Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'Upload G-Cloud 7 countersigned agreement' link for the supplier 'DM Functional Test Supplier'
+  When I click the 'Upload countersigned agreement' link in the 'G-Cloud 7' column for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
 
   When I choose file 'test.pdf' for 'countersigned_agreement'
