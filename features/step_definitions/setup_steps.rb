@@ -4,6 +4,7 @@ require "rest_client"
 require "json"
 require "test/unit"
 
+# suppliers
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
   file = File.read("./fixtures/test-supplier.json")
   supplier_data = JSON.parse(file)
@@ -37,6 +38,7 @@ Given /^I have test suppliers$/ do
   create_supplier(11112,"DM Functional Test Supplier 2","Second test supplier solely for use in functional tests.","Testing Supplier 2 Name","Testing.supplier.2.NaMe@DMtestemail.com","WB1B 5QH","931123456789")
 end
 
+# services
 def create_live_service (supplier_id, service_id, lot)
   file = File.read("./fixtures/#{supplier_id}-g6-#{lot}-test-service.json")
   service_data = JSON.parse(file)
@@ -71,7 +73,48 @@ Given /^The test suppliers have live services$/ do
     create_live_service(11112,"1123456789012354","iaas")
 end
 
-def create_user (email,username,password,role,supplierid=nil)
+def update_and_check_status (service_status)
+  page.find(:xpath,"//*[contains(@name, 'status') and contains(@value, '#{service_status.downcase}')]").click
+  steps %Q{
+    And I click the 'Update status' button
+    Then The service status is set as '#{service_status}'
+    And I am presented with the message 'Service status has been updated to: #{service_status}'
+  }
+  current_service_status = page.find(
+    :xpath,
+    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+  ).text()
+end
+
+def service_status_public (service_id)
+  page.visit("#{dm_frontend_domain}/admin/services/#{service_id}")
+  page.should have_content('Service status')
+  current_service_status = ''
+  while current_service_status != 'Public'
+    current_service_status = page.find(:xpath,"//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]").text()
+    if current_service_status == 'Removed'
+      update_and_check_status("Private")
+    elsif current_service_status == 'Private'
+      update_and_check_status("Public")
+    end
+  end
+end
+
+And /^All services for the test suppliers are Public$/ do
+  step "I have logged in to Digital Marketplace as a 'Administrator' user"
+  service_status_public("1123456789012346")
+  service_status_public("1123456789012347")
+  service_status_public("1123456789012348")
+  service_status_public("1123456789012349")
+  service_status_public("1123456789012350")
+  service_status_public("1123456789012351")
+  service_status_public("1123456789012352")
+  service_status_public("1123456789012353")
+  service_status_public("1123456789012354")
+end
+
+# users
+def create_and_return_user (email,username,password,role,supplierid=nil)
   file = File.read("./fixtures/test-user.json")
   user_data = JSON.parse(file)
   user_data["users"]["emailAddress"] = email
@@ -85,18 +128,20 @@ def create_user (email,username,password,role,supplierid=nil)
     response = call_api(:post, "/users", payload: user_data)
     response.code.should be(201), response.body
   end
+  user = JSON.parse(response.body)["users"][0]
+  return user
 end
 
 def create_supplier_user (supplierid,email,username,password)
-  create_user(email,username,password,"supplier",supplierid)
+  return create_and_return_user(email,username,password,"supplier",supplierid)
 end
 
 def create_buyer_user (email,username,password)
-  create_user(email,username,password,"buyer")
+  return create_and_return_user(email,username,password,"buyer")
 end
 
 def create_admin_user (email,username,password)
-  create_user(email,username,password,"admin")
+  return create_and_return_user(email,username,password,"admin")
 end
 
 And /^The test suppliers have users$/ do
@@ -107,7 +152,8 @@ And /^The test suppliers have users$/ do
 end
 
 Given /^I have a buyer user account$/ do
-  create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
+  user = create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
+  @buyer_id = user["id"]
 end
 
 And /^The test suppliers have declarations$/ do
@@ -182,47 +228,8 @@ And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
   end
 end
 
-def update_and_check_status (service_status)
-  page.find(:xpath,"//*[contains(@name, 'status') and contains(@value, '#{service_status.downcase}')]").click
-  steps %Q{
-    And I click the 'Update status' button
-    Then The service status is set as '#{service_status}'
-    And I am presented with the message 'Service status has been updated to: #{service_status}'
-  }
-  current_service_status = page.find(
-    :xpath,
-    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
-  ).text()
-end
-
-def service_status_public (service_id)
-  page.visit("#{dm_frontend_domain}/admin/services/#{service_id}")
-  page.should have_content('Service status')
-  current_service_status = ''
-  while current_service_status != 'Public'
-    current_service_status = page.find(:xpath,"//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]").text()
-    if current_service_status == 'Removed'
-      update_and_check_status("Private")
-    elsif current_service_status == 'Private'
-      update_and_check_status("Public")
-    end
-  end
-end
-
-And /^All services for the test suppliers are Public$/ do
-  step "I have logged in to Digital Marketplace as a 'Administrator' user"
-  service_status_public("1123456789012346")
-  service_status_public("1123456789012347")
-  service_status_public("1123456789012348")
-  service_status_public("1123456789012349")
-  service_status_public("1123456789012350")
-  service_status_public("1123456789012351")
-  service_status_public("1123456789012352")
-  service_status_public("1123456789012353")
-  service_status_public("1123456789012354")
-end
-#@wip-create a buyer brief
-def create_buyer_brief (brief_name,framework_slug,lot,user_id)
+# briefs
+def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   file = File.read("./fixtures/briefs-DOS.json")
   brief_data = JSON.parse(file)
   brief_data["briefs"]["title"] = brief_name
@@ -230,19 +237,62 @@ def create_buyer_brief (brief_name,framework_slug,lot,user_id)
   brief_data["briefs"]["frameworkSlug"] = framework_slug
   brief_data["briefs"]["lot"] = lot
   brief_data["briefs"]["userId"] = user_id
+  brief_data["briefs"]["startDate"] = '31/12/2016'
+  brief_data["briefs"]["specialistRole"] = 'developer'
+  brief_data["briefs"]["organisation"] = 'Driver and Vehicle Licensing Agency'
+  brief_data["briefs"]["importantDates"] = 'Yesterday'
+  brief_data["briefs"]["evaluationType"] = ['pitch']
+  brief_data["briefs"]["contractLength"] = '1 day'
+  brief_data["briefs"]["backgroundInformation"] = 'Make a flappy bird clone except where the bird drives very safely'
+  brief_data["briefs"]["essentialRequirements"] = ['Can you do coding?', 'Can you do Python?']
+  brief_data["briefs"]["niceToHaveRequirements"] = ['Do you like cats?', 'Is your cat named Eva?']
+  brief_data["updated_by"] = "functional tests"
 
-  response = call_api(:get, "/briefs", params: {user_id: user_id})
-  # puts response.body
-  JSON.parse(response.body)["briefs"].each do |brief|
-    puts brief["title"]
-  end
-  # if response.
-  # if response.code == 404
-  #   response = call_api(:post, "/users", payload: user_data)
-  #   response.code.should be(201), response.body
-  # end
+  response = call_api(:post, "/briefs", payload: brief_data)
+  response.code.should be(201), response.body
+  brief = JSON.parse(response.body)["briefs"]
+  return brief
 end
-#@wip-create a buyer brief
-Given /^I have a brief$/ do
-  create_buyer_brief("Individual Specialist-Brief deletion test","digital-outcomes-and-specialists","digital-specialists",10348)
+
+def publish_buyer_brief(brief_id)
+  publish_brief_data = {
+    updated_by: "functional tests",
+    briefs: {status: "live"}
+  }
+  response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
+  response.code.should be(200), response.body
+end
+
+
+def delete_all_draft_briefs (user_id)
+  response = call_api(:get, "/briefs", params: {user_id: user_id})
+
+  JSON.parse(response.body)["briefs"].each do |brief|
+    brief_id = brief["id"]
+    updated_by = {updated_by: "Functional tests"}
+
+    if brief["status"] != "live"
+      puts "deleting draft: #{brief_id}"
+      response = call_api(:delete, "/briefs/#{brief_id}", payload: updated_by)
+      response.code.should be(200), response.body
+    end
+  end
+end
+
+Given /^I have a '(.*)' brief$/ do |brief_state|
+  if not @buyer_id
+    fail(ArgumentError.new('No buyer user found!!'))
+  end
+  @published_brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+
+  if brief_state == 'published'
+    publish_buyer_brief(@published_brief['id'])
+  end
+end
+
+Given /^I have deleted all draft briefs$/ do
+  if not @buyer_id
+    fail(ArgumentError.new('No buyer user found!!'))
+  end
+  delete_all_draft_briefs(@buyer_id)
 end

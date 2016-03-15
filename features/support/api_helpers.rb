@@ -1,4 +1,3 @@
-
 def call_api(method, path, options={})
   domain = options.delete(:domain) || dm_api_domain
   auth_token = options.delete(:auth_token) || dm_api_access_token
@@ -12,7 +11,13 @@ def call_api(method, path, options={})
   if payload.nil?
     RestClient.send(method, url, options) {|response, request, result| response}
   else
-    RestClient.send(method, url, payload.to_json, options) {|response, request, result| response}
+    # can't send a payload as part of a DELETE request
+    # http://stackoverflow.com/questions/21104232/delete-method-with-a-payload-using-ruby-restclient
+    if method == :delete
+      RestClient::Request.execute(method: :delete, url: url, payload: payload.to_json, headers: options) {|response, request, result| response}
+    else
+      RestClient.send(method, url, payload.to_json, options) {|response, request, result| response}
+   end
   end
 end
 
