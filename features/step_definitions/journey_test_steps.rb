@@ -1891,12 +1891,12 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-Given /^I am on the "Overview of work" page for the buyer brief$/ do
+Given /^I am on the "Overview of work" page for the buyer requirements$/ do
   visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}"
   current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
-Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
+Then /^I should be on the "Overview of work" page for the '(.*)' buyer requirements$/ do |brief_name|
   page.find('h1').should have_content("#{brief_name}")
   page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
   parts = URI.parse(current_url).path.split('/')
@@ -1974,14 +1974,14 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
   end
 end
 
-Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of work" page for that brief$/ do |brief_type, brief_name|
+Given /^A '(.*)' buyer requirements with the name '(.*)' exists and I am on the "Overview of work" page$/ do |brief_type, brief_name|
   steps %Q{
     Given I have a 'draft' brief
     And I am on the "Overview of work" page for the newly created draft brief
   }
 end
 
-Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
+Then /^The buyer requirements for '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
   case availability
   when "is"
     page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}') and contains(text(), '#{brief_name}')]")
@@ -2004,7 +2004,7 @@ When /^I edit '(.*)' by changing '(.*)' to '(.*)'$/ do |item_to_change,field_nam
 
   steps %Q{
     And I click 'Save and continue'
-    Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief-edited'
+    Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
   }
 end
 
@@ -2026,6 +2026,6 @@ end
 
   steps %Q{
     And I click 'Save and continue'
-    Then I should be on the "Overview of work" page for the buyer brief 'Find an individual specialist brief-edited'
+    Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
   }
 end
