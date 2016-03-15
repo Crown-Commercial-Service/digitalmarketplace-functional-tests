@@ -4,6 +4,6 @@ Feature: Create buyer account. WIP-The flow to get to the creation page is as ye
 Scenario: User steps through buyer account creation process
   Given I navigate directly to the page '/buyers/create'
   When I am on the 'Create a buyer account' page
-  And I enter 'test.buyer.email@test.com' in the 'email_address' field
+  And I enter 'test.buyer.email@test.gov.uk' in the 'email_address' field
   And I click 'Create account'
   Then I am taken to the 'Activate your account' page
