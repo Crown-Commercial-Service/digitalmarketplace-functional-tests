@@ -288,7 +288,7 @@ def delete_all_draft_briefs (user_id)
   end
 end
 
-Given /^I have a '(.*)' set of requirements$/ do |brief_state|
+Given /^I have a '(.*)' (?:brief|opportunity)$/ do |brief_state|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end

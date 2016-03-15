@@ -1031,6 +1031,10 @@ And /A message stating the supplier has stopped offering this service on todays 
   end
 end
 
+Then /^there is a (success|warning|destructive) banner message containing '(.*)'$/ do |status, message|
+  page.find(:css, ".banner-#{status}-without-action").should have_content(message)
+end
+
 And /The service '(.*)' be searched$/ do |ability|
   sleep 1
   page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@servicesupplierID}")
@@ -2038,4 +2042,8 @@ When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,val
     And I click 'Save and continue'
     Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
   }
+end
+
+Then /^I am on the public view of the opportunity$/ do
+  visit("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{@published_brief["id"]}")
 end
