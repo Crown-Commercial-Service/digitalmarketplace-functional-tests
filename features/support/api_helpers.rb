@@ -11,7 +11,7 @@ def call_api(method, path, options={})
   if payload.nil?
     RestClient.send(method, url, options) {|response, request, result| response}
   else
-    # can't send a payload as part of a DELETE request
+    # can't send a payload as part of a DELETE request using the ruby rest client
     # http://stackoverflow.com/questions/21104232/delete-method-with-a-payload-using-ruby-restclient
     if method == :delete
       RestClient::Request.execute(method: :delete, url: url, payload: payload.to_json, headers: options) {|response, request, result| response}
