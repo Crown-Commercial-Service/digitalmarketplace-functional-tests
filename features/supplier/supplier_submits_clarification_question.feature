@@ -1,9 +1,10 @@
+@not-production @functional-test
 Feature: Supplier Submits Clarification Question
 
-Background: Publish a brief
+Background: Publish requirements
     Given I have a buyer user account
-    And I have deleted all draft briefs
-    And I have a 'published' brief
+    And I have deleted all draft buyer requirements
+    And I have a 'published' set of requirements
 
 Scenario: Set up suppliers and supplier users
     Given I have test suppliers
