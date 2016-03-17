@@ -30,7 +30,7 @@ echo -e "\033[0;32mAll services are up\033[0m"
 test_framework_status "g-cloud-4" "expired"
 test_framework_status "g-cloud-5" "expired"
 test_framework_status "g-cloud-6" "live"
-test_framework_status "g-cloud-7" "open"
+test_framework_status "g-cloud-7" "live"
 test_framework_status "digital-outcomes-and-specialists" "live"
 
 echo -e "\033[0;32mAll frameworks have the correct status\033[0m"

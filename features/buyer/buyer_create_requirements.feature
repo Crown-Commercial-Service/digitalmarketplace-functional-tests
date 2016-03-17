@@ -105,7 +105,7 @@ Scenario: Complete all mandatory buyer requirements questions. "Ready to publish
   And I click the 'Save and continue' button
   Then I should be on the "Overview of work" page for the 'Find an individual specialist' buyer requirements
   And The 'Ready to publish' button is 'made' available
-@wip1
+
 Scenario: Verify all text on summary page after adding mandatory information
   Given I am on the "Overview of work" page for the buyer requirements
   Then Summary row 'Requirements title' 'should' contain 'Find an individual specialist'
@@ -197,6 +197,7 @@ Scenario: Edit Requirements title and verify the change made, on the summary pag
 Scenario: Edit Current technologies and verify the change made, on the summary page(Optional requirement)
   Given I am on the "Overview of work" page for the buyer requirements
   And I navigate to the 'Edit' 'Current technologies' page
+
   When I change 'currentTechnologies' to 'Current technologies-edited'
   And I click 'Save and continue'
   Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements

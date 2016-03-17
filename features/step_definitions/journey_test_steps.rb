@@ -1925,6 +1925,8 @@ Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
   @published_brief[requirements].each_with_index do |_, index|
     input_id = "#{requirements}-#{index}"
     step "I choose \'#{value}\' for \'#{input_id}\'"
+  end
+end
 
 Then /^Summary row '(.*)' '(.*)' contain '(.*)'$/ do |field_name, availability, field_value|
   case availability
@@ -2022,7 +2024,7 @@ When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,fie
     end
   else
     fail("Unrecognised action: '#{action}'")
-end
+  end
 
   steps %Q{
     And I click 'Save and continue'
