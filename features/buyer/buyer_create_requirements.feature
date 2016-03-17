@@ -2,11 +2,11 @@
 Feature: Buyer create buyer requirements
 
 Background: Login to Digital Marketplace as the newly created buyer
-  Given I have logged in to Digital Marketplace as a 'Buyer' user
+  Given I have a buyer user account
+  And I have logged in to Digital Marketplace as a 'Buyer' user
 
 Scenario: Test setup
-  Given I have a buyer user account
-  And I have deleted all draft buyer requirements
+  Given I have deleted all draft buyer requirements
 
 Scenario: Start creating buyer requirements for an individual specialist
   Given I am on the 'Digital Marketplace' landing page
@@ -206,56 +206,56 @@ Scenario: Edit Current technologies and verify the change made, on the summary p
 Scenario: Edit all other buyer requirements questions and verify the change made, on the summary page
   Given I am on the "Overview of work" page for the buyer requirements
   When I edit 'Location' by changing 'location' to 'Offsite'
-  Then Summary row 'Location' should contain 'Offsite'
+  Then Summary row 'Location' 'should' contain 'Offsite'
 
   When I edit 'Specialist role' by changing 'specialistRole' to 'Content designer'
-  Then Summary row 'Specialist role' should contain 'Content designer'
+  Then Summary row 'Specialist role' 'should' contain 'Content designer'
 
   When I edit 'Your organisation' by changing 'organisation' to 'Organisation-Digital Marketplace Team-edited'
-  Then Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team-edited'
+  Then Summary row 'Your organisation' 'should' contain 'Organisation-Digital Marketplace Team-edited'
 
   When I edit 'Background information' by changing 'backgroundInformation' to 'Background information for Digital Marketplace Team-edited'
-  Then Summary row 'Background information' should contain 'Background information for Digital Marketplace Team-edited'
+  Then Summary row 'Background information' 'should' contain 'Background information for Digital Marketplace Team-edited'
 
   When I edit 'Start date' by changing 'startDate' to '12/12/2030'
-  Then Summary row 'Start date' should contain '12/12/2030'
+  Then Summary row 'Start date' 'should' contain '12/12/2030'
 
   When I edit 'Contract length' by changing 'contractLength' to '365 days'
-  Then Summary row 'Contract length' should contain '365 days'
+  Then Summary row 'Contract length' 'should' contain '365 days'
 
   When I edit 'Important dates' by changing 'importantDates' to '21 May 2031'
-  Then Summary row 'Important dates' should contain '21 May 2031'
+  Then Summary row 'Important dates' 'should' contain '21 May 2031'
 
   When I edit 'Working arrangements' by changing 'workingArrangements' to 'Working arrangements for Digital Marketplace Team-edited'
-  Then Summary row 'Working arrangements' should contain 'Working arrangements for Digital Marketplace Team-edited'
+  Then Summary row 'Working arrangements' 'should' contain 'Working arrangements for Digital Marketplace Team-edited'
 
   When I edit 'Additional terms and conditions' by changing 'additionalTerms' to 'Addition terms and conditions for Digital Marketplace Team-edited'
-  Then Summary row 'Additional terms and conditions' should contain 'Addition terms and conditions for Digital Marketplace Team-edited'
+  Then Summary row 'Additional terms and conditions' 'should' contain 'Addition terms and conditions for Digital Marketplace Team-edited'
 
   When I edit 'Essential requirements' by changing 'input-essentialRequirements-1' to 'First in list-edited'
   When I edit 'Essential requirements' by 'removing' 'A third row for essential requirements' for 'input-essentialRequirements-3'
-  Then Summary row 'Essential requirements' should contain 'First in list-edited'
-  Then Summary row 'Essential requirements' should not contain 'A third row for essential requirements'
-  Then Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
+  Then Summary row 'Essential requirements' 'should' contain 'First in list-edited'
+  Then Summary row 'Essential requirements' 'should not' contain 'A third row for essential requirements'
+  Then Summary row 'Essential requirements' 'should' contain 'Second essential requirement for Digital Marketplace Team'
 
   When I edit 'Nice-to-have requirements' by changing 'input-niceToHaveRequirements-2' to 'Second nice-to-have requirement for Digital Marketplace Team-edited'
-  When I edit 'Nice-to-have requirements' by 'adding' 'Third requirement-edited' for 'input-niceToHaveRequirements-3'
-  Then Summary row 'Nice-to-have requirements' should contain 'Second nice-to-have requirement for Digital Marketplace Team-edited'
-  Then Summary row 'Nice-to-have requirements' should contain 'First nice-to-have requirement for Digital Marketplace Team'
-  Then Summary row 'Nice-to-have requirements' should contain 'Third requirement-edited'
+  When I edit 'Nice-to-have requirements' by 'adding' 'Third requirement-added' for 'niceToHaveRequirements'
+  Then Summary row 'Nice-to-have requirements' 'should' contain 'Second nice-to-have requirement for Digital Marketplace Team-edited'
+  Then Summary row 'Nice-to-have requirements' 'should' contain 'First nice-to-have requirement for Digital Marketplace Team'
+  Then Summary row 'Nice-to-have requirements' 'should' contain 'Third requirement-added'
 
   When I edit 'Evaluating suppliers' by 'unchecking' 'pitch' for 'evaluationType'
   And I edit 'Evaluating suppliers' by 'checking' 'provide a case study or evidence of previous work' for 'evaluationType'
-  Then Summary row 'Evaluating suppliers' should contain 'provide a case study or evidence of previous work'
-  Then Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
-  And Summary row 'Evaluating suppliers' should not contain 'pitch'
+  Then Summary row 'Evaluating suppliers' 'should' contain 'provide a case study or evidence of previous work'
+  Then Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
+  And Summary row 'Evaluating suppliers' 'should not' contain 'pitch'
 
 Scenario: Created buyer requirements can be deleted
-  Given A 'Find an individual specialist' buyer requirements with the name 'Individual Specialist Buyer Requirements' exists and I am on the "Overview of work" page
+  Given A 'Find an individual specialist' buyer requirements with the name 'Individual Specialist-Buyer Requirements' exists and I am on the "Overview of work" page
   When I click 'Delete'
   Then I am presented with the message 'Are you sure you want to delete these requirements?'
 
   When I click 'Yes, delete'
   Then I am presented with the 'DM Functional Test Buyer User 1' 'Buyer' dashboard page
   And I am presented with the message 'Your requirements ‘Individual Specialist-Buyer Requirements’ were deleted'
-  And The buyer requirements for 'Individual Specialist Buyer Requirements' 'is not' listed on the buyer's dashboard
+  And The buyer requirements for 'Individual Specialist-Buyer Requirements' 'is not' listed on the buyer's dashboard

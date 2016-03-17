@@ -3,7 +3,7 @@ Feature: Supplier respond to briefs
 
 Background: Publish a brief
   Given I have a buyer user account
-  And I have deleted all draft briefs
+  And I have deleted all draft buyer requirements
   And I have a 'published' brief
 
 Scenario: Setup for responding to a brief

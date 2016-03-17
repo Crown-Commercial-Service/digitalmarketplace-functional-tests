@@ -434,7 +434,7 @@ And /I remove client number 2$/ do
 end
 
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
-  record_number_to_add = (10 - ((find(
+  record_number_to_add = (11 - ((find(
     :xpath,
     ".//*[@id='#{item_to_add}']//button[contains(text(), 'Add another')]"
   ).text()).split(' (').last.split(' remaining').first).to_i)
@@ -610,6 +610,8 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,page_name|
     page.should have_content('Email address')
     page.should have_content('Phone number')
     page.should have_content('Business address')
+  elsif page_name == 'Additional terms and conditions' #Change this when buyer requirement pages have been correctly defined
+    page.should have_content('Working arrangements') #Change this when buyer requirement pages have been correctly defined
   else
     page.should have_content(page_name)
   end
@@ -2010,12 +2012,18 @@ When /^I edit '(.*)' by changing '(.*)' to '(.*)'$/ do |item_to_change,field_nam
   }
 end
 
-When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,field_name,new_value|#Step implementation specific to buyer brief
+When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,value,field_name|#Step implementation specific to buyer brief
   step "I navigate to the 'Edit' '#{item_to_change}' page"
 
   case action
   when "checking", "unchecking"
-    step "I '#{action}' '#{new_value}' for '#{field_name}'"
+    case action
+    when "checking"
+      action = "check"
+    when "unchecking"
+      action = "uncheck"
+    end
+    step "I '#{action}' '#{value}' for '#{field_name}'"
   when "removing", "adding"
     if action == "removing"
       find(:xpath, ".//*[@id='#{field_name}']/../*[@class='button-secondary list-entry-remove']").click

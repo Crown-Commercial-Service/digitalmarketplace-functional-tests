@@ -162,7 +162,7 @@ end
 
 Given /^I have a buyer user account$/ do
   user = create_buyer_user(dm_buyer_email(),"DM Functional Test Buyer User 1", dm_buyer_password())
-  store.buyer_id = user["id"]
+  @buyer_id = user["id"]
 end
 
 And /^The test suppliers have declarations$/ do
@@ -292,81 +292,16 @@ Given /^I have a '(.*)' brief$/ do |brief_state|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  @published_brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  @published_brief = create_and_return_buyer_brief("Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  store.framework = @published_brief["frameworkSlug"]
+  store.lot = @published_brief["lotSlug"]
+  store.current_brief = @published_brief["id"]
+puts store.framework
+puts store.lot
+puts store.current_brief
 
   if brief_state == 'published'
     publish_buyer_brief(@published_brief['id'])
-  end
-end
-
-Given /^I have deleted all draft briefs$/ do
-  if not @buyer_id
-    fail(ArgumentError.new('No buyer user found!!'))
-  end
-  delete_all_draft_briefs(@buyer_id)
-end
-
-def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
-  file = File.read("./fixtures/briefs-DOS.json")
-  brief_data = JSON.parse(file)
-  brief_data["briefs"]["title"] = brief_name
-  brief_data["briefs"]["location"] = "Scotland"
-  brief_data["briefs"]["frameworkSlug"] = framework_slug
-  brief_data["briefs"]["lot"] = lot
-  brief_data["briefs"]["userId"] = user_id
-  brief_data["briefs"]["startDate"] = '31/12/2016'
-  brief_data["briefs"]["specialistRole"] = 'developer'
-  brief_data["briefs"]["organisation"] = 'Driver and Vehicle Licensing Agency'
-  brief_data["briefs"]["importantDates"] = 'Yesterday'
-  brief_data["briefs"]["evaluationType"] = ['pitch']
-  brief_data["briefs"]["contractLength"] = '1 day'
-  brief_data["briefs"]["backgroundInformation"] = 'Make a flappy bird clone except where the bird drives very safely'
-  brief_data["briefs"]["essentialRequirements"] = ['Can you do coding?']
-  brief_data["updated_by"] = "functional tests"
-
-  response = call_api(:post, "/briefs", payload: brief_data)
-  response.code.should be(201), response.body
-  brief = JSON.parse(response.body)["briefs"]
-  return brief
-end
-
-def publish_buyer_brief(brief_id)
-  publish_brief_data = {
-    updated_by: "functional tests",
-    briefs: {status: "live"}
-  }
-  response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
-  response.code.should be(200), response.body
-end
-
-def delete_all_draft_briefs (user_id)
-  response = call_api(:get, "/briefs", params: {user_id: user_id})
-
-  JSON.parse(response.body)["briefs"].each do |brief|
-    brief_id = brief["id"]
-
-    updated_by = {updated_by: "Functional tests"}
-
-    if brief["status"] != "live"
-      puts "deleting draft: #{brief_id}"
-      response = call_api(:delete, "/briefs/#{brief_id}", payload: updated_by)
-      response.code.should be(200), response.body
-    end
-  end
-end
-
-Given /^I have a '(.*)' brief$/ do |brief_state|
-  if not store.buyer_id
-    fail(ArgumentError.new('No buyer user found!!'))
-  end
-  brief = create_and_return_buyer_brief("Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", store.buyer_id)
-  store.framework = brief["frameworkSlug"]
-  store.lot = brief["lotSlug"]
-  store.current_brief = brief["id"]
-
-  if brief_state == 'published'
-    brief_id = brief["id"]
-    publish_buyer_brief(brief_id)
   end
 end
 
@@ -375,8 +310,8 @@ Given /^I am on the "Overview of work" page for the newly created draft brief$/ 
 end
 
 Given /^I have deleted all draft buyer requirements$/ do
-  if not store.buyer_id
+  if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
    end
-   delete_all_draft_briefs(store.buyer_id)
+   delete_all_draft_briefs(@buyer_id)
 end
