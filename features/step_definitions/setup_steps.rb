@@ -296,9 +296,6 @@ Given /^I have a '(.*)' brief$/ do |brief_state|
   store.framework = @published_brief["frameworkSlug"]
   store.lot = @published_brief["lotSlug"]
   store.current_brief = @published_brief["id"]
-puts store.framework
-puts store.lot
-puts store.current_brief
 
   if brief_state == 'published'
     publish_buyer_brief(@published_brief['id'])
