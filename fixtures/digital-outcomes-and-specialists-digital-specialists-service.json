@@ -1,0 +1,19 @@
+{
+  "services": {
+    "id": 1,
+    "supplierId": 1,
+    "frameworkSlug": "digital-outcomes-and-specialists",
+    "lot": "digital-specialists",
+    "developerLocations": [
+      "London",
+      "Scotland"
+    ],
+    "developerPriceMax": "200",
+    "developerPriceMin": "100",
+    "bespokeSystemInformation": true,
+    "dataProtocols": true,
+    "helpGovernmentImproveServices": true,
+    "openStandardsPrinciples": true
+  },
+  "updated_by": "Test User"
+}
