@@ -50,7 +50,7 @@ end
 def update_framework_agreement_status(framework_slug, supplier_id, status)
   response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", payload: {
     "frameworkInterest" => {"agreementReturned" => status},
-    "update_details" => {"updated_by" => "functional tests"},
+    "updated_by" => "functional tests",
   })
   response.code.should be(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
 end
@@ -60,9 +60,9 @@ def register_interest_in_framework(framework_slug, supplier_id)
   response = call_api(:get, path)
   if response.code == 404
     response = call_api(:put, path, payload: {
-      "update_details" => {"updated_by" => "functional tests"}
+      "updated_by" => "functional tests"
     })
-    response.code.should be(200), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
+    response.code.should match(/20[01]/), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
   end
 end
 
