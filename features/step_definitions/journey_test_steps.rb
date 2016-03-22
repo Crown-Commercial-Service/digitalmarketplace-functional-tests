@@ -1084,6 +1084,11 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   end
 end
 
+Then /gzip is enabled/ do
+  page.response_headers['Content-Encoding'].should == "gzip"
+end
+
+
 When /I click the '(.*)' link$/ do |link_name|
   step "I click the '#{link_name}' button"
 end
