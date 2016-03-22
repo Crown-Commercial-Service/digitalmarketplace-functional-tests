@@ -1908,12 +1908,12 @@ Then /^I should be on the "Overview of work" page for the '(.*)' buyer requireme
   current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
-Given /^I am on the supplier response page for the brief$/ do
+Given /^I am on the supplier response page for the opportunity$/ do
   brief_id = @published_brief['id']
   visit "#{dm_frontend_domain}/suppliers/opportunities/#{brief_id}/responses/create"
 end
 
-And /^I see correct brief title and requirements for the brief$/ do
+And /^I see the correct title and requirements for the opportunity$/ do
   brief_title = @published_brief['title']
   brief_requirements = @published_brief['essentialRequirements'] + @published_brief['niceToHaveRequirements']
 
