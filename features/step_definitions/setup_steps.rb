@@ -288,7 +288,7 @@ def delete_all_draft_briefs (user_id)
   end
 end
 
-Given /^I have a '(.*)' set of requirements$/ do |brief_state|
+Given /^I have a '(.*)' (?:brief|opportunity|set of requirements)$/ do |brief_state|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
@@ -306,7 +306,7 @@ Given /^I am on the "Overview of work" page for the newly created draft brief$/ 
   visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
 end
 
-Given /^I have deleted all draft buyer requirements$/ do
+Given /^I have deleted all draft (?:briefs|buyer requirements)$/ do
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
    end
