@@ -7,22 +7,6 @@ require "test/unit"
 include Test::Unit::Assertions
 
 
-Given /^I have opened a json file$/ do
-  file = File.read('./fixtures/11111-g6-iaas-test-service.json')
-  json = JSON.parse(file)
-  @json = json
-end
-
-
-When /^I update the service name of the stored json file$/ do
-  @json['services']['serviceName'] = 'NEW NAME '+Time.now.strftime('%Y%m%d%H%M%S')
-end
-
-
-Then /^The new json file has a new service name$/ do
-  assert_equal @json['services']['serviceName'].start_with?("NEW NAME "),true
-end
-
 Given /^I have a random service from the API$/ do
   response = call_api(:get, "/services", params: {page: 1 + rand(dm_pagination_limit()), status: "published"})
   @service = JSON.parse(response.body)['services'][rand(dm_pagination_limit())]
