@@ -39,11 +39,12 @@ Given /^I have test suppliers$/ do
 end
 
 # services
-def create_live_service (supplier_id, service_id, lot)
-  file = File.read("./fixtures/#{supplier_id}-g6-#{lot}-test-service.json")
+def create_live_service (supplier_id, service_id, framework, lot)
+  file = File.read("./fixtures/#{framework}-#{lot}-service.json")
   service_data = JSON.parse(file)
   service_data["services"]["id"] = service_id
-  service_data["services"]["serviceName"] = "#{service_id} #{service_data ["services"]["serviceName"]}"
+  service_data["services"]["supplierId"] = supplier_id
+  service_data["services"]["serviceName"] = "#{service_id} #{service_data["services"]["serviceName"]}" if framework.start_with? "g-cloud"
 
   service_path = "/services/#{service_id}"
 
@@ -62,15 +63,19 @@ def create_live_service (supplier_id, service_id, lot)
 end
 
 Given /^The test suppliers have live services$/ do
-    create_live_service(11111,"1123456789012346","iaas")
-    create_live_service(11111,"1123456789012347","paas")
-    create_live_service(11111,"1123456789012348","saas")
-    create_live_service(11111,"1123456789012349","scs")
-    create_live_service(11111,"1123456789012350","iaas")
-    create_live_service(11111,"1123456789012351","paas")
-    create_live_service(11111,"1123456789012352","saas")
-    create_live_service(11111,"1123456789012353","scs")
-    create_live_service(11112,"1123456789012354","iaas")
+  create_live_service(11111, "1123456789012346", "g-cloud-6", "iaas")
+  create_live_service(11111, "1123456789012347", "g-cloud-6", "paas")
+  create_live_service(11111, "1123456789012348", "g-cloud-6", "saas")
+  create_live_service(11111, "1123456789012349", "g-cloud-6", "scs")
+  create_live_service(11111, "1123456789012350", "g-cloud-6", "iaas")
+  create_live_service(11111, "1123456789012351", "g-cloud-6", "paas")
+  create_live_service(11111, "1123456789012352", "g-cloud-6", "saas")
+  create_live_service(11111, "1123456789012353", "g-cloud-6", "scs")
+  create_live_service(11112, "1123456789012354", "g-cloud-6", "iaas")
+end
+
+Given /^Test suppliers are eligible to respond to a brief$/ do
+  create_live_service(11111, "2123456789012354", "digital-outcomes-and-specialists", "digital-specialists")
 end
 
 def update_and_check_status (service_status)

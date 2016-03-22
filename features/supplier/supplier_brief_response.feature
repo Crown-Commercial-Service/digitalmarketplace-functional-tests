@@ -1,4 +1,4 @@
-@not-production @functional-test
+@not-production @functional-test @brief-responses
 Feature: Supplier respond to briefs
 
 Background: Publish a brief
@@ -8,6 +8,7 @@ Background: Publish a brief
 
 Scenario: Setup for responding to a brief
   Given I have test suppliers
+  And Test suppliers are eligible to respond to a brief
   And The test suppliers have users
   And Test supplier users are active
 

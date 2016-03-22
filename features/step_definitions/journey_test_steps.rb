@@ -895,7 +895,6 @@ And /I can see all listings ordered by lot name followed by listing name$/ do
     "1123456789012349",
     "1123456789012353",
   ])
-  page.should have_no_selector(:xpath, "*//table/tbody/tr[9][td/text()]")
 end
 
 Then /I can see active users associated with '(.*)' on the dashboard$/ do |supplier_name|
