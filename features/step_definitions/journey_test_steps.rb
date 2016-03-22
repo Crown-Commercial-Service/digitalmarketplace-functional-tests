@@ -464,7 +464,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
   page.should have_no_content(@changed_fields['clients-2'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[3]"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[4]"
   ).text().should have_content(@changed_fields['clients'])
   find(
     :xpath,

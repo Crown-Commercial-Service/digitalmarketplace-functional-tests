@@ -26,4 +26,4 @@ Scenario: Supplier successfully responds to a brief
   And I enter '100' in the 'dayRate' field
   And I enter 'Janny' in the 'specialistName' field
   And I click the 'Save and continue' button
-  Then I am presented with the message 'Your response to ‘Individual Specialist-Brief deletion test’ has been submitted.'
+  Then I am presented with the message 'Your response to ‘Individual Specialist-Buyer Requirements’ has been submitted.'
