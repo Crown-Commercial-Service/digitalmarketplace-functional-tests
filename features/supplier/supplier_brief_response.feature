@@ -3,7 +3,7 @@ Feature: Supplier respond to briefs
 
 Background: Publish a brief
   Given I have a buyer user account
-  And I have deleted all draft briefs
+  And I have deleted all draft buyer requirements
   And I have a 'published' brief
 
 Scenario: Setup for responding to a brief
@@ -26,4 +26,4 @@ Scenario: Supplier successfully responds to a brief
   And I enter '100' in the 'dayRate' field
   And I enter 'Janny' in the 'specialistName' field
   And I click the 'Save and continue' button
-  Then I am presented with the message 'Your response to ‘Individual Specialist-Brief deletion test’ has been submitted.'
+  Then I am presented with the message 'Your response to ‘Individual Specialist-Buyer Requirements’ has been submitted.'

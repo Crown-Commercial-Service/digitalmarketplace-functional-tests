@@ -391,10 +391,10 @@ Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,s
   end
 end
 
-When /I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
+When /^I change '(.*)' to '(.*)'$/ do |field_to_change,new_value|
   page.find(
     :xpath,
-    "//*[contains(@id, '#{field_to_change}')]"
+    "//*[contains(@id, '#{field_to_change}') and contains(@class, 'text-box')]"
   ).set(new_value)
 
   @changed_fields = @changed_fields || Hash.new
@@ -434,7 +434,7 @@ And /I remove client number 2$/ do
 end
 
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
-  record_number_to_add = (10 - ((find(
+  record_number_to_add = (11 - ((find(
     :xpath,
     ".//*[@id='#{item_to_add}']//button[contains(text(), 'Add another')]"
   ).text()).split(' (').last.split(' remaining').first).to_i)
@@ -464,7 +464,7 @@ Then /I am presented with the dashboard page with the changes that were made to 
   page.should have_no_content(@changed_fields['clients-2'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[3]"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[4]"
   ).text().should have_content(@changed_fields['clients'])
   find(
     :xpath,
@@ -563,7 +563,7 @@ Then /I am presented with the summary page with the changes that were made to th
   current_url.should end_with(@existing_values['summarypageurl'])
 end
 
-When /I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
+When /^I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
   @existing_values = @existing_values || Hash.new
   @existing_values['originaldoc'] = @existing_values["#{document_to_change.split('URL').first.downcase}"]
   @existing_values['docofinterest'] = "#{document_to_change.split('URL').first.downcase}"
@@ -578,31 +578,31 @@ When /I click '(.*)'$/ do |button_link_name|
   page.click_link_or_button(button_link_name)
 end
 
-When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
-  step "I click the '#{action}' link for '#{service_aspect}'"
-  if service_aspect == 'Description'
-    page.should have_content(service_aspect)
+When /I navigate to the '(.*)' '(.*)' page$/ do |action,page_name|
+  step "I click the '#{action}' link for '#{page_name}'"
+  if page_name == 'Description'
+    page.should have_content(page_name)
     page.should have_content('Service name')
     page.should have_content('Service summary')
-  elsif service_aspect == 'Features and benefits'
-    page.should have_content(service_aspect)
+  elsif page_name == 'Features and benefits'
+    page.should have_content(page_name)
     page.should have_content('Service features')
     page.should have_content('Service benefits')
-  elsif service_aspect == 'Pricing'
-    page.should have_content(service_aspect)
+  elsif page_name == 'Pricing'
+    page.should have_content(page_name)
     page.should have_content('VAT included')
     page.should have_content('Education pricing')
     page.should have_content('Trial option')
     page.should have_content('Free option')
     page.should have_content('Minimum contract period')
-  elsif service_aspect == 'Documents'
-    page.should have_content(service_aspect)
+  elsif page_name == 'Documents'
+    page.should have_content(page_name)
     page.should have_content('Service definition document')
     page.should have_content('Please upload your terms and conditions document')
     page.should have_content('Skills Framework for the Information Age (SFIA) rate card')
     page.should have_content('Pricing document')
-  elsif service_aspect == 'Supplier information'
-    page.should have_content('Edit '"#{service_aspect.downcase}")
+  elsif page_name == 'Supplier information'
+    page.should have_content('Edit '"#{page_name.downcase}")
     page.should have_content('Supplier summary')
     page.should have_content('Clients')
     page.should have_content('Contact name')
@@ -610,6 +610,10 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,service_aspect|
     page.should have_content('Email address')
     page.should have_content('Phone number')
     page.should have_content('Business address')
+  elsif page_name == 'Additional terms and conditions' #Change this when buyer requirement pages have been correctly defined
+    page.should have_content('Working arrangements') #Change this when buyer requirement pages have been correctly defined
+  else
+    page.should have_content(page_name)
   end
 end
 
@@ -1773,6 +1777,14 @@ Then /^I am presented with the '(.*)' page$/ do |page_name| #Specific to admin p
       page.should have_link("Remove")
     end
     page.should have_button("Upload file")
+  when 'Grounds for discretionary exclusion'
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/edit/declarations/g-cloud-7/grounds-for-discretionary-exclusion")
+    page.should have_button("Save and return to summary")
+    page.should have_link("Return without saving")
+  else
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/edit/declarations/g-cloud-7/g-cloud-7-essentials")
+    page.should have_button("Save and return to summary")
+    page.should have_link("Return without saving")
   end
   page.should have_selector(:xpath, "//h1[contains(text(), '#{page_name}')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
@@ -1843,7 +1855,7 @@ Then /I am on the '(.*)' page$/ do |page_name|
 end
 
 Then /I am taken to the buyers '(.*)' page$/ do |page_name|
-  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
   case page_name
   when "Find an individual specialist"
     page.should have_link('View published requirements')
@@ -1852,8 +1864,8 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    store.service_type = "digital-specialists"
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+    store.lot = "digital-specialists"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find a team to provide an outcome"
     page.should have_link('View published requirements')
     page.should have_link('View supplier A to Z')
@@ -1861,8 +1873,8 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    store.service_type = "digital-outcomes"
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+    store.lot = "digital-outcomes"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find user research participants"
     page.should have_link('View published requirements')
     page.should have_link('View supplier A to Z')
@@ -1870,8 +1882,8 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
     page.should have_link('How to talk to suppliers before you start')
     page.should have_link('how to buy')
     page.should have_button('Choose specialist role')
-    store.service_type = "user-research-participants"
-    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}")
+    store.lot = "user-research-participants"
+    current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find a user research lab"
     puts "page slow has not been defined/developed"
   else
@@ -1881,18 +1893,19 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
-Given /^I am on the "Overview of work" page for the buyer brief$/ do
-  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}"
+Given /^I am on the "Overview of work" page for the buyer requirements$/ do
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}"
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
-Then /^I should be on the "Overview of work" page for the buyer brief '(.*)'$/ do |brief_name|
+Then /^I should be on the "Overview of work" page for the '(.*)' buyer requirements$/ do |brief_name|
   page.find('h1').should have_content("#{brief_name}")
   page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
   parts = URI.parse(current_url).path.split('/')
-  store.current_listing = (parts.select {|v| v =~ /^\d+$/}).last
-  store.framework_name = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  store.service_type = URI.parse(current_url).path.split('requirements/').last.split('/').first
-  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}")
+  store.current_brief_id = (parts.select {|v| v =~ /^\d+$/}).last
+  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
 Given /^I am on the supplier response page for the brief$/ do
@@ -1917,8 +1930,15 @@ Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
   end
 end
 
-Then /^Summary row '(.*)' should contain '(.*)'$/ do |field_name, field_value|
-  page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
+Then /^Summary row '(.*)' '(.*)' contain '(.*)'$/ do |field_name, availability, field_value|
+  case availability
+  when "should"
+    page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
+  when "should not"
+    page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_no_content("#{field_value}")
+  else
+    fail("Unrecognised value provided: '#{availability}'")
+  end
 end
 
 Given /I click the '(.*)' link for '(.*)'$/ do |action, text_of_interest|
@@ -1958,30 +1978,64 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
   end
 end
 
-#Change below inplementation with direct brief creation via the API?
-Given /^A '(.*)' brief with the name '(.*)' exists and I am on the "Overview of work" page for that brief$/ do |brief_type, brief_name|
+Given /^A '(.*)' buyer requirements with the name '(.*)' exists and I am on the "Overview of work" page$/ do |brief_type, brief_name|
   steps %Q{
-    Given I am on the 'Digital Marketplace' landing page
-    When I click the '#{brief_type}' link
-    Then I am taken to the buyers '#{brief_type}' page
-    When I click the 'Choose specialist role' button
-    Then I am taken to the 'Requirements title' page
-    When I enter '#{brief_name}' in the 'title' field
-    And I click the 'Save and continue' button
-    Then I am taken to the 'Location' page
-    When I choose 'Scotland' for 'location'
-    And I click 'Save and continue'
-    Then I should be on the "Overview of work" page for the buyer brief '#{brief_name}'
+    Given I have a 'draft' brief
+    And I am on the "Overview of work" page for the newly created draft brief
   }
 end
 
-Then /^The buyer brief '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
+Then /^The buyer requirements for '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
   case availability
   when "is"
-    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+    page.should have_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}') and contains(text(), '#{brief_name}')]")
   when "is not"
-    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework_name}/requirements/#{store.service_type}/#{store.current_listing}') and contains(text(), '#{brief_name}')]")
+    page.should have_no_selector(:xpath, "//span/a[contains(@href, '/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}') and contains(text(), '#{brief_name}')]")
   else
     fail("Unrecognised variable: '#{availability}'")
   end
+end
+
+When /^I edit '(.*)' by changing '(.*)' to '(.*)'$/ do |item_to_change,field_name,new_value|#Step implementation specific to buyer brief
+  step "I navigate to the 'Edit' '#{item_to_change}' page"
+
+  case item_to_change
+  when "Specialist role", "Location"
+    step "I choose '#{new_value}' for '#{field_name}'"
+  else
+    step "I change '#{field_name}' to '#{new_value}'"
+  end
+
+  steps %Q{
+    And I click 'Save and continue'
+    Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
+  }
+end
+
+When /^I edit '(.*)' by '(.*)' '(.*)' for '(.*)'$/ do |item_to_change,action,value,field_name|#Step implementation specific to buyer brief
+  step "I navigate to the 'Edit' '#{item_to_change}' page"
+
+  case action
+  when "checking", "unchecking"
+    case action
+    when "checking"
+      action = "check"
+    when "unchecking"
+      action = "uncheck"
+    end
+    step "I '#{action}' '#{value}' for '#{field_name}'"
+  when "removing", "adding"
+    if action == "removing"
+      find(:xpath, ".//*[@id='#{field_name}']/../*[@class='button-secondary list-entry-remove']").click
+    elsif action == "adding"
+      step "I add '#{value}' as a '#{field_name}'"
+    end
+  else
+    fail("Unrecognised action: '#{action}'")
+  end
+
+  steps %Q{
+    And I click 'Save and continue'
+    Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
+  }
 end

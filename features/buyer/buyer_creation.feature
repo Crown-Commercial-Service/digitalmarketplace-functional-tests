@@ -1,4 +1,4 @@
-@not-production @functional-test 
+@not-production @functional-test
 Feature: Create buyer account. WIP-The flow to get to the creation page is as yet not nailed down. This test starts directly on the buyer creation page itself rather than navigating to it as a user would on the frontend app
 
 Scenario: User steps through buyer account creation process

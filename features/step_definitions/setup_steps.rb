@@ -3,9 +3,13 @@ require "rubygems"
 require "rest_client"
 require "json"
 require "test/unit"
+require "ostruct"
+
+store = OpenStruct.new
 
 # suppliers
 def create_supplier (supplier_id, supplier_name, supplier_description, supplier_contactName, supplier_email, supplier_postcode, supplier_dunsnumber)
+
   file = File.read("./fixtures/test-supplier.json")
   supplier_data = JSON.parse(file)
   supplier_data["suppliers"]["id"] = supplier_id
@@ -288,16 +292,23 @@ Given /^I have a '(.*)' brief$/ do |brief_state|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  @published_brief = create_and_return_buyer_brief("Individual Specialist-Brief deletion test", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  @published_brief = create_and_return_buyer_brief("Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  store.framework = @published_brief["frameworkSlug"]
+  store.lot = @published_brief["lotSlug"]
+  store.current_brief = @published_brief["id"]
 
   if brief_state == 'published'
     publish_buyer_brief(@published_brief['id'])
   end
 end
 
-Given /^I have deleted all draft briefs$/ do
+Given /^I am on the "Overview of work" page for the newly created draft brief$/ do
+  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
+end
+
+Given /^I have deleted all draft buyer requirements$/ do
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
-  end
-  delete_all_draft_briefs(@buyer_id)
+   end
+   delete_all_draft_briefs(@buyer_id)
 end

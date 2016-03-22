@@ -91,6 +91,8 @@ When /^I click the link for '(.*)'$/ do |target_service|
     service_listing = store.copy_of_draft_listing
   when 'my copy of completed service'
     service_listing = store.copy_of_completed_listing
+  else
+    fail("Unrecognised target service: '#{action}'")
   end
   # Find link with the current listing in the href
   find(:xpath, "//a[contains(@href, '/#{service_listing}')]").click
@@ -101,15 +103,16 @@ When /^I click my service$/ do
   find(:xpath, "//a[contains(@href, '/#{store.current_listing}')]").click
 end
 
-And /^I check '(.*)' for '(.*)'$/ do |label,field_name|
+And /^I '(.*)' '(.*)' for '(.*)'$/ do |action,label,field_name|
   within "##{field_name}" do
-    check label
-  end
-end
-
-And /^I uncheck '(.*)' for '(.*)'$/ do |label,field_name|
-  within "##{field_name}" do
-    uncheck label
+    case action
+    when "check"
+      check label
+    when "uncheck"
+      uncheck label
+    else
+      fail("Unrecognised action: '#{action}'")
+    end
   end
 end
 
@@ -295,8 +298,10 @@ When /^I click the '(.*)' button at the '(.*)' of the page$/ do |button,location
   case location
     when 'top'
       page.first(:xpath, "//input[contains(@class,'button-save') and contains(@value,'#{button}')]").click
-    else 'bottom'
+    when 'bottom'
       page.all(:xpath, "//input[contains(@class,'button-save') and contains(@value,'#{button}')]").last.click
+    else
+      fail("Unrecognised button location: '#{location}'")
     end
 end
 

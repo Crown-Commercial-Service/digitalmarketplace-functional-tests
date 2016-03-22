@@ -117,8 +117,8 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click the 'Edit' link for 'Agile coach'
     Then I should be on the 'Agile coach' page
 
-    When I uncheck 'Scotland' for 'agileCoachLocations'
-    And I uncheck 'Northern Ireland' for 'agileCoachLocations'
+    When I 'uncheck' 'Scotland' for 'agileCoachLocations'
+    And I 'uncheck' 'Northern Ireland' for 'agileCoachLocations'
     And I check 'South West England' for 'agileCoachLocations'
     And I click 'Save and continue'
     Then I should be on the 'Digital specialists' page

@@ -39,8 +39,8 @@ Feature: Submitting a new DOS service for User research participants
     When I click the 'Edit' link for 'Location'
     Then I should be on the 'Location' page
 
-    When I check 'North East England' for 'recruitLocations'
-    And I check 'Yorkshire and the Humber' for 'recruitLocations'
+    When I check 'North East England' for 'locations'
+    And I check 'Yorkshire and the Humber' for 'locations'
     And I click 'Save and continue'
     Then I should be on the 'User research participants' page
 
@@ -78,17 +78,17 @@ Feature: Submitting a new DOS service for User research participants
 
     When I click the 'Edit' link for 'Recruitment approach'
     And I choose 'Entirely online' for 'recruitMethods'
-    And I uncheck 'Initial recruitment offline, but then contact them online' for 'recruitMethods'
+    And I 'uncheck' 'Initial recruitment offline, but then contact them online' for 'recruitMethods'
     And I choose 'No' for 'recruitFromList'
     And I click 'Save and continue'
 
     When I click the 'Edit' link for 'Location'
-    And I uncheck 'North East England' for 'recruitLocations'
-    And I uncheck 'Yorkshire and the Humber' for 'recruitLocations'
-    And I check 'Scotland' for 'recruitLocations'
-    And I check 'Wales' for 'recruitLocations'
-    And I check 'London' for 'recruitLocations'
-    And I check 'International (outside the UK)' for 'recruitLocations'
+    And I 'uncheck' 'North East England' for 'locations'
+    And I 'uncheck' 'Yorkshire and the Humber' for 'locations'
+    And I check 'Scotland' for 'locations'
+    And I check 'Wales' for 'locations'
+    And I check 'London' for 'locations'
+    And I check 'International (outside the UK)' for 'locations'
     And I click 'Save and continue'
 
   Scenario: Verify text on summary page after edit

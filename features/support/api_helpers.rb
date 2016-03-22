@@ -17,7 +17,7 @@ def call_api(method, path, options={})
       RestClient::Request.execute(method: :delete, url: url, payload: payload.to_json, headers: options) {|response, request, result| response}
     else
       RestClient.send(method, url, payload.to_json, options) {|response, request, result| response}
-   end
+    end
   end
 end
 
