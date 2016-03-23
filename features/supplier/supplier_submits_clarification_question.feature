@@ -15,7 +15,7 @@ Scenario: Supplier asks a question
     Given I am on the 'Digital Marketplace' login page
     And I login as a 'Supplier' user
     And I am on the public view of the opportunity
-    When I click 'Log in to ask a question'
+    When I click 'Ask a question'
     Then I am taken to the 'Ask a question' page
     When I enter 'How do I ask a question?' in the 'clarification-question' field
     And I click the 'Ask question' button
