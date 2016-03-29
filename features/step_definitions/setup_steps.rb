@@ -78,7 +78,7 @@ Given /^The test suppliers have live services$/ do
   create_live_service(11112, "1123456789012354", "g-cloud-6", "iaas")
 end
 
-Given /^Test suppliers are eligible to respond to a brief$/ do
+Given /^Test suppliers are eligible to respond to an opportunity$/ do
   create_live_service(11111, "2123456789012354", "digital-outcomes-and-specialists", "digital-specialists")
 end
 
@@ -309,6 +309,6 @@ end
 Given /^I have deleted all draft (?:briefs|buyer requirements)$/ do
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
-   end
+  end
    delete_all_draft_briefs(@buyer_id)
 end

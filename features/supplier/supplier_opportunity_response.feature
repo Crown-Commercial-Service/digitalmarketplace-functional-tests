@@ -8,7 +8,7 @@ Background: Buyer publishes requirements
 
 Scenario: Setup for responding to an opportunity
   Given I have test suppliers
-  And Test suppliers are eligible to respond to a brief
+  And Test suppliers are eligible to respond to an opportunity
   And The test suppliers have users
   And Test supplier users are active
 
