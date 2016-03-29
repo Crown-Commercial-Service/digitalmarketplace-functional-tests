@@ -78,7 +78,7 @@ Given /^The test suppliers have live services$/ do
   create_live_service(11112, "1123456789012354", "g-cloud-6", "iaas")
 end
 
-Given /^Test suppliers are eligible to respond to a brief$/ do
+Given /^Test suppliers are eligible to respond to an opportunity$/ do
   create_live_service(11111, "2123456789012354", "digital-outcomes-and-specialists", "digital-specialists")
 end
 
@@ -288,7 +288,7 @@ def delete_all_draft_briefs (user_id)
   end
 end
 
-Given /^I have a '(.*)' (?:brief|opportunity|set of requirements)$/ do |brief_state|
+Given /^I have a '(.*)' (?:opportunity|set of requirements)$/ do |brief_state|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
@@ -302,13 +302,13 @@ Given /^I have a '(.*)' (?:brief|opportunity|set of requirements)$/ do |brief_st
   end
 end
 
-Given /^I am on the "Overview of work" page for the newly created draft brief$/ do
+Given /^I am on the "Overview of work" page for the newly created draft buyer requirements$/ do
   visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
 end
 
-Given /^I have deleted all draft (?:briefs|buyer requirements)$/ do
+Given /^I have deleted all draft buyer requirements$/ do
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
-   end
+  end
    delete_all_draft_briefs(@buyer_id)
 end
