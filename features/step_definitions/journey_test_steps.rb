@@ -1945,6 +1945,10 @@ Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
 end
 
 Then /^Summary row '(.*)' '(.*)' contain '(.*)'$/ do |field_name, availability, field_value|
+  if field_name == 'Published'
+    field_value = store.published_at_date
+  end
+
   case availability
   when "should"
     page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
@@ -2070,4 +2074,7 @@ And /^The count of unanswered questions remaining for the buyer requirement is c
   else
     page.should have_no_selector(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]")
   end
+
+Then /^The (?:Organisation name|Requirements title) '(.*)' is presented on the page$/ do |name|
+  page.should have_content(name)
 end
