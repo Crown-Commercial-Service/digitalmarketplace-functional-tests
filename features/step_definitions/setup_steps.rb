@@ -263,15 +263,16 @@ def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   return brief
 end
 
-def publish_buyer_brief(brief_id)
+def publish_buyer_brief_and_return_publish_date(brief_id)
   publish_brief_data = {
     updated_by: "functional tests",
     briefs: {status: "live"}
   }
   response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
   response.code.should be(200), response.body
+  publish_date = JSON.parse(response.body)["briefs"]
+  return publish_date
 end
-
 
 def delete_all_draft_briefs (user_id)
   response = call_api(:get, "/briefs", params: {user_id: user_id})
@@ -298,7 +299,8 @@ Given /^I have a '(.*)' (?:brief|opportunity|set of requirements)$/ do |brief_st
   store.current_brief = @published_brief["id"]
 
   if brief_state == 'published'
-    publish_buyer_brief(@published_brief['id'])
+    @date_brief_published = publish_buyer_brief_and_return_publish_date(@published_brief['id'])
+    store.published_at_date = Date.strptime(@date_brief_published["publishedAt"]).strftime("%A %e %B %Y ")
   end
 end
 
