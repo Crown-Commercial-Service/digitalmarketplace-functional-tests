@@ -1940,6 +1940,10 @@ Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
 end
 
 Then /^Summary row '(.*)' '(.*)' contain '(.*)'$/ do |field_name, availability, field_value|
+  if field_name == 'Published'
+    field_value = store.published_at_date
+  end
+
   case availability
   when "should"
     page.find(:xpath, "//td/span[contains(text(),'#{field_name}')]/../../td[@class='summary-item-field']/span").should have_content("#{field_value}")
@@ -2051,4 +2055,8 @@ end
 
 Then /^I am on the public view of the opportunity$/ do
   visit("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{@published_brief["id"]}")
+end
+
+Then /^The (?:Organisation name|Requirements title) '(.*)' is presented on the page$/ do |name|
+  page.should have_content(name)
 end
