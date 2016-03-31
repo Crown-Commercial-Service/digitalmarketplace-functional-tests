@@ -263,15 +263,15 @@ def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   return brief
 end
 
-def publish_buyer_brief_and_return_publish_date(brief_id)
+def publish_and_return_brief(brief_id)
   publish_brief_data = {
     updated_by: "functional tests",
     briefs: {status: "live"}
   }
   response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
   response.code.should be(200), response.body
-  publish_date = JSON.parse(response.body)["briefs"]
-  return publish_date
+  brief = JSON.parse(response.body)["briefs"]
+  return brief
 end
 
 def delete_all_draft_briefs (user_id)
@@ -293,14 +293,14 @@ Given /^I have a '(.*)' (?:opportunity|set of requirements)$/ do |brief_state|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  @published_brief = create_and_return_buyer_brief("Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
-  store.framework = @published_brief["frameworkSlug"]
-  store.lot = @published_brief["lotSlug"]
-  store.current_brief = @published_brief["id"]
+  @created_brief = create_and_return_buyer_brief("Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  store.framework = @created_brief["frameworkSlug"]
+  store.lot = @created_brief["lotSlug"]
+  store.current_brief = @created_brief["id"]
 
   if brief_state == 'published'
-    @date_brief_published = publish_buyer_brief_and_return_publish_date(@published_brief['id'])
-    store.published_at_date = Date.strptime(@date_brief_published["publishedAt"]).strftime("%A %e %B %Y ")
+    @published_brief = publish_and_return_brief(@created_brief['id'])
+    store.published_at_date = Date.strptime(@published_brief["publishedAt"]).strftime("%A %e %B %Y ")
   end
 end
 
