@@ -1820,7 +1820,7 @@ And /There is no agreement available on the page$/ do
 end
 
 Given /^I navigate directly to the page '(.*)'$/ do |url|
-  page.visit("#{dm_frontend_domain}/#{url}")
+  page.visit("#{dm_frontend_domain}#{url}")
 end
 
 Then /I am on the '(.*)' page$/ do |page_name|
@@ -2070,8 +2070,4 @@ And /^The count of unanswered questions remaining for the buyer requirement is c
   else
     page.should have_no_selector(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]")
   end
-end
-
-Given /^I navigate directly to the '(.*)' dasboard page$/ do |user_type|
-  step "I navigate directly to the page \'#{user_type}\'"
 end

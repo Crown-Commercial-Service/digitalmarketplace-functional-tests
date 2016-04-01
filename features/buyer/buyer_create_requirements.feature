@@ -25,7 +25,7 @@ Scenario: Start creating buyer requirements for an individual specialist
   Then I should be on the "Overview of work" page for the 'Find an individual specialist' buyer requirements
 
 Scenario: Newly created buyer requirements should be listed on the buyer's dashboard and the count of unanswered questions is correct
-  Given I navigate directly to the 'buyers' dasboard page
+  Given I navigate directly to the page '/buyers'
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
   And The count of unanswered questions remaining for the buyer requirement is correctly shown
 
@@ -123,7 +123,7 @@ Scenario: Verify all text on summary page after adding mandatory information
   And Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
 
 Scenario: Count of unanswered questions should be updated accordingly to only indicate optional questions remain unanswered
-  Given I navigate directly to the 'buyers' dasboard page
+  Given I navigate directly to the page '/buyers'
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
   And The count of unanswered questions remaining for the buyer requirement is correctly shown
 
@@ -165,7 +165,7 @@ Scenario: Complete all optional requirements questions
   Then I should be on the "Overview of work" page for the 'Find an individual specialist' buyer requirements
 
 Scenario: Count of unanswered questions should be updated accordingly to only indicate no questions remain unanswered
-  Given I navigate directly to the 'buyers' dasboard page
+  Given I navigate directly to the page '/buyers'
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
   And The count of unanswered questions remaining for the buyer requirement is correctly shown
 
