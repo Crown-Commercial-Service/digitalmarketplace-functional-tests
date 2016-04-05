@@ -24,10 +24,10 @@ Scenario: Start creating buyer requirements for an individual specialist
   And I click 'Save and continue'
   Then I should be on the "Overview of work" page for the 'Find an individual specialist' buyer requirements
 
-@wip
 Scenario: Newly created buyer requirements should be listed on the buyer's dashboard and the count of unanswered questions is correct
-  Given I am logged in as 'DM Functional Test Buyer User 1' 'Buyer' user and am on the dashboard page
+  Given I navigate directly to the page '/buyers'
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
+  And The count of unanswered questions remaining for the buyer requirement is correctly shown
 
 Scenario: Verify text on summary page for information that has been provided so far. "Ready to publish" button should not exist
   Given I am on the "Overview of work" page for the buyer requirements
@@ -122,10 +122,10 @@ Scenario: Verify all text on summary page after adding mandatory information
   And Summary row 'Evaluating suppliers' 'should' contain 'pitch'
   And Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
 
-@wip
-Scenario: Count of unanswered questions should be updated accordingly
-  Given I am logged in as 'DM Functional Test Buyer User 1' 'Buyer' user and am on the dashboard page
+Scenario: Count of unanswered questions should be updated accordingly to only indicate optional questions remain unanswered
+  Given I navigate directly to the page '/buyers'
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
+  And The count of unanswered questions remaining for the buyer requirement is correctly shown
 
 Scenario: Complete all optional requirements questions
   Given I am on the "Overview of work" page for the buyer requirements
@@ -163,6 +163,11 @@ Scenario: Complete all optional requirements questions
   When I enter 'Second nice-to-have requirement for Digital Marketplace Team' in the 'input-niceToHaveRequirements-2' field
   And I click the 'Save and continue' button
   Then I should be on the "Overview of work" page for the 'Find an individual specialist' buyer requirements
+
+Scenario: Count of unanswered questions should be updated accordingly to only indicate no questions remain unanswered
+  Given I navigate directly to the page '/buyers'
+  Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
+  And The count of unanswered questions remaining for the buyer requirement is correctly shown
 
 Scenario: Verify all text on summary page after adding optional information
   Given I am on the "Overview of work" page for the buyer requirements

@@ -1915,6 +1915,11 @@ Then /^I should be on the "Overview of work" page for the '(.*)' buyer requireme
   store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
   store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
   current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
+  store.table_rows_count = page.all(:css, "tr.summary-item-row").length
+  table_rows_with_edit_count = page.all(:xpath, "//*[@class='summary-item-field-with-action']//*[contains(text(), 'Edit')]").length
+  store.table_rows_with_optional_count = page.all(:xpath, "//*[@class='summary-item-field-with-action']//*[contains(text(), 'Optional')]").length
+  store.unanswered_question_count = (store.table_rows_count - table_rows_with_edit_count)
+  store.required_question_count = (store.unanswered_question_count - store.table_rows_with_optional_count)
 end
 
 Given /^I am on the supplier response page for the opportunity$/ do
@@ -2051,4 +2056,18 @@ end
 
 Then /^I am on the public view of the opportunity$/ do
   visit("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{@published_brief["id"]}")
+end
+
+And /^The count of unanswered questions remaining for the buyer requirement is correctly shown$/ do
+  if store.table_rows_with_optional_count >= 1 or store.required_question_count >= 1
+    if store.table_rows_with_optional_count >= 1
+      page.find(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]").should have_content("#{store.table_rows_with_optional_count}"' optional')
+    end
+
+    if store.required_question_count >= 1
+      page.find(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]").should have_content("#{store.required_question_count}"' required')
+    end
+  else
+    page.should have_no_selector(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]")
+  end
 end
