@@ -31,8 +31,8 @@ Scenario: Newly created buyer requirements should be listed on the buyer's dashb
 
 Scenario: Verify text on summary page for information that has been provided so far. "Ready to publish" button should not exist
   Given I am on the "Overview of work" page for the buyer requirements
-  Then Summary row 'Requirements title' 'should' contain 'Find an individual specialist'
-  And Summary row 'Location' 'should' contain 'North East England'
+  Then Summary row 'Requirements title' should contain 'Find an individual specialist'
+  And Summary row 'Location' should contain 'North East England'
   And The 'Ready to publish' button is 'not' available
 
 Scenario: Complete all mandatory buyer requirements questions. "Ready to publish" is only available on completing all mandatory questions
@@ -108,19 +108,19 @@ Scenario: Complete all mandatory buyer requirements questions. "Ready to publish
 
 Scenario: Verify all text on summary page after adding mandatory information
   Given I am on the "Overview of work" page for the buyer requirements
-  Then Summary row 'Requirements title' 'should' contain 'Find an individual specialist'
-  And Summary row 'Location' 'should' contain 'North East England'
-  And Summary row 'Specialist role' 'should' contain 'Quality assurance analyst'
-  And Summary row 'Your organisation' 'should' contain 'Organisation-Digital Marketplace Team'
-  And Summary row 'Background information' 'should' contain 'Background information for Digital Marketplace Team'
-  And Summary row 'Start date' 'should' contain '01/01/2020'
-  And Summary row 'Contract length' 'should' contain '24 months'
-  And Summary row 'Important dates' 'should' contain '21/05/2021'
-  And Summary row 'Essential requirements' 'should' contain 'First in list'
-  And Summary row 'Essential requirements' 'should' contain 'Second essential requirement for Digital Marketplace Team'
-  And Summary row 'Essential requirements' 'should' contain 'A third row for essential requirements'
-  And Summary row 'Evaluating suppliers' 'should' contain 'pitch'
-  And Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
+  Then Summary row 'Requirements title' should contain 'Find an individual specialist'
+  And Summary row 'Location' should contain 'North East England'
+  And Summary row 'Specialist role' should contain 'Quality assurance analyst'
+  And Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team'
+  And Summary row 'Background information' should contain 'Background information for Digital Marketplace Team'
+  And Summary row 'Start date' should contain '01/01/2020'
+  And Summary row 'Contract length' should contain '24 months'
+  And Summary row 'Important dates' should contain '21/05/2021'
+  And Summary row 'Essential requirements' should contain 'First in list'
+  And Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
+  And Summary row 'Essential requirements' should contain 'A third row for essential requirements'
+  And Summary row 'Evaluating suppliers' should contain 'pitch'
+  And Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
 
 Scenario: Count of unanswered questions should be updated accordingly to only indicate optional questions remain unanswered
   Given I navigate directly to the page '/buyers'
@@ -171,24 +171,24 @@ Scenario: Count of unanswered questions should be updated accordingly to only in
 
 Scenario: Verify all text on summary page after adding optional information
   Given I am on the "Overview of work" page for the buyer requirements
-  Then Summary row 'Requirements title' 'should' contain 'Find an individual specialist'
-  And Summary row 'Location' 'should' contain 'North East England'
-  And Summary row 'Specialist role' 'should' contain 'Quality assurance analyst'
-  And Summary row 'Your organisation' 'should' contain 'Organisation-Digital Marketplace Team'
-  And Summary row 'Background information' 'should' contain 'Background information for Digital Marketplace Team'
-  And Summary row 'Start date' 'should' contain '01/01/2020'
-  And Summary row 'Contract length' 'should' contain '24 months'
-  And Summary row 'Important dates' 'should' contain '21/05/2021'
-  And Summary row 'Essential requirements' 'should' contain 'First in list'
-  And Summary row 'Essential requirements' 'should' contain 'Second essential requirement for Digital Marketplace Team'
-  And Summary row 'Essential requirements' 'should' contain 'A third row for essential requirements'
-  And Summary row 'Evaluating suppliers' 'should' contain 'pitch'
-  And Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
-  And Summary row 'Current technologies' 'should' contain 'Current technologies for Digital Marketplace Team: Java SQL .net'
-  And Summary row 'Working arrangements' 'should' contain 'Working arrangements for Digital Marketplace Team'
-  And Summary row 'Additional terms and conditions' 'should' contain 'Addition terms and conditions for Digital Marketplace Team'
-  And Summary row 'Nice-to-have requirements' 'should' contain 'First nice-to-have requirement for Digital Marketplace Team'
-  And Summary row 'Nice-to-have requirements' 'should' contain 'Second nice-to-have requirement for Digital Marketplace Team'
+  Then Summary row 'Requirements title' should contain 'Find an individual specialist'
+  And Summary row 'Location' should contain 'North East England'
+  And Summary row 'Specialist role' should contain 'Quality assurance analyst'
+  And Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team'
+  And Summary row 'Background information' should contain 'Background information for Digital Marketplace Team'
+  And Summary row 'Start date' should contain '01/01/2020'
+  And Summary row 'Contract length' should contain '24 months'
+  And Summary row 'Important dates' should contain '21/05/2021'
+  And Summary row 'Essential requirements' should contain 'First in list'
+  And Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
+  And Summary row 'Essential requirements' should contain 'A third row for essential requirements'
+  And Summary row 'Evaluating suppliers' should contain 'pitch'
+  And Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
+  And Summary row 'Current technologies' should contain 'Current technologies for Digital Marketplace Team: Java SQL .net'
+  And Summary row 'Working arrangements' should contain 'Working arrangements for Digital Marketplace Team'
+  And Summary row 'Additional terms and conditions' should contain 'Addition terms and conditions for Digital Marketplace Team'
+  And Summary row 'Nice-to-have requirements' should contain 'First nice-to-have requirement for Digital Marketplace Team'
+  And Summary row 'Nice-to-have requirements' should contain 'Second nice-to-have requirement for Digital Marketplace Team'
 
 Scenario: Edit Requirements title and verify the change made, on the summary page(Mandatory requirement)
   Given I am on the "Overview of work" page for the buyer requirements
@@ -197,7 +197,7 @@ Scenario: Edit Requirements title and verify the change made, on the summary pag
   When I change 'title' to 'Find an individual specialist-edited'
   And I click 'Save and continue'
   Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
-  And Summary row 'Requirements title' 'should' contain 'Find an individual specialist-edited'
+  And Summary row 'Requirements title' should contain 'Find an individual specialist-edited'
 
 Scenario: Edit Current technologies and verify the change made, on the summary page(Optional requirement)
   Given I am on the "Overview of work" page for the buyer requirements
@@ -206,54 +206,54 @@ Scenario: Edit Current technologies and verify the change made, on the summary p
   When I change 'currentTechnologies' to 'Current technologies-edited'
   And I click 'Save and continue'
   Then I should be on the "Overview of work" page for the 'Find an individual specialist-edited' buyer requirements
-  And Summary row 'Current technologies' 'should' contain 'Current technologies-edited'
+  And Summary row 'Current technologies' should contain 'Current technologies-edited'
 
 Scenario: Edit all other buyer requirements questions and verify the change made, on the summary page
   Given I am on the "Overview of work" page for the buyer requirements
   When I edit 'Location' by changing 'location' to 'Offsite'
-  Then Summary row 'Location' 'should' contain 'Offsite'
+  Then Summary row 'Location' should contain 'Offsite'
 
   When I edit 'Specialist role' by changing 'specialistRole' to 'Content designer'
-  Then Summary row 'Specialist role' 'should' contain 'Content designer'
+  Then Summary row 'Specialist role' should contain 'Content designer'
 
   When I edit 'Your organisation' by changing 'organisation' to 'Organisation-Digital Marketplace Team-edited'
-  Then Summary row 'Your organisation' 'should' contain 'Organisation-Digital Marketplace Team-edited'
+  Then Summary row 'Your organisation' should contain 'Organisation-Digital Marketplace Team-edited'
 
   When I edit 'Background information' by changing 'backgroundInformation' to 'Background information for Digital Marketplace Team-edited'
-  Then Summary row 'Background information' 'should' contain 'Background information for Digital Marketplace Team-edited'
+  Then Summary row 'Background information' should contain 'Background information for Digital Marketplace Team-edited'
 
   When I edit 'Start date' by changing 'startDate' to '12/12/2030'
-  Then Summary row 'Start date' 'should' contain '12/12/2030'
+  Then Summary row 'Start date' should contain '12/12/2030'
 
   When I edit 'Contract length' by changing 'contractLength' to '365 days'
-  Then Summary row 'Contract length' 'should' contain '365 days'
+  Then Summary row 'Contract length' should contain '365 days'
 
   When I edit 'Important dates' by changing 'importantDates' to '21 May 2031'
-  Then Summary row 'Important dates' 'should' contain '21 May 2031'
+  Then Summary row 'Important dates' should contain '21 May 2031'
 
   When I edit 'Working arrangements' by changing 'workingArrangements' to 'Working arrangements for Digital Marketplace Team-edited'
-  Then Summary row 'Working arrangements' 'should' contain 'Working arrangements for Digital Marketplace Team-edited'
+  Then Summary row 'Working arrangements' should contain 'Working arrangements for Digital Marketplace Team-edited'
 
   When I edit 'Additional terms and conditions' by changing 'additionalTerms' to 'Addition terms and conditions for Digital Marketplace Team-edited'
-  Then Summary row 'Additional terms and conditions' 'should' contain 'Addition terms and conditions for Digital Marketplace Team-edited'
+  Then Summary row 'Additional terms and conditions' should contain 'Addition terms and conditions for Digital Marketplace Team-edited'
 
   When I edit 'Essential requirements' by changing 'input-essentialRequirements-1' to 'First in list-edited'
   When I edit 'Essential requirements' by 'removing' 'A third row for essential requirements' for 'input-essentialRequirements-3'
-  Then Summary row 'Essential requirements' 'should' contain 'First in list-edited'
-  Then Summary row 'Essential requirements' 'should not' contain 'A third row for essential requirements'
-  Then Summary row 'Essential requirements' 'should' contain 'Second essential requirement for Digital Marketplace Team'
+  Then Summary row 'Essential requirements' should contain 'First in list-edited'
+  Then Summary row 'Essential requirements' should not contain 'A third row for essential requirements'
+  Then Summary row 'Essential requirements' should contain 'Second essential requirement for Digital Marketplace Team'
 
   When I edit 'Nice-to-have requirements' by changing 'input-niceToHaveRequirements-2' to 'Second nice-to-have requirement for Digital Marketplace Team-edited'
   When I edit 'Nice-to-have requirements' by 'adding' 'Third requirement-added' for 'niceToHaveRequirements'
-  Then Summary row 'Nice-to-have requirements' 'should' contain 'Second nice-to-have requirement for Digital Marketplace Team-edited'
-  Then Summary row 'Nice-to-have requirements' 'should' contain 'First nice-to-have requirement for Digital Marketplace Team'
-  Then Summary row 'Nice-to-have requirements' 'should' contain 'Third requirement-added'
+  Then Summary row 'Nice-to-have requirements' should contain 'Second nice-to-have requirement for Digital Marketplace Team-edited'
+  Then Summary row 'Nice-to-have requirements' should contain 'First nice-to-have requirement for Digital Marketplace Team'
+  Then Summary row 'Nice-to-have requirements' should contain 'Third requirement-added'
 
   When I edit 'Evaluating suppliers' by 'unchecking' 'pitch' for 'evaluationType'
   And I edit 'Evaluating suppliers' by 'checking' 'provide a case study or evidence of previous work' for 'evaluationType'
-  Then Summary row 'Evaluating suppliers' 'should' contain 'provide a case study or evidence of previous work'
-  Then Summary row 'Evaluating suppliers' 'should' contain 'provide a written proposal'
-  And Summary row 'Evaluating suppliers' 'should not' contain 'pitch'
+  Then Summary row 'Evaluating suppliers' should contain 'provide a case study or evidence of previous work'
+  Then Summary row 'Evaluating suppliers' should contain 'provide a written proposal'
+  And Summary row 'Evaluating suppliers' should not contain 'pitch'
 
 Scenario: Created buyer requirements can be deleted
   Given A 'Find an individual specialist' buyer requirements with the name 'Individual Specialist-Buyer Requirements' exists and I am on the "Overview of work" page
