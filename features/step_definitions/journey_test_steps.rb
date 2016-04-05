@@ -2074,6 +2074,7 @@ And /^The count of unanswered questions remaining for the buyer requirement is c
   else
     page.should have_no_selector(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]")
   end
+end  
 
 Then /^The (?:Organisation name|Requirements title) '(.*)' is presented on the page$/ do |name|
   page.should have_content(name)
