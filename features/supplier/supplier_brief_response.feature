@@ -20,6 +20,7 @@ Scenario: Supplier sees the correct opportunity
 Scenario: Supplier successfully responds to an opportunity
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   And I am on the supplier response page for the opportunity
+  And I enter 'testing.supplier.username@dmtestemail.com' in the 'respondToEmailAddress' field
   And I choose 'Yes' for the 'essentialRequirements' requirements
   And I choose 'Yes' for the 'niceToHaveRequirements' requirements
   And I enter '23/03/2015' in the 'availability' field
