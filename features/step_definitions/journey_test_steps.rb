@@ -1994,8 +1994,8 @@ end
 
 Given /^A '(.*)' buyer requirements with the name '(.*)' exists and I am on the "Overview of work" page$/ do |brief_type, brief_name|
   steps %Q{
-    Given I have a 'draft' brief
-    And I am on the "Overview of work" page for the newly created draft brief
+    Given I have a 'draft' set of requirements
+    And I am on the "Overview of work" page for the newly created draft buyer requirements
   }
 end
 
