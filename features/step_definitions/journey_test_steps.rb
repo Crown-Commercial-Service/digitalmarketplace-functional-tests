@@ -1944,7 +1944,7 @@ Then /^I choose '(.*)' for the '(.*)' requirements$/ do |value, requirements|
   end
 end
 
-Then /^Summary row '(.*)' '(.*)' contain '(.*)'$/ do |field_name, availability, field_value|
+Then /^Summary row '(.*)' (.*) contain '(.*)'$/ do |field_name, availability, field_value|
   if field_name == 'Published'
     field_value = store.published_at_date
   end
