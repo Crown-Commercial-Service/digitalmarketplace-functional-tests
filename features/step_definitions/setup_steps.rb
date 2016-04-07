@@ -241,20 +241,25 @@ end
 def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   file = File.read("./fixtures/briefs-DOS.json")
   brief_data = JSON.parse(file)
-  brief_data["briefs"]["title"] = brief_name
-  brief_data["briefs"]["location"] = "Scotland"
-  brief_data["briefs"]["frameworkSlug"] = framework_slug
-  brief_data["briefs"]["lot"] = lot
-  brief_data["briefs"]["userId"] = user_id
-  brief_data["briefs"]["startDate"] = '31/12/2016'
-  brief_data["briefs"]["specialistRole"] = 'developer'
-  brief_data["briefs"]["organisation"] = 'Driver and Vehicle Licensing Agency'
-  brief_data["briefs"]["importantDates"] = 'Yesterday'
-  brief_data["briefs"]["evaluationType"] = ['pitch']
-  brief_data["briefs"]["contractLength"] = '1 day'
-  brief_data["briefs"]["backgroundInformation"] = 'Make a flappy bird clone except where the bird drives very safely'
-  brief_data["briefs"]["essentialRequirements"] = ['Can you do coding?', 'Can you do Python?']
-  brief_data["briefs"]["niceToHaveRequirements"] = ['Do you like cats?', 'Is your cat named Eva?']
+  brief_data["briefs"] = brief_data["briefs"].merge({
+    "title" => brief_name,
+    "location" => "Scotland",
+    "frameworkSlug" => framework_slug,
+    "lot" => lot,
+    "userId" => user_id,
+    "startDate" => '31/12/2016',
+    "specialistRole" => 'developer',
+    "organisation" => 'Driver and Vehicle Licensing Agency',
+    "importantDates" => 'Yesterday',
+    "evaluationType" => ['pitch'],
+    "contractLength" => '1 day',
+    "backgroundInformation" => 'Make a flappy bird clone except where the bird drives very safely',
+    "essentialRequirements" => ['Can you do coding?', 'Can you do Python?'],
+    "niceToHaveRequirements" => ['Do you like cats?', 'Is your cat named Eva?'],
+    "culturalWeighting" => 10,
+    "priceWeighting" => 20,
+    "technicalWeighting" => 70,
+  })
   brief_data["updated_by"] = "functional tests"
 
   response = call_api(:post, "/briefs", payload: brief_data)
