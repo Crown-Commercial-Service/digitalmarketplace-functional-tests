@@ -1865,32 +1865,19 @@ end
 
 Then /I am taken to the buyers '(.*)' page$/ do |page_name|
   store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  page.should have_link('View a list of suppliers')
+  page.should have_link('how to buy')
+  page.should have_link('how suppliers have been evaluated')
+  page.should have_button('Create requirement')
+
   case page_name
   when "Find an individual specialist"
-    page.should have_link('View published requirements')
-    page.should have_link('View supplier A to Z')
-    page.should have_link('Find out how suppliers are evaluated')
-    page.should have_link('How to talk to suppliers before you start')
-    page.should have_link('how to buy')
-    page.should have_button('Choose specialist role')
     store.lot = "digital-specialists"
     current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find a team to provide an outcome"
-    page.should have_link('View published requirements')
-    page.should have_link('View supplier A to Z')
-    page.should have_link('Find out how suppliers are evaluated')
-    page.should have_link('How to talk to suppliers before you start')
-    page.should have_link('how to buy')
-    page.should have_button('Choose specialist role')
     store.lot = "digital-outcomes"
     current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find user research participants"
-    page.should have_link('View published requirements')
-    page.should have_link('View supplier A to Z')
-    page.should have_link('Find out how suppliers are evaluated')
-    page.should have_link('How to talk to suppliers before you start')
-    page.should have_link('how to buy')
-    page.should have_button('Choose specialist role')
     store.lot = "user-research-participants"
     current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}")
   when "Find a user research lab"
