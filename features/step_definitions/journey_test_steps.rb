@@ -2084,10 +2084,10 @@ Then /^I am taken back to the "Overview of work" page with the (.*) question and
   case question_number
   when 'first'
     store.question_count = 1
-   page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[1]//span[contains(text(), '#{store.question_count}.')]/../../span[contains(text(),'#{@value_of_interest['question']}')]")
-   page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[2]//span[contains(text(),'#{@value_of_interest['answer']}')]")
-   store.question_1 = @value_of_interest['question']
-   store.answer_1 = @value_of_interest['answer']
+    page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[1]//span[contains(text(), '#{store.question_count}.')]/../../span[contains(text(),'#{@value_of_interest['question']}')]")
+    page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[2]//span[contains(text(),'#{@value_of_interest['answer']}')]")
+    store.question_1 = @value_of_interest['question']
+    store.answer_1 = @value_of_interest['answer']
 
   when 'second'
     store.question_count = 2
@@ -2101,11 +2101,6 @@ Then /^I am taken back to the "Overview of work" page with the (.*) question and
   end
 
   page.all(:xpath, "//div/h2[text()][contains(text(), 'Clarification questions')]/..//tbody/tr").length.should == store.question_count
-end
-
-Then /^I am taken to the list of "Supplier opportunities" page$/ do
-  page.should have_selector(:xpath, "//h1[contains(text(), 'Supplier opportunities')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
 
 When /^I click on the link to the opportunity I have posted a question for$/ do
