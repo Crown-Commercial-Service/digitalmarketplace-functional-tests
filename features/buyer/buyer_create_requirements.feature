@@ -260,7 +260,7 @@ Scenario: Edit all other buyer requirements questions and verify the change made
   And Summary row 'Evaluating suppliers' should not contain 'pitch'
 
 Scenario: Created buyer requirements can be deleted
-  Given A 'Find an individual specialist' buyer requirements with the name 'Individual Specialist-Buyer Requirements' exists and I am on the "Overview of work" page
+  Given A draft 'Find an individual specialist' buyer requirements with the name 'Individual Specialist-Buyer Requirements' exists and I am on the "Overview of work" page
   When I click 'Delete'
   Then I am presented with the message 'Are you sure you want to delete these requirements?'
 

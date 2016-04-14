@@ -309,7 +309,7 @@ Given /^I have a '(.*)' (?:opportunity|set of requirements)$/ do |brief_state|
   end
 end
 
-Given /^I am on the "Overview of work" page for the newly created draft buyer requirements$/ do
+Given /^I am on the "Overview of work" page for the newly created buyer requirements$/ do
   visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief}"
 end
 

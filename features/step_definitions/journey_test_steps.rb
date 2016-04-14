@@ -1894,6 +1894,10 @@ Given /^I am on the "Overview of work" page for the buyer requirements$/ do
   current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
+Given /^I am on the details page for the selected opportunity$/ do
+  current_url.should end_with("#{dm_frontend_domain}/#{store.framework}/opportunities/#{store.current_brief_id}")
+end
+
 Then /^I should be on the "Overview of work" page for the '(.*)' buyer requirements$/ do |brief_name|
   page.find('h1').should have_content("#{brief_name}")
   page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
@@ -1983,11 +1987,17 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
   end
 end
 
-Given /^A '(.*)' buyer requirements with the name '(.*)' exists and I am on the "Overview of work" page$/ do |brief_type, brief_name|
+Given /^A (.*) '(.*)' buyer requirements with the name '(.*)' exists and I am on the "Overview of work" page$/ do |brief_state, brief_type, brief_name|
   steps %Q{
-    Given I have a 'draft' set of requirements
-    And I am on the "Overview of work" page for the newly created draft buyer requirements
+    Given I have a '#{brief_state}' set of requirements
+    And I am on the "Overview of work" page for the newly created buyer requirements
   }
+  page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
+  parts = URI.parse(current_url).path.split('/')
+  store.current_brief_id = (parts.select {|v| v =~ /^\d+$/}).last
+  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
+  store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
 end
 
 Then /^The buyer requirements for '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
@@ -2061,8 +2071,46 @@ And /^The count of unanswered questions remaining for the buyer requirement is c
   else
     page.should have_no_selector(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]")
   end
-end  
+end
 
 Then /^The (?:Organisation name|Requirements title) '(.*)' is presented on the page$/ do |name|
   page.should have_content(name)
+end
+
+Then /^I am taken back to the "Overview of work" page with the (.*) question and answer listed under "Clarification questions"$/ do |question_number|
+  page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
+  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}#clarification-questions")
+
+  case question_number
+  when 'first'
+    store.question_count = 1
+    page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[1]//span[contains(text(), '#{store.question_count}.')]/../../span[contains(text(),'#{@value_of_interest['question']}')]")
+    page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[2]//span[contains(text(),'#{@value_of_interest['answer']}')]")
+    store.question_1 = @value_of_interest['question']
+    store.answer_1 = @value_of_interest['answer']
+
+  when 'second'
+    store.question_count = 2
+    page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[1]//span[contains(text(), '#{store.question_count}.')]/../../span[contains(text(),'#{@value_of_interest['question']}')]")
+    page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Clarification questions')]/..//tbody/tr[#{store.question_count}]/td[2]//span[contains(text(),'#{@value_of_interest['answer']}')]")
+    store.question_2 = @value_of_interest['question']
+    store.answer_2 = @value_of_interest['answer']
+
+  else
+    fail("The value provided is not valid: #{question_number}")
+  end
+
+  page.all(:xpath, "//div/h2[text()][contains(text(), 'Clarification questions')]/..//tbody/tr").length.should == store.question_count
+end
+
+When /^I click on the link to the opportunity I have posted a question for$/ do
+  page.find(:xpath, "//h2/a[contains(@href, '/#{store.framework}/opportunities/#{store.current_brief_id}')]").click
+end
+
+And /^I can see all questions and answers related to the opportunity$/ do
+  page.all(:xpath, "//div/h2[text()][contains(text(), 'Questions asked by suppliers')]/..//tbody/tr").length.should == store.question_count
+  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[1]/td[1]//span[contains(text(), '1.')]/../../span[contains(text(),'#{store.question_1}')]")
+  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[1]/td[2]//span[contains(text(),'#{store.answer_1}')]")
+  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[2]/td[1]//span[contains(text(), '2.')]/../../span[contains(text(),'#{store.question_2}')]")
+  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[2]/td[2]//span[contains(text(),'#{store.answer_2}')]")
 end
