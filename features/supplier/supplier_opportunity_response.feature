@@ -1,4 +1,4 @@
-@not-production @functional-test
+@not-production @functional-test @brief-response
 Feature: Supplier respond to opportunities
 
 Background: Buyer publishes requirements
@@ -25,6 +25,5 @@ Scenario: Supplier successfully responds to an opportunity
   And I choose 'Yes' for the 'niceToHaveRequirements' requirements
   And I enter '23/03/2015' in the 'availability' field
   And I enter '100' in the 'dayRate' field
-  And I enter 'Janny' in the 'specialistName' field
   And I click the 'Save and continue' button
   Then I am presented with the message 'Your response to ‘Individual Specialist-Buyer Requirements’ has been submitted.'

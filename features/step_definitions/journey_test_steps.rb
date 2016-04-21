@@ -21,6 +21,7 @@ Given /I am on the '(.*)' login page$/ do |value|
     page.click_link("Log out")
   end
 
+  visit(url)
   page.should have_content(page_header)
   current_url.should end_with(url)
   page.should have_content("Email address")
@@ -1865,7 +1866,7 @@ end
 
 Then /I am taken to the buyers '(.*)' page$/ do |page_name|
   store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  page.should have_link('View a list of suppliers')
+  page.should have_link('Download list of suppliers')
   page.should have_link('how to buy')
   page.should have_link('how suppliers have been evaluated')
   page.should have_button('Create requirement')
@@ -1887,30 +1888,6 @@ Then /I am taken to the buyers '(.*)' page$/ do |page_name|
   end
 
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-end
-
-Given /^I am on the "Overview of work" page for the buyer requirements$/ do
-  visit "#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}"
-  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
-end
-
-Given /^I am on the details page for the selected opportunity$/ do
-  current_url.should end_with("#{dm_frontend_domain}/#{store.framework}/opportunities/#{store.current_brief_id}")
-end
-
-Then /^I should be on the "Overview of work" page for the '(.*)' buyer requirements$/ do |brief_name|
-  page.find('h1').should have_content("#{brief_name}")
-  page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
-  parts = URI.parse(current_url).path.split('/')
-  store.current_brief_id = (parts.select {|v| v =~ /^\d+$/}).last
-  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
-  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
-  store.table_rows_count = page.all(:css, "tr.summary-item-row").length
-  table_rows_with_edit_count = page.all(:xpath, "//*[@class='summary-item-field-with-action']//*[contains(text(), 'Edit')]").length
-  store.table_rows_with_optional_count = page.all(:xpath, "//*[@class='summary-item-field-with-action']//*[contains(text(), 'Optional')]").length
-  store.unanswered_question_count = (store.table_rows_count - table_rows_with_edit_count)
-  store.required_question_count = (store.unanswered_question_count - store.table_rows_with_optional_count)
 end
 
 Given /^I am on the supplier response page for the opportunity$/ do
@@ -1987,19 +1964,6 @@ And /^The '(.*)' button is '(.*)' available$/ do |button_name, availability|
   end
 end
 
-Given /^A (.*) '(.*)' buyer requirements with the name '(.*)' exists and I am on the "Overview of work" page$/ do |brief_state, brief_type, brief_name|
-  steps %Q{
-    Given I have a '#{brief_state}' set of requirements
-    And I am on the "Overview of work" page for the newly created buyer requirements
-  }
-  page.should have_selector(:xpath, ".//div[@class='marketplace-paragraph']/h2[contains(text(), 'Overview of work')]")
-  parts = URI.parse(current_url).path.split('/')
-  store.current_brief_id = (parts.select {|v| v =~ /^\d+$/}).last
-  store.framework = URI.parse(current_url).path.split('frameworks/').last.split('/').first
-  store.lot = URI.parse(current_url).path.split('requirements/').last.split('/').first
-  current_url.should end_with("#{dm_frontend_domain}/buyers/frameworks/#{store.framework}/requirements/#{store.lot}/#{store.current_brief_id}")
-end
-
 Then /^The buyer requirements for '(.*)' '(.*)' listed on the buyer's dashboard$/ do |brief_name,availability|
   case availability
   when "is"
@@ -2059,20 +2023,6 @@ Then /^I am on the public view of the opportunity$/ do
   visit("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{@published_brief["id"]}")
 end
 
-And /^The count of unanswered questions remaining for the buyer requirement is correctly shown$/ do
-  if store.table_rows_with_optional_count >= 1 or store.required_question_count >= 1
-    if store.table_rows_with_optional_count >= 1
-      page.find(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]").should have_content("#{store.table_rows_with_optional_count}"' optional')
-    end
-
-    if store.required_question_count >= 1
-      page.find(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]").should have_content("#{store.required_question_count}"' required')
-    end
-  else
-    page.should have_no_selector(:xpath, "//a[contains(@href, '#{store.current_brief_id}')]/../../../td[3]/span[text()]")
-  end
-end
-
 Then /^The (?:Organisation name|Requirements title) '(.*)' is presented on the page$/ do |name|
   page.should have_content(name)
 end
@@ -2103,14 +2053,10 @@ Then /^I am taken back to the "Overview of work" page with the (.*) question and
   page.all(:xpath, "//div/h2[text()][contains(text(), 'Clarification questions')]/..//tbody/tr").length.should == store.question_count
 end
 
-When /^I click on the link to the opportunity I have posted a question for$/ do
-  page.find(:xpath, "//h2/a[contains(@href, '/#{store.framework}/opportunities/#{store.current_brief_id}')]").click
-end
-
-And /^I can see all questions and answers related to the opportunity$/ do
-  page.all(:xpath, "//div/h2[text()][contains(text(), 'Questions asked by suppliers')]/..//tbody/tr").length.should == store.question_count
-  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[1]/td[1]//span[contains(text(), '1.')]/../../span[contains(text(),'#{store.question_1}')]")
-  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[1]/td[2]//span[contains(text(),'#{store.answer_1}')]")
-  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[2]/td[1]//span[contains(text(), '2.')]/../../span[contains(text(),'#{store.question_2}')]")
-  page.should have_selector(:xpath, ".//div/h2[contains(text(), 'Questions asked by suppliers')]/..//tbody/tr[2]/td[2]//span[contains(text(),'#{store.answer_2}')]")
+Then /^Form field '(.*)' should contain '(.*)'$/ do |field, value|
+  if page.has_field?(field, {type: 'radio'}) or page.has_field?(field, {type: 'checkbox'})
+    page.find_field(field, {checked: true}).value.should == value
+  else
+    page.find_field(field).value.should == value
+  end
 end

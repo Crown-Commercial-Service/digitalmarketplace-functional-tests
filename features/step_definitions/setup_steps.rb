@@ -242,23 +242,28 @@ def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
   file = File.read("./fixtures/briefs-DOS.json")
   brief_data = JSON.parse(file)
   brief_data["briefs"] = brief_data["briefs"].merge({
-    "title" => brief_name,
-    "location" => "Scotland",
-    "frameworkSlug" => framework_slug,
-    "lot" => lot,
-    "userId" => user_id,
-    "startDate" => '31/12/2016',
-    "specialistRole" => 'developer',
-    "organisation" => 'Driver and Vehicle Licensing Agency',
-    "importantDates" => 'Yesterday',
-    "evaluationType" => ['pitch'],
     "contractLength" => '1 day',
-    "backgroundInformation" => 'Make a flappy bird clone except where the bird drives very safely',
-    "essentialRequirements" => ['Can you do coding?', 'Can you do Python?'],
-    "niceToHaveRequirements" => ['Do you like cats?', 'Is your cat named Eva?'],
+    "culturalFitCriteria" => ["Cultural fit criteria 1", "Cultural fit criteria 2"],
     "culturalWeighting" => 10,
+    "essentialRequirements" => ['Can you do coding?', 'Can you do Python?'],
+    "evaluationType" => ['Reference'],
+    "existingTeam" => "Digital Marketplace team",
+    "frameworkSlug" => framework_slug,
+    "location" => "Scotland",
+    "lot" => lot,
+    "niceToHaveRequirements" => ['Do you like cats?', 'Is your cat named Eva?'],
+    "numberOfSuppliers" => "5",
+    "organisation" => 'Driver and Vehicle Licensing Agency',
     "priceWeighting" => 20,
+    "specialistRole" => 'developer',
+    "specialistWork" => "Work on the Digital Marketplace",
+    "startDate" => '31/12/2016',
+    "summary" => "Make a flappy bird clone except where the bird drives very safely",
     "technicalWeighting" => 70,
+    "title" => brief_name,
+    "userId" => user_id,
+    "workingArrangements" => "Working from home",
+    "workplaceAddress" => "Aviation House",
   })
   brief_data["updated_by"] = "functional tests"
 
@@ -294,11 +299,11 @@ def delete_all_draft_briefs (user_id)
   end
 end
 
-Given /^I have a '(.*)' (?:opportunity|set of requirements)$/ do |brief_state|
+Given /^I have a '(.*)' (?:opportunity|set of requirements)(?: named '(.*)')?$/ do |brief_state, brief_name|
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  @created_brief = create_and_return_buyer_brief("Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  @created_brief = create_and_return_buyer_brief(brief_name || "Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
   store.framework = @created_brief["frameworkSlug"]
   store.lot = @created_brief["lotSlug"]
   store.current_brief = @created_brief["id"]
