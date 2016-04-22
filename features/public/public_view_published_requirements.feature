@@ -12,7 +12,7 @@ Scenario: Public views the publish requirements. Details presented matches what 
     Then Summary row 'Published' should contain 'the published at date of the opportunity'
     And The Requirements title 'Individual Specialist-Buyer Requirements' is presented on the page
 
-    And Summary row 'Expected start date' should contain '31/12/2016'
+    And Summary row 'Latest start date' should contain '31/12/2016'
     And Summary row 'Expected contract length' should contain '1 day'
 
     And Summary row 'Organisation the work is for' should contain 'Driver and Vehicle Licensing Agency'

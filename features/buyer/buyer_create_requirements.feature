@@ -98,8 +98,8 @@ Scenario: Complete all mandatory buyer requirements questions
   And I click the 'Save and continue' button
   Then I am taken to the 'Description of work' page
 
-  When I click the 'Set expected start date' link
-  Then I am taken to the 'Expected start date' page
+  When I click the 'Set latest start date' link
+  Then I am taken to the 'Latest start date' page
   When I enter '25/04/2016' in the 'startDate' field
   And I click the 'Save and continue' button
   Then I am taken to the 'Description of work' page
@@ -172,7 +172,7 @@ Scenario: Verify sections on the overview page are ticked
   And Summary row 'Who the specialist will work with' should contain 'Specialist will work with the Digital Marketplace team'
   And Summary row 'Address where the work will take place' should contain 'Aviation House'
   And Summary row 'Working arrangement' should contain 'Work from home'
-  And Summary row 'Expected start date' should contain '25/04/2016'
+  And Summary row 'Latest start date' should contain '25/04/2016'
   And Summary row 'Summary' should contain 'Make this work'
 
   When I click the 'Return to overview' link
