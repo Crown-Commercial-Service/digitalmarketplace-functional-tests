@@ -38,8 +38,8 @@ Scenario: Buyer answers a couple of clarification questions and publishes each o
 Scenario: Supplier/Public can view questions and answers to an opportunity
   Given I have logged in to Digital Marketplace as a 'Supplier' user
   And I am on the 'Digital Marketplace' landing page
-  And I click the 'View supplier opportunities' link
-  Then I am taken to the 'Supplier opportunities' page
+  And I click the 'Digital Outcomes and Specialists opportunities' link
+  Then I am taken to the 'Digital Outcomes and Specialists opportunities' page
 
   When I click on the link to the opportunity I have posted a question for
   Then I am on the details page for the selected opportunity
