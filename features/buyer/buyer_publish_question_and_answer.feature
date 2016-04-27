@@ -21,7 +21,7 @@ Scenario: Buyer answers a couple of clarification questions and publishes each o
 
   When I enter 'This is the first clarification question. What else can I put in here?' in the 'question' field
   Then I enter 'You can put any queries about this opportunity here and we will answer it the best we can.' in the 'answer' field
-  And I click the 'Save and continue' button
+  And I click the 'Publish question and answer' button
   Then I am taken to the 'Supplier questions' page
 
   When I click the 'Answer a supplier question' link
@@ -29,7 +29,7 @@ Scenario: Buyer answers a couple of clarification questions and publishes each o
 
   When I enter 'This is the second clarification question. What is the cost?' in the 'question' field
   Then I enter 'The price is as stated in the brief, which is £123/hr' in the 'answer' field
-  And I click the 'Save and continue' button
+  And I click the 'Publish question and answer' button
   Then I am taken to the 'Supplier questions' page
 
   When I click the 'Return to overview' link
