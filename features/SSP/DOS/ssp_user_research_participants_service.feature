@@ -39,8 +39,8 @@ Feature: Submitting a new DOS service for User research participants
     When I click the 'Edit' link for 'Location'
     Then I should be on the 'Location' page
 
-    When I check 'North East England' for 'locations'
-    And I check 'Yorkshire and the Humber' for 'locations'
+    When I 'check' 'North East England' for 'locations'
+    And I 'check' 'Yorkshire and the Humber' for 'locations'
     And I click 'Save and continue'
     Then I should be on the 'User research participants' page
 
@@ -62,12 +62,12 @@ Feature: Submitting a new DOS service for User research participants
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should contain 'Yes'
-    And Summary row 'Manage incentives' under 'User research participants essentials' should contain 'No'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'North East England'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Yorkshire and the Humber'
-    And Summary row 'How do you recruit participants?' under 'Recruitment approach' should contain 'Initial recruitment offline, but then contact them online'
-    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should contain 'Yes'
+    Then Summary table row 'Provide discreet recruitment' under the heading 'User research participants essentials' should contain 'Yes'
+    And Summary table row 'Manage incentives' under the heading 'User research participants essentials' should contain 'No'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should contain 'North East England'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should contain 'Yorkshire and the Humber'
+    And Summary table row 'How do you recruit participants?' under the heading 'Recruitment approach' should contain 'Initial recruitment offline, but then contact them online'
+    And Summary table row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under the heading 'Recruitment approach' should contain 'Yes'
 
   Scenario: Edit answers to all questions
     Given I am on the ssp page for the 'user-research-participants' service
@@ -85,31 +85,31 @@ Feature: Submitting a new DOS service for User research participants
     When I click the 'Edit' link for 'Location'
     And I 'uncheck' 'North East England' for 'locations'
     And I 'uncheck' 'Yorkshire and the Humber' for 'locations'
-    And I check 'Scotland' for 'locations'
-    And I check 'Wales' for 'locations'
-    And I check 'London' for 'locations'
-    And I check 'International (outside the UK)' for 'locations'
+    And I 'check' 'Scotland' for 'locations'
+    And I 'check' 'Wales' for 'locations'
+    And I 'check' 'London' for 'locations'
+    And I 'check' 'International (outside the UK)' for 'locations'
     And I click 'Save and continue'
 
   Scenario: Verify text on summary page after edit
     Given I am on the summary page
     #Previous answeres should no longer be presented
-    Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should not contain 'Yes'
-    And Summary row 'Manage incentives' under 'User research participants essentials' should not contain 'No'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should not contain 'North East England'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should not contain 'Yorkshire and the Humber'
-    And Summary row 'How do you recruit participants?' under 'Recruitment approach' should not contain 'Initial recruitment offline, but then contact them online'
-    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should not contain 'Yes'
+    Then Summary table row 'Provide discreet recruitment' under the heading 'User research participants essentials' should not contain 'Yes'
+    And Summary table row 'Manage incentives' under the heading 'User research participants essentials' should not contain 'No'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should not contain 'North East England'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should not contain 'Yorkshire and the Humber'
+    And Summary table row 'How do you recruit participants?' under the heading 'Recruitment approach' should not contain 'Initial recruitment offline, but then contact them online'
+    And Summary table row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under the heading 'Recruitment approach' should not contain 'Yes'
 
     #New answeres should be presented
-    Then Summary row 'Provide discreet recruitment' under 'User research participants essentials' should contain 'No'
-    And Summary row 'Manage incentives' under 'User research participants essentials' should contain 'Yes'
-    And Summary row 'How do you recruit participants?' under 'Recruitment approach' should contain 'Entirely online'
-    And Summary row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under 'Recruitment approach' should contain 'No'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Scotland'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'Wales'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'London'
-    And Summary row 'Where can you recruit participants from?' under 'Location' should contain 'International (outside the UK)'
+    Then Summary table row 'Provide discreet recruitment' under the heading 'User research participants essentials' should contain 'No'
+    And Summary table row 'Manage incentives' under the heading 'User research participants essentials' should contain 'Yes'
+    And Summary table row 'How do you recruit participants?' under the heading 'Recruitment approach' should contain 'Entirely online'
+    And Summary table row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under the heading 'Recruitment approach' should contain 'No'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should contain 'Scotland'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should contain 'Wales'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should contain 'London'
+    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should contain 'International (outside the UK)'
 
   @mark_as_complete
   Scenario: Mark service as complete

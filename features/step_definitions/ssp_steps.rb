@@ -32,7 +32,7 @@ Given /^I am on the summary page$/ do
 end
 
 Given /^I am on the service name page for '(.*)'$/ do |lot_name|
-  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-7/submissions/#{lot_name}/create")
+  visit("#{dm_frontend_domain}/suppliers/frameworks/g-cloud-8/submissions/#{lot_name}/create")
 end
 
 Given /^I am on the ssp page for the '(.+)' service$/ do |page_name|
@@ -60,7 +60,7 @@ And /^There '(.*)' draft '(.*)' service\(s\)$/ do |availability,service|
     else
       if store.framework_name == 'digital-outcomes-and-specialists' and store.service_type == 'user-research-studios'
         page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'#{store.draft_count} draft lab')]")
-      elsif store.framework_name == 'g-cloud-7'
+      elsif store.framework_name == 'g-cloud-8'
         page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'#{store.draft_count} draft service')]")
       end
       page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Started but not complete')]")
@@ -172,16 +172,16 @@ Then /^The string '(.*)' should be on the page$/ do |string|
   page.should have_content(string)
 end
 
-Then /^Summary row '(.*)' under '(.*)' should contain '(.*)'$/ do |question,table_name, text|
+Then /^Summary table row '(.*)' under the heading '(.*)' should contain '(.*)'$/ do |question,table_name, text|
   if ['Individual specialist roles','Team capabilities'].include? table_name
     page.find(
       :xpath,
-      "//*/table/caption[contains(text(),'#{table_name}')]/../..//span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
+      "//*/table/caption[contains(text(),'#{table_name}')]/..//span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span/*"
     ).should have_content("#{text}")
   else
     page.find(
       :xpath,
-      "//*/table/caption[contains(text(),'#{table_name}')]/../..//span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
+      "//*/table/caption[contains(text(),'#{table_name}')]/..//span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
     ).should have_content("#{text}")
   end
 end
@@ -198,13 +198,6 @@ Then /^Multi summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |que
       :xpath,
       "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
     ).should have_no_content("#{text}")
-end
-
-Then /^Summary row '(.*)' under '(.*)' should not contain '(.*)'$/ do |question,table_name,text|
-  find(
-    :xpath,
-    "//*/span[contains(text(),'#{question}')]/../../td[@class='summary-item-field']/span"
-  ).should have_no_content(text)
 end
 
 Then /^Summary row '(.*)' under '(.*)' should not be empty$/ do |question,table_name|
@@ -273,7 +266,7 @@ And /^There '(.*)' completed '(.*)' service\(s\)$/ do |availability,service|
     else
       if store.framework_name == 'digital-outcomes-and-specialists' and store.service_type == 'user-research-studios'
         page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'#{store.completed_count} lab will be submitted')]")
-      elsif store.framework_name == 'g-cloud-7'
+      elsif store.framework_name == 'g-cloud-8'
         page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'Marked as complete')]")
       end
       page.should have_selector(:xpath, ".//li//span[contains(text(),'#{service}')]/../../*/p[contains(text(),'You can edit it until the deadline')]")
