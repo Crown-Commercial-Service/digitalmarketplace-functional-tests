@@ -44,11 +44,11 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click the 'Add' link for 'Agile coach'
     Then I should be on the 'Agile coach' page
 
-    When I check 'Scotland' for 'agileCoachLocations'
-    And I check 'London' for 'agileCoachLocations'
-    And I check 'Northern Ireland' for 'agileCoachLocations'
-    And I check 'Wales' for 'agileCoachLocations'
-    And I check 'Offsite' for 'agileCoachLocations'
+    When I 'check' 'Scotland' for 'agileCoachLocations'
+    And I 'check' 'London' for 'agileCoachLocations'
+    And I 'check' 'Northern Ireland' for 'agileCoachLocations'
+    And I 'check' 'Wales' for 'agileCoachLocations'
+    And I 'check' 'Offsite' for 'agileCoachLocations'
     And I fill in 'agileCoachPriceMin' with '214'
     And I fill in 'agileCoachPriceMax' with '581'
     And I click 'Save and continue'
@@ -62,8 +62,8 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click the 'Add' link for 'User researcher'
     Then I should be on the 'User researcher' page
 
-    When I check 'West Midlands' for 'userResearcherLocations'
-    And I check 'Yorkshire and the Humber' for 'userResearcherLocations'
+    When I 'check' 'West Midlands' for 'userResearcherLocations'
+    And I 'check' 'Yorkshire and the Humber' for 'userResearcherLocations'
     And I fill in 'userResearcherPriceMin' with '187'
     And I fill in 'userResearcherPriceMax' with '345'
     And I click 'Save and continue'
@@ -84,8 +84,8 @@ Feature: Submitting a new DOS service for Digital specialists
     When I click the 'Add' link for 'Web operations engineer'
     Then I should be on the 'Web operations engineer' page
 
-    When I check 'West Midlands' for 'webOperationsLocations'
-    And I check 'South East England' for 'webOperationsLocations'
+    When I 'check' 'West Midlands' for 'webOperationsLocations'
+    And I 'check' 'South East England' for 'webOperationsLocations'
     And I fill in 'webOperationsPriceMin' with '310'
     And I fill in 'webOperationsPriceMax' with '701'
     And I click 'Save and continue'
@@ -93,10 +93,10 @@ Feature: Submitting a new DOS service for Digital specialists
 
   Scenario: Verify text on summary page
     Given I am on the summary page
-    Then Summary row 'Share non-personal data' under 'Service essentials' should contain 'No'
-    And Summary row 'Share systems information' under 'Service essentials' should contain 'Yes'
-    And Summary row 'Standard data protocols' under 'Service essentials' should contain 'No'
-    And Summary row 'Use of open standards' under 'Service essentials' should contain 'No'
+    Then Summary table row 'Share non-personal data' under the heading 'Service essentials' should contain 'No'
+    And Summary table row 'Share systems information' under the heading 'Service essentials' should contain 'Yes'
+    And Summary table row 'Standard data protocols' under the heading 'Service essentials' should contain 'No'
+    And Summary table row 'Use of open standards' under the heading 'Service essentials' should contain 'No'
 
     Then Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Offsite'
     And Multi summary row 'Agile coach' under 'Individual specialist roles' should contain 'Scotland'
@@ -119,7 +119,7 @@ Feature: Submitting a new DOS service for Digital specialists
 
     When I 'uncheck' 'Scotland' for 'agileCoachLocations'
     And I 'uncheck' 'Northern Ireland' for 'agileCoachLocations'
-    And I check 'South West England' for 'agileCoachLocations'
+    And I 'check' 'South West England' for 'agileCoachLocations'
     And I click 'Save and continue'
     Then I should be on the 'Digital specialists' page
 
@@ -145,7 +145,7 @@ Feature: Submitting a new DOS service for Digital specialists
     Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Mark as complete' button at the 'top' of the page
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
-    And I am presented with the message 'Digital Specialists was marked as complete'
+    And I am presented with the message 'Digital specialists was marked as complete'
     And There 'is a' completed 'digital specialists' service(s)
     And There 'is no' draft 'digital specialists' service(s)
 
@@ -157,6 +157,6 @@ Feature: Submitting a new DOS service for Digital specialists
 
     When I click 'Yes, delete'
     Then I am taken to the 'Your Digital Outcomes and Specialists services' page
-    And I am presented with the message 'Digital Specialists was deleted'
+    And I am presented with the message 'Digital specialists was deleted'
     And There 'is no' draft 'digital specialists' service(s)
     And There 'is no' completed 'digital specialists' service(s)
