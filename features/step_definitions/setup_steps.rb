@@ -166,12 +166,12 @@ Given /^I have a buyer user account$/ do
 end
 
 And /^The test suppliers have declarations$/ do
-  declaration = JSON.parse(File.read("./fixtures/11111-g7-declaration.json"))
+  declaration = JSON.parse(File.read("./fixtures/11111-g8-declaration.json"))
   payload = {
     "declaration" => declaration,
     "updated_by" => "Test User",
   }
-  path = "/suppliers/11111/frameworks/g-cloud-7/declaration"
+  path = "/suppliers/11111/frameworks/g-cloud-8/declaration"
   response = call_api(:put, path, payload: payload)
   response.code.should be(200), response.body
 end
