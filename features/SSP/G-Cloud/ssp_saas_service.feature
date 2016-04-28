@@ -10,7 +10,7 @@ Feature: Submitting a new service for SaaS
 
   Scenario: Select lot
     Given I am at '/suppliers'
-    When I click 'Continue your G-Cloud 7 application'
+    When I click 'Continue your G-Cloud 8 application'
     And I click 'Add, edit and complete services'
 
     When I click 'Software as a Service (SaaS)'
@@ -24,7 +24,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'My SaaS' page
 
   Scenario: Edit a service name
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Service name'
     Then I should be on the 'Service name' page
 
@@ -33,7 +33,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Service description' page
 
   Scenario: Provide a service description
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Service description'
     Then I should be on the 'Service description' page
 
@@ -45,16 +45,16 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Service type' page
 
   Scenario: Select a service type
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Service type'
     Then I should be on the 'Service type' page
 
-    When I check 'Creative and design' for 'serviceTypes'
+    When I 'check' 'Creative and design' for 'serviceTypes'
     And I click 'Save and continue'
     Then I should be on the 'Features and benefits' page
 
   Scenario: Features and benefits
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Features and benefits'
     Then I should be on the 'Features and benefits' page
 
@@ -64,7 +64,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Pricing' page
 
   Scenario: Pricing
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Pricing'
     Then I should be on the 'Pricing' page
 
@@ -80,7 +80,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Terms and conditions' page
 
   Scenario: Terms and conditions
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Terms and conditions'
     Then I should be on the 'Terms and conditions' page
 
@@ -89,11 +89,11 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Support' page
 
   Scenario: Support
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Support'
     Then I should be on the 'Support' page
 
-    When I check 'Service desk' for 'supportTypes'
+    When I 'check' 'Service desk' for 'supportTypes'
     And I choose 'Yes' for 'supportForThirdParties'
     And I fill in 'supportAvailability' with '24/7'
     And I fill in 'supportResponseTime' with '1 hour'
@@ -102,7 +102,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Open standards' page
 
   Scenario: Open standards
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Open standards'
     Then I should be on the 'Open standards' page
 
@@ -111,7 +111,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Onboarding and offboarding' page
 
   Scenario: Onboarding and offboarding
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Onboarding and offboarding'
     Then I should be on the 'Onboarding and offboarding' page
 
@@ -121,7 +121,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Analytics' page
 
   Scenario: Analytics
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Analytics'
     Then I should be on the 'Analytics' page
 
@@ -130,7 +130,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Cloud features' page
 
   Scenario: Cloud features
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Cloud features'
     Then I should be on the 'Cloud features' page
 
@@ -141,7 +141,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Provisioning' page
 
   Scenario: Provisioning
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Provisioning'
     Then I should be on the 'Provisioning' page
 
@@ -152,7 +152,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Open source' page
 
   Scenario: Open source
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Open source'
     Then I should be on the 'Open source' page
 
@@ -161,7 +161,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Code libraries' page
 
   Scenario: Code libraries
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Code libraries'
     Then I should be on the 'Code libraries' page
 
@@ -170,7 +170,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'API access' page
 
   Scenario: API access
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'API access'
     Then I should be on the 'API access' page
 
@@ -180,27 +180,27 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Networks and connectivity' page
 
   Scenario: Networks and connectivity
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Networks and connectivity'
     Then I should be on the 'Networks and connectivity' page
 
-    When I check 'Internet' for 'networksConnected'
+    When I 'check' 'Internet' for 'networksConnected'
     And I click 'Save and continue'
     Then I should be on the 'Access' page
 
   Scenario: Access
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Access'
     Then I should be on the 'Access' page
 
-    When I check 'Opera' for 'supportedBrowsers'
+    When I 'check' 'Opera' for 'supportedBrowsers'
     And I choose 'Yes' for 'offlineWorking'
-    And I check 'PC' for 'supportedDevices'
+    And I 'check' 'PC' for 'supportedDevices'
     And I click 'Save and continue'
     Then I should be on the 'Certifications' page
 
   Scenario: Certifications
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Certifications'
     Then I should be on the 'Certifications' page
 
@@ -209,7 +209,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Identity standards' page
 
   Scenario: Identity standards
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Identity standards'
     Then I should be on the 'Identity standards' page
 
@@ -218,7 +218,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Data storage' page
 
   Scenario: Data storage
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Data storage'
     Then I should be on the 'Data storage' page
 
@@ -241,29 +241,29 @@ Feature: Submitting a new service for SaaS
     And The 'Mark as complete' button should not be on the page
 
   Scenario: Data-in-transit protection
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Data-in-transit protection'
     Then I should be on the 'Data-in-transit protection' page
 
-    When I check 'Encrypted PSN service' for 'dataProtectionBetweenUserAndService'
+    When I 'check' 'Encrypted PSN service' for 'dataProtectionBetweenUserAndService'
     And I choose 'independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page
 
   Scenario: Asset protection and resilience
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Asset protection and resilience'
     Then I should be on the 'Asset protection and resilience' page
 
-    When I check 'input-datacentreLocations-1' for 'datacentreLocations'
+    When I 'check' 'input-datacentreLocations-1' for 'datacentreLocations'
     And I choose 'service provider assertion' for 'datacentreLocations--assurance'
-    And I check 'input-dataManagementLocations-1' for 'dataManagementLocations'
+    And I 'check' 'input-dataManagementLocations-1' for 'dataManagementLocations'
     And I choose 'service provider assertion' for 'dataManagementLocations--assurance'
     And I choose 'UK' for 'legalJurisdiction'
     And I choose 'service provider assertion' for 'legalJurisdiction--assurance'
     And I choose 'Yes' for 'datacentreProtectionDisclosure'
     And I choose 'service provider assertion' for 'datacentreProtectionDisclosure--assurance'
-    And I check 'input-dataAtRestProtections-2' for 'dataAtRestProtections'
+    And I 'check' 'input-dataAtRestProtections-2' for 'dataAtRestProtections'
     And I choose 'service provider assertion' for 'dataAtRestProtections--assurance'
     And I choose 'CESG or CPNI-approved erasure process' for 'dataSecureDeletion'
     And I choose 'service provider assertion' for 'dataSecureDeletion--assurance'
@@ -273,7 +273,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Separation between consumers' page
 
   Scenario: Separation between consumers
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Separation between consumers'
     Then I should be on the 'Separation between consumers' page
 
@@ -289,7 +289,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Governance' page
 
   Scenario: Governance
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Governance'
     Then I should be on the 'Governance' page
 
@@ -299,7 +299,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Configuration and change management' page
 
   Scenario: Configuration and change management
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Configuration and change management'
     Then I should be on the 'Configuration and change management' page
 
@@ -309,7 +309,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Vulnerability management' page
 
   Scenario: Vulnerability management
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Vulnerability management'
     Then I should be on the 'Vulnerability management' page
 
@@ -327,7 +327,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Event monitoring' page
 
   Scenario: Event monitoring
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Event monitoring'
     Then I should be on the 'Event monitoring' page
 
@@ -337,7 +337,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Incident management' page
 
   Scenario: Incident management
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Incident management'
     Then I should be on the 'Incident management' page
 
@@ -351,17 +351,17 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Personnel security' page
 
   Scenario: Personnel security
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Personnel security'
     Then I should be on the 'Personnel security' page
 
-    When I check 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
+    When I 'check' 'Security clearance national vetting (SC)' for 'personnelSecurityChecks'
     And I choose 'service provider assertion' for 'personnelSecurityChecks--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure development' page
 
   Scenario: Secure development
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Secure development'
     Then I should be on the 'Secure development' page
 
@@ -375,7 +375,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Supply-chain security' page
 
   Scenario: Supply-chain security
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Supply-chain security'
     Then I should be on the 'Supply-chain security' page
 
@@ -391,7 +391,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Authentication of consumers' page
 
   Scenario: Authentication of consumers
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Authentication of consumers'
     Then I should be on the 'Authentication of consumers' page
 
@@ -403,7 +403,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Separation and access control within management interfaces' page
 
   Scenario: Separation and access control within management interfaces
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Separation and access control within management interfaces'
     Then I should be on the 'Separation and access control within management interfaces' page
 
@@ -415,27 +415,27 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Identity and authentication' page
 
   Scenario: Identity and authentication
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Identity and authentication'
     Then I should be on the 'Identity and authentication' page
 
-    When I check 'Username and two-factor authentication' for 'identityAuthenticationControls'
+    When I 'check' 'Username and two-factor authentication' for 'identityAuthenticationControls'
     And I choose 'service provider assertion' for 'identityAuthenticationControls--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure service administration' page
 
   Scenario: Secure service administration
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Secure service administration'
     Then I should be on the 'Secure service administration' page
 
-    When I check 'Dedicated devices on a segregated network' for 'serviceManagementModel'
+    When I 'check' 'Dedicated devices on a segregated network' for 'serviceManagementModel'
     And I choose 'service provider assertion' for 'serviceManagementModel--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Audit information provision to consumers' page
 
   Scenario: Audit information provision to consumers
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Audit information provision to consumers'
     Then I should be on the 'Audit information provision to consumers' page
 
@@ -445,11 +445,11 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Secure use of the service by the customer' page
 
   Scenario: Secure use of the service by the customer
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Secure use of the service by the customer'
     Then I should be on the 'Secure use of the service by the customer' page
 
-    When I check 'Corporate/enterprise devices' for 'deviceAccessMethod'
+    When I 'check' 'Corporate/enterprise devices' for 'deviceAccessMethod'
     And I choose 'service provider assertion' for 'deviceAccessMethod--assurance'
     And I choose 'Yes' for 'trainingProvided'
     And I choose 'service provider assertion' for 'trainingProvided--assurance'
@@ -457,7 +457,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Service definition' page
 
   Scenario: Service definition
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Service definition'
     Then I should be on the 'Service definition' page
 
@@ -466,7 +466,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Terms and conditions document' page
 
   Scenario: Terms and conditions document
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Terms and conditions document'
     Then I should be on the 'Terms and conditions document' page
 
@@ -475,7 +475,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'Pricing document' page
 
   Scenario: Pricing document
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'Pricing document'
     Then I should be on the 'Pricing document' page
 
@@ -484,7 +484,7 @@ Feature: Submitting a new service for SaaS
     Then I should be on the 'SFIA rate card' page
 
   Scenario: SFIA rate card
-    Given I am on ssp page 'saas'
+    Given I am on the ssp page for the 'saas' service
     When I click the 'Edit' link for 'SFIA rate card'
     Then I should be on the 'SFIA rate card' page
 
@@ -500,7 +500,7 @@ Feature: Submitting a new service for SaaS
   @delete_service
   Scenario: Delete the service
     Given I am on the summary page
-    When I click 'Delete this service'
-    And I click 'Yes, delete “My SaaS service”'
+    When I click 'Delete'
+    And I click 'Yes, delete'
     Then I am returned to the 'Software as a Service services' page
     And My service should not be in the list
