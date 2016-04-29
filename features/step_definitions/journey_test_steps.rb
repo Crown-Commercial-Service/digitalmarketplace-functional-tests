@@ -119,11 +119,10 @@ Then /I am presented with the admin search page$/ do
   page.should have_link('Service status changes')
   page.should have_link('Log out')
   page.should have_content('Find a service by service ID')
-  page.should have_content('Find services by supplier ID')
-  page.should have_content('Find users by supplier ID')
   page.should have_content('Find suppliers by name prefix')
   page.should have_content('Find users by email address')
-  page.should have_link('G-Cloud 7 statistics')
+  page.should have_link('G-Cloud 8 statistics')
+  page.should have_link('Download user lists')
 end
 
 When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
@@ -152,7 +151,10 @@ When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   end
 
   @value_of_interest[field_name] = value
-  @servicesupplierID = value
+  
+  if field_name.include?('supplier_id')
+    @servicesupplierID = value
+  end
 end
 
 And /I click the '(.*)' button$/ do |button_name|
@@ -671,35 +673,18 @@ Given /^I am logged in as '(.*)' '(.*)' user and am on the dashboard page$/ do |
   }
 end
 
-Given /^I am logged in as '(.*)' and navigated to the '(.*)' page by searching on supplier ID '(.*)'$/ do |user_type,page_name,value|
-  if value == '11111'
-    supplier_name = 'DM Functional Test Supplier'
-  elsif value == '11112'
-    supplier_name = 'DM Functional Test Supplier 2'
-  end
-
-  if page_name == 'Services'
-    search_button_name = 'supplier_id_for_services'
-  elsif page_name == 'Users'
-    search_button_name = 'supplier_id_for_users'
-  end
-
-  steps %Q{
-    Given I have logged in to Digital Marketplace as a '#{user_type}' user
-    When I enter '#{value}' in the '#{search_button_name}' field
-    And I click the search button for '#{search_button_name}'
-    Then I am presented with the '#{page_name}' page for the supplier '#{supplier_name}'
-  }
-end
-
 Given /^I am logged in as '(.*)' and navigated to the '(.*)' page for supplier '(.*)'$/ do |user_type,page_name,value|
   step "I have logged in to Digital Marketplace as a '#{user_type}' user"
   if value == 'DM Functional Test Supplier'
     supplierID = '11111'
+  elsif value == 'DM Functional Test Supplier 2'
+    supplierID = '11112'
   end
 
   if page_name == 'Upload a G-Cloud 7 countersigned agreement'
     page.visit("#{dm_frontend_domain}/admin/suppliers/#{supplierID}/countersigned-agreements/g-cloud-7")
+  else
+    page.visit("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{supplierID}")
   end
 end
 
@@ -830,24 +815,23 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     elsif page_name == 'Services'
       page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{page_name}')]")
     end
-    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
+    current_url.should include("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}")
   end
   page.should have_link('Log out')
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
 
-Then /I am presented with the 'Suppliers' page for all suppliers starting with 'DM Functional Test Supplier'$/ do ||
-  search_prefix = 'DM Functional Test Supplier'
+Then /I am presented with the 'Suppliers' page for all suppliers starting with '(.*)'$/ do |name_prefix|
   page.should have_content('Suppliers')
   page.should have_link('Log out')
-  URI.decode_www_form(URI.parse(current_url).query).assoc('supplier_name_prefix').last.should == search_prefix
+  URI.decode_www_form(URI.parse(current_url).query).assoc('supplier_name_prefix').last.should == name_prefix
 
   table_rows = page.all(:css, "tr.summary-item-row")
   table_rows.length.should == 2
 
   table_rows.each do |row|
-    row.all(:css, "td").first.text.should start_with(search_prefix)
+    row.all(:css, "td").first.text.should start_with(name_prefix)
   end
 
   case @user_type
@@ -1072,14 +1056,10 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
     page.should have_content("#{page_name}")
-
-#TODO - uncomment the following block when DOS goes live
-    # page.should have_link('Find an individual specialist')
-    # page.should have_link('Find a team to provide an outcome')
-    # page.should have_link('Find user research participants')
-    # page.should have_link('Find a user research lab')
-    # page.should have_link('View your briefs and supplier responses')
-
+    page.should have_link('Find an individual specialist')
+    page.should have_link('Find a team to provide an outcome')
+    page.should have_link('Find user research participants')
+    page.should have_link('Find a user research lab')
     page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space for legacy systems')
 
@@ -1465,7 +1445,7 @@ end
 
 Then /The supplier user '(.*)' is '(.*)' on the admin Users page$/ do |user_name, user_lockoractive_state|
   steps %Q{
-    Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+    Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
     Then The supplier user '#{user_name}' is '#{user_lockoractive_state}'
   }
 end
@@ -1547,8 +1527,8 @@ And /I am taken to the '(.*)' supplier information page$/ do |value|
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[4]//*[contains(text(), 'D')]")
 end
 
-Given /All services associated with supplier with ID '(.*)' have a status of '(.*)'$/ do |value,status|
-  step "I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '#{value}'"
+Given /All services associated with supplier with name '(.*)' have a status of '(.*)'$/ do |value,status|
+  step "I am logged in as 'Administrator' and navigated to the 'Services' page for supplier '#{value}'"
   current_service_status = page.find(:xpath,"//*[@class='summary-item-field-with-action']//*[contains(@href, '1123456789012354')]/../../../td[5][text()]").text()
   if current_service_status == 'Public' || current_service_status == 'Private'
     step "I click the 'Edit' link for the service '1123456789012354'"
@@ -1589,6 +1569,8 @@ Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
   case framework_name
   when 'G-Cloud 7'
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
+  when 'G-Cloud 8'
+    current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-8")
   when 'Digital Outcomes and Specialists'
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
   else

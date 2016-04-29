@@ -53,15 +53,10 @@ Scenario: As a CCS Sourcing user I want to download the agreement
   When I download the contersigned agreement
   Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
 
-Scenario: As a CCS Sourcing user I want to view G-Cloud 7 statistics
+Scenario: As a CCS Sourcing user I want to view G-Cloud 8 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
-  When I click 'G-Cloud 7 statistics'
-  Then I am presented with the 'G-Cloud 7' statistics page
-
-Scenario: As a CCS Sourcing user I want to view Digital Outcomes and Specialists statistics
-  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
-  When I click 'Digital Outcomes and Specialists statistics'
-  Then I am presented with the 'Digital Outcomes and Specialists' statistics page
+  When I click 'G-Cloud 8 statistics'
+  Then I am presented with the 'G-Cloud 8' statistics page
 
 Scenario: When there are no framework agreements the list is empty: Digital Outcomes and Specialists
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
