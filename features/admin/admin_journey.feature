@@ -24,24 +24,14 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I click the search button for 'service_id'
   Then I am presented with the summary page for that service
 
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by DUNS number
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I enter '11111' in the 'supplier_id_for_services' field
-  And I click the search button for 'supplier_id_for_services'
-  Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
+  When I enter '930123456789' in the 'supplier_duns_number' field
+  And I click the search button for 'supplier_duns_number'
+  And I am taken to the 'Suppliers' page
+  And I click the 'Services' link
+  Then  I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
   And I can see all listings ordered by lot name followed by listing name
-
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier ID and view a specific service
-  Given I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
-  When I click the service name link for the second listing on the page
-  Then I am presented with the service page for that specific listing
-
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by supplier ID
-  Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I enter '11111' in the 'supplier_id_for_users' field
-  And I click the search button for 'supplier_id_for_users'
-  Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
-  And All users for the supplier ID 11111 are listed on the page
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'Administrator' user
@@ -104,15 +94,6 @@ Scenario: As an admin user I wish to edit the pricing of a service
   And I click 'Save and return to summary'
   Then I am presented with the summary page with the changes that were made to the 'Pricing'
 
-Scenario: As an admin user I wish to change a document for a service. Service selected via supplier ID search.
-  Given I am logged in as 'Administrator' and navigated to the 'Services' page by searching on supplier ID '11111'
-  When I click the 'Edit' link for the service '1123456789012346'
-  Then I am presented with the summary page for that service
-  When I navigate to the 'Edit' 'Documents' page
-  And I change 'serviceDefinitionDocumentURL' file to '12345-test-new-service-definition-document.pdf'
-  And I click 'Save and return to summary'
-  Then I am presented with the summary page with the changes that were made to the 'Documents'
-
 Scenario: As an admin user I wish to change a document for a service
   Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
   When I navigate to the 'Edit' 'Documents' page
@@ -171,40 +152,35 @@ Scenario: Admin changes service status to 'Public'. The change is reflected in t
   And The service details page 'can' be viewed
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to deactivate a supplier user
-  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
   When I click the 'Deactivate' button for the supplier user 'DM Functional Test Supplier User 2'
   Then The supplier user 'DM Functional Test Supplier User 2' is 'not active'
   And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
   And The supplier user 'DM Functional Test Supplier User 2' 'is not' listed as a contributor on the dashboard of another user of the same supplier
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to activate a deactivated supplier user
-  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
   When I click the 'Activate' button for the supplier user 'DM Functional Test Supplier User 2'
   Then The supplier user 'DM Functional Test Supplier User 2' is 'active'
   And The supplier user 'DM Functional Test Supplier User 2' 'can' login to Digital Marketplace
   And The supplier user 'DM Functional Test Supplier User 2' 'is' listed as a contributor on the dashboard of another user of the same supplier
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish unlock a locked supplier
-  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
   When I click the 'Unlock' button for the supplier user 'DM Functional Test Supplier User 3'
   Then The supplier user 'DM Functional Test Supplier User 3' is 'not locked'
   And The supplier user 'DM Functional Test Supplier User 3' 'can' login to Digital Marketplace
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to send an invitation email to a new user
-  Given I am logged in as 'Administrator' and navigated to the 'Users' page by searching on supplier ID '11111'
+  Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
   When I enter 'testing.supplier.username4@dmtestemail.com' in the 'email_address' field
   And I click 'Send invitation'
   Then I am presented with the message 'User invited'
 
-Scenario: As an admin user I want to view G-Cloud 7 statistics
+Scenario: As an admin user I want to view G-Cloud 8 statistics
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'G-Cloud 7 statistics'
-  Then I am presented with the 'G-Cloud 7' statistics page
-
-Scenario: As an admin user I want to view Digital Outcomes and Specialists statistics
-  Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'Digital Outcomes and Specialists statistics'
-  Then I am presented with the 'Digital Outcomes and Specialists' statistics page
+  When I click 'G-Cloud 8 statistics'
+  Then I am presented with the 'G-Cloud 8' statistics page
 
 Scenario: As an admin user I want to view Service updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user

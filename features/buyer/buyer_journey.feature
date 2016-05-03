@@ -109,12 +109,12 @@ Scenario: User is able to navigate to the supplier information page of a specifi
   And I am taken to the 'DM Functional Test Supplier 2' supplier information page
 
 Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of all services for that supplier are REMOVED
-  Given All services associated with supplier with ID '11112' have a status of 'Removed'
+  Given All services associated with supplier with name 'DM Functional Test Supplier 2' have a status of 'Removed'
   When I navigate to the list of 'Suppliers starting with D' page
   Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
 
 Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of all services for that supplier are PRIVATE
-  Given All services associated with supplier with ID '11112' have a status of 'Private'
+  Given All services associated with supplier with name 'DM Functional Test Supplier 2' have a status of 'Private'
   When I navigate to the list of 'Suppliers starting with D' page
   Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
 
