@@ -33,6 +33,11 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   Then  I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
   And I can see all listings ordered by lot name followed by listing name
 
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier name prefix and view a specific service
+  Given I am logged in as 'Administrator' and navigated to the 'Services' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  When I click the service name link for the second listing on the page
+  Then I am presented with the service page for that specific listing
+
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field

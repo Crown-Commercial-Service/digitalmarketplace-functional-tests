@@ -151,7 +151,7 @@ When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   end
 
   @value_of_interest[field_name] = value
-  
+
   if field_name.include?('supplier_id')
     @servicesupplierID = value
   end
@@ -704,8 +704,18 @@ Given /^I am logged in as '(.*)' and navigated to the '(.*)' page by searching o
     Given I have logged in to Digital Marketplace as a '#{user_type}' user
     When I enter '#{name_prefix}' in the 'supplier_name_prefix' field
     And I click the search button for 'supplier_name_prefix'
-    Then I am presented with the 'Suppliers' page for all suppliers starting with '#{name_prefix}'
   }
+
+  if page_name == 'Suppliers'
+    step "Then I am presented with the 'Suppliers' page for all suppliers starting with '#{name_prefix}'"
+  elsif page_name == 'Services'
+    steps %Q{
+      When I click the '#{page_name}' link for the supplier '#{name_prefix}'
+      Then I am presented with the '#{page_name}' page for the supplier '#{name_prefix}'
+    }
+  else
+    fail("The page \"#{page_name}\" does not exist")
+  end
 end
 
 Given /^I am logged in as '(.*)' '(.*)' user and am on the service listings page$/ do |supplier_name,user_type|
@@ -796,7 +806,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     page.should have_button('Save')
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{@servicesupplierID}/edit/name")
   else
-    if dm_supplier_user_emails().include?(@servicesupplierID) or @servicesupplierID == "DM Functional Test Supplier"
+    if dm_supplier_user_emails().include?(@servicesupplierID) or @servicesupplierID == "DM Functional Test Supplier" or supplier_name == "DM Functional Test Supplier"
       @servicesupplierID = '11111'
     end
 
@@ -815,7 +825,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     elsif page_name == 'Services'
       page.should have_selector(:xpath, "*//header/h1[contains(text(), '#{page_name}')]")
     end
-    current_url.should include("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}")
+    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   end
   page.should have_link('Log out')
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")

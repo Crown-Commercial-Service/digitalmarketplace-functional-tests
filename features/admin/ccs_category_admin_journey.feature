@@ -16,6 +16,11 @@ Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wis
   And I click the search button for 'service_id'
   Then I am presented with the summary page for that service
 
+Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier name prefix and view a specific service
+  Given I am logged in as 'CCS Category' and navigated to the 'Services' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
+  When I click the service name link for the second listing on the page
+  Then I am presented with the service page for that specific listing
+
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'CCS Category' user
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
