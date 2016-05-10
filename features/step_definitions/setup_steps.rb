@@ -252,7 +252,7 @@ def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
     "location" => "Scotland",
     "lot" => lot,
     "niceToHaveRequirements" => ['Do you like cats?', 'Is your cat named Eva?'],
-    "numberOfSuppliers" => "5",
+    "numberOfSuppliers" => 5,
     "organisation" => 'Driver and Vehicle Licensing Agency',
     "priceWeighting" => 20,
     "specialistRole" => 'developer',
@@ -310,7 +310,7 @@ Given /^I have a '(.*)' (?:opportunity|set of requirements)(?: named '(.*)')?$/ 
 
   if brief_state == 'published'
     @published_brief = publish_and_return_brief(@created_brief['id'])
-    store.published_at_date = Date.strptime(@published_brief["publishedAt"]).strftime("%A %e %B %Y ")
+    store.published_at_date = Date.strptime(@published_brief["publishedAt"]).strftime("%A %-d %B %Y ")
   end
 end
 

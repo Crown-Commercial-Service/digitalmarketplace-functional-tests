@@ -1008,7 +1008,7 @@ end
 
 And /A message stating the supplier has stopped offering this service on todays date is presented on the '(.*)' service summary page$/ do |user_type|
   time = Time.new
-  todays_date = time.strftime("%A %d %B %Y")
+  todays_date = time.strftime("%A %-d %B %Y")
 
   case user_type
   when 'Supplier'
@@ -1596,7 +1596,7 @@ Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
 end
 
 Then /I am presented with the Service updates page$/ do
-  todays_date = Time.new.strftime("%A %d %B %Y")
+  todays_date = Time.new.strftime("%A %-d %B %Y")
   page.find(:xpath,"//p[contains(text(), 'Activity for')]/../h1[contains(text(), '#{todays_date}')]")
   page.should have_selector(:xpath, "//*/div/label[@for='audit_date'][contains(text(), 'Audit Date')]")
   page.should have_selector(:xpath, "//*[contains(@id, 'audit_date') and contains(@placeholder, 'eg, 2015-07-23')]")
@@ -1618,10 +1618,10 @@ end
 
 Then /I am presented with the Service status changes page for changes made '(.*)'$/ do |day|
   page.should have_selector(:xpath, "//h1[contains(text(),'Service status changes')]")
-  todays_date = Date.today.strftime("%A %d %B %Y")
-  yesterdays_date = (Date.today-1).strftime("%A %d %B %Y")
-  tomorrows_date = (Date.today+1).strftime("%A %d %B %Y")
-  previous_date = (Date.today-2).strftime("%A %d %B %Y")
+  todays_date = Date.today.strftime("%A %-d %B %Y")
+  yesterdays_date = (Date.today-1).strftime("%A %-d %B %Y")
+  tomorrows_date = (Date.today+1).strftime("%A %-d %B %Y")
+  previous_date = (Date.today-2).strftime("%A %-d %B %Y")
 
   if page.all(:css, "tr.summary-item-row").length == 0
     page.should have_selector(:xpath, "//p[@class='summary-item-no-content'][contains(text(),'No changes')]")
