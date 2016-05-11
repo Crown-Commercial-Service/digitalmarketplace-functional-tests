@@ -66,7 +66,7 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   Then The page for the 'DM Functional Test Supplier User 3' user is presented
 
   When I click the 'DM Functional Test Supplier' link
-  Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
+  Then I am presented with the overview page for the supplier 'DM Functional Test Supplier'
 
 Scenario: Admin user should be able to abort an edit and be returned to the service summary page
   Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page

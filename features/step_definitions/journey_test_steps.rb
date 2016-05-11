@@ -832,6 +832,18 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
 
+Then /I am presented with the overview page for the supplier '(.*)'$/ do |supplier_name|
+  if dm_supplier_user_emails().include?(@servicesupplierID) or @servicesupplierID == "DM Functional Test Supplier" or supplier_name == "DM Functional Test Supplier"
+    @servicesupplierID = '11111'
+  end
+  page.should have_selector(:xpath, "*//header/h1[contains(text(), 'Suppliers')]")
+  page.should have_selector(:xpath, "*//td[@class='summary-item-field-first']/span[contains(text(), supplier_name)]")
+  page.should have_link('Change name')
+  page.should have_link('Users')
+  page.should have_link('Services')
+  current_url.should end_with("#{dm_frontend_domain}/admin/suppliers?supplier_id=#{@servicesupplierID}")
+end
+
 Then /I am presented with the 'Suppliers' page for all suppliers starting with '(.*)'$/ do |name_prefix|
   page.should have_content('Suppliers')
   page.should have_link('Log out')
