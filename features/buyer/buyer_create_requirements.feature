@@ -144,7 +144,7 @@ Scenario: Complete all mandatory buyer requirements questions
   Then I am taken to the 'Evaluation criteria' page
 
   When I click the 'Choose cultural fit criteria' link
-  Then I am taken to the 'Cultural fit evaluation criteria' page
+  Then I am taken to the 'Cultural fit criteria' page
   When I enter 'Main cultural fit criteria' in the 'input-culturalFitCriteria-1' field
   When I enter 'Additional cultural fit criteria' in the 'input-culturalFitCriteria-2' field
   And I click the 'Save and continue' button
