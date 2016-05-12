@@ -815,10 +815,10 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
       case @user_type
       when 'Administrator'
         page.should have_button('Deactivate')
-        page.should have_button('Remove from supplier')
+        page.should have_button('Move user to this supplier')
       when 'CCS Category'
         page.should have_no_button('Deactivate')
-        page.should have_no_button('Remove from supplier')
+        page.should have_no_button('Move user to this supplier')
       else
         fail("Invalid user on admin suppliers page #{@user_type}")
       end
