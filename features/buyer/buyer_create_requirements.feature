@@ -117,7 +117,7 @@ Scenario: Complete all mandatory buyer requirements questions
   Then I am taken to the 'Shortlist criteria' page
 
   When I click the 'Add essential skills or experience' link
-  Then I am taken to the 'Essential skills and experience' page
+  Then I am taken to the 'Technical competence: essential skills and experience' page
   When I enter 'Write functional tests' in the 'input-essentialRequirements-1' field
   Then I enter 'Work with ruby' in the 'input-essentialRequirements-2' field
   And I click the 'Save and continue' button
@@ -181,8 +181,8 @@ Scenario: Verify sections on the overview page are ticked
 
   When I click the 'shortlist criteria' link
   Then I am taken to the 'Shortlist criteria' page
-  And Summary row 'Essential skills and experience' should contain 'Write functional tests'
-  And Summary row 'Essential skills and experience' should contain 'Work with ruby'
+  And Summary row 'Technical competence: essential skills and experience' should contain 'Write functional tests'
+  And Summary row 'Technical competence: essential skills and experience' should contain 'Work with ruby'
   And Summary row 'How many specialists will be evaluated' should contain '5'
 
   When I click the 'Return to overview' link
@@ -237,7 +237,7 @@ Scenario: Complete all optional requirements questions
   Then I am taken to the 'Shortlist criteria' page
 
   When I click the 'Add nice-to-have skills and experience' link
-  Then I am taken to the 'Nice-to-have skills and experience' page
+  Then I am taken to the 'Technical competence: nice-to-have skills and experience' page
   When I enter 'Nice-to-have requirement' in the 'input-niceToHaveRequirements-1' field
   And I click the 'Save and continue' button
   Then I am taken to the 'Shortlist criteria' page

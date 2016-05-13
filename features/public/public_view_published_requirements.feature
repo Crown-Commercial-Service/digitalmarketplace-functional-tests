@@ -22,10 +22,10 @@ Scenario: Public views the publish requirements. Details presented matches what 
 
     And Summary row 'Summary of the work' should contain 'Make a flappy bird clone except where the bird drives very safely'
 
-    And Summary row 'Essential skills and experience' should contain 'Can you do coding?'
-    And Summary row 'Essential skills and experience' should contain 'Can you do Python?'
-    And Summary row 'Nice-to-have skills and experience' should contain 'Do you like cats?'
-    And Summary row 'Nice-to-have skills and experience' should contain 'Is your cat named Eva?'
+    And Summary row 'Technical competence: essential skills and experience' should contain 'Can you do coding?'
+    And Summary row 'Technical competence: essential skills and experience' should contain 'Can you do Python?'
+    And Summary row 'Technical competence: nice-to-have skills and experience' should contain 'Do you like cats?'
+    And Summary row 'Technical competence: nice-to-have skills and experience' should contain 'Is your cat named Eva?'
 
     And Summary row 'Specialist role' should contain 'Developer'
     And Summary row 'Assessment methods' should contain 'Reference'
