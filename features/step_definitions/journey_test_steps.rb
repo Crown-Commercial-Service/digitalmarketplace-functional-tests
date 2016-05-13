@@ -1195,7 +1195,6 @@ And /All filters for '(.*)' are available$/ do |lot_name|
     filter_to_check("Datacentre tier","None of the above","")
     filter_to_check("Networks the service is directly connected to","Internet","")
     filter_to_check("Networks the service is directly connected to","Public Services Network (PSN)","")
-    filter_to_check("Networks the service is directly connected to","Government Secure intranet (GSi)","")
     filter_to_check("Networks the service is directly connected to","Police National Network (PNN)","")
     filter_to_check("Networks the service is directly connected to","New NHS Network (N3)","")
     filter_to_check("Networks the service is directly connected to","Joint Academic Network (JANET)","")

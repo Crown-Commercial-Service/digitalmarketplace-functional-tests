@@ -245,7 +245,7 @@ Feature: Submitting a new service for SaaS
     When I click the 'Edit' link for 'Data-in-transit protection'
     Then I should be on the 'Data-in-transit protection' page
 
-    When I 'check' 'Encrypted PSN service' for 'dataProtectionBetweenUserAndService'
+    When I 'check' 'PSN assured service' for 'dataProtectionBetweenUserAndService'
     And I choose 'independent validation of assertion' for 'dataProtectionBetweenUserAndService--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Asset protection and resilience' page

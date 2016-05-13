@@ -420,7 +420,7 @@ Feature: Submitting a new service for PaaS
 
     When I choose 'Yes' for 'onboardingGuidance'
     And I choose 'service provider assertion' for 'onboardingGuidance--assurance'
-    And I 'check' 'Encrypted PSN service' for 'interconnectionMethods'
+    And I 'check' 'PSN assured service' for 'interconnectionMethods'
     And I choose 'service provider assertion' for 'interconnectionMethods--assurance'
     And I click 'Save and continue'
     Then I should be on the 'Secure service administration' page
