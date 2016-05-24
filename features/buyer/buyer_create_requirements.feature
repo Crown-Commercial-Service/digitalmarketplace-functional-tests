@@ -60,7 +60,7 @@ Scenario: "Ready to publish" button should not exist yet
   Given I am on the 'Find an individual specialist' requirements overview page
   When I click the 'Review and publish your requirements' link
   Then I am taken to the 'Publish your requirements and evaluation criteria' page
-  And The 'Publish Requirements' button is 'not' available
+  And The 'Publish requirements' button is 'not' available
 
 Scenario: Complete all mandatory buyer requirements questions
   Given I am on the 'Find an individual specialist' requirements overview page
@@ -275,7 +275,7 @@ Scenario: Publish requirements button is visible
   When I click the 'Review and publish your requirements' link
 
   Then I am taken to the 'Publish your requirements and evaluation criteria' page
-  And The 'Publish Requirements' button is 'made' available
+  And The 'Publish requirements' button is 'made' available
 
 Scenario: Created buyer requirements can be deleted
   Given A draft 'Find an individual specialist' buyer requirements with the name 'Buyer Requirements to be deleted' exists and I am on the "Overview of work" page
