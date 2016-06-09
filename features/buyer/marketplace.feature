@@ -1,7 +1,7 @@
 @_smoke-tests
 Feature: Buyer user journey through Digital Marketplace
 
-Scenario: User can see the main links on the landing page
+Scenario: User can see the main links on the homepage
   Given I am on the homepage
   Then I see the link to 'Find cloud technology and support'
   And I see the link to 'Buy physical datacentre space for legacy systems'
@@ -11,3 +11,7 @@ Scenario: User can see the main links on the landing page
   And I see the link to 'Find a user research lab'
   And I see the link to 'View Digital Outcomes and Specialists opportunities'
   And I see the link to 'Create a supplier account'
+
+Scenario: User can click through to g-cloud page
+  Given I am on the homepage
+  
