@@ -10,3 +10,4 @@ Scenario: User can see the main links on the landing page
   And I see the link to 'Find user research participants'
   And I see the link to 'Find a user research lab'
   And I see the link to 'View Digital Outcomes and Specialists opportunities'
+  And I see the link to 'Create a supplier account'
