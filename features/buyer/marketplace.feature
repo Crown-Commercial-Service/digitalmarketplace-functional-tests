@@ -22,3 +22,4 @@ Scenario: User can get the SaaS search results
   When I click the 'Software as a Service' link
   Then I am on the 'Search results' page
   And I see the 'Software as a Service' breadcrumb
+  And I see a service in the search results
