@@ -14,4 +14,5 @@ Scenario: User can see the main links on the homepage
 
 Scenario: User can click through to g-cloud page
   Given I am on the homepage
-  
+  When I click the 'Find cloud technology and support' link
+  Then I am on the 'Cloud technology and support' page 

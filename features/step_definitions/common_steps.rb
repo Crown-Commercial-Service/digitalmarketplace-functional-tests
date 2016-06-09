@@ -3,10 +3,14 @@ Given /^I am on the homepage$/ do
   page.should have_content("Digital Marketplace")
 end
 
+When /^I click the '(.*)' link$/ do |link|
+  page.click_link(link)
+end
+
 Then /^I see the link to '(.*)'$/ do |link_text|
   page.should have_link(link_text)
 end
 
-When /^I click the '(.*)' link$/ do |link|
-  page.click_link(link)
+Then /^I am on the '(.*)' page$/ do |page_name|
+  find('h1').should have_content(/#{page_name}/i)
 end
