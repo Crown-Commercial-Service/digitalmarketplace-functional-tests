@@ -12,6 +12,11 @@ When /^I click the '(.*)' link$/ do |link|
   page.click_link(link)
 end
 
+Then /^I see the '(.*)' breadcrumb$/ do |breadcrumb_text|
+  breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
+  breadcrumb.text().should match(breadcrumb_text)
+end
+
 Then /^I see the '(.*)' link$/ do |link_text|
   page.should have_link(link_text)
 end

@@ -21,3 +21,4 @@ Scenario: User can get the SaaS search results
   Given I am on the /g-cloud page
   When I click the 'Software as a Service' link
   Then I am on the 'Search results' page
+  And I see the 'Software as a Service' breadcrumb
