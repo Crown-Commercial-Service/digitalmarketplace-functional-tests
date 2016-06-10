@@ -1,4 +1,4 @@
-@_smoke-tests
+@smoke-tests
 Feature: Buyer user journey through Digital Marketplace
 
 Scenario: User can see the main links on the homepage
