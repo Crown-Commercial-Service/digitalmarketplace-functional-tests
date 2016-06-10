@@ -150,7 +150,7 @@ Scenario: Complete all mandatory buyer requirements questions
   And I click the 'Save and continue' button
   Then I am taken to the 'Evaluation criteria' page
 
-  When I click the 'Choose assessment method' link
+  When I click the 'Edit' link for 'Assessment methods'
   Then I am taken to the 'How you’ll assess specialists' page
   When I choose 'Interview' for 'evaluationType'
   And I click the 'Save and continue' button
