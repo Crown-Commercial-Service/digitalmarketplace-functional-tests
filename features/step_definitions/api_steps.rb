@@ -7,14 +7,6 @@ require "test/unit"
 include Test::Unit::Assertions
 
 
-Given /^I have a random service from the API$/ do
-  response = call_api(:get, "/services", params: {page: 1 + rand(dm_pagination_limit()), status: "published"})
-  @service = JSON.parse(response.body)['services'][rand(dm_pagination_limit())]
-  puts "Service ID: #{@service['id']}"
-  puts "Service name: #{@service['serviceName']}"
-end
-
-
 Given /^I have a URL for "([^\"]*)"$/ do |app|
   app_domain = domain_for_app(app)
   assert_not_nil("#{app_domain}", "No URL supplied for #{app}")

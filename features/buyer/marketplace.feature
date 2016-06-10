@@ -14,12 +14,21 @@ Scenario: User can see the main links on the homepage
 
 Scenario: User can click through to g-cloud page
   Given I am on the homepage
-  When I click the 'Find cloud technology and support' link
+  When I click 'Find cloud technology and support'
   Then I am on the 'Cloud technology and support' page
 
 Scenario: User can get the SaaS search results
   Given I am on the /g-cloud page
-  When I click the 'Software as a Service' link
+  When I click 'Software as a Service'
   Then I am on the 'Search results' page
   And I see the 'Software as a Service' breadcrumb
   And I see a service in the search results
+
+Scenario: User is able to search by service name and have result returned.
+  Given I am on the /g-cloud page
+  And I have a random g-cloud service from the API
+  When I enter that service.serviceName in the 'q' field
+  And I click 'Show services'
+  Then I see that service.serviceName as the value of the 'q' field
+  And I see that service in search results
+

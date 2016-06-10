@@ -125,10 +125,6 @@ Then /I am presented with the admin search page$/ do
   page.should have_link('Download user lists')
 end
 
-When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
-  step "I enter '\"#{@service[attr_name]}\"' in the '#{field_name}' field"
-end
-
 When /I enter the email address for the '(.*)' user in the '(.*)' field$/ do |user,field_name|
   user_email = {
     "DM Functional Test Supplier User 1" => dm_supplier_user_email(),
@@ -136,25 +132,6 @@ When /I enter the email address for the '(.*)' user in the '(.*)' field$/ do |us
     "DM Functional Test Supplier User 3" => dm_supplier_user3_email()
   }[user]
   step "I enter '#{user_email}' in the '#{field_name}' field"
-end
-
-When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
-  @value_of_interest = @value_of_interest || Hash.new
-  page.fill_in(field_name, with: value)
-
-  if current_url.include?('company-contact-details')
-    field_name = 'contact_email_address'
-  elsif current_url.include?('create-your-account')
-    field_name = 'your_email_address'
-  else
-    field_name = field_name
-  end
-
-  @value_of_interest[field_name] = value
-
-  if field_name.include?('supplier_id')
-    @servicesupplierID = value
-  end
 end
 
 And /I click the '(.*)' button$/ do |button_name|
@@ -575,10 +552,6 @@ When /^I change '(.*)' file to '(.*)'$/ do |document_to_change,new_document|
     "//*[contains(@name, '#{document_to_change}')]"
   ).click
   attach_file(document_to_change, File.join(Dir.pwd, 'fixtures', new_document))
-end
-
-When /I click '(.*)'$/ do |button_link_name|
-  page.click_link_or_button(button_link_name)
 end
 
 When /I navigate to the '(.*)' '(.*)' page$/ do |action,page_name|
@@ -1226,14 +1199,6 @@ And /All filters for '(.*)' are available$/ do |lot_name|
     filter_to_check("Categories","Compute","")
     filter_to_check("Categories","Storage","")
   end
-end
-
-Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_name|
-  step "I am on a page with '\"#{@service[attr_name]}\"' in search summary text"
-end
-
-Then /I am on a page with '(.*)' in search summary text$/ do |value|
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
 Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
@@ -2007,12 +1972,4 @@ Then /^I am taken back to the "Overview of work" page with the (.*) question and
   end
 
   page.all(:xpath, "//div/h2[text()][contains(text(), 'Clarification questions')]/..//tbody/tr").length.should == store.question_count
-end
-
-Then /^Form field '(.*)' should contain '(.*)'$/ do |field, value|
-  if page.has_field?(field, {type: 'radio'}) or page.has_field?(field, {type: 'checkbox'})
-    page.find_field(field, {checked: true}).value.should == value
-  else
-    page.find_field(field).value.should == value
-  end
 end
