@@ -30,5 +30,5 @@ Scenario: User is able to search by service name and have result returned.
   When I enter that service.serviceName in the 'q' field
   And I click 'Show services'
   Then I see that service.serviceName as the value of the 'q' field
-  And I see that service in search results
+  And I see that service in the search results
 
