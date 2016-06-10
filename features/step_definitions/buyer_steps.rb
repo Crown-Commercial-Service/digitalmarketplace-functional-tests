@@ -1,6 +1,6 @@
 require 'securerandom'
 
-Given (/^I have a buyer user account$/) do
+Given (/^I have a buyer user$/) do
   randomString = SecureRandom.hex
   password = SecureRandom.hex
   user_data = {
@@ -13,7 +13,9 @@ Given (/^I have a buyer user account$/) do
 
   response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
   response.code.should be(201), response.body
-  @user = JSON.parse(response.body)["users"][0]
+  @user = JSON.parse(response.body)["users"]
+  @user['password'] = password
+  puts "Email address: #{@user['emailAddress']}"
 end
 
 Then (/^I see a service in the search results$/) do
@@ -21,7 +23,7 @@ Then (/^I see a service in the search results$/) do
 end
 
 Then (/^I see that service\.(.*) as the value of the '(.*)' field$/) do |attr_name, field|
-  step "I see '\"#{@service.fetch(attr_name)}\"' as the value of the '#{field}' field"
+  step "I see '#{@service.fetch(attr_name)}' as the value of the '#{field}' field"
 end
 
 Then (/^I see that service in the search results$/) do

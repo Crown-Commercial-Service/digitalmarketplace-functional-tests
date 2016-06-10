@@ -22,12 +22,19 @@ Given /^I have a random g-cloud service from the API$/ do
   puts "Service name: #{@service['serviceName']}"
 end
 
-When /I click '(.*)'$/ do |button_link_name|
-  page.click_link_or_button(button_link_name)
+When /I click '(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
+  if elem_type == 'button'
+    page.click_button(button_link_name)
+  elsif elem_type == 'link'
+    page.click_link(button_link_name)
+  else
+    page.click_link_or_button(button_link_name)
+  end
 end
 
-When /^I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
-  step "I enter '\"#{@service.fetch(attr_name)}\"' in the '#{field_name}' field"
+When /^I enter that (.*)\.(.*) in the '(.*)' field$/ do |variable_name, attr_name, field_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field"
 end
 
 When /^I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
