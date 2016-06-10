@@ -1,4 +1,5 @@
 require 'uri'
+require 'securerandom'
 
 Given /^I am on the homepage$/ do
   page.visit("#{dm_frontend_domain}")
@@ -37,6 +38,13 @@ When /^I enter that (.*)\.(.*) in the '(.*)' field$/ do |variable_name, attr_nam
   step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field"
 end
 
+When /^I enter a random value in the '(.*)' field$/ do |field_name|
+  @fields||= {}
+  @fields[field_name] = SecureRandom.hex
+  puts "#{field_name}: #{@fields[field_name]}"
+  step "I enter '#{@fields[field_name]}' in the '#{field_name}' field"
+end
+
 When /^I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   page.fill_in(field_name, with: value)
 end
@@ -50,8 +58,13 @@ Then /^I see the '(.*)' link$/ do |link_text|
   page.should have_link(link_text)
 end
 
+Then /^I am on that (.*)\.(.*) page$/ do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I am on the '#{var.fetch(attr_name)}' page"
+end
+
 Then /^I am on the '(.*)' page$/ do |page_name|
-  find('h1').should have_content(/#{page_name}/i)
+  find('h1').text.should == normalize_whitespace(page_name)
 end
 
 Then /I see '(.*)' as the value of the '(.*)' field$/ do |value, field|

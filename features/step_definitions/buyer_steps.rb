@@ -18,12 +18,24 @@ Given (/^I have a buyer user$/) do
   puts "Email address: #{@user['emailAddress']}"
 end
 
+Given (/^I am logged in as a buyer user$/) do
+  steps %Q{
+    Given I have a buyer user
+    And I am on the /login page
+    When I enter that user.emailAddress in the 'email_address' field
+    And I enter that user.password in the 'password' field
+    And I click 'Log in' button
+    Then I am on the 'Digital Marketplace' page
+  }
+end
+
 Then (/^I see a service in the search results$/) do
   page.should have_selector(:css, "div.search-result")
 end
 
-Then (/^I see that service\.(.*) as the value of the '(.*)' field$/) do |attr_name, field|
-  step "I see '#{@service.fetch(attr_name)}' as the value of the '#{field}' field"
+Then (/^I see that (.*)\.(.*) as the value of the '(.*)' field$/) do |variable_name, attr_name, field|
+  var = instance_variable_get("@#{variable_name}")
+  step "I see '#{var.fetch(attr_name)}' as the value of the '#{field}' field"
 end
 
 Then (/^I see that service in the search results$/) do
