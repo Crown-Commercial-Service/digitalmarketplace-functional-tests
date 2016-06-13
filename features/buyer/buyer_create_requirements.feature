@@ -249,6 +249,7 @@ Scenario: Complete all optional requirements questions
 
   When I click the 'Return to overview' link
   Then I am taken to the 'Find an individual specialist' requirements overview page
+  And 'Describe question and answer session' section is marked as complete
 
 Scenario: Check the requirement is listed on the buyer dashboard
   Given I navigate directly to the page '/buyers'
