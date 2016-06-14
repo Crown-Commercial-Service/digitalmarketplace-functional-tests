@@ -1823,10 +1823,6 @@ And /There is no agreement available on the page$/ do
   page.should have_no_selector(:xpath, "//tbody/tr[@class='summary-item-row']/*/span[contains(text(), 'G-Cloud 7 countersigned agreement')]")
 end
 
-Given /^I navigate directly to the page '(.*)'$/ do |url|
-  page.visit("#{dm_frontend_domain}#{url}")
-end
-
 Then /I am on the '(.*)' page$/ do |page_name|
   if page_name == 'Create supplier account'
     page.should have_content("#{page_name}")
