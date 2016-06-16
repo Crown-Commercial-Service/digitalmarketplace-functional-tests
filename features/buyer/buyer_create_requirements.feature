@@ -28,7 +28,9 @@ Scenario: Start creating buyer requirements for an individual specialist
   Then I am taken to the 'Find an individual specialist' requirements overview page
 
 Scenario: Newly created buyer requirements should be listed on the buyer's dashboard
-  Given I navigate directly to the page '/buyers'
+  Given I am on the 'Digital Marketplace' landing page
+  When I click the 'View your account' link
+  Then I am presented with the 'DM Functional Test Buyer User 1' 'Buyer' dashboard page
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
 
 Scenario: Verify form values for information that has been provided so far
@@ -252,7 +254,9 @@ Scenario: Complete all optional requirements questions
   And 'Describe question and answer session' section is marked as complete
 
 Scenario: Check the requirement is listed on the buyer dashboard
-  Given I navigate directly to the page '/buyers'
+  Given I am on the 'Digital Marketplace' landing page
+  When I click the 'View your account' link
+  Then I am presented with the 'DM Functional Test Buyer User 1' 'Buyer' dashboard page
   Then The buyer requirements for 'Find an individual specialist' 'is' listed on the buyer's dashboard
 
 Scenario: Edit Requirements title and verify the change made, on the summary page (Mandatory requirement)
