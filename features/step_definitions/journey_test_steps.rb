@@ -860,15 +860,15 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   when 'Administrator'
     expected_links = ['Change name', 'Users', 'Services']
     page.should have_no_link('Edit declaration')
-    page.should have_no_link('Download agreement')
-    page.should have_no_link('Download signed agreement')
-    page.should have_no_link('Upload countersigned agreement')
+    page.should have_no_link('Agreement')
+    page.should have_no_link('Signed agreement')
+    page.should have_no_link('Countersigned agreement')
   when 'CCS Sourcing'
     expected_links = [
       'Edit declaration',
-      'Download agreement',
-      'Download signed agreement',
-      'Upload countersigned agreement'
+      'Agreement',
+      'Signed agreement',
+      'Countersigned agreement'
     ]
     page.should have_no_link('Change name')
     page.should have_no_link('Users')
@@ -877,9 +877,9 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
     expected_links = ['Users', 'Services']
     page.should have_no_link('Change name')
     page.should have_no_link('Edit declaration')
-    page.should have_no_link('Download agreement')
-    page.should have_no_link('Download signed agreement')
-    page.should have_no_link('Upload countersigned agreement')
+    page.should have_no_link('Agreement')
+    page.should have_no_link('Signed agreement')
+    page.should have_no_link('Countersigned agreement')
   else
     fail("Invalid user on admin suppliers page #{@user_type}")
   end
