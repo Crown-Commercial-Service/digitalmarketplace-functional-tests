@@ -26,4 +26,4 @@ Scenario: Supplier successfully responds to an opportunity
   And I enter '23/03/2015' in the 'availability' field
   And I enter '100' in the 'dayRate' field
   And I click the 'Apply for this opportunity' button
-  Then I am presented with the message 'Your response to ‘Individual Specialist-Buyer Requirements’ has been submitted.'
+  Then I am taken to the 'Your response to ‘Individual Specialist-Buyer Requirements’ has been sent' page
