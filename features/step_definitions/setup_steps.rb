@@ -264,6 +264,7 @@ def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
     "userId" => user_id,
     "workingArrangements" => "Working from home",
     "workplaceAddress" => "Aviation House",
+    "requirementsLength" => "2 weeks"
   })
   brief_data["updated_by"] = "functional tests"
 
