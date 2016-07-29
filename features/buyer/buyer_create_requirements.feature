@@ -161,6 +161,13 @@ Scenario: Complete all mandatory buyer requirements questions
   When I click the 'Return to overview' link
   Then I am taken to the 'Find an individual specialist' requirements overview page
 
+  When I click the 'Set how long your requirements will be live for' link
+  Then I am taken to the 'Set how long your requirements will be live for' page
+
+  When I choose '2 weeks' for 'requirementsLength'
+  And I click 'Save and continue'
+  Then I am taken to the 'Find an individual specialist' requirements overview page
+
 Scenario: Verify sections on the overview page are ticked
   Given I am on the 'Find an individual specialist' requirements overview page
   Then 'Title' section is marked as complete
