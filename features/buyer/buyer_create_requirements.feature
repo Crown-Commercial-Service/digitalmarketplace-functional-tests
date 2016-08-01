@@ -1,4 +1,4 @@
-@not-production @functional-test @write-brief
+@not-production @functional-test
 Feature: Buyer create buyer requirements
 
 Background: Login to Digital Marketplace as the newly created buyer
@@ -161,8 +161,8 @@ Scenario: Complete all mandatory buyer requirements questions
   When I click the 'Return to overview' link
   Then I am taken to the 'Find an individual specialist' requirements overview page
 
-  When I click the 'Set how long your requirements will be live for' link
-  Then I am taken to the 'Set how long your requirements will be live for' page
+  When I click the 'Set how long your requirements will be open for' link
+  Then I am taken to the 'Set how long your requirements will be open for' page
 
   When I choose '2 weeks' for 'requirementsLength'
   And I click 'Save and continue'
@@ -259,6 +259,7 @@ Scenario: Complete all optional requirements questions
   When I click the 'Return to overview' link
   Then I am taken to the 'Find an individual specialist' requirements overview page
   And 'Describe question and answer session' section is marked as complete
+  And 'Set how long your requirements will be open for' section is marked as complete
 
 Scenario: Check the requirement is listed on the buyer dashboard
   Given I am on the 'Digital Marketplace' landing page
