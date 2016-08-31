@@ -276,10 +276,9 @@ end
 
 def publish_and_return_brief(brief_id)
   publish_brief_data = {
-    updated_by: "functional tests",
-    briefs: {status: "live"}
+    updated_by: "functional tests"
   }
-  response = call_api(:put, "/briefs/#{brief_id}/status", payload: publish_brief_data)
+  response = call_api(:post, "/briefs/#{brief_id}/publish", payload: publish_brief_data)
   response.code.should be(200), response.body
   brief = JSON.parse(response.body)["briefs"]
   return brief
