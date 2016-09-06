@@ -1739,12 +1739,12 @@ Then /^the framework agreement list is empty$/ do
   page.all(:css, ".summary-item-row").length.should == 0
 end
 
-Then /^the first signed agreement should be for supplier '(.*)'$/ do |supplier_name|
-  page.first(:css, ".summary-item-row").first("td").text().should == supplier_name
+Then /^the last signed agreement should be for supplier '(.*)'$/ do |supplier_name|
+  page.all(:css, ".summary-item-row").last().first("td").text().should == supplier_name
 end
 
-When /^I click the first download agreement link$/ do
-  path = page.first(:css, ".summary-item-row a")[:href]
+When /^I click the last download agreement link$/ do
+  path = page.all(:css, ".summary-item-row a").last()[:href]
   url = "#{dm_frontend_domain}#{path}"
   headers = {"Cookie" => page.response_headers['Set-Cookie']}
   @response = RestClient.get(url, headers){|response, request, result| response}
