@@ -23,7 +23,7 @@ Given /^I have a random g-cloud service from the API$/ do
   puts "Service name: #{@service['serviceName']}"
 end
 
-When /I click '(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
+When /I click (?:the )?'(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
     page.click_button(button_link_name)
   elsif elem_type == 'link'
@@ -51,7 +51,7 @@ end
 
 Then /^I see the '(.*)' breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
-  breadcrumb.text().should match(breadcrumb_text)
+  breadcrumb.text().should ==  breadcrumb_text
 end
 
 Then /^I see the '(.*)' link$/ do |link_text|
@@ -73,4 +73,32 @@ Then /I see '(.*)' as the value of the '(.*)' field$/ do |value, field|
   else
     page.find_field(field).value.should == value
   end
+end
+
+Then (/^I see that ([a-z_]+)\.([a-z_]+) as the value of the '(.*)' field$/) do |variable_name, attr_name, field|
+  var = instance_variable_get("@#{variable_name}")
+  step "I see '#{var.fetch(attr_name)}' as the value of the '#{field}' field"
+end
+
+Then(/^I see that ([a-z_]+)\.([a-z_]+) as the page's h1$/) do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I am on the '#{normalize_whitespace var.fetch(attr_name)}' page"
+end
+
+Then(/^I see '(.*)' in the search summary text$/) do |value|
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
+end
+
+Then(/^I see that ([a-z_]+)\.([a-z_]+) in the search summary text$/) do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I see '#{var.fetch(attr_name)}' in the search summary text"
+end
+
+Then(/^I see '(.*)' as the page header context$/) do |value|
+  first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
+end
+
+Then(/^I see that ([a-z_]+)\.([a-z_]+) as the page header context$/) do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I see '#{var.fetch(attr_name)}' as the page header context"
 end
