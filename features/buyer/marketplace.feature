@@ -63,3 +63,13 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   When I click a random result in the list of results returned
   Then I see that result.title as the page's h1
   And I see that result.supplier_name as the page header context
+
+Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
+  Given I am on the /g-cloud page
+  And I have a random g-cloud service from the API
+  When I click that service.lotName
+  And I enter that service.id in the 'q' field
+  And I click 'Filter'
+  Then I see that service.id in the search summary text
+  And I see that service.id as the value of the 'q' field
+  And I see that service in the search results

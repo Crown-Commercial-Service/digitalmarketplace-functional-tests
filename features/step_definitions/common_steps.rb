@@ -33,6 +33,11 @@ When /I click (?:the )?'(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
+When /I click that (\w+)\.(\w+) ?(button|link)?$/ do |variable_name, attr_name, elem_type|
+  var = instance_variable_get("@#{variable_name}")
+  step "I click '#{var.fetch(attr_name)}' #{elem_type}"
+end
+
 When /^I enter that (\w+)\.(\w+) in the '(.*)' field$/ do |variable_name, attr_name, field_name|
   var = instance_variable_get("@#{variable_name}")
   step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field"
@@ -51,7 +56,7 @@ end
 
 Then /^I see the '(.*)' breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
-  breadcrumb.text().should ==  breadcrumb_text
+  breadcrumb.text().should == breadcrumb_text
 end
 
 Then /^I see the '(.*)' link$/ do |link_text|
