@@ -44,7 +44,7 @@ Scenario: User is able to search by service id and have result returned.
   When I enter that service.id in the 'q' field
   And I click 'Show services'
   Then I see that service.id in the search summary text
-  Then I see that service.id as the value of the 'q' field
+  And I see that service.id as the value of the 'q' field
   And I see that service in the search results
 
 Scenario: User is able to search by service name and have result returned.
@@ -53,7 +53,7 @@ Scenario: User is able to search by service name and have result returned.
   When I enter that service.title in the 'q' field
   And I click 'Show services'
   Then I see that service.title in the search summary text
-  Then I see that service.title as the value of the 'q' field
+  And I see that service.title as the value of the 'q' field
   And I see that service in the search results
 
 Scenario: User is able to navigate to service detail page via selecting the service from the search results
