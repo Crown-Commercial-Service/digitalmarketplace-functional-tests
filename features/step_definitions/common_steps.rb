@@ -33,7 +33,7 @@ When /I click (?:the )?'(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
-When /^I enter that (.*)\.(.*) in the '(.*)' field$/ do |variable_name, attr_name, field_name|
+When /^I enter that (\w+)\.(\w+) in the '(.*)' field$/ do |variable_name, attr_name, field_name|
   var = instance_variable_get("@#{variable_name}")
   step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field"
 end
@@ -75,12 +75,12 @@ Then /I see '(.*)' as the value of the '(.*)' field$/ do |value, field|
   end
 end
 
-Then (/^I see that ([a-z_]+)\.([a-z_]+) as the value of the '(.*)' field$/) do |variable_name, attr_name, field|
+Then (/^I see that (\w+)\.(\w+) as the value of the '(.*)' field$/) do |variable_name, attr_name, field|
   var = instance_variable_get("@#{variable_name}")
   step "I see '#{var.fetch(attr_name)}' as the value of the '#{field}' field"
 end
 
-Then(/^I see that ([a-z_]+)\.([a-z_]+) as the page's h1$/) do |variable_name, attr_name|
+Then(/^I see that (\w+)\.(\w+) as the page's h1$/) do |variable_name, attr_name|
   var = instance_variable_get("@#{variable_name}")
   step "I am on the '#{normalize_whitespace var.fetch(attr_name)}' page"
 end
@@ -89,7 +89,7 @@ Then(/^I see '(.*)' in the search summary text$/) do |value|
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
-Then(/^I see that ([a-z_]+)\.([a-z_]+) in the search summary text$/) do |variable_name, attr_name|
+Then(/^I see that (\w+)\.(\w+) in the search summary text$/) do |variable_name, attr_name|
   var = instance_variable_get("@#{variable_name}")
   step "I see '#{var.fetch(attr_name)}' in the search summary text"
 end
@@ -98,7 +98,7 @@ Then(/^I see '(.*)' as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
 end
 
-Then(/^I see that ([a-z_]+)\.([a-z_]+) as the page header context$/) do |variable_name, attr_name|
+Then(/^I see that (\w+)\.(\w+) as the page header context$/) do |variable_name, attr_name|
   var = instance_variable_get("@#{variable_name}")
   step "I see '#{var.fetch(attr_name)}' as the page header context"
 end
