@@ -20,7 +20,7 @@ Then (/^I see that service in the search results$/) do
   ).text.should == @service['frameworkName']
 end
 
-When(/^I click a random result in the list of results returned$/) do
+When(/^I click a random result in the list of service results returned$/) do
   search_results = all(:xpath, "//*[@class='search-result']")
   selected_result = search_results[rand(search_results.length)]
 

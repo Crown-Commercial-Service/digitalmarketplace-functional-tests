@@ -27,6 +27,30 @@ Given /^I have a random g-cloud service from the API$/ do
   puts "Service name: #{@service['serviceName']}"
 end
 
+# TODO merge with above step
+Given /^I have a random dos brief from the API$/ do
+  params = {status: "live,closed", framework: "digital-outcomes-and-specialists"}
+  page_one = call_api(:get, "/briefs", params: params)
+  last_page_url = JSON.parse(page_one.body)['links']['last']
+  params[:page] = if last_page_url then
+                    1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
+                  else
+                    1
+                  end
+  random_page = call_api(:get, "/briefs", params: params)
+  briefs = JSON.parse(random_page.body)['briefs']
+  @brief = briefs[rand(briefs.length)]
+
+  # furnish the brief with the cosmetic status label used by the frontend
+  @brief['statusLabel'] = {
+    "live" => "Open",
+    "closed" => "Closed",
+  }[@brief['status']]
+
+  puts "Brief ID: #{@brief['id']}"
+  puts "Brief name: #{@brief['title']}"
+end
+
 When /I click (?:the )?'(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
     page.click_button(button_link_name)
@@ -40,6 +64,15 @@ end
 When /I click that (\w+)\.(\w+) ?(button|link)?$/ do |variable_name, attr_name, elem_type|
   var = instance_variable_get("@#{variable_name}")
   step "I click '#{var.fetch(attr_name)}' #{elem_type}"
+end
+
+When /I check (?:the )?'(.*)' checkbox$/ do |checkbox_label|
+  page.check(checkbox_label)
+end
+
+When /I check that (\w+)\.(\w+) checkbox$/ do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I check '#{var.fetch(attr_name)}' checkbox"
 end
 
 When /^I enter that (\w+)\.(\w+) in the '(.*)' field$/ do |variable_name, attr_name, field_name|

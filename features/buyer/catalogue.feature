@@ -1,5 +1,5 @@
 @smoke-tests
-Feature: Buyer user journey through Digital Marketplace
+Feature: Passive catalogue buyer journey
 
 Scenario: User can see the main links on the homepage
   Given I am on the homepage
@@ -60,7 +60,7 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   Given I am on the /g-cloud page
   When I click 'Infrastructure as a Service'
   Then I am on the 'Search results' page
-  When I click a random result in the list of results returned
+  When I click a random result in the list of service results returned
   Then I see that result.title as the page's h1
   And I see that result.supplier_name as the page header context
 
