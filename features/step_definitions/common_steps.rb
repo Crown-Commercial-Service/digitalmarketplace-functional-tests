@@ -15,7 +15,11 @@ Given /^I have a random g-cloud service from the API$/ do
   params = {status: "published", framework: "g-cloud-6,g-cloud7"}
   page_one = call_api(:get, "/services", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
-  params[:page] = 1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
+  params[:page] = if last_page_url then
+                    1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
+                  else
+                    1
+                  end
   random_page = call_api(:get, "/services", params: params)
   services = JSON.parse(random_page.body)['services']
   @service = services[rand(services.length)]
