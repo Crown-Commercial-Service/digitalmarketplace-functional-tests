@@ -64,3 +64,17 @@ Scenario: Filtering by both status and lot doesn't increase result count
   And I check a random 'lot' checkbox
   And I click the 'Filter' button
   Then I see that the stated number of results does not exceed that result_count
+
+Scenario: Checking all lots returns all results
+  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  When I note the result_count
+  And I check all 'lot' checkboxes
+  And I click the 'Filter' button
+  Then I see that the stated number of results equals that result_count
+
+Scenario: Checking all statuses returns all results
+  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  When I note the result_count
+  And I check all 'status' checkboxes
+  And I click the 'Filter' button
+  Then I see that the stated number of results equals that result_count
