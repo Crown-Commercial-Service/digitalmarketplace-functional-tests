@@ -42,3 +42,25 @@ Scenario: User is able to navigate to opportunity detail page via selecting the 
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I click a random result in the list of opportunity results returned
   Then I see that result.title as the page's h1
+
+Scenario: Filtering by lot doesn't increase result count
+  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  When I note the result_count
+  And I check a random 'lot' checkbox
+  And I click the 'Filter' button
+  Then I see that the stated number of results does not exceed that result_count
+
+Scenario: Filtering by status doesn't increase result count
+  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  When I note the result_count
+  And I check a random 'status' checkbox
+  And I click the 'Filter' button
+  Then I see that the stated number of results does not exceed that result_count
+
+Scenario: Filtering by both status and lot doesn't increase result count
+  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  When I note the result_count
+  And I check a random 'status' checkbox
+  And I check a random 'lot' checkbox
+  And I click the 'Filter' button
+  Then I see that the stated number of results does not exceed that result_count

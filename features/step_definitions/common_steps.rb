@@ -75,6 +75,13 @@ When /I check that (\w+)\.(\w+) checkbox$/ do |variable_name, attr_name|
   step "I check '#{var.fetch(attr_name)}' checkbox"
 end
 
+When /I check a random '(.*)' checkbox$/ do |checkbox_name|
+  checkboxes = all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']")
+  checkbox = checkboxes[rand(checkboxes.length)]
+  page.check(checkbox[:id])
+  puts "Checkbox value: #{checkbox.value}"
+end
+
 When /^I enter that (\w+)\.(\w+) in the '(.*)' field$/ do |variable_name, attr_name, field_name|
   var = instance_variable_get("@#{variable_name}")
   step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field"

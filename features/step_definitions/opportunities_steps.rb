@@ -31,3 +31,12 @@ When(/^I click a random result in the list of opportunity results returned$/) do
 
   a_elem.click
 end
+
+When(/^I note the result_count$/) do
+  @result_count = page.first(:css, ".search-summary-count").text.to_i
+end
+
+Then (/^I see that the stated number of results does not exceed that (\w+)$/) do |variable_name|
+  var = instance_variable_get("@#{variable_name}")
+  var.should >= page.first(:css, ".search-summary-count").text.to_i
+end
