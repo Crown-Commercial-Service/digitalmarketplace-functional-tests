@@ -1,5 +1,3 @@
-require 'securerandom'
-
 Then (/^I see a service in the search results$/) do
   page.should have_selector(:css, "div.search-result")
 end
@@ -24,7 +22,7 @@ end
 
 When(/^I click a random result in the list of results returned$/) do
   search_results = all(:xpath, "//*[@class='search-result']")
-  selected_result = search_results[SecureRandom.random_number(search_results.length)]
+  selected_result = search_results[rand(search_results.length)]
 
   @result = @result || Hash.new
 
