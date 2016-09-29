@@ -28,6 +28,23 @@ Given /^I have a random g-cloud service from the API$/ do
 end
 
 # TODO merge with above step
+Given /^I have a random g-cloud supplier from the API$/ do
+  params = {framework: "g-cloud"}
+  page_one = call_api(:get, "/suppliers", params: params)
+  last_page_url = JSON.parse(page_one.body)['links']['last']
+  params[:page] = if last_page_url then
+                    1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
+                  else
+                    1
+                  end
+  random_page = call_api(:get, "/suppliers", params: params)
+  suppliers = JSON.parse(random_page.body)['suppliers']
+  @supplier = suppliers[rand(suppliers.length)]
+  puts "Supplier ID: #{@supplier['id']}"
+  puts "Supplier name: #{@supplier['name']}"
+end
+
+# TODO merge with above step
 Given /^I have a random dos brief from the API$/ do
   params = {status: "live,closed", framework: "digital-outcomes-and-specialists"}
   page_one = call_api(:get, "/briefs", params: params)
@@ -61,9 +78,9 @@ When /I click (?:the )?'(.*)' ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
-When /I click that (\w+)\.(\w+) ?(button|link)?$/ do |variable_name, attr_name, elem_type|
+When /I click that (\w+)(?:\.(\w+))? ?(button|link)?$/ do |variable_name, attr_name, elem_type|
   var = instance_variable_get("@#{variable_name}")
-  step "I click '#{var.fetch(attr_name)}' #{elem_type}"
+  step "I click '#{if attr_name then var.fetch(attr_name) else var end}' #{elem_type}"
 end
 
 When /I check (?:the )?'(.*)' checkbox$/ do |checkbox_label|
@@ -102,6 +119,12 @@ When /^I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   page.fill_in(field_name, with: value)
 end
 
+When(/^I choose a random uppercase letter$/) do
+  letters = ('A'..'Z').to_a
+  @letter = letters[rand(letters.length)]
+  puts "letter: #{@letter}"
+end
+
 Then /^I see the '(.*)' breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
   breadcrumb.text().should == breadcrumb_text
@@ -118,6 +141,11 @@ end
 
 Then /^I am on the '(.*)' page$/ do |page_name|
   find('h1').text.should == normalize_whitespace(page_name)
+end
+
+Then(/^I see the page's h1 ends in that (\w+)(?:\.(\w+))?$/) do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  find('h1').text.should end_with (if attr_name then var.fetch(attr_name) else var end)
 end
 
 Then /I see '(.*)' as the value of the '(.*)' field$/ do |value, field|
