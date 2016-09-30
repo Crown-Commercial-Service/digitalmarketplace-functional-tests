@@ -1,3 +1,5 @@
+require "rest_client"
+
 def call_api(method, path, options={})
   domain = options.delete(:domain) || dm_api_domain
   auth_token = options.delete(:auth_token) || dm_api_access_token
