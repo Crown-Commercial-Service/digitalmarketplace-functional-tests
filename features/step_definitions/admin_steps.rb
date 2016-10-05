@@ -9,3 +9,8 @@ Then (/^I see that supplier in the list of suppliers$/) do
     }
   }.length.should be(1)
 end
+
+Then (/^I see the number of suppliers listed is (\d+)$/) do |supplier_count|
+  # we do a broad match using xpath first
+  page.all(:xpath, "//*[@class='summary-item-row'][.//*[@class='summary-item-field-first']]").length.should be(supplier_count.to_i)
+end

@@ -57,7 +57,7 @@ Given /^I have a random dos brief from the API$/ do
                   else
                     1
                   end
-  random_page = call_api(:get, "/briefs", params: params)
+  random_page = call_api(:get, "/briefs?with_users=true", params: params)
   briefs = JSON.parse(random_page.body)['briefs']
   @brief = briefs[rand(briefs.length)]
 
@@ -152,6 +152,10 @@ Then /^I am on the '(.*)' page$/ do |page_name|
   find('h1').text.should == normalize_whitespace(page_name)
 end
 
+Then /^I see '(.*)' in the page's h1$/ do |page_name_fragment|
+  find('h1').text.should include(normalize_whitespace(page_name_fragment))
+end
+
 Then(/^I see the page's h1 ends in that (\w+)(?:\.(\w+))?$/) do |variable_name, attr_name|
   var = instance_variable_get("@#{variable_name}")
   find('h1').text.should end_with (if attr_name then var.fetch(attr_name) else var end)
@@ -173,6 +177,11 @@ end
 Then(/^I see that (\w+)\.(\w+) as the page's h1$/) do |variable_name, attr_name|
   var = instance_variable_get("@#{variable_name}")
   step "I am on the '#{normalize_whitespace var.fetch(attr_name)}' page"
+end
+
+Then(/^I see that (\w+)\.(\w+) in the page's h1$/) do |variable_name, attr_name|
+  var = instance_variable_get("@#{variable_name}")
+  step "I see '#{normalize_whitespace var.fetch(attr_name)}' in the page's h1"
 end
 
 Then(/^I see '(.*)' in the search summary text$/) do |value|
