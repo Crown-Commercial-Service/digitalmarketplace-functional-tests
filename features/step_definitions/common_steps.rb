@@ -28,8 +28,11 @@ Given /^I have a random g-cloud service from the API$/ do
 end
 
 # TODO merge with above step
-Given /^I have a random g-cloud supplier from the API$/ do
-  params = {framework: "g-cloud"}
+Given /^I have a random (?:([a-z-]+) )?supplier from the API$/ do |metaframework_slug|
+  params = {}
+  if metaframework_slug
+    params['framework'] = metaframework_slug
+  end
   page_one = call_api(:get, "/suppliers", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
   params[:page] = if last_page_url then
@@ -103,20 +106,26 @@ When /I check all '(.*)' checkboxes$/ do |checkbox_name|
   all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']").each do |element| page.check(element[:id]) end
 end
 
-When /^I enter that (\w+)\.(\w+) in the '(.*)' field$/ do |variable_name, attr_name, field_name|
+When /^I enter that (\w+)\.(\w+) in the '(.*)' field( and click its associated '(.*)' button)?$/ do |variable_name, attr_name, field_name, maybe_click_statement, click_button_name|
   var = instance_variable_get("@#{variable_name}")
-  step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field"
+  step "I enter '#{var.fetch(attr_name)}' in the '#{field_name}' field#{maybe_click_statement}"
 end
 
-When /^I enter a random value in the '(.*)' field$/ do |field_name|
+When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
   @fields||= {}
   @fields[field_name] = SecureRandom.hex
   puts "#{field_name}: #{@fields[field_name]}"
-  step "I enter '#{@fields[field_name]}' in the '#{field_name}' field"
+  step "I enter '#{@fields[field_name]}' in the '#{field_name}' field#{maybe_click_statement}"
 end
 
-When /^I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
-  page.fill_in(field_name, with: value)
+When /^I enter '(.*)' in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
+  field_element = page.find_field field_name
+  field_element.set value
+  if maybe_click_statement
+    form_element = field_element.find(:xpath, "ancestor::form")
+    form_element.click_button(click_button_name)
+  end
+  sleep 1
 end
 
 When(/^I choose a random uppercase letter$/) do
