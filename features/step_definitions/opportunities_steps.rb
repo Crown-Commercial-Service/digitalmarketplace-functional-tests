@@ -3,20 +3,19 @@ Then (/^I see an opportunity in the search results$/) do
 end
 
 Then (/^I see that brief in one of the pages that follow from clicking '(.*)'$/) do |next_link_label|
-  until search_result = page.first(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, #{@brief['id']})]]")
+  until page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, #{@brief['id']})]]").any? { |sr_element|
+    # now refine with a much more precise test
+    sr_element.all(:css, "h2.search-result-title > a").any? { |a_element|
+      a_element.text == normalize_whitespace(@brief['title'])
+    } and sr_element.all(:css, ".search-result-metadata-item").any? { |mi_element|
+      mi_element.text == normalize_whitespace(@brief['organisation'])
+    } and sr_element.all(:css, ".search-result-metadata-item").any? { |mi_element|
+      mi_element.text == normalize_whitespace(@brief['lotName'])
+    }
+  }
     page.click_link(next_link_label)
     # if there wasn't another matching "next" link we should have errored out above
   end
-
-  search_result.first(:xpath,
-    ".//h2[@class='search-result-title']/a"
-  ).text.should == normalize_whitespace(@brief['title'])
-  search_result.all(:xpath,
-    ".//*[@class='search-result-metadata-item']"
-  ).find {|r| r.text == normalize_whitespace(@brief['organisation'])}
-  search_result.all(:xpath,
-    ".//*[@class='search-result-metadata-item']"
-  ).find {|r| r.text == normalize_whitespace(@brief['lotName'])}
 end
 
 When(/^I click a random result in the list of opportunity results returned$/) do
