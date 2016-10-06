@@ -16,7 +16,7 @@ When(/^I click the first letter of that supplier\.name$/) do
 end
 
 Then (/^I see that supplier in one of the pages that follow from clicking '(.*)'$/) do |next_link_label|
-  until search_result = page.first(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, #{@supplier['id']})]]")
+  until search_result = page.first(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@supplier['id']}')]]")
     page.click_link(next_link_label)
     # if there wasn't another matching "next" link we should have errored out above
   end
@@ -28,7 +28,7 @@ end
 
 When(/^I click that specific supplier$/) do
   # This step is hardcoded as we want to make sure we don't somehow click a similarly-named supplier
-  link_elem = page.first(:xpath, "//*[@class='search-result']//h2//a[contains(@href, #{@supplier['id']})]")
+  link_elem = page.first(:xpath, "//*[@class='search-result']//h2//a[contains(@href, '#{@supplier['id']}')]")
   # make doubly sure we've got the right link
   link_elem.text.should == normalize_whitespace(@supplier['name'])
   link_elem.click

@@ -3,7 +3,7 @@ Then (/^I see an opportunity in the search results$/) do
 end
 
 Then (/^I see that brief in one of the pages that follow from clicking '(.*)'$/) do |next_link_label|
-  until page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, #{@brief['id']})]]").any? { |sr_element|
+  until page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@brief['id']}')]]").any? { |sr_element|
     # now refine with a much more precise test
     sr_element.all(:css, "h2.search-result-title > a").any? { |a_element|
       a_element.text == normalize_whitespace(@brief['title'])
