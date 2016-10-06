@@ -28,8 +28,16 @@ end
 
 When(/^I click that specific supplier$/) do
   # This step is hardcoded as we want to make sure we don't somehow click a similarly-named supplier
-  link_elem = page.first(:xpath, "//*[@class='search-result']//h2//a[contains(@href, '#{@supplier['id']}')]")
-  # make doubly sure we've got the right link
-  link_elem.text.should == normalize_whitespace(@supplier['name'])
-  link_elem.click
+
+  # we do a broad match using xpath first
+  a_elements = page.all(:xpath, "//*[@class='search-result']//h2//a[contains(@href, '#{@supplier['id']}')]").find_all { |a_element|
+    # now refine with a much more precise test
+    (
+      a_element[:href] =~ Regexp.new('^(.*\D)?'+"#{@supplier['id']}"+'(\D.*)?$')
+    ) and (
+      a_element.text == normalize_whitespace(@supplier['name'])
+    )
+  }
+  a_elements.length.should be(1)
+  a_elements[0].click
 end
