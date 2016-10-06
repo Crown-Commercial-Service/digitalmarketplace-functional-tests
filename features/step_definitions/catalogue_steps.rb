@@ -3,21 +3,23 @@ Then (/^I see a service in the search results$/) do
 end
 
 Then (/^I see that service in the search results$/) do
-  search_results = all(:xpath, ".//div[@class='search-result']")
-  service_result = search_results.find { |r| r.first(:xpath, './h2/a')[:href].include? @service['id']}
-
-  service_result.first(
-    :xpath, "./h2[@class='search-result-title']/a"
-  ).text.should == normalize_whitespace(@service['serviceName'])
-  service_result.first(
-    :xpath, "./p[@class='search-result-supplier']"
-  ).text.should == normalize_whitespace(@service['supplierName'])
-  service_result.first(
-    :xpath, ".//li[@class='search-result-metadata-item'][1]"
-  ).text.should == @service['lotName']
-  service_result.first(
-    :xpath, ".//li[@class='search-result-metadata-item'][2]"
-  ).text.should == @service['frameworkName']
+  # we do a broad match using xpath first
+  page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@service['id']}')]]").find_all { |sr_element|
+    # now refine with a much more precise test
+    sr_element.all(:css, "h2 a").any? { |a_element|
+      (
+        a_element[:href] =~ Regexp.new('^(.*\D)?'+"#{@service['id']}"+'(\D.*)?$')
+      ) and (
+        a_element.text == normalize_whitespace(@service['serviceName'])
+      )
+    } and sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
+      p_element.text == normalize_whitespace(@service['supplierName'])
+    } and sr_element.all(:css, "li.search-result-metadata-item").any? { |li_element|
+      li_element.text == normalize_whitespace(@service['lotName'])
+    } and sr_element.all(:css, "li.search-result-metadata-item").any? { |li_element|
+      li_element.text == normalize_whitespace(@service['frameworkName'])
+    }
+  }.length.should be(1)
 end
 
 When(/^I click a random result in the list of service results returned$/) do
