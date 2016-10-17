@@ -67,6 +67,70 @@ def dm_frontend_domain()
   ENV['DM_FRONTEND_DOMAIN']
 end
 
+def dm_production_supplier_user_email()
+  ENV['DM_PRODUCTION_SUPPLIER_USER_EMAIL']
+end
+
+def dm_production_supplier_user_name()
+  ENV['DM_PRODUCTION_SUPPLIER_USER_NAME']
+end
+
+def dm_production_supplier_user_password()
+  ENV['DM_PRODUCTION_SUPPLIER_USER_PASSWORD']
+end
+
+def dm_production_supplier_user_supplier_id()
+  ENV['DM_PRODUCTION_SUPPLIER_USER_SUPPLIER_ID'].to_i
+end
+
+def dm_production_buyer_user_email()
+  ENV['DM_PRODUCTION_BUYER_USER_EMAIL']
+end
+
+def dm_production_buyer_user_name()
+  ENV['DM_PRODUCTION_BUYER_USER_NAME']
+end
+
+def dm_production_buyer_user_password()
+  ENV['DM_PRODUCTION_BUYER_USER_PASSWORD']
+end
+
+def dm_production_admin_user_email()
+  ENV['DM_PRODUCTION_ADMIN_USER_EMAIL']
+end
+
+def dm_production_admin_user_name()
+  ENV['DM_PRODUCTION_ADMIN_USER_NAME']
+end
+
+def dm_production_admin_user_password()
+  ENV['DM_PRODUCTION_ADMIN_USER_PASSWORD']
+end
+
+def dm_production_admin_ccs_category_user_email()
+  ENV['DM_PRODUCTION_ADMIN_CCS_CATEGORY_USER_EMAIL']
+end
+
+def dm_production_admin_ccs_category_user_name()
+  ENV['DM_PRODUCTION_ADMIN_CCS_CATEGORY_USER_NAME']
+end
+
+def dm_production_admin_ccs_category_user_password()
+  ENV['DM_PRODUCTION_ADMIN_CCS_CATEGORY_USER_PASSWORD']
+end
+
+def dm_production_admin_ccs_sourcing_user_email()
+  ENV['DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_EMAIL']
+end
+
+def dm_production_admin_ccs_sourcing_user_name()
+  ENV['DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_NAME']
+end
+
+def dm_production_admin_ccs_sourcing_user_password()
+  ENV['DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_PASSWORD']
+end
+
 def dm_admin_email()
   ENV['DM_ADMIN_EMAIL']
 end
