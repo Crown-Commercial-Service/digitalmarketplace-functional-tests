@@ -1,7 +1,12 @@
+require 'rspec'
 require 'nokogiri'
 require 'capybara/cucumber'
 require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
+
+RSpec.configure do |config|
+  config.expect_with(:rspec) { |c| c.syntax = :should }
+end
 
 if (ENV['BROWSER'] == 'true')
   require 'selenium-webdriver'
