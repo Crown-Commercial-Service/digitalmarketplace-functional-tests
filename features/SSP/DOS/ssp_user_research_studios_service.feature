@@ -10,11 +10,11 @@ Feature: Submitting a new DOS service for User research studios
 
   Scenario: Select User research studios as a service to add
     Given I am at '/suppliers'
-    When I click 'Continue your Digital Outcomes and Specialists application'
+    When I click 'Continue your Digital Outcomes and Specialists 2 application'
     Then I am taken to the 'Apply to Digital Outcomes and Specialists' page
 
     When I click 'Add, edit and complete services'
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
 
     When I click 'Apply to provide user research studios'
     Then I should be on the 'User research studios services' page
@@ -72,7 +72,7 @@ Feature: Submitting a new DOS service for User research studios
     Given I am at the 'User research studios services' page
     Then There 'is a' draft 'My user research studio service' service(s)
 
-    When I am at the 'Your Digital Outcomes and Specialists services' page
+    When I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'is a' draft 'user research studios' service(s)
 
   Scenario: Provide Lab size
@@ -211,7 +211,7 @@ Feature: Submitting a new DOS service for User research studios
     Then There 'is a' draft 'My user research studio service' service(s)
     Then There 'is a' draft 'COPY OF DRAFT-My user research studio service' service(s)
 
-    When I am at the 'Your Digital Outcomes and Specialists services' page
+    When I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'are' draft 'user research studios' service(s)
 
   @mark_as_complete
@@ -222,7 +222,7 @@ Feature: Submitting a new DOS service for User research studios
     And I am presented with the message 'My user research studio service was marked as complete'
     And There 'is a' completed 'My user research studio service' service(s)
 
-    When I am at the 'Your Digital Outcomes and Specialists services' page
+    When I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'is a' completed 'user research studios' service(s)
 
   Scenario: Edit service that has been completed
@@ -339,7 +339,7 @@ Feature: Submitting a new DOS service for User research studios
     Then There 'is a' draft 'My user research studio service' service(s)
     Then There 'is a' draft 'COPY OF COMPLETED-My user research studio service' service(s)
 
-    When I am at the 'Your Digital Outcomes and Specialists services' page
+    When I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'are' draft 'user research studios' service(s)
 
   Scenario: Add another user research studio service
@@ -374,7 +374,7 @@ Feature: Submitting a new DOS service for User research studios
     And There 'is a' draft 'COPY OF DRAFT-My user research studio service' service(s)
     And There 'is a' completed 'NEW-My user research studio service' service(s)
 
-    When I am at the 'Your Digital Outcomes and Specialists services' page
+    When I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'are' draft 'user research studios' service(s)
     And There 'is a' completed 'user research studios' service(s)
 
@@ -393,7 +393,7 @@ Feature: Submitting a new DOS service for User research studios
     And There 'is no' draft 'NEW-My user research studio service' service(s)
     And There 'is no' completed 'NEW-My user research studio service' service(s)
 
-    When I am at the 'Your Digital Outcomes and Specialists services' page
+    When I am at the 'Your Digital Outcomes and Specialists 2 services' page
     And There 'are' draft 'user research studios' service(s)
     And There 'are no' completed 'user research studios' service(s)
 

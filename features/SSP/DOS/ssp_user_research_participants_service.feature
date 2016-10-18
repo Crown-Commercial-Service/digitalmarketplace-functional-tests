@@ -10,11 +10,11 @@ Feature: Submitting a new DOS service for User research participants
 
   Scenario: Select User research participants as a service to add
     Given I am at '/suppliers'
-    When I click 'Continue your Digital Outcomes and Specialists application'
+    When I click 'Continue your Digital Outcomes and Specialists 2 application'
     Then I am taken to the 'Apply to Digital Outcomes and Specialists' page
 
     When I click 'Add, edit and complete services'
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
 
     When I click 'Apply to provide user research participant recruitment'
     Then I should be on the 'User research participants' page
@@ -30,7 +30,7 @@ Feature: Submitting a new DOS service for User research participants
     Then I should be on the 'User research participants' page
 
   Scenario: A draft service has been created
-    Given I am at the 'Your Digital Outcomes and Specialists services' page
+    Given I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'is a' draft 'user research participant recruitment' service(s)
     And There 'is no' completed 'user research participant recruitment' service(s)
 
@@ -93,14 +93,6 @@ Feature: Submitting a new DOS service for User research participants
 
   Scenario: Verify text on summary page after edit
     Given I am on the summary page
-    #Previous answeres should no longer be presented
-    Then Summary table row 'Provide discreet recruitment' under the heading 'User research participants essentials' should not contain 'Yes'
-    And Summary table row 'Manage incentives' under the heading 'User research participants essentials' should not contain 'No'
-    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should not contain 'North East England'
-    And Summary table row 'Where can you recruit participants from?' under the heading 'Location' should not contain 'Yorkshire and the Humber'
-    And Summary table row 'How do you recruit participants?' under the heading 'Recruitment approach' should not contain 'Initial recruitment offline, but then contact them online'
-    And Summary table row 'Are you willing to recruit participants based on a list provided to you by the buyer?' under the heading 'Recruitment approach' should not contain 'Yes'
-
     #New answeres should be presented
     Then Summary table row 'Provide discreet recruitment' under the heading 'User research participants essentials' should contain 'No'
     And Summary table row 'Manage incentives' under the heading 'User research participants essentials' should contain 'Yes'
@@ -115,7 +107,7 @@ Feature: Submitting a new DOS service for User research participants
   Scenario: Mark service as complete
     Given I am on the ssp page for the 'user-research-participants' service
     When I click the 'Mark as complete' button at the 'bottom' of the page
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
     And I am presented with the message 'User research participants was marked as complete'
     And There 'is a' completed 'user research participant recruitment' service(s)
     And There 'is no' draft 'user research participant recruitment' service(s)
@@ -127,7 +119,7 @@ Feature: Submitting a new DOS service for User research participants
     Then I am presented with the message 'Are you sure you want to delete user research participants?'
 
     When I click 'Yes, delete'
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
     And I am presented with the message 'User research participants was deleted'
     And There 'is no' draft 'user research participant recruitment' service(s)
     And There 'is no' completed 'user research participant recruitment' service(s)
