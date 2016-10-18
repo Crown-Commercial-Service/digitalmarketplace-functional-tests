@@ -1,19 +1,15 @@
 require 'uri'
 require 'securerandom'
 
-# we need two versions of this regex - one with and one without the inner groups captured. we do this by defining the
-# uncaptured version and stripping out the "?:" for the captured one. which is a little nasty but works well enough.
-maybe_var = '((?:\'(?:.*)\')|(?:that (?:\w+)(?:(?:\.\w+)*)))'
-maybe_var_captured = maybe_var.gsub("(?:", "(")
+# Captures a literal value or a variable reference that gets resolved by a
+# transform step into a value before being passed to the step definition
+MAYBE_VAR = '((?:\'(?:.*)\')|(?:that (?:\w+)(?:(?:\.\w+)*)))'
 
-maybe_var_regex = /^#{maybe_var}$/
-maybe_var_captured_regex = /^#{maybe_var_captured}$/
-
-Transform /^#{maybe_var}$/ do |whole_match|
+Transform /^#{MAYBE_VAR}$/ do |whole_match|
   # to access the inner regex groups we have to perform the regex again with the groups captured. from what i can tell
   # Transforms don't work very well with multiple arguments, so we implement the transform itself as a single-argument
   # Transform and suck out the innards ourselves in this secondary regex matching...
-  match = maybe_var_captured_regex.match whole_match
+  match = /^#{MAYBE_VAR.gsub("(?:", "(")}$/.match whole_match
   if match[3] # literal string
     match[3]
   else
@@ -99,7 +95,7 @@ Given /^I have a random dos brief from the API$/ do
   puts "Brief name: #{@brief['title']}"
 end
 
-When /I click (?:the )?#{maybe_var} ?(button|link)?$/ do |button_link_name, elem_type|
+When /I click (?:the )?#{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
     page.click_button(button_link_name)
   elsif elem_type == 'link'
@@ -109,7 +105,7 @@ When /I click (?:the )?#{maybe_var} ?(button|link)?$/ do |button_link_name, elem
   end
 end
 
-When /I check (?:the )?#{maybe_var} checkbox$/ do |checkbox_label|
+When /I check (?:the )?#{MAYBE_VAR} checkbox$/ do |checkbox_label|
   page.check(checkbox_label)
 end
 
@@ -131,7 +127,7 @@ When /^I enter a random value in the '(.*)' field( and click its associated '(.*
   step "I enter '#{@fields[field_name]}' in the '#{field_name}' field#{maybe_click_statement}"
 end
 
-When /^I enter #{maybe_var} in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
+When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
   field_element = page.find_field field_name
   field_element.set value
   if maybe_click_statement
@@ -160,15 +156,15 @@ Then /^I am on the '(.*)' page$/ do |page_name|
   find('h1').text.should == normalize_whitespace(page_name)
 end
 
-Then /^I see #{maybe_var} in the page's h1$/ do |page_name_fragment|
+Then /^I see #{MAYBE_VAR} in the page's h1$/ do |page_name_fragment|
   find('h1').text.should include(normalize_whitespace(page_name_fragment))
 end
 
-Then(/^I see the page's h1 ends in #{maybe_var}$/) do |term|
+Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
   find('h1').text.should end_with term
 end
 
-Then /I see #{maybe_var} as the value of the '(.*)' field$/ do |value, field|
+Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
   if page.has_field?(field, {type: 'radio'}) or page.has_field?(field, {type: 'checkbox'})
     page.find_field(field, {checked: true}).value.should == value
   else
@@ -176,14 +172,14 @@ Then /I see #{maybe_var} as the value of the '(.*)' field$/ do |value, field|
   end
 end
 
-Then(/^I see #{maybe_var} as the page's h1$/) do |title|
+Then(/^I see #{MAYBE_VAR} as the page's h1$/) do |title|
   step "I am on the '#{title}' page"
 end
 
-Then(/^I see #{maybe_var} in the search summary text$/) do |value|
+Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
 
-Then(/^I see #{maybe_var} as the page header context$/) do |value|
+Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
 end
