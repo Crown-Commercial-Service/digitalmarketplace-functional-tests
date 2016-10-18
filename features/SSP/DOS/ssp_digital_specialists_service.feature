@@ -10,11 +10,11 @@ Feature: Submitting a new DOS service for Digital specialists
 
   Scenario: Select Digital specialists as a service to add
     Given I am at '/suppliers'
-    When I click 'Continue your Digital Outcomes and Specialists application'
+    When I click 'Continue your Digital Outcomes and Specialists 2 application'
     Then I am taken to the 'Apply to Digital Outcomes and Specialists' page
 
     When I click 'Add, edit and complete services'
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
 
     When I click 'Apply to provide individual digital specialists'
     Then I should be on the 'Digital specialists' page
@@ -35,7 +35,7 @@ Feature: Submitting a new DOS service for Digital specialists
     And The 'Mark as complete' button should not be on the page
 
   Scenario: A draft service has been created
-    Given I am at the 'Your Digital Outcomes and Specialists services' page
+    Given I am at the 'Your Digital Outcomes and Specialists 2 services' page
     Then There 'is a' draft 'digital specialists' service(s)
     And There 'is no' completed 'digital specialists' service(s)
 
@@ -144,7 +144,7 @@ Feature: Submitting a new DOS service for Digital specialists
   Scenario: Mark service as complete
     Given I am on the ssp page for the 'digital-specialists' service
     When I click the 'Mark as complete' button at the 'top' of the page
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
     And I am presented with the message 'Digital specialists was marked as complete'
     And There 'is a' completed 'digital specialists' service(s)
     And There 'is no' draft 'digital specialists' service(s)
@@ -156,7 +156,7 @@ Feature: Submitting a new DOS service for Digital specialists
     Then I am presented with the message 'Are you sure you want to delete digital specialists?'
 
     When I click 'Yes, delete'
-    Then I am taken to the 'Your Digital Outcomes and Specialists services' page
+    Then I am taken to the 'Your Digital Outcomes and Specialists 2 services' page
     And I am presented with the message 'Digital specialists was deleted'
     And There 'is no' draft 'digital specialists' service(s)
     And There 'is no' completed 'digital specialists' service(s)

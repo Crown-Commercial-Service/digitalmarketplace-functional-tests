@@ -18,7 +18,7 @@ Given /^I am at '(.*)'$/ do |path|
 end
 
 Given /^I am at the '(.*)' page$/ do |page_name|
-  if page_name == 'Your Digital Outcomes and Specialists services' or page_name == 'Your G-Cloud 7 services'
+  if page_name == 'Your Digital Outcomes and Specialists 2 services' or page_name == 'Your G-Cloud 7 services'
     set_service_type = ''
   else
     set_service_type = store.service_type
