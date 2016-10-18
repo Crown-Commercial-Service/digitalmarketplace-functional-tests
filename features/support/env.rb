@@ -22,7 +22,7 @@ else
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(
-      app, :timeout => 180, :phantomjs_logger => File.open(File::NULL, "w"), :phantomjs_options => ['--ssl-protocol=TLSv1', '--ignore-ssl-errors=yes', '--local-to-remote-url-access=yes'])
+      app, :timeout => 180, :phantomjs_logger => File.open(File::NULL, "w"), :phantomjs_options => [])
   end
 end
 
