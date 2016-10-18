@@ -30,9 +30,17 @@ Given /^I am on the homepage$/ do
   page.should have_content("Digital Marketplace")
 end
 
-Given /^I am on the (\/.*) page$/ do |url|
-  page.visit("#{dm_frontend_domain}#{url}")
-  page.should have_content("Digital Marketplace")
+Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
+  # If the app is set, then send the request using rest-client instead of capybara
+  # and store the result in @response. Otherwise, poltergeist/phantomjs try to wrap
+  # the response JSON in HTML.
+  if app
+    domain = domain_for_app(app.strip)
+    @response = call_api(:get, url, domain: domain)
+  else
+    page.visit("#{dm_frontend_domain}#{url}")
+    page.should have_content("Digital Marketplace")
+  end
 end
 
 Given /^I have a random g-cloud service from the API$/ do
@@ -170,6 +178,18 @@ Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
   else
     page.find_field(field).value.should == value
   end
+end
+
+Then /I see #{MAYBE_VAR} as the value of the '(.*)' JSON field$/ do |value, field|
+  json = JSON.parse(@response)
+  json.should include(field)
+  json[field].should eq(value)
+end
+
+Then /Display the value of the '(.*)' JSON field as '(.*)'$/ do |field, name|
+  json = JSON.parse(@response)
+  json.should include(field)
+  puts "#{name}: #{json[field]}"
 end
 
 Then(/^I see #{MAYBE_VAR} as the page's h1$/) do |title|

@@ -28,12 +28,12 @@ end
 
 def domain_for_app(app)
   case app
-  when "dm_api"
-    dm_api_domain()
-  when "dm_search_api"
-    dm_search_api_domain()
-  when "dm_frontend"
-    dm_frontend_domain()
+  when "api"
+    dm_api_domain
+  when "search-api"
+    dm_search_api_domain
+  when "frontend"
+    dm_frontend_domain
   else
     raise ArgumentError, "Invalid app name #{app}"
   end
