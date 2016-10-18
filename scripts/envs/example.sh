@@ -27,19 +27,4 @@ export DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_EMAIL=${DM_PRODUCTION_ADMIN_CCS_SOU
 export DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_PASSWORD=${DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_PASSWORD:=REPLACEME}
 export DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_NAME=${DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_NAME:="Functional Test Admin CCS Sourcing User"}
 
-export DM_ADMIN_EMAIL=${DM_ADMIN_EMAIL:=admin@admin.dmdev}
-export DM_ADMIN_CCS_SOURCING_EMAIL=${DM_ADMIN_CCS_SOURCING_EMAIL:=ccs-sourcing@example.com}
-export DM_ADMIN_CCS_CATEGORY_EMAIL=${DM_ADMIN_CCS_CATEGORY_EMAIL:=ccs-category@example.com}
-export DM_ADMIN_PASSWORD=${DM_ADMIN_PASSWORD:=Admin12345}
-
-export DM_BUYER_EMAIL=${DM_BUYER_EMAIL:=digital-marketplace-development+functional-tests-buyer-user@digital.cabinet-office.gov.uk}
-export DM_BUYER_PASSWORD=${DM_BUYER_PASSWORD:=testuserpassword}
-
-export DM_SUPPLIER_EMAIL=${DM_SUPPLIER_EMAIL:=testing.supplier.username@dmtestemail.com}
-export DM_SUPPLIER2_EMAIL=${DM_SUPPLIER2_EMAIL:=testing.supplier.username2@dmtestemail.com}
-export DM_SUPPLIER3_EMAIL=${DM_SUPPLIER3_EMAIL:=testing.supplier.username3@dmtestemail.com}
-export DM_SUPPLIER2_USER_EMAIL=${DM_SUPPLIER2_USER_EMAIL:=testing.supplier2.username@dmtestemail.com}
-export DM_SUPPLIER_PASSWORD=${DM_SUPPLIER_PASSWORD:=testuserpassword}
-
-export DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY:=mandrillKey}
 export DM_PAGINATION_LIMIT=${DM_PAGINATION_LIMIT:=5}

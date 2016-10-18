@@ -39,19 +39,6 @@ def domain_for_app(app)
   end
 end
 
-def access_token_for_app(app)
-  case app
-  when "dm_api"
-    dm_api_access_token()
-  when "dm_search_api"
-    dm_search_api_access_token()
-  when "dm_frontend"
-    dm_frontend_access_token()
-  else
-    raise ArgumentError, "Invalid app name #{app}"
-  end
-end
-
 def dm_api_domain()
   ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end
@@ -134,58 +121,6 @@ end
 
 def dm_production_admin_ccs_sourcing_user_password()
   ENV['DM_PRODUCTION_ADMIN_CCS_SOURCING_USER_PASSWORD']
-end
-
-def dm_admin_email()
-  ENV['DM_ADMIN_EMAIL']
-end
-
-def dm_admin_password()
-  ENV['DM_ADMIN_PASSWORD']
-end
-
-def dm_buyer_email()
-  ENV['DM_BUYER_EMAIL']
-end
-
-def dm_buyer_password()
-  ENV['DM_BUYER_PASSWORD']
-end
-
-def dm_admin_ccs_sourcing_email()
-  ENV['DM_ADMIN_CCS_SOURCING_EMAIL']
-end
-
-def dm_admin_ccs_category_email()
-  ENV['DM_ADMIN_CCS_CATEGORY_EMAIL']
-end
-
-def dm_supplier_user_email()
-  ENV['DM_SUPPLIEREMAIL'] || ENV['DM_SUPPLIER_EMAIL']
-end
-
-def dm_supplier_user2_email()
-  ENV['DM_SUPPLIER2EMAIL'] || ENV['DM_SUPPLIER2_EMAIL']
-end
-
-def dm_supplier_user3_email()
-  ENV['DM_SUPPLIER3EMAIL'] || ENV['DM_SUPPLIER3_EMAIL']
-end
-
-def dm_supplier_user_emails()
-  [
-    dm_supplier_user_email(),
-    dm_supplier_user2_email(),
-    dm_supplier_user3_email(),
-  ]
-end
-
-def dm_supplier2_user_email()
-  ENV['DM_SUPPLIER2_USER_EMAIL']
-end
-
-def dm_supplier_password()
-  ENV['DM_SUPPLIERPASSWORD'] || ENV['DM_SUPPLIER_PASSWORD']
 end
 
 def dm_pagination_limit()
