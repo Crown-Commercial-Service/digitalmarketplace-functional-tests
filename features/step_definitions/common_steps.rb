@@ -79,7 +79,7 @@ Given /^I have a random dos brief from the API$/ do
   puts "Brief name: #{@brief['title']}"
 end
 
-When /I click (?:the )?#{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
+When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
     page.click_button(button_link_name)
   elsif elem_type == 'link'
@@ -89,7 +89,7 @@ When /I click (?:the )?#{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem
   end
 end
 
-When /I check (?:the )?#{MAYBE_VAR} checkbox$/ do |checkbox_label|
+When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
   page.check(checkbox_label)
 end
 
@@ -136,7 +136,7 @@ Then /^I see the '(.*)' link$/ do |link_text|
   page.should have_link(link_text)
 end
 
-Then /^I am on (?:the )?#{MAYBE_VAR} page$/ do |page_name|
+Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   find('h1').text.should == normalize_whitespace(page_name)
 end
 
