@@ -22,21 +22,21 @@ Scenario: User can get the PaaS search results
   When I click 'Platform as a Service'
   Then I am on the 'Search results' page
   And I see the 'Platform as a Service' breadcrumb
-  And I see a service in the search results
+  And I see a search result
 
 Scenario: User can get the SaaS search results
   Given I am on the /g-cloud page
   When I click 'Software as a Service'
   Then I am on the 'Search results' page
   And I see the 'Software as a Service' breadcrumb
-  And I see a service in the search results
+  And I see a search result
 
 Scenario: User can get the IaaS search results
   Given I am on the /g-cloud page
   When I click 'Infrastructure as a Service'
   Then I am on the 'Search results' page
   And I see the 'Infrastructure as a Service' breadcrumb
-  And I see a service in the search results
+  And I see a search result
 
 Scenario: User is able to search by service id and have result returned.
   Given I am on the /g-cloud page
