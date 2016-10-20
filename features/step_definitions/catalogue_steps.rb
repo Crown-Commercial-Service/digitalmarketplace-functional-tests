@@ -1,3 +1,19 @@
+When(/^I click a random result in the list of service results returned$/) do
+  search_results = all(:xpath, "//*[@class='search-result']")
+  selected_result = search_results[rand(search_results.length)]
+
+  @result = @result || Hash.new
+
+  a_elem = selected_result.first(:xpath, ".//h2[@class='search-result-title']/a")
+  @result['title'] = a_elem.text
+  puts "Result name: #{@result['title']}"
+
+  @result['supplier_name'] = selected_result.first(:xpath, ".//*[@class='search-result-supplier']").text
+  puts "Result supplier_name: #{@result['supplier_name']}"
+
+  a_elem.click
+end
+
 Then (/^I see a search result$/) do
   page.should have_selector(:css, "div.search-result")
 end
@@ -22,18 +38,3 @@ Then (/^I see that service in the search results$/) do
   }.length.should be(1)
 end
 
-When(/^I click a random result in the list of service results returned$/) do
-  search_results = all(:xpath, "//*[@class='search-result']")
-  selected_result = search_results[rand(search_results.length)]
-
-  @result = @result || Hash.new
-
-  a_elem = selected_result.first(:xpath, ".//h2[@class='search-result-title']/a")
-  @result['title'] = a_elem.text
-  puts "Result name: #{@result['title']}"
-
-  @result['supplier_name'] = selected_result.first(:xpath, ".//*[@class='search-result-supplier']").text
-  puts "Result supplier_name: #{@result['supplier_name']}"
-
-  a_elem.click
-end
