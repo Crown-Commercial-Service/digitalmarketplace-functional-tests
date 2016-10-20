@@ -38,3 +38,6 @@ Then (/^I see that service in the search results$/) do
   }.length.should be(1)
 end
 
+Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
+  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
+end

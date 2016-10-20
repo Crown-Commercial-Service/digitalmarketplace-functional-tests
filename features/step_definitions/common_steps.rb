@@ -168,10 +168,6 @@ Then /Display the value of the '(.*)' JSON field as '(.*)'$/ do |field, name|
   puts "#{name}: #{json[field]}"
 end
 
-Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
-end
-
 Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
 end
