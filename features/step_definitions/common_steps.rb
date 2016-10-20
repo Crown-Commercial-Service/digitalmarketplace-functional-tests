@@ -136,7 +136,7 @@ Then /^I see the '(.*)' link$/ do |link_text|
   page.should have_link(link_text)
 end
 
-Then /^I am on the '(.*)' page$/ do |page_name|
+Then /^I am on (?:the )?#{MAYBE_VAR} page$/ do |page_name|
   find('h1').text.should == normalize_whitespace(page_name)
 end
 
@@ -166,10 +166,6 @@ Then /Display the value of the '(.*)' JSON field as '(.*)'$/ do |field, name|
   json = JSON.parse(@response)
   json.should include(field)
   puts "#{name}: #{json[field]}"
-end
-
-Then(/^I see #{MAYBE_VAR} as the page's h1$/) do |title|
-  step "I am on the '#{title}' page"
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|

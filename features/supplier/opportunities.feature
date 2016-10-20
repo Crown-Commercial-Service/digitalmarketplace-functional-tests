@@ -41,7 +41,7 @@ Scenario: User is able to filter by both status and lot and have specific result
 Scenario: User is able to navigate to opportunity detail page via selecting the opportunity from the search results
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I click a random result in the list of opportunity results returned
-  Then I see that result.title as the page's h1
+  Then I am on that result.title page
 
 Scenario: Filtering by lot doesn't increase result count
   Given I am on the /digital-outcomes-and-specialists/opportunities page

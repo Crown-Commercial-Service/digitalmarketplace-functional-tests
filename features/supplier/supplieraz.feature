@@ -23,4 +23,4 @@ Scenario: User can navigate to a specific supplier's detail page
   When I click the first letter of that supplier.name
   Then I see that supplier in one of the pages that follow from clicking 'Next page'
   When I click that specific supplier
-  Then I see that supplier.name as the page's h1
+  Then I am on that supplier.name page

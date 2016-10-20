@@ -61,7 +61,7 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   When I click 'Infrastructure as a Service'
   Then I am on the 'Search results' page
   When I click a random result in the list of service results returned
-  Then I see that result.title as the page's h1
+  Then I am on that result.title page
   And I see that result.supplier_name as the page header context
 
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
