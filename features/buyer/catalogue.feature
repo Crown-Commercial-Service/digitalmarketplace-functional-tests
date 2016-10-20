@@ -22,21 +22,21 @@ Scenario: User can get the PaaS search results
   When I click 'Platform as a Service'
   Then I am on the 'Search results' page
   And I see the 'Platform as a Service' breadcrumb
-  And I see a service in the search results
+  And I see a search result
 
 Scenario: User can get the SaaS search results
   Given I am on the /g-cloud page
   When I click 'Software as a Service'
   Then I am on the 'Search results' page
   And I see the 'Software as a Service' breadcrumb
-  And I see a service in the search results
+  And I see a search result
 
 Scenario: User can get the IaaS search results
   Given I am on the /g-cloud page
   When I click 'Infrastructure as a Service'
   Then I am on the 'Search results' page
   And I see the 'Infrastructure as a Service' breadcrumb
-  And I see a service in the search results
+  And I see a search result
 
 Scenario: User is able to search by service id and have result returned.
   Given I am on the /g-cloud page
@@ -61,7 +61,7 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   When I click 'Infrastructure as a Service'
   Then I am on the 'Search results' page
   When I click a random result in the list of service results returned
-  Then I see that result.title as the page's h1
+  Then I am on that result.title page
   And I see that result.supplier_name as the page header context
 
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned

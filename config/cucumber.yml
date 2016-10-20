@@ -1,0 +1,1 @@
+default: --format html --out reports/index.html --format pretty features/apps_status.feature features
