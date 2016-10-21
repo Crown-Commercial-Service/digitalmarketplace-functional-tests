@@ -20,7 +20,14 @@ Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
 end
 
 Given /^I have a random g-cloud service from the API$/ do
-  params = {status: "published", framework: "g-cloud-6,g-cloud7"}
+  frameworks = call_api(:get, "/frameworks")
+  live_g_cloud = JSON.parse(frameworks.body)["frameworks"].select {|framework|
+    framework["framework"] == "g-cloud" && framework["status"] == "live"
+  }.map {|framework| framework["slug"]}.join(",")
+
+  puts "Live g-cloud frameworks: #{live_g_cloud}"
+
+  params = {status: "published", framework: live_g_cloud}
   page_one = call_api(:get, "/services", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
   params[:page] = if last_page_url then
