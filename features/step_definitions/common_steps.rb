@@ -125,7 +125,6 @@ When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)'
     form_element = field_element.find(:xpath, "ancestor::form")
     form_element.click_button(click_button_name)
   end
-  sleep 1
 end
 
 When(/^I choose a random uppercase letter$/) do
