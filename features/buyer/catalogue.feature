@@ -50,10 +50,10 @@ Scenario: User is able to search by service id and have result returned.
 Scenario: User is able to search by service name and have result returned.
   Given I am on the /g-cloud page
   And I have a random g-cloud service from the API
-  When I enter that service.serviceName in the 'q' field
+  When I enter that quoted service.serviceName in the 'q' field
   And I click 'Show services'
-  Then I see that service.serviceName in the search summary text
-  And I see that service.serviceName as the value of the 'q' field
+  Then I see that quoted service.serviceName in the search summary text
+  And I see that quoted service.serviceName as the value of the 'q' field
   And I see that service in the search results
 
 Scenario: User is able to navigate to service detail page via selecting the service from the search results
