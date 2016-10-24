@@ -37,7 +37,7 @@ end
 
 Then (/^I see that the stated number of results does not exceed that (\w+)$/) do |variable_name|
   var = instance_variable_get("@#{variable_name}")
-  var.should >= page.first(:css, ".search-summary-count").text.to_i
+  page.first(:css, ".search-summary-count").text.to_i.should <= var
 end
 
 Then (/^I see that the stated number of results equals that (\w+)$/) do |variable_name|
