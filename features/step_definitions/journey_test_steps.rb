@@ -1709,7 +1709,7 @@ end
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
   page.should have_link('Log out')
-  current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_name_prefix=#{supplier_name.split('M Functional Test Supplier').first}")
+  current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_id=#{@supplierID}")
   page.should have_selector(:xpath, "//table/tbody/tr/td/span[contains(text(),'#{supplier_name}')]")
 end
 
