@@ -8,8 +8,6 @@ Scenario: Setup for tests
   And Test supplier users are active
   And Test supplier users are not locked
   And The user 'DM Functional Test Supplier User 3' is locked
-  And no 'g-cloud-7' framework agreements exist
-  And no 'digital-outcomes-and-specialists' framework agreements exist
 
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
   Given I am on the 'Administrator' login page
@@ -216,11 +214,6 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
   When I change 'input-new_supplier_name' to 'DM Functional Test Supplier 2 name changed'
   And I click 'Save'
   Then I am presented with the 'Suppliers' page with the changed supplier name 'DM Functional Test Supplier 2 name changed' listed on the page
-
-Scenario: When there are no framework agreements the list is empty: G-Cloud 7
-  Given I have logged in to Digital Marketplace as a 'Administrator' user
-  And I click 'G-Cloud 7 agreements'
-  Then the framework agreement list is empty
 
 Scenario: Most recently uploaded agreements should be shown last: Digital Outcomes and Specialists
   Given I have logged in to Digital Marketplace as a 'Administrator' user

@@ -4,7 +4,6 @@ Feature: CCS admin user journey through Digital Marketplace
 Scenario: Setup for tests
   Given I have test suppliers
   And The test suppliers have declarations
-  And no 'digital-outcomes-and-specialists' framework agreements exist
 
 Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
@@ -57,11 +56,6 @@ Scenario: As a CCS Sourcing user I want to view G-Cloud 8 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
   When I click 'G-Cloud 8 statistics'
   Then I am presented with the 'G-Cloud 8' statistics page
-
-Scenario: When there are no framework agreements the list is empty: Digital Outcomes and Specialists
-  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
-  And I click 'Digital Outcomes and Specialists agreements'
-  Then the framework agreement list is empty
 
 Scenario: Most recently uploaded agreements should be shown last: G-Cloud 7
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
