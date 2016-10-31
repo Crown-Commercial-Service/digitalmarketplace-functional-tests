@@ -174,7 +174,7 @@ Feature: Submitting a new DOS service for Digital outcomes
 
     When I click 'Yes – remove testing and auditing'
     Then I am presented with the message 'Testing and auditing was deleted'
-    And Summary table row 'Testing and auditing' under the heading 'Team capabilities' should contain 'You haven't added any testing and auditing capabilities'
+    And Summary table row 'Testing and auditing' under the heading 'Team capabilities' should contain 'You haven’t added any testing and auditing capabilities'
 
   @mark_as_complete
   Scenario: Mark service as complete
