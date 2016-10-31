@@ -38,21 +38,28 @@ def update_framework_status(framework_slug, status)
   return framework['status']
 end
 
-def ensure_no_framework_agreements_exist(framework_slug)
-  response = call_api(:get, "/frameworks/#{framework_slug}/suppliers")
-  response.code.should be(200), _error(response, "Failed to get framework #{framework_slug}")
-  supplier_frameworks = JSON.parse(response.body)["supplierFrameworks"]
-  supplier_frameworks.each do |supplier_framework|
-    update_framework_agreement_status(framework_slug, supplier_framework["supplierId"], false)
-  end
-end
-
-def update_framework_agreement_status(framework_slug, supplier_id, status)
+def update_supplier_on_framework(framework_slug, supplier_id, on_framework_bool)
   response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", payload: {
-    "frameworkInterest" => {"agreementReturned" => status},
-    "updated_by" => "functional tests",
+    "frameworkInterest" => {"onFramework" => on_framework_bool},
+    "updated_by" => "functional tests"
   })
   response.code.should be(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
+end
+
+def create_and_sign_framework_agreement(framework_slug, supplier_id)
+  response = call_api(:post, "/agreements", payload: {
+      "agreement" => {"supplierId" => supplier_id, "frameworkSlug" => framework_slug},
+      "updated_by" => "functional tests"
+    })
+  response.code.should be(201), _error(response, "Failed to create agreement for #{supplier_id} #{framework_slug}")
+  agreement_id = JSON.parse(response.body)["agreement"]["id"]
+  response2 = response = call_api(:post, "/agreements/#{agreement_id}", payload: {
+      "agreement" => {"signedAgreementPath" => "digitalmarketplace-agreements-preview-preview/#{framework_slug}/agreements/#{supplier_id}/signed-framework-agreement.pdf"},
+      "updated_by" => "functional tests"
+  })
+  response2.code.should be(200), _error(response, "Failed to add document path to agreement for #{supplier_id} #{framework_slug}")
+  response3 = call_api(:post, "/agreements/#{agreement_id}/sign", payload: {"updated_by" => "functional tests"})
+  response3.code.should be(200), _error(response, "Failed to sign agreement for #{supplier_id} #{framework_slug}")
 end
 
 def register_interest_in_framework(framework_slug, supplier_id)

@@ -1721,22 +1721,15 @@ Then /^there is no '(.*)' link for any supplier$/ do |link_text|
   end
 end
 
-Given /^no '(.*)' framework agreements exist$/ do |framework_slug|
-  ensure_no_framework_agreements_exist(framework_slug)
-end
-
 Given /^a '(.*)' signed agreement is uploaded for supplier '(\d+)'$/ do |framework_slug, supplier_id|
   original_framework_status = update_framework_status(framework_slug, "open")
   register_interest_in_framework(framework_slug, supplier_id)
   submit_supplier_declaration(framework_slug, supplier_id, {
     "status" => "complete", "SQ1-1a" => "company name"
   })
-  update_framework_agreement_status(framework_slug, supplier_id, true)
   update_framework_status(framework_slug, original_framework_status)
-end
-
-Then /^the framework agreement list is empty$/ do
-  page.all(:css, ".summary-item-row").length.should == 0
+  update_supplier_on_framework(framework_slug, supplier_id, true)
+  create_and_sign_framework_agreement(framework_slug, supplier_id)
 end
 
 Then /^the last signed agreement should be for supplier '(.*)'$/ do |supplier_name|
@@ -1748,11 +1741,6 @@ When /^I click the last download agreement link$/ do
   url = "#{dm_frontend_domain}#{path}"
   headers = {"Cookie" => page.response_headers['Set-Cookie']}
   @response = RestClient.get(url, headers){|response, request, result| response}
-end
-
-Then /^I should get redirected to the correct '(.+)' S3 URL for supplier '(\d+)'$/ do |framework_slug, supplier_id|
-  @response.code.should == 302
-  @response.headers[:location].should match(%r"/#{framework_slug}/agreements/#{supplier_id}/.*signed-framework-agreement.pdf")
 end
 
 Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
