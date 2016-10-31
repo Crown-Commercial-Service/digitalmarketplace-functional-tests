@@ -1743,11 +1743,6 @@ When /^I click the last download agreement link$/ do
   @response = RestClient.get(url, headers){|response, request, result| response}
 end
 
-Then /^I should get redirected to the correct '(.+)' S3 URL for supplier '(\d+)'$/ do |framework_slug, supplier_id|
-  @response.code.should == 302
-  @response.headers[:location].should match(%r"/#{framework_slug}/agreements/#{supplier_id}/.*signed-framework-agreement.pdf")
-end
-
 Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
   current_url.should end_with("#{dm_frontend_domain}/reset-password")
   page.should have_content(page_name)
