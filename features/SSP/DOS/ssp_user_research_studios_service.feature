@@ -167,7 +167,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary table row 'Do you provide toilets?' under the heading 'Facilities' should contain 'Yes'
     And Summary table row 'Do you provide baby-changing facilities?' under the heading 'Facilities' should contain 'No'
     And Summary table row 'How accessible is your studio?' under the heading 'Accessibility' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under the heading 'Price' should contain '2 hours for £158'
+    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost (excluding VAT)?' under the heading 'Price' should contain '2 hours for £158'
 
   Scenario: Make a copy of a draft service
     Given I am at the 'User research studios services' page
@@ -199,7 +199,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary table row 'Do you provide toilets?' under the heading 'Facilities' should contain 'Yes'
     And Summary table row 'Do you provide baby-changing facilities?' under the heading 'Facilities' should contain 'No'
     And Summary table row 'How accessible is your studio?' under the heading 'Accessibility' should contain 'Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under the heading 'Price' should contain '2 hours for £158'
+    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost (excluding VAT)?' under the heading 'Price' should contain '2 hours for £158'
 
   Scenario:Check navigation via "Back to user research studios" link
     Given I am on the summary page for the copy of the 'draft' service
@@ -300,7 +300,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary table row 'Do you provide toilets?' under the heading 'Facilities' should contain 'No'
     And Summary table row 'Do you provide baby-changing facilities?' under the heading 'Facilities' should contain 'Yes'
     And Summary table row 'How accessible is your studio?' under the heading 'Accessibility' should contain 'NEW-Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under the heading 'Price' should contain '8 hours for £4321'
+    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost (excluding VAT)?' under the heading 'Price' should contain '8 hours for £4321'
 
   Scenario: Make a copy of a completed service
     Given I am at the 'User research studios services' page
@@ -332,7 +332,7 @@ Feature: Submitting a new DOS service for User research studios
     And Summary table row 'Do you provide toilets?' under the heading 'Facilities' should contain 'No'
     And Summary table row 'Do you provide baby-changing facilities?' under the heading 'Facilities' should contain 'Yes'
     And Summary table row 'How accessible is your studio?' under the heading 'Accessibility' should contain 'NEW-Wheelchair accessible, lifts and toilets accommodate wheelchairs.'
-    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost?' under the heading 'Price' should contain '8 hours for £4321'
+    And Summary table row 'What is the minimum amount of time your lab can be booked for and how much does it cost (excluding VAT)?' under the heading 'Price' should contain '8 hours for £4321'
 
   Scenario:Verify copy of completed service is presented on page
     Given I am at the 'User research studios services' page
