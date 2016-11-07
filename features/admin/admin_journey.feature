@@ -180,10 +180,10 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I click 'Send invitation'
   Then I am presented with the message 'User invited'
 
-Scenario: As an admin user I want to view G-Cloud 8 statistics
+Scenario: As an admin user I want to view Digital Outcomes and Specialists 2 statistics
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'G-Cloud 8 statistics'
-  Then I am presented with the 'G-Cloud 8' statistics page
+  When I click 'Digital Outcomes and Specialists 2 statistics'
+  Then I am presented with the 'Digital Outcomes and Specialists 2' statistics page
 
 Scenario: As an admin user I want to view Service updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user
@@ -231,10 +231,10 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
 #  When I click 'G-Cloud 7 agreements'
 #  Then the last signed agreement should be for supplier 'DM Functional Test Supplier'
 
-Scenario: As an admin user I want to upload Digital Outcomes and Specialists communications
+Scenario: As an admin user I want to upload Digital Outcomes and Specialists 2 communications
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'Digital Outcomes and Specialists communications'
-  Then I am presented with the 'Upload Digital Outcomes and Specialists communications' page
+  When I click 'Digital Outcomes and Specialists 2 communications'
+  Then I am presented with the 'Upload Digital Outcomes and Specialists 2 communications' page
 
   When I choose file 'test.pdf' for 'communication'
   And I click 'Upload files'

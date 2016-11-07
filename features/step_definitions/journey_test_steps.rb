@@ -121,7 +121,7 @@ Then /I am presented with the admin search page$/ do
   page.should have_content('Find a service by service ID')
   page.should have_content('Find suppliers by name prefix')
   page.should have_content('Find users by email address')
-  page.should have_link('G-Cloud 8 statistics')
+  page.should have_link('Digital Outcomes and Specialists 2 statistics')
   page.should have_link('Download user lists')
 end
 
@@ -1594,6 +1594,8 @@ Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-8")
   when 'Digital Outcomes and Specialists'
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
+  when 'Digital Outcomes and Specialists 2'
+      current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists-2")
   else
     fail("There is no such framework statistics page for \"#{framework_name}\"")
   end
