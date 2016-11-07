@@ -1769,6 +1769,9 @@ Then /^I am presented with the '(.*)' page$/ do |page_name| #Specific to admin p
   when 'Upload Digital Outcomes and Specialists communications'
     current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists")
     page.should have_button("Upload files")
+  when 'Upload Digital Outcomes and Specialists 2 communications'
+    current_url.should end_with("#{dm_frontend_domain}/admin/communications/digital-outcomes-and-specialists-2")
+    page.should have_button("Upload files")
   when 'Download user list'
     current_url.should end_with("#{dm_frontend_domain}/admin/users/download")
     page.should have_link("Digital Outcomes and Specialists")
