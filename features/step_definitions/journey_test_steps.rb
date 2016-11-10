@@ -1893,7 +1893,7 @@ And /^I see the correct title and requirements for the opportunity$/ do
 
   page.find('h1').should have_content("#{brief_title}")
   brief_requirements.each_with_index do |brief_requirement, index|
-    page.all('span.question-heading p')[index].should have_content("#{brief_requirement}")
+    page.all('span.question-heading')[index].should have_content("#{brief_requirement}")
   end
 end
 
