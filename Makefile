@@ -6,6 +6,9 @@ smoke-tests: setup
 run: setup
 	. config/${DM_ENVIRONMENT}.sh && bundle exec cucumber ${ARGS}
 
+rerun:
+	. config/${DM_ENVIRONMENT}.sh && bundle exec cucumber -p rerun
+
 setup: install clean
 	@echo "Environment:" ${DM_ENVIRONMENT}
 	mkdir -p reports/
@@ -19,4 +22,4 @@ config/local.sh:
 clean:
 	rm -rf reports/
 
-.PHONY: smoke-tests run setup install clean
+.PHONY: smoke-tests run rerun setup install clean
