@@ -145,7 +145,7 @@ Then /^I see the '(.*)' link$/ do |link_text|
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
-  find('h1').text.should == normalize_whitespace(page_name)
+  page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
 
 Then /^I see #{MAYBE_VAR} in the page's h1$/ do |page_name_fragment|
