@@ -41,7 +41,7 @@ Given /^I have a random g-cloud service from the API$/ do
   services = JSON.parse(random_page.body)['services']
   @service = services[rand(services.length)]
   puts "Service ID: #{@service['id']}"
-  puts "Service name: #{@service['serviceName']}"
+  puts "Service name: #{ERB::Util.h @service['serviceName']}"
 end
 
 # TODO merge with above step
@@ -61,7 +61,7 @@ Given /^I have a random (?:([a-z-]+) )?supplier from the API$/ do |metaframework
   suppliers = JSON.parse(random_page.body)['suppliers']
   @supplier = suppliers[rand(suppliers.length)]
   puts "Supplier ID: #{@supplier['id']}"
-  puts "Supplier name: #{@supplier['name']}"
+  puts "Supplier name: #{ERB::Util.h @supplier['name']}"
 end
 
 # TODO merge with above step
@@ -85,7 +85,7 @@ Given /^I have a random dos brief from the API$/ do
   }[@brief['status']]
 
   puts "Brief ID: #{@brief['id']}"
-  puts "Brief name: #{@brief['title']}"
+  puts "Brief name: #{ERB::Util.h @brief['title']}"
 end
 
 When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
