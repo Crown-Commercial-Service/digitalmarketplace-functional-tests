@@ -6,10 +6,10 @@ When(/^I click a random result in the list of service results returned$/) do
 
   a_elem = selected_result.first(:xpath, ".//h2[@class='search-result-title']/a")
   @result['title'] = a_elem.text
-  puts "Result name: #{@result['title']}"
+  puts "Result name: #{ERB::Util.h @result['title']}"
 
   @result['supplier_name'] = selected_result.first(:xpath, ".//*[@class='search-result-supplier']").text
-  puts "Result supplier_name: #{@result['supplier_name']}"
+  puts "Result supplier_name: #{ERB::Util.h @result['supplier_name']}"
 
   a_elem.click
 end

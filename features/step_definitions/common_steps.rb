@@ -29,6 +29,7 @@ Given /^I have a random g-cloud service from the API$/ do
 
   params = {status: "published", framework: live_g_cloud}
   page_one = call_api(:get, "/services", params: params)
+  page_one.code.should == 200
   last_page_url = JSON.parse(page_one.body)['links']['last']
   params[:page] = if last_page_url then
                     1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
@@ -36,10 +37,11 @@ Given /^I have a random g-cloud service from the API$/ do
                     1
                   end
   random_page = call_api(:get, "/services", params: params)
+  random_page.code.should == 200
   services = JSON.parse(random_page.body)['services']
   @service = services[rand(services.length)]
   puts "Service ID: #{@service['id']}"
-  puts "Service name: #{@service['serviceName']}"
+  puts "Service name: #{ERB::Util.h @service['serviceName']}"
 end
 
 # TODO merge with above step
@@ -59,7 +61,7 @@ Given /^I have a random (?:([a-z-]+) )?supplier from the API$/ do |metaframework
   suppliers = JSON.parse(random_page.body)['suppliers']
   @supplier = suppliers[rand(suppliers.length)]
   puts "Supplier ID: #{@supplier['id']}"
-  puts "Supplier name: #{@supplier['name']}"
+  puts "Supplier name: #{ERB::Util.h @supplier['name']}"
 end
 
 # TODO merge with above step
@@ -83,7 +85,7 @@ Given /^I have a random dos brief from the API$/ do
   }[@brief['status']]
 
   puts "Brief ID: #{@brief['id']}"
-  puts "Brief name: #{@brief['title']}"
+  puts "Brief name: #{ERB::Util.h @brief['title']}"
 end
 
 When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
@@ -143,7 +145,7 @@ Then /^I see the '(.*)' link$/ do |link_text|
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
-  find('h1').text.should == normalize_whitespace(page_name)
+  page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
 
 Then /^I see #{MAYBE_VAR} in the page's h1$/ do |page_name_fragment|

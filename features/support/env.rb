@@ -1,3 +1,4 @@
+require 'erb'
 require 'rspec'
 require 'nokogiri'
 require 'capybara/cucumber'
