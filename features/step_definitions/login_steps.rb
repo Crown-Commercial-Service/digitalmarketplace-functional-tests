@@ -15,6 +15,9 @@ Given /^I have a production ([a-z-]+) user$/ do |user_role|
 end
 
 Given /^I have a ([a-z-]+) user$/ do |user_role|
+  randomString = SecureRandom.hex
+  password = SecureRandom.hex
+  
   user_data = {
     "emailAddress" => randomString + '@example.gov.uk',
     "name" => "#{user_role.capitalize} Name #{randomString}",

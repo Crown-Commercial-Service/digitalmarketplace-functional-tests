@@ -1,7 +1,7 @@
 # Captures a literal value or a variable reference that gets resolved by a
 # transform step into a value before being passed to the step definition
 
-MAYBE_VAR_RE = '((?:the )?(?:\'(?<value>.*)\')|(?:that (?<quoted>quoted )?(?<variable>\w+)(?<attributes>(?:\.\w+)*)))'
+MAYBE_VAR_RE = '((?:the )?(?:\'(?<value>.*)\')|(?:that (?<quoted>quoted )?(?<variable>\w+)(?<attributes>(?:\.[\w-]+)*)))'
 MAYBE_VAR = MAYBE_VAR_RE.gsub(/<[a-z]+>/, ':')
 
 Transform /^#{MAYBE_VAR}$/ do |whole_match|
