@@ -1,60 +1,113 @@
+Before do
+  @substitutions = {}
+  @fields = {}
+end
+
 Given /^I have created (an individual specialist|a team to provide an outcome) requirement$/ do |type|
-  steps %Q{
-    Given I am on the homepage
-     When I click 'Find #{type}'
-     Then I am on the 'Find #{type}' page
-     When I click 'Create requirement'
-      And I enter a random value in the 'title' field and click its associated 'Save and continue' button
-     Then I am on that fields.title page
-  }
+
+  page.visit("#{dm_frontend_domain}")
+
+  click_on "Find #{type}"
+
+  assert_selector('h1', text: "Find #{type}")
+
+  click_on 'Create requirement'
+
+  answers = fill_form
+
+  @fields.merge! answers
+
+  click_on 'Save and continue'
+
+  assert_selector('h1', text: answers['title'])
 end
 
 Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
-  page.all(:xpath, "//li[a[text()='#{label}']]").empty?.should == false
-  
   expr = "//li[a[text()='#{label}']]/span[@class='tick']"
   
-  !page.all(:xpath, expr).empty?.should == negative.empty?
+  count = case negative.empty? when true then 1 else 0 end
+
+  assert_selector(:xpath, expr, :count => count)
 end
 
+When "I answer the following questions:" do |table|
 
-Then /^I should (not |)see #{MAYBE_VAR} in #{MAYBE_VAR} summary item$/ do |negative, value, label|
-  expr = "//tr[td[@class='summary-item-field-first']/span[text() = '#{label}']]/td[@class='summary-item-field' and contains(., '#{value}')]"
-
-  !page.all(:xpath, expr).empty?.should == negative.empty?
-end
-
-When /^I answer the following questions:?$/ do |table|
   table.rows.flatten.each { |question|
-    step "I click '#{question}'"
-    step "I answer the question"
-    step "I click 'Save and continue'"
-    step "'#{question}' should be ticked"
+    expr = "//li[a[text()='#{question}']]/span[@class='tick']"
+
+    assert_selector(:xpath, expr, :count => 0)
+    
+    click_on question
+    
+    @fields.merge! fill_form
+
+    click_on 'Save and continue'
+
+    assert_selector(:xpath, expr, :count => 1)
   }
 end
 
 When /^I answer the question$/ do 
-  text = page.all(:xpath, '//input[@type="text"] | //textarea').to_a
-  radios = page.all(:xpath, '//input[@type="radio"]').to_a
-  checks = page.all(:xpath, '//input[@type="checkbox"]').to_a
+  @answer = fill_form
 
-  name = [text, radios, checks].flatten[0][:name]
-  
-  step "I enter a random value in the '#{name}' field" unless text.empty?
-  
-  step "I choose a random '#{name}' radio button" unless radios.empty?
-  
-  step "I check a random '#{name}' checkbox" unless checks.empty?
-  
-  @answer = @fields[name]
+  @fields.merge! @answer
 end
 
-When /^I answer the following summary questions:?$/ do |table|
-  table.rows.each { |title, question, value|
-    step "I click '#{question}'"
-    step "I answer the question"
-    step "I click 'Save and continue'"
-    step "I should see that answer in the '#{title}' summary item"
-  }
+When "I use the following substitutions:" do |table|
+  @substitutions.merge! Hash[table.rows]
 end
 
+When "I answer all summary questions" do
+  all('tr.summary-item-row').to_a.each_with_index do |row, index|
+    within all('tr.summary-item-row')[index] do
+      click_on first('a').text
+    end
+
+    answer = fill_form
+
+    @fields.merge! answer
+
+    click_on 'Save and continue'
+
+    within all('tr.summary-item-row')[index] do
+      answer.each do |k, v|
+        if v.respond_to? :each 
+          v.each { |v| all('td')[1].text.should include(@substitutions[v] || v) }
+        else
+          all('td')[1].text.should include(@substitutions[v] || v)
+        end
+      end
+    end
+  end
+end
+
+When "I answer all summary questions with:" do |table|
+  with = {}
+
+  table.rows.each do |k, v|
+    v = JSON.parse(v) if ['{', '['].include? v[0]
+    with[k] = v
+  end
+
+  all('tr.summary-item-row').to_a.each_with_index do |row, index|
+    within all('tr.summary-item-row')[index] do
+      click_on first('a').text
+    end
+
+    answer = fill_form :with => with
+
+    @fields.merge! answer
+
+    click_on 'Save and continue'
+
+    within all('tr.summary-item-row')[index] do
+      answer.each do |k, v|
+        if v.respond_to? :each 
+          v.each { |v| all('td')[1].text.should include(@substitutions[v] || v) }
+        else
+          all('td')[1].text.should include(@substitutions[v] || v)
+        end
+      end
+    end
+  end
+end
