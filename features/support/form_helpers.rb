@@ -4,8 +4,6 @@ module FormHelper
       :checkbox
     elsif el[:type] == 'radio'
       :radio
-    elsif el.tag_name == 'select'
-      :select
     elsif el[:type] == 'text' and  el.matches_css? 'div.input-list input'
       # TODO condition is expensive.... can we cache?
       :list
@@ -34,7 +32,7 @@ module FormHelper
     when :checkbox
       (0..rand(result.length)).map { |i| result.sample.value }.uniq
     when :list
-      (0..rand(result.length)).map { |i| random_string }
+      (0..rand(10)).map { |i| random_string }
     else
       random_string
     end
@@ -90,7 +88,7 @@ module FormHelper
 
     result
   end
-  
+
   def fill_field(locator=nil, options={})
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
@@ -117,7 +115,7 @@ module FormHelper
       [result]
     end
   end
-  
+
   def fill_form(locator=nil, options={})
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)

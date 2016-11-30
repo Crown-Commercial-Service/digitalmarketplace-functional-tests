@@ -47,12 +47,6 @@ When "I answer the following questions:" do |table|
   }
 end
 
-When /^I answer the question$/ do 
-  @answer = fill_form
-
-  @fields.merge! @answer
-end
-
 When "I use the following substitutions:" do |table|
   @substitutions.merge! Hash[table.rows]
 end
