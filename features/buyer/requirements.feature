@@ -63,13 +63,13 @@ Scenario: Create team to provide an outcome
    Then I answer the following questions:
       | question                                        |
       | Location                                        |
-   
+
   Given 'Description of work' should not be ticked
    When I click 'Description of work'
     And I answer all summary questions
     And I click 'Return to overview'
    Then 'Description of work' should be ticked
-   
+
   Given 'Shortlist and evaluation process' should not be ticked
    When I click 'Shortlist and evaluation process'
     And I answer all summary questions with:
@@ -80,7 +80,95 @@ Scenario: Create team to provide an outcome
       | priceWeighting     | 85    |
     And I click 'Return to overview'
    Then 'Shortlist and evaluation process' should be ticked
-   
+
+  Given 'Describe question and answer session' should not be ticked
+   When I click 'Describe question and answer session'
+    And I answer all summary questions
+    And I click 'Return to overview'
+   Then 'Describe question and answer session' should be ticked
+
+   When I click 'Review and publish your requirements'
+    And I click 'Publish requirements'
+
+  Then I don't see the 'Title' link
+   And I don't see the 'Location' link
+   And I don't see the 'Description of work' link
+   And I don't see the 'Shortlist and evaluation process' link
+   And I don't see the 'Review and publish your requirements' link
+
+
+Scenario: Create team to provide an outcome
+  Given I am logged in as a buyer user
+    And I use the following substitutions:
+      | value          | substitution   |
+      | not_applicable | Not applicable |
+      | not_started    | Not started    |
+      | discovery      | Discovery      |
+      | alpha          | Alpha          |
+      | beta           | Beta           |
+      | live           | Live           |
+    And I have created a team to provide an outcome requirement
+   Then I answer the following questions:
+      | question                                        |
+      | Location                                        |
+
+  Given 'Description of work' should not be ticked
+   When I click 'Description of work'
+    And I answer all summary questions
+    And I click 'Return to overview'
+   Then 'Description of work' should be ticked
+
+  Given 'Shortlist and evaluation process' should not be ticked
+   When I click 'Shortlist and evaluation process'
+    And I answer all summary questions with:
+      | field              | value |
+      | numberOfSuppliers  | 5     |
+      | technicalWeighting | 10    |
+      | culturalWeighting  | 5     |
+      | priceWeighting     | 85    |
+    And I click 'Return to overview'
+   Then 'Shortlist and evaluation process' should be ticked
+
+  Given 'Describe question and answer session' should not be ticked
+   When I click 'Describe question and answer session'
+    And I answer all summary questions
+    And I click 'Return to overview'
+   Then 'Describe question and answer session' should be ticked
+
+   When I click 'Review and publish your requirements'
+    And I click 'Publish requirements'
+
+  Then I don't see the 'Title' link
+   And I don't see the 'Location' link
+   And I don't see the 'Description of work' link
+   And I don't see the 'Shortlist and evaluation process' link
+   And I don't see the 'Review and publish your requirements' link
+
+
+Scenario: Create user research participants
+  Given I am logged in as a buyer user
+    And I have created user research participants requirement
+   Then I answer the following questions:
+      | question                                        |
+      | Location                                        |
+
+  Given 'Description of work' should not be ticked
+   When I click 'Description of work'
+    And I answer all summary questions
+    And I click 'Return to overview'
+   Then 'Description of work' should be ticked
+
+  Given 'Shortlist and evaluation process' should not be ticked
+   When I click 'Shortlist and evaluation process'
+    And I answer all summary questions with:
+      | field              | value |
+      | numberOfSuppliers  | 5     |
+      | technicalWeighting | 10    |
+      | culturalWeighting  | 10    |
+      | priceWeighting     | 80    |
+    And I click 'Return to overview'
+   Then 'Shortlist and evaluation process' should be ticked
+
   Given 'Describe question and answer session' should not be ticked
    When I click 'Describe question and answer session'
     And I answer all summary questions

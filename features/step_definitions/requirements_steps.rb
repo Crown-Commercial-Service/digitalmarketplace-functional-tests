@@ -3,8 +3,7 @@ Before do
   @fields = {}
 end
 
-Given /^I have created (an individual specialist|a team to provide an outcome) requirement$/ do |type|
-
+Given "I have created $type requirement" do |type|
   page.visit("#{dm_frontend_domain}")
 
   click_on "Find #{type}"

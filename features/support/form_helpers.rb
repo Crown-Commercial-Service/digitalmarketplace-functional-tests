@@ -1,5 +1,12 @@
+require 'pry'
+
 module FormHelper
+  # Helper utilities for dealing with forms
+  
+  
   def field_type(el)
+    # Returns the type of field for a Capybara::Node::Element
+    
     if el[:type] == 'checkbox'
       :checkbox
     elsif el[:type] == 'radio'
@@ -13,10 +20,14 @@ module FormHelper
   end
 
   def random_string
+    # Generate a random string
+    
     (0..rand(3)).map{ |i| SecureRandom.base64.gsub(/[+=\/]/, '') }.join
   end
 
-  def random_for(locator=nil, options={})
+  def random_for(locator, options={})
+    # Generate a suitable random value based on locator
+    
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
     result = all(:field, locator, options)
@@ -39,12 +50,17 @@ module FormHelper
   end
 
   def find_fields(locator=nil, options={})
+    # Find all field names
+
     results = all(:field, locator, options).map { |v| v[:name] }
 
     results.uniq
   end
 
   def check_only(locator=nil, options={})
+    # Ensure only the values provided in options[:with] are selected
+    # takes either a single string or array of strings
+    
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = [options.delete(:with)].flatten
@@ -69,6 +85,9 @@ module FormHelper
   end
 
   def input_list(locator=nil, options={})
+    # Enter the values provided in options[:with] into an input list
+    # takes either a single string or array of strings
+
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = [options.delete(:with)].flatten
@@ -76,7 +95,7 @@ module FormHelper
     
     within result[0] do
       within(:xpath, '../..') do
-        (2..with.length).each { click_on '.list-entry-add' } if with.length > 2
+        (3..with.length).each { click_on find('.list-entry-add').text } if with.length > 2
       end
     end
     
@@ -90,6 +109,8 @@ module FormHelper
   end
 
   def fill_field(locator=nil, options={})
+    # Like fill_in but will work with checkboxes, radios, and input lists too.
+
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = options.delete(:with)
@@ -117,6 +138,9 @@ module FormHelper
   end
 
   def fill_form(locator=nil, options={})
+    # Fill in all form fields with provided values, using random values for
+    # any not provided.
+
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
     with = options.delete(:with) || {}
