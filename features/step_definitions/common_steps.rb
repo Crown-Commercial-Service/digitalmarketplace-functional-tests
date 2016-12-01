@@ -58,7 +58,11 @@ Given /^I have a random (?:([a-z-]+) )?supplier from the API$/ do |metaframework
                     1
                   end
   random_page = call_api(:get, "/suppliers", params: params)
-  suppliers = JSON.parse(random_page.body)['suppliers']
+  # Remove suppliers without a DUNS number - these are old imported accounts
+  # and it's easier to skip them than to handle the empty DUNS search case
+  suppliers = JSON.parse(random_page.body)['suppliers'].select { |supplier|
+    supplier['dunsNumber']
+  }
   @supplier = suppliers[rand(suppliers.length)]
   puts "Supplier ID: #{@supplier['id']}"
   puts "Supplier name: #{ERB::Util.h @supplier['name']}"
