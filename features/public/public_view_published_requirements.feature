@@ -18,7 +18,7 @@ Scenario: Public views the publish requirements. Details presented matches what 
     And Summary row 'Organisation the work is for' should contain 'Driver and Vehicle Licensing Agency'
     And Summary row 'What the specialist will work on' should contain 'Work on the Digital Marketplace'
     And Summary row 'Who the specialist will work with' should contain 'Digital Marketplace team'
-    And Summary row 'Region' should contain 'Scotland'
+    And Summary row 'Location' should contain 'Scotland'
 
     And Summary row 'Summary of the work' should contain 'Make a flappy bird clone except where the bird drives very safely'
 
