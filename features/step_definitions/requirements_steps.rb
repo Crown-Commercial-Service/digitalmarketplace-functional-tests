@@ -8,7 +8,7 @@ Given "I have created $type requirement" do |type|
 
   click_on "Find #{type}"
 
-  assert_selector('h1', text: "Find #{type}")
+  page.should have_selector('h1', text: "Find #{type}")
 
   click_on 'Create requirement'
 
@@ -18,7 +18,7 @@ Given "I have created $type requirement" do |type|
 
   click_on 'Save and continue'
 
-  assert_selector('h1', text: answers['title'])
+  page.should have_selector('h1', text: answers['title'])
 end
 
 Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
@@ -26,7 +26,7 @@ Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
   
   count = case negative.empty? when true then 1 else 0 end
 
-  assert_selector(:xpath, expr, :count => count)
+  page.should have_selector(:xpath, expr, :count => count)
 end
 
 When "I answer the following questions:" do |table|
@@ -34,7 +34,7 @@ When "I answer the following questions:" do |table|
   table.rows.flatten.each { |question|
     expr = "//li[a[text()='#{question}']]/span[@class='tick']"
 
-    assert_selector(:xpath, expr, :count => 0)
+    page.should have_selector(:xpath, expr, :count => 0)
     
     click_on question
     
@@ -42,7 +42,7 @@ When "I answer the following questions:" do |table|
 
     click_on 'Save and continue'
 
-    assert_selector(:xpath, expr, :count => 1)
+    page.should have_selector(:xpath, expr, :count => 1)
   }
 end
 
