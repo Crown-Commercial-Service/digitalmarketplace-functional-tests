@@ -1,5 +1,3 @@
-require 'pry'
-
 module FormHelper
   # Helper utilities for dealing with forms
   
