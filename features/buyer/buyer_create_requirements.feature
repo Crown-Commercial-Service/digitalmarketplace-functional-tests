@@ -126,7 +126,7 @@ Scenario: Complete all mandatory buyer requirements questions
   Then I am taken to the 'Shortlist and evaluation process' page
 
   When I click the 'Set maximum number of specialists you’ll evaluate' link
-  Then I am taken to the 'Maximum number of specialists you’ll evaluate' page
+  Then I am taken to the 'How many specialists to evaluate' page
   When I enter '5' in the 'numberOfSuppliers' field
   And I click the 'Save and continue' button
   Then I am taken to the 'Shortlist and evaluation process' page
@@ -192,7 +192,7 @@ Scenario: Verify sections on the overview page are ticked
   Then I am taken to the 'Shortlist and evaluation process' page
   And Summary row 'Technical competence criteria' should contain 'Write functional tests'
   And Summary row 'Technical competence criteria' should contain 'Work with ruby'
-  And Summary row 'Maximum number of specialists that will be evaluated' should contain '5'
+  And Summary row 'How many specialists to evaluate' should contain '5'
   And Summary row 'Evaluation weighting' should contain 'Technical competence 75% Cultural fit 5% Price 20%'
   And Summary row 'Cultural fit criteria' should contain 'Main cultural fit criteria'
   And Summary row 'Cultural fit criteria' should contain 'Additional cultural fit criteria'
