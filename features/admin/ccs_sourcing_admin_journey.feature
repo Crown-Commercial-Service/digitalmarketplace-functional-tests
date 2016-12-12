@@ -50,7 +50,7 @@ Scenario: As a CCS Sourcing user I want to download the agreement
   Then I am presented with the message 'Countersigned agreement file was uploaded'
 
   When I download the contersigned agreement
-  Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
+  Then The correct file of 'DM_Functional_Test_Supplier-11111-agreement-countersignature.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I want to view Digital Outcomes and Specialists 2 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
