@@ -1801,7 +1801,7 @@ Then /^The correct file of '(.*)' with file content type of '([^"]*)' is made av
   if header['Content-Disposition'] != nil
     header_file = header['Content-Disposition']
     header_file.should match /^attachment/
-    header_file.should match /filename=#{file_name}$/
+    header_file.should match /filename="?#{file_name}"?$/
   else
     header_content_length = header['Content-Length']
     header_content_length.should match store.content_length
