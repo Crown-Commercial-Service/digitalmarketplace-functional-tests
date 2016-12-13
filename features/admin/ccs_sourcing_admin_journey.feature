@@ -50,28 +50,27 @@ Scenario: As a CCS Sourcing user I want to download the agreement
   Then I am presented with the message 'Countersigned agreement file was uploaded'
 
   When I download the contersigned agreement
-  Then The correct file of 'countersigned-framework-agreement.pdf' with file content type of 'application/pdf' is made available
+  Then The correct file of 'DM_Functional_Test_Supplier-11111-agreement-countersignature.pdf' with file content type of 'application/pdf' is made available
 
 Scenario: As a CCS Sourcing user I want to view Digital Outcomes and Specialists 2 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
   When I click 'Digital Outcomes and Specialists 2 statistics'
   Then I am presented with the 'Digital Outcomes and Specialists 2' statistics page
 
-# DISABLED until ordering fixed in API
-#Scenario: Most recently uploaded agreements should be shown last: G-Cloud 7
-#  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
-#  When a 'g-cloud-7' signed agreement is uploaded for supplier '11111'
-#  And a 'g-cloud-7' signed agreement is uploaded for supplier '11112'
-#  When I click 'G-Cloud 7 agreements'
-#  Then the last signed agreement should be for supplier 'DM Functional Test Supplier 2'
-#
-#Scenario: Re-uploading an agreement brings it to the bottom of the list: Digital Outcomes and Specialists
-#  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
-#  When a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
-#  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11112'
-#  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
-#  When I click 'Digital Outcomes and Specialists agreements'
-#  Then the last signed agreement should be for supplier 'DM Functional Test Supplier'
+Scenario: Most recently uploaded agreements should be shown last: G-Cloud 7
+  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
+  When a 'g-cloud-7' signed agreement is uploaded for supplier '11111'
+  And a 'g-cloud-7' signed agreement is uploaded for supplier '11112'
+  When I click 'G-Cloud 7 agreements'
+  Then the last signed agreement should be for supplier 'DM Functional Test Supplier 2'
+
+Scenario: Re-uploading an agreement brings it to the bottom of the list: Digital Outcomes and Specialists
+  Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
+  When a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
+  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11112'
+  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
+  When I click 'Digital Outcomes and Specialists agreements'
+  Then the last signed agreement should be for supplier 'DM Functional Test Supplier'
 
 Scenario: CCS Sourcing should not have access to Administrator specific pages
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
