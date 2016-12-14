@@ -1,7 +1,6 @@
 module FormHelper
   # Helper utilities for dealing with forms
   
-  
   def field_type(el)
     # Returns the type of field for a Capybara::Node::Element
     
@@ -134,6 +133,46 @@ module FormHelper
       [result]
     end
   end
+  
+  def maybe_within(locator=nil, options={}, &block)
+    locator, options = nil, locator if locator.is_a? Hash
+    raise "Must pass a hash" if not options.is_a?(Hash)
+
+    if locator.nil?
+      block.call
+    else
+      within locator, options do
+        block.call
+      end
+    end
+  end
+
+  def find_substitutions(locator=nil, options={})
+    locator, options = nil, locator if locator.is_a? Hash
+    raise "Must pass a hash" if not options.is_a?(Hash)
+    results = all(:field, locator, options)
+
+    # hash that initialises empty keys to a hash
+    values = Hash.new{|h,k| h[k] = {}}
+    
+    results.each do |result|
+      if [:checkbox, :radio].include? field_type(result)
+        label = find("label[for='#{result[:id]}']").text
+
+        begin
+          description = find("label[for='#{result[:id]}'] p").text
+          
+          label = label[0..(label.length - description.length - 2)]
+        rescue Capybara::ElementNotFound
+          
+        end
+
+        values[result[:name]][result[:value]] = label
+      end
+    end
+
+    values
+  end
 
   def fill_form(locator=nil, options={})
     # Fill in all form fields with provided values, using random values for
@@ -142,22 +181,14 @@ module FormHelper
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
     with = options.delete(:with) || {}
-    
+
     values = {}
-    
-    if locator.nil?
+
+    maybe_within do
       find_fields.each do |name|
         values[name] = (with[name] or random_for name)
 
         fill_field name, with: values[name]
-      end
-    else
-      within locator, options do
-        find_fields.each do |name|
-          values[name] = random_for name
-
-          fill_field name, with: values[name]
-        end
       end
     end
     

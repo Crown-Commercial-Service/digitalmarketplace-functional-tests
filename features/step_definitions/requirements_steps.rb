@@ -1,5 +1,4 @@
 Before do
-  @substitutions = {}
   @fields = {}
 end
 
@@ -46,32 +45,8 @@ When "I answer the following questions:" do |table|
   }
 end
 
-When "I use the following substitutions:" do |table|
-  @substitutions.merge! Hash[table.rows]
-end
+def answer_summary_questions(with={})
 
-When "I answer all summary questions" do
-  all('tr.summary-item-row').to_a.each_with_index do |row, index|
-    within all('tr.summary-item-row')[index] do
-      click_on first('a').text
-    end
-
-    answer = fill_form
-
-    @fields.merge! answer
-
-    click_on 'Save and continue'
-
-    within all('tr.summary-item-row')[index] do
-      answer.each do |k, v|
-        if v.respond_to? :each 
-          v.each { |v| all('td')[1].text.should include(@substitutions[v] || v) }
-        else
-          all('td')[1].text.should include(@substitutions[v] || v)
-        end
-      end
-    end
-  end
 end
 
 When "I answer all summary questions with:" do |table|
@@ -80,7 +55,7 @@ When "I answer all summary questions with:" do |table|
   table.rows.each do |k, v|
     v = JSON.parse(v) if ['{', '['].include? v[0]
     with[k] = v
-  end
+  end if table
 
   all('tr.summary-item-row').to_a.each_with_index do |row, index|
     within all('tr.summary-item-row')[index] do
@@ -91,16 +66,28 @@ When "I answer all summary questions with:" do |table|
 
     @fields.merge! answer
 
+    substitutions = find_substitutions
+    
+    puts answer
+    puts substitutions
+
     click_on 'Save and continue'
 
     within all('tr.summary-item-row')[index] do
       answer.each do |k, v|
         if v.respond_to? :each 
-          v.each { |v| all('td')[1].text.should include(@substitutions[v] || v) }
+          v.each { |v| all('td')[1].text.should include(substitutions[k][v] || v) }
         else
-          all('td')[1].text.should include(@substitutions[v] || v)
+          all('td')[1].text.should include(substitutions[k][v] || v)
         end
       end
     end
   end
+end
+
+When "I answer all summary questions" do
+  steps %Q{
+     When I answer all summary questions with:
+       | field | value |
+  }
 end
