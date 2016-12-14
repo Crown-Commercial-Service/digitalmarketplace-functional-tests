@@ -125,7 +125,7 @@ Scenario: Complete all mandatory buyer requirements questions
   And I click the 'Save and continue' button
   Then I am taken to the 'Shortlist and evaluation process' page
 
-  When I click the 'Set maximum number of specialists you’ll evaluate' link
+  When I click the 'Set how many specialists to evaluate' link
   Then I am taken to the 'How many specialists to evaluate' page
   When I enter '5' in the 'numberOfSuppliers' field
   And I click the 'Save and continue' button
