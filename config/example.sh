@@ -2,7 +2,7 @@
 
 export DM_API_DOMAIN=${DM_API_DOMAIN:=http://localhost:5000}
 export DM_API_ACCESS_TOKEN=${DM_API_ACCESS_TOKEN:=myToken}
-export DM_SEARCH_API_DOMAIN=${DM_API_API_DOMAIN:=http://localhost:5001}
+export DM_SEARCH_API_DOMAIN=${DM_SEARCH_API_DOMAIN:=http://localhost:5001}
 export DM_SEARCH_API_ACCESS_TOKEN=${DM_SEARCH_API_ACCESS_TOKEN:=myToken}
 export DM_FRONTEND_DOMAIN=${DM_FRONTEND_DOMAIN:=http://localhost}
 
