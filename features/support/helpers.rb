@@ -1,6 +1,10 @@
 require 'capybara/helpers'
 require 'rspec/expectations'
 
+require_relative 'form_helpers.rb'
+
+World FormHelper
+
 LOTS = {
   all: 'All categories',
   SaaS: 'Software as a Service',

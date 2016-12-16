@@ -106,11 +106,20 @@ When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
   page.check(checkbox_label)
 end
 
+When /I choose #{MAYBE_VAR} radio button$/ do |checkbox_label|
+  page.choose(checkbox_label)
+end
+
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
-  checkboxes = all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']")
-  checkbox = checkboxes[rand(checkboxes.length)]
+  checkbox = all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']").sample
   page.check(checkbox[:id])
   puts "Checkbox value: #{checkbox.value}"
+end
+
+When /I choose a random '(.*)' radio button$/ do |name|
+  radio = all(:xpath, "//input[@type='radio'][@name='#{name}']").sample
+  page.choose(radio[:id])
+  puts "Radio button value: #{radio.value}"
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
@@ -134,8 +143,7 @@ When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)'
 end
 
 When(/^I choose a random uppercase letter$/) do
-  letters = ('A'..'Z').to_a
-  @letter = letters[rand(letters.length)]
+  @letter = ('A'..'Z').to_a.sample
   puts "letter: #{@letter}"
 end
 
@@ -144,8 +152,10 @@ Then /^I see the '(.*)' breadcrumb$/ do |breadcrumb_text|
   breadcrumb.text().should == breadcrumb_text
 end
 
-Then /^I see the '(.*)' link$/ do |link_text|
-  page.should have_link(link_text)
+Then /^I (don't |)see the '(.*)' link$/ do |negative, link_text|
+  page.should have_link(link_text) if negative.empty?
+  
+  page.should_not have_link(link_text) unless negative.empty?
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|

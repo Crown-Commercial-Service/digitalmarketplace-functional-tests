@@ -107,3 +107,6 @@ DEPENDENCIES
   rspec
   selenium-webdriver
   test-unit
+
+BUNDLED WITH
+   1.13.6
