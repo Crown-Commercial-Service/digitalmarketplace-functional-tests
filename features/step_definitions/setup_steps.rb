@@ -174,6 +174,15 @@ And /^The test suppliers have declarations$/ do
   path = "/suppliers/11111/frameworks/g-cloud-7/declaration"
   response = call_api(:put, path, payload: payload)
   response.code.should be(200), response.body
+  
+  declaration = JSON.parse(File.read("./fixtures/digital-outcomes-and-specialists-2-declaration.json"))
+  payload = {
+    "declaration" => declaration,
+    "updated_by" => "Test User",
+  }
+  path = "/suppliers/11111/frameworks/digital-outcomes-and-specialists-2/declaration"
+  response = call_api(:put, path, payload: payload)
+  response.code.should be(200), response.body
 end
 
 And /^I have an admin user$/ do

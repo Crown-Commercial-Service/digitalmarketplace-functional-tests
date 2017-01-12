@@ -13,45 +13,18 @@ Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier n
 
 Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
   Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'Edit declaration' link in the 'G-Cloud 7' column for the supplier 'DM Functional Test Supplier'
-  Then I am presented with the admin G-Cloud 7 declaration page
-  When I click the 'Edit' link for 'G-Cloud 7 essentials'
-  Then I am presented with the 'G-Cloud 7 essentials' page
-  And I choose 'No' for 'PR1'
+  When I click the 'Edit declaration' link in the 'Digital Outcomes and Specialists 2' column for the supplier 'DM Functional Test Supplier'
+  Then I am presented with the admin Digital Outcomes and Specialists 2 declaration page
+  When I click the 'Edit' link for 'Essentials'
+  Then I am presented with the 'Essentials' page
+  And I choose 'No' for 'termsOfParticipation'
   And I click 'Save and return to summary'
   And I click the 'Edit' link for 'Grounds for discretionary exclusion'
   Then I am presented with the 'Grounds for discretionary exclusion' page
-  And I change 'input-SQ3-1k' to 'Everything'
+  And I change 'mitigatingFactors2' to 'It was not me'
   And I click 'Save and return to summary'
-  Then I am presented with the updated admin G-Cloud 7 declaration page
-
-Scenario: As a CCS Sourcing user I wish to upload G-Cloud 7 countersigned agreements
-  Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'Countersigned agreement' link in the 'G-Cloud 7' column for the supplier 'DM Functional Test Supplier'
-  Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
-
-  When I choose file 'test.pdf' for 'countersigned_agreement'
-  And I click 'Upload file'
-  Then I am presented with the message 'Countersigned agreement file was uploaded'
-
-Scenario: As a CCS Sourcing user I wish to remove a countersigned agreement
-  Given I am logged in as 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
-  When I click 'Remove'
-  Then I am presented with the message 'Do you want to remove the countersigned agreement?'
-
-  When I click 'Yes'
-  Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
-  And There is no agreement available on the page
-
-Scenario: As a CCS Sourcing user I want to download the agreement
-  Given I am logged in as 'CCS Sourcing' and navigated to the 'Upload a G-Cloud 7 countersigned agreement' page for supplier 'DM Functional Test Supplier'
-  When I choose file 'test2.pdf' for 'countersigned_agreement'
-  And I click 'Upload file'
-  Then I am presented with the message 'Countersigned agreement file was uploaded'
-
-  When I download the contersigned agreement
-  Then The correct file of 'DM_Functional_Test_Supplier-11111-agreement-countersignature.pdf' with file content type of 'application/pdf' is made available
-
+  Then I am presented with the updated admin Digital Outcomes and Specialists 2 declaration page
+  
 Scenario: As a CCS Sourcing user I want to view Digital Outcomes and Specialists 2 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
   When I click 'Digital Outcomes and Specialists 2 statistics'
