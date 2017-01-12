@@ -13,21 +13,21 @@ Scenario: As a CCS Sourcing user, I wish to search for supplier(s) by supplier n
 
 Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
   Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'Edit declaration' link in the 'G-Cloud 7' column for the supplier 'DM Functional Test Supplier'
-  Then I am presented with the admin G-Cloud 7 declaration page
-  When I click the 'Edit' link for 'G-Cloud 7 essentials'
-  Then I am presented with the 'G-Cloud 7 essentials' page
-  And I choose 'No' for 'PR1'
+  When I click the 'Edit declaration' link in the 'Digital Outcomes and Specialists 2' column for the supplier 'DM Functional Test Supplier'
+  Then I am presented with the admin Digital Outcomes and Specialists 2 declaration page
+  When I click the 'Edit' link for 'Essentials'
+  Then I am presented with the 'Essentials' page
+  And I choose 'No' for 'termsOfParticipation'
   And I click 'Save and return to summary'
   And I click the 'Edit' link for 'Grounds for discretionary exclusion'
   Then I am presented with the 'Grounds for discretionary exclusion' page
-  And I change 'input-SQ3-1k' to 'Everything'
+  And I change 'mitigatingFactors2' to 'It was not me'
   And I click 'Save and return to summary'
-  Then I am presented with the updated admin G-Cloud 7 declaration page
+  Then I am presented with the updated admin Digital Outcomes and Specialists 2 declaration page
 
-Scenario: As a CCS Sourcing user I wish to upload G-Cloud 7 countersigned agreements
+Scenario: As a CCS Sourcing user I wish to upload G-Cloud 8 countersigned agreements
   Given I am logged in as 'CCS Sourcing' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'Countersigned agreement' link in the 'G-Cloud 7' column for the supplier 'DM Functional Test Supplier'
+  When I click the 'Countersigned agreement' link in the 'G-Cloud 8' column for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Upload a G-Cloud 7 countersigned agreement' page
 
   When I choose file 'test.pdf' for 'countersigned_agreement'

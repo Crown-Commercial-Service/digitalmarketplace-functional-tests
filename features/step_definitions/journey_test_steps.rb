@@ -71,24 +71,28 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   end
 end
 
-Then /I am presented with the admin G-Cloud 7 declaration page$/ do
-  page.find(:css, "h1").text().should == "G-Cloud 7 declaration"
+Then /I am presented with the admin Digital Outcomes and Specialists 2 declaration page$/ do
+  page.find(:css, "h1").text().should == "Digital Outcomes and Specialists 2 declaration"
   page.find(:css, "header p.context").text().should == @supplierName
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 
   section_headings = page.all(:css, "h2.summary-item-heading")
-  section_headings.length.should == 4
-  section_headings[0].text().should == "G-Cloud 7 essentials"
-  section_headings[1].text().should == "About you"
-  section_headings[2].text().should == "Grounds for mandatory exclusion"
-  section_headings[3].text().should == "Grounds for discretionary exclusion"
+  section_headings.length.should == 6
+  section_headings[0].text().should == "Essentials"
+  section_headings[1].text().should == "Grounds for mandatory exclusion"
+  section_headings[2].text().should == "Grounds for discretionary exclusion"
+  section_headings[3].text().should == "Working with government"
+  section_headings[4].text().should == "Working with digital"
+  section_headings[5].text().should == "About you"
 
   section_edit_links = page.all(:css, "a.summary-change-link")
-  section_edit_links.length.should == 4
-  section_edit_links[0][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/g-cloud-7-essentials"
-  section_edit_links[1][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/about-you"
-  section_edit_links[2][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds-for-mandatory-exclusion"
-  section_edit_links[3][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/g-cloud-7/grounds-for-discretionary-exclusion"
+  section_edit_links.length.should == 6
+  section_edit_links[0][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/digital-outcomes-and-specialists-2/essentials"
+  section_edit_links[1][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/digital-outcomes-and-specialists-2/grounds-for-mandatory-exclusion"
+  section_edit_links[2][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/digital-outcomes-and-specialists-2/grounds-for-discretionary-exclusion"
+  section_edit_links[3][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/digital-outcomes-and-specialists-2/working-with-government"
+  section_edit_links[4][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/digital-outcomes-and-specialists-2/working-with-digital"
+  section_edit_links[5][:href].should == "/admin/suppliers/#{@supplierID}/edit/declarations/digital-outcomes-and-specialists-2/about-you"
 
   page.all(:css, "table.summary-item-body").each do |section_table|
     column_headings = section_table.all(:css, "thead th")
@@ -99,18 +103,18 @@ Then /I am presented with the admin G-Cloud 7 declaration page$/ do
 
   declaration_answers = page.all(:xpath, "//tr[@class='summary-item-row']//td[2]")
   declaration_answers[0].text().should == "Yes"
-  declaration_answers[17].text().should == "Button Moon"
-  declaration_answers[30].text().should == "small"
+  declaration_answers[59].text().should == "Button Moon"
+  declaration_answers[74].text().should == "micro"
 end
 
-Then /I am presented with the updated admin G-Cloud 7 declaration page$/ do
-  page.find(:css, "h1").text().should == "G-Cloud 7 declaration"
+Then /I am presented with the updated admin Digital Outcomes and Specialists 2 declaration page$/ do
+  page.find(:css, "h1").text().should == "Digital Outcomes and Specialists 2 declaration"
   page.find(:css, "header p.context").text().should == @supplierName
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 
   declaration_answers = page.all(:xpath, "//tr[@class='summary-item-row']//td[2]")
   declaration_answers[0].text().should == "No"
-  declaration_answers[51].text().should == "Everything"
+  declaration_answers[37].text().should == "It was not me"
 end
 
 Then /I am presented with the admin search page$/ do
@@ -1784,11 +1788,11 @@ Then /^I am presented with the '(.*)' page$/ do |page_name| #Specific to admin p
     end
     page.should have_button("Upload file")
   when 'Grounds for discretionary exclusion'
-    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/edit/declarations/g-cloud-7/grounds-for-discretionary-exclusion")
+    current_url.should end_with("/grounds-for-discretionary-exclusion")
     page.should have_button("Save and return to summary")
     page.should have_link("Return without saving")
-  else
-    current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/11111/edit/declarations/g-cloud-7/g-cloud-7-essentials")
+  when 'Essentials'
+    current_url.should end_with("/essentials")
     page.should have_button("Save and return to summary")
     page.should have_link("Return without saving")
   end
