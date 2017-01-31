@@ -116,3 +116,120 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   })
   [200, 201].should include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
 end
+
+def create_brief(framework_slug, lot_slug, user_id)
+  path = "/briefs"
+  response = call_api(:post, path, payload: {
+    "updated_by" => "functional tests",
+    "briefs"=> {
+      "frameworkSlug"=> framework_slug,
+      "lot"=> lot_slug,
+      "userId"=> user_id,
+      "requirementsLength" => "2 weeks",
+      "culturalWeighting" => 5,
+      "workplaceAddress" => "London",
+      "culturalFitCriteria" => [
+        "Just a great guy gal",
+        "blah blah"
+      ],
+      "technicalWeighting" => 75,
+      "numberOfSuppliers" => 3,
+      "workingArrangements" => "Hard work",
+      "title" => "Tea drinker",
+      "location" => "London",
+      "summary" => "Drink lots of tea. Brew kettle.",
+      "existingTeam" => "Lots of us",
+      "specialistWork" => "Drink tea",
+      "specialistRole" => "developer",
+      "startDate" => "31\/12\/2016",
+      "organisation" => "NAO",
+      "priceWeighting" => 20,
+      "niceToHaveRequirements" => [
+        "Talk snobbishly about water quality",
+        "Sip quietly", "Provide biscuits"
+      ],
+      "essentialRequirements" => [
+        "Boil kettle",
+        "Taste tea",
+        "Wash mug", "do lots of things and then do some more and lots and lots of those because we require this"
+      ]
+    }
+  })
+  response.code.should be(201), _error(response, "Failed to create brief for #{framework_slug}, #{lot_slug}, #{user_id}")
+  return JSON.parse(response.body)['briefs']['id']
+end
+
+def publish_brief(brief_id)
+  path = "/briefs/#{brief_id}/publish"
+  response = call_api(:post, path, payload: {
+    "updated_by" => "functional tests"
+  })
+  response.code.should be(200), _error(response, "Failed to publish brief #{brief_id}")
+end
+
+def create_supplier()
+  path = "/suppliers"
+  response = call_api(:post, path, payload: {
+    "updated_by" => "functional tests",
+    "suppliers"=> {
+      "name"=> 'functional test supplier',
+      "dunsNumber"=> rand(9999999999).to_s,
+      "contactInformation"=> [
+        {
+          "contactName"=> SecureRandom.hex,
+          "email"=> SecureRandom.hex + "-supplier@user.dmdev",
+          "phoneNumber"=> '%010d' % rand(10 ** 11 -1),
+        }
+      ]
+    }
+  })
+  response.code.should be(201), _error(response, "Failed to create supplier")
+  supplier = JSON.parse(response.body)['suppliers']
+  return supplier
+end
+
+def create_live_service(supplier_id)
+  # Create a 15 digit service ID, miniscule clash risk
+  start = 10 ** 14
+  last = 10 ** 15 - 1
+  random_service_id = rand(start..last).to_s
+
+  service_path = "/services/#{random_service_id}"
+  service_data = {
+    "updated_by" => "functional tests",
+    "services"=> {
+      "id" => random_service_id,
+      "supplierId"=> supplier_id,
+      "frameworkSlug"=> "digital-outcomes-and-specialists",
+      "lot"=> "digital-specialists",
+      "developerLocations"=> [
+        "London",
+        "Scotland"
+      ],
+      "developerPriceMax"=> "200",
+      "developerPriceMin"=> "100",
+      "bespokeSystemInformation"=> true,
+      "dataProtocols"=> true,
+      "helpGovernmentImproveServices"=> true,
+      "openStandardsPrinciples"=> true
+    }
+  }
+
+  response = call_api(:put, service_path, payload: service_data)
+  response.code.should be(201), response.body
+  puts "created draft service"
+  service = JSON.parse(response.body)['services']
+
+  return service
+end
+
+def create_declaration(supplier_id, framework_slug)
+  path = "/suppliers/#{supplier_id}/frameworks/#{framework_slug}/declaration"
+  response = call_api(:put, path, payload: {
+    "updated_by" => "functional tests",
+    "declaration"=> {}
+  })
+  response.code.should be(201), _error(response, "Failed to create declaration")
+  declaration = JSON.parse(response.body)['declaration']
+  return declaration
+end
