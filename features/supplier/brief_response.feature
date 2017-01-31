@@ -44,6 +44,7 @@ Scenario: Supplier applys for a brief
 
   Given I am on 'Email address the buyer should use to contact you' page
   And I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
+  And I click 'Submit application'
   Then I am on the 'Your response to ‘Tea drinker’ has been sent' page
 
   Given I am on the 'Your response to ‘Tea drinker’ has been sent' page

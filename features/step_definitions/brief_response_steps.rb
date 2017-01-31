@@ -49,7 +49,7 @@ Given /^Do the setup$/ do
   # Put an assertion here
 end
 
-When /^I fill in the nice to have evidence$/ do
+When "I fill in the nice to have evidence" do
   puts 'doing this'
   page.choose('input-yesNo-0-no')
   page.choose('input-yesNo-1-no')

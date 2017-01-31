@@ -151,7 +151,8 @@ def create_brief(framework_slug, lot_slug, user_id)
       "essentialRequirements" => [
         "Boil kettle",
         "Taste tea",
-        "Wash mug", "do lots of things and then do some more and lots and lots of those because we require this"
+        "Wash mug",
+        "do lots of things and then do some more and lots and lots of those because we require this"
       ]
     }
   })
