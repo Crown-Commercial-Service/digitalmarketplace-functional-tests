@@ -46,7 +46,14 @@ Scenario: Supplier applys for a brief
   And I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
   Then I am on the 'Your response to ‘Tea drinker’ has been sent' page
 
- 
+  Given I am on the 'Your response to ‘Tea drinker’ has been sent' page
+  Then I see the 'Your details' summary table filled with:
+    | field                              | value                |
+    | Day rate                           | £200                 |
+    | Date the specialist can start work | 27/12/17             |
+    | Email address                      | example-email@gov.uk |
+
+
 # Background: (option 1) Set up supplier eligible for brief 
 #   Given I have a supplier
 #   And that supplier is on all frameworks?
