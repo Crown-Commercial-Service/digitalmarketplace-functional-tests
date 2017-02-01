@@ -45,6 +45,7 @@ When "I answer the following questions:" do |table|
   }
 end
 
+# Can this be deleted?
 def answer_summary_questions(with={})
 
 end
