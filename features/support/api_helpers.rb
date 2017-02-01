@@ -148,7 +148,8 @@ def create_brief(framework_slug, lot_slug, user_id)
       "priceWeighting" => 20,
       "niceToHaveRequirements" => [
         "Talk snobbishly about water quality",
-        "Sip quietly", "Provide biscuits"
+        "Sip quietly",
+        "Provide biscuits"
       ],
       "essentialRequirements" => [
         "Boil kettle",
