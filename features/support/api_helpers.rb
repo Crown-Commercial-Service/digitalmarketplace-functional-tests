@@ -115,6 +115,8 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
     "updated_by" => "functional tests",
   })
   [200, 201].should include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
+  declaration = JSON.parse(response.body)['declaration']
+  return declaration
 end
 
 def create_brief(framework_slug, lot_slug, user_id)
@@ -222,15 +224,4 @@ def create_live_service(supplier_id)
   service = JSON.parse(response.body)['services']
 
   return service
-end
-
-def create_declaration(supplier_id, framework_slug)
-  path = "/suppliers/#{supplier_id}/frameworks/#{framework_slug}/declaration"
-  response = call_api(:put, path, payload: {
-    "updated_by" => "functional tests",
-    "declaration"=> {}
-  })
-  response.code.should be(201), _error(response, "Failed to create declaration")
-  declaration = JSON.parse(response.body)['declaration']
-  return declaration
 end

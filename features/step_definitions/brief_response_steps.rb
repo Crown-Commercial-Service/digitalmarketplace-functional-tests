@@ -36,7 +36,7 @@ Given /^Do the setup$/ do
   @service = service
   puts service
 
-  declaration = create_declaration(supplier["id"], 'digital-outcomes-and-specialists')
+  declaration = submit_supplier_declaration('digital-outcomes-and-specialists', supplier["id"], {})
   puts declaration
 
   steps %Q{
