@@ -106,8 +106,14 @@ When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
   page.check(checkbox_label)
 end
 
-When /I choose #{MAYBE_VAR} radio button$/ do |checkbox_label|
-  page.choose(checkbox_label)
+When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
+  if question
+    within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
+      choose(checkbox_label)
+    end
+  else
+    page.choose(checkbox_label)
+  end
 end
 
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
@@ -154,7 +160,7 @@ end
 
 Then /^I (don't |)see the '(.*)' link$/ do |negative, link_text|
   page.should have_link(link_text) if negative.empty?
-  
+
   page.should_not have_link(link_text) unless negative.empty?
 end
 
