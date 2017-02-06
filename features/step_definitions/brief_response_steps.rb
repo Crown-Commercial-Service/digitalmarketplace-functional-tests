@@ -40,3 +40,7 @@ Given 'that supplier user is logged in' do
     Then I see the 'Log out' link
   }
 end
+
+Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
+  page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+end
