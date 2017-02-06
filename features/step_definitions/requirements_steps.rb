@@ -22,7 +22,7 @@ end
 
 Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
   expr = "//li[a[text()='#{label}']]/span[@class='tick']"
-  
+
   count = case negative.empty? when true then 1 else 0 end
 
   page.should have_selector(:xpath, expr, :count => count)
@@ -34,19 +34,15 @@ When "I answer the following questions:" do |table|
     expr = "//li[a[text()='#{question}']]/span[@class='tick']"
 
     page.should have_selector(:xpath, expr, :count => 0)
-    
+
     click_on question
-    
+
     @fields.merge! fill_form
 
     click_on 'Save and continue'
 
     page.should have_selector(:xpath, expr, :count => 1)
   }
-end
-
-def answer_summary_questions(with={})
-
 end
 
 When "I answer all summary questions with:" do |table|
@@ -67,7 +63,7 @@ When "I answer all summary questions with:" do |table|
     @fields.merge! answer
 
     substitutions = find_substitutions
-    
+
     puts answer
     puts substitutions
 
@@ -75,7 +71,7 @@ When "I answer all summary questions with:" do |table|
 
     within all('tr.summary-item-row')[index] do
       answer.each do |k, v|
-        if v.respond_to? :each 
+        if v.respond_to? :each
           v.each { |v| all('td')[1].text.should include(substitutions[k][v] || v) }
         else
           all('td')[1].text.should include(substitutions[k][v] || v)
