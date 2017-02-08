@@ -49,3 +49,7 @@ Then /^I visit the '(.*)' question page for that brief response$/ do |question|
   url = "/suppliers/opportunities/#{@brief_id}/responses/#{@brief_response}/#{question}"
   step "I am on the #{url} page"
 end
+
+Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
+  page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+end

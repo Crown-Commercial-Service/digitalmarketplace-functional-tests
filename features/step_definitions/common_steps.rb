@@ -184,6 +184,10 @@ Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
   end
 end
 
+Then /^I do not see the '(.*)' field$/ do |field_name|
+  page.should_not have_field(field_name)
+end
+
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' JSON field$/ do |value, field|
   json = JSON.parse(@response)
   json.should include(field)
@@ -210,5 +214,15 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
     result_items = result_table_rows[index].all('td')
     result_items[0].text.should == row[0]
     result_items[1].text.should == row[1]
+  end
+end
+
+Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
+  if question
+    within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
+      page.find_field("#{radio_button_name}").should be_checked
+    end
+  else
+    page.find_field("#{radio_button_name}").should be_checked
   end
 end
