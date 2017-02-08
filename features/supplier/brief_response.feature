@@ -151,8 +151,8 @@ Scenario: Supplier applies for a user-research-participants brief
 Scenario: Previous page links are used during response flow
   Given that supplier has a service on the digital-specialists lot
     And I have a live digital-specialists brief
-    And that supplier has a completed brief-response
-  When I visit the 'respondToEmailAddress' question page for that brief response
+    And that supplier has a completed brief response
+  When I visit the 'Respond to email address' question page for that brief response
     And I click 'Back to previous page' link
   Then I am on 'Do you have any of the nice-to-have skills or experience?' page
     And I see the 'Yes' radio button is checked for the 'Talk snobbishly about water quality' question
