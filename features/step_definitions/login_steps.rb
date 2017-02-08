@@ -14,10 +14,10 @@ Given /^I have a production ([a-z-]+) user$/ do |user_role|
   puts "Email address: #{@user['emailAddress']}"
 end
 
-Given /^I have a ([a-z-]+) user$/ do |user_role|
+Given /^I have a ([a-z-]+) user(?: with supplier id (\d*))?$/ do |user_role, supplier_id|
   randomString = SecureRandom.hex
   password = SecureRandom.hex
-  
+
   user_data = {
     "emailAddress" => randomString + '@example.gov.uk',
     "name" => "#{user_role.capitalize} Name #{randomString}",
@@ -26,15 +26,18 @@ Given /^I have a ([a-z-]+) user$/ do |user_role|
     "phoneNumber" => (SecureRandom.random_number(10000000) + 10000000000).to_s,
   }
 
+  user_data['supplierId'] = supplier_id.to_i if user_role == 'supplier'
+
   response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
   response.code.should be(201), response.body
   @user = JSON.parse(response.body)["users"]
   @user['password'] = password
   puts "Email address: #{@user['emailAddress']}"
+  @user
 end
 
 Given /^I am logged in as (?:a|the) (production )?(\w+) user$/ do |production, user_role|
-  login_page =  if user_role.start_with? 'admin' then '/admin/login' else '/login' end
+  login_page = if user_role.start_with? 'admin' then '/admin/login' else '/login' end
   steps %Q{
     Given I have a #{production}#{user_role} user
     And I am on the #{login_page} page

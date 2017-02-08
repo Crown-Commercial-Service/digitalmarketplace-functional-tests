@@ -106,8 +106,14 @@ When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
   page.check(checkbox_label)
 end
 
-When /I choose #{MAYBE_VAR} radio button$/ do |checkbox_label|
-  page.choose(checkbox_label)
+When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
+  if question
+    within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
+      choose(checkbox_label)
+    end
+  else
+    page.choose(checkbox_label)
+  end
 end
 
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
@@ -154,7 +160,7 @@ end
 
 Then /^I (don't |)see the '(.*)' link$/ do |negative, link_text|
   page.should have_link(link_text) if negative.empty?
-  
+
   page.should_not have_link(link_text) unless negative.empty?
 end
 
@@ -192,4 +198,17 @@ end
 
 Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
+end
+
+Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())='#{table_heading}']/following-sibling::table[1]"
+  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
+
+  result_table_rows = all(:xpath, result_table_rows_location)
+
+  table.rows.each_with_index do |row, index|
+    result_items = result_table_rows[index].all('td')
+    result_items[0].text.should == row[0]
+    result_items[1].text.should == row[1]
+  end
 end
