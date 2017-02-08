@@ -44,3 +44,8 @@ end
 Given 'that supplier has a completed brief-response' do
   @brief_response = create_brief_response(@service['lotSlug'], @brief_id, @supplier['id'])
 end
+
+Then /^I visit the '(.*)' question page for that brief response$/ do |question|
+  url = "/suppliers/opportunities/#{@brief_id}/responses/#{@brief_response}/#{question}"
+  step "I am on the #{url} page"
+end
