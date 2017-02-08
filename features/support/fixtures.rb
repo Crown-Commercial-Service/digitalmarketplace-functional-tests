@@ -1,7 +1,8 @@
 module Fixtures
   DIGITAL_SPECIALISTS_SERVICE = {
-    id: 'TO BE REPLACED',
-    supplierId: 'TO BE REPLACED',
+    # ID's should be updated within the step this fixture is used in.
+    id: nil,
+    supplierId: nil,
     frameworkSlug: 'digital-outcomes-and-specialists',
     lot: 'digital-specialists',
     developerLocations: [
@@ -17,8 +18,9 @@ module Fixtures
   }
 
   DIGITAL_OUTCOMES_SERVICE = {
-    id: 'TO BE REPLACED',
-    supplierId: 'TO BE REPLACED',
+    # ID's should be updated within the step this fixture is used in.
+    id: nil,
+    supplierId: nil,
     frameworkSlug: 'digital-outcomes-and-specialists',
     lot: 'digital-outcomes',
     bespokeSystemInformation: true,
@@ -35,8 +37,9 @@ module Fixtures
   }
 
   USER_RESEARCH_PARTICIPANTS_SERVICE = {
-    id: 'TO BE REPLACED',
-    supplierId: 'TO BE REPLACED',
+    # ID's should be updated within the step this fixture is used in.
+    id: nil,
+    supplierId: nil,
     frameworkSlug: 'digital-outcomes-and-specialists',
     lot: 'user-research-participants',
     anonymousRecruitment: true,
@@ -54,7 +57,8 @@ module Fixtures
   DIGITAL_SPECIALISTS_BRIEF = {
     frameworkSlug: 'digital-outcomes-and-specialists',
     lot: 'digital-specialists',
-    userId: 'TO BE UPDATED',
+    # ID's should be updated within the step this fixture is used in.
+    userId: nil,
     culturalFitCriteria: [
       "Just a great guy gal",
       "blah blah"
@@ -90,7 +94,8 @@ module Fixtures
   DIGITAL_OUTCOMES_BRIEF = {
     frameworkSlug: "digital-outcomes-and-specialists",
     lot: "digital-outcomes",
-    userId: 'TO BE UPDATED',
+    # ID's should be updated within the step this fixture is used in.
+    userId: nil,
     backgroundInformation: "Some background information.",
     budgetRange: "The range of the budget",
     culturalFitCriteria: [
@@ -130,7 +135,8 @@ module Fixtures
   USER_RESEARCH_PARTICIPANTS_BRIEF = {
     frameworkSlug: "digital-outcomes-and-specialists",
     lot: "user-research-participants",
-    userId: 'TO BE UPDATED',
+    # ID's should be updated within the step this fixture is used in.
+    userId: nil,
     culturalWeighting: 20,
     essentialRequirements: [
       "The horses must have four hooves",
