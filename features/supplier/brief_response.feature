@@ -147,3 +147,33 @@ Scenario: Supplier applies for a user-research-participants brief
       | Liking sugar lumps                 |                      |
       | Being good at jumping over fences  | No jump is too high. |
       | Saying "Neigh"                     | NEIGH                |
+
+Scenario: Previous page links are used during response flow
+  Given that supplier has a service on the digital-specialists lot
+    And I have a live digital-specialists brief
+    And that supplier has a completed brief-response
+  When I visit the 'respondToEmailAddress' question page for that brief response
+    And I click 'Back to previous page' link
+  Then I am on 'Do you have any of the nice-to-have skills or experience?' page
+    And I see the 'Yes' radio button is checked for the 'Talk snobbishly about water quality' question
+    And I see 'First nice to have evidence' as the value of the 'Evidence of Talk snobbishly about water quality' field
+    And I see the 'Yes' radio button is checked for the 'Sip quietly' question
+    And I see 'Second nice to have evidence' as the value of the 'Evidence of Sip quietly' field
+    And I see the 'No' radio button is checked for the 'Provide biscuits' question
+    And I do not see the 'Evidence of Provide biscuits' field
+  When I click 'Back to previous page' link
+  Then I am on 'Give evidence of the essential skills and experience' page
+    And I see 'first evidence' as the value of the 'Boil kettle' field
+    And I see 'second evidence' as the value of the 'Taste tea' field
+    And I see 'third evidence' as the value of the 'Wash mug' field
+    And I see 'fourth evidence' as the value of the 'Dry mug' field
+  When I click 'Back to previous page' link
+  Then I am on 'Do you have all the essential skills and experience?' page
+    And I see the 'Yes' radio button is checked
+  When I click 'Back to previous page' link
+  Then I am on 'What’s the specialist’s day rate?' page
+    And I see '200' as the value of the 'dayRate' field
+  When I click 'Back to previous page' link
+  Then I am on 'When is the earliest the specialist can start work?' page
+    And I see '27/12/17' as the value of the 'availability' field
+    And I don't see the 'Back to previous page' link
