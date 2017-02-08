@@ -41,6 +41,6 @@ Given 'that supplier user is logged in' do
   }
 end
 
-Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
-  page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+Given 'that supplier has a completed brief-response' do
+  @brief_response = create_brief_response(@service['lotSlug'], @brief_id, @supplier['id'])
 end

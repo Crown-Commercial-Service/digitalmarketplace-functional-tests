@@ -140,6 +140,25 @@ def create_brief(lot_slug, user_id)
   JSON.parse(response.body)['briefs']['id']
 end
 
+def create_brief_response(lot_slug, brief_id, supplier_id)
+  brief_response_data = {
+    updated_by: "functional tests"
+  }
+  case lot_slug
+  when 'digital-specialists'
+    brief_response_data['briefResponses'] = Fixtures::DIGITAL_SPECIALISTS_BRIEF_RESPONSE
+  else
+    puts 'Lot slug not recognised'
+  end
+
+  brief_response_data['briefResponses']['briefId'] = brief_id
+  brief_response_data['briefResponses']['supplierId'] = supplier_id
+
+  response = call_api(:post, '/brief-responses', payload: brief_response_data)
+  response.code.should be(201), _error(response, "Failed to create brief response for #{lot_slug}, #{brief_id}")
+  JSON.parse(response.body)['briefResponses']['id']
+end
+
 def publish_brief(brief_id)
   path = "/briefs/#{brief_id}/publish"
   response = call_api(:post, path, payload: {
