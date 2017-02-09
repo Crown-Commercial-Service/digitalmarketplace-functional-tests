@@ -165,6 +165,7 @@ def publish_brief(brief_id)
     updated_by: "functional tests"
   })
   response.code.should be(200), _error(response, "Failed to publish brief #{brief_id}")
+  JSON.parse(response.body)['briefs']
 end
 
 def create_supplier
