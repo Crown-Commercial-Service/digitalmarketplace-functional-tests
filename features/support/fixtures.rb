@@ -166,4 +166,25 @@ module Fixtures
     technicalWeighting: 60,
     title: "I need horses."
   }
+
+  DIGITAL_SPECIALISTS_BRIEF_RESPONSE = {
+    # ID's should be updated within the step this fixture is used in.
+    briefId: nil,
+    supplierId: nil,
+    availability: "27/12/17",
+    dayRate: "200",
+    essentialRequirements: [
+      { "evidence": "first evidence" },
+      { "evidence": "second evidence" },
+      { "evidence": "third evidence" },
+      { "evidence": "fourth evidence" },
+    ],
+    essentialRequirementsMet: true,
+    niceToHaveRequirements: [
+      { "yesNo": true, "evidence": "First nice to have evidence" },
+      { "yesNo": true, "evidence": "Second nice to have evidence" },
+      { "yesNo": false },
+    ],
+    respondToEmailAddress: "example-email@gov.uk",
+  }
 end

@@ -41,6 +41,19 @@ Given 'that supplier user is logged in' do
   }
 end
 
+Given 'that supplier has filled in their application but not submitted it' do
+  @brief_response = create_brief_response(@brief['lotSlug'], @brief_id, @supplier['id'])
+end
+
+Then /^I visit the '(.*)' question page for that brief response$/ do |question|
+  snaked = question.downcase.split.each_with_index do |word, index|
+    word.capitalize! if index != 0
+  end
+  question_id = snaked.join
+  url = "/suppliers/opportunities/#{@brief_id}/responses/#{@brief_response}/#{question_id}"
+  step "I am on the #{url} page"
+end
+
 Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
   page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
 end
