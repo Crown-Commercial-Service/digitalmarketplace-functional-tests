@@ -148,7 +148,7 @@ Scenario: Supplier applies for a user-research-participants brief
       | Being good at jumping over fences  | No jump is too high. |
       | Saying "Neigh"                     | NEIGH                |
 
-Scenario: Previous page links are used during response flow
+Scenario: Previous page links are used during response flow and existing data is replayed
   Given that supplier has a service on the digital-specialists lot
     And I have a live digital-specialists brief
     And that supplier has filled in their application but not submitted it
