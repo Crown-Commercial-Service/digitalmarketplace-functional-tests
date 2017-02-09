@@ -41,7 +41,7 @@ Given 'that supplier user is logged in' do
   }
 end
 
-Given 'that supplier has a completed brief response' do
+Given 'that supplier has filled in their application but not submitted it' do
   @brief_response = create_brief_response(@service['lotSlug'], @brief_id, @supplier['id'])
 end
 

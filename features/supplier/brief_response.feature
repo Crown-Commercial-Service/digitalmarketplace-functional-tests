@@ -151,7 +151,7 @@ Scenario: Supplier applies for a user-research-participants brief
 Scenario: Previous page links are used during response flow
   Given that supplier has a service on the digital-specialists lot
     And I have a live digital-specialists brief
-    And that supplier has a completed brief response
+    And that supplier has filled in their application but not submitted it
   When I visit the 'Respond to email address' question page for that brief response
     And I click 'Back to previous page' link
   Then I am on 'Do you have any of the nice-to-have skills or experience?' page
@@ -181,7 +181,7 @@ Scenario: Previous page links are used during response flow
 Scenario: Supplier changes their answers before submission
   Given that supplier has a service on the digital-specialists lot
     And I have a live digital-specialists brief
-    And that supplier has a completed brief response
+    And that supplier has filled in their application but not submitted it
     And I go to that brief page
     And I click 'Apply'
   Then I am on 'Apply for ‘Tea drinker’' page
