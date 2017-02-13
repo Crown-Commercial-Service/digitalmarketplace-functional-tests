@@ -1443,7 +1443,6 @@ Then /I am taken to page '(.*)' of results$/ do |page_number|
     current_url.should include("page=#{page_number}")
     current_url.should include("framework=g-cloud")
     if page_number >= '2'
-      page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
       page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
     elsif page_number < '2'
       page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
