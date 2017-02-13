@@ -13,6 +13,7 @@ Scenario: Set up suppliers and supplier users
 
 Scenario: Supplier asks a question
   Given I am on the 'Digital Marketplace' login page
+  And Test suppliers are eligible to respond to an opportunity
   And I login as a 'Supplier' user
   And I am on the public view of the opportunity
   When I click 'Ask a question'
