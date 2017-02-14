@@ -14,22 +14,6 @@ Scenario: As supplier user I wish be able to log in and to log out of Digital Ma
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Supplier' user
 
-Scenario: As a logged in supplier user, my supplier details are available on the dashboard
-  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  Then I can see my supplier details on the dashboard
-
-Scenario: As a logged in supplier user, I can navigate to the service listings page from my dashboard and can see all my listings
-  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  When I click 'View'
-  Then I am presented with the supplier 'DM Functional Test Supplier' 'Current services' page
-  And I can see all listings ordered by lot name followed by listing name
-
-Scenario: As a logged in supplier user, I can view the listings page of a specific service
-  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
-  When I click the service name link for the second listing on the page
-  And I click 'View service'
-  Then I am presented with the service page for that specific listing
-
 Scenario: As a logged in supplier user, I can see my active contributors on the dashboard
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   Then I can see active users associated with 'DM Functional Test Supplier' on the dashboard
@@ -45,11 +29,6 @@ Scenario: As a logged in supplier user, I can navigate to the contributors page 
   Then I am logged out of Digital Marketplace as a 'Supplier' user
   And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
   Then The supplier user 'DM Functional Test Supplier User 2' is 'not active' on the admin Users page
-
-Scenario: As a logged in supplier user, I can navigate to the service summary page for a specific service
-  Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page
-  When I click the service name link for the second listing on the page
-  Then I am presented with the summary page for that service
 
 Scenario: As a logged in supplier user, I can edit my supplier information
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
@@ -87,18 +66,6 @@ Scenario: As a logged in supplier user, I can edit the features and benefits of 
   And I add 'This is a new service feature' as a 'serviceFeatures'
   And I click 'Save and return to service'
   Then I am presented with the summary page with the changes that were made to the 'Features and benefits'
-
-Scenario: Supplier user changes service status to 'Removed'. The change is reflected in the admin and/or buyer app
-  Given I am logged in as 'Supplier' and am on the '1123456789012346' service summary page
-  When I click 'Remove service'
-  Then I am presented with the message 'Are you sure you want to remove your service?'
-  When I click 'Remove service'
-  And I am presented with a service removal message for the '1123456789012346' service
-  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
-  And The service 'can not' be searched
-  And The service details page 'can' be viewed
-  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
-  And The status of the service is presented as 'Private' on the admin users service summary page
 
 Scenario: Supplier user has 5 failed login attempts and is locked. Login is not allowed unless admin unlocks the user
   Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts

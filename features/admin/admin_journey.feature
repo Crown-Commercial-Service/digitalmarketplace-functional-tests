@@ -22,20 +22,6 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I click the search button for 'service_id'
   Then I am presented with the summary page for that service
 
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by DUNS number
-  Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I enter '930123456789' in the 'supplier_duns_number' field
-  And I click the search button for 'supplier_duns_number'
-  And I am taken to the 'Suppliers' page
-  And I click the 'Services' link
-  Then  I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
-  And I can see all listings ordered by lot name followed by listing name
-
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for services by supplier name prefix and view a specific service
-  Given I am logged in as 'Administrator' and navigated to the 'Services' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the service name link for the second listing on the page
-  Then I am presented with the service page for that specific listing
-
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for supplier(s) by supplier name prefix
   Given I have logged in to Digital Marketplace as a 'Administrator' user
   When I enter 'DM Functional Test Supplier' in the 'supplier_name_prefix' field
@@ -46,12 +32,6 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to n
   Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
   When I click the 'Users' link for the supplier 'DM Functional Test Supplier'
   Then I am presented with the 'Users' page for the supplier 'DM Functional Test Supplier'
-
-Scenario: As an admin user who has logged in to Digital Marketplace, I wish to navigate to the Supplier Services page via the supplier(s) by supplier name prefix page
-  Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
-  When I click the 'Services' link for the supplier 'DM Functional Test Supplier'
-  Then I am presented with the 'Services' page for the supplier 'DM Functional Test Supplier'
-  And I can see all listings ordered by lot name followed by listing name
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for users by email address
   Given I have logged in to Digital Marketplace as a 'Administrator' user
@@ -116,43 +96,6 @@ Scenario: As an admin user I want to view Service status changes
 
   When I navigate to the Service status changes page for changes made yesterday
   Then I am presented with the Service status changes page for changes made 'yesterday'
-
-Scenario: Admin changes service status to 'Removed'. The change is reflected in the supplier and/or buyer app
-  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
-  When I select 'Removed' as the service status
-  And I click the 'Update status' button
-  Then The service status is set as 'Removed'
-  And I am presented with the message 'Service status has been updated to: Removed'
-  And There is a new row for the 'Removed' status change in the service status change page
-  And The status of the service is presented as 'Removed' on the supplier users service listings page
-  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
-  And The service 'can not' be searched
-  And The service details page 'can' be viewed
-  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
-
-Scenario: Admin changes service status to 'Private'. The change is reflected in the supplier and/or buyer app
-  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
-  When I select 'Private' as the service status
-  And I click the 'Update status' button
-  Then The service status is set as 'Private'
-  And I am presented with the message 'Service status has been updated to: Private'
-  And There is a new row for the 'Removed' status change in the service status change page
-  And The status of the service is presented as 'Removed' on the supplier users service listings page
-  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Supplier' service summary page
-  And The service 'can not' be searched
-  And The service details page 'can' be viewed
-  And A message stating the supplier has stopped offering this service on todays date is presented on the 'Buyer' service summary page
-
-Scenario: Admin changes service status to 'Public'. The change is reflected in the supplier and/or buyer app
-  Given I am logged in as 'Administrator' and am on the '1123456789012346' service summary page
-  When I select 'Public' as the service status
-  And I click the 'Update status' button
-  Then The service status is set as 'Public'
-  And I am presented with the message 'Service status has been updated to: Public'
-  And There is a new row for the 'Live' status change in the service status change page
-  And The status of the service is presented as 'Live' on the supplier users service listings page
-  And The service 'can' be searched
-  And The service details page 'can' be viewed
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to deactivate a supplier user
   Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'

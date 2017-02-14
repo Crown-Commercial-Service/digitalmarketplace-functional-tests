@@ -29,7 +29,7 @@ echo -e "\033[0;32mAll services are up\033[0m"
 
 test_framework_status "g-cloud-4" "expired"
 test_framework_status "g-cloud-5" "expired"
-test_framework_status "g-cloud-6" "live"
+test_framework_status "g-cloud-6" "expired"
 test_framework_status "g-cloud-7" "live"
 test_framework_status "g-cloud-8" "live"
 test_framework_status "digital-outcomes-and-specialists" "live"
