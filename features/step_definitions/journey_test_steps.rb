@@ -730,43 +730,6 @@ Given /^I am logged in as '(.*)' '(.*)' user and am on the service listings page
   }
 end
 
-Then /I can see my supplier details on the dashboard$/ do
-  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Current services')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Supplier information')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Account information')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Contributors')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'G-Cloud 6')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span/p[contains(text(), '8 services')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Supplier summary')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'This is a test supplier, which will be used solely for the purpose of running functional test.')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Clients')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'First client')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'Second client')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), '3rd client')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//li[contains(text(), 'Client 4')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Contact name')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'Testing Supplier Name')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Website')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span/a[contains(text(), 'www.dmfunctionaltestsupplier.com')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), 'Testing.supplier.NaMe@DMtestemail.com')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Phone number')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '+44 (0) 123456789')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'Address')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), '125 Kingsway')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'London')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'United Kingdom')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']//*/span[@itemprop][text()][contains(text(), 'WC2B 6NH')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 1')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user_email()}')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user2_email()}')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 3')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user3_email()}')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-body']/caption[contains(text(), 'Account information')]/following-sibling::*[2]//*[@class='summary-item-field-first']/span[contains(text(), 'Email address')]")
-  page.should have_selector(:xpath, "//*[@class='summary-item-field']/span[contains(text(), '#{dm_supplier_user_email()}')]")
-end
-
 Then /I am presented with the supplier '(.*)' '(.*)' page$/ do |supplier_name, page_name|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Your account')]")
@@ -899,19 +862,6 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   end
 end
 
-And /I can see all listings ordered by lot name followed by listing name$/ do
-  services_listed([
-    "1123456789012348",
-    "1123456789012352",
-    "1123456789012347",
-    "1123456789012351",
-    "1123456789012346",
-    "1123456789012350",
-    "1123456789012349",
-    "1123456789012353",
-  ])
-end
-
 Then /I can see active users associated with '(.*)' on the dashboard$/ do |supplier_name|
   page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Contributors')]")
   ['Name', 'Email address'].each do |header|
@@ -947,39 +897,6 @@ def services_listed(service_ids)
   end
 end
 
-When /I click the service name link for the second listing on the page$/ do
-  @data_store = @data_store || Hash.new
-
-  servicename = find(
-    :xpath,
-    "//*/table/tbody/tr[2]/td[1]/span/a"
-  ).text()
-  @data_store['servicename'] = servicename
-
-  page.click_link_or_button(@data_store['servicename'])
-  serviceid = URI.parse(current_url).to_s.split('services/').last
-  @data_store['serviceid'] = serviceid
-end
-
-Then /I am presented with the service page for that specific listing$/ do
-  page.should have_content(@data_store['servicename'])
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/services/#{@data_store['serviceid']}")
-end
-
-When /I select '(.*)' as the service status$/ do |service_status|
-  if current_url.include?('suppliers')
-    find(
-      :xpath,
-      "//*[contains(@name, 'status') and contains(@value, '#{service_status}')]"
-    ).click
-  elsif current_url.include?('admin')
-    find(
-      :xpath,
-      "//*[contains(@name, 'status') and contains(@value, '#{service_status.downcase}')]"
-    ).click
-  end
-end
-
 Then /The service status is set as '(.*)'$/ do |service_status|
   if current_url.include?('suppliers')
     find(
@@ -994,88 +911,12 @@ Then /The service status is set as '(.*)'$/ do |service_status|
   end
 end
 
-And /I am presented with a service removal message for the '(.*)' service$/ do |value|
-  service_name = find(:xpath,
-    "//a[contains(@href, '/suppliers/services/#{value}')]"
-  ).text()
-
-  step "And I am presented with the message '#{service_name} has been removed.'"
-end
-
 And /I am presented with the message '(.*)'$/ do |message_text|
   page.should have_content(message_text)
 end
 
-Then /The status of the service is presented as '(.*)' on the supplier users service listings page$/ do |service_status|
-  step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the service listings page"
-
-  find(:xpath,
-    "//a[contains(@href, '/suppliers/services/#{@servicesupplierID}')]/../../../td[4]/span"
-  ).text().should have_content("#{service_status}")
-end
-
-Then /The status of the service is presented as '(.*)' on the admin users service summary page$/ do |service_status|
-  step "I am logged in as 'Administrator' and am on the '#{@servicesupplierID}' service summary page"
-  find(
-    :xpath,
-    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
-  ).text().should have_content("#{service_status}")
-end
-
-And /A message stating the supplier has stopped offering this service on todays date is presented on the '(.*)' service summary page$/ do |user_type|
-  time = Time.new
-  todays_date = time.strftime("%A %-d %B %Y")
-
-  case user_type
-  when 'Supplier'
-    step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
-    page.visit("#{dm_frontend_domain}/suppliers/services/#{@servicesupplierID}")
-    page.find(:xpath,
-      "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'This service was removed on #{todays_date}')]/following-sibling::p[@class='banner-message'][contains(text(),'If you don’t know why this service was removed')]"
-    )
-  when 'Buyer'
-    page.find(:xpath,
-      "//div[@class='banner-temporary-message-without-action']/h2[contains(text(),'DM Functional Test Supplier stopped offering this service on #{todays_date}.')]/following-sibling::p[@class='banner-message'][contains(text(),'Any existing contracts for this service are still valid')]"
-    )
-  else
-    fail("Unrecognised user type: '#{user_type}'")
-  end
-end
-
 Then /^there is a (success|warning|destructive) banner message containing '(.*)'$/ do |status, message|
   page.find(:css, ".banner-#{status}-without-action").should have_content(message)
-end
-
-And /The service '(.*)' be searched$/ do |ability|
-  sleep 1
-  page.visit("#{dm_frontend_domain}/g-cloud/search?q=#{@servicesupplierID}")
-  page.should have_content('Search results')
-  if "#{ability.downcase}" == 'can'
-    @existing_values = @existing_values || Hash.new
-    page.find(
-      :xpath,
-      "//*[contains(@class, 'search-summary-count') and contains(text(), '1')]"
-    )
-    page.should have_selector(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]")
-    service_name = find(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]").text()
-    @existing_values['service_name'] = service_name
-  elsif "#{ability.downcase}" == 'can not'
-    page.find(
-      :xpath,
-      "//*[contains(@class, 'search-summary-count') and contains(text(), '0')]"
-    )
-    page.should have_no_selector(:xpath, "//a[contains(@href, '/services/#{@serviceID}')]")
-  end
-end
-
-And /The service details page '(.*)' be viewed$/ do |ability|
-  page.visit("#{dm_frontend_domain}/g-cloud/services/#{@servicesupplierID}")
-  if "#{ability.downcase}" == 'can'
-    page.should have_content(@existing_values['service_name'])
-  elsif "#{ability.downcase}" == 'can not'
-    page.should have_content(@existing_values['service_name'])
-    page.should have_content('Page could not be found')
-  end
 end
 
 Given /I am on the '(.*)' landing page$/ do |page_name|
@@ -1282,21 +1123,6 @@ Then /There (?:is|are) (\d+) search results?$/ do |count|
   find(:xpath, "//*[@class='search-summary-count']").text.should == count
 end
 
-Then /I am taken to the search results page with a result for the service '(.*)'$/ do |value|
-  steps %Q{
-    Then I am on a page with '#{value}' in search summary text
-    Then Selected lot is 'All categories' with links to the search for '#{value}'
-    Then There is 1 search result
-  }
-
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{value}")
-  find(:xpath, ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{value}')]")
-  page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[1]/a")
-  page.should have_selector(:xpath, ".//p[@class='search-result-supplier'][contains(text(), 'DM Functional Test Supplier')]")
-  page.should have_selector(:xpath, ".//*[@class='search-result-metadata-item'][contains(text(), 'Infrastructure as a Service')]")
-  page.should have_selector(:xpath, ".//*[@class='search-result-metadata-item'][contains(text(), 'G-Cloud 6')]")
-end
-
 Then /I am on a page with that service in search results$/ do
   search_results = all(:xpath, ".//div[@class='search-result']")
   service_result = search_results.find { |r| r.first(:xpath, './h2/a')[:href].include? @service['id']}
@@ -1305,24 +1131,6 @@ Then /I am on a page with that service in search results$/ do
   service_result.first(:xpath, "./p[@class='search-result-supplier']").text.should == normalize_whitespace(@service['supplierName'])
   service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == (@service['lotName'] || full_lot(@service['lot']))
   service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][2]").text.should == @service['frameworkName']
-end
-
-Given /I am on the search results page for the searched value of '(.*)'$/ do |search_value|
-  steps %Q{
-    Given I am on the 'Cloud technology and support' landing page
-    When I enter '#{search_value}' in the 'q' field
-    And I click 'Show services'
-    Then I am taken to the search results page with a result for the service '#{search_value}'
-  }
-end
-
-Then /Words in the search result excerpt that match the search criteria are highlighted$/ do
-  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'N3')]").text().should have_content('N3')
-  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'Secure')]").text().should have_content('Secure')
-  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'secure')]").text().should have_content('secure')
-  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'Remote')]").text().should have_content('Remote')
-  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'Access')]").text().should have_content('Access')
-  page.first(:xpath, ".//mark[@class='search-result-highlighted-text'][contains(text(),'access')]").text().should have_content('access')
 end
 
 Given /I am on the search results page with results for that service.lot displayed$/ do
@@ -1342,23 +1150,6 @@ end
 
 When /^I choose file '(.*)' for '(.*)'$/ do |file, label|
   attach_file(label, File.join(Dir.pwd, 'fixtures', file))
-end
-
-Then /The search results is filtered returning just one result for the service '(.*)'$/ do |value|
-  query_string = CGI.escape value
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/search?q=#{query_string}&lot=iaas")
-  find(:xpath, "//*[@class='search-summary-count']").text().should match(/^1$/)
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{query_string}")
-  find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('Infrastructure as a Service')
-  find(
-    :xpath,
-    ".//*[@id='content']//*[@class='search-result-title']//a[contains(text(),'#{query_string} DM Functional Test N3 Secure Remote Access')]"
-  )
-  page.should have_no_selector(:xpath, ".//div[@class='lot-filters']//li[4]/a")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}') and contains(@href, '&lot=saas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}') and contains(@href, '&lot=paas')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search?q=#{query_string}') and contains(@href, '&lot=scs')]")
 end
 
 When /I select '(.*)' as the filter value under the '(.*)' filter$/ do |filter_value,filter_name|
@@ -1503,23 +1294,6 @@ Given /I am on the G-Cloud supplier A-Z page$/ do
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
 end
 
-Then /I am on the list of '(.*)' page$/ do |value|
-  current_url.should end_with("#{dm_frontend_domain}/g-cloud/suppliers?prefix=D")
-  page.should have_content('Suppliers starting with D')
-  ('A'..'C').each do |letter|
-    page.should have_selector(:xpath, ".//*[@id='global-atoz-navigation']//*/a[contains(@href, '/g-cloud/suppliers?prefix=#{letter}')]")
-  end
-  ('E'..'Z').each do |letter|
-    page.should have_selector(:xpath, ".//*[@id='global-atoz-navigation']//*/a[contains(@href, '/g-cloud/suppliers?prefix=#{letter}')]")
-  end
-  page.should have_no_selector(:xpath, ".//*[@id='global-atoz-navigation']//*/a[contains(@href, '/g-cloud/suppliers?prefix=D')]")
-  page.should have_selector(:xpath, ".//*[@id='global-atoz-navigation']//*/a[contains(@href, '/g-cloud/suppliers?prefix=other')]")
-  page.should have_selector(:xpath, ".//*[@id='global-atoz-navigation']//*/a[contains(@href, '/g-cloud/suppliers?prefix=other')]")
-  page.should have_selector(:xpath, ".//*[@id='content']//*[@class='selected']//strong[contains(text(), 'D')]")
-  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
-end
-
 And /The supplier '(.*)' is '(.*)' on the page$/ do |value,availability|
   if availability == 'listed'
     page.should have_content("#{value}")
@@ -1549,21 +1323,6 @@ And /I am taken to the '(.*)' supplier information page$/ do |value|
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[3]//*[contains(text(), 'Suppliers')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[4]//*[contains(text(), 'D')]")
-end
-
-Given /All services associated with supplier with name '(.*)' have a status of '(.*)'$/ do |value,status|
-  step "I am logged in as 'Administrator' and navigated to the 'Services' page for supplier '#{value}'"
-  current_service_status = page.find(:xpath,"//*[@class='summary-item-field-with-action']//*[contains(@href, '1123456789012354')]/../../../td[5][text()]").text()
-  if current_service_status == 'Public' || current_service_status == 'Private'
-    step "I click the 'Edit' link for the service '1123456789012354'"
-  elsif current_service_status == 'Removed'
-    step "I click the 'Details' link for the service '1123456789012354'"
-  end
-  steps %Q{
-    When I select '#{status}' as the service status
-    And I click the 'Update status' button
-    Then The service status is set as '#{status}'
-  }
 end
 
 And /All users for the supplier ID 11111 are listed on the page$/ do
@@ -1681,34 +1440,6 @@ Then /I am presented with the Service status changes page for changes made '(.*)
   page.should have_link('Service updates')
   page.should have_link('Service status changes')
   page.should have_link('Log out')
-end
-
-And /There is a new row for the '(.*)' status change in the service status change page$/ do |service_status|
-  page.visit("#{dm_frontend_domain}/admin/service-status-updates/#{Date.today}")
-  top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
-  second_time = DateTime.parse(top_record_time_stamp)
-
-  def check_latest_row_correct(service_status)
-    top_record_time_stamp = page.find(:xpath, "//tbody/tr[1]/td[5]/span").text()
-    case service_status
-    when 'Live'
-      page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Live')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
-    when 'Removed'
-      page.should have_xpath("//tbody/tr[1]/td[3]/span[contains(text(),'Removed')]/../../td[5]/span[contains(text(),'#{top_record_time_stamp}')]")
-    else
-      fail("There is no such service status: \"#{service_status}\"")
-    end
-  end
-
-  if store.first_time == nil
-    check_latest_row_correct(service_status)
-    store.first_time = DateTime.parse(top_record_time_stamp)
-  elsif store.first_time < second_time
-    check_latest_row_correct(service_status)
-
-  elsif store.first_time == second_time
-      fail("An error has occured: There has not been any new status changes recorded")
-  end
 end
 
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
