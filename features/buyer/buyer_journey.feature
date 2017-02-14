@@ -51,28 +51,6 @@ Scenario: There is no pagination on the results page if there is less than or eq
   When There is 'less' than the pagination limit results returned
   Then Pagination is 'not available'
 
-Scenario: User able to search by service ID and have result returned
-  Given I am on the 'Cloud technology and support' landing page
-  When I enter '1123456789012346' in the 'q' field
-  And I click 'Show services'
-  Then I am taken to the search results page with a result for the service '1123456789012346'
-
-Scenario: User is able to search by service name and have result returned.
-  Given I am on the 'Cloud technology and support' landing page
-  When I enter '1123456789012346 DM Functional Test N3 Secure Remote Access' in the 'q' field
-  And I click 'Show services'
-  Then I am taken to the search results page with a result for the service '1123456789012346 DM Functional Test N3 Secure Remote Access'
-
-Scenario: Words in service description matching the search criteria are highlighted
-  Given I am on the search results page for the searched value of '1123456789012346 DM Functional Test N3 Secure Remote Access'
-  Then Words in the search result excerpt that match the search criteria are highlighted
-
-Scenario: User able to search by keywords field on the search results page to narrow down the results returned
-  Given I am on the search results page with results for 'Infrastructure as a Service' lot displayed
-  When I enter '1123456789012346' in the 'q' field
-  And I click 'Filter'
-  Then The search results is filtered returning just one result for the service '1123456789012346'
-
 Scenario: User is able to use filter to narrow down results set
   Given I am on the search results page with results for 'Specialist Cloud Services' lot displayed
   When I select 'Training' as the filter value under the 'Categories' filter
@@ -95,28 +73,6 @@ Scenario: User is able to navigate to service listing page via selecting the ser
   Given I am on the search results page with results for 'Platform as a Service' lot displayed
   When I click the first record in the list of results returned
   Then I am taken to the service listing page of that specific record selected
-
-Scenario: User is able to find a specific supplier via G-Cloud supplier A-Z when status of all services for that supplier are PUBLIC
-  Given I am on the G-Cloud supplier A-Z page
-  When I click the 'D' link
-  Then I am on the list of 'Suppliers starting with D' page
-  And The supplier 'DM Functional Test Supplier 2' is 'listed' on the page
-
-Scenario: User is able to navigate to the supplier information page of a specific supplier
-  Given I navigate to the list of 'Suppliers starting with D' page
-  When The supplier 'DM Functional Test Supplier 2' is 'listed' on the page
-  Then I click the 'DM Functional Test Supplier 2' link
-  And I am taken to the 'DM Functional Test Supplier 2' supplier information page
-
-Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of all services for that supplier are REMOVED
-  Given All services associated with supplier with name 'DM Functional Test Supplier 2' have a status of 'Removed'
-  When I navigate to the list of 'Suppliers starting with D' page
-  Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
-
-Scenario: Specific supplier is not listed on G-Cloud supplier A-Z when status of all services for that supplier are PRIVATE
-  Given All services associated with supplier with name 'DM Functional Test Supplier 2' have a status of 'Private'
-  When I navigate to the list of 'Suppliers starting with D' page
-  Then The supplier 'DM Functional Test Supplier 2' is 'not listed' on the page
 
 Scenario: There is pagination on the list of suppliers page if there are more than 100 results
   Given I navigate to the list of 'Suppliers starting with S' page
