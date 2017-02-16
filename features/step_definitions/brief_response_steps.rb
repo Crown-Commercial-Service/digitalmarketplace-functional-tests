@@ -1,5 +1,14 @@
+Given 'I have a live digital outcomes and specialists framework' do
+  response = call_api(:get, "/frameworks")
+  response.code.should be(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  frameworks.delete_if {|framework| framework['framework'] != 'digital-outcomes-and-specialists' || framework['status'] != 'live'}
+  @framework = frameworks[0]
+  puts @framework['slug']
+end
+
 Given /^I have a live (.*) brief$/ do |lot_slug|
-  brief_id = create_brief(lot_slug, @buyer["id"])
+  brief_id = create_brief(@framework['slug'], lot_slug, @buyer["id"])
   puts "created brief with id #{brief_id}"
   brief = publish_brief(brief_id)
   @brief_id = brief_id
@@ -19,12 +28,12 @@ Given 'I have a supplier' do
   @supplier = create_supplier
 end
 
-Given /^that supplier is on the (.*) framework$/ do |framework_slug|
-  submit_supplier_declaration(framework_slug, @supplier["id"], {})
+Given 'that supplier is on that framework' do
+  submit_supplier_declaration(@framework['slug'], @supplier["id"], {})
 end
 
 Given /^that supplier has a service on the (.*) lot$/ do |lot_slug|
-  @service = create_live_service(lot_slug, @supplier["id"])
+  @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"])
 end
 
 Given 'that supplier has a user' do

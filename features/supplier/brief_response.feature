@@ -2,9 +2,10 @@
 Feature: Supplier applies for a brief
 
 Background:
+  Given I have a live digital outcomes and specialists framework
   Given I have a buyer
   Given I have a supplier
-    And that supplier is on the digital-outcomes-and-specialists framework
+    And that supplier is on that framework
     And that supplier has a user
     And that supplier user is logged in
 

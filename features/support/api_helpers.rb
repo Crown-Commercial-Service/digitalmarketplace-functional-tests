@@ -118,7 +118,7 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   JSON.parse(response.body)['declaration']
 end
 
-def create_brief(lot_slug, user_id)
+def create_brief(framework_slug, lot_slug, user_id)  
   brief_data = {
     updated_by: "functional tests"
   }
@@ -134,6 +134,7 @@ def create_brief(lot_slug, user_id)
   end
 
   brief_data['briefs']['userId'] = user_id
+  brief_data['briefs']['frameworkSlug'] = framework_slug
 
   response = call_api(:post, '/briefs', payload: brief_data)
   response.code.should be(201), _error(response, "Failed to create brief for #{lot_slug}, #{user_id}")
@@ -189,7 +190,7 @@ def create_supplier
   JSON.parse(response.body)['suppliers']
 end
 
-def create_live_service(lot_slug, supplier_id)
+def create_live_service(framework_slug, lot_slug, supplier_id)
   # Create a 15 digit service ID, miniscule clash risk
   start = 10 ** 14
   last = 10 ** 15 - 1
@@ -212,6 +213,7 @@ def create_live_service(lot_slug, supplier_id)
 
   service_data['services']['id'] = random_service_id
   service_data['services']['supplierId'] = supplier_id
+  service_data['services']['frameworkSlug'] = framework_slug
 
   service_path = "/services/#{random_service_id}"
   response = call_api(:put, service_path, payload: service_data)

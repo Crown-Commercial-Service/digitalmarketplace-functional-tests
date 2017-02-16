@@ -1,9 +1,9 @@
 module Fixtures
   DIGITAL_SPECIALISTS_SERVICE = {
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
     id: nil,
     supplierId: nil,
-    frameworkSlug: 'digital-outcomes-and-specialists',
+    frameworkSlug: nil,
     lot: 'digital-specialists',
     developerLocations: [
         "London",
@@ -18,10 +18,10 @@ module Fixtures
   }
 
   DIGITAL_OUTCOMES_SERVICE = {
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
     id: nil,
     supplierId: nil,
-    frameworkSlug: 'digital-outcomes-and-specialists',
+    frameworkSlug: nil,
     lot: 'digital-outcomes',
     bespokeSystemInformation: true,
     dataProtocols: true,
@@ -37,10 +37,10 @@ module Fixtures
   }
 
   USER_RESEARCH_PARTICIPANTS_SERVICE = {
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
     id: nil,
     supplierId: nil,
-    frameworkSlug: 'digital-outcomes-and-specialists',
+    frameworkSlug: nil,
     lot: 'user-research-participants',
     anonymousRecruitment: true,
     locations: [
@@ -55,10 +55,10 @@ module Fixtures
   }
 
   DIGITAL_SPECIALISTS_BRIEF = {
-    frameworkSlug: 'digital-outcomes-and-specialists',
-    lot: 'digital-specialists',
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
+    frameworkSlug: nil,
     userId: nil,
+    lot: 'digital-specialists',
     culturalFitCriteria: [
       "Just a great guy gal",
       "blah blah"
@@ -92,10 +92,10 @@ module Fixtures
   }
 
   DIGITAL_OUTCOMES_BRIEF = {
-    frameworkSlug: "digital-outcomes-and-specialists",
-    lot: "digital-outcomes",
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
+    frameworkSlug: nil,
     userId: nil,
+    lot: "digital-outcomes",
     backgroundInformation: "Some background information.",
     budgetRange: "The range of the budget",
     culturalFitCriteria: [
@@ -133,10 +133,10 @@ module Fixtures
   }
 
   USER_RESEARCH_PARTICIPANTS_BRIEF = {
-    frameworkSlug: "digital-outcomes-and-specialists",
-    lot: "user-research-participants",
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
+    frameworkSlug: nil,
     userId: nil,
+    lot: "user-research-participants",
     culturalWeighting: 20,
     essentialRequirements: [
       "The horses must have four hooves",
@@ -168,7 +168,9 @@ module Fixtures
   }
 
   DIGITAL_SPECIALISTS_BRIEF_RESPONSE = {
-    # ID's should be updated within the step this fixture is used in.
+    # `nil` values should be updated within the step when this fixture is used
+    frameworkSlug: nil,
+    userId: nil,
     briefId: nil,
     supplierId: nil,
     availability: "27/12/17",
