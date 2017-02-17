@@ -3,6 +3,7 @@ Given 'I have a live digital outcomes and specialists framework' do
   response.code.should be(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
   frameworks.delete_if {|framework| framework['framework'] != 'digital-outcomes-and-specialists' || framework['status'] != 'live'}
+  frameworks.empty?.should be(false), _error(response, "No live digital outcomes and specialists frameworks found")
   @framework = frameworks[0]
   puts @framework['slug']
 end
