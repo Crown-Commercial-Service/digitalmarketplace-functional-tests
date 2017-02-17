@@ -3,15 +3,15 @@ Feature: Supplier applies for a brief
 
 Background:
   Given I have a live digital outcomes and specialists framework
-  Given I have a buyer
-  Given I have a supplier
+    And I have a buyer
+    And I have a supplier
     And that supplier is on that framework
     And that supplier has a user
     And that supplier user is logged in
 
 Scenario: Supplier applies for a digital-specialists brief
   Given that supplier has a service on the digital-specialists lot
-  Given I have a live digital-specialists brief
+    And I have a live digital-specialists brief
     And I go to that brief page
     And I click 'Apply'
     Then I am on 'Apply for ‘Tea drinker’' page
@@ -63,7 +63,7 @@ Scenario: Supplier applies for a digital-specialists brief
 
 Scenario: Supplier applies for a digital-outcomes brief
   Given that supplier has a service on the digital-outcomes lot
-  Given I have a live digital-outcomes brief
+    And I have a live digital-outcomes brief
     And I go to that brief page
     And I click 'Apply'
     Then I am on 'Apply for ‘Hide and seek ninjas’' page
@@ -106,7 +106,7 @@ Scenario: Supplier applies for a digital-outcomes brief
 
 Scenario: Supplier applies for a user-research-participants brief
   Given that supplier has a service on the user-research-participants lot
-  Given I have a live user-research-participants brief
+    And I have a live user-research-participants brief
     And I go to that brief page
     And I click 'Apply'
     Then I am on 'Apply for ‘I need horses.’' page
