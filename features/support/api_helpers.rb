@@ -57,9 +57,9 @@ def create_and_sign_framework_agreement(framework_slug, supplier_id)
       "agreement" => {"signedAgreementPath" => "digitalmarketplace-agreements-preview-preview/#{framework_slug}/agreements/#{supplier_id}/signed-framework-agreement.pdf"},
       "updated_by" => "functional tests"
   })
-  response2.code.should be(200), _error(response, "Failed to add document path to agreement for #{supplier_id} #{framework_slug}")
+  response2.code.should be(200), _error(response2, "Failed to add document path to agreement for #{supplier_id} #{framework_slug}")
   response3 = call_api(:post, "/agreements/#{agreement_id}/sign", payload: {"updated_by" => "functional tests"})
-  response3.code.should be(200), _error(response, "Failed to sign agreement for #{supplier_id} #{framework_slug}")
+  response3.code.should be(200), _error(response3, "Failed to sign agreement for #{supplier_id} #{framework_slug}")
 end
 
 def register_interest_in_framework(framework_slug, supplier_id)
