@@ -39,10 +39,10 @@ Scenario: Most recently uploaded agreements should be shown last: G-Cloud 7
 
 Scenario: Re-uploading an agreement brings it to the bottom of the list: Digital Outcomes and Specialists
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
-  When a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
-  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11112'
-  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
-  When I click 'Digital Outcomes and Specialists agreements'
+  When a 'digital-outcomes-and-specialists-2' signed agreement is uploaded for supplier '11111'
+  And a 'digital-outcomes-and-specialists-2' signed agreement is uploaded for supplier '11112'
+  And a 'digital-outcomes-and-specialists-2' signed agreement is uploaded for supplier '11111'
+  When I click 'Digital Outcomes and Specialists 2 agreements'
   Then the last signed agreement should be for supplier 'DM Functional Test Supplier'
 
 Scenario: CCS Sourcing should not have access to Administrator specific pages

@@ -160,9 +160,9 @@ Scenario: As an admin user I want to change the supplier name of a current suppl
 
 Scenario: Most recently uploaded agreements should be shown last: Digital Outcomes and Specialists
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11111'
-  And a 'digital-outcomes-and-specialists' signed agreement is uploaded for supplier '11112'
-  When I click 'Digital Outcomes and Specialists agreements'
+  When a 'digital-outcomes-and-specialists-2' signed agreement is uploaded for supplier '11111'
+  And a 'digital-outcomes-and-specialists-2' signed agreement is uploaded for supplier '11112'
+  When I click 'Digital Outcomes and Specialists 2 agreements'
   Then the last signed agreement should be for supplier 'DM Functional Test Supplier 2 name changed'
 
 Scenario: Re-uploading an agreement brings it to the bottom of the list: G-Cloud 7
@@ -190,5 +190,5 @@ Scenario: As an admin user I want to download the user list for a specific frame
   When I click 'G-Cloud 7'
   Then The correct file of 'users-g-cloud-7.csv' with file content type of 'text/csv' is made available
 
-  When I click 'Digital Outcomes and Specialists'
-  Then The correct file of 'users-digital-outcomes-and-specialists.csv' with file content type of 'text/csv' is made available
+  When I click 'Digital Outcomes and Specialists 2'
+  Then The correct file of 'users-digital-outcomes-and-specialists-2.csv' with file content type of 'text/csv' is made available

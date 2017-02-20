@@ -80,6 +80,7 @@ end
 
 Given /^Test suppliers are eligible to respond to an opportunity$/ do
   create_live_service(11111, "2123456789012354", "digital-outcomes-and-specialists", "digital-specialists")
+  create_live_service(11111, "2123456789012355", "digital-outcomes-and-specialists-2", "digital-specialists")
 end
 
 def update_and_check_status (service_status)
@@ -312,7 +313,7 @@ Given /^I have a '(.*)' (?:opportunity|set of requirements)(?: named '(.*)')?$/ 
   if not @buyer_id
     fail(ArgumentError.new('No buyer user found!!'))
   end
-  @created_brief = create_and_return_buyer_brief(brief_name || "Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists", "digital-specialists", @buyer_id)
+  @created_brief = create_and_return_buyer_brief(brief_name || "Individual Specialist-Buyer Requirements", "digital-outcomes-and-specialists-2", "digital-specialists", @buyer_id)
   store.framework = @created_brief["frameworkSlug"]
   store.lot = @created_brief["lotSlug"]
   store.current_brief = @created_brief["id"]
