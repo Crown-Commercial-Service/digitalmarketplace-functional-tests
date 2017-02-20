@@ -7,7 +7,7 @@ Given /^I am on the '(.*)' requirements overview page$/ do |brief_name|
 end
 
 Given /^I am on the details page for the selected opportunity$/ do
-  current_url.should end_with("#{dm_frontend_domain}/#{store.framework}/opportunities/#{store.current_brief_id}")
+  current_url.should end_with("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{store.current_brief_id}")
 end
 
 Then /^I am taken to the '(.*)' requirements overview page$/ do |brief_name|
@@ -46,5 +46,5 @@ Given /^A (.*) '(.*)' buyer requirements with the name '(.*)' exists and I am on
 end
 
 When /^I click on the link to the opportunity I have posted a question for$/ do
-  page.find(:xpath, "//h2/a[contains(@href, '/#{store.framework}/opportunities/#{store.current_brief_id}')]").click
+  page.find(:xpath, "//h2/a[contains(@href, '/digital-outcomes-and-specialists/opportunities/#{store.current_brief_id}')]").click
 end
