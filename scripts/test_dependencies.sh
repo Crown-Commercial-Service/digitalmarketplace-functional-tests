@@ -32,7 +32,6 @@ test_framework_status "g-cloud-5" "expired"
 test_framework_status "g-cloud-6" "expired"
 test_framework_status "g-cloud-7" "live"
 test_framework_status "g-cloud-8" "live"
-test_framework_status "digital-outcomes-and-specialists" "expired"
 test_framework_status "digital-outcomes-and-specialists-2" "live"
 
 echo -e "\033[0;32mAll frameworks have the correct status\033[0m"
