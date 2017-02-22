@@ -175,7 +175,7 @@ def create_supplier
   response = call_api(:post, "/suppliers", payload: {
     updated_by: "functional tests",
     suppliers: {
-      name: 'functional test supplier',
+      name: 'functional test supplier ' + random_string,
       dunsNumber: rand(9999999999).to_s,
       contactInformation: [
         {
