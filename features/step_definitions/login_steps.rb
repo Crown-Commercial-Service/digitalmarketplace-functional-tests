@@ -16,7 +16,7 @@ end
 
 Given /^I have a ([a-z-]+) user(?: with supplier id (\d*))?$/ do |user_role, supplier_id|
   randomString = SecureRandom.hex
-  password = SecureRandom.hex
+  password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
 
   user_data = {
     "emailAddress" => randomString + '@example.gov.uk',
