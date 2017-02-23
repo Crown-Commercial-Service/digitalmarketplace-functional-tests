@@ -906,7 +906,7 @@ Then /The service status is set as '(.*)'$/ do |service_status|
   elsif current_url.include?('admin')
     find(
       :xpath,
-      "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selection-button-selected'][text()]"
+      "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selected'][text()]"
     ).text().should have_content(service_status)
   end
 end
