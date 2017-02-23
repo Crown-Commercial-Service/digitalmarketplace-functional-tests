@@ -92,7 +92,7 @@ def update_and_check_status (service_status)
   }
   current_service_status = page.find(
     :xpath,
-    "//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selected'][text()]"
+    "//*[contains(text(), 'Service status')]/following-sibling::*[contains(@class, 'selection-button') and contains(@class ,'selected')][text()]"
   ).text()
 end
 
@@ -101,7 +101,7 @@ def service_status_public (service_id)
   page.should have_content('Service status')
   current_service_status = ''
   while current_service_status != 'Public'
-    current_service_status = page.find(:xpath,"//*[contains(text(), 'Service status')]/following-sibling::*[@class='selection-button selected'][text()]").text()
+    current_service_status = page.find(:xpath,"//*[contains(text(), 'Service status')]/following-sibling::*[contains(@class, 'selection-button') and contains(@class ,'selected')][text()]").text()
     if current_service_status == 'Removed'
       update_and_check_status("Private")
     elsif current_service_status == 'Private'
