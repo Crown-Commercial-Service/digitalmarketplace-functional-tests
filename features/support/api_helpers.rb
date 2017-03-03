@@ -190,7 +190,7 @@ def create_supplier
   JSON.parse(response.body)['suppliers']
 end
 
-def create_live_service(framework_slug, lot_slug, supplier_id)
+def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
   # Create a 15 digit service ID, miniscule clash risk
   start = 10 ** 14
   last = 10 ** 15 - 1
@@ -209,6 +209,12 @@ def create_live_service(framework_slug, lot_slug, supplier_id)
       service_data['services'] = Fixtures::USER_RESEARCH_PARTICIPANTS_SERVICE
     else
       puts 'Lot slug not recoginsed'
+  end
+
+  if lot_slug == 'digital-specialists' and role
+    service_data['services']["#{role}Locations".to_sym] = service_data['services'].delete(:developerLocations)
+    service_data['services']["#{role}PriceMax".to_sym] = service_data['services'].delete(:developerPriceMax)
+    service_data['services']["#{role}PriceMin".to_sym] = service_data['services'].delete(:developerPriceMin)
   end
 
   service_data['services']['id'] = random_service_id
