@@ -5,10 +5,10 @@ Scenario: Setup for tests
   Given I have test suppliers
   And The test suppliers have declarations
 
-Scenario: As a CCS Category user I want to view Digital Outcomes and Specialists 2 statistics
+Scenario: As a CCS Category user I want to view G-Cloud 9 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Category' user
-  When I click 'Digital Outcomes and Specialists 2 statistics'
-  Then I am presented with the 'Digital Outcomes and Specialists 2' statistics page
+  When I click 'G-Cloud 9 statistics'
+  Then I am presented with the 'G-Cloud 9' statistics page
 
 Scenario: As a CCS Category user who has logged in to Digital Marketplace, I wish to search for a service by service ID
   Given I have logged in to Digital Marketplace as a 'CCS Category' user
