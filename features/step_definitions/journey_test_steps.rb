@@ -1354,6 +1354,8 @@ Then /I am presented with the '(.*)' statistics page$/ do |framework_name|
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-7")
   when 'G-Cloud 8'
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-8")
+  when 'G-Cloud 9'
+      current_url.should end_with("#{dm_frontend_domain}/admin/statistics/g-cloud-9")
   when 'Digital Outcomes and Specialists'
     current_url.should end_with("#{dm_frontend_domain}/admin/statistics/digital-outcomes-and-specialists")
   when 'Digital Outcomes and Specialists 2'
