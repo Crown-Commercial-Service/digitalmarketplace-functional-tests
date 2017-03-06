@@ -28,7 +28,7 @@ Scenario: As a CCS Sourcing user I should be able to edit a supplier declaration
 Scenario: As a CCS Sourcing user I want to view G-Cloud 9 statistics
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
   When I click 'G-Cloud 9 statistics'
-  Then I am presented with the 'Digital Outcomes and Specialists 2' statistics page
+  Then I am presented with the 'G-Cloud 9' statistics page
 
 Scenario: Most recently uploaded agreements should be shown last: G-Cloud 7
   Given I have logged in to Digital Marketplace as a 'CCS Sourcing' user
