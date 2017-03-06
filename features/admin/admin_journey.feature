@@ -123,10 +123,10 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to s
   And I click 'Send invitation'
   Then I am presented with the message 'User invited'
 
-Scenario: As an admin user I want to view Digital Outcomes and Specialists 2 statistics
+Scenario: As an admin user I want to view G-Cloud 9 statistics
   Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'Digital Outcomes and Specialists 2 statistics'
-  Then I am presented with the 'Digital Outcomes and Specialists 2' statistics page
+  When I click 'G-Cloud 9 statistics'
+  Then I am presented with the 'G-Cloud 9' statistics page
 
 Scenario: As an admin user I want to view Service updates
   Given I have logged in to Digital Marketplace as a 'Administrator' user

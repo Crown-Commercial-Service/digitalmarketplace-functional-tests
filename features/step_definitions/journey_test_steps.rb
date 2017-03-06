@@ -125,7 +125,7 @@ Then /I am presented with the admin search page$/ do
   page.should have_content('Find a service by service ID')
   page.should have_content('Find suppliers by name prefix')
   page.should have_content('Find users by email address')
-  page.should have_link('Digital Outcomes and Specialists 2 statistics')
+  page.should have_link('G-Cloud 9 statistics')
   page.should have_link('Download user lists')
 end
 
