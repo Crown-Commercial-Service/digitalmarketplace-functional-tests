@@ -211,15 +211,18 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
       puts 'Lot slug not recoginsed'
   end
 
+  # Set attributes not included in the fixture
+  service_data['services']['id'] = random_service_id
+  service_data['services']['supplierId'] = supplier_id
+  service_data['services']['frameworkSlug'] = framework_slug
+
   if lot_slug == 'digital-specialists' and role
+    # Override the specialist role from the fixture by removing the old developer keys and adding keys
+    # for the new role using the original developer values
     service_data['services']["#{role}Locations".to_sym] = service_data['services'].delete(:developerLocations)
     service_data['services']["#{role}PriceMax".to_sym] = service_data['services'].delete(:developerPriceMax)
     service_data['services']["#{role}PriceMin".to_sym] = service_data['services'].delete(:developerPriceMin)
   end
-
-  service_data['services']['id'] = random_service_id
-  service_data['services']['supplierId'] = supplier_id
-  service_data['services']['frameworkSlug'] = framework_slug
 
   service_path = "/services/#{random_service_id}"
   response = call_api(:put, service_path, payload: service_data)
