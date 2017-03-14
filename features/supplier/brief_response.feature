@@ -12,7 +12,6 @@ Background:
 @not-eligible-for-brief-response
 Scenario: Supplier is not eligible as they are not on the framework
   Given I go to that brief page
-  And I go to that brief page
   And I click 'Apply'
   Then I am on 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you’re not a Digital Outcomes and Specialists 2 supplier.' text on the page
