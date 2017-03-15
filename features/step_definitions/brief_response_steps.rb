@@ -33,8 +33,8 @@ Given 'that supplier is on that framework' do
   submit_supplier_declaration(@framework['slug'], @supplier["id"], {})
 end
 
-Given /^that supplier has a service on the (.*) lot$/ do |lot_slug|
-  @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"])
+Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|
+  @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"], role_type)
 end
 
 Given 'that supplier has a user' do

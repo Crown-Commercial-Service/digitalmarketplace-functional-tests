@@ -226,3 +226,12 @@ Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ d
     page.find_field("#{radio_button_name}").should be_checked
   end
 end
+
+Then /^I see '(.*)' text on the page/ do |expected_text|
+  all(:xpath, "//*[normalize-space() = '#{expected_text}']").length.should >= 1
+end
+
+Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
+  place = "//*[@#{attribute_name} = '#{attribute_value}']"
+  all(:xpath, place).length.should == 1
+end
