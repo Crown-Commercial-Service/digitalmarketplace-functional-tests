@@ -19,22 +19,6 @@ Then (/^I see an opportunity in the search results$/) do
   page.should have_selector(:css, ".search-result")
 end
 
-Then (/^I see that brief in one of the pages that follow from clicking '(.*)'$/) do |next_link_label|
-  until page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@brief['id']}')]]").any? { |sr_element|
-    # now refine with a much more precise test
-    sr_element.all(:css, "h2.search-result-title > a").any? { |a_element|
-      a_element.text == normalize_whitespace(@brief['title'])
-    } and sr_element.all(:css, ".search-result-metadata-item").any? { |mi_element|
-      mi_element.text == normalize_whitespace(@brief['organisation'])
-    } and sr_element.all(:css, ".search-result-metadata-item").any? { |mi_element|
-      mi_element.text == normalize_whitespace(@brief['lotName'])
-    }
-  }
-    page.click_link(next_link_label)
-    # if there wasn't another matching "next" link we should have errored out above
-  end
-end
-
 Then (/^I see that the stated number of results does not exceed that (\w+)$/) do |variable_name|
   var = instance_variable_get("@#{variable_name}")
   page.first(:css, ".search-summary-count").text.to_i.should <= var
@@ -43,4 +27,26 @@ end
 Then (/^I see that the stated number of results equals that (\w+)$/) do |variable_name|
   var = instance_variable_get("@#{variable_name}")
   var.should == page.first(:css, ".search-summary-count").text.to_i
+end
+
+Then (/^I see all the opportunities on the page are on the '(.*)' lot$/) do |lot|
+  lots_found = all(
+    :xpath,
+    '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][1]'
+  )
+  lots_found.each { |x| x.text.should == lot }
+end
+
+Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |status|
+  published_or_closed = all(
+    :xpath,
+    '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
+  )
+  published_or_closed.each do |x|
+    if status == 'Closed'
+      x.text.should == 'Closed'
+    else
+      x.text.include?("Published").should be true
+    end
+  end
 end
