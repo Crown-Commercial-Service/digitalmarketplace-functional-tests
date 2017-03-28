@@ -118,17 +118,17 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   JSON.parse(response.body)['declaration']
 end
 
-def create_brief(framework_slug, lot_slug, user_id)  
+def create_brief(framework_slug, lot_slug, user_id)
   brief_data = {
     updated_by: "functional tests"
   }
   case lot_slug
   when 'digital-specialists'
-    brief_data['briefs'] = Fixtures::DIGITAL_SPECIALISTS_BRIEF
+    brief_data['briefs'] = Fixtures.digital_specialists_brief
   when 'digital-outcomes'
-    brief_data['briefs'] = Fixtures::DIGITAL_OUTCOMES_BRIEF
+    brief_data['briefs'] = Fixtures.digital_outcomes_brief
   when 'user-research-participants'
-    brief_data['briefs'] = Fixtures::USER_RESEARCH_PARTICIPANTS_BRIEF
+    brief_data['briefs'] = Fixtures.user_research_participants_brief
   else
     puts 'Lot slug not recognised'
   end
@@ -147,7 +147,7 @@ def create_brief_response(lot_slug, brief_id, supplier_id)
   }
   case lot_slug
   when 'digital-specialists'
-    brief_response_data['briefResponses'] = Fixtures::DIGITAL_SPECIALISTS_BRIEF_RESPONSE
+    brief_response_data['briefResponses'] = Fixtures.digital_specialists_brief_response
   else
     puts 'Lot slug not recognised'
   end
@@ -202,11 +202,11 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
 
   case lot_slug
     when 'digital-specialists'
-      service_data['services'] = Fixtures::DIGITAL_SPECIALISTS_SERVICE
+      service_data['services'] = Fixtures.digital_specialists_service
     when 'digital-outcomes'
-      service_data['services'] = Fixtures::DIGITAL_OUTCOMES_SERVICE
+      service_data['services'] = Fixtures.digital_outcomes_service
     when 'user-research-participants'
-      service_data['services'] = Fixtures::USER_RESEARCH_PARTICIPANTS_SERVICE
+      service_data['services'] = Fixtures.user_research_participants_service
     else
       puts 'Lot slug not recoginsed'
   end
