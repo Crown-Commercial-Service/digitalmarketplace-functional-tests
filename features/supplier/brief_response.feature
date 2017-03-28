@@ -20,7 +20,6 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
   Given that supplier is on that framework
   And that supplier has a service on the digital-outcomes lot
   And I go to that brief page
-  And I go to that brief page
   And I click 'Apply'
   Then I am on 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
@@ -29,7 +28,6 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
 Scenario: Supplier is not eligible as they can not provide the developer role
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot for the designer role
-  And I go to that brief page
   And I go to that brief page
   And I click 'Apply'
   Then I am on 'You can’t apply for this opportunity' page
