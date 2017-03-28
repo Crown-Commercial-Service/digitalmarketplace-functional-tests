@@ -107,12 +107,14 @@ When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
 end
 
 When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
+  options = {allow_label_click: true}
+
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      choose(checkbox_label)
+      choose(checkbox_label, options)
     end
   else
-    page.choose(checkbox_label)
+    page.choose(checkbox_label, options)
   end
 end
 
