@@ -137,8 +137,14 @@ When /I check a random '(.*)' checkbox$/ do |checkbox_name|
 end
 
 When /I choose a random '(.*)' radio button$/ do |name|
-  radio = all(:xpath, "//input[@type='radio'][@name='#{name}']").sample
-  page.choose(radio[:id])
+
+  radio = all(:xpath, "//input[@type='radio'][@name='#{name}']", {:visible => :all}).sample
+
+  # If the label for this radio is not visible, it is effectively hidden from the user
+  radio.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for radio button \"#{radio.value}\" to be visible"
+
+  page.choose(radio[:id], {allow_label_click: true})
+
   puts "Radio button value: #{radio.value}"
 end
 
