@@ -210,8 +210,8 @@ Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
-  if page.has_field?(field, {type: 'radio'}) or page.has_field?(field, {type: 'checkbox'})
-    page.find_field(field, {checked: true}).value.should == value
+  if page.has_field?(field, {type: 'radio', visible: :all}) or page.has_field?(field, {type: 'checkbox', visible: :all})
+    page.find_field(field, {checked: true, visible: :all}).value.should == value
   else
     page.find_field(field).value.should == value
   end
