@@ -220,12 +220,13 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
+  options = {:visible => :all}
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      page.find_field("#{radio_button_name}").should be_checked
+      page.find_field("#{radio_button_name}", options).should be_checked
     end
   else
-    page.find_field("#{radio_button_name}").should be_checked
+    page.find_field("#{radio_button_name}", options).should be_checked
   end
 end
 
