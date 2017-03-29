@@ -115,7 +115,9 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
 end
 
 When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
-  page.check(checkbox_label)
+  options = {allow_label_click: true}
+
+  page.check(checkbox_label, options)
 end
 
 When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
@@ -131,8 +133,12 @@ When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |chec
 end
 
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
-  checkbox = all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']").sample
-  page.check(checkbox[:id])
+  checkbox = all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']", {:visible => :all}).sample
+
+  # If the label for this checkbox is not visible, it is effectively hidden from the user
+  checkbox.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for checkbox \"#{checkbox.value}\" to be visible"
+
+  page.check(checkbox[:id], {allow_label_click: true})
   puts "Checkbox value: #{checkbox.value}"
 end
 
@@ -149,7 +155,14 @@ When /I choose a random '(.*)' radio button$/ do |name|
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
-  all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']").each do |element| page.check(element[:id]) end
+
+  all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']", {:visible => :all}).each do |checkbox|
+
+    # If the label for this radio is not visible, it is effectively hidden from the user
+    checkbox.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for checkbox \"#{checkbox.value}\" to be visible"
+
+    page.check(checkbox[:id], {allow_label_click: true})
+  end
 end
 
 When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
