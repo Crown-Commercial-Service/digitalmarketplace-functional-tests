@@ -1,23 +1,48 @@
 require 'uri'
 require 'securerandom'
 
+def choose_radio(label_or_radio, find_options={}, choose_options={})
+  if label_or_radio.is_a? Capybara::Node::Element and label_or_radio[:type] == 'radio'
+    radio = label_or_radio
+  else
+    radio = find_field(label_or_radio, find_options.merge({visible: :all}))
+  end
+
+  # If the label for this radio is not visible, it is effectively hidden from the user
+  radio.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for radio button \"#{radio.value}\" to be visible"
+
+  choose(radio[:id], choose_options.merge({allow_label_click: true}))
+  puts "Radio button value: #{radio.value}"
+end
+
 def check_checkbox(label_or_checkbox, find_options={}, check_options={})
   if label_or_checkbox.is_a? Capybara::Node::Element and label_or_checkbox[:type] == 'checkbox'
     checkbox = label_or_checkbox
   else
-    checkbox = page.find_field(label_or_checkbox, find_options.merge({visible: :all}))
+    checkbox = find_field(label_or_checkbox, find_options.merge({visible: :all}))
   end
 
   # If the label for this checkbox is not visible, it is effectively hidden from the user
   checkbox.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for checkbox \"#{checkbox.value}\" to be visible"
 
-  page.check(checkbox[:id], check_options.merge({allow_label_click: true}))
+  check(checkbox[:id], check_options.merge({allow_label_click: true}))
   puts "Checkbox value: #{checkbox.value}"
 end
 
+def find_inputs_by_name(type, name, options={})
+  return all(:xpath, "//input[@type='#{type}'][@name='#{name}']", options.merge({visible: :all}))
+end
+
 def find_checkboxes_by_name(name, options={})
-  options = options.merge({visible: :all})
-  return all(:xpath, "//input[@type='checkbox'][@name='#{name}']", options)
+  return find_inputs_by_name('checkbox', name, options)
+end
+
+def find_radios_by_name(name, options={})
+  return find_inputs_by_name('radio', name, options)
+end
+
+def find_radio_by_name(name, options={})
+  return find_field("#{name}", options.merge({visible: :all}))
 end
 
 Given /^I am on the homepage$/ do
@@ -137,15 +162,13 @@ When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
   check_checkbox(checkbox_label)
 end
 
-When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
-  options = {allow_label_click: true}
-
+When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radio_label, question|
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      choose(checkbox_label, options)
+      choose_radio(radio_label)
     end
   else
-    page.choose(checkbox_label, options)
+    choose_radio(radio_label)
   end
 end
 
@@ -155,14 +178,8 @@ When /I check a random '(.*)' checkbox$/ do |checkbox_name|
 end
 
 When /I choose a random '(.*)' radio button$/ do |name|
-  radio = all(:xpath, "//input[@type='radio'][@name='#{name}']", {:visible => :all}).sample
-
-  # If the label for this radio is not visible, it is effectively hidden from the user
-  radio.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for radio button \"#{radio.value}\" to be visible"
-
-  page.choose(radio[:id], {allow_label_click: true})
-
-  puts "Radio button value: #{radio.value}"
+  radio = find_radios_by_name(name).sample
+  choose_radio(radio)
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
@@ -257,13 +274,12 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
-  options = {:visible => :all}
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      page.find_field("#{radio_button_name}", options).should be_checked
+      find_radio_by_name(radio_button_name).should be_checked
     end
   else
-    page.find_field("#{radio_button_name}", options).should be_checked
+    find_radio_by_name(radio_button_name).should be_checked
   end
 end
 
