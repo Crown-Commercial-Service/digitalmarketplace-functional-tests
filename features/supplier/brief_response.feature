@@ -20,7 +20,6 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
   Given that supplier is on that framework
   And that supplier has a service on the digital-outcomes lot
   And I go to that brief page
-  And I go to that brief page
   And I click 'Apply'
   Then I am on 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
@@ -30,13 +29,11 @@ Scenario: Supplier is not eligible as they can not provide the developer role
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot for the designer role
   And I go to that brief page
-  And I go to that brief page
   And I click 'Apply'
   Then I am on 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide this specialist role when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-role'
 
-@skip
 Scenario: Supplier applies for a digital-specialists brief
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot
@@ -90,7 +87,6 @@ Scenario: Supplier applies for a digital-specialists brief
       | Sip quietly                         | Second nice to have evidence |
       | Provide biscuits                    |                              |
 
-@skip
 Scenario: Supplier applies for a digital-outcomes brief
   Given that supplier is on that framework
   And that supplier has a service on the digital-outcomes lot
@@ -135,7 +131,6 @@ Scenario: Supplier applies for a digital-outcomes brief
       | Be able to count to 100 really really quickly. |                                 |
       | Have a nice smile                              | Takes just over 100 seconds     |
 
-@skip
 Scenario: Supplier applies for a user-research-participants brief
   Given that supplier is on that framework
   And that supplier has a service on the user-research-participants lot
@@ -182,7 +177,6 @@ Scenario: Supplier applies for a user-research-participants brief
       | Being good at jumping over fences  | No jump is too high. |
       | Saying "Neigh"                     | NEIGH                |
 
-@skip
 Scenario: Previous page links are used during response flow and existing data is replayed
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot
@@ -214,7 +208,6 @@ Scenario: Previous page links are used during response flow and existing data is
   And I see '27/12/17' as the value of the 'availability' field
   And I don't see the 'Back to previous page' link
 
-@skip
 Scenario: Supplier changes their answers before submission
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot

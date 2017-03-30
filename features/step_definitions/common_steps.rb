@@ -107,12 +107,14 @@ When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
 end
 
 When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
+  options = {allow_label_click: true}
+
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      choose(checkbox_label)
+      choose(checkbox_label, options)
     end
   else
-    page.choose(checkbox_label)
+    page.choose(checkbox_label, options)
   end
 end
 
@@ -218,12 +220,13 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
+  options = {:visible => :all}
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      page.find_field("#{radio_button_name}").should be_checked
+      page.find_field("#{radio_button_name}", options).should be_checked
     end
   else
-    page.find_field("#{radio_button_name}").should be_checked
+    page.find_field("#{radio_button_name}", options).should be_checked
   end
 end
 
