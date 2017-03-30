@@ -22,7 +22,7 @@ end
 Given /^I have a random g-cloud service from the API$/ do
   frameworks = call_api(:get, "/frameworks")
   live_g_cloud = JSON.parse(frameworks.body)["frameworks"].select {|framework|
-    framework["framework"] == "g-cloud" && framework["status"] == "live"
+    framework["framework"] == "g-cloud" && framework["status"] == "live" && framework["slug"] != "g-cloud-6"
   }.map {|framework| framework["slug"]}.join(",")
 
   puts "Live g-cloud frameworks: #{live_g_cloud}"
