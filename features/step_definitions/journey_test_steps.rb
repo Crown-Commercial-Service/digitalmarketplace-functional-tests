@@ -1566,12 +1566,12 @@ Then /I am on the '(.*)' page$/ do |page_name|
   elsif page_name == 'DUNS number'
     page.should have_content("#{page_name}")
     current_url.should end_with("#{dm_frontend_domain}/suppliers/duns-number")
-    page.should have_link('Find out how to get a DUNS number')
+    page.should have_link('how to get a DUNS number')
     page.should have_button('Continue')
   elsif page_name == 'Companies House number (optional)'
     page.should have_content("#{page_name}")
     current_url.should end_with("#{dm_frontend_domain}/suppliers/companies-house-number")
-    page.should have_link('Visit Companies House to get your number')
+    page.should have_link('Companies House number')
     page.should have_button('Continue')
   elsif page_name == 'Company contact details'
     page.should have_content("#{page_name}")
