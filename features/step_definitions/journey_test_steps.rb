@@ -1556,8 +1556,8 @@ Then /I am on the '(.*)' page$/ do |page_name|
   if page_name == 'Create supplier account'
     page.should have_content("#{page_name}")
     current_url.should end_with("#{dm_frontend_domain}/suppliers/create")
-    page.should have_link('www.dnb.co.uk/dandb-duns-number')
-    page.should have_link('beta.companieshouse.gov.uk')
+    page.should have_link('DUNS number')
+    page.should have_link('Companies House number')
     page.should have_link('Start')
   elsif page_name == 'Create a buyer account'
     current_url.should end_with("#{dm_frontend_domain}/buyers/create")
