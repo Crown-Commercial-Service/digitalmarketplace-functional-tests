@@ -45,6 +45,17 @@ Given /^I have a random g-cloud service from the API$/ do
   puts "Service name: #{ERB::Util.h @service['serviceName']}"
 end
 
+Given /^I have a random g-cloud lot from the API$/ do
+  frameworks = call_api(:get, "/frameworks")
+  live_g_cloud_frameworks = JSON.parse(frameworks.body)["frameworks"].select {|framework|
+    framework["framework"] == "g-cloud" && framework["status"] == "live"
+  }
+  # reverse sort by whatever is after the final "-" in the framework slug
+  g_cloud_lot = live_g_cloud_frameworks.sort_by {|framework| framework["slug"].split('-')[-1] }.reverse[0]["lots"].sample
+  puts "G-Cloud lot: #{g_cloud_lot['name']}"
+  @lot = g_cloud_lot
+end
+
 # TODO merge with above step
 Given /^I have a random (?:([a-z-]+) )?supplier from the API$/ do |metaframework_slug|
   params = {}
