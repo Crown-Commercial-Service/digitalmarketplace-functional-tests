@@ -17,25 +17,12 @@ Scenario: User can click through to g-cloud page
   When I click 'Find cloud technology and support'
   Then I am on the 'Cloud technology and support' page
 
-Scenario: User can get the PaaS search results
+Scenario: User can select a lot from the g-cloud page and see search results.
   Given I am on the /g-cloud page
-  When I click 'Platform as a Service'
+  When I have a random g-cloud lot from the API
+  When I click that lot.name
   Then I am on the 'Search results' page
-  And I see the 'Platform as a Service' breadcrumb
-  And I see a search result
-
-Scenario: User can get the SaaS search results
-  Given I am on the /g-cloud page
-  When I click 'Software as a Service'
-  Then I am on the 'Search results' page
-  And I see the 'Software as a Service' breadcrumb
-  And I see a search result
-
-Scenario: User can get the IaaS search results
-  Given I am on the /g-cloud page
-  When I click 'Infrastructure as a Service'
-  Then I am on the 'Search results' page
-  And I see the 'Infrastructure as a Service' breadcrumb
+  And I see that lot.name breadcrumb
   And I see a search result
 
 Scenario: User is able to search by service id and have result returned.

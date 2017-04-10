@@ -167,7 +167,7 @@ When(/^I choose a random uppercase letter$/) do
   puts "letter: #{@letter}"
 end
 
-Then /^I see the '(.*)' breadcrumb$/ do |breadcrumb_text|
+Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
   breadcrumb.text().should == breadcrumb_text
 end
