@@ -53,7 +53,6 @@ Scenario: User is able to navigate to service detail page via selecting the serv
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
-  When I click that service.lotName
   And I enter that service.id in the 'q' field
   And I click 'Filter'
   Then I see that service.id in the search summary text
