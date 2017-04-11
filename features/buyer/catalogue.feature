@@ -50,6 +50,7 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   Then I am on that result.title page
   And I see that result.supplier_name as the page header context
 
+@skip
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
