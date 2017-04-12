@@ -38,7 +38,7 @@ Scenario: Create individual specialist requirement
 
    When I click 'Review and publish your requirements'
     And I click 'Publish requirements'
-   
+
   Then I don't see the 'Title' link
    And I don't see the 'Specialist role' link
    And I don't see the 'Location' link
@@ -47,7 +47,6 @@ Scenario: Create individual specialist requirement
    And I don't see the 'Set how long your requirements will be open for' link
    And I don't see the 'Describe question and answer session' link
    And I don't see the 'Review and publish your requirements' link
-
 
 Scenario: Create team to provide an outcome
   Given I am logged in as a buyer user
