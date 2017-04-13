@@ -46,10 +46,20 @@ module FormHelper
     end
   end
 
+  def get_parent_label(el)
+    el.find_xpath('parent::label')[0]
+  end
+
   def find_fields(locator=nil, options={})
     # Find all field names
-
-    results = all(:field, locator, options).map { |v| v[:name] }
+    # If the inputs themselves aren't visible (ie, radios and checkboxes), verify that the parent labels are
+    results = all(
+      :field, locator, options.merge({:visible => :all})
+    ).select { |el|
+      el.visible? or get_parent_label(el).visible?
+    }.map { |v|
+      v[:name]
+    }
 
     results.uniq
   end
