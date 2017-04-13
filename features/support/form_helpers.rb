@@ -1,6 +1,10 @@
 module FormHelper
   # Helper utilities for dealing with forms
 
+  def all_fields(locator, options={})
+    all(:field, locator, options.merge({:visible => :all}))
+  end
+
   def field_type(el)
     # Returns the type of field for a Capybara::Node::Element
 
@@ -27,7 +31,8 @@ module FormHelper
 
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
-    result = all(:field, locator, options)
+
+    result = all_fields(locator, options)
 
     if result.empty?
       query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
@@ -53,8 +58,8 @@ module FormHelper
   def find_fields(locator=nil, options={})
     # Find all field names
     # If the inputs themselves aren't visible (ie, radios and checkboxes), verify that the parent labels are
-    results = all(
-      :field, locator, options.merge({:visible => :all})
+    results = all_fields(
+      locator, options
     ).select { |el|
       el.visible? or get_parent_label(el).visible?
     }.map { |v|
@@ -71,7 +76,7 @@ module FormHelper
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = [options.delete(:with)].flatten
-    result = all(:field, locator, options)
+    result = all_fields(locator, options)
 
     result.select { |v| not with.include?(v.value) }.each do |element|
       uncheck element[:id]
@@ -122,7 +127,7 @@ module FormHelper
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = options.delete(:with)
 
-    result = all(:field, locator, options)
+    result = all_fields(locator, options)
 
     if result.empty?
       query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
@@ -161,7 +166,8 @@ module FormHelper
   def find_substitutions(locator=nil, options={})
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
-    results = all(:field, locator, options)
+
+    results = all_fields(locator, options)
 
     # hash that initialises empty keys to a hash
     values = Hash.new{|h,k| h[k] = {}}
@@ -197,6 +203,7 @@ module FormHelper
 
     maybe_within do
       find_fields.each do |name|
+
         values[name] = (with[name] or random_for name)
 
         fill_field name, with: values[name]
