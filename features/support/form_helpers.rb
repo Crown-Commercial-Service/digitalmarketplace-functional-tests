@@ -1,10 +1,6 @@
 module FormHelper
   # Helper utilities for dealing with forms
 
-  def all_fields(locator, options={})
-    all(:field, locator, options.merge({:visible => :all}))
-  end
-
   def field_type(el)
     # Returns the type of field for a Capybara::Node::Element
 
