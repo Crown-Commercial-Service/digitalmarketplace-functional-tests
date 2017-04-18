@@ -27,6 +27,10 @@ def all_fields(locator, options={})
   all(:field, locator, options.merge({:visible => :all}))
 end
 
+def first_field(locator, options={})
+  all_fields(locator, options)[0]
+end
+
 def urls_are_equal(url1, url2)
   # horrible hack, if it's a relative href stick a fake scheme and prefix on
   if url1.start_with? "/"

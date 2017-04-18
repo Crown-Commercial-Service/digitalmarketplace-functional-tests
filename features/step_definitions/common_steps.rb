@@ -5,7 +5,7 @@ def choose_radio(label_or_radio, find_options={}, choose_options={})
   if label_or_radio.is_a? Capybara::Node::Element and label_or_radio[:type] == 'radio'
     radio = label_or_radio
   else
-    radio = find_field(label_or_radio, find_options.merge({visible: :all}))
+    radio = first_field(label_or_radio, find_options)
   end
 
   # If the label for this radio is not visible, it is effectively hidden from the user
@@ -19,7 +19,7 @@ def check_checkbox(label_or_checkbox, find_options={}, check_options={})
   if label_or_checkbox.is_a? Capybara::Node::Element and label_or_checkbox[:type] == 'checkbox'
     checkbox = label_or_checkbox
   else
-    checkbox = find_field(label_or_checkbox, find_options.merge({visible: :all}))
+    checkbox = first_field(label_or_checkbox, find_options)
   end
 
   # If the label for this checkbox is not visible, it is effectively hidden from the user
@@ -29,20 +29,16 @@ def check_checkbox(label_or_checkbox, find_options={}, check_options={})
   puts "Checkbox value: #{checkbox.value}"
 end
 
-def find_inputs_by_name(type, name, options={})
-  return all(:xpath, "//input[@type='#{type}'][@name='#{name}']", options.merge({visible: :all}))
-end
-
 def find_checkboxes_by_name(name, options={})
-  return find_inputs_by_name('checkbox', name, options)
+  return all_fields(name, options.merge({type: 'checkbox'}))
 end
 
 def find_radios_by_name(name, options={})
-  return find_inputs_by_name('radio', name, options)
+  return all_fields(name, options.merge({type: 'radio'}))
 end
 
 def find_radio_by_name(name, options={})
-  return find_field("#{name}", options.merge({visible: :all}))
+  return first_field(name, options.merge({type: 'radio'}))
 end
 
 Given /^I am on the homepage$/ do
@@ -276,10 +272,10 @@ end
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      find_radio_by_name(radio_button_name).should be_checked
+      first_field(radio_button_name).should be_checked
     end
   else
-    find_radio_by_name(radio_button_name).should be_checked
+    first_field(radio_button_name).should be_checked
   end
 end
 
