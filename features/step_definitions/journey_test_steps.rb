@@ -959,11 +959,6 @@ end
 
 Then /I am taken to the '(.*)' landing page$/ do |page_name|
   page.should have_content("#{page_name}")
-  page.should have_button('Show services')
-  page.should have_link('Software as a Service')
-  page.should have_link('Platform as a Service')
-  page.should have_link('Infrastructure as a Service')
-  page.should have_link('Specialist Cloud Services')
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{page_name}')]")
 end
