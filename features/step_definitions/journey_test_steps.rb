@@ -963,19 +963,6 @@ Then /I am taken to the '(.*)' landing page$/ do |page_name|
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{page_name}')]")
 end
 
-Then /I am taken to the search results page with results for '(.*)' lot displayed$/ do |lot_name|
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
-  page.should have_selector(:xpath, ".//*[@id='content']//*[@class= 'page-heading']//*[contains(text(), 'Search results')]")
-  page.should have_selector(:xpath, ".//*[@id='content']//*[@class='lot-filters']//*[contains(text(), 'Choose a category')]")
-  page.should have_selector(:xpath, "//a[contains(@href, '/search') and contains(text(), 'All categories')]")
-  find(:xpath, "//*[@class='search-summary-count']").text().should_not match(/^0$/)
-  page.should have_selector(:xpath, ".//*[@id='content']//*[@class= 'search-summary']//*[contains(text(), '#{lot_name}')]")
-  page.should have_selector(:xpath, "//*/label[contains(@class, 'option-select-label') and contains(text(), 'Keywords')]")
-
-  step "Then Selected lot is '#{lot_name}' with links to the search for ''"
-end
-
 def filter_to_check(filter_name,filter_value,filter_exist)
   if "#{filter_value}" == '' and "#{filter_exist}" == 'yes'
     page.should have_selector(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
@@ -983,93 +970,6 @@ def filter_to_check(filter_name,filter_value,filter_exist)
     page.should have_no_selector(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]")
   else
     page.should have_selector(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]/input[@type='checkbox']")
-  end
-end
-
-And /All filters for '(.*)' are available$/ do |lot_name|
-  filter_to_check("Minimum contract period","","yes")
-  filter_to_check("Service management","","yes")
-  filter_to_check("Minimum contract period","Hour","")
-  filter_to_check("Minimum contract period","Day","")
-  filter_to_check("Minimum contract period","Month","")
-  filter_to_check("Minimum contract period","Year","")
-  filter_to_check("Minimum contract period","Other","")
-  filter_to_check("Service management","Support accessible to any third-party suppliers","")
-
-  if "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'infrastructure as a service' or "#{lot_name.downcase}" == 'specialist cloud services'
-    filter_to_check("Categories","","yes")
-  elsif "#{lot_name.downcase}" == 'platform as a service'
-    filter_to_check("Categories","","no")
-  end
-
-  if "#{lot_name.downcase}" == 'specialist cloud services'
-    filter_to_check("Pricing","","no")
-    filter_to_check("Datacentre tier","","no")
-    filter_to_check("Networks the service is directly connected to","","no")
-    filter_to_check("Interoperability","","no")
-    filter_to_check("Categories","Implementation","")
-    filter_to_check("Categories","Ongoing support","")
-    filter_to_check("Categories","Planning","")
-    filter_to_check("Categories","Testing","")
-    filter_to_check("Categories","Training","")
-  elsif "#{lot_name.downcase}" == 'software as a service' or "#{lot_name.downcase}" == 'platform as a service' or "#{lot_name.downcase}" == 'infrastructure as a service'
-    filter_to_check("Pricing","","yes")
-    filter_to_check("Datacentre tier","","yes")
-    filter_to_check("Networks the service is directly connected to","","yes")
-    filter_to_check("Interoperability","","yes")
-    filter_to_check("Pricing","Free option","")
-    filter_to_check("Pricing","Trial option","")
-    filter_to_check("Service management","Data extraction/removal plan in place","")
-    filter_to_check("Service management","Datacentres adhere to the EU code of conduct for energy-efficient datacentres","")
-    filter_to_check("Service management","Backup, disaster recovery and resilience plan in place","")
-    filter_to_check("Service management","Self-service provisioning supported","")
-    filter_to_check("Service management","Support accessible to any third-party suppliers","")
-    filter_to_check("Datacentre tier","TIA-942 Tier 1","")
-    filter_to_check("Datacentre tier","TIA-942 Tier 2","")
-    filter_to_check("Datacentre tier","TIA-942 Tier 3","")
-    filter_to_check("Datacentre tier","TIA-942 Tier 4","")
-    filter_to_check("Datacentre tier","Uptime Institute Tier 1","")
-    filter_to_check("Datacentre tier","Uptime Institute Tier 2","")
-    filter_to_check("Datacentre tier","Uptime Institute Tier 3","")
-    filter_to_check("Datacentre tier","Uptime Institute Tier 4","")
-    filter_to_check("Datacentre tier","None of the above","")
-    filter_to_check("Networks the service is directly connected to","Internet","")
-    filter_to_check("Networks the service is directly connected to","Public Services Network (PSN)","")
-    filter_to_check("Networks the service is directly connected to","Police National Network (PNN)","")
-    filter_to_check("Networks the service is directly connected to","New NHS Network (N3)","")
-    filter_to_check("Networks the service is directly connected to","Joint Academic Network (JANET)","")
-    filter_to_check("Networks the service is directly connected to","Other","")
-    filter_to_check("Interoperability","API access available and supported","")
-    filter_to_check("Interoperability","Open standards supported and documented","")
-    filter_to_check("Interoperability","Open-source software used and supported","")
-  end
-
-  if "#{lot_name.downcase}" == 'software as a service'
-    filter_to_check("Categories","Accounting and finance","")
-    filter_to_check("Categories","Business intelligence and analytics","")
-    filter_to_check("Categories","Collaboration","")
-    filter_to_check("Categories","Creative and design","")
-    filter_to_check("Categories","Customer relationship management (CRM)","")
-    filter_to_check("Categories","Data management","")
-    filter_to_check("Categories","Electronic document and records management (EDRM)","")
-    filter_to_check("Categories","Energy and environment","")
-    filter_to_check("Categories","Healthcare","")
-    filter_to_check("Categories","Human resources and employee management","")
-    filter_to_check("Categories","IT management","")
-    filter_to_check("Categories","Legal","")
-    filter_to_check("Categories","Libraries","")
-    filter_to_check("Categories","Marketing","")
-    filter_to_check("Categories","Operations management","")
-    filter_to_check("Categories","Project management and planning","")
-    filter_to_check("Categories","Sales","")
-    filter_to_check("Categories","Schools and education","")
-    filter_to_check("Categories","Security","")
-    filter_to_check("Categories","Software development tools","")
-    filter_to_check("Categories","Telecoms","")
-    filter_to_check("Categories","Transport and logistics","")
-  elsif "#{lot_name.downcase}" == 'infrastructure as a service'
-    filter_to_check("Categories","Compute","")
-    filter_to_check("Categories","Storage","")
   end
 end
 
@@ -1147,57 +1047,17 @@ When /^I choose file '(.*)' for '(.*)'$/ do |file, label|
   attach_file(label, File.join(Dir.pwd, 'fixtures', file))
 end
 
-When /I select '(.*)' as the filter value under the '(.*)' filter$/ do |filter_value,filter_name|
-  page.find(:xpath, "//div[contains(@class, 'option-select-label') and contains(text(), '#{filter_name}')]/../..//label[contains(text()[2], '#{filter_value}')]/input[@type='checkbox']").trigger('click')
-end
-
-Then /The search results is narrowed down by the selected filter$/ do
-  current_count = find(:xpath, "//*[@class='search-summary-count']").text().to_i
-  find(:xpath, "//*[@class='search-summary-count']").text().to_i.should be < @data_store['searchsummarycount'].to_i
-  @data_store['searchsummarycount'] = current_count
-end
-
-When /I click the first record in the list of results returned$/ do
-  @data_store = @data_store || Hash.new
-  servicename = first(:xpath, ".//*[@class='search-result-title']/a").text()
-  servicesuppliername = first(:xpath, ".//p[@class='search-result-supplier']").text()
-  url = first(:xpath, ".//h2[@class='search-result-title']/a")[:href]
-  @data_store['servicename'] = servicename
-  @data_store['servicesuppliername'] = servicesuppliername
-  @data_store['url'] = url
-  page.first(:xpath, ".//*[@id='content']/*//h2/a").click
-end
-
 Given /I am on the search results page with results for '(.*)'$/ do |search_value|
   visit("#{dm_frontend_domain}/g-cloud/search?q=#{search_value.gsub(' ','+')}")
   page.find(:xpath, "//*[@class='search-summary']/em[1]").text().should match("#{search_value}")
   page.find(:xpath, "//*[@class='search-summary']/em[2]").text().should match('All categories')
 end
 
-Then /I am taken to the service listing page of that specific record selected$/ do
-  page.should have_content(@data_store['servicename'])
-  page.should have_content(@data_store['servicesuppliername'])
-  current_url.should end_with("#{dm_frontend_domain}#{@data_store['url']}")
-end
-
-When /There is '(.*)' than the pagination limit results returned$/ do |more_or_less|
-  @data_store = @data_store || Hash.new
-  current_count = find(:xpath, "//*[@class='search-summary-count']").text().to_i
-  number_of_pages = (current_count.to_f/dm_pagination_limit()).ceil
-  @data_store['currentcount'] = current_count
-  @data_store['numberofpages'] = number_of_pages
-  @data_store['moreorless'] = more_or_less
-end
-
 Then /Pagination is '(.*)'$/ do |availability|
-  if current_url.include?('search?')
-    if @data_store['currentcount'] > dm_pagination_limit() && @data_store['moreorless'] == 'more'
-      pagination_available = 'available'
-    elsif @data_store['currentcount'] <= dm_pagination_limit() && @data_store['moreorless'] == 'less'
-      pagination_available = 'not available'
-    end
-  elsif current_url.include?('suppliers?')
+  if current_url.include?('suppliers?')
     pagination_available = "#{availability}"
+  else
+    fail("Pagination check only works for the suppliers list page these days.")
   end
 
   if pagination_available == 'available'
