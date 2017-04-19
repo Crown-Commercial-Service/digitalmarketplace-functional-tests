@@ -1,34 +1,6 @@
 require 'uri'
 require 'securerandom'
 
-def choose_radio(label_or_radio, find_options={}, choose_options={})
-  if label_or_radio.is_a? Capybara::Node::Element and label_or_radio[:type] == 'radio'
-    radio = label_or_radio
-  else
-    radio = first_field(label_or_radio, find_options)
-  end
-
-  # If the label for this radio is not visible, it is effectively hidden from the user
-  radio.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for radio button \"#{radio.value}\" to be visible"
-
-  choose(radio[:id], choose_options.merge({allow_label_click: true}))
-  puts "Radio button value: #{radio.value}"
-end
-
-def check_checkbox(label_or_checkbox, find_options={}, check_options={})
-  if label_or_checkbox.is_a? Capybara::Node::Element and label_or_checkbox[:type] == 'checkbox'
-    checkbox = label_or_checkbox
-  else
-    checkbox = first_field(label_or_checkbox, find_options)
-  end
-
-  # If the label for this checkbox is not visible, it is effectively hidden from the user
-  checkbox.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for checkbox \"#{checkbox.value}\" to be visible"
-
-  check(checkbox[:id], check_options.merge({allow_label_click: true}))
-  puts "Checkbox value: #{checkbox.value}"
-end
-
 def find_checkboxes_by_name(name, options={})
   return all_fields(name, options.merge({type: 'checkbox'}))
 end
