@@ -170,12 +170,16 @@ module FormHelper
 
     results.each do |result|
       if [:checkbox, :radio].include? field_type(result)
+
         label = find("label[for='#{result[:id]}']").text
 
         begin
-          description = find("label[for='#{result[:id]}'] p").text
+          description = all("label[for='#{result[:id]}'] p").map {|el| el.text}.join
 
-          label = label[0..(label.length - description.length - 2)]
+          if not description.empty?
+            label = label[0..(label.length - description.length - 2)]
+          end
+
         rescue Capybara::ElementNotFound
 
         end
