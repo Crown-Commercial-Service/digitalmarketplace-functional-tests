@@ -21,7 +21,7 @@ def normalize_whitespace(text)
   Capybara::Helpers.normalize_whitespace(text)
 end
 
-## selecting and checking invisible fields
+## finding and selecting invisible fields
 
 def all_fields(locator, options={})
   all(:field, locator, options.merge({:visible => :all}))
@@ -31,32 +31,41 @@ def first_field(locator, options={})
   all_fields(locator, options)[0]
 end
 
-def choose_radio(label_or_radio, find_options={}, choose_options={})
-  if label_or_radio.is_a? Capybara::Node::Element and label_or_radio[:type] == 'radio'
-    radio = label_or_radio
+def return_element(type, locator_or_element, options={})
+  if locator_or_element.is_a? Capybara::Node::Element
+    element = locator_or_element
   else
-    radio = first_field(label_or_radio, find_options)
+    # when passing in the value of the element we want to choose/check, we pass it in as {:option => "value"}
+    # but when we're finding it, we need to pass it in as {:with => "value"}
+    find_options = options[:option] ? {:with => options[:option]} : {}
+    element = first_field(locator_or_element, find_options.merge({type: type}))
   end
 
-  # If the label for this radio is not visible, it is effectively hidden from the user
-  radio.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for radio button \"#{radio.value}\" to be visible"
+  # If the label for this radio/checkbox is not visible, it is effectively hidden from the user
+  element.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
 
-  choose(radio[:id], choose_options.merge({allow_label_click: true}))
+  return element
+end
+
+def choose_radio(locator_or_radio, options={})
+  radio = return_element('radio', locator_or_radio, options)
+
+  choose(radio[:id], options.merge({allow_label_click: true}))
   puts "Radio button value: #{radio.value}"
 end
 
-def check_checkbox(label_or_checkbox, find_options={}, check_options={})
-  if label_or_checkbox.is_a? Capybara::Node::Element and label_or_checkbox[:type] == 'checkbox'
-    checkbox = label_or_checkbox
-  else
-    checkbox = first_field(label_or_checkbox, find_options)
-  end
+def check_checkbox(locator_or_checkbox, options={})
+  checkbox = return_element('checkbox', locator_or_checkbox, options)
 
-  # If the label for this checkbox is not visible, it is effectively hidden from the user
-  checkbox.find_xpath('parent::label')[0].visible?.should be(true), "Expected label for checkbox \"#{checkbox.value}\" to be visible"
-
-  check(checkbox[:id], check_options.merge({allow_label_click: true}))
+  check(checkbox[:id], options.merge({allow_label_click: true}))
   puts "Checkbox value: #{checkbox.value}"
+end
+
+def uncheck_checkbox(locator_or_checkbox, options={})
+  checkbox = return_element('checkbox', locator_or_checkbox, options)
+
+  check(checkbox[:id], options.merge({allow_label_click: true}))
+  puts "Unselected: #{checkbox.value}"
 end
 
 
