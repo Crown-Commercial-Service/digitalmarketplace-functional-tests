@@ -67,7 +67,6 @@ When "I answer all summary questions with:" do |table|
     substitutions = find_substitutions
 
     puts answer
-    puts substitutions
 
     click_on 'Save and continue'
 
