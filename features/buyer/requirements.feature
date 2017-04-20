@@ -1,4 +1,4 @@
-@requirements @skip
+@requirements
 Feature: Create and publish a requirement
   In order to find individuals and teams that can provide the needed services
   As a buyer within government
