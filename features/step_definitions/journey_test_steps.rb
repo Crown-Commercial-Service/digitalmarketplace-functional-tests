@@ -189,11 +189,11 @@ end
 
 When /I click the '(.*)' link in the '(.*)' column for the supplier '(.*)'/ do |link_name, column_name, supplier_name|
   @supplierName = supplier_name
+  
+  table_row_first_cell = page.first(:css, "td.summary-item-field-first") {|elem| elem.text == supplier_name}
+  row = table_row_first_cell.find(:xpath, 'ancestor-or-self::*[tr][1]')
   column_index = page.all(:css, "thead tr th").find_index {|elem| elem.text == column_name}
-  row = page.all(:css, "tr.summary-item-row").select do |candidate_row|
-    candidate_row.first(:css, "td").text == supplier_name
-  end.first
-
+  
   column = row.all(:css, "td").at(column_index)
   link = column.find_link(link_name)
   if match = link['href'].match(%r"/admin/suppliers/(\d+)/")
@@ -816,11 +816,11 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   page.should have_link('Log out')
   URI.decode_www_form(URI.parse(current_url).query).assoc('supplier_name_prefix').last.should == name_prefix
 
-  table_rows = page.all(:css, "tr.summary-item-row")
-  table_rows.length.should == 2
+  table_row_first_cells = page.all(:css, "td.summary-item-field-first")
+  table_row_first_cells.length.should == 2
 
-  table_rows.each do |row|
-    row.all(:css, "td").first.text.should start_with(name_prefix)
+  table_row_first_cells.each do |cell|
+    cell.text.should start_with(name_prefix)
   end
 
   case @user_type
@@ -851,15 +851,19 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
     fail("Invalid user on admin suppliers page #{@user_type}")
   end
 
-  table_rows[0].all(:css, "td").first.text.should == "DM Functional Test Supplier"
+  # Get the parent row element for the first <td> cell we found earlier
+  table_row_0 = table_row_first_cells[0].find(:xpath, 'ancestor-or-self::*[tr][1]')
+  table_row_0.all(:css, "td").first.text.should == "DM Functional Test Supplier"
   expected_links.each do |expected_link|
-    table_rows[0].all(:css, "a").map(&:text).should include(expected_link)
+    table_row_0.all(:css, "a").map(&:text).should include(expected_link)
   end
 
-  table_rows[1].all(:css, "td").first.text.should == "DM Functional Test Supplier 2"
-  expected_links.each do |expected_link|
-    table_rows[1].all(:css, "a").map(&:text).should include(expected_link)
-  end
+  # Should also be able to say the same about the following row too, but damned if I can get xpath to select it
+  # table_row_1 = ???
+  # table_row_1.all(:css, "td").first.text.should == "DM Functional Test Supplier 2"
+  # expected_links.each do |expected_link|
+  #   table_row_1.all(:css, "a").map(&:text).should include(expected_link)
+  # end
 end
 
 Then /I can see active users associated with '(.*)' on the dashboard$/ do |supplier_name|
