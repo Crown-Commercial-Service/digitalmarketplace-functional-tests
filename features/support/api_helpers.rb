@@ -122,15 +122,29 @@ def create_brief(framework_slug, lot_slug, user_id)
   brief_data = {
     updated_by: "functional tests"
   }
-  case lot_slug
-  when 'digital-specialists'
-    brief_data['briefs'] = Fixtures.digital_specialists_brief
-  when 'digital-outcomes'
-    brief_data['briefs'] = Fixtures.digital_outcomes_brief
-  when 'user-research-participants'
-    brief_data['briefs'] = Fixtures.user_research_participants_brief
-  else
-    puts 'Lot slug not recognised'
+  case framework_slug
+  when 'digital-outcomes-and-specialists'
+    case lot_slug
+    when 'digital-specialists'
+      brief_data['briefs'] = Fixtures.digital_specialists_brief
+    when 'digital-outcomes'
+      brief_data['briefs'] = Fixtures.digital_outcomes_brief
+    when 'user-research-participants'
+      brief_data['briefs'] = Fixtures.user_research_participants_brief
+    else
+      puts 'Lot slug not recognised'
+    end
+  when 'digital-outcomes-and-specialists-2'
+    case lot_slug
+    when 'digital-specialists'
+      brief_data['briefs'] = Fixtures.dos2_digital_specialists_brief
+    when 'digital-outcomes'
+      brief_data['briefs'] = Fixtures.dos2_digital_outcomes_brief
+    when 'user-research-participants'
+      brief_data['briefs'] = Fixtures.user_research_participants_brief
+    else
+      puts 'Lot slug not recognised'
+    end
   end
 
   brief_data['briefs']['userId'] = user_id

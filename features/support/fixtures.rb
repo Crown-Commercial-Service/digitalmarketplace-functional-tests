@@ -100,6 +100,15 @@ module Fixtures
     }
   end
 
+  def self.dos2_digital_specialists_brief
+    brief_fixture = self.digital_specialists_brief
+    brief_fixture[:'startDate-day'] = "31"
+    brief_fixture[:'startDate-month'] = "12"
+    brief_fixture[:'startDate-year'] = "2016"
+    brief_fixture.delete(:startDate)
+    return brief_fixture
+  end
+
   def self.digital_outcomes_brief
     return {
       # `nil` values should be updated within the step when this fixture is used
@@ -141,6 +150,15 @@ module Fixtures
       workingArrangements: "You work.",
       workplaceAddress: "Wherever we send you",
     }
+  end
+
+  def self.dos2_digital_outcomes_brief
+    brief_fixture = self.digital_outcomes_brief
+    brief_fixture[:'startDate-day'] = "28"
+    brief_fixture[:'startDate-month'] = "09"
+    brief_fixture[:'startDate-year'] = "2017"
+    brief_fixture.delete(:startDate)
+    return brief_fixture
   end
 
   def self.user_research_participants_brief
