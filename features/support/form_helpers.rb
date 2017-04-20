@@ -75,7 +75,7 @@ module FormHelper
     result = all_fields(locator, options)
 
     result.select { |v| not with.include?(v.value) }.each do |element|
-      uncheck element[:id], allow_label_click: true
+      uncheck_checkbox(element[:id])
     end
 
     with.each do |value|
@@ -86,7 +86,7 @@ module FormHelper
         raise Capybara::ElementNotFound.new("Unable to find #{query.description} with value '#{value}'")
       end
 
-      check checked.first[:id], allow_label_click: true
+      check_checkbox(checked.first[:id])
     end
 
     result
@@ -132,7 +132,7 @@ module FormHelper
 
     case field_type result.first
     when :radio
-      choose locator, options.merge({ option: with, allow_label_click: true })
+      choose_radio(locator, options.merge({ option: with }))
 
       result.select { |v| v.value == with }
     when :checkbox
