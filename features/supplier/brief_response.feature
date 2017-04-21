@@ -43,7 +43,7 @@ Scenario: Supplier applies for a digital-specialists brief
   Then I am on 'Apply for ‘Tea drinker’' page
   When I click 'Start application'
   Then I am on 'When is the earliest the specialist can start work?' page
-  And I see 'The buyer needs the specialist to start: 31/12/2016' replayed in the question advice
+  And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
   When I enter '27/12/17' in the 'availability' field
   And I click 'Continue'
   Then I am on the 'What’s the specialist’s day rate?' page
@@ -96,7 +96,7 @@ Scenario: Supplier applies for a digital-outcomes brief
   Then I am on 'Apply for ‘Hide and seek ninjas’' page
   When I click 'Start application'
   Then I am on 'When is the earliest the team can start?' page
-  And I see 'The buyer needs the team to start: 28/09/2017' replayed in the question advice
+  And I see 'The buyer needs the team to start: Thursday 28 September 2017' replayed in the question advice
   When I enter '09/09/17' in the 'availability' field
   And I click 'Continue'
   Then I am on the 'Do you have all the essential skills and experience?' page
@@ -218,7 +218,7 @@ Scenario: Supplier changes their answers before submission
   Then I am on 'Apply for ‘Tea drinker’' page
   When I click 'Continue application'
   Then I am on 'When is the earliest the specialist can start work?' page
-  And I see 'The buyer needs the specialist to start: 31/12/2016' replayed in the question advice
+  And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
   And I see '27/12/17' as the value of the 'availability' field
   When I enter '28/09/17' in the 'availability' field
   And I click 'Continue'
