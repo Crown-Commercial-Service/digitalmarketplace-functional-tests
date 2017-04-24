@@ -115,35 +115,34 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
 end
 
 When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
-  page.check(checkbox_label)
+  check_checkbox(checkbox_label)
 end
 
-When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |checkbox_label, question|
-  options = {allow_label_click: true}
-
+When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radio_label, question|
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      choose(checkbox_label, options)
+      choose_radio(radio_label)
     end
   else
-    page.choose(checkbox_label, options)
+    choose_radio(radio_label)
   end
 end
 
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
-  checkbox = all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']").sample
-  page.check(checkbox[:id])
-  puts "Checkbox value: #{checkbox.value}"
+  checkbox = all_fields(checkbox_name, {type: 'checkbox'}).sample
+  check_checkbox(checkbox)
 end
 
 When /I choose a random '(.*)' radio button$/ do |name|
-  radio = all(:xpath, "//input[@type='radio'][@name='#{name}']").sample
-  page.choose(radio[:id])
-  puts "Radio button value: #{radio.value}"
+
+  radio = all_fields(name, {type: 'radio'}).sample
+  choose_radio(radio)
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
-  all(:xpath, "//input[@type='checkbox'][@name='#{checkbox_name}']").each do |element| page.check(element[:id]) end
+  all_fields(checkbox_name, {type: 'checkbox'}).each do |checkbox|
+    check_checkbox(checkbox)
+  end
 end
 
 When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
@@ -191,10 +190,10 @@ Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
-  if page.has_field?(field, {type: 'radio'}) or page.has_field?(field, {type: 'checkbox'})
-    page.find_field(field, {checked: true}).value.should == value
+  if page.has_field?(field, {type: 'radio', visible: :all}) or page.has_field?(field, {type: 'checkbox', visible: :all})
+    first_field(field, {checked: true}).value.should == value
   else
-    page.find_field(field).value.should == value
+    first_field(field).value.should == value
   end
 end
 
@@ -232,13 +231,12 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
-  options = {:visible => :all}
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      page.find_field("#{radio_button_name}", options).should be_checked
+      first_field(radio_button_name, {type: 'radio'}).should be_checked
     end
   else
-    page.find_field("#{radio_button_name}", options).should be_checked
+    first_field(radio_button_name, {type: 'radio'}).should be_checked
   end
 end
 

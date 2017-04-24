@@ -1,9 +1,9 @@
 module FormHelper
   # Helper utilities for dealing with forms
-  
+
   def field_type(el)
     # Returns the type of field for a Capybara::Node::Element
-    
+
     if el[:type] == 'checkbox'
       :checkbox
     elsif el[:type] == 'radio'
@@ -18,16 +18,17 @@ module FormHelper
 
   def random_string
     # Generate a random string
-    
+
     (0..rand(3)).map{ |i| SecureRandom.base64.gsub(/[+=\/]/, '') }.join
   end
 
   def random_for(locator, options={})
     # Generate a suitable random value based on locator
-    
+
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
-    result = all(:field, locator, options)
+
+    result = all_fields(locator, options)
 
     if result.empty?
       query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
@@ -46,10 +47,20 @@ module FormHelper
     end
   end
 
+  def get_parent_label(el)
+    el.find_xpath('parent::label')[0]
+  end
+
   def find_fields(locator=nil, options={})
     # Find all field names
-
-    results = all(:field, locator, options).map { |v| v[:name] }
+    # If the inputs themselves aren't visible (ie, radios and checkboxes), verify that the parent labels are
+    results = all_fields(
+      locator, options
+    ).select { |el|
+      el.visible? or get_parent_label(el).visible?
+    }.map { |v|
+      v[:name]
+    }
 
     results.uniq
   end
@@ -57,25 +68,25 @@ module FormHelper
   def check_only(locator=nil, options={})
     # Ensure only the values provided in options[:with] are selected
     # takes either a single string or array of strings
-    
+
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = [options.delete(:with)].flatten
-    result = all(:field, locator, options)
+    result = all_fields(locator, options)
 
     result.select { |v| not with.include?(v.value) }.each do |element|
-      uncheck element[:id]
+      uncheck_checkbox(element[:id])
     end
 
     with.each do |value|
       checked = result.select { |v| v.value == value }
-    
-      if checked.empty? 
+
+      if checked.empty?
         query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
         raise Capybara::ElementNotFound.new("Unable to find #{query.description} with value '#{value}'")
       end
 
-      check checked.first[:id]
+      check_checkbox(checked.first[:id])
     end
 
     result
@@ -89,15 +100,15 @@ module FormHelper
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = [options.delete(:with)].flatten
     result = all(:field, locator, options)
-    
+
     within result[0] do
       within(:xpath, '../..') do
         (3..with.length).each { click_on find('.list-entry-add').text } if with.length > 2
       end
     end
-    
+
     result = all(:field, locator, options)
-    
+
     with.zip(result).each do |value, element|
       fill_in element[:id], :with => value
     end
@@ -111,7 +122,8 @@ module FormHelper
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
     with = options.delete(:with)
-    result = all(:field, locator, options)
+
+    result = all_fields(locator, options)
 
     if result.empty?
       query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
@@ -120,7 +132,7 @@ module FormHelper
 
     case field_type result.first
     when :radio
-      choose locator, options.merge({ option: with })
+      choose_radio(locator, options.merge({ option: with }))
 
       result.select { |v| v.value == with }
     when :checkbox
@@ -129,11 +141,11 @@ module FormHelper
       input_list locator, options.merge({ :with => with })
     else
       result = fill_in locator, options.merge({ :with => with })
-      
+
       [result]
     end
   end
-  
+
   def maybe_within(locator=nil, options={}, &block)
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
@@ -150,21 +162,26 @@ module FormHelper
   def find_substitutions(locator=nil, options={})
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
-    results = all(:field, locator, options)
+
+    results = all_fields(locator, options)
 
     # hash that initialises empty keys to a hash
     values = Hash.new{|h,k| h[k] = {}}
-    
+
     results.each do |result|
       if [:checkbox, :radio].include? field_type(result)
+
         label = find("label[for='#{result[:id]}']").text
 
         begin
-          description = find("label[for='#{result[:id]}'] p").text
-          
-          label = label[0..(label.length - description.length - 2)]
+          description = all("label[for='#{result[:id]}'] p").map {|el| el.text}.join
+
+          if not description.empty?
+            label = label[0..(label.length - description.length - 2)]
+          end
+
         rescue Capybara::ElementNotFound
-          
+
         end
 
         values[result[:name]][result[:value]] = label
@@ -186,12 +203,13 @@ module FormHelper
 
     maybe_within do
       find_fields.each do |name|
+
         values[name] = (with[name] or random_for name)
 
         fill_field name, with: values[name]
       end
     end
-    
+
     values
   end
 end

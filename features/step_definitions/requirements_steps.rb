@@ -33,8 +33,10 @@ When "I answer the following questions:" do |table|
   table.rows.flatten.each { |question|
     expr = "//li[a[text()='#{question}']]/span[@class='tick']"
 
+    # should be no tick mark beside the question name on the overview page
     page.should have_selector(:xpath, expr, :count => 0)
 
+    # click the question name on the overview page (eg, "Location")
     click_on question
 
     @fields.merge! fill_form
@@ -65,7 +67,6 @@ When "I answer all summary questions with:" do |table|
     substitutions = find_substitutions
 
     puts answer
-    puts substitutions
 
     click_on 'Save and continue'
 
