@@ -141,17 +141,18 @@ When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radi
 end
 
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
-  checkbox = find_checkboxes_by_name(checkbox_name).sample
+  checkbox = all_fields(checkbox_name, {type: 'checkbox'}).sample
   check_checkbox(checkbox)
 end
 
 When /I choose a random '(.*)' radio button$/ do |name|
-  radio = find_radios_by_name(name).sample
+
+  radio = all_fields(name, {type: 'radio'}).sample
   choose_radio(radio)
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
-  find_checkboxes_by_name(checkbox_name).each do |checkbox|
+  all_fields(checkbox_name, {type: 'checkbox'}).each do |checkbox|
     check_checkbox(checkbox)
   end
 end
@@ -202,9 +203,9 @@ end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
   if page.has_field?(field, {type: 'radio', visible: :all}) or page.has_field?(field, {type: 'checkbox', visible: :all})
-    page.find_field(field, {checked: true, visible: :all}).value.should == value
+    first_field(field, {checked: true}).value.should == value
   else
-    page.find_field(field).value.should == value
+    first_field(field).value.should == value
   end
 end
 
@@ -244,10 +245,10 @@ end
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      first_field(radio_button_name).should be_checked
+      first_field(radio_button_name, {type: 'radio'}).should be_checked
     end
   else
-    first_field(radio_button_name).should be_checked
+    first_field(radio_button_name, {type: 'radio'}).should be_checked
   end
 end
 
