@@ -1,18 +1,6 @@
 require 'uri'
 require 'securerandom'
 
-def find_checkboxes_by_name(name, options={})
-  return all_fields(name, options.merge({type: 'checkbox'}))
-end
-
-def find_radios_by_name(name, options={})
-  return all_fields(name, options.merge({type: 'radio'}))
-end
-
-def find_radio_by_name(name, options={})
-  return first_field(name, options.merge({type: 'radio'}))
-end
-
 Given /^I am on the homepage$/ do
   page.visit("#{dm_frontend_domain}")
   page.should have_content("Digital Marketplace")
