@@ -91,7 +91,7 @@ module Fixtures
       requirementsLength: "2 weeks",
       specialistRole: "developer",
       specialistWork: "Drink tea",
-      startDate: "31\/12\/2016",
+      startDate: "2016-12-31",
       summary: "Drink lots of tea. Brew kettle.",
       technicalWeighting: 75,
       title: "Tea drinker",
@@ -131,7 +131,7 @@ module Fixtures
       phase: "beta",
       priceCriteria: "Fixed price",
       priceWeighting: 20,
-      startDate: "28\/09\/2017",
+      startDate: "2017-09-28",
       successCriteria: [
         "The thingy works"
       ],

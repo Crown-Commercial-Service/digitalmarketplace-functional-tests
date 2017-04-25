@@ -15,7 +15,12 @@ Scenario: Create individual specialist requirement
 
   Given 'Description of work' should not be ticked
    When I click 'Description of work'
-    And I answer all summary questions
+    And I answer all summary questions with:
+      | field                 | value       | expected_summary_table_value |
+      | startDate-day         | 08          | Tuesday 8                    |
+      | startDate-month       | 9           | September                    |
+      | startDate-year        | 2020        | 2020                         |
+
     And I click 'Return to overview'
    Then 'Description of work' should be ticked
 
@@ -57,7 +62,11 @@ Scenario: Create team to provide an outcome
 
   Given 'Description of work' should not be ticked
    When I click 'Description of work'
-    And I answer all summary questions
+    And I answer all summary questions with:
+      | field                 | value       | expected_summary_table_value |
+      | startDate-day         | 9           | Wednesday 9                    |
+      | startDate-month       | 9           | September                    |
+      | startDate-year        | 2020        | 2020                         |
     And I click 'Return to overview'
    Then 'Description of work' should be ticked
 
