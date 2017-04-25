@@ -49,10 +49,16 @@ end
 
 When "I answer all summary questions with:" do |table|
   with = {}
+  expected_summary_table_values = {}
 
-  table.rows.each do |k, v|
+  table.rows.each do |k, v, s|
+    # Parse Cucumber table
     v = JSON.parse(v) if ['{', '['].include? v[0]
     with[k] = v
+    # Only add this k: v pair to the expected_summary_table_values if the value exists (taken from the
+    # expected_summary_table_value column)
+    # {table field: expected summary table value}
+    expected_summary_table_values[k] = s if s != ''
   end if table
 
   all('tr.summary-item-row').to_a.each_with_index do |row, index|
@@ -71,11 +77,13 @@ When "I answer all summary questions with:" do |table|
     click_on 'Save and continue'
 
     within all('tr.summary-item-row')[index] do
+      # Find the value in the summary table.
+      # Can be overriden using the expected_summary_table_value column of the Cucumber table
       answer.each do |k, v|
         if v.respond_to? :each
-          v.each { |v| all('td')[1].text.should include(substitutions[k][v] || v) }
+          v.each { |v| all('td')[1].text.should include(expected_summary_table_values[k] || substitutions[k][v] || v) }
         else
-          all('td')[1].text.should include(substitutions[k][v] || v)
+          all('td')[1].text.should include(expected_summary_table_values[k] || substitutions[k][v] || v)
         end
       end
     end
