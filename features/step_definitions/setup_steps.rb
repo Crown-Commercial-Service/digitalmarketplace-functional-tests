@@ -267,7 +267,7 @@ def create_and_return_buyer_brief (brief_name, framework_slug, lot, user_id)
     "priceWeighting" => 20,
     "specialistRole" => 'developer',
     "specialistWork" => "Work on the Digital Marketplace",
-    "startDate" => '31/12/2016',
+    "startDate" => '2016-12-31',
     "summary" => "Make a flappy bird clone except where the bird drives very safely",
     "technicalWeighting" => 70,
     "title" => brief_name,
