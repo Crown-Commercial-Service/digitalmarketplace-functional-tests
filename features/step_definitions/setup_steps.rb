@@ -78,11 +78,6 @@ Given /^The test suppliers have live services$/ do
   create_live_service(11112, "1123456789012354", "g-cloud-6", "iaas")
 end
 
-Given /^Test suppliers are eligible to respond to an opportunity$/ do
-  create_live_service(11111, "2123456789012354", "digital-outcomes-and-specialists", "digital-specialists")
-  create_live_service(11111, "2123456789012355", "digital-outcomes-and-specialists-2", "digital-specialists")
-end
-
 def update_and_check_status (service_status)
   page.find(:xpath,"//*[contains(@name, 'status') and contains(@value, '#{service_status.downcase}')]").click
   steps %Q{
