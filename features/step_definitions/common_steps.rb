@@ -166,6 +166,10 @@ When(/^I choose a random uppercase letter$/) do
   puts "letter: #{@letter}"
 end
 
+Then /^I see a (success|warning|destructive) banner message containing '(.*)'$/ do |status, message|
+  page.find(:css, ".banner-#{status}-without-action").should have_content(message)
+end
+
 Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
   breadcrumb.text().should == breadcrumb_text

@@ -1,5 +1,5 @@
 @brief-response
-Feature: Supplier applies for a brief
+Feature: Supplier applies for an opportunity
 
 Background:
   Given I have a live digital outcomes and specialists framework
@@ -269,3 +269,15 @@ Scenario: Supplier changes their answers before submission
       | Talk snobbishly about water quality | First nice to have evidence |
       | Sip quietly                         |                             |
       | Provide biscuits                    |  Only the finest            |
+
+@opportunity-clarification-question
+Scenario: Supplier asks a clarification question
+  Given that supplier is on that framework
+  And that supplier has a service on the digital-specialists lot
+  And I go to that brief page
+  And I click 'Ask a question'
+  Then I am on 'Ask a question about ‘Tea drinker’' page
+  And I enter 'How do I ask a question?' in the 'clarification-question' field
+  And I click 'Ask question'
+  Then I see a success banner message containing 'Your question has been sent.'
+
