@@ -1,13 +1,13 @@
 DM_ENVIRONMENT ?= local
 
 smoke-tests: setup
-	. config/${DM_ENVIRONMENT}.sh && bundle exec cucumber --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
 run: setup
-	. config/${DM_ENVIRONMENT}.sh && bundle exec cucumber --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
 rerun:
-	. config/${DM_ENVIRONMENT}.sh && bundle exec cucumber -p rerun
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber -p rerun
 
 setup: install clean
 	@echo "Environment:" ${DM_ENVIRONMENT}
