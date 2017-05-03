@@ -919,10 +919,6 @@ And /I am presented with the message '(.*)'$/ do |message_text|
   page.should have_content(message_text)
 end
 
-Then /^there is a (success|warning|destructive) banner message containing '(.*)'$/ do |status, message|
-  page.find(:css, ".banner-#{status}-without-action").should have_content(message)
-end
-
 Given /I am on the '(.*)' landing page$/ do |page_name|
   if page_name == 'Digital Marketplace'
     page.visit("#{dm_frontend_domain}")
