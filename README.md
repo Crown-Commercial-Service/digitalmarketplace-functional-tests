@@ -47,6 +47,22 @@ To run features with a specific tag run
 
 To include or exclude tags see [the cucumber documentation](https://github.com/cucumber/cucumber/wiki/Tags#running-a-subset-of-scenarios)
 
+## Tags
+Tags are used to include/exclude given tests on certain environments. The following tags are currently supported:
+
+| Tag Name                    | Description                                           |
+|-----------------------------|-------------------------------------------------------|
+| smoke-tests                 |                                                       |
+| opportunities               |                                                       |               
+| requirements                |                                                       |
+| brief-response              |                                                       |
+| with-production-<type>-user |                                                       |
+| skip                        | Skip this test everywhere (e.g. temporarily disabled) |
+| skip-preview                | Will not run on the preview environment.              |
+| skip-staging                | Will not run on the staging environment.              |
+| skip-production             | Will not run on the production environment.           |
+
+
 ## Run tests against local services
 
 First you need to create a file to set up your local environment variables - this must be in
