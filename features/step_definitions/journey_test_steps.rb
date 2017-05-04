@@ -931,7 +931,6 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
     page.should have_link('Find a team to provide an outcome')
     page.should have_link('Find user research participants')
     page.should have_link('Find a user research lab')
-    page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space')
 
   elsif page_name == 'Cloud technology and support'
