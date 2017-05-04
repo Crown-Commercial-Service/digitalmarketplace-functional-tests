@@ -47,3 +47,24 @@ Given /^I am logged in as (?:a|the) (production )?(\w+) user$/ do |production, u
     Then I see the 'Log out' link
   }
 end
+
+Given 'I have a buyer' do
+  @buyer = step "I have a buyer user"
+end
+
+Given 'I have a supplier' do
+  @supplier = create_supplier
+  @supplier_user = step "I have a supplier user with supplier id #{@supplier['id']}"
+end
+
+Given /^that (supplier|buyer) is logged in$/ do |user_role|
+  user = user_role == 'supplier' ? @supplier_user : @buyer
+
+  steps %Q{
+    And I am on the /login page
+    When I enter '#{user['emailAddress']}' in the 'Email address' field
+    And I enter '#{user['password']}' in the 'Password' field
+    And I click the 'Log in' button
+    Then I see the 'Log out' link
+  }
+end

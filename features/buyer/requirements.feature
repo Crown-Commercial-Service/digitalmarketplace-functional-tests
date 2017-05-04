@@ -135,4 +135,15 @@ Scenario: Create user research participants
    And I don't see the 'Shortlist and evaluation process' link
    And I don't see the 'Review and publish your requirements' link
 
-
+@copy
+Scenario: Copy requirements
+  Given I have a live digital outcomes and specialists framework
+    And I have a buyer
+    And that buyer is logged in
+    And I have a live digital-specialists brief
+    And I am on the /buyers page
+  When I click the 'Copy requirement' button
+  Then I am on the 'What you want to call your requirements' page
+    And I see 'Tea drinker copy' as the value of the 'title' field
+  When I click the 'Save and continue' button
+  Then I am on the 'Tea drinker copy' page
