@@ -129,9 +129,6 @@ Then /I am presented with the admin search page$/ do
   page.should have_link('Download user lists')
 end
 
-When /I enter that service\.(.*) in the '(.*)' field$/ do |attr_name, field_name|
-  step "I enter '\"#{@service[attr_name]}\"' in the '#{field_name}' field"
-end
 
 When /I enter the email address for the '(.*)' user in the '(.*)' field$/ do |user,field_name|
   user_email = {
@@ -159,6 +156,10 @@ When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   if field_name.include?('supplier_id')
     @servicesupplierID = value
   end
+end
+
+When /I follow the '(.*)' link$/ do |url|
+  find("a[href='#{url}']").click
 end
 
 And /I click the '(.*)' button$/ do |button_name|
@@ -927,7 +928,6 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
     page.should have_link('Find a team to provide an outcome')
     page.should have_link('Find user research participants')
     page.should have_link('Find a user research lab')
-    page.should have_link('Find cloud technology and support')
     page.should have_link('Buy physical datacentre space')
 
   elsif page_name == 'Cloud technology and support'
@@ -935,11 +935,6 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
     step "Then I am taken to the '#{page_name}' landing page"
   end
 end
-
-Then /gzip is enabled/ do
-  page.response_headers['Content-Encoding'].should == "gzip"
-end
-
 
 When /I click the '(.*)' link$/ do |link_name|
   step "I click the '#{link_name}' button"
@@ -973,18 +968,8 @@ def filter_to_check(filter_name,filter_value,filter_exist)
   end
 end
 
-Then /I am on a page with that service\.(.*) in search summary text$/ do |attr_name|
-  step "I am on a page with '\"#{@service[attr_name]}\"' in search summary text"
-end
-
 Then /I am on a page with '(.*)' in search summary text$/ do |value|
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
-end
-
-Then /Selected lot is that service.lot with links to the search for that service.(.*)$/ do |attr|
-  lot = @service['lotName'] || full_lot(@service['lot'])
-  query = @service[attr]
-  step "Selected lot is '#{lot}' with links to the search for '\"#{query}\"'"
 end
 
 Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |selected_lot, query|
@@ -1012,20 +997,6 @@ Then /Selected lot is '([^']*)'(?: with links to the search for '(.*)')?$/ do |s
       lot_links.should include_url(lot_link)
     end
   end
-end
-
-Then /There (?:is|are) (\d+) search results?$/ do |count|
-  find(:xpath, "//*[@class='search-summary-count']").text.should == count
-end
-
-Then /I am on a page with that service in search results$/ do
-  search_results = all(:xpath, ".//div[@class='search-result']")
-  service_result = search_results.find { |r| r.first(:xpath, './h2/a')[:href].include? @service['id']}
-
-  service_result.first(:xpath, "./h2[@class='search-result-title']/a").text.should == normalize_whitespace(@service['serviceName'])
-  service_result.first(:xpath, "./p[@class='search-result-supplier']").text.should == normalize_whitespace(@service['supplierName'])
-  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][1]").text.should == (@service['lotName'] || full_lot(@service['lot']))
-  service_result.first(:xpath, ".//li[@class='search-result-metadata-item'][2]").text.should == @service['frameworkName']
 end
 
 Given /I am on the search results page with results for that service.lot displayed$/ do
