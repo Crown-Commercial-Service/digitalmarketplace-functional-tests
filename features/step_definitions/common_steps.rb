@@ -252,3 +252,7 @@ Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attri
   place = "//*[@#{attribute_name} = '#{attribute_value}']"
   all(:xpath, place).length.should == 1
 end
+
+Then /^I take a screenshot/ do
+  page.save_screenshot('screenshot.png')
+end
