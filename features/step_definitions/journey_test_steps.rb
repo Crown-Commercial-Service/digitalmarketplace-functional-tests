@@ -158,6 +158,10 @@ When /I enter '(.*)' in the '(.*)' field$/ do |value,field_name|
   end
 end
 
+When /I follow the '(.*)' link$/ do |url|
+  find("a[href='#{url}']").click
+end
+
 And /I click the '(.*)' button$/ do |button_name|
   page.click_link_or_button(button_name)
 end
