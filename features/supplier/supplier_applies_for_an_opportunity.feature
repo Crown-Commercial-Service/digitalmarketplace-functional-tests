@@ -6,8 +6,7 @@ Background:
   And I have a buyer
   And I have a live digital-specialists brief
   And I have a supplier
-  And that supplier has a user
-  And that supplier user is logged in
+  And that supplier is logged in
 
 Scenario: Supplier is not eligible as they are not on the framework
   Given I go to that brief page

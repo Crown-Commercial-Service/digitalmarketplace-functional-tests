@@ -21,34 +21,12 @@ Given /^I go to that brief page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given 'I have a buyer' do
-  @buyer = step "I have a buyer user"
-end
-
-Given 'I have a supplier' do
-  @supplier = create_supplier
-end
-
 Given 'that supplier is on that framework' do
   submit_supplier_declaration(@framework['slug'], @supplier["id"], {})
 end
 
 Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|
   @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"], role_type)
-end
-
-Given 'that supplier has a user' do
-  @supplier_user = step "I have a supplier user with supplier id #{@supplier['id']}"
-end
-
-Given 'that supplier user is logged in' do
-  steps %Q{
-    And I am on the /login page
-    When I enter that supplier_user.emailAddress in the 'Email address' field
-    And I enter that supplier_user.password in the 'Password' field
-    And I click the 'Log in' button
-    Then I see the 'Log out' link
-  }
 end
 
 Given 'that supplier has filled in their application but not submitted it' do
