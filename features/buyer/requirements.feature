@@ -135,7 +135,7 @@ Scenario: Create user research participants
    And I don't see the 'Shortlist and evaluation process' link
    And I don't see the 'Review and publish your requirements' link
 
-@skip-staging @copy
+@copy
 Scenario: Copy requirements
   Given I have a live digital outcomes and specialists framework
     And I have a buyer
