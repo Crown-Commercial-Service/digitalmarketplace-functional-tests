@@ -1,7 +1,7 @@
 @smoke-tests
 Feature: Passive catalogue buyer journey
 
-@skip-preview
+@skip-local @skip-preview
 Scenario: User can see the main links on the homepage
   Given I am on the homepage
   Then I see the 'Find cloud technology and support' link
@@ -13,7 +13,7 @@ Scenario: User can see the main links on the homepage
   And I see the 'View Digital Outcomes and Specialists opportunities' link
   And I see the 'Create a supplier account' link
 
-@skip-preview
+@skip-local @skip-preview
 Scenario: User can click through to g-cloud page
   Given I am on the homepage
   When I click 'Find cloud technology and support'
@@ -35,7 +35,7 @@ Scenario: User can see the main links on the homepage
 Scenario: User can click through to g-cloud page
   Given I am on the homepage
   When I click 'Find cloud hosting, software and support'
-  Then I am on the 'Cloud technology and support' page
+  Then I am on the 'Cloud hosting, software and support' page
 
 Scenario: User can select a lot from the g-cloud page and see search results.
   Given I am on the /g-cloud page
