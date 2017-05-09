@@ -930,7 +930,7 @@ Given /I am on the '(.*)' landing page$/ do |page_name|
     page.should have_link('Find a user research lab')
     page.should have_link('Buy physical datacentre space')
 
-  elsif page_name == 'Cloud technology and support'
+  elsif page_name == 'Cloud hosting, software and support'
     page.visit("#{dm_frontend_domain}/g-cloud")
     step "Then I am taken to the '#{page_name}' landing page"
   end
@@ -1005,7 +1005,7 @@ end
 
 Given /I am on the search results page with results for '(.*)' lot displayed$/ do |lot_name|
   steps %Q{
-    Given I am on the 'Cloud technology and support' landing page
+    Given I am on the 'Cloud hosting, software and support' landing page
     When I click the '#{lot_name}' link
     Then I am taken to the search results page with results for '#{lot_name}' lot displayed
   }
@@ -1117,7 +1117,7 @@ Given /I am on the G-Cloud supplier A-Z page$/ do
   end
   page.should have_selector(:xpath, ".//*[@id='global-atoz-navigation']//*/a[contains(@href, '/g-cloud/suppliers?prefix=other')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud hosting, software and support')]")
 end
 
 And /The supplier '(.*)' is '(.*)' on the page$/ do |value,availability|
@@ -1146,7 +1146,7 @@ And /I am taken to the '(.*)' supplier information page$/ do |value|
   page.should have_selector(:xpath, "//*[@class='contact-details-block'][2]/*[@itemprop='telephone'][contains(text(),'+44 (0) 123456789')]")
   page.should have_selector(:xpath, "//*[@class='contact-details-block'][3]/*[@itemprop='email']/*[contains(text(),'Testing.supplier.2.NaMe@DMtestemail.com')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
-  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud technology and support')]")
+  page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2]//*[contains(text(), 'Cloud hosting, software and support')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[3]//*[contains(text(), 'Suppliers')]")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[4]//*[contains(text(), 'D')]")
 end
