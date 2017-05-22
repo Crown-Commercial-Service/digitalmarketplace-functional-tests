@@ -196,8 +196,12 @@ module FormHelper
     # any not provided.
 
     locator, options = nil, locator if locator.is_a? Hash
+    puts 'options'
+    puts options
     raise "Must pass a hash" if not options.is_a?(Hash)
-    with = options.delete(:with) || {}
+    with = options
+    puts "with"
+    puts with
 
     values = {}
 
@@ -205,7 +209,7 @@ module FormHelper
       find_fields.each do |name|
 
         values[name] = (with[name] or random_for name)
-
+        puts values
         fill_field name, with: values[name]
       end
     end

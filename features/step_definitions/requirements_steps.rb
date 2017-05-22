@@ -2,23 +2,60 @@ Before do
   @fields = {}
 end
 
-Given "I have created $type requirement" do |type|
-  page.visit("#{dm_frontend_domain}")
 
-  click_on "Find #{type}"
+#Given (/^I have created (.+?) requirement(?: with\:)?$/) do |type, table|
+#
+ # table ||= nil
+  #page.visit("#{dm_frontend_domain}")
+#
+ # click_on "Find #{type}"
+#
+ # page.should have_selector('h1', text: "Find #{type}")
+#
+ # click_on 'Create requirement'
+  #answers_hash = {}
+#  if table
+ #   table.rows.each do |k, v|
+#      answers_hash.merge!({k => v})
+#    end
+#  end
+#  puts answers_hash
+#  answers = fill_form(options=answers_hash)
+#
+ # @fields.merge! answers
+#
+ # click_on 'Save and continue'
+#
+ # page.should have_selector('h1', text: answers['title'])
+#end
 
-  page.should have_selector('h1', text: "Find #{type}")
 
-  click_on 'Create requirement'
 
-  answers = fill_form
+ Given "I have created $type requirement with:" do |type, table|
+   page.visit("#{dm_frontend_domain}")
 
-  @fields.merge! answers
+   click_on "Find #{type}"
 
-  click_on 'Save and continue'
+   page.should have_selector('h1', text: "Find #{type}")
 
-  page.should have_selector('h1', text: answers['title'])
-end
+   click_on 'Create requirement'
+   answers_hash = {}
+   table.rows.each do |k, v|
+     answers_hash.merge!({k: v})
+   end
+   answers = fill_form(options=answers_hash)
+
+
+   @fields.merge! answers
+
+   click_on 'Save and continue'
+
+   page.should have_selector('h1', text: answers['title'])
+ end
+
+ Given "I have created $type requirement" do |type|
+    step "I have created #{type} requirement with:"
+ end
 
 Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
   expr = "//li[a[text()='#{label}']]/span[@class='tick']"
