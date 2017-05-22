@@ -167,7 +167,7 @@ When(/^I choose a random uppercase letter$/) do
 end
 
 Then /^I see a (success|warning|destructive) banner message containing '(.*)'$/ do |status, message|
-  page.find(:css, ".banner-#{status}-without-action").should have_content(message)
+  page.find(:css, ".banner-#{status}-#{"with" || "without"}-action").should have_content(message)
 end
 
 Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
