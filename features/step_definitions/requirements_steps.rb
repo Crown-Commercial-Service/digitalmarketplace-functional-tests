@@ -20,11 +20,6 @@ Given "I have created $type requirement" do |type|
   page.should have_selector('h1', text: answers['title'])
 end
 
-Given "$brief gets withdrawn" do |brief|
-  withdraw_brief(brief["id"])
-  @brief = brief
-end
-
 Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
   expr = "//li[a[text()='#{label}']]/span[@class='tick']"
 

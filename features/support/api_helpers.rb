@@ -138,7 +138,7 @@ def create_brief(framework_slug, lot_slug, user_id)
 
   response = call_api(:post, '/briefs', payload: brief_data)
   response.code.should be(201), _error(response, "Failed to create brief for #{lot_slug}, #{user_id}")
-  JSON.parse(response.body)['briefs']['id']
+  JSON.parse(response.body)['briefs']
 end
 
 def create_brief_response(lot_slug, brief_id, supplier_id)
@@ -170,12 +170,12 @@ def publish_brief(brief_id)
 end
 
 def withdraw_brief(brief_id)
-  puts "ID"
-  puts brief_id
   path = "/briefs/#{brief_id}/withdraw"
   response = call_api(:post, path, payload: {
     updated_by: "functional tests"
   })
+  response.code.should be(200), _error(response, "Failed to withdraw brief #{brief_id}")
+  JSON.parse(response.body)['briefs']
 end
 
 def create_supplier
