@@ -82,10 +82,9 @@ Scenario: See detail page for a withdrawn brief
     And I have a buyer
     And I have a live digital-specialists brief
     And that brief gets withdrawn
-    And I have a supplier
-    And that supplier is logged in
   When I go to that brief URL address
   Then I am on that brief.title page
-    And I take a screenshot
     And I see a temporary-message banner message containing 'This opportunity was withdrawn'
     And I don't see the 'Apply' link
+    And I don't see the 'Log in to ask a question' link
+    And I don't see the 'Log in to view question and answer session details' link

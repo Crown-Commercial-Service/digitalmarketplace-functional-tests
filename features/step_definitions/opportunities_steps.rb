@@ -16,7 +16,6 @@ When(/^I note the result_count$/) do
 end
 
 When "I go to $brief URL address" do |brief|
-  puts brief
   page.visit("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{brief["id"]}")
   page.should have_content(brief["title"])
 end

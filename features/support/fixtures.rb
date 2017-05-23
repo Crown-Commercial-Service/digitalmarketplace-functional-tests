@@ -97,6 +97,7 @@ module Fixtures
       title: "Tea drinker",
       workingArrangements: "Hard work",
       workplaceAddress: "London",
+      questionAndAnswerSessionDetails: "Here be Q&A details"
     }
   end
 
