@@ -15,6 +15,12 @@ When(/^I note the result_count$/) do
   @result_count = page.first(:css, ".search-summary-count").text.to_i
 end
 
+When "I go to $brief URL address" do |brief|
+  puts brief
+  page.visit("#{dm_frontend_domain}/digital-outcomes-and-specialists/opportunities/#{brief["id"]}")
+  page.should have_content(brief["title"])
+end
+
 Then (/^I see an opportunity in the search results$/) do
   page.should have_selector(:css, ".search-result")
 end

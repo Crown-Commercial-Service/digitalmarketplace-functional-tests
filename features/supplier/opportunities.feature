@@ -75,3 +75,17 @@ Scenario: Checking all statuses returns all results
   And I check all 'status' checkboxes
   And I click the 'Filter' button
   Then I see that the stated number of results equals that result_count
+
+@withdrawn
+Scenario: See detail page for a withdrawn brief
+  Given I have a live digital outcomes and specialists framework
+    And I have a buyer
+    And I have a live digital-specialists brief
+    And that brief gets withdrawn
+    And I have a supplier
+    And that supplier is logged in
+  When I go to that brief URL address
+  Then I am on that brief.title page
+    And I take a screenshot
+    And I see a temporary-message banner message containing 'This opportunity was withdrawn'
+    And I don't see the 'Apply' link

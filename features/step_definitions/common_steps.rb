@@ -166,7 +166,7 @@ When(/^I choose a random uppercase letter$/) do
   puts "letter: #{@letter}"
 end
 
-Then /^I see a (success|warning|destructive) banner message containing '(.*)'$/ do |status, message|
+Then /^I see a (success|warning|destructive|temporary-message) banner message containing '(.*)'$/ do |status, message|
   page.find(:css, ".banner-#{status}-without-action").should have_content(message)
 end
 

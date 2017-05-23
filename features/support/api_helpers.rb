@@ -169,6 +169,15 @@ def publish_brief(brief_id)
   JSON.parse(response.body)['briefs']
 end
 
+def withdraw_brief(brief_id)
+  puts "ID"
+  puts brief_id
+  path = "/briefs/#{brief_id}/withdraw"
+  response = call_api(:post, path, payload: {
+    updated_by: "functional tests"
+  })
+end
+
 def create_supplier
   random_string = SecureRandom.hex
 
