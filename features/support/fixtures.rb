@@ -141,6 +141,7 @@ module Fixtures
       title: "Hide and seek ninjas",
       workingArrangements: "You work.",
       workplaceAddress: "Wherever we send you",
+      questionAndAnswerSessionDetails: "Here be Q&A details"
     }
   end
 
@@ -177,7 +178,8 @@ module Fixtures
       ],
       summary: "Horses are really good.",
       technicalWeighting: 60,
-      title: "I need horses."
+      title: "I need horses.",
+      questionAndAnswerSessionDetails: "Here be Q&A details"
     }
   end
 

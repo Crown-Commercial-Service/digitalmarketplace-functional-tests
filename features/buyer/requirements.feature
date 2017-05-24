@@ -138,13 +138,13 @@ Scenario: Create user research participants
 @copy
 Scenario Outline: Copy requirements
   Given I have a live digital outcomes and specialists framework
-    And I have a buyer
-    And that buyer is logged in
-    And I have a <status> digital-specialists brief
-    And I am on the /buyers page
+  And I have a buyer
+  And that buyer is logged in
+  And I have a <status> digital-specialists brief
+  And I am on the /buyers page
   When I click the 'Make a copy' button
   Then I am on the 'What you want to call your requirements' page
-    And I see 'Tea drinker copy' as the value of the 'title' field
+  And I see 'Tea drinker copy' as the value of the 'title' field
   When I click the 'Save and continue' button
   Then I am on the 'Tea drinker copy' page
 
