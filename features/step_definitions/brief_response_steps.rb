@@ -8,10 +8,12 @@ Given 'I have a live digital outcomes and specialists framework' do
   puts @framework['slug']
 end
 
-Given /^I have a live (.*) brief$/ do |lot_slug|
-  brief_id = create_brief(@framework['slug'], lot_slug, @buyer["id"])
+Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
+  brief = create_brief(@framework['slug'], lot_slug, @buyer["id"])
+  brief_id = brief["id"]
   puts "created brief with id #{brief_id}"
-  brief = publish_brief(brief_id)
+  brief = publish_brief(brief_id) unless status == "draft"
+  withdraw_brief(brief_id) if status == "withdrawn"
   @brief_id = brief_id
   @brief = brief
 end
