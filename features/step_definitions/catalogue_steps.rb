@@ -41,3 +41,9 @@ end
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
   find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
 end
+
+When /^I tick a random filter$/ do
+  checkbox = all(:xpath, "//form[@action='/g-cloud/search']//input[@type='checkbox']").sample
+  page.check(checkbox[:id])
+  puts "Filter ticked: #{checkbox[:name]}"
+end

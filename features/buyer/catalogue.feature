@@ -58,3 +58,12 @@ Scenario: User is able to search by keywords field on the search results page to
   Then I see that service.id in the search summary text
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
+
+Scenario: User is able to click a filter on the search results page to narrow down the results returned
+  Given I am on the /g-cloud page
+  And I have a random g-cloud service from the API
+  When I click that service.lotName
+  And I tick a random filter
+  And I click 'Filter'
+  Then I see that service.lotName in the search summary text
+  And I see a search result
