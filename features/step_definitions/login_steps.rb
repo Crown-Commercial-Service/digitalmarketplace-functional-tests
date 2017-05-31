@@ -68,3 +68,10 @@ Given /^that (supplier|buyer) is logged in$/ do |user_role|
     Then I see the 'Log out' link
   }
 end
+
+Given /^that supplier has (\d+) additional users$/ do |extra_users|
+  @users = []
+  extra_users.to_i.times do
+    @users << (step "I have a supplier user with supplier id #{@supplier['id']}")
+  end
+end
