@@ -1,2 +1,2 @@
-default: --format html --out reports/index.html --format rerun --out reports/rerun --format pretty features/apps_status.feature features
+default: --format html --out reports/index.html --format rerun --out reports/rerun --format pretty features/smoke-tests/apps_status.feature features
 rerun: --format html --out reports/rerun.html --format pretty @reports/rerun
