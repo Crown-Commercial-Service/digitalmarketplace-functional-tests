@@ -1,6 +1,10 @@
 require "rest_client"
 
 def call_api(method, path, options={})
+  safe_for_smoke_tests = options.delete(:safe_for_smoke_tests)
+  if @SMOKE_TESTS && method != :get && !safe_for_smoke_tests
+    raise "Unsafe API request in smoke tests. Only GET methods are allowed"
+  end
   domain = options.delete(:domain) || dm_api_domain
   auth_token = options.delete(:auth_token) || dm_api_access_token
   url = "#{domain}#{path}"
@@ -52,7 +56,7 @@ def ensure_user_exists(user_details)
   creation_response = call_api(:post, "/users", payload: {
     users: user_details,
     updated_by: "functional tests",
-  })
+  }, safe_for_smoke_tests: true)
   if creation_response.code == 409
     # user with this email already exists - let's see if we have the right password...
     auth_response = call_api(:post, "/users/auth", payload: {
@@ -60,7 +64,7 @@ def ensure_user_exists(user_details)
         emailAddress: user_details['emailAddress'],
         password: user_details['password'],
       },
-    })
+    }, safe_for_smoke_tests: true)
     unless auth_response.code == 200
       # before we show our failure message we should reset the failed login count so we don't end up locking
       # ourselves out (due to the automated nature of this it would be very easy to do in one run). but to do that we
@@ -69,7 +73,7 @@ def ensure_user_exists(user_details)
       reset_failed_login_response = call_api(:post, "/users/#{user['id']}", payload: {
         users: {locked: false},
         updated_by: "functional tests",
-      })
+      }, safe_for_smoke_tests: true)
       reset_failed_login_response.code.should be(200), _error(reset_failed_login_response, "Failed to ensure user #{user_details['emailAddress']} exists")
       # this should definitely fail now
       auth_response.code.should be(200), _error(auth_response, "User #{user_details['emailAddress']} exists but we couldn't authenticate as them. Does our password agree with the one on the server?")
