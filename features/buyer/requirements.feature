@@ -153,3 +153,14 @@ Scenario Outline: Copy requirements
     | live      |
     | withdrawn |
     | draft     |
+
+
+@delete_draft
+Scenario: Delete a draft requirement
+  Given I am logged in as a buyer user
+  And I have created an individual specialist requirement
+
+  When I click 'Delete'
+  Then I see a destructive banner message containing 'Are you sure you want to delete these requirements?'
+  When I click 'Yes, delete'
+  Then I see a success banner message containing 'were deleted'

@@ -166,8 +166,14 @@ When(/^I choose a random uppercase letter$/) do
   puts "letter: #{@letter}"
 end
 
+# the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option  
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing '(.*)'$/ do |status, message|
-  page.find(:css, ".banner-#{status}-without-action").should have_content(message)
+  begin
+    banner_message = page.find(:css, ".banner-#{status}-without-action")
+  rescue
+    banner_message = page.find(:css, ".banner-#{status}-with-action")
+  end
+  banner_message.should have_content(message)
 end
 
 Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
