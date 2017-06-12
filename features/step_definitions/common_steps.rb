@@ -181,10 +181,9 @@ Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   breadcrumb.text().should == breadcrumb_text
 end
 
-Then /^I (don't |)see the '(.*)' link$/ do |negative, link_text|
-  page.should have_link(link_text) if negative.empty?
-
-  page.should_not have_link(link_text) unless negative.empty?
+Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
+page.should have_selector(:link_or_button, selector_text) if negative.empty?
+page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
