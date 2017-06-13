@@ -166,7 +166,7 @@ When(/^I choose a random uppercase letter$/) do
   puts "letter: #{@letter}"
 end
 
-# the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option  
+# the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing '(.*)'$/ do |status, message|
   begin
     banner_message = page.find(:css, ".banner-#{status}-without-action")
@@ -238,6 +238,13 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
     result_items[0].text.should == row[0]
     result_items[1].text.should == row[1]
   end
+end
+
+Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())='#{table_heading}']/following-sibling::table[1]"
+  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
+  result_table_rows = all(:xpath, result_table_rows_location)
+  result_table_rows.any? {|row| row.text.include? content}.should be true
 end
 
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
