@@ -182,6 +182,15 @@ Scenario: Delete a draft requirement
   Then I see a success banner message containing 'were deleted'
 
 
+Scenario: Edit a draft requirement
+  Given I am logged in as a buyer user
+  And I have created an individual specialist requirement
+  When I click 'Title'
+  Then I am on the 'What you want to call your requirements' page
+  When I enter 'Green Tea Drinker' in the 'input-title' field and click its associated 'Save and continue' button
+  Then I am on the 'Green Tea Drinker' page
+
+
 Scenario: There is no 'Publish requirements' button for an incomplete requirement draft
   Given I am logged in as a buyer user
   And I have created an individual specialist requirement
