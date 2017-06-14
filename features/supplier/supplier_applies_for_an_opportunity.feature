@@ -180,7 +180,7 @@ Scenario: Previous page links are used during response flow and existing data is
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
-  And that supplier has filled in their application but not submitted it
+  And that supplier has filled in their response to that brief but not submitted it
   When I visit the 'Respond to email address' question page for that brief response
   And I click 'Back to previous page' link
   Then I am on 'Do you have any of the nice-to-have skills or experience?' page
@@ -211,7 +211,7 @@ Scenario: Supplier changes their answers before submission
   Given that supplier is on that framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
-  And that supplier has filled in their application but not submitted it
+  And that supplier has filled in their response to that brief but not submitted it
   And I go to that brief page
   And I click 'Apply'
   Then I am on 'Apply for ‘Tea drinker’' page
@@ -280,3 +280,50 @@ Scenario: Supplier asks a clarification question
   And I click 'Ask question'
   Then I see a success banner message containing 'Your question has been sent.'
 
+@sign-framework-agreement-call-to-action
+Scenario: Supplier can see sign framework agreement call to action
+  Given I have a live digital outcomes and specialists framework
+  And that supplier is on that framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  Then I see the 'You must sign the framework agreement to sell these services' link
+
+@opportunities-dashboard
+Scenario: Supplier can see the link to the opportunities dashboard
+  Given I have a live digital outcomes and specialists framework
+  And that supplier is on that framework
+  And that supplier has returned a signed framework agreement
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  Then I see the 'View your opportunities' link
+
+@opportunities-dashboard
+Scenario: Supplier can see the empty string on the opportunities dashboard
+  Given I have a live digital outcomes and specialists framework
+  And that supplier is on that framework
+  And that supplier has returned a signed framework agreement
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'You haven’t applied to any opportunities' text on the page
+
+@opportunities-dashboard
+Scenario: Supplier can see their opportunity response
+  Given I have a live digital outcomes and specialists framework
+  And that supplier is on that framework
+  And that supplier has returned a signed framework agreement
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  And that supplier submits their response to that brief
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see 'View application' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
