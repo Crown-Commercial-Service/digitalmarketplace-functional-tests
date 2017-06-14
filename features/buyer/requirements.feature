@@ -127,6 +127,7 @@ Scenario: Create user research participants
    Then 'Describe question and answer session' should be ticked
 
    When I click 'Review and publish your requirements'
+   Then I see the 'Publish requirements' button
     And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
@@ -179,3 +180,10 @@ Scenario: Delete a draft requirement
   Then I see a destructive banner message containing 'Are you sure you want to delete these requirements?'
   When I click 'Yes, delete'
   Then I see a success banner message containing 'were deleted'
+
+
+Scenario: There is no 'Publish requirements' button for an incomplete requirement draft
+  Given I am logged in as a buyer user
+  And I have created an individual specialist requirement
+  When I click 'Review and publish your requirements'
+  Then I don't see the 'Publish requirements' button
