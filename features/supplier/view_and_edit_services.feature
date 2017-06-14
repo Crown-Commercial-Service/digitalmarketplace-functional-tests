@@ -7,50 +7,21 @@ Background:
   And that supplier is logged in
   Given that supplier is on that framework
 
-Scenario: Supplier coming from dashboard to view the detail page for their digital-specialists service
-  Given that supplier has a service on the digital-specialists lot
+Scenario Outline: Supplier coming from dashboard to view the detail page for their <lot_slug> service
+  Given that supplier has a service on the <lot_slug> lot
   And I am on the /suppliers page
   When I click 'View'
   Then I am on the 'Current services' page
-  When I click 'Digital specialists'
+  When I click '<service_name>'
 
-  Then I am on the 'Digital specialists' page
+  Then I am on the '<service_name>' page
   And I don't see the 'Edit' link
   And I don't see 'Remove this service' text on the page
-  And I see 'Agile coach' in the 'Individual specialist roles' summary table
+  And I see '<expected_content>' in the '<summary_table_name>' summary table
 
-Scenario: Supplier coming from dashboard to view the detail page for their digital-outcomes service
-  Given that supplier has a service on the digital-outcomes lot
-  And I am on the /suppliers page
-  When I click 'View'
-  Then I am on the 'Current services' page
-  When I click 'Digital outcomes'
-
-  Then I am on the 'Digital outcomes' page
-  And I don't see the 'Edit' link
-  And I don't see 'Remove this service' text on the page
-  And I see 'Agile coaching' in the 'Team capabilities' summary table
-
-Scenario: Supplier coming from dashboard to view the detail page for their user-research-participants service
-  Given that supplier has a service on the user-research-participants lot
-  And I am on the /suppliers page
-  When I click 'View'
-  Then I am on the 'Current services' page
-  When I click 'User research participants'
-
-  Then I am on the 'User research participants' page
-  And I don't see the 'Edit' link
-  And I don't see 'Remove this service' text on the page
-  And I see 'Entirely offline' in the 'Recruitment approach' summary table
-
-Scenario: Supplier coming from dashboard to view the detail page for their user-research-studios service
-  Given that supplier has a service on the user-research-studios lot
-  And I am on the /suppliers page
-  When I click 'View'
-  Then I am on the 'Current services' page
-  When I click 'GDSvieux Innovation Lab'
-
-  Then I am on the 'GDSvieux Innovation Lab' page
-  And I don't see the 'Edit' link
-  And I don't see 'Remove this service' text on the page
-  And I see 'GDSbury' in the 'Lab address' summary table
+  Examples:
+    | lot_slug                   | service_name               | summary_table_name          | expected_content |
+    | digital-specialists        | Digital specialists        | Individual specialist roles | Agile coach      |
+    | digital-outcomes           | Digital outcomes           | Team capabilities           | Agile coaching   |
+    | user-research-participants | User research participants | Recruitment approach        | Entirely offline |
+    | user-research-studios      | GDSvieux Innovation Lab    | Lab address                 | GDSbury          |
