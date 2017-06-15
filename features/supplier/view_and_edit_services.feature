@@ -1,19 +1,18 @@
-@view_dos_service
+@view_and_edit_services
 Feature: Supplier being able to view their DOS services
 
 Background:
   Given I have a live digital outcomes and specialists framework
   And I have a supplier
   And that supplier is logged in
-  Given that supplier is on that framework
+  And that supplier is on that framework
 
-Scenario Outline: Supplier coming from dashboard to view the detail page for their <lot_slug> service
+Scenario Outline: Supplier coming from dashboard to view the detail page for one of their services
   Given that supplier has a service on the <lot_slug> lot
   And I am on the /suppliers page
   When I click 'View'
   Then I am on the 'Current services' page
   When I click '<service_name>'
-
   Then I am on the '<service_name>' page
   And I don't see the 'Edit' link
   And I don't see 'Remove this service' text on the page
