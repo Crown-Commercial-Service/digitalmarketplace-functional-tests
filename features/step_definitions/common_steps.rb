@@ -257,8 +257,11 @@ Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ d
 end
 
 Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
-  all(:xpath, "//*[normalize-space() = '#{expected_text}']").length.should >= 1 if negative.empty?
-  all(:xpath, "//*[normalize-space() = '#{expected_text}']").length.should == 0 unless negative.empty?
+  expected_text_occurences = all(:xpath, "//*[normalize-space() = '#{expected_text}']").length
+  if negative.empty?
+    expected_text_occurences.should >= 1
+  else expected_text_occurences.length.should == 0
+  end
 end
 
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
