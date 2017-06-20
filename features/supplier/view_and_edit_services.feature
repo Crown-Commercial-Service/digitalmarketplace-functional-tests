@@ -7,7 +7,6 @@ Background:
   And that supplier is logged in
   And that supplier is on that framework
 
-@skip-staging
 Scenario Outline: Supplier coming from dashboard to view the detail page for one of their services
   Given that supplier has a service on the <lot_slug> lot
   And I am on the /suppliers page
