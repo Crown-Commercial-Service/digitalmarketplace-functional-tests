@@ -182,11 +182,11 @@ Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
 end
 
 Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
-page.should have_selector(:link_or_button, selector_text) if negative.empty?
-page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
-end
+  page.should have_selector(:link_or_button, selector_text) if negative.empty?
+  page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
+  end
 
-Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
+  Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
 
@@ -256,8 +256,12 @@ Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ d
   end
 end
 
-Then /^I see '(.*)' text on the page/ do |expected_text|
-  all(:xpath, "//*[normalize-space() = '#{expected_text}']").length.should >= 1
+Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
+  expected_text_occurences = all(:xpath, "//*[normalize-space() = '#{expected_text}']").length
+  if negative.empty?
+    expected_text_occurences.should >= 1
+  else expected_text_occurences.should == 0
+  end
 end
 
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
