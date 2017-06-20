@@ -21,7 +21,7 @@ Scenario Outline: Supplier coming from dashboard to view the detail page for one
 
   Examples:
     | lot_slug                   | service_name               | summary_table_name          | expected_content |
-    | digital-specialists        | Digital specialists        | Individual specialist roles | Agile coach      |
+    | digital-specialists        | Digital specialists        | Individual specialist roles | Developer        |
     | digital-outcomes           | Digital outcomes           | Team capabilities           | Agile coaching   |
     | user-research-participants | User research participants | Recruitment approach        | Entirely offline |
     | user-research-studios      | GDSvieux Innovation Lab    | Lab address                 | GDSbury          |
