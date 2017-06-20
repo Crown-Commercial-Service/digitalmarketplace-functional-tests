@@ -4,6 +4,25 @@ Feature: Create and publish a requirement
   As a buyer within government
   I want to be able to create and publish a requirement
 
+Scenario Outline: Create a draft requirement for each lot
+  Given I am logged in as a buyer user
+  When I click '<link_name>'
+  Then I am on the '<link_name>' page
+  When I click 'Create requirement'
+  Then I am on the 'What you want to call your requirements' page
+  When I enter 'Green Tea Drinker' in the 'input-title' field and click its associated 'Save and continue' button
+  Then I am on the 'Green Tea Drinker' page
+  When I click 'View your account'
+  Then I am on the /buyers page
+  And I see 'Green Tea Drinker' in the 'Unpublished requirements' summary table
+
+  Examples:
+    | link_name                         |
+    | Find an individual specialist     |
+    | Find a team to provide an outcome |
+    | Find user research participants   |
+
+
 Scenario: Create individual specialist requirement
   Given I am logged in as a buyer user
     And I have created an individual specialist requirement
