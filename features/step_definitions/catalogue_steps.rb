@@ -39,5 +39,20 @@ Then (/^I see that service in the search results$/) do
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
+  expect(find(:xpath, "//*[@class='search-summary']").text()).to include(normalize_whitespace(value))
+end
+
+Then (/^I note the number of search results$/) do
+  @service_count = CatalogueHelpers.get_service_count(page)
+end
+
+Then /^I click a random category link$/ do
+  links = page.all(:css, ".lot-filters ul ul :link")
+  link_el = links.sample
+  @category_name = link_el.text.sub(/ \([0-9]*\)/, "")  # remove service count
+  link_el.click
+end
+
+Then(/^I see fewer search results than before$/) do
+  expect(CatalogueHelpers.get_service_count(page)).to be < @service_count
 end

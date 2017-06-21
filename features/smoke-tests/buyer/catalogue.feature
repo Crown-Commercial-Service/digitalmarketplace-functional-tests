@@ -58,3 +58,16 @@ Scenario: User is able to search by keywords field on the search results page to
   Then I see that service.id in the search summary text
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
+
+Scenario: User is able to click on a random category
+  Given I am on the /g-cloud page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  And I note the number of search results
+
+  When I click a random category link
+  Then I am on the 'Search results' page
+  And I see that category_name in the search summary text
+  And I see a search result
+  And I see fewer search results than before
