@@ -71,3 +71,27 @@ Scenario: User is able to click on a random category
   And I see that category_name in the search summary text
   And I see a search result
   And I see fewer search results than before
+
+Scenario: User is able to click on several random filters
+  Given I am on the /g-cloud page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  And I note the number of search results
+  Then I select several random filters
+  And I click 'Filter'
+  Then I am on the 'Search results' page
+  And I see fewer search results than before
+
+Scenario: User is able to paginate through search results and all of the navigation is preserved
+  Given I am on the /g-cloud page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  And I note the number of category links
+  And I click 'Next'
+  Then I am taken to page 2 of results
+  And I see the same number of category links as before
+  When I click 'Previous'
+  Then I am taken to page 1 of results
+  And I see the same number of category links as before
