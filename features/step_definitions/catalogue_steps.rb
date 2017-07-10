@@ -39,5 +39,47 @@ Then (/^I see that service in the search results$/) do
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
-  find(:xpath, "//*[@class='search-summary']/em[1]").text().should == normalize_whitespace(value)
+  expect(find(:xpath, "//*[@class='search-summary']").text()).to include(normalize_whitespace(value))
+end
+
+Then (/^I note the number of search results$/) do
+  @service_count = CatalogueHelpers.get_service_count(page)
+end
+
+Then /^I click a random category link$/ do
+  links = CatalogueHelpers.get_category_links(page)
+  link_el = links.sample
+  @category_name = link_el.text.sub(/ \([0-9]*\)/, "")  # remove service count
+  link_el.click
+end
+
+Then(/^I see fewer search results than noted$/) do
+  expect(CatalogueHelpers.get_service_count(page)).to be < @service_count
+end
+
+Then(/^I select several random filters$/) do
+  page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample.click
+end
+
+Then(/^I note the number of category links$/) do
+  @category_link_count = CatalogueHelpers.get_category_links(page).length
+end
+
+Then(/^I am taken to page (\d+) of results$/) do |page_number|
+  page_number = page_number.to_i
+  current_url.should include("page=#{page_number}")
+  page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+  page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number+1} of')]")
+  if page_number == 1
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  else
+    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number-1} of')]")
+
+  end
+end
+
+Then(/^I see the same number of category links as noted/) do
+  expect(CatalogueHelpers.get_category_links(page).length).to be == @category_link_count
 end

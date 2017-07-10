@@ -184,9 +184,9 @@ end
 Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
   page.should have_selector(:link_or_button, selector_text) if negative.empty?
   page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
-  end
+end
 
-  Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
+Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
 
