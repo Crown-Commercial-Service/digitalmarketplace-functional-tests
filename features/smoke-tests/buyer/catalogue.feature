@@ -70,7 +70,7 @@ Scenario: User is able to click on a random category
   Then I am on the 'Search results' page
   And I see that category_name in the search summary text
   And I see a search result
-  And I see fewer search results than before
+  And I see fewer search results than noted
 
 Scenario: User is able to click on several random filters
   Given I am on the /g-cloud page
@@ -81,7 +81,7 @@ Scenario: User is able to click on several random filters
   Then I select several random filters
   And I click 'Filter'
   Then I am on the 'Search results' page
-  And I see fewer search results than before
+  And I see fewer search results than noted
 
 Scenario: User is able to paginate through search results and all of the navigation is preserved
   Given I am on the /g-cloud page
@@ -91,7 +91,7 @@ Scenario: User is able to paginate through search results and all of the navigat
   And I note the number of category links
   And I click 'Next'
   Then I am taken to page 2 of results
-  And I see the same number of category links as before
+  And I see the same number of category links as noted
   When I click 'Previous'
   Then I am taken to page 1 of results
-  And I see the same number of category links as before
+  And I see the same number of category links as noted

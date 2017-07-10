@@ -53,7 +53,7 @@ Then /^I click a random category link$/ do
   link_el.click
 end
 
-Then(/^I see fewer search results than before$/) do
+Then(/^I see fewer search results than noted$/) do
   expect(CatalogueHelpers.get_service_count(page)).to be < @service_count
 end
 
@@ -80,6 +80,6 @@ Then(/^I am taken to page (\d+) of results$/) do |page_number|
   end
 end
 
-Then(/^I see the same number of category links as before$/) do
+Then(/^I see the same number of category links as noted/) do
   expect(CatalogueHelpers.get_category_links(page).length).to be == @category_link_count
 end
