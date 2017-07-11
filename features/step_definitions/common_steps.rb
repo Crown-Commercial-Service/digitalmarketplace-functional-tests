@@ -114,6 +114,17 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
+When /I click the (Next|Previous) Page link$/ do |next_or_previous|
+  # can't use above as we have services with the word 'next' in the name :(
+  klass = ''
+  if next_or_previous == 'Next'
+    klass = '.next'
+  elsif next_or_previous == 'Previous'
+    klass = '.previous'
+  end
+  page.find(:css, "#{klass} :link").click()
+end
+
 When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
   check_checkbox(checkbox_label)
 end

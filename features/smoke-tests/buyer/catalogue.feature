@@ -89,9 +89,9 @@ Scenario: User is able to paginate through search results and all of the navigat
   And I click that lot.name
   Then I am on the 'Search results' page
   And I note the number of category links
-  And I click 'Next'
+  And I click the Next Page link
   Then I am taken to page 2 of results
   And I see the same number of category links as noted
-  When I click 'Previous'
+  When I click the Previous Page link
   Then I am taken to page 1 of results
   And I see the same number of category links as noted
