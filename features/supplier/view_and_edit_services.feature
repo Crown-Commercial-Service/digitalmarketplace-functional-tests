@@ -10,7 +10,7 @@ Background:
 Scenario Outline: Supplier coming from dashboard to view the detail page for one of their services
   Given that supplier has a service on the <lot_slug> lot
   And I am on the /suppliers page
-  When I click 'View'
+  When I click 'View services'
   Then I am on the 'Current services' page
   When I click '<service_name>'
   Then I am on the '<service_name>' page
