@@ -22,4 +22,9 @@ config/local.sh:
 clean:
 	rm -rf reports/
 
-.PHONY: smoke-tests run rerun setup install clean
+docker-up:
+	$(eval export AWS_ACCESS_KEY_ID=$(shell aws configure get aws_access_key_id))
+	$(eval export AWS_SECRET_ACCESS_KEY=$(shell aws configure get aws_secret_access_key))
+	docker-compose up
+
+.PHONY: smoke-tests run rerun setup install clean aws docker-up
