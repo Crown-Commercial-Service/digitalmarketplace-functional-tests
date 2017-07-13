@@ -1,0 +1,127 @@
+version: '2'
+services:
+  api:
+    restart: always
+    image: "digitalmarketplace/api:latest"
+    ports:
+      - "5000:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - SQLALCHEMY_DATABASE_URI=postgresql://dmdev:dmdevpasswd@postgres:5432/digitalmarketplace
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: >
+      bash -c "/compose-scripts/wait-for-postgres.py && python application.py db upgrade
+      && supervisord --configuration /etc/supervisord.conf"
+    depends_on:
+      - postgres
+
+  search-api:
+    restart: always
+    image: "digitalmarketplace/search-api:latest"
+    ports:
+      - "5001:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_ELASTICSEARCH_URL=http://elasticsearch:9200
+    command: bash -c 'supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - elasticsearch
+
+  buyer-frontend:
+    restart: always
+    image: "digitalmarketplace/buyer-frontend:latest"
+    ports:
+      - "5002:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_DATA_API_URL=http://api:80
+      - DM_SEARCH_API_URL=http://search-api:80
+      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - api
+      - search-api
+
+  briefs-frontend:
+    restart: always
+    image: "digitalmarketplace/briefs-frontend:latest"
+    ports:
+      - "5005:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_DATA_API_URL=http://api:80
+      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - api
+
+  supplier-frontend:
+    restart: always
+    image: "digitalmarketplace/supplier-frontend:latest"
+    ports:
+      - "5003:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_DATA_API_URL=http://api:80
+      - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - api
+
+  admin-frontend:
+    restart: always
+    image: "digitalmarketplace/admin-frontend:latest"
+    ports:
+      - "5004:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_DATA_API_URL=http://api:80
+      - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - api
+
+  postgres:
+    image: "postgres:9.5"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=dmdev
+      - POSTGRES_PASSWORD=dmdevpasswd
+      - POSTGRES_DB=digitalmarketplace
+
+  elasticsearch:
+    image: "elasticsearch:1.7"
+    ports:
+      - "9200:9200"
+
+  nginx:
+    image: "digitalmarketplace/local_nginx:latest"
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+      - search-api
+      - buyer-frontend
+      - briefs-frontend
+      - supplier-frontend
+      - admin-frontend
