@@ -25,6 +25,7 @@ clean:
 docker-up:
 	$(eval export AWS_ACCESS_KEY_ID=$(shell aws configure get aws_access_key_id))
 	$(eval export AWS_SECRET_ACCESS_KEY=$(shell aws configure get aws_secret_access_key))
+	$(eval export DM_MANDRILL_API_KEY=$(shell ${DM_CREDENTIALS_REPO}/sops-wrapper -d ${DM_CREDENTIALS_REPO}/vars/preview.yaml | grep mandrill_key | sed 's/^.* //'))
 	docker-compose up
 
-.PHONY: smoke-tests run rerun setup install clean aws docker-up
+.PHONY: smoke-tests run rerun setup install clean docker-up
