@@ -26,6 +26,9 @@ docker-up:
 	$(eval export AWS_ACCESS_KEY_ID=$(shell aws configure get aws_access_key_id))
 	$(eval export AWS_SECRET_ACCESS_KEY=$(shell aws configure get aws_secret_access_key))
 	$(eval export DM_MANDRILL_API_KEY=$(shell ${DM_CREDENTIALS_REPO}/sops-wrapper -d ${DM_CREDENTIALS_REPO}/vars/preview.yaml | grep mandrill_key | sed 's/^.* //'))
+	$(if ${AWS_ACCESS_KEY_ID},,$(error AWS_ACCESS_KEY_ID not set.))
+	$(if ${AWS_SECRET_ACCESS_KEY},,$(error AWS_SECRET_ACCESS_KEY not set.))
+	$(if ${DM_MANDRILL_API_KEY},,$(error DM_MANDRILL_API_KEY not set.))
 	docker-compose up
 
 index-services:
