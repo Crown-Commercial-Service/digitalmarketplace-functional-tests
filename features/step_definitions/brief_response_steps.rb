@@ -23,12 +23,16 @@ Given /^I go to that brief page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given 'that supplier is on that framework' do
-  @agreement = submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete'})
+Given 'that supplier has applied to be on that framework' do
+  submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete'})
 end
 
-Given 'that supplier has returned a signed framework agreement' do
-  sign_framework_agreement(@agreement)
+Given 'we accept that suppliers application to the framework' do
+  set_supplier_on_framework(@framework['slug'], @supplier["id"], true)
+end
+
+Given 'that supplier returns a signed framework agreement for the framework' do
+  sign_framework_agreement(@framework['slug'], @supplier['id'])
 end
 
 Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|

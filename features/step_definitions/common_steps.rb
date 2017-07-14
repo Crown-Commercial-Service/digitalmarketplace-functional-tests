@@ -132,7 +132,7 @@ end
 
 When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radio_label, question|
   if question
-    within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../..") do
+    within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
       choose_radio(radio_label)
     end
   else

@@ -120,7 +120,9 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   })
   [200, 201].should include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
   JSON.parse(response.body)['declaration']
-  set_supplier_on_framework(framework_slug, supplier_id, true)
+end
+
+def sign_framework_agreement(framework_slug, supplier_id)
   path = "/agreements"
   response = call_api(:post, path, payload: {
     updated_by: "functional tests",
@@ -129,10 +131,7 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
       frameworkSlug: framework_slug
     }
   })
-  JSON.parse(response.body)['agreement']
-end
-
-def sign_framework_agreement(agreement)
+  agreement = JSON.parse(response.body)['agreement']
   path = "/agreements/#{agreement['id']}"
   response = call_api(:post, path, payload: {
     updated_by: "functional tests",
