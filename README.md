@@ -91,9 +91,8 @@ Setting up your local environment and database to run the functional tests again
   - Have Docker installed on your machine - see [here](https://www.docker.com/docker-mac)
   - Have Docker Compose installed on your machine. Docker for Mac comes with it so you probably won't need to do anything extra. You can check with `docker-compose -v`. If you don't have it, go [here](https://docs.docker.com/compose/install/)
   - Have a `.envrc` file in the root of your credentials repo which sets your AWS profile to your sops profile. Probably something like `AWS_PROFILE=sops`. Check in `~/.aws/config` if you're not sure. This step isn't strictly necessary to get all the containers up and running, but functional tests will fail whenever trying to send an email if you don't do it.
-  - Have a database dump that you want to use. The most up to date you can get your hands on the better. This is the data you're going to be running tests against so it should have all frameworks up to date.
-  - Place your database dump into the `./sql` directory.
-  - Rename your dump to `database_dump`. This needs to be exact - no suffix!
+  - Have a database dump that you want to use. The most up to date you can get your hands on the better. This is the data you're going to be running tests against so it should have all frameworks up to date. It doesn't matter what it's called, as long as it ends in `.sql`.
+  - Create a new directory within `./sql` - `./sql/data` and place your database dump in it.
   - Execute:
         make docker-up
   - Enter your AWS MFA code when prompted.
