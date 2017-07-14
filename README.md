@@ -87,6 +87,7 @@ Setting up your local environment and database to run the functional tests again
 
 ### Setup
 
+  - Do all of this without any apps running locally to avoid issues with blocking ports.
   - Have Docker installed on your machine - see [here](https://www.docker.com/docker-mac)
   - Have Docker Compose installed on your machine. Docker for Mac comes with it so you probably won't need to do anything extra. You can check with `docker-compose -v`. If you don't have it, go [here](https://docs.docker.com/compose/install/)
   - Have a `.envrc` file in the root of your credentials repo which sets your AWS profile to your sops profile. Probably something like `AWS_PROFILE=sops`. Check in `~/.aws/config` if you're not sure. This step isn't strictly necessary to get all the containers up and running, but functional tests will fail whenever trying to send an email if you don't do it.
@@ -98,9 +99,14 @@ Setting up your local environment and database to run the functional tests again
   - Enter your AWS MFA code when prompted.
   - If this is the first time you've run this command, the Postgres image will need to import the data from the dump. This will take a minute or two. When it's done, the apps will load, beginning with the api. When the logs in your terminal have calmed down and tell you that frontend apps have spawned uWSGI workers, move on.
   - Go to [`http://localhost`](http://localhost). You should see the Digital Marketplace homepage.
-  - You now need to index your services. You can do this with a script in the scripts repo. From the root of your scripts repo, you're probably going to want to do this:
-        ./scripts/index-services.py  dev --api-token=myToken --search-api-token=myToken  --frameworks=g-cloud-9
-  - Hit `CTRL+C` to exit, or run `docker-compose down` from a shell in the functional tests repo.
+  - You now need to index your services from a new shell in your functional tests repo. There is a make rule to do it, but you will need to set a couple of variables first.
+    * `DM_SCRIPTS_REPO` should be set to an absolute path to the root of your local Digital Marketplace scripts repo. It's probably worth adding this to your environment permanently as it's unlikely to change very often.
+    *  `FRAMEWORKS` should be set to a comma separated string of the frameworks you want to index. At the time of writing this is probably just `g-cloud-9`. If you wanted to do more, it would look like `g-cloud-8,g-cloud-9`. This variable should just be set when you run the make rule (see below).
+  - Execute, substituting in your desired frameworks:
+        make FRAMEWORKS=g-cloud-9 index-services
+
+    This will generate a lot of noise in your terminal, including creating a virtualenv in your scripts repo. Don't worry, it cleans up after itself.
+  - Return to your original shell and hit `CTRL+C` to exit, or run `docker-compose down` from a shell in the functional tests repo.
 
 ### Starting the environment
       make docker-up
