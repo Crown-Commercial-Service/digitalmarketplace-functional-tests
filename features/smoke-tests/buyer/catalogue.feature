@@ -1,4 +1,5 @@
 @smoke-tests
+@catalogue
 Feature: Passive catalogue buyer journey
 
 Scenario: User can see the main links on the homepage
@@ -29,7 +30,7 @@ Scenario: User is able to search by service id and have result returned.
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
   When I enter that service.id in the 'q' field
-  And I click 'Filter'
+  And I wait for the page to reload
   Then I see that service.id in the search summary text
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
@@ -38,7 +39,7 @@ Scenario: User is able to search by service name and have result returned.
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
   When I enter that quoted service.serviceName in the 'q' field
-  And I click 'Filter'
+  And I wait for the page to reload
   Then I see that quoted service.serviceName in the search summary text
   And I see that quoted service.serviceName as the value of the 'q' field
   And I see that service in the search results
@@ -54,7 +55,7 @@ Scenario: User is able to search by keywords field on the search results page to
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
   And I enter that service.id in the 'q' field
-  And I click 'Filter'
+  And I wait for the page to reload
   Then I see that service.id in the search summary text
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
@@ -79,7 +80,7 @@ Scenario: User is able to click on several random filters
   Then I am on the 'Search results' page
   And I note the number of search results
   Then I select several random filters
-  And I click 'Filter'
+  And I wait for the page to reload
   Then I am on the 'Search results' page
   And I see fewer search results than noted
 
