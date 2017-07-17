@@ -23,16 +23,28 @@ Given /^I go to that brief page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given 'that supplier is on that framework' do
-  submit_supplier_declaration(@framework['slug'], @supplier["id"], {})
+Given 'that supplier has applied to be on that framework' do
+  submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete'})
+end
+
+Given 'we accept that suppliers application to the framework' do
+  set_supplier_on_framework(@framework['slug'], @supplier["id"], true)
+end
+
+Given 'that supplier returns a signed framework agreement for the framework' do
+  sign_framework_agreement(@framework['slug'], @supplier['id'])
 end
 
 Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|
   @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"], role_type)
 end
 
-Given 'that supplier has filled in their application but not submitted it' do
+Given 'that supplier has filled in their response to that brief but not submitted it' do
   @brief_response = create_brief_response(@brief['lotSlug'], @brief_id, @supplier['id'])
+end
+
+Given 'that supplier submits their response to that brief' do
+  submit_brief_response(@brief_response)
 end
 
 Then /^I visit the '(.*)' question page for that brief response$/ do |question|

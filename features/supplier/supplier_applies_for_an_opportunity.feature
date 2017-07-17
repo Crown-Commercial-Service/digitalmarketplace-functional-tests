@@ -16,7 +16,9 @@ Scenario: Supplier is not eligible as they are not on the framework
   And I see a 'data-reason' attribute with the value 'supplier-not-on-digital-outcomes-and-specialists-2'
 
 Scenario: Supplier is not eligible as they are not on the digital-specialists lot
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-outcomes lot
   And I go to that brief page
   And I click 'Apply'
@@ -25,7 +27,9 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
   And I see a 'data-reason' attribute with the value 'supplier-not-on-lot'
 
 Scenario: Supplier is not eligible as they can not provide the developer role
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot for the designer role
   And I go to that brief page
   And I click 'Apply'
@@ -34,7 +38,9 @@ Scenario: Supplier is not eligible as they can not provide the developer role
   And I see a 'data-reason' attribute with the value 'supplier-not-on-role'
 
 Scenario: Supplier applies for a digital-specialists brief
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And I go to that brief page
@@ -87,7 +93,9 @@ Scenario: Supplier applies for a digital-specialists brief
       | Provide biscuits                    |                              |
 
 Scenario: Supplier applies for a digital-outcomes brief
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-outcomes lot
   And I have a live digital-outcomes brief
   And I go to that brief page
@@ -131,7 +139,9 @@ Scenario: Supplier applies for a digital-outcomes brief
       | Have a nice smile                              | Takes just over 100 seconds     |
 
 Scenario: Supplier applies for a user-research-participants brief
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the user-research-participants lot
   And I have a live user-research-participants brief
   And I go to that brief page
@@ -177,10 +187,12 @@ Scenario: Supplier applies for a user-research-participants brief
       | Saying "Neigh"                     | NEIGH                |
 
 Scenario: Previous page links are used during response flow and existing data is replayed
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
-  And that supplier has filled in their application but not submitted it
+  And that supplier has filled in their response to that brief but not submitted it
   When I visit the 'Respond to email address' question page for that brief response
   And I click 'Back to previous page' link
   Then I am on 'Do you have any of the nice-to-have skills or experience?' page
@@ -208,10 +220,12 @@ Scenario: Previous page links are used during response flow and existing data is
   And I don't see the 'Back to previous page' link
 
 Scenario: Supplier changes their answers before submission
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
-  And that supplier has filled in their application but not submitted it
+  And that supplier has filled in their response to that brief but not submitted it
   And I go to that brief page
   And I click 'Apply'
   Then I am on 'Apply for ‘Tea drinker’' page
@@ -271,7 +285,9 @@ Scenario: Supplier changes their answers before submission
 
 @opportunity-clarification-question
 Scenario: Supplier asks a clarification question
-  Given that supplier is on that framework
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I go to that brief page
   And I click 'Ask a question'
@@ -280,3 +296,53 @@ Scenario: Supplier asks a clarification question
   And I click 'Ask question'
   Then I see a success banner message containing 'Your question has been sent.'
 
+Scenario: Supplier can see sign framework agreement call to action
+  Given I have a live digital outcomes and specialists framework
+  And that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  Then I see the 'You must sign the framework agreement to sell these services' link
+
+@opportunities-dashboard @skip-staging
+Scenario: Supplier can see the link to the opportunities dashboard
+  Given I have a live digital outcomes and specialists framework
+  And that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  Then I see the 'View your opportunities' link
+
+@opportunities-dashboard @skip-staging
+Scenario: Supplier can see the empty string on the opportunities dashboard
+  Given I have a live digital outcomes and specialists framework
+  And that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'You haven’t applied to any opportunities' text on the page
+
+@opportunities-dashboard @skip-staging
+Scenario: Supplier can see their opportunity response
+  Given I have a live digital outcomes and specialists framework
+  And that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  And that supplier submits their response to that brief
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see 'View application' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table

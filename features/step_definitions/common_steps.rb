@@ -1,5 +1,6 @@
-require 'uri'
+require 'date'
 require 'securerandom'
+require 'uri'
 
 Given /^I am on the homepage$/ do
   page.visit("#{dm_frontend_domain}")
@@ -238,9 +239,8 @@ Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
 end
 
 Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())='#{table_heading}']/following-sibling::table[1]"
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
-
   result_table_rows = all(:xpath, result_table_rows_location)
 
   table.rows.each_with_index do |row, index|
@@ -251,15 +251,20 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())='#{table_heading}']/following-sibling::table[1]"
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
   result_table_rows = all(:xpath, result_table_rows_location)
   result_table_rows.any? {|row| row.text.include? content}.should be true
 end
 
+Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |table_heading|
+  closing_date = DateTime.strptime(@brief['createdAt'], '%Y-%m-%dT%H:%M:%S') + 14
+  step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"
+end
+
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
   if question
-    within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
+    within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../..") do
       first_field(radio_button_name, {type: 'radio'}).should be_checked
     end
   else
@@ -268,7 +273,7 @@ Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ d
 end
 
 Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
-  expected_text_occurences = all(:xpath, "//*[normalize-space() = '#{expected_text}']").length
+  expected_text_occurences = all(:xpath, "//*[normalize-space() = \"#{expected_text}\"]").length
   if negative.empty?
     expected_text_occurences.should >= 1
   else expected_text_occurences.should == 0
@@ -276,7 +281,7 @@ Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
 end
 
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
-  place = "//*[@#{attribute_name} = '#{attribute_value}']"
+  place = "//*[@#{attribute_name} = \"#{attribute_value}\"]"
   all(:xpath, place).length.should == 1
 end
 

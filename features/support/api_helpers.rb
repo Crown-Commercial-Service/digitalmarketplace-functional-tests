@@ -89,13 +89,13 @@ def ensure_no_framework_agreements_exist(framework_slug)
   response.code.should be(200), _error(response, "Failed to get framework #{framework_slug}")
   supplier_frameworks = JSON.parse(response.body)["supplierFrameworks"]
   supplier_frameworks.each do |supplier_framework|
-    update_framework_agreement_status(framework_slug, supplier_framework["supplierId"], false)
+    set_supplier_on_framework(framework_slug, supplier_framework["supplierId"], false)
   end
 end
 
-def update_framework_agreement_status(framework_slug, supplier_id, status)
+def set_supplier_on_framework(framework_slug, supplier_id, status)
   response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", payload: {
-    frameworkInterest: {agreementReturned: status},
+    frameworkInterest: {onFramework: status},
     updated_by: "functional tests",
   })
   response.code.should be(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
@@ -120,6 +120,36 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   })
   [200, 201].should include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
   JSON.parse(response.body)['declaration']
+end
+
+def sign_framework_agreement(framework_slug, supplier_id)
+  path = "/agreements"
+  response = call_api(:post, path, payload: {
+    updated_by: "functional tests",
+    agreement: {
+      supplierId: supplier_id,
+      frameworkSlug: framework_slug
+    }
+  })
+  agreement = JSON.parse(response.body)['agreement']
+  path = "/agreements/#{agreement['id']}"
+  response = call_api(:post, path, payload: {
+    updated_by: "functional tests",
+    agreement: {
+      signedAgreementPath: 'test',
+    }
+  })
+  path = "/agreements/#{agreement['id']}/sign"
+  response = call_api(:post, path, payload: {
+    updated_by: "functional tests",
+    agreement: {
+      signedAgreementDetails: {
+        signerName: "answer_required",
+        signerRole: "answer_required",
+        uploaderUserId: 1
+      }
+    }
+  })
 end
 
 def create_brief(framework_slug, lot_slug, user_id)
@@ -162,6 +192,11 @@ def create_brief_response(lot_slug, brief_id, supplier_id)
   response = call_api(:post, '/brief-responses', payload: brief_response_data)
   response.code.should be(201), _error(response, "Failed to create brief response for #{lot_slug}, #{brief_id}")
   JSON.parse(response.body)['briefResponses']['id']
+end
+
+def submit_brief_response(brief_response_id)
+  response = call_api(:post, "/brief-responses/#{brief_response_id}/submit", payload: {updated_by: "functional tests"})
+  response.code.should be(200), _error(response, "Failed to submit brief response for #{brief_response_id}")
 end
 
 def publish_brief(brief_id)
