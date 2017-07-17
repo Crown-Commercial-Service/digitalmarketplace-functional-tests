@@ -288,3 +288,9 @@ end
 Then /^I take a screenshot/ do
   page.save_screenshot('screenshot.png')
 end
+
+And /^I wait for the page to reload/ do
+  Timeout.timeout(Capybara.default_max_wait_time) do
+    loop until page.evaluate_script('jQuery.active').zero?
+  end
+end
