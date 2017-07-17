@@ -26,6 +26,17 @@ Scenario: User can select a lot from the g-cloud page and see search results.
   And I see that lot.name breadcrumb
   And I see a search result
 
+@skip-local @skip-preview
+Scenario: User is able to search by service id and have result returned.
+  Given I am on the /g-cloud/search page
+  And I have a random g-cloud service from the API
+  When I enter that service.id in the 'q' field
+  And I click the 'Filter' button
+  Then I see that service.id in the search summary text
+  And I see that service.id as the value of the 'q' field
+  And I see that service in the search results
+
+@skip-staging @skip-production
 Scenario: User is able to search by service id and have result returned.
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
@@ -35,6 +46,17 @@ Scenario: User is able to search by service id and have result returned.
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
 
+@skip-local @skip-preview
+Scenario: User is able to search by service name and have result returned.
+  Given I am on the /g-cloud/search page
+  And I have a random g-cloud service from the API
+  When I enter that quoted service.serviceName in the 'q' field
+  And I click the 'Filter' button
+  Then I see that quoted service.serviceName in the search summary text
+  And I see that quoted service.serviceName as the value of the 'q' field
+  And I see that service in the search results
+
+@skip-staging @skip-production
 Scenario: User is able to search by service name and have result returned.
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
@@ -51,6 +73,17 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   Then I am on that result.title page
   And I see that result.supplier_name as the page header context
 
+@skip-local @skip-preview
+Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
+  Given I am on the /g-cloud/search page
+  And I have a random g-cloud service from the API
+  And I enter that service.id in the 'q' field
+  And I click the 'Filter' button
+  Then I see that service.id in the search summary text
+  And I see that service.id as the value of the 'q' field
+  And I see that service in the search results
+
+@skip-staging @skip-production
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
   Given I am on the /g-cloud/search page
   And I have a random g-cloud service from the API
@@ -73,6 +106,19 @@ Scenario: User is able to click on a random category
   And I see a search result
   And I see fewer search results than noted
 
+@skip-local @skip-preview
+Scenario: User is able to click on several random filters
+  Given I am on the /g-cloud page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  And I note the number of search results
+  Then I select several random filters
+  And I click the 'Filter' button
+  Then I am on the 'Search results' page
+  And I see fewer search results than noted
+
+@skip-staging @skip-production
 Scenario: User is able to click on several random filters
   Given I am on the /g-cloud page
   And I have a random g-cloud lot from the API
