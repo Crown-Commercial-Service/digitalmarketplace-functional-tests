@@ -306,7 +306,7 @@ Scenario: Supplier can see sign framework agreement call to action
   When I click the 'View your account' link
   Then I see the 'You must sign the framework agreement to sell these services' link
 
-@opportunities-dashboard @skip-staging
+@opportunities-dashboard
 Scenario: Supplier can see the link to the opportunities dashboard
   Given I have a live digital outcomes and specialists framework
   And that supplier has applied to be on that framework
@@ -318,7 +318,7 @@ Scenario: Supplier can see the link to the opportunities dashboard
   When I click the 'View your account' link
   Then I see the 'View your opportunities' link
 
-@opportunities-dashboard @skip-staging
+@opportunities-dashboard
 Scenario: Supplier can see the empty string on the opportunities dashboard
   Given I have a live digital outcomes and specialists framework
   And that supplier has applied to be on that framework
@@ -331,7 +331,7 @@ Scenario: Supplier can see the empty string on the opportunities dashboard
   And I click the 'View your opportunities' link
   Then I see 'You haven’t applied to any opportunities' text on the page
 
-@opportunities-dashboard @skip-staging
+@opportunities-dashboard
 Scenario: Supplier can see their opportunity response
   Given I have a live digital outcomes and specialists framework
   And that supplier has applied to be on that framework
