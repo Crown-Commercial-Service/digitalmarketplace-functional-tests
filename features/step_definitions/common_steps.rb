@@ -251,7 +251,7 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::*[1]"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
   result_table_rows = all(:xpath, result_table_rows_location)
   result_table_rows.any? {|row| row.text.include? content}.should be true
