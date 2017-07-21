@@ -257,6 +257,20 @@ Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
   result_table_rows.any? {|row| row.text.include? content}.should be true
 end
 
+Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?:y|ies)$/ do |table_heading, expected_number_of_rows, comparison|
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::*[1]"
+  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
+  number_of_table_rows = all(:xpath, result_table_rows_location).length
+  case comparison
+    when 'more'
+      number_of_table_rows.should >= expected_number_of_rows.to_i
+    when 'fewer'
+      number_of_table_rows.should <= expected_number_of_rows.to_i
+    else
+      puts number_of_table_rows.should == expected_number_of_rows.to_i
+  end
+end
+
 Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |table_heading|
   closing_date = DateTime.strptime(@brief['createdAt'], '%Y-%m-%dT%H:%M:%S') + 14
   step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"

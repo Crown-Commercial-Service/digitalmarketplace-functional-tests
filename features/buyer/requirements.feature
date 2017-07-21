@@ -196,3 +196,9 @@ Scenario: There is no 'Publish requirements' button for an incomplete requiremen
   And I have created an individual specialist requirement
   When I click 'Review and publish your requirements'
   Then I don't see the 'Publish requirements' button
+
+
+Scenario: Ensure we can log in as a buyer with a closed brief
+  Given I am logged in as the buyer of a closed brief
+  When I click the 'View your account' link
+  Then I see that the 'Closed requirements' summary table has 1 or more entries
