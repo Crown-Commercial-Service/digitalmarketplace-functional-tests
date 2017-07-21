@@ -152,6 +152,12 @@ def sign_framework_agreement(framework_slug, supplier_id, supplier_user_id)
   })
 end
 
+def get_briefs(framework_slug, status)
+  params = {status: status, framework: framework_slug, with_users: 'True'}
+  response = call_api(:get, '/briefs', params: params)
+  JSON.parse(response.body)['briefs']
+end
+
 def create_brief(framework_slug, lot_slug, user_id)
   brief_data = {
     updated_by: "functional tests"
