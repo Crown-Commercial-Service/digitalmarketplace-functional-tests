@@ -119,7 +119,8 @@ end
 
 Then /I am presented with the admin search page$/ do
   page.should have_content('Admin')
-  page.should have_link('Service updates')
+  # temporarily disabled
+  #page.should have_link('Service updates')
   page.should have_link('Service status changes')
   page.should have_link('Log out')
   page.should have_content('Find a service by service ID')
