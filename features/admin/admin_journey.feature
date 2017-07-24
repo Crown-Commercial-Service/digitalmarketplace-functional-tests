@@ -128,10 +128,11 @@ Scenario: As an admin user I want to view G-Cloud 9 statistics
   When I click 'G-Cloud 9 statistics'
   Then I am presented with the 'G-Cloud 9' statistics page
 
-Scenario: As an admin user I want to view Service updates
-  Given I have logged in to Digital Marketplace as a 'Administrator' user
-  When I click 'Service updates'
-  Then I am presented with the Service updates page
+# temporarily disabled
+#Scenario: As an admin user I want to view Service updates
+#  Given I have logged in to Digital Marketplace as a 'Administrator' user
+#  When I click 'Service updates'
+#  Then I am presented with the Service updates page
 
 Scenario: As a normal admin user I should not be able to edit a supplier declaration. Link should not exist on the services page.(This is only available to a CCS sourcing admin user)
   Given I am logged in as 'Administrator' and navigated to the 'Suppliers' page by searching on suppliers by name prefix 'DM Functional Test Supplier'
