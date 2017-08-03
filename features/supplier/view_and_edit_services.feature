@@ -5,9 +5,9 @@ Background:
   Given I have a live digital outcomes and specialists framework
   And I have a supplier
   And that supplier is logged in
-  And 'that supplier has applied to be on that framework'
-  And 'we accept that suppliers application to the framework'
-  And 'that supplier returns a signed framework agreement for the framework'
+  And that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
 
 @skip-staging
 Scenario Outline: Supplier coming from dashboard to view the detail page for one of their services
