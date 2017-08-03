@@ -122,7 +122,7 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
   JSON.parse(response.body)['declaration']
 end
 
-def sign_framework_agreement(framework_slug, supplier_id)
+def sign_framework_agreement(framework_slug, supplier_id, supplier_user_id)
   path = "/agreements"
   response = call_api(:post, path, payload: {
     updated_by: "functional tests",
@@ -146,7 +146,7 @@ def sign_framework_agreement(framework_slug, supplier_id)
       signedAgreementDetails: {
         signerName: "answer_required",
         signerRole: "answer_required",
-        uploaderUserId: 1
+        uploaderUserId: supplier_user_id
       }
     }
   })

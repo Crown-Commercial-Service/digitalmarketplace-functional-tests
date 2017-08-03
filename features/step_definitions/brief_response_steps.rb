@@ -32,7 +32,7 @@ Given 'we accept that suppliers application to the framework' do
 end
 
 Given 'that supplier returns a signed framework agreement for the framework' do
-  sign_framework_agreement(@framework['slug'], @supplier['id'])
+  sign_framework_agreement(@framework['slug'], @supplier['id'], @supplier_user['id'])
 end
 
 Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|
