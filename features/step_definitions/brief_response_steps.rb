@@ -23,8 +23,9 @@ Given /^I go to that brief page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given 'that supplier has applied to be on that framework' do
-  submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete'})
+Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
+  organisation_size ||= ['micro', 'small', 'medium', 'large'].sample
+  submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete', 'organisationSize': organisation_size})
 end
 
 Given 'we accept that suppliers application to the framework' do
