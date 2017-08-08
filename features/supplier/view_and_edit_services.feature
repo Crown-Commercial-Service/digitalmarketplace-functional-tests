@@ -13,7 +13,8 @@ Scenario Outline: Supplier coming from dashboard to view the detail page for one
   Given that supplier has a service on the <lot_slug> lot
   And I am on the /suppliers page
   When I click 'View services'
-  Then I am on the 'Current services' page
+# This will now need to be generated dynamically as 'Your <framework.name> services'
+#  Then I am on the 'Current services' page
   When I click '<service_name>'
   Then I am on the '<service_name>' page
   And I don't see the 'Edit' link
