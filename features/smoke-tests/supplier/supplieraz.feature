@@ -24,3 +24,14 @@ Scenario: User can navigate to a specific supplier's detail page
   Then I see that supplier in one of the pages that follow from clicking 'Next page'
   When I click that specific supplier
   Then I am on that supplier.name page
+
+Scenario: There is pagination on the list of suppliers page if there are more than 100 results
+  Given I navigate to the list of 'Suppliers starting with S' page
+  When I click the 'Next page' link
+  Then I am taken to page '2' of results
+  When I click the 'Previous page' link
+  Then I am taken to page '1' of results
+
+Scenario: There is no pagination on the list of suppliers page if there is less than or equal to 100 results
+  Given I navigate to the list of 'Suppliers starting with Q' page
+  Then pagination is 'not available'
