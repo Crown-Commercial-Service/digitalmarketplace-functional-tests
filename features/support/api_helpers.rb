@@ -152,10 +152,22 @@ def sign_framework_agreement(framework_slug, supplier_id, supplier_user_id)
   })
 end
 
+def get_brief(brief_id)
+  response = call_api(:get, "/briefs/#{brief_id}")
+  JSON.parse(response.body)['briefs']
+end
+
 def get_briefs(framework_slug, status)
   params = {status: status, framework: framework_slug, with_users: 'True'}
   response = call_api(:get, '/briefs', params: params)
   JSON.parse(response.body)['briefs']
+end
+
+def get_brief_responses(framework_slug, brief_response_status, brief_status)
+  params = {status: brief_response_status, framework: framework_slug}
+  response = call_api(:get, '/brief-responses', params: params)
+  brief_response_list = JSON.parse(response.body)['briefResponses']
+  brief_response_list.select { |x| x['brief']['status'] == brief_status }
 end
 
 def create_brief(framework_slug, lot_slug, user_id)

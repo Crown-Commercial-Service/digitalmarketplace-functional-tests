@@ -202,3 +202,12 @@ Scenario: Ensure we can log in as a buyer with a closed brief
   Given I am logged in as the buyer of a closed brief
   When I click the 'View your account' link
   Then I see that the 'Closed requirements' summary table has 1 or more entries
+
+
+@award
+Scenario: Award a requirement to a winning supplier
+  Given I am logged in as the buyer of a closed brief with responses
+  When I click the 'View your account' link
+  Then I see the 'Tell us who won this contract' link
+  When I click a link with class name 'award-contract-link'
+  Then I am on the 'Who won' page

@@ -115,6 +115,10 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
+When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, button_link_class|
+  page.all("." + button_link_class)[1].click
+end
+
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   # can't use above as we have services with the word 'next' in the name :(
   klass = ''

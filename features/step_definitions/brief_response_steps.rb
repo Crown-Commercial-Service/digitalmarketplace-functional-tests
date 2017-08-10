@@ -27,6 +27,16 @@ Given /^I am logged in as the buyer of a closed brief$/ do
   }
 end
 
+Given /^I am logged in as the buyer of a closed brief with responses$/ do
+  submitted_brief_response = get_brief_responses('digital-outcomes-and-specialists-2', 'submitted', 'closed').sample
+  closed_brief = get_brief(submitted_brief_response['brief']['id'])
+  @buyer = closed_brief['users'][0]
+  @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
+  steps %Q{
+    Given that buyer is logged in
+  }
+end
+
 Given /^I go to that brief page$/ do
   url = "/digital-outcomes-and-specialists/opportunities/#{@brief_id}"
   page.visit("#{dm_frontend_domain}#{url}")
