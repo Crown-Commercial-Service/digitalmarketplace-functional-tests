@@ -131,7 +131,7 @@ services:
       - "9200:9200"
 
   nginx:
-    image: "digitalmarketplace/local_nginx:latest"
+    image: "digitalmarketplace/local-nginx:latest"
     ports:
       - "80:80"
     depends_on:
