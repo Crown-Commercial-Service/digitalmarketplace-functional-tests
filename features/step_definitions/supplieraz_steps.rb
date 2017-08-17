@@ -41,3 +41,41 @@ Then (/^I see that supplier in one of the pages that follow from clicking '(.*)'
     ".//h2[@class='search-result-title']/a"
   ).text.should == normalize_whitespace(@supplier['name'])
 end
+
+Given(/I navigate to the list of '(.*)' page$/) do |value|
+  page.visit("#{dm_frontend_domain}/g-cloud/suppliers?prefix=#{value.split(' ').last}")
+  @data_store = @data_store || Hash.new
+  @data_store['supplier_alphabet'] = "#{value.split(' ').last}"
+end
+
+Then(/I am taken to page '(.*)' of results$/) do |page_number|
+  if current_url.include?('suppliers?')
+    current_url.should include("#{dm_frontend_domain}/g-cloud/suppliers?")
+    current_url.should include("prefix=#{@data_store['supplier_alphabet']}")
+    current_url.should include("page=#{page_number}")
+    current_url.should include("framework=g-cloud")
+    if page_number >= '2'
+      page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    elsif page_number < '2'
+      page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+      page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    end
+  end
+end
+
+
+Then(/pagination is '(.*)'$/) do |availability|
+  if current_url.include?('suppliers?')
+    pagination_available = "#{availability}"
+  else
+    fail("Pagination check only works for the suppliers list page these days.")
+  end
+
+  if pagination_available == 'available'
+    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  elsif pagination_available == 'not available'
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+  end
+end
