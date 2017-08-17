@@ -25,6 +25,12 @@ Feature: Apps /_status is ok
     Then I see 'ok' as the value of the 'status' JSON field
     And Display the value of the 'version' JSON field as 'Release version'
 
+  @status @brief-responses-frontend
+  Scenario: Check the brief responses frontend /_status
+    Given I am on the frontend /suppliers/opportunities/_status page
+    Then I see 'ok' as the value of the 'status' JSON field
+    And Display the value of the 'version' JSON field as 'Release version'
+
   @status @supplier-frontend
   Scenario: Check the suppliers frontend /_status
     Given I am on the frontend /suppliers/_status page
