@@ -62,6 +62,22 @@ services:
     depends_on:
       - api
 
+  brief-responses-frontend:
+    restart: always
+    image: "digitalmarketplace/brief-responses-frontend:latest"
+    ports:
+      - "5006:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_DATA_API_URL=http://api:80
+      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - api
+
   supplier-frontend:
     restart: always
     image: "digitalmarketplace/supplier-frontend:latest"
@@ -115,7 +131,7 @@ services:
       - "9200:9200"
 
   nginx:
-    image: "digitalmarketplace/local_nginx:latest"
+    image: "digitalmarketplace/local-nginx:latest"
     ports:
       - "80:80"
     depends_on:
@@ -123,5 +139,6 @@ services:
       - search-api
       - buyer-frontend
       - briefs-frontend
+      - brief-responses-frontend
       - supplier-frontend
       - admin-frontend
