@@ -464,7 +464,7 @@ And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
   @changed_fields[item_to_add] = value
 end
 
-Then /I am presented with the dashboard page with the changes that were made to the '(.*)'$/ do |service_aspect|
+Then /I am presented with the supplier details page with the changes that were made to the '(.*)'$/ do |service_aspect|
   find(
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Supplier summary')]/../../td[2]/span"
@@ -871,10 +871,9 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
   # end
 end
 
-Then /I can see active users associated with '(.*)' on the dashboard$/ do |supplier_name|
-  page.should have_selector(:xpath, "//*[@class='summary-item-heading'][contains(text(), 'Contributors')]")
+Then /I can see active users associated with '(.*)' on the page$/ do |supplier_name|
   ['Name', 'Email address'].each do |header|
-    page.should have_selector(:xpath, "//caption[contains(text(), 'Contributors')]/..//th/span[contains(text(), '#{header}')]")
+    page.should have_selector(:xpath, "//caption[contains(normalize-space(string()), 'Contributors')]/..//th[contains(normalize-space(string()), '#{header}')]")
   end
   [
     'DM Functional Test Supplier User 1', dm_supplier_user_email(),
@@ -1095,8 +1094,11 @@ Then /The supplier user '(.*)' is '(.*)' on the admin Users page$/ do |user_name
   }
 end
 
-And /The supplier user '(.*)' '(.*)' listed as a contributor on the dashboard of another user of the same supplier$/ do |user_name,value|
- step "I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page"
+And /The supplier user '(.*)' '(.*)' listed as a contributor on the contributors page of another user of the same supplier$/ do |user_name,value|
+ steps %Q{
+    Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
+    And I click 'Contributors'
+ }
 
   if value == 'is not'
     page.should have_no_selector(:xpath, "//*[@class='summary-item-field-first']/span[contains(text(), 'DM Functional Test Supplier User 2')]")
