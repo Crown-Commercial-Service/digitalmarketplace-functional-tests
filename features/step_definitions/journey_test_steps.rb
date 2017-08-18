@@ -55,10 +55,13 @@ end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
   visit("#{dm_frontend_domain}/login")
+  email_address = dm_supplier_user_email()
   if user_name == 'DM Functional Test Supplier User 2'
     page.fill_in('email_address', :with => dm_supplier_user2_email())
+    email_address = dm_supplier_user2_email()
   elsif user_name == 'DM Functional Test Supplier User 3'
     page.fill_in('email_address', :with => dm_supplier_user3_email())
+    email_address = dm_supplier_user3_email()
   end
 
   page.fill_in('password', :with => dm_supplier_password())
@@ -67,7 +70,7 @@ And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_nam
   if ability == 'can not'
     page.should have_content('Make sure you\'ve entered the right email address and password.')
   elsif ability == 'can'
-    step "Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page"
+    step "Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page for '#{email_address}'"
   end
 end
 
@@ -651,18 +654,18 @@ Then /I am presented with the service details page for that service$/ do
   page.should have_content(@existing_values['serviceprice'])
 end
 
-Then /I am presented with the '(.*)' '(.*)' dashboard page$/ do |user_type_name, user_type|
+Then /I am presented with the '(.*)' '(.*)' dashboard page(?: for '(.*)')?$/ do |user_type_name, user_type, email_override|
   user_type = user_type.downcase
   case user_type
   when "buyer"
     ['Unpublished requirements', 'Published requirements'].each do |header|
       page.should have_selector(:xpath, ".//h2[@class='summary-item-heading'][contains(text(), '#{header}')]")
     end
-    page.should have_content(dm_buyer_email())
+    page.should have_content(email_override || dm_buyer_email())
   when "supplier"
     @existing_values = @existing_values || Hash.new
     @existing_values['summarypageurl'] = current_url
-    page.should have_content(dm_supplier_user_email())
+    page.should have_content(email_override || dm_supplier_user_email())
   else
     fail("User type \"#{user_type}\" does not exist")
   end
