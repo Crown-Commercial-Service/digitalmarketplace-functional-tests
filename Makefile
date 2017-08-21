@@ -32,15 +32,8 @@ docker-up:
 	docker-compose up
 
 index-services:
-	$(if ${DM_SCRIPTS_REPO},,$(error Must specify DM_SCRIPTS_REPO))
 	$(if ${FRAMEWORKS},,$(error Must specify FRAMEWORKS))
-	cd ${DM_SCRIPTS_REPO} && \
-	virtualenv indexingvenv && \
-	source indexingvenv/bin/activate && \
-	pip install -r requirements.txt && \
-	./scripts/index-services.py dev --api-token=myToken --search-api-token=myToken --frameworks=${FRAMEWORKS} && \
-	deactivate && \
-	rm -fr indexingvenv
+	docker run --net=host digitalmarketplace/scripts scripts/index-services.py dev --api-token=myToken --search-api-token=myToken --frameworks=${FRAMEWORKS}
 
 
 .PHONY: smoke-tests run rerun setup install clean docker-up index-services
