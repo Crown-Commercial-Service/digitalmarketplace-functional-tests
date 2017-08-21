@@ -14,13 +14,14 @@ Scenario: As supplier user I wish be able to log in and to log out of Digital Ma
   When I click 'Log out'
   Then I am logged out of Digital Marketplace as a 'Supplier' user
 
-Scenario: As a logged in supplier user, I can see my active contributors on the dashboard
+Scenario: As a logged in supplier user, I can see my active contributors on the contributors page
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  Then I can see active users associated with 'DM Functional Test Supplier' on the dashboard
+  When I click 'Contributors'
+  Then I can see active users associated with 'DM Functional Test Supplier' on the page
 
 Scenario: As a logged in supplier user, I can navigate to the contributors page from my dashboard and I can remove one
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  When I click 'Invite or remove'
+  When I click 'Contributors'
   Then I am presented with the supplier 'DM Functional Test Supplier' 'Invite or remove contributors' page
   When I remove the supplier user 'DM Functional Test Supplier User 2'
   Then I see a confirmation message after having removed supplier user 'DM Functional Test Supplier User 2'
@@ -32,7 +33,9 @@ Scenario: As a logged in supplier user, I can navigate to the contributors page 
 
 Scenario: As a logged in supplier user, I can edit my supplier information
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
-  When I navigate to the 'Edit' 'Supplier information' page
+  When I click 'Supplier details'
+  Then I am presented with the supplier 'DM Functional Test Supplier' 'Supplier details' page
+  And I click 'Edit'
   And I change 'input-description' to 'Supplier changed the service description'
   And I change 'input-clients-3' to 'Supplier changed the third client'
   And I remove client number 2
@@ -46,7 +49,7 @@ Scenario: As a logged in supplier user, I can edit my supplier information
   And I change 'contact_country-input' to 'Supplier changed the country'
   And I change 'contact_postcode-input' to 'PCC'
   And I click 'Save and return'
-  Then I am presented with the dashboard page with the changes that were made to the 'Supplier information'
+  Then I am presented with the supplier details page with the changes that were made to the 'Supplier details'
 
 @wip
 Scenario: As a logged in supplier user, I can edit the description of a service

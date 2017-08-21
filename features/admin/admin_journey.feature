@@ -102,14 +102,14 @@ Scenario: As an admin user who has logged in to Digital Marketplace, I wish to d
   When I click the 'Deactivate' button for the supplier user 'DM Functional Test Supplier User 2'
   Then The supplier user 'DM Functional Test Supplier User 2' is 'not active'
   And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
-  And The supplier user 'DM Functional Test Supplier User 2' 'is not' listed as a contributor on the dashboard of another user of the same supplier
+  And The supplier user 'DM Functional Test Supplier User 2' 'is not' listed as a contributor on the contributors page of another user of the same supplier
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to activate a deactivated supplier user
   Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
   When I click the 'Activate' button for the supplier user 'DM Functional Test Supplier User 2'
   Then The supplier user 'DM Functional Test Supplier User 2' is 'active'
   And The supplier user 'DM Functional Test Supplier User 2' 'can' login to Digital Marketplace
-  And The supplier user 'DM Functional Test Supplier User 2' 'is' listed as a contributor on the dashboard of another user of the same supplier
+  And The supplier user 'DM Functional Test Supplier User 2' 'is' listed as a contributor on the contributors page of another user of the same supplier
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish unlock a locked supplier
   Given I am logged in as 'Administrator' and navigated to the 'Users' page for supplier 'DM Functional Test Supplier'
