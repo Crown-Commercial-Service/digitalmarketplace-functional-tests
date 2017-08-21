@@ -12,9 +12,10 @@ Background:
 Scenario Outline: Supplier coming from dashboard to view the detail page for one of their services
   Given that supplier has a service on the <lot_slug> lot
   And I am on the /suppliers page
+# The following step only works by virtue of there only being a single service for this supplier - multiple services on
+# multiple frameworks will cause multiple "View services" links to be present
   When I click 'View services'
-# This will now need to be generated dynamically as 'Your <framework.name> services'
-#  Then I am on the 'Current services' page
+  Then I see the page's h1 ends in 'services'
   When I click '<service_name>'
   Then I am on the '<service_name>' page
   And I don't see the 'Edit' link
