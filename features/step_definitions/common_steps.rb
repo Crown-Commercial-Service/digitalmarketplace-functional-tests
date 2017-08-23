@@ -115,6 +115,10 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
+When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, button_link_class|
+  page.all("." + button_link_class)[1].click
+end
+
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   # can't use above as we have services with the word 'next' in the name :(
   klass = ''
@@ -251,10 +255,24 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::*[1]"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
   result_table_rows = all(:xpath, result_table_rows_location)
   result_table_rows.any? {|row| row.text.include? content}.should be true
+end
+
+Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?:y|ies)$/ do |table_heading, expected_number_of_rows, comparison|
+  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::*[1]"
+  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
+  number_of_table_rows = all(:xpath, result_table_rows_location).length
+  case comparison
+    when 'more'
+      number_of_table_rows.should >= expected_number_of_rows.to_i
+    when 'fewer'
+      number_of_table_rows.should <= expected_number_of_rows.to_i
+    else
+      puts number_of_table_rows.should == expected_number_of_rows.to_i
+  end
 end
 
 Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |table_heading|
