@@ -204,7 +204,6 @@ Scenario: Ensure we can log in as a buyer with a closed brief
   Then I see that the 'Closed requirements' summary table has 1 or more entries
 
 
-@requirements @award
 Scenario: Award a requirement to a winning supplier
   Given I am logged in as the buyer of a closed brief with responses
   When I click the 'View your account' link
@@ -225,4 +224,7 @@ Scenario: Award a requirement to a winning supplier
   Then I see the 'View and shortlist suppliers' link
 
   When I go to that brief page
-  Then I see a temporary-message banner message containing 'This opportunity is closed for applications'
+  Then I see a temporary-message banner message containing 'Awarded to'
+  And I see a temporary-message banner message containing 'Start date: Wednesday 1 January 2020'
+  And I see a temporary-message banner message containing 'Value: £20,000'
+  And I see a temporary-message banner message containing 'Company size'
