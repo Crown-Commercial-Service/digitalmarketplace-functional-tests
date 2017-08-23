@@ -28,6 +28,22 @@ services:
     depends_on:
       - elasticsearch
 
+  user-frontend:
+    restart: always
+    image: "digitalmarketplace/user-frontend:latest"
+    ports:
+      - "5007:80"
+    environment:
+      - DM_ENVIRONMENT=development
+      - DM_DATA_API_URL=http://api:80
+      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+    volumes:
+      - ./compose-scripts:/compose-scripts
+    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    depends_on:
+      - api
+
   buyer-frontend:
     restart: always
     image: "digitalmarketplace/buyer-frontend:latest"
@@ -137,6 +153,7 @@ services:
     depends_on:
       - api
       - search-api
+      - user-frontend
       - buyer-frontend
       - briefs-frontend
       - brief-responses-frontend
