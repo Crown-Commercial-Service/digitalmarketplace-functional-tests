@@ -37,11 +37,7 @@ Scenario: As a logged in supplier user, I can edit my supplier information
   Then I am presented with the supplier 'DM Functional Test Supplier' 'Supplier details' page
   And I click 'Edit'
   And I change 'input-description' to 'Supplier changed the service description'
-  And I change 'input-clients-3' to 'Supplier changed the third client'
-  And I remove client number 2
-  And I add 'This is a new client' as a 'clients'
   And I change 'input-contact_contactName' to 'Supplier changed the contact name'
-  And I change 'input-contact_website' to 'Supplier changed the website'
   And I change 'input-contact_email' to 'Supplier.changed.the@email.com'
   And I change 'input-contact_phoneNumber' to 'Supplier changed the phone number'
   And I change 'contact_address1-input' to 'Supplier changed address1'

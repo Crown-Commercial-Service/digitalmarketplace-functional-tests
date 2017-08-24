@@ -471,21 +471,8 @@ Then /I am presented with the supplier details page with the changes that were m
   ).text().should have_content(@changed_fields['description'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[2]"
-  ).text().should have_content(@changed_fields['clients-3'])
-  page.should have_no_content(@changed_fields['clients-2'])
-  find(
-    :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Clients')]/../..//li[4]"
-  ).text().should have_content(@changed_fields['clients'])
-  find(
-    :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Contact name')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_contactName'])
-  find(
-    :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Website')]/../../td[2]/span"
-  ).text().should have_content(@changed_fields['contact_website'])
   find(
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
@@ -496,15 +483,15 @@ Then /I am presented with the supplier details page with the changes that were m
   ).text().should have_content(@changed_fields['contact_phoneNumber'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Registered office address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_address1'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Registered office address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_city'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Registered office address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_postcode'])
 end
 
