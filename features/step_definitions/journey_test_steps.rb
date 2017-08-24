@@ -505,10 +505,6 @@ Then /I am presented with the supplier details page with the changes that were m
   find(
     :xpath,
     "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
-  ).text().should have_content(@changed_fields['contact_country'])
-  find(
-    :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Address')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_postcode'])
 end
 

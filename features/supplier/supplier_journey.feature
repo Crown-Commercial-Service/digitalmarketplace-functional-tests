@@ -46,7 +46,6 @@ Scenario: As a logged in supplier user, I can edit my supplier information
   And I change 'input-contact_phoneNumber' to 'Supplier changed the phone number'
   And I change 'contact_address1-input' to 'Supplier changed address1'
   And I change 'contact_city-input' to 'Supplier changed the city'
-  And I change 'contact_country-input' to 'Supplier changed the country'
   And I change 'contact_postcode-input' to 'PCC'
   And I click 'Save and return'
   Then I am presented with the supplier details page with the changes that were made to the 'Supplier details'
