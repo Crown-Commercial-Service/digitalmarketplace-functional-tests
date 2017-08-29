@@ -1,4 +1,4 @@
-@award @skip-staging
+@award
 Feature: Award a requirement
   In order to ensure the procurement process is fair and transparent
   As a buyer within government
