@@ -116,7 +116,7 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
 end
 
 When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, button_link_class|
-  page.all("." + button_link_class)[1].click
+  page.all("." + button_link_class)[0].click
 end
 
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|

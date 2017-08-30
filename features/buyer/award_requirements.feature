@@ -12,8 +12,7 @@ Background: Ensure we can log in as a buyer with a closed brief
 
 
 Scenario: Award a requirement to a winning supplier
-  Given I click the 'View your account' link
-  Then I see the 'Tell us who won this contract' link
+  Given I see the 'Tell us who won this contract' link
   When I click a link with class name 'award-contract-link'
   Then I am on the 'Who won' page
   When I choose a random 'brief_response' radio button
