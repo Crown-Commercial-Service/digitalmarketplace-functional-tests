@@ -101,9 +101,9 @@ Setting up your local environment and database to run the functional tests again
   - Go to [`http://localhost`](http://localhost). You should see the Digital Marketplace homepage.
   - You now need to index your services from a new shell in your functional tests repo. There is a make rule to do it, but you will need to set a couple of variables first.
     * `DM_SCRIPTS_REPO` should be set to an absolute path to the root of your local Digital Marketplace scripts repo. It's probably worth adding this to your environment permanently as it's unlikely to change very often.
-    *  `FRAMEWORKS` should be set to a comma separated string of the frameworks you want to index. At the time of writing this is probably just `g-cloud-9`. If you wanted to do more, it would look like `g-cloud-8,g-cloud-9`. This variable should just be set when you run the make rule (see below).
-  - Execute, substituting in your desired frameworks:
-        make FRAMEWORKS=g-cloud-9 index-services
+    * `FRAMEWORK` should be set to the slug of the framework you want to index. At the time of writing this is probably `g-cloud-9`. This variable should just be set when you run the make rule (see below), and will also be used for the name of the created index.
+  - Execute, substituting in your desired framework:
+        make FRAMEWORK=g-cloud-9 index-services
 
     This will generate a lot of noise in your terminal, including creating a virtualenv in your scripts repo. Don't worry, it cleans up after itself.
   - Return to your original shell and hit `CTRL+C` to exit, or run `docker-compose down` from a shell in the functional tests repo.
