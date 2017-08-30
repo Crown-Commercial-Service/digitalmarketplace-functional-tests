@@ -113,6 +113,11 @@ Setting up your local environment and database to run the functional tests again
   - This will create, recreate or restart the containers. If they don't exist it'll create them, if they have changed it'll recreate them, if they exist and haven't changed it'll restart them.
   - The `make` rule will grab your local default AWS credentials and the preview Mandrill API key and present them as env variables for the docker-compose file. This is why you'll need to input an MFA code - it uses SOPS.
 
+### Using the environment
+
+  - The running apps will be available at `http://localhost`
+  - To access the containerised database you can run `psql postgres://dmdev:dmdevpasswd@localhost:5432/digitalmarketplace`
+  
 ### Stopping the environment
       CTRL+D or docker-compose stop
   - If using the `stop` command run it from a shell in the functional tests repo
