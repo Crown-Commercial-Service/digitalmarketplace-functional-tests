@@ -94,6 +94,7 @@ Setting up your local environment and database to run the functional tests again
   - Have a database dump that you want to use. The most up to date you can get your hands on the better. This is the data you're going to be running tests against so it should have all frameworks up to date. It doesn't matter what it's called, as long as it ends in `.sql`.
   - Create a new directory within `./sql` - `./sql/data` and place your database dump in it.
   - Execute:
+  
         make docker-up
   - Enter your AWS MFA code when prompted.
   - If this is the first time you've run this command, the Postgres image will need to import the data from the dump. This will take a minute or two. When it's done, the apps will load, beginning with the api. When the logs in your terminal have calmed down and tell you that frontend apps have spawned uWSGI workers, move on.
