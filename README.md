@@ -126,11 +126,12 @@ Setting up your local environment and database to run the functional tests again
 
 ### Updating the images
       docker-compose pull
-  - Docker Compose will use app images tagged with `:latest`.
-  - If it finds them locally it'll just use them.
+  - Docker Compose will pull in app images tagged with `:latest`.
   - Before running tests you'll probably want to pull the latest versions of the apps.
   - This command will pull them all.
-
+  - Do this *before* building local versions incorporating your changes, or this will overwrite the "latest" tag with the 
+    latest from Dockerhub.
+  
 ### Running tests against YOUR version of the app.
   - The main reason for doing all this is to make it easier to test YOUR local changes, which won't happen if you always have the `:latest` tagged image from Dockerhub.
   - From the root of the app you want to build an image for, run `make docker-build`.
