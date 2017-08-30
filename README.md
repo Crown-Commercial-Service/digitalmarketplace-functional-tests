@@ -94,15 +94,16 @@ Setting up your local environment and database to run the functional tests again
   - Have a database dump that you want to use. The most up to date you can get your hands on the better. This is the data you're going to be running tests against so it should have all frameworks up to date. It doesn't matter what it's called, as long as it ends in `.sql`.
   - Create a new directory within `./sql` - `./sql/data` and place your database dump in it.
   - Execute:
+  
         make docker-up
   - Enter your AWS MFA code when prompted.
   - If this is the first time you've run this command, the Postgres image will need to import the data from the dump. This will take a minute or two. When it's done, the apps will load, beginning with the api. When the logs in your terminal have calmed down and tell you that frontend apps have spawned uWSGI workers, move on.
   - Go to [`http://localhost`](http://localhost). You should see the Digital Marketplace homepage.
   - You now need to index your services from a new shell in your functional tests repo. There is a make rule to do it, but you will need to set a couple of variables first.
     * `DM_SCRIPTS_REPO` should be set to an absolute path to the root of your local Digital Marketplace scripts repo. It's probably worth adding this to your environment permanently as it's unlikely to change very often.
-    *  `FRAMEWORKS` should be set to a comma separated string of the frameworks you want to index. At the time of writing this is probably just `g-cloud-9`. If you wanted to do more, it would look like `g-cloud-8,g-cloud-9`. This variable should just be set when you run the make rule (see below).
-  - Execute, substituting in your desired frameworks:
-        make FRAMEWORKS=g-cloud-9 index-services
+    * `FRAMEWORK` should be set to the slug of the framework you want to index. At the time of writing this is probably `g-cloud-9`. This variable should just be set when you run the make rule (see below), and will also be used for the name of the created index.
+  - Execute, substituting in your desired framework:
+        make FRAMEWORK=g-cloud-9 index-services
 
     This will generate a lot of noise in your terminal, including creating a virtualenv in your scripts repo. Don't worry, it cleans up after itself.
   - Return to your original shell and hit `CTRL+C` to exit, or run `docker-compose down` from a shell in the functional tests repo.
@@ -112,6 +113,11 @@ Setting up your local environment and database to run the functional tests again
   - This will create, recreate or restart the containers. If they don't exist it'll create them, if they have changed it'll recreate them, if they exist and haven't changed it'll restart them.
   - The `make` rule will grab your local default AWS credentials and the preview Mandrill API key and present them as env variables for the docker-compose file. This is why you'll need to input an MFA code - it uses SOPS.
 
+### Using the environment
+
+  - The running apps will be available at `http://localhost`
+  - To access the containerised database you can run `psql postgres://dmdev:dmdevpasswd@localhost:5432/digitalmarketplace`
+  
 ### Stopping the environment
       CTRL+D or docker-compose stop
   - If using the `stop` command run it from a shell in the functional tests repo
@@ -125,11 +131,12 @@ Setting up your local environment and database to run the functional tests again
 
 ### Updating the images
       docker-compose pull
-  - Docker Compose will use app images tagged with `:latest`.
-  - If it finds them locally it'll just use them.
+  - Docker Compose will pull in app images tagged with `:latest`.
   - Before running tests you'll probably want to pull the latest versions of the apps.
   - This command will pull them all.
-
+  - Do this *before* building local versions incorporating your changes, or this will overwrite the "latest" tag with the 
+    latest from Dockerhub.
+  
 ### Running tests against YOUR version of the app.
   - The main reason for doing all this is to make it easier to test YOUR local changes, which won't happen if you always have the `:latest` tagged image from Dockerhub.
   - From the root of the app you want to build an image for, run `make docker-build`.
