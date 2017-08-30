@@ -32,6 +32,7 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
   closed_brief = get_brief(submitted_brief_response['brief']['id'])
   @brief_id = closed_brief['id']
   @lot_slug = closed_brief['lotSlug']
+  @framework_slug = closed_brief['frameworkSlug']
   @buyer = closed_brief['users'][0]
   @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
   steps %Q{
@@ -42,6 +43,11 @@ end
 Given /^I go to that brief page$/ do
   url = "/digital-outcomes-and-specialists/opportunities/#{@brief_id}"
   page.visit("#{dm_frontend_domain}#{url}")
+end
+
+Given /^I click the 'Tell us who won this contract' link for that brief$/ do
+  url = "/buyers/frameworks/#{@framework_slug}/requirements/#{@lot_slug}/#{@brief_id}/award-contract"
+  page.find(:xpath, "//a[@href='#{url}']").click
 end
 
 Given /^I go to that brief overview page$/ do

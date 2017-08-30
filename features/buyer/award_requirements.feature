@@ -4,26 +4,25 @@ Feature: Award a requirement
   As a buyer within government
   I want to be able to publish the result of my procurement process
 
-
-Background: Ensure we can log in as a buyer with a closed brief
+Scenario: Award a requirement to a winning supplier
   Given I am logged in as the buyer of a closed brief with responses
+
   When I click the 'View your account' link
   Then I see that the 'Closed requirements' summary table has 1 or more entries
 
-
-Scenario: Award a requirement to a winning supplier
-  Given I see the 'Tell us who won this contract' link
-  When I click a link with class name 'award-contract-link'
+  When I click the 'Tell us who won this contract' link for that brief
   Then I am on the 'Who won' page
+
   When I choose a random 'brief_response' radio button
-  When I click the 'Save and continue' button
+  And I click the 'Save and continue' button
   Then I am on the 'Tell us about your contract' page
+
   When I enter '1' in the 'input-awardedContractStartDate-day' field
-  When I enter '1' in the 'input-awardedContractStartDate-month' field
-  When I enter '2020' in the 'input-awardedContractStartDate-year' field
-  When I enter '20000.00' in the 'input-awardedContractValue' field
-  When I click the 'Submit' button
-  And I see a success banner message containing 'updated'
+  And I enter '1' in the 'input-awardedContractStartDate-month' field
+  And I enter '2020' in the 'input-awardedContractStartDate-year' field
+  And I enter '20000.00' in the 'input-awardedContractValue' field
+  And I click the 'Submit' button
+  Then I see a success banner message containing 'updated'
 
   When I go to that brief overview page
   Then I see the 'View and shortlist suppliers' link
