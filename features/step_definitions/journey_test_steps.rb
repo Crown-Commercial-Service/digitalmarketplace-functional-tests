@@ -475,11 +475,11 @@ Then /I am presented with the supplier details page with the changes that were m
   ).text().should have_content(@changed_fields['contact_contactName'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Email address')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Contact email')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_email'])
   find(
     :xpath,
-    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Phone number')]/../../td[2]/span"
+    "//caption[contains(text(), '#{service_aspect}')]/..//*[contains(text(), 'Contact phone number')]/../../td[2]/span"
   ).text().should have_content(@changed_fields['contact_phoneNumber'])
   find(
     :xpath,
