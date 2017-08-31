@@ -48,7 +48,7 @@ module FormHelper
   end
 
   def get_parent_label(el)
-    el.find_xpath('parent::label')[0]
+    el.find_xpath("//label[@for='#{el[:id]}']")[0]
   end
 
   def find_fields(locator=nil, options={})
