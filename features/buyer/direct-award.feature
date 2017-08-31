@@ -7,6 +7,6 @@ Scenario: User can save a search into a new Direct Award Project
   And I am on the /g-cloud/search page
   And I click 'Save your search'
   Then I am on the 'Save your search' page
-  And I enter 'my cloud procurement' in the 'Name a new procurement project' field
+  And I enter 'my cloud project' in the 'Name a new project' field
   And I click 'Create project and save search'
-  Then I am on the 'Project - my cloud procurement' page
+  Then I am on the 'Project - my cloud project' page
