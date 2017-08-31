@@ -1,0 +1,12 @@
+@skip-staging @skip-production
+@direct-award
+Feature: Direct Award flows
+
+Scenario: User can save a search into a new Direct Award Project
+  Given I am logged in as a buyer user
+  And I am on the /g-cloud/search page
+  And I click 'Save your search'
+  Then I am on the 'Save your search' page
+  And I enter 'my cloud procurement' in the 'Name a new procurement project' field
+  And I click 'Create project and save search'
+  Then I am on the 'Project - my cloud procurement' page
