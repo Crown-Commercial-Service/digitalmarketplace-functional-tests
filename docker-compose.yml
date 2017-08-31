@@ -148,6 +148,9 @@ services:
 
   nginx:
     image: "digitalmarketplace/local-nginx:latest"
+    build:
+      context: ./
+      dockerfile: ./local-nginx.docker
     ports:
       - "80:80"
     depends_on:
