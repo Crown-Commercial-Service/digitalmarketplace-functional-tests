@@ -10,15 +10,15 @@ Given /I am on the '(.*)' login page$/ do |value|
     url = "#{dm_frontend_domain}/admin/login"
     page_header = "#{value} login"
   when "Digital Marketplace"
-    url = "#{dm_frontend_domain}/login"
+    url = "#{dm_frontend_domain}/user/login"
     page_header = "Log in to the Digital Marketplace"
   else
     fail("Unrecognised login page: '#{value}'")
   end
 
   visit(url)
-  if page.has_link?("Log out")
-    page.click_link("Log out")
+  if page.has_button?("Log out")
+    page.click_button("Log out")
   end
 
   visit(url)
@@ -54,7 +54,7 @@ When /I login as a '(.*)' user$/ do |user_type|
 end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
-  visit("#{dm_frontend_domain}/login")
+  visit("#{dm_frontend_domain}/user/login")
   email_address = dm_supplier_user_email()
   if user_name == 'DM Functional Test Supplier User 2'
     page.fill_in('email_address', :with => dm_supplier_user2_email())
@@ -194,11 +194,11 @@ end
 
 When /I click the '(.*)' link in the '(.*)' column for the supplier '(.*)'/ do |link_name, column_name, supplier_name|
   @supplierName = supplier_name
-  
+
   table_row_first_cell = page.first(:css, "td.summary-item-field-first") {|elem| elem.text == supplier_name}
   row = table_row_first_cell.find(:xpath, 'ancestor-or-self::*[tr][1]')
   column_index = page.all(:css, "thead tr th").find_index {|elem| elem.text == column_name}
-  
+
   column = row.all(:css, "td").at(column_index)
   link = column.find_link(link_name)
   if match = link['href'].match(%r"/admin/suppliers/(\d+)/")
@@ -653,7 +653,7 @@ Then /I am presented with the '(.*)' '(.*)' dashboard page(?: for '(.*)')?$/ do 
     fail("User type \"#{user_type}\" does not exist")
   end
   page.should have_content(user_type_name)
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   current_url.should end_with("#{dm_frontend_domain}/#{user_type}s")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
@@ -1298,7 +1298,7 @@ When /^I click the last download agreement link$/ do
 end
 
 Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
-  current_url.should end_with("#{dm_frontend_domain}/reset-password")
+  current_url.should end_with("#{dm_frontend_domain}/user/reset-password")
   page.should have_content(page_name)
   page.should have_field("Email address")
   page.should have_button("Send reset email")
