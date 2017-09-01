@@ -1,10 +1,10 @@
 @not-production @functional-test
-Feature: Create new G-Cloud supplier account
+Feature: Create new supplier account
 
 Scenario: User steps through supplier account creation process
   Given I am on the 'Digital Marketplace' landing page
   When I click 'Create a supplier account'
-  Then I am on the 'Create supplier account' page
+  Then I am on the 'Create a supplier account' page
 
   When I click the 'Start' button
   Then I am on the 'DUNS number' page
