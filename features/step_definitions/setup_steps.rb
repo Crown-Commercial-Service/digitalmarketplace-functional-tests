@@ -228,7 +228,11 @@ And /^Test supplier users are not locked$/ do
 end
 
 And /^The user 'DM Functional Test Supplier User 3' is locked$/ do
-  visit("#{dm_frontend_domain}/login")
+  visit("#{dm_frontend_domain}/user/login")
+  
+  if page.has_button?("Log out")
+    page.click_button("Log out")
+  end
 
   response = call_api(:get, "/users", params: {email_address: dm_supplier_user3_email()})
   failedlogincount = JSON.parse(response.body)["users"][0]["failedLoginCount"]

@@ -10,11 +10,11 @@ Scenario: Setup for tests
   And The user 'DM Functional Test Supplier User 3' is locked
 
 Scenario: As an admin user I wish be able to log in and to log out of Digital Marketplace
-  Given I am on the 'Administrator' login page
+  Given I am on the login page
   When I login as a 'Administrator' user
   Then I am presented with the admin search page
   When I click 'Log out'
-  Then I am logged out of Digital Marketplace as a 'Administrator' user
+  Then I am logged out of Digital Marketplace
 
 Scenario: As an admin user who has logged in to Digital Marketplace, I wish to search for a service by service ID
   Given I have logged in to Digital Marketplace as a 'Administrator' user

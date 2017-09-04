@@ -4,21 +4,13 @@ require "rest_client"
 
 store = OpenStruct.new
 
-Given /I am on the '(.*)' login page$/ do |value|
-  case value
-  when "Administrator"
-    url = "#{dm_frontend_domain}/admin/login"
-    page_header = "#{value} login"
-  when "Digital Marketplace"
-    url = "#{dm_frontend_domain}/login"
-    page_header = "Log in to the Digital Marketplace"
-  else
-    fail("Unrecognised login page: '#{value}'")
-  end
-
+Given /I am on the login page$/ do
+  url = "#{dm_frontend_domain}/user/login"
+  page_header = "Log in to the Digital Marketplace"
+  
   visit(url)
-  if page.has_link?("Log out")
-    page.click_link("Log out")
+  if page.has_button?("Log out")
+    page.click_button("Log out")
   end
 
   visit(url)
@@ -54,7 +46,12 @@ When /I login as a '(.*)' user$/ do |user_type|
 end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
-  visit("#{dm_frontend_domain}/login")
+  visit("#{dm_frontend_domain}/user/login")
+  
+  if page.has_button?("Log out")
+    page.click_button("Log out")
+  end
+
   email_address = dm_supplier_user_email()
   if user_name == 'DM Functional Test Supplier User 2'
     page.fill_in('email_address', :with => dm_supplier_user2_email())
@@ -125,7 +122,7 @@ Then /I am presented with the admin search page$/ do
   # temporarily disabled
   #page.should have_link('Service updates')
   page.should have_link('Service status changes')
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   page.should have_content('Find a service by service ID')
   page.should have_content('Find suppliers by name prefix')
   page.should have_content('Find users by email address')
@@ -194,11 +191,11 @@ end
 
 When /I click the '(.*)' link in the '(.*)' column for the supplier '(.*)'/ do |link_name, column_name, supplier_name|
   @supplierName = supplier_name
-  
+
   table_row_first_cell = page.first(:css, "td.summary-item-field-first") {|elem| elem.text == supplier_name}
   row = table_row_first_cell.find(:xpath, 'ancestor-or-self::*[tr][1]')
   column_index = page.all(:css, "thead tr th").find_index {|elem| elem.text == column_name}
-  
+
   column = row.all(:css, "td").at(column_index)
   link = column.find_link(link_name)
   if match = link['href'].match(%r"/admin/suppliers/(\d+)/")
@@ -332,7 +329,7 @@ end
 
 Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
   steps %Q{
-    Given I am on the '#{login_page_type(user_type)}' login page
+    Given I am on the login page
     When I login as a '#{user_type}' user
   }
 end
@@ -356,12 +353,7 @@ Given /^I am logged in as '(.*)' and am on the '(.*)' service summary page$/ do 
   end
 end
 
-Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
-  case user_type
-  when "Administrator"
-    page.should have_content('You have been logged out')
-    page.should have_content('Administrator login')
-  when "Buyer" , "Supplier"
+Then /I am logged out of Digital Marketplace$/ do
   page.has_link?("Log in")
   page.has_link?('Create supplier account')
   page.should have_content('Log in to the Digital Marketplace')
@@ -369,9 +361,6 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   page.should have_content('Password')
   page.has_button?('Log in')
   page.has_link?('Forgotten password')
-  else
-    fail("User type \"#{user_type}\" does not exist")
-  end
 end
 
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|
@@ -653,7 +642,7 @@ Then /I am presented with the '(.*)' '(.*)' dashboard page(?: for '(.*)')?$/ do 
     fail("User type \"#{user_type}\" does not exist")
   end
   page.should have_content(user_type_name)
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   current_url.should end_with("#{dm_frontend_domain}/#{user_type}s")
   page.should have_selector(:xpath, "//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Digital Marketplace')]")
 end
@@ -782,7 +771,7 @@ Then /I am presented with the '(.*)' page for the supplier '(.*)'$/ do |page_nam
     end
     current_url.should end_with("#{dm_frontend_domain}/admin/suppliers/#{page_name.downcase}?supplier_id=#{@servicesupplierID}")
   end
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[2][contains(text(), '#{supplier_name}')]")
 end
@@ -801,7 +790,7 @@ end
 
 Then /I am presented with the 'Suppliers' page for all suppliers starting with '(.*)'$/ do |name_prefix|
   page.should have_content('Suppliers')
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   URI.decode_www_form(URI.parse(current_url).query).assoc('supplier_name_prefix').last.should == name_prefix
 
   table_row_first_cells = page.all(:css, "td.summary-item-field-first")
@@ -1154,7 +1143,7 @@ Then /The page for the '(.*)' user is presented$/ do |user|
   }[user]
 
   page.should have_content("#{user_email}")
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/users?email_address=#{user_email.downcase.split('@').first}%40#{user_email.downcase.split('@').last}")
   page.should have_selector(:xpath, ".//*[@id='global-breadcrumb']/nav/*[@role='breadcrumbs']/li[1]//*[contains(text(), 'Admin home')]")
 end
@@ -1257,12 +1246,12 @@ Then /I am presented with the Service status changes page for changes made '(.*)
   # temporarily disabled
   #page.should have_link('Service updates')
   page.should have_link('Service status changes')
-  page.should have_link('Log out')
+  page.should have_button('Log out')
 end
 
 Then /I am presented with the '(.*)' page with the changed supplier name '(.*)' listed on the page$/ do |page_name,supplier_name|
   page.should have_content("#{page_name}")
-  page.should have_link('Log out')
+  page.should have_button('Log out')
   current_url.should end_with("#{dm_frontend_domain}/admin/#{page_name.downcase}?supplier_id=#{@supplierID}")
   page.should have_selector(:xpath, "//table/tbody/tr/td/span[contains(text(),'#{supplier_name}')]")
 end
@@ -1298,7 +1287,7 @@ When /^I click the last download agreement link$/ do
 end
 
 Then /^I am presented with the \/"(.*?)" page\/$/ do |page_name|
-  current_url.should end_with("#{dm_frontend_domain}/reset-password")
+  current_url.should end_with("#{dm_frontend_domain}/user/reset-password")
   page.should have_content(page_name)
   page.should have_field("Email address")
   page.should have_button("Send reset email")
