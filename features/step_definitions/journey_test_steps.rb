@@ -47,6 +47,11 @@ end
 
 And /The supplier user '(.*)' '(.*)' login to Digital Marketplace$/ do |user_name,ability|
   visit("#{dm_frontend_domain}/user/login")
+  
+  if page.has_button?("Log out")
+    page.click_button("Log out")
+  end
+
   email_address = dm_supplier_user_email()
   if user_name == 'DM Functional Test Supplier User 2'
     page.fill_in('email_address', :with => dm_supplier_user2_email())
