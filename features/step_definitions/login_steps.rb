@@ -37,14 +37,14 @@ Given /^I have a ([a-z-]+) user(?: with supplier id (\d*))?$/ do |user_role, sup
 end
 
 Given /^I am logged in as (?:a|the) (production )?(\w+) user$/ do |production, user_role|
-  login_page = if user_role.start_with? 'admin' then '/admin/login' else '/login' end
+  login_page = '/user/login'
   steps %Q{
     Given I have a #{production}#{user_role} user
     And I am on the #{login_page} page
     When I enter that user.emailAddress in the 'Email address' field
     And I enter that user.password in the 'Password' field
     And I click the 'Log in' button
-    Then I see the 'Log out' link
+    Then I see the 'Log out' button
   }
 end
 
@@ -61,10 +61,10 @@ Given /^that (supplier|buyer) is logged in$/ do |user_role|
   user = user_role == 'supplier' ? @supplier_user : @buyer
 
   steps %Q{
-    And I am on the /login page
+    And I am on the /user/login page
     When I enter '#{user['emailAddress']}' in the 'Email address' field
     And I enter '#{user['password']}' in the 'Password' field
     And I click the 'Log in' button
-    Then I see the 'Log out' link
+    Then I see the 'Log out' button
   }
 end
