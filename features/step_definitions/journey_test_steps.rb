@@ -4,18 +4,10 @@ require "rest_client"
 
 store = OpenStruct.new
 
-Given /I am on the '(.*)' login page$/ do |value|
-  case value
-  when "Administrator"
-    url = "#{dm_frontend_domain}/admin/login"
-    page_header = "#{value} login"
-  when "Digital Marketplace"
-    url = "#{dm_frontend_domain}/user/login"
-    page_header = "Log in to the Digital Marketplace"
-  else
-    fail("Unrecognised login page: '#{value}'")
-  end
-
+Given /I am on the login page$/ do
+  url = "#{dm_frontend_domain}/user/login"
+  page_header = "Log in to the Digital Marketplace"
+  
   visit(url)
   if page.has_button?("Log out")
     page.click_button("Log out")
@@ -332,7 +324,7 @@ end
 
 Given /I have logged in to Digital Marketplace as a '(.*)' user$/ do |user_type|
   steps %Q{
-    Given I am on the '#{login_page_type(user_type)}' login page
+    Given I am on the login page
     When I login as a '#{user_type}' user
   }
 end
@@ -356,12 +348,7 @@ Given /^I am logged in as '(.*)' and am on the '(.*)' service summary page$/ do 
   end
 end
 
-Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
-  case user_type
-  when "Administrator"
-    page.should have_content('You have been logged out')
-    page.should have_content('Administrator login')
-  when "Buyer" , "Supplier"
+Then /I am logged out of Digital Marketplace$/ do
   page.has_link?("Log in")
   page.has_link?('Create supplier account')
   page.should have_content('Log in to the Digital Marketplace')
@@ -369,9 +356,6 @@ Then /I am logged out of Digital Marketplace as a '(.*)' user$/ do |user_type|
   page.should have_content('Password')
   page.has_button?('Log in')
   page.has_link?('Forgotten password')
-  else
-    fail("User type \"#{user_type}\" does not exist")
-  end
 end
 
 Then /I am presented with the '(.*)' '(.*)' page for that service$/ do |action,service_aspect|

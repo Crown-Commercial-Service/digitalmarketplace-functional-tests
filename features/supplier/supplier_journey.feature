@@ -8,11 +8,11 @@ Scenario: Setup for tests
   And Test supplier users are active
 
 Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
-  Given I am on the 'Digital Marketplace' login page
+  Given I am on the login page
   When I login as a 'Supplier' user
   Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page
   When I click 'Log out'
-  Then I am logged out of Digital Marketplace as a 'Supplier' user
+  Then I am logged out of Digital Marketplace
 
 Scenario: As a logged in supplier user, I can see my active contributors on the contributors page
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
@@ -27,7 +27,7 @@ Scenario: As a logged in supplier user, I can navigate to the contributors page 
   Then I see a confirmation message after having removed supplier user 'DM Functional Test Supplier User 2'
   And I should not see the supplier user 'DM Functional Test Supplier User 2' on the supplier dashboard page
   When I click 'Log out'
-  Then I am logged out of Digital Marketplace as a 'Supplier' user
+  Then I am logged out of Digital Marketplace
   And The supplier user 'DM Functional Test Supplier User 2' 'can not' login to Digital Marketplace
   Then The supplier user 'DM Functional Test Supplier User 2' is 'not active' on the admin Users page
 
@@ -71,7 +71,7 @@ Scenario: Supplier user has 5 failed login attempts and is locked. Login is not 
   And The supplier user 'DM Functional Test Supplier User 3' 'can not' login to Digital Marketplace
 
 Scenario: Supplier has forgotten password and requests for a password reset
-  Given I am on the 'Digital Marketplace' login page
+  Given I am on the login page
   When I click 'Forgotten password'
   Then I am presented with the /"Reset password" page/
 
