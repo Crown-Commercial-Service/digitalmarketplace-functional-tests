@@ -13,7 +13,7 @@ Scenario: User steps through supplier account creation process
   And I click 'Continue'
   Then I am on the 'Companies House number (optional)' page
 
-  When I enter 'A0000001' in the 'companies_house_number' field
+  When I enter 'SC000001' in the 'companies_house_number' field
   And I click 'Continue'
   Then I am on the 'Company name' page
 
