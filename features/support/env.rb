@@ -64,5 +64,5 @@ def dm_pagination_limit()
   (ENV['DM_PAGINATION_LIMIT'] || 100).to_i
 end
 
+Capybara.asset_host = dm_frontend_domain
 Capybara.save_path = "reports/"
-Capybara::Screenshot.prune_strategy = { keep: 100 }
