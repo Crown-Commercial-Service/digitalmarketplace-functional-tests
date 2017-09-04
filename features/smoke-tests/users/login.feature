@@ -29,9 +29,10 @@ Scenario: Buyer user can log in
 
 @with-production-admin-user
 Scenario: Admin user can log in
-  Given I am on the /admin page
+  Given I am on the homepage
   And I have a production admin user
-  Then I am on the 'Administrator login' page
+  When I click 'Log in'
+  Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
   And I enter that user.password in the 'Password' field
   And I click the 'Log in' button
@@ -39,9 +40,10 @@ Scenario: Admin user can log in
 
 @with-production-admin-ccs-category-user
 Scenario: Admin CCS Category user can log in
-  Given I am on the /admin page
+  Given I am on the homepage
   And I have a production admin-ccs-category user
-  Then I am on the 'Administrator login' page
+  When I click 'Log in'
+  Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
   And I enter that user.password in the 'Password' field
   And I click the 'Log in' button
@@ -49,9 +51,10 @@ Scenario: Admin CCS Category user can log in
 
 @with-production-admin-ccs-sourcing-user
 Scenario: Admin CCS Sourcing user can log in
-  Given I am on the /admin page
+  Given I am on the homepage
   And I have a production admin-ccs-sourcing user
-  Then I am on the 'Administrator login' page
+  When I click 'Log in'
+  Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
   And I enter that user.password in the 'Password' field
   And I click the 'Log in' button
