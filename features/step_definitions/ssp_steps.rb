@@ -211,9 +211,9 @@ And /All the information that was submitted is presented correctly on the page$/
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../../*/span[contains(text(), '#{@value_of_interest['duns_number']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../../*/span[contains(text(), '#{@value_of_interest['companies_house_number']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Company name')]/../../*/span[contains(text(), '#{@value_of_interest['company_name']}')]")
-  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../../*/span[contains(text(), '#{@value_of_interest['contact_name']}')]")
-  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../../*/span[contains(text(), '#{@value_of_interest['email_address']}')]")
-  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../../*/span[contains(text(), '#{@value_of_interest['phone_number']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Contact name')]/../../*/span[contains(text(), '#{@value_of_interest['contact_name']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Contact email')]/../../*/span[contains(text(), '#{@value_of_interest['email_address']}')]")
+  page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Contact phone number')]/../../*/span[contains(text(), '#{@value_of_interest['phone_number']}')]")
   page.should have_selector(:xpath, "//tr/*/span[contains(text(), 'Email address')]/../../*/span[contains(text(), '#{@value_of_interest['email_address']}')]")
 end
 
@@ -221,9 +221,9 @@ And /There is an Edit link for each of the company information$/ do
   page.find(:xpath, "//tr/*/span[contains(text(), 'DUNS number')]/../..//a[@href='/suppliers/duns-number'][text()]").text().should have_content('Edit')
   page.find(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../..//a[@href='/suppliers/companies-house-number']").text().should have_content('Edit')
   page.find(:xpath, "//tr/*/span[contains(text(), 'Company name')]/../..//a[@href='/suppliers/company-name']").text().should have_content('Edit')
-  page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
-  page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
-  page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Contact name')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Contact email')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
+  page.find(:xpath, "//tr/*/span[contains(text(), 'Contact phone number')]/../..//a[@href='/suppliers/company-contact-details']").text().should have_content('Edit')
 end
 
 When /I change the '(.*)' to '(.*)'$/ do |field_name,new_value|
@@ -232,12 +232,12 @@ When /I change the '(.*)' to '(.*)'$/ do |field_name,new_value|
   elsif field_name == 'companies_house_number'
     page.find(:xpath, "//tr/*/span[contains(text(), 'Companies House number')]/../..//a[@href='/suppliers/#{field_name.gsub('_','-').downcase}'][text()='Edit']").click
   elsif field_name == 'contact_name'
-    page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact name')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Contact name')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
   elsif field_name == 'contact_email_address'
-    page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact email')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Contact email')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
     field_name = 'email_address'
   elsif field_name == 'phone_number'
-    page.find(:xpath, "//tr/*/span[contains(text(), 'Primary contact phone number')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
+    page.find(:xpath, "//tr/*/span[contains(text(), 'Contact phone number')]/../..//a[@href='/suppliers/company-contact-details'][text()='Edit']").click
   elsif field_name == 'your_email_address'
     page.find(:xpath, "//tr/*/span[contains(text(), 'Email address')]/../..//a[@href='/suppliers/create-your-account'][text()='Edit']").click
     field_name = 'email_address'
