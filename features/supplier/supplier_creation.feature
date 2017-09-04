@@ -36,7 +36,7 @@ Scenario: User steps through supplier account creation process
   When I change the 'duns_number' to '000000002'
   Then The change made is reflected on the 'Check your information' page
 
-  When I change the 'companies_house_number' to 'A0000002'
+  When I change the 'companies_house_number' to 'SC000002'
   Then The change made is reflected on the 'Check your information' page
 
   When I change the 'company_name' to 'Changed the test company name'
