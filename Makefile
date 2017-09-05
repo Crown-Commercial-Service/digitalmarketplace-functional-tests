@@ -10,7 +10,7 @@ rerun:
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber -p rerun
 
 run-parallel: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -o "-t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "-t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 setup: install clean
 	@echo "Environment:" ${DM_ENVIRONMENT}
