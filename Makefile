@@ -13,7 +13,7 @@ run-parallel: setup
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "-t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 build-report:
-	report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="http://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
+	report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
 
 setup: install clean
 	@echo "Environment:" ${DM_ENVIRONMENT}
