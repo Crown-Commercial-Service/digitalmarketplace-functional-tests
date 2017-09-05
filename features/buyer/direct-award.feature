@@ -9,4 +9,4 @@ Scenario: User can save a search into a new Direct Award Project
   Then I am on the 'Save your search' page
   And I enter 'my cloud project' in the 'Name a new project' field
   And I click 'Create project and save search'
-  Then I am on the 'Project - my cloud project' page
+  Then I am on the 'my cloud project' page
