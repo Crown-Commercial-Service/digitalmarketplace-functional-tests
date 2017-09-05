@@ -9,6 +9,9 @@ run: setup
 rerun:
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber -p rerun
 
+run-parallel: setup
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -o "-t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+
 setup: install clean
 	@echo "Environment:" ${DM_ENVIRONMENT}
 	mkdir -p reports/
@@ -36,4 +39,4 @@ index-services:
 	docker run --net=host digitalmarketplace/scripts scripts/index-services.py dev --api-token=myToken --search-api-token=myToken --index=${FRAMEWORK} --frameworks=${FRAMEWORK}
 
 
-.PHONY: smoke-tests run rerun setup install clean docker-up index-services
+.PHONY: smoke-tests run rerun run-parallel setup install clean docker-up index-services
