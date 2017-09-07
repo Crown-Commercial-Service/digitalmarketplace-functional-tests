@@ -57,7 +57,7 @@ Scenario: Award a requirement to a winning supplier
   Then I see a success banner message containing 'updated'
 
   When I go to that brief overview page
-  Then I see the 'View and shortlist suppliers' link
+  Then I see the 'View suppliers who applied' link
 
   When I go to that brief page
   Then I see a temporary-message banner message containing 'Awarded to'
