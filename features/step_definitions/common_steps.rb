@@ -291,10 +291,10 @@ Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ d
 end
 
 Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
-  expected_text_occurences = all(:xpath, "//*[normalize-space() = \"#{expected_text}\"]").length
+  has_content = page.has_content?(expected_text)
   if negative.empty?
-    expected_text_occurences.should >= 1
-  else expected_text_occurences.should == 0
+    has_content.should be true
+  else has_content.should be false
   end
 end
 
