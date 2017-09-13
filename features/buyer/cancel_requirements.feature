@@ -2,7 +2,7 @@
 Feature: Cancel a requirement
   In order to ensure the procurement process is fair and transparent
   As a buyer within government
-  I want to be able to publish the result of my procurement process
+  I want to cancel my requirement after applications have closed, because I didn't go ahead with the procurement
 
 
 @skip-staging
