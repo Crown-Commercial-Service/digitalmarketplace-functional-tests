@@ -21,6 +21,9 @@ end
 Given /^I am logged in as the buyer of a closed brief$/ do
   closed_brief = get_briefs('digital-outcomes-and-specialists-2', 'closed').sample
   @buyer = closed_brief['users'][0]
+  @brief_id = closed_brief['id']
+  @lot_slug = closed_brief['lotSlug']
+  @framework_slug = closed_brief['frameworkSlug']
   @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
   steps %Q{
     Given that buyer is logged in
