@@ -300,7 +300,7 @@ def delete_all_draft_briefs (user_id)
     brief_id = brief["id"]
     updated_by = {updated_by: "Functional tests"}
 
-    unless ["live", "closed", "withdrawn"].include? brief["status"]
+    unless ["live", "closed", "withdrawn", "unsuccessful", "cancelled"].include? brief["status"]
       puts "deleting draft: #{brief_id}"
       response = call_api(:delete, "/briefs/#{brief_id}", payload: updated_by)
       response.code.should be(200), response.body
