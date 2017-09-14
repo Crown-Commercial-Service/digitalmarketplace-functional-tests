@@ -11,7 +11,7 @@ Scenario: User can see the main links on the homepage
   And I see the 'Find user research participants' link
   And I see the 'Find a user research lab' link
   And I see the 'View Digital Outcomes and Specialists opportunities' link
-  And I see the 'Create a supplier account' link
+  And I see the 'Become a supplier' link
 
 Scenario: User can click through to g-cloud page
   Given I am on the homepage
