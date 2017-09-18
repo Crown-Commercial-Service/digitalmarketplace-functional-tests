@@ -20,7 +20,7 @@ setup: install clean
 	mkdir -p reports/
 
 install:
-	bundle install
+	bundle install --path .bundle
 
 config/local.sh:
 	cp config/example.sh config/local.sh

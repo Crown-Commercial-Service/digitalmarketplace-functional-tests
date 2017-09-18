@@ -1,4 +1,4 @@
-@reset-password @notify
+@reset-password @notify @skip-staging
 Feature: Reset user password
 
 Scenario: Request password reset
