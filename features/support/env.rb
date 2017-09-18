@@ -64,5 +64,9 @@ def dm_pagination_limit()
   (ENV['DM_PAGINATION_LIMIT'] || 100).to_i
 end
 
+def dm_notify_api_key()
+  ENV['DM_NOTIFY_API_KEY']
+end
+
 Capybara.asset_host = dm_frontend_domain
 Capybara.save_path = "reports/"
