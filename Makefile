@@ -7,6 +7,7 @@ run: setup
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
 rerun:
+	[[ -s reports/rerun ]]
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber -p rerun
 
 run-parallel: setup
