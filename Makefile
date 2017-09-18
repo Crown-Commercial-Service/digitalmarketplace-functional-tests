@@ -7,7 +7,7 @@ run: setup
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
 rerun:
-	[[ -s reports/rerun ]]
+	[ -s reports/rerun ] || (echo "rerun file is empty or does not exist"; exit 1)
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber -p rerun
 
 run-parallel: setup
