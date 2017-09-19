@@ -242,6 +242,21 @@ Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
 end
 
+When /I click the summary table Edit link for '(.*)'$/ do |field_to_edit|
+  edit_link = page.find(:xpath, "//tr/*/span[contains(text(), '#{field_to_edit}')]/../..//a[text()]")
+  edit_link.text().should have_content('Edit')
+  edit_link.click
+end
+
+When /I update the value of '(.*)' to '(.*)' using the summary table Edit link/ do |field_to_edit, new_value|
+  summary_page = current_url
+
+  step "I click the summary table Edit link for '#{field_to_edit}'"
+  step "I enter '#{new_value}' in the '#{field_to_edit}' field and click its associated 'Continue' button"
+
+  page.visit(summary_page)
+end
+
 Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
   result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
