@@ -312,3 +312,7 @@ And /^I wait for the page to reload/ do
     loop until page.evaluate_script('jQuery.active').zero?
   end
 end
+
+And /^I wait (\d+) seconds/ do |seconds|
+  sleep seconds.to_i
+end
