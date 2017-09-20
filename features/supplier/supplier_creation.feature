@@ -3,6 +3,9 @@ Feature: Create new supplier account
 
 Scenario: User steps through supplier account creation process
   Given I am on the 'Digital Marketplace' landing page
+  When I click 'Become a supplier'
+  Then I am on the 'Become a supplier' page
+
   When I click 'Create a supplier account'
   Then I am on the 'Create a supplier account' page
 
