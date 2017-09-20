@@ -11,7 +11,7 @@ Scenario: User can see the main links on the homepage
   And I see the 'Find user research participants' link
   And I see the 'Find a user research lab' link
   And I see the 'View Digital Outcomes and Specialists opportunities' link
-  And I see the 'Become a supplier' link
+  And I see the 'Create a supplier account' link
 
 Scenario: User can click through to g-cloud page
   Given I am on the homepage
@@ -72,7 +72,7 @@ Scenario: User is able to click on a random category
   And I see that category_name in the search summary text
   And I see a search result
   And I see fewer search results than noted
-  
+
 Scenario: User is able to click on several random filters
   Given I am on the /g-cloud page
   And I have a random g-cloud lot from the API
