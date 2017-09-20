@@ -1,5 +1,5 @@
 @cancel
-Feature: Cancel a requirement
+Feature: Cancel a requirement outside the award flow
   In order to ensure the procurement process is fair and transparent
   As a buyer within government
   I want to cancel my requirement after applications have closed, because I didn't go ahead with the procurement
@@ -17,7 +17,7 @@ Scenario: Cancel a requirement
   Then I see the 'Cancel requirement' link
 
   When I click the 'Cancel requirement' link
-  Then I am on the 'Why do you need to cancel' page
+  Then I am on the 'Why do you need to cancel %s' page with brief 'title'
 
   When I choose the 'The requirement has been cancelled' radio button
   And I click the 'Update requirement' button
@@ -45,7 +45,7 @@ Scenario: Cancel a requirement where no suitable suppliers applied
   Then I see the 'Cancel requirement' link
 
   When I click the 'Cancel requirement' link
-  Then I am on the 'Why do you need to cancel' page
+  Then I am on the 'Why do you need to cancel %s' page with brief 'title'
 
   When I choose the 'There were no suitable suppliers' radio button
   And I click the 'Update requirement' button
@@ -71,7 +71,7 @@ Scenario: Cancel a requirement
   Then I see the 'Cancel requirement' link
 
   When I click the 'Cancel requirement' link
-  Then I am on the 'Why do you need to cancel' page
+  Then I am on the 'Why do you need to cancel %s' page with brief 'title'
 
   When I choose the 'The requirement has been cancelled' radio button
   And I click the 'Update requirement' button
@@ -98,7 +98,7 @@ Scenario: Cancel a requirement where no suitable suppliers applied
   Then I see the 'Cancel requirement' link
 
   When I click the 'Cancel requirement' link
-  Then I am on the 'Why do you need to cancel' page
+  Then I am on the 'Why do you need to cancel %s' page with brief 'title'
 
   When I choose the 'There were no suitable suppliers' radio button
   And I click the 'Update requirement' button
