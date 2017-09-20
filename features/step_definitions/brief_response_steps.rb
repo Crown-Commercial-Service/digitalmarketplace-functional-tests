@@ -48,9 +48,9 @@ Given /^I go to that brief page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given /^I click the 'Tell us who won this contract' link for that brief$/ do
-  url = "/buyers/frameworks/#{@framework_slug}/requirements/#{@lot_slug}/#{@brief_id}/award-contract"
-  page.find(:xpath, "//a[@href='#{url}']").click
+Given /^I click the '(.*)' link for that brief$/ do | link_text |
+  page.find(:xpath, "//a[text()='#{link_text}' and contains(@href, '#{@brief['id']}')]").click
+
 end
 
 Given /^I go to that brief overview page$/ do
@@ -94,4 +94,8 @@ end
 
 Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
   page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+end
+
+Then /^I am on the '(.*)' page with brief '(.*)'/ do |str, brief_attribute|
+  page.should have_selector('h1', text: normalize_whitespace(str % (@brief[brief_attribute])))
 end
