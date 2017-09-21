@@ -68,3 +68,25 @@ Given /^that (supplier|buyer) is logged in$/ do |user_role|
     Then I see the 'Log out' button
   }
 end
+
+When /^The wrong password is entered (\d+) times for that user$/ do |tries|
+  tries.to_i.times do |n|
+    steps %Q{
+      Given I am on the /user/login page
+      When I enter '#{@user['emailAddress']}' in the 'Email address' field
+      And I enter 'the_wrong_password' in the 'Password' field
+      And I click the 'Log in' button
+    }
+  end
+end
+
+Then /^That user can not log in using their correct password$/ do
+  steps %Q{
+    Given I am on the /user/login page
+    When I enter '#{@user['emailAddress']}' in the 'Email address' field
+    And I enter '#{@user['password']}' in the 'Password' field
+    And I click the 'Log in' button
+    Then I see a destructive banner message containing 'Accounts are locked after 5 failed attempts'
+    And I don't see the 'Log out' button
+  }
+end
