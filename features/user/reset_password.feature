@@ -1,10 +1,18 @@
 @reset-password @notify @skip-staging
 Feature: Reset user password
 
-Scenario: Request password reset
+Background:
   Given I have a buyer user
   And I wait 2 seconds to ensure the reset token is created after the user
-  And I am on the /user/reset-password page
+
+Scenario: User has forgotten their password and requests a password reset
+  When I am on the homepage
+  And I click 'Log in'
+  Then I am on the 'Log in to the Digital Marketplace' page
+
+  When I click 'Forgotten password'
+  Then I am on the 'Reset password' page
+
   When I enter that user.emailAddress in the 'Email address' field
   And I click 'Send reset email' button
   Then I see a success banner message containing 'send a link to reset the password'
