@@ -1,6 +1,6 @@
 @awardflow @skip-preview @skip-local @skip-staging
 Feature: Award Flow
-  Award a brief to a supplier using the wawrd flow accessible from the buyer dash
+  Award a brief to a supplier using the award flow accessible from the buyer dash
 
 
 Background:
