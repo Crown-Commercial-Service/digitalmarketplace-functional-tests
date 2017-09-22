@@ -3,7 +3,7 @@ Feature: Passive opportunity supplier journey
 
 Scenario: User can see the main links on the homepage
   Given I am on the homepage
-  Then I see the 'View Digital Outcomes and Specialists opportunities' link
+  Then I see the 'INTENTIONALLY BROKEN View Digital Outcomes and Specialists opportunities' link
 
 Scenario: User can click through to opportunities page
   Given I am on the homepage
