@@ -10,18 +10,16 @@ end
 
 Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
   brief = create_brief(@framework['slug'], lot_slug, @buyer["id"])
-  brief_id = brief["id"]
-  puts "created brief with id #{brief_id}"
-  brief = publish_brief(brief_id) unless status == "draft"
-  withdraw_brief(brief_id) if status == "withdrawn"
-  @brief_id = brief_id
+  puts "created brief with id #{brief['id']}"
+  brief = publish_brief(brief['id']) unless status == "draft"
+  withdraw_brief(brief['id']) if status == "withdrawn"
   @brief = brief
 end
 
 Given /^I am logged in as the buyer of a closed brief$/ do
   closed_brief = get_briefs('digital-outcomes-and-specialists-2', 'closed').sample
+  @brief = closed_brief
   @buyer = closed_brief['users'][0]
-  @brief_id = closed_brief['id']
   @lot_slug = closed_brief['lotSlug']
   @framework_slug = closed_brief['frameworkSlug']
   @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
@@ -32,11 +30,10 @@ end
 
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
   submitted_brief_response = get_brief_responses('digital-outcomes-and-specialists-2', 'submitted', 'closed').sample
-  closed_brief = get_brief(submitted_brief_response['brief']['id'])
-  @brief_id = closed_brief['id']
-  @lot_slug = closed_brief['lotSlug']
-  @framework_slug = closed_brief['frameworkSlug']
-  @buyer = closed_brief['users'][0]
+  @brief = get_brief(submitted_brief_response['brief']['id'])
+  @lot_slug = @brief['lotSlug']
+  @framework_slug = @brief['frameworkSlug']
+  @buyer = @brief['users'][0]
   @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
   steps %Q{
     Given that buyer is logged in
@@ -44,17 +41,17 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
 end
 
 Given /^I go to that brief page$/ do
-  url = "/digital-outcomes-and-specialists/opportunities/#{@brief_id}"
+  url = "/digital-outcomes-and-specialists/opportunities/#{@brief['id']}"
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given /^I click the 'Tell us who won this contract' link for that brief$/ do
-  url = "/buyers/frameworks/#{@framework_slug}/requirements/#{@lot_slug}/#{@brief_id}/award-contract"
-  page.find(:xpath, "//a[@href='#{url}']").click
+Given /^I click the '(.*)' link for that brief$/ do | link_text |
+  page.find(:xpath, "//a[text()='#{link_text}' and contains(@href, '#{@brief['id']}')]").click
+
 end
 
 Given /^I go to that brief overview page$/ do
-  url = "/buyers/frameworks/digital-outcomes-and-specialists-2/requirements/#{@lot_slug}/#{@brief_id}"
+  url = "/buyers/frameworks/#{@framework_slug}/requirements/#{@lot_slug}/#{@brief['id']}"
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
@@ -76,7 +73,7 @@ Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do 
 end
 
 Given 'that supplier has filled in their response to that brief but not submitted it' do
-  @brief_response = create_brief_response(@brief['lotSlug'], @brief_id, @supplier['id'])
+  @brief_response = create_brief_response(@brief['lotSlug'], @brief['id'], @supplier['id'])
 end
 
 Given 'that supplier submits their response to that brief' do
@@ -88,10 +85,14 @@ Then /^I visit the '(.*)' question page for that brief response$/ do |question|
     word.capitalize! if index != 0
   end
   question_id = snaked.join
-  url = "/suppliers/opportunities/#{@brief_id}/responses/#{@brief_response}/#{question_id}"
+  url = "/suppliers/opportunities/#{@brief['id']}/responses/#{@brief_response}/#{question_id}"
   step "I am on the #{url} page"
 end
 
 Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
   page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+end
+
+Then /^I am on the '(.*)' page with brief '(.*)'/ do |str, brief_attribute|
+  page.should have_selector('h1', text: normalize_whitespace(str % (@brief[brief_attribute])))
 end
