@@ -7,13 +7,6 @@ Scenario: Setup for tests
   And The test suppliers have live services
   And Test supplier users are active
 
-Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
-  Given I am on the login page
-  When I login as a 'Supplier' user
-  Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page
-  When I click 'Log out'
-  Then I am logged out of Digital Marketplace
-
 Scenario: As a logged in supplier user, I can see my active contributors on the contributors page
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'Contributors'
