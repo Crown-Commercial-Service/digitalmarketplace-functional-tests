@@ -1,4 +1,4 @@
-@awardflow @skip-preview @skip-local @skip-staging
+@awardflow @skip-preview @skip-local
 Feature: Award Flow
   Award a brief to a supplier using the award flow accessible from the buyer dash
 
