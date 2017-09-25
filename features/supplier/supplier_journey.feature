@@ -7,13 +7,6 @@ Scenario: Setup for tests
   And The test suppliers have live services
   And Test supplier users are active
 
-Scenario: As supplier user I wish be able to log in and to log out of Digital Marketplace
-  Given I am on the login page
-  When I login as a 'Supplier' user
-  Then I am presented with the 'DM Functional Test Supplier' 'Supplier' dashboard page
-  When I click 'Log out'
-  Then I am logged out of Digital Marketplace
-
 Scenario: As a logged in supplier user, I can see my active contributors on the contributors page
   Given I am logged in as 'DM Functional Test Supplier' 'Supplier' user and am on the dashboard page
   When I click 'Contributors'
@@ -64,17 +57,3 @@ Scenario: As a logged in supplier user, I can edit the features and benefits of 
   And I add 'This is a new service feature' as a 'serviceFeatures'
   And I click 'Save and return to service'
   Then I am presented with the summary page with the changes that were made to the 'Features and benefits'
-
-Scenario: Supplier user has 5 failed login attempts and is locked. Login is not allowed unless admin unlocks the user
-  Given The supplier user 'DM Functional Test Supplier User 3' has 5 failed login attempts
-  Then The supplier user 'DM Functional Test Supplier User 3' is 'locked' on the admin Users page
-  And The supplier user 'DM Functional Test Supplier User 3' 'can not' login to Digital Marketplace
-
-Scenario: Supplier has forgotten password and requests for a password reset
-  Given I am on the login page
-  When I click 'Forgotten password'
-  Then I am presented with the /"Reset password" page/
-
-  When I enter 'testing.supplier.username4@dmtestemail.com' in the 'email_address' field
-  And I click 'Send reset email'
-  Then I am presented with the message 'If the email address you've entered belongs to a Digital Marketplace account, we'll send a link to reset the password.'
