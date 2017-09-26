@@ -126,6 +126,14 @@
     };
     version = "2.0.2";
   };
+  jwt = {
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "124zz1142bi2if7hl5pcrcamwchv4icyr5kaal9m2q6wqbdl6aw4";
+      type = "gem";
+    };
+    version = "1.5.6";
+  };
   launchy = {
     dependencies = ["addressable"];
     source = {
@@ -192,6 +200,14 @@
       type = "gem";
     };
     version = "1.6.8.1";
+  };
+  notifications-ruby-client = {
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "1z4pawvms2xqsn64x0ixs7q76bdnqsflwp2kn776z7m43ww14msi";
+      type = "gem";
+    };
+    version = "2.2.0";
   };
   parallel = {
     source = {
