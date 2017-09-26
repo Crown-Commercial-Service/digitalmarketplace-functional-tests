@@ -80,3 +80,4 @@ Scenario: Award flow - Abort flow as still evaluating
   Given I choose 'We are still evaluating suppliers' radio button
   And I click the 'Save and continue' button
   Then I am on the 'Your requirements' page
+  And I see a success banner message containing 'updated'
