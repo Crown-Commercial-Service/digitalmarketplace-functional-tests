@@ -78,7 +78,7 @@ Scenario: Award flow - Abort flow as still evaluating
 
   Given I choose 'We are still evaluating suppliers' radio button
   And I click the 'Save and continue' button
-  Then I see 'Unpublished requirements.' text on the page
-  And I see 'Published requirements.' text on the page
-  And I see 'Closed requirements.' text on the page
+  Then I see 'Unpublished requirements' text on the page
+  And I see 'Published requirements' text on the page
+  And I see 'Closed requirements' text on the page
   And I see a success banner message containing 'updated'
