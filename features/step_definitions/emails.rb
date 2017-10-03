@@ -23,3 +23,9 @@ end
 Then /^I click the link in that email$/ do
   page.visit(URI.extract(@email_text).select { |i| i.start_with?('http') } [0])
 end
+
+Given /^I have an email address with an accepted buyer domain$/ do
+  randomString = SecureRandom.hex
+  @email_address = randomString + '@example.gov.uk'
+  puts "Email address: #{@email_address}"
+end
