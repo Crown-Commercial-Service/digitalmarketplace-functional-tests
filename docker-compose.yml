@@ -70,7 +70,7 @@ services:
     environment:
       - DM_ENVIRONMENT=development
       - DM_DATA_API_URL=http://api:80
-      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
@@ -103,6 +103,7 @@ services:
       - DM_ENVIRONMENT=development
       - DM_DATA_API_URL=http://api:80
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
+      - DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
       - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -123,7 +124,7 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - DM_MANDRILL_API_KEY=${DM_MANDRILL_API_KEY}
+      - DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
     command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
