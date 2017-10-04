@@ -1,5 +1,9 @@
 FROM alpine:3.5
+
+ENV VARNISH_VCL_CONF /etc/varnish/default.vcl
+
 RUN apk update && \
+    apk add varnish && \
     apk add nginx && \
     adduser -D -u 1000 -g 'www' www && \
     mkdir -p /run/nginx && \
@@ -7,7 +11,9 @@ RUN apk update && \
     echo "dev-user:$apr1$TsFsw2w3$0/IUik8rZLq8MevCuODap" >> /etc/nginx/.htpasswd
 
 COPY nginx/docker_nginx.conf /etc/nginx/nginx.conf
+COPY nginx/run.sh /app/run.sh
+COPY varnish/default.vcl /etc/varnish/default.vcl
 
-EXPOSE 80
+EXPOSE 80 6081 6082
 
-ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["/app/run.sh"]
