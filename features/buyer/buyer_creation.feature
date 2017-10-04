@@ -19,7 +19,6 @@ Scenario: Create a new buyer account when trying to create a requirement from th
 
   And I receive a 'create-user-account' email for that email_address
   And I click the link in that email
-  Then I take a screenshot
   Then I am on the 'Create a new Digital Marketplace account' page
   When I enter 'Hugs and Cuddles Ministry' in the 'Your name' field
   And I enter 'Password1234' in the 'Password' field
