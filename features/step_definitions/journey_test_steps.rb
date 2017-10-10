@@ -426,14 +426,6 @@ And /I remove service benefit number 2$/ do
   find(:xpath, ".//*[@id='serviceBenefits']//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
 end
 
-And /I remove client number 2$/ do
-  @changed_fields['clients-2'] = find(
-    :xpath,
-    "//*[contains(@id, 'clients-2')]"
-  ).value()
-  find(:xpath, ".//*[@id='list-entry-clients']//*[@class='button-secondary list-entry-remove']//span[contains(text(), 'number 2')]/..").click
-end
-
 And /I add '(.*)' as a '(.*)'$/ do |value,item_to_add|
   record_number_to_add = (11 - ((find(
     :xpath,
@@ -588,9 +580,7 @@ When /I navigate to the '(.*)' '(.*)' page$/ do |action,page_name|
   elsif page_name == 'Supplier information'
     page.should have_content('Edit '"#{page_name.downcase}")
     page.should have_content('Supplier summary')
-    page.should have_content('Clients')
     page.should have_content('Contact name')
-    page.should have_content('Website')
     page.should have_content('Email address')
     page.should have_content('Phone number')
     page.should have_content('Business address')
