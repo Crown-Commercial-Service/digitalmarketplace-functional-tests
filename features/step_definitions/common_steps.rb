@@ -256,6 +256,12 @@ Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
 end
 
+When /^I click the top\-level summary table Edit link for the section '(.*)'$/ do |field_to_edit|
+  edit_link = page.find(:xpath, "//h2[contains(text(), '#{field_to_edit}')]/following-sibling::p[1]/a[text()]")
+  edit_link.text().should have_content('Edit')
+  edit_link.click
+end
+
 When /I click the summary table Edit link for '(.*)'$/ do |field_to_edit|
   edit_link = page.find(:xpath, "//tr/*/span[contains(text(), '#{field_to_edit}')]/../..//a[text()]")
   edit_link.text().should have_content('Edit')
