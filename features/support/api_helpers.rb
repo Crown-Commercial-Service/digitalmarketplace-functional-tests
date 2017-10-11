@@ -275,6 +275,8 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
       service_data['services'] = Fixtures.user_research_participants_service
     when 'user-research-studios'
       service_data['services'] = Fixtures.user_research_studios_service
+    when 'cloud-support'
+      service_data['services'] = Fixtures.cloud_support_service
     else
       puts 'Lot slug not recoginsed'
   end

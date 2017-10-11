@@ -238,4 +238,48 @@ module Fixtures
       respondToEmailAddress: "example-email@gov.uk",
     }
   end
+
+  def self.cloud_support_service
+    return {
+      # `nil` values should be updated within the step when this fixture is used
+      id: nil,
+      supplierId: nil,
+      frameworkSlug: nil,
+      lot: 'cloud-support',
+      educationPricing: true,
+      emailOrTicketingSupport: "no",
+      governmentSecurityClearances: "dv",
+      ongoingSupport: false,
+      phoneSupport: false,
+      planningService: true,
+      planningServiceCompatibility: false,
+      planningServiceDescription: "Value-for-money Digital Strategy for all!",
+      priceInterval: "Day",
+      priceMax: "700",
+      priceMin: "200",
+      priceUnit: "Person",
+      pricingDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      QAAndTesting: false,
+      resellingType: "not_reseller",
+      securityTesting: false,
+      serviceBenefits: [
+          "Benefit 1",
+          "Benefit 2"
+      ],
+      serviceConstraints: "None",
+      serviceDefinitionDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      serviceDescription: "Deliver digital transformation by the bucketload!",
+      serviceFeatures: [
+          "Feature 1"
+      ],
+      serviceName: "Test cloud support service",
+      setupAndMigrationService: false,
+      sfiaRateDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      staffSecurityClearanceChecks: "staff_screening_not_bs7858_2012",
+      supportLevels: "None",
+      termsAndConditionsDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      training: false,
+      webChatSupport: "no",
+    }
+  end
 end
