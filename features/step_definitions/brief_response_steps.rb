@@ -45,23 +45,6 @@ Given /^I go to that brief overview page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
-  organisation_size ||= ['micro', 'small', 'medium', 'large'].sample
-  submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete', 'organisationSize': organisation_size})
-end
-
-Given 'we accept that suppliers application to the framework' do
-  set_supplier_on_framework(@framework['slug'], @supplier["id"], true)
-end
-
-Given 'that supplier returns a signed framework agreement for the framework' do
-  sign_framework_agreement(@framework['slug'], @supplier['id'], @supplier_user['id'])
-end
-
-Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|
-  @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"], role_type)
-end
-
 Given 'that supplier has filled in their response to that brief but not submitted it' do
   @brief_response = create_brief_response(@brief['lotSlug'], @brief['id'], @supplier['id'])
 end
