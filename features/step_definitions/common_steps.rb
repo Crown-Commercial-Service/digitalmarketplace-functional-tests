@@ -20,6 +20,16 @@ Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
   end
 end
 
+Given /^I have a live (.*) framework$/ do |metaframework_slug|
+  response = call_api(:get, "/frameworks")
+  response.code.should be(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  frameworks.delete_if {|framework| framework['framework'] != metaframework_slug || framework['status'] != 'live'}
+  frameworks.empty?.should be(false), _error(response, "No live #{metaframework_slug} frameworks found")
+  @framework = frameworks[0]
+  puts @framework['slug']
+end
+
 Given /^I have a random g-cloud service from the API$/ do
   frameworks = call_api(:get, "/frameworks")
   live_g_cloud_slugs = JSON.parse(frameworks.body)["frameworks"].select {|framework|
