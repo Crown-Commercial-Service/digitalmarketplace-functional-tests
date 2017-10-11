@@ -298,8 +298,7 @@ Scenario: Supplier asks a clarification question
   Then I see a success banner message containing 'Your question has been sent.'
 
 Scenario: Supplier can see sign framework agreement call to action
-  Given I have a live digital-outcomes-and-specialists framework
-  And that supplier has applied to be on that framework
+  Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
@@ -309,8 +308,7 @@ Scenario: Supplier can see sign framework agreement call to action
 
 @opportunities-dashboard
 Scenario: Supplier can see the link to the opportunities dashboard
-  Given I have a live digital-outcomes-and-specialists framework
-  And that supplier has applied to be on that framework
+  Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
   And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
@@ -321,8 +319,7 @@ Scenario: Supplier can see the link to the opportunities dashboard
 
 @opportunities-dashboard
 Scenario: Supplier can see the empty string on the opportunities dashboard
-  Given I have a live digital-outcomes-and-specialists framework
-  And that supplier has applied to be on that framework
+  Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
   And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
@@ -334,8 +331,7 @@ Scenario: Supplier can see the empty string on the opportunities dashboard
 
 @opportunities-dashboard
 Scenario: Supplier can see their opportunity response
-  Given I have a live digital-outcomes-and-specialists framework
-  And that supplier has applied to be on that framework
+  Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
   And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
