@@ -139,7 +139,7 @@ Scenario: Create user research participants
 
 @skip-local @skip-preview
 Scenario Outline: Copy requirements
-  Given I have a live digital outcomes and specialists framework
+  Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
   And that buyer is logged in
   And I have a <status> digital-specialists brief
@@ -158,7 +158,7 @@ Scenario Outline: Copy requirements
 
 @skip-staging @skip-production
 Scenario Outline: Copy requirements
-  Given I have a live digital outcomes and specialists framework
+  Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
   And that buyer is logged in
   And I have a <status> digital-specialists brief
@@ -179,7 +179,7 @@ Scenario Outline: Copy requirements
 
 @skip-local @skip-preview
 Scenario Outline: View requirement in a dashboard
-  Given I have a live digital outcomes and specialists framework
+  Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
   And that buyer is logged in
   And I have a <status> digital-specialists brief
@@ -195,7 +195,7 @@ Scenario Outline: View requirement in a dashboard
 
 @skip-staging @skip-production
 Scenario Outline: View requirement in a dashboard
-  Given I have a live digital outcomes and specialists framework
+  Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
   And that buyer is logged in
   And I have a <status> digital-specialists brief

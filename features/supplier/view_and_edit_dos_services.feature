@@ -1,8 +1,8 @@
-@view_and_edit_services
+@view_and_edit_dos_services
 Feature: Supplier being able to view their DOS services
 
 Background:
-  Given I have a live digital outcomes and specialists framework
+  Given I have a live digital-outcomes-and-specialists framework
   And I have a supplier
   And that supplier is logged in
   And that supplier has applied to be on that framework

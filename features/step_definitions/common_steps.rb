@@ -20,6 +20,16 @@ Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
   end
 end
 
+Given /^I have a live (.*) framework$/ do |metaframework_slug|
+  response = call_api(:get, "/frameworks")
+  response.code.should be(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  frameworks.delete_if {|framework| framework['framework'] != metaframework_slug || framework['status'] != 'live'}
+  frameworks.empty?.should be(false), _error(response, "No live #{metaframework_slug} frameworks found")
+  @framework = frameworks[0]
+  puts @framework['slug']
+end
+
 Given /^I have a random g-cloud service from the API$/ do
   frameworks = call_api(:get, "/frameworks")
   live_g_cloud_slugs = JSON.parse(frameworks.body)["frameworks"].select {|framework|
@@ -246,6 +256,12 @@ Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
 end
 
+When /^I click the top\-level summary table Edit link for the section '(.*)'$/ do |field_to_edit|
+  edit_link = page.find(:xpath, "//h2[contains(text(), '#{field_to_edit}')]/following-sibling::p[1]/a[text()]")
+  edit_link.text().should have_content('Edit')
+  edit_link.click
+end
+
 When /I click the summary table Edit link for '(.*)'$/ do |field_to_edit|
   edit_link = page.find(:xpath, "//tr/*/span[contains(text(), '#{field_to_edit}')]/../..//a[text()]")
   edit_link.text().should have_content('Edit')
@@ -262,7 +278,7 @@ When /I update the value of '(.*)' to '(.*)' using the summary table Edit link/ 
 end
 
 Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
+  result_table_location = "//caption[@class='visually-hidden'][normalize-space(text())=\"#{table_heading}\"]/parent::table"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
   result_table_rows = all(:xpath, result_table_rows_location)
 
