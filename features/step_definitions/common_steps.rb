@@ -278,7 +278,7 @@ When /I update the value of '(.*)' to '(.*)' using the summary table Edit link/ 
 end
 
 Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::table[1]"
+  result_table_location = "//caption[@class='visually-hidden'][normalize-space(text())=\"#{table_heading}\"]/parent::table"
   result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
   result_table_rows = all(:xpath, result_table_rows_location)
 
