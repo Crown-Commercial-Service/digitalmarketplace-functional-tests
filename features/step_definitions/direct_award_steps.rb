@@ -1,4 +1,4 @@
-When(/^I have a created and saved a search$/) do
+When(/^I have created and saved a search$/) do
   steps %Q{
     Given I am on the /g-cloud/search page
     And I click 'Save search'

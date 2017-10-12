@@ -10,7 +10,7 @@ Scenario: Users should see new Dashboard
 
 Scenario: Users should see link when there are searches available to view
   Given I am logged in as a buyer user
-  And I have a created and saved a search
+  And I have created and saved a search
   And I am on the /buyers page
   Then I see the 'View your saved searches' link
 
