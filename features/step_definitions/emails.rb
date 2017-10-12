@@ -29,3 +29,9 @@ Given /^I have an email address with an accepted buyer domain$/ do
   @email_address = randomString + '@example.gov.uk'
   puts "Email address: #{@email_address}"
 end
+
+Given /^I have a random email address$/ do
+  randomString = SecureRandom.hex
+  @email_address = randomString + '@example.com'
+  puts "Email address: #{@email_address}"
+end
