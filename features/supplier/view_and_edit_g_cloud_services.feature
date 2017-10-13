@@ -2,7 +2,7 @@
 Feature: G-Cloud supplier can view and edit their G-Cloud services
 
 Background:
-  Given I have a live g-cloud framework
+  Given I have a live g-cloud framework with the cloud-support lot
   And I have a supplier
   And that supplier is logged in
   And that supplier has applied to be on that framework

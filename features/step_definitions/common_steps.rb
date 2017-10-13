@@ -20,12 +20,15 @@ Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
   end
 end
 
-Given /^I have a live (.*) framework$/ do |metaframework_slug|
+Given /^I have a live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
   response = call_api(:get, "/frameworks")
   response.code.should be(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
   frameworks.delete_if {|framework| framework['framework'] != metaframework_slug || framework['status'] != 'live'}
-  frameworks.empty?.should be(false), _error(response, "No live #{metaframework_slug} frameworks found")
+  if lot_slug
+    frameworks.delete_if {|framework| framework['lots'].select { |lot| lot["slug"] == lot_slug}.to_a.empty?}
+  end
+  frameworks.empty?.should be(false), _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
   @framework = frameworks[0]
   puts @framework['slug']
 end
