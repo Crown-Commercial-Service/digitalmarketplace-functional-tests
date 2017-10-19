@@ -10,9 +10,10 @@ services:
       - SQLALCHEMY_DATABASE_URI=postgresql://dmdev:dmdevpasswd@postgres:5432/digitalmarketplace
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_DATA_API_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c "/compose-scripts/wait-for-postgres.py && python application.py db upgrade
-      && supervisord --configuration /etc/supervisord.conf"
+      && python application.py runserver --host 0.0.0.0 --port 80"
     depends_on:
       - postgres
 
@@ -24,7 +25,9 @@ services:
     environment:
       - DM_ENVIRONMENT=development
       - DM_ELASTICSEARCH_URL=http://elasticsearch:9200
-    command: bash -c 'supervisord --configuration /etc/supervisord.conf'
+    volumes:
+      - ${DM_SEARCH_API_DEVELOPMENT_REPO}:/repo
+    command: bash -c 'python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - elasticsearch
 
@@ -40,7 +43,8 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      - ${DM_USER_FRONTEND_DEVELOPMENT_REPO}:/repo
+    command: bash -c '/compose-scripts/wait-for-api.sh && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - api
 
@@ -57,7 +61,8 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      - ${DM_BUYER_FRONTEND_DEVELOPMENT_REPO}:/repo
+    command: bash -c '/compose-scripts/wait-for-api.sh && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - api
       - search-api
@@ -74,7 +79,8 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      - ${DM_BRIEFS_FRONTEND_DEVELOPMENT_REPO}:/repo
+    command: bash -c '/compose-scripts/wait-for-api.sh && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - api
 
@@ -90,7 +96,8 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      - ${DM_BRIEF_RESPONSES_FRONTEND_DEVELOPMENT_REPO}:/repo
+    command: bash -c '/compose-scripts/wait-for-api.sh && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - api
 
@@ -109,7 +116,8 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      - ${DM_SUPPLIER_FRONTEND_DEVELOPMENT_REPO}:/repo
+    command: bash -c '/compose-scripts/wait-for-api.sh && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - api
 
@@ -127,7 +135,8 @@ services:
       - DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      - ${DM_ADMIN_FRONTEND_DEVELOPMENT_REPO}:/repo
+    command: bash -c '/compose-scripts/wait-for-api.sh && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - api
 
