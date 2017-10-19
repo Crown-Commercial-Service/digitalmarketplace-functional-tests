@@ -23,7 +23,7 @@ services:
       - "5001:80"
     environment:
       - DM_ENVIRONMENT=development
-      - DM_ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
     command: bash -c 'supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - elasticsearch
