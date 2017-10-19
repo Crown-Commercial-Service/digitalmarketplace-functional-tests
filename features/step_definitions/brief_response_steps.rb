@@ -6,12 +6,12 @@ Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
   @brief = brief
 end
 
-Given /^I am logged in as the buyer of a closed brief$/ do
-  closed_brief = get_briefs('digital-outcomes-and-specialists-2', 'closed').sample
-  @brief = closed_brief
-  @buyer = closed_brief['users'][0]
-  @lot_slug = closed_brief['lotSlug']
-  @framework_slug = closed_brief['frameworkSlug']
+Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
+  matched_brief = get_briefs('digital-outcomes-and-specialists-2', status).sample
+  @brief = matched_brief
+  @buyer = matched_brief['users'][0]
+  @lot_slug = matched_brief['lotSlug']
+  @framework_slug = matched_brief['frameworkSlug']
   @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
   steps %Q{
     Given that buyer is logged in
@@ -37,10 +37,10 @@ end
 
 Given /^I click the '(.*)' link for that brief$/ do | link_text |
   page.find(:xpath, "//a[text()='#{link_text}' and contains(@href, '#{@brief['id']}')]").click
-
 end
 
 Given /^I go to that brief overview page$/ do
+  puts @brief
   url = "/buyers/frameworks/#{@framework_slug}/requirements/#{@lot_slug}/#{@brief['id']}"
   page.visit("#{dm_frontend_domain}#{url}")
 end
@@ -68,4 +68,21 @@ end
 
 Then /^I am on the '(.*)' page with brief '(.*)'/ do |str, brief_attribute|
   page.should have_selector('h1', text: normalize_whitespace(str % (@brief[brief_attribute])))
+end
+
+Given /^I publish an answer to a question$/ do
+  @random_question_text = SecureRandom.hex
+  @random_answer_text = SecureRandom.hex
+  steps %Q{
+      Then I enter '#{@random_question_text}' in the 'question' field
+      Then I enter '#{@random_answer_text}' in the 'answer' field
+      Then I click the 'Publish question and answer' button
+  }
+end
+
+Then /^I see the published question and answer$/ do
+  steps %Q{
+      Then I see '#{@random_question_text}' in the 'Questions asked by suppliers' summary table
+      Then I see '#{@random_answer_text}' in the 'Questions asked by suppliers' summary table
+  }
 end
