@@ -809,7 +809,6 @@ Then /I am presented with the 'Suppliers' page for all suppliers starting with '
     page.should have_no_link('Services')
   when 'CCS Category'
     expected_links = ['Users', 'Services']
-    page.should have_no_link('Change name')
     page.should have_no_link('Edit declaration')
     page.should have_no_link('Agreement')
     page.should have_no_link('Signed agreement')
