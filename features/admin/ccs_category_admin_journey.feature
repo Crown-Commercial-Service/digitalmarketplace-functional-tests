@@ -31,16 +31,12 @@ Scenario: CCS Category should not have access to certain admin pages
   Given I have logged in to Digital Marketplace as a 'CCS Category' user
   Then There is no 'G-Cloud 7 agreements' link
   And There is no 'Digital Outcomes and Specialists agreements' link
-  And There is no 'Digital Outcomes and Specialists communications' link
   And There is no 'Download user list' link
 
   When I attempt to load the 'G-Cloud 7 agreements' page directly via the URL 'admin/agreements/g-cloud-7'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
   When I attempt to load the 'Digital Outcomes and Specialists agreements' page directly via the URL 'admin/agreements/digital-outcomes-and-specialists'
-  Then I am presented with the 'You don’t have permission to perform this action' warning page
-
-  When I attempt to load the 'Digital Outcomes and Specialists communications' page directly via the URL 'admin/communications/digital-outcomes-and-specialists'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
   When I attempt to load the 'Download user list' page directly via the URL 'admin/users/download'
