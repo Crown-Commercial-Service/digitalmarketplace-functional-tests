@@ -40,7 +40,6 @@ Given /^I click the '(.*)' link for that brief$/ do | link_text |
 end
 
 Given /^I go to that brief overview page$/ do
-  puts @brief
   url = "/buyers/frameworks/#{@framework_slug}/requirements/#{@lot_slug}/#{@brief['id']}"
   page.visit("#{dm_frontend_domain}#{url}")
 end

@@ -50,3 +50,40 @@ Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |
     end
   end
 end
+
+Then /^I see the details of the brief match what was published$/ do
+  steps %Q{
+    Given I see the 'Overview' summary table filled with:
+      | field                        | value                         |
+      | Specialist role              | Developer                     |
+      | Summary of the work          | #{@brief['summary']}          |
+      | Latest start date            | #{DateTime.strptime(@brief['startDate'], '%Y-%m-%d').strftime('%A %-d %B %Y')} |
+      | Expected contract length     |                               |
+      | Location                     | #{@brief['workplaceAddress']} |
+      | Organisation the work is for | #{@brief['organisation']}     |
+      | Maximum day rate             |                               |
+    Given I see the 'About the work' summary table filled with:
+      | field                             | value                         |
+      | Early market engagement           |                               |
+      | Who the specialist will work with | #{@brief['existingTeam']}     |
+      | What the specialist will work on  | #{@brief['specialistWork']}   |
+    Given I see the 'Work setup' summary table filled with:
+      | field                                  | value                            |
+      | Address where the work will take place | #{@brief['workplaceAddress']}    |
+      | Working arrangements                   | #{@brief['workingArrangements']} |
+      | Security clearance                     |                                  |
+    Given I see the 'Additional information' summary table filled with:
+      | field                                  | value                            |
+      | Additional terms and conditions        |                                  |
+    Given I see the 'Skills and experience' summary table filled with:
+      | field                                  | value                                         |
+      | Essential skills and experience        | #{@brief['essentialRequirements'].join(' ')}  |
+      | Nice-to-have skills and experience     | #{@brief['niceToHaveRequirements'].join(' ')} |
+    Given I see the 'How suppliers will be evaluated' summary table filled with:
+      | field                                  | value                                                                                                                                 |
+      | How many specialists to evaluate       | #{@brief['numberOfSuppliers']}                                                                                                        |
+      | Cultural fit criteria                  | #{@brief['culturalFitCriteria'].join(' ')}                                                                                            |
+      | Assessment methods                     | Work history                                                                                                                          |
+      | Evaluation weighting                   | Technical competence #{@brief['technicalWeighting']}% Cultural fit #{@brief['culturalWeighting']}% Price #{@brief['priceWeighting']}% |
+  }
+end
