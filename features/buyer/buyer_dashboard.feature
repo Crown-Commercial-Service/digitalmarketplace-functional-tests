@@ -1,4 +1,4 @@
-@skip-staging @skip-production
+@skip-production
 @buyer-dashboard
 Feature: Buyer Dashboard
 
