@@ -137,7 +137,7 @@ Scenario: Create user research participants
    And I don't see the 'Review and publish your requirements' link
 
 
-@skip-local @skip-preview
+@skip-local @skip-preview @skip-staging 
 Scenario Outline: Copy requirements
   Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
@@ -156,7 +156,7 @@ Scenario Outline: Copy requirements
     | withdrawn |
     | draft     |
 
-@skip-staging @skip-production
+@skip-production
 Scenario Outline: Copy requirements
   Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
@@ -177,7 +177,7 @@ Scenario Outline: Copy requirements
     | draft     |
 
 
-@skip-local @skip-preview
+@skip-local @skip-preview @skip-staging
 Scenario Outline: View requirement in a dashboard
   Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
@@ -193,7 +193,7 @@ Scenario Outline: View requirement in a dashboard
     | withdrawn | Closed requirements      |
     | draft     | Unpublished requirements |
 
-@skip-staging @skip-production
+@skip-production
 Scenario Outline: View requirement in a dashboard
   Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer

@@ -5,7 +5,6 @@ Feature: Cancel a requirement outside the award flow
   I want to cancel my requirement after applications have closed, because I didn't go ahead with the procurement
 
 
-@skip-staging
 Scenario: Cancel a requirement
   Given I am logged in as the buyer of a closed brief
 
@@ -33,7 +32,6 @@ Scenario: Cancel a requirement
   And I see a temporary-message banner message containing 'They may publish an updated version later.'
 
 
-@skip-staging
 Scenario: Cancel a requirement where no suitable suppliers applied
   Given I am logged in as the buyer of a closed brief
 
