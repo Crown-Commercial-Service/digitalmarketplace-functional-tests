@@ -1,4 +1,3 @@
-@skip-production
 @buyer-dashboard
 Feature: Buyer Dashboard
 
