@@ -1,4 +1,3 @@
-@skip-production
 @direct-award
 Feature: Direct Award flows
 
