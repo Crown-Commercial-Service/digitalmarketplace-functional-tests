@@ -1,4 +1,4 @@
-@skip-staging @skip-production
+@skip-production
 @smoke-tests
 @direct-award-passive
 Feature: Direct Award passive assurance
