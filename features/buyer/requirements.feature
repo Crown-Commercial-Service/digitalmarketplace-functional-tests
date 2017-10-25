@@ -137,26 +137,6 @@ Scenario: Create user research participants
    And I don't see the 'Review and publish your requirements' link
 
 
-@skip-local @skip-preview @skip-staging 
-Scenario Outline: Copy requirements
-  Given I have a live digital-outcomes-and-specialists framework
-  And I have a buyer
-  And that buyer is logged in
-  And I have a <status> digital-specialists brief
-  And I am on the /buyers page
-  When I click the 'Make a copy' button
-  Then I am on the 'What you want to call your requirements' page
-  And I see 'Tea drinker copy' as the value of the 'title' field
-  When I click the 'Save and continue' button
-  Then I am on the 'Tea drinker copy' page
-
-  Examples:
-    | status    |
-    | live      |
-    | withdrawn |
-    | draft     |
-
-@skip-production
 Scenario Outline: Copy requirements
   Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
@@ -177,23 +157,6 @@ Scenario Outline: Copy requirements
     | draft     |
 
 
-@skip-local @skip-preview @skip-staging
-Scenario Outline: View requirement in a dashboard
-  Given I have a live digital-outcomes-and-specialists framework
-  And I have a buyer
-  And that buyer is logged in
-  And I have a <status> digital-specialists brief
-  When I click 'View your account'
-  Then I am on the /buyers page
-  And I see 'Tea drinker' in the '<table heading>' summary table
-
-  Examples:
-    | status    | table heading            |
-    | live      | Published requirements   |
-    | withdrawn | Closed requirements      |
-    | draft     | Unpublished requirements |
-
-@skip-production
 Scenario Outline: View requirement in a dashboard
   Given I have a live digital-outcomes-and-specialists framework
   And I have a buyer
