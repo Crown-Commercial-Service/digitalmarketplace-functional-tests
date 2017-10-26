@@ -183,6 +183,21 @@ Scenario: Delete a draft requirement
   Then I see a success banner message containing 'were deleted'
 
 
+Scenario: Withdraw a live requirement
+  Given I am logged in as the buyer of a live brief
+
+  When I click the 'View your account' link
+  And I click the 'View your requirements' link
+  Then I see that the 'Published requirements' summary table has 1 or more entries
+
+  When I go to that brief overview page
+  Then I see the 'Withdraw requirements' link
+  And I click 'Withdraw requirements'
+  Then I see a destructive banner message containing 'Are you sure you want to withdraw these requirements?'
+  When I click 'Withdraw requirements'
+  Then I see a success banner message containing 'withdrawn your requirements'
+
+
 Scenario: Edit a draft requirement
   Given I am logged in as a buyer user
   And I have created an individual specialist requirement
