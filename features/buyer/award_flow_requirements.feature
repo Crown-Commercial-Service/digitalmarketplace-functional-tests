@@ -47,8 +47,8 @@ Scenario: Award Flow - Cancel a requirement
   And I click the 'Save and continue' button
   Then I am on the 'Why didn't you award a contract for %s?' page with brief 'title'
 
-  When I choose 'The requirement has been cancelled' radio button
-  And I click the 'Update requirement' button
+  When I choose 'Your requirements have been cancelled' radio button
+  And I click the 'Update requirements' button
   Then I am on the '%s' page with brief 'title'
   And I see a success banner message containing 'updated'
 
@@ -65,7 +65,7 @@ Scenario: Award flow - Mark a requirement unsuccessful
   Then I am on the 'Why didn't you award a contract for %s?' page with brief 'title'
 
   When I choose 'There were no suitable suppliers' radio button
-  And I click the 'Update requirement' button
+  And I click the 'Update requirements' button
   Then I am on the '%s' page with brief 'title'
   And I see a success banner message containing 'updated'
 
