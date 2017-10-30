@@ -354,3 +354,8 @@ end
 And /^I wait (\d+) seconds/ do |seconds|
   sleep seconds.to_i
 end
+
+Then(/^I should get a download file of type '(.*)'$/) do |file_type|
+  expect(page.response_headers['Content-Disposition']).to match( "attachment;filename=\\S*\\." + file_type )
+end
+
