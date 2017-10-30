@@ -183,7 +183,6 @@ Scenario: Delete a draft requirement
   Then I see a success banner message containing 'were deleted'
 
 
-@skip-staging
 Scenario: Withdraw live requirements
   Given I am logged in as the buyer of a live brief
 
