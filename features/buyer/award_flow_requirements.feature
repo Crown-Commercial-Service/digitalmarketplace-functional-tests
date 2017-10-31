@@ -41,25 +41,6 @@ Scenario: Award flow - Award a requirement to a winning supplier
   And I see a temporary-message banner message containing 'Company size'
 
 
-@skip-local @skip-preview
-Scenario: Award Flow - Cancel a requirement
-
-  Given I choose 'No' radio button
-  And I click the 'Save and continue' button
-  Then I am on the 'Why didn't you award a contract for %s?' page with brief 'title'
-
-  When I choose 'The requirement has been cancelled' radio button
-  And I click the 'Update requirement' button
-  Then I am on the '%s' page with brief 'title'
-  And I see a success banner message containing 'updated'
-
-  When I go to that brief page
-  Then I see a temporary-message banner message containing 'This opportunity was cancelled'
-  And I see a temporary-message banner message containing 'The buyer cancelled this opportunity, for example because they no longer '
-  And I see a temporary-message banner message containing 'have the budget. They may publish an updated version later.'
-
-
-@skip-staging
 Scenario: Award Flow - Cancel requirements
 
   Given I choose 'No' radio button
@@ -77,25 +58,6 @@ Scenario: Award Flow - Cancel requirements
   And I see a temporary-message banner message containing 'have the budget. They may publish an updated version later.'
 
 
-@skip-local @skip-preview
-Scenario: Award flow - Mark a requirement unsuccessful
-
-  Given I choose 'No' radio button
-  And I click the 'Save and continue' button
-  Then I am on the 'Why didn't you award a contract for %s?' page with brief 'title'
-
-  When I choose 'There were no suitable suppliers' radio button
-  And I click the 'Update requirement' button
-  Then I am on the '%s' page with brief 'title'
-  And I see a success banner message containing 'updated'
-
-  When I go to that brief page
-  Then I see a temporary-message banner message containing 'No suitable suppliers applied'
-  And I see a temporary-message banner message containing 'The buyer didn't award this contract because no suppliers met their '
-  And I see a temporary-message banner message containing 'requirements. They may publish an updated version later.'
-
-
-@skip-staging
 Scenario: Award flow - Mark requirements as unsuccessful
 
   Given I choose 'No' radio button
