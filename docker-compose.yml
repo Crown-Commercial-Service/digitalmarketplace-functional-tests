@@ -11,8 +11,9 @@ services:
     volumes:
       - ./compose-scripts:/compose-scripts
     command: >
-      bash -c "/compose-scripts/wait-for-postgres.py && python application.py db upgrade
-      && supervisord --configuration /etc/supervisord.conf"
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-postgres.py && python application.py db upgrade &&
+      supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - postgres
 
@@ -24,7 +25,9 @@ services:
     environment:
       - DM_ENVIRONMENT=development
       - ELASTICSEARCH_HOST=http://elasticsearch:9200
-    command: bash -c 'supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - elasticsearch
 
@@ -40,7 +43,9 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
 
@@ -57,7 +62,9 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
       - search-api
@@ -74,7 +81,9 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
 
@@ -90,7 +99,9 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
 
@@ -109,7 +120,9 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
 
@@ -127,7 +140,9 @@ services:
       - DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
-    command: bash -c '/compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+    command: >
+      bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
 
