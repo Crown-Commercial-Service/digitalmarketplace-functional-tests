@@ -12,6 +12,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-postgres.py && python application.py db upgrade &&
       supervisord --configuration /etc/supervisord.conf'
     depends_on:
@@ -27,6 +28,7 @@ services:
       - ELASTICSEARCH_HOST=http://elasticsearch:9200
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - elasticsearch
@@ -45,6 +47,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
@@ -64,6 +67,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
@@ -83,6 +87,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
@@ -101,6 +106,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
@@ -122,6 +128,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
@@ -142,6 +149,7 @@ services:
       - ./compose-scripts:/compose-scripts
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
+      sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
     depends_on:
       - api
