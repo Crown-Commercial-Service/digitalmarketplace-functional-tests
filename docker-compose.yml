@@ -1,24 +1,33 @@
 version: '2'
 services:
   api:
+    container_name: api
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/api:latest"
     ports:
       - "5000:80"
     environment:
       - DM_ENVIRONMENT=development
+      - DM_SEARCH_API_URL=http://search-api:80
       - SQLALCHEMY_DATABASE_URI=postgresql://dmdev:dmdevpasswd@postgres:5432/digitalmarketplace
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_DATA_API_DEVELOPMENT_REPO}:/repo"
+    working_dir: /repo
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
       /compose-scripts/wait-for-postgres.py && python application.py db upgrade &&
-      supervisord --configuration /etc/supervisord.conf'
+      make virtualenv && python application.py runserver  --host 0.0.0.0 --port 80'
     depends_on:
       - postgres
 
   search-api:
+    container_name: search-api
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/search-api:latest"
     ports:
@@ -26,14 +35,20 @@ services:
     environment:
       - DM_ENVIRONMENT=development
       - ELASTICSEARCH_HOST=http://elasticsearch:9200
-    command: >
+    volumes:
+      - "${DM_SEARCH_API_DEVELOPMENT_REPO}:/repo"
+    working_dir: /repo
+    command:
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      supervisord --configuration /etc/supervisord.conf'
+      make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
     depends_on:
       - elasticsearch
 
   user-frontend:
+    container_name: user-frontend
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/user-frontend:latest"
     ports:
@@ -45,14 +60,19 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_USER_FRONTEND_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      /compose-scripts/wait-for-api.sh && make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
+    working_dir: /repo
     depends_on:
       - api
 
   buyer-frontend:
+    container_name: buyer-frontend
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/buyer-frontend:latest"
     ports:
@@ -65,15 +85,20 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_BUYER_FRONTEND_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      /compose-scripts/wait-for-api.sh && make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
+    working_dir: /repo
     depends_on:
       - api
       - search-api
 
   briefs-frontend:
+    container_name: briefs-frontend
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/briefs-frontend:latest"
     ports:
@@ -85,14 +110,19 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_BRIEFS_FRONTEND_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      /compose-scripts/wait-for-api.sh && make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
+    working_dir: /repo
     depends_on:
       - api
 
   brief-responses-frontend:
+    container_name: brief-responses-frontend
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/brief-responses-frontend:latest"
     ports:
@@ -104,14 +134,19 @@ services:
       - PROXY_AUTH_CREDENTIALS=dev-user:$$apr1$$rx3G14WQ$$I2zOn60wfMGCrxjC8NbdP0
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_BRIEF_RESPONSES_FRONTEND_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      /compose-scripts/wait-for-api.sh && make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
+    working_dir: /repo
     depends_on:
       - api
 
   supplier-frontend:
+    container_name: supplier-frontend
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/supplier-frontend:latest"
     ports:
@@ -126,14 +161,19 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_SUPPLIER_FRONTEND_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      /compose-scripts/wait-for-api.sh && make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
+    working_dir: /repo
     depends_on:
       - api
 
   admin-frontend:
+    container_name: admin-frontend
+    stdin_open: true
+    tty: true
     restart: always
     image: "digitalmarketplace/admin-frontend:latest"
     ports:
@@ -147,14 +187,17 @@ services:
       - DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
     volumes:
       - ./compose-scripts:/compose-scripts
+      - "${DM_ADMIN_FRONTEND_DEVELOPMENT_REPO}:/repo"
     command: >
       bash -c 'ln -sf /dev/stdout /var/log/digitalmarketplace/application.log &&
       sed -i -e "s/stdout_logfile_maxbytes = [0-9]*/stdout_logfile_maxbytes = 0/g" /etc/supervisord.conf &&
-      /compose-scripts/wait-for-api.sh && supervisord --configuration /etc/supervisord.conf'
+      /compose-scripts/wait-for-api.sh && make virtualenv && python application.py runserver --host 0.0.0.0 --port 80'
+    working_dir: /repo
     depends_on:
       - api
 
   postgres:
+    container_name: postgres
     image: "postgres:9.5"
     ports:
       - "5432:5432"
@@ -166,11 +209,13 @@ services:
       - POSTGRES_DB=digitalmarketplace
 
   elasticsearch:
+    container_name: elasticsearch
     image: "elasticsearch:5.4"
     ports:
       - "9200:9200"
 
   nginx:
+    container_name: nginx
     image: "digitalmarketplace/local-nginx:latest"
     build:
       context: ./

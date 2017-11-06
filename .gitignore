@@ -1,6 +1,9 @@
 .bundle
+venv/
 
 reports/
 config/
 sql/data/
 local.nix
+.envrc
+.idea/*
