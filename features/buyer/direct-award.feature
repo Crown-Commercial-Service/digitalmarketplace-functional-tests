@@ -80,6 +80,6 @@ Scenario: User ends search and downloads results
   Then I am on the 'my cloud project' page
   And I click the 'Download your results again.' link
   And I am on the 'Download your search results' page
-  And I click the 'Download search results as a spreadsheet' link
-  And I should get a download file of type 'ods'
+  And I click the 'Download search results as comma-separated values' link
+  And I should get a download file of type 'csv'
  
