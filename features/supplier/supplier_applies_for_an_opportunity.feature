@@ -546,10 +546,61 @@ Scenario: Supplier changes their answers before submission
       | Talk snobbishly about water quality | First nice to have evidence |
       | Sip quietly                         |                             |
       | Provide biscuits                    |  Only the finest            |
-
+  And I see 'Once you submit you can update your application until' text on the page
   When I click 'Submit application'
   Then I am on the 'What happens next' page
   And I see a success banner message containing 'Your application has been submitted.'
+
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
+  And I see 'Submitted' in the 'Applications you’ve made' summary table
+
+
+@skip-staging
+Scenario: Supplier changes their answers after submission
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  And that supplier submits their response to that brief
+
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
+  And I see 'Submitted' in the 'Applications you’ve made' summary table
+
+  When I click the 'Tea drinker' link
+  Then I am on the 'Your application for ‘Tea drinker’' page
+  When I click the summary table Edit link for 'Day rate'
+
+  Then I am on the 'What’s the specialist’s day rate?' page
+  And I see '£200' replayed in the question advice
+  And I see '200' as the value of the 'dayRate' field
+
+  When I enter '100' in the 'dayRate' field
+  And I click 'Save and continue'
+  Then I am on the 'Your application for ‘Tea drinker’' page
+  And I see the 'Your details' summary table filled with:
+      | field               | value                |
+      | Day rate            | £100                 |
+
+  And I don't see 'Submit application' text on the page
+  And I don't see 'Once you submit you can update your application until' text on the page
+  And I see 'View the opportunity' text on the page
+
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
+  And I see 'Submitted' in the 'Applications you’ve made' summary table
+
+  When I click the 'Tea drinker' link
+  Then I am on the 'Your application for ‘Tea drinker’' page
 
 
 @opportunity-clarification-question
@@ -596,18 +647,3 @@ Scenario: Supplier can see the empty string on the opportunities dashboard
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
   Then I see 'You haven’t applied to any opportunities' text on the page
-
-@opportunities-dashboard
-Scenario: Supplier can see their opportunity response
-  Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
-  And that supplier has a service on the digital-specialists lot
-  And I have a live digital-specialists brief
-  And that supplier has filled in their response to that brief but not submitted it
-  And that supplier submits their response to that brief
-  When I click the 'View your account' link
-  And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
-  And I see the closing date of the brief in the 'Applications you’ve made' summary table
-  And I see 'Submitted' in the 'Applications you’ve made' summary table
