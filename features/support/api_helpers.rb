@@ -167,7 +167,19 @@ def get_brief_responses(framework_slug, brief_response_status, brief_status)
   params = {status: brief_response_status, framework: framework_slug}
   response = call_api(:get, '/brief-responses', params: params)
   brief_response_list = JSON.parse(response.body)['briefResponses']
-  brief_response_list.select { |x| x['brief']['status'] == brief_status }
+  brief_response_list = brief_response_list.select { |x| x['brief']['status'] == brief_status }
+
+  # If we have not found any required brief responses so far on the first page then we will iterate
+  # through the pages until we do find atleast one
+  next_page = 2;
+  while brief_response_list.empty? && JSON.parse(response.body)['links']['next']
+    response = call_api(:get, "/brief-responses?page=#{next_page}", params: params)
+    brief_response_list = JSON.parse(response.body)['briefResponses']
+    brief_response_list = brief_response_list.select { |x| x['brief']['status'] == brief_status }
+    next_page += 1
+  end
+
+  brief_response_list
 end
 
 def create_brief(framework_slug, lot_slug, user_id)
