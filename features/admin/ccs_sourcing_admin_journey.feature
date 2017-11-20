@@ -51,7 +51,7 @@ Scenario: CCS Sourcing should not have access to Administrator specific pages
   When I attempt to load the 'service by service ID' page directly via the URL 'admin/services/1123456789012346'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
-  When I attempt to load the 'services by supplier ID' page directly via the URL 'admin/suppliers/services?supplier_id=11111'
+  When I attempt to load the 'services by supplier ID' page directly via the URL 'admin/suppliers/11111/services'
   Then I am presented with the 'You don’t have permission to perform this action' warning page
 
   When I attempt to load the 'users by supplier ID' page directly via the URL 'admin/suppliers/users?supplier_id=11111'
