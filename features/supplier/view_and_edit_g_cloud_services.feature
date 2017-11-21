@@ -54,6 +54,30 @@ Scenario: Supplier user can edit the features and benefits of a service
     | field                         | value                                                                                  |
     | Service features and benefits | Service features Feature 1 New Feature 2 Service benefits Benefit 1 Updated Benefit 2  |
 
+Scenario: Supplier user can replace the service definition document of a service
+  When I click the top-level summary table Edit link for the section 'Documents'
+  Then I am on the 'Documents' page
+  And I choose file 'test.pdf' for the field 'serviceDefinitionDocumentURL'
+  And I click 'Save and return to service'
+  Then I am on the 'Test cloud support service' page
+  And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+
+Scenario: Supplier user can not replace the service definition document of a service with a non-pdf file
+  When I click the top-level summary table Edit link for the section 'Documents'
+  Then I am on the 'Documents' page
+  And I choose file 'word.docx' for the field 'serviceDefinitionDocumentURL'
+  And I click 'Save and return to service'
+  Then I am on the 'Documents' page
+  And I see a validation message containing 'Your document is not in an open format. Please save as an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
+
+Scenario: Supplier user can not replace the service definition document over 5MB
+  When I click the top-level summary table Edit link for the section 'Documents'
+  Then I am on the 'Documents' page
+  And I choose file '6mb.pdf' for the field 'serviceDefinitionDocumentURL'
+  And I click 'Save and return to service'
+  Then I am on the 'Documents' page
+  And I see a validation message containing 'Your document exceeds the 5MB limit. Please reduce file size.'
+
 Scenario: Supplier can remove their G-Cloud service from the marketplace
   When I click 'Remove service'
   Then I see a destructive banner message containing 'Are you sure you want to remove your service?'

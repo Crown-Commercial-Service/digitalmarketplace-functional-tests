@@ -209,6 +209,11 @@ Then /^I don't see a banner message$/ do
   page.should_not have_selector(:xpath, "//*[contains(@class, 'banner-')][contains(@class, '-action')]")
 end
 
+Then /^I see a validation message containing '(.*)'$/ do |message|
+  validation_message = page.find(:css, ".validation-message")
+  validation_message.should have_content(message)
+end
+
 Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
   breadcrumb.text().should == breadcrumb_text
@@ -257,6 +262,10 @@ end
 
 Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
   first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
+end
+
+When /^I choose file '(.*)' for the field '(.*)'$/ do |file, label|
+  attach_file(label, File.join(Dir.pwd, 'fixtures', file))
 end
 
 When /^I click the top\-level summary table Edit link for the section '(.*)'$/ do |field_to_edit|
