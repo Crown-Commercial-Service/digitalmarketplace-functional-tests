@@ -45,7 +45,7 @@ Scenario: Supplier applies for a digital-specialists brief
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And I go to that brief page
-  And I click 'Apply for this opportunity'
+  And I click 'Apply'
   Then I am on 'Before you start' page
 
   When I click 'Start application'
@@ -112,7 +112,7 @@ Scenario: Supplier applies for a digital-outcomes brief
   And that supplier has a service on the digital-outcomes lot
   And I have a live digital-outcomes brief
   And I go to that brief page
-  And I click 'Apply for this opportunity'
+  And I click 'Apply'
   Then I am on 'Before you start' page
 
   When I click 'Start application'
@@ -169,7 +169,7 @@ Scenario: Supplier applies for a user-research-participants brief
   And that supplier has a service on the user-research-participants lot
   And I have a live user-research-participants brief
   And I go to that brief page
-  And I click 'Apply for this opportunity'
+  And I click 'Apply'
   Then I am on 'Before you start' page
 
   When I click 'Start application'
@@ -263,7 +263,7 @@ Scenario: Supplier changes their answers before submission
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it
   And I go to that brief page
-  And I click 'Apply for this opportunity'
+  And I click 'Apply'
   Then I am on 'Before you start' page
 
   When I click 'Continue application'
