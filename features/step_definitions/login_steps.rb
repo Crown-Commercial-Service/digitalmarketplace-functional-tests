@@ -36,7 +36,7 @@ Given /^I have a ([a-z-]+) user(?: with supplier id (\d*))?$/ do |user_role, sup
   @user
 end
 
-Given /^I am logged in as (?:a|the) (production )?(\w+) user$/ do |production, user_role|
+Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |production, user_role|
   login_page = '/user/login'
   steps %Q{
     Given I have a #{production}#{user_role} user
