@@ -42,7 +42,7 @@ docker-up:
 
 index-services:
 	$(if ${FRAMEWORK},,$(error Must specify FRAMEWORK))
-	docker run --net=host digitalmarketplace/scripts scripts/index-services.py dev --api-token=myToken --search-api-token=myToken --index=${FRAMEWORK} --frameworks=${FRAMEWORK}
+	docker run --net=host digitalmarketplace/scripts scripts/index-to-search-service.py services dev --api-token=myToken --search-api-token=myToken --index=${FRAMEWORK} --frameworks=${FRAMEWORK}
 
 
 .PHONY: smoke-tests run rerun run-parallel setup install clean docker-up index-services
