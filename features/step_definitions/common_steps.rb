@@ -274,8 +274,13 @@ When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/
   edit_link.click
 end
 
-When /I click the summary table '(.*)' link for '(.*)'$/ do |link_name, field_to_edit|
-  edit_link = page.find(:xpath, "//tr/*/span[text() = '#{field_to_edit}']/../..//a[contains(text(), '#{link_name}')]")
+When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
+  case elem_type
+    when 'link'
+      edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
+    else
+      edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//input[normalize-space(@value) = '#{link_name}']")
+  end
   edit_link.click
 end
 
