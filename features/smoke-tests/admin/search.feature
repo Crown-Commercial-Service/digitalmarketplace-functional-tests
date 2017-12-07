@@ -20,7 +20,7 @@ Scenario: Admin can find supplier by DUNS number
   And I see the number of suppliers listed is 1
   And I see that supplier in the list of suppliers
 
-@with-production-admin-user @skip-staging
+@with-production-admin-user @skip-staging @skip-production
 Scenario: Admin can find buyer by opportunity id
   Given I am logged in as the production admin user
   And I am on the /admin/buyers page
