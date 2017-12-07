@@ -13,6 +13,7 @@ end
 
 When(/^I note the result_count$/) do
   @result_count = page.first(:css, ".search-summary-count").text.to_i
+  puts "Noted result_count: #{@result_count}"
 end
 
 Then (/^I see an opportunity in the search results$/) do
@@ -21,7 +22,9 @@ end
 
 Then (/^I see that the stated number of results does not exceed that (\w+)$/) do |variable_name|
   var = instance_variable_get("@#{variable_name}")
-  page.first(:css, ".search-summary-count").text.to_i.should <= var
+  @new_result_count = page.first(:css, ".search-summary-count").text.to_i
+  puts "Number of results: #{@new_result_count}"
+  @new_result_count.should <= var
 end
 
 Then (/^I see that the stated number of results equals that (\w+)$/) do |variable_name|
@@ -43,8 +46,8 @@ Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |
     '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
   )
   published_or_closed.each do |x|
-    if status == 'Closed'
-      x.text.should == 'Closed'
+    if ['Closed', 'Unsuccessful', 'Cancelled'].include? status
+      x.text.should == status
     else
       x.text.include?("Published").should be true
     end

@@ -19,8 +19,7 @@ Scenario: User is able to navigate to opportunity detail page via selecting the 
 Scenario Outline: User can filter by individual lot
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
-  And I check '<lot>' checkbox
-  And I click the 'Filter' button
+  And I click '<lot>'
   Then I see that the stated number of results does not exceed that result_count
   And I see all the opportunities on the page are on the '<lot>' lot
 
@@ -34,46 +33,43 @@ Scenario Outline: User can filter by individual status
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I check '<status>' checkbox
-  And I click the 'Filter' button
+  And I wait for the page to reload
   Then I see that the stated number of results does not exceed that result_count
   And I see all the opportunities on the page are of the '<status>' status
 
   Examples:
-    | status |
-    | Open   |
-    | Closed |
+    | status       |
+    | Open         |
+    | Closed       |
+    | Awarded      |
+    | Unsuccessful |
+    | Cancelled    |
 
 Scenario Outline: User can filter by both status and lot
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
-  And I check '<lot>' checkbox
+  And I click '<lot>'
   And I check '<status>' checkbox
-  And I click the 'Filter' button
+  And I wait for the page to reload
   Then I see that the stated number of results does not exceed that result_count
   And I see all the opportunities on the page are on the '<lot>' lot
   And I see all the opportunities on the page are of the '<status>' status
 
   Examples:
-    | lot                        | status   |
-    | Digital specialists        | Open     |
-    | Digital outcomes           | Open     |
-    | User research participants | Open     |
-    | Digital specialists        | Closed   |
-    | Digital outcomes           | Closed   |
-    | User research participants | Closed   |
-
-Scenario: Checking all lots returns all results
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
-  When I note the result_count
-  And I check all 'lot' checkboxes
-  And I click the 'Filter' button
-  Then I see that the stated number of results equals that result_count
+    | lot                        | status       |
+    | Digital specialists        | Open         |
+    | Digital outcomes           | Open         |
+    | User research participants | Open         |
+    | Digital specialists        | Closed       |
+    | Digital outcomes           | Closed       |
+    | User research participants | Closed       |
+    | Digital specialists        | Awarded      |
+    | Digital outcomes           | Unsuccessful |
+    | User research participants | Cancelled    |
 
 Scenario: Checking all statuses returns all results
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I check all 'status' checkboxes
-  And I click the 'Filter' button
+  And I wait for the page to reload
   Then I see that the stated number of results equals that result_count
-
-
