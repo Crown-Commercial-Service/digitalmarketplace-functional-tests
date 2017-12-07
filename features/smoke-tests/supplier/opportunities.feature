@@ -45,10 +45,27 @@ Scenario Outline: User can filter by individual status
     | Unsuccessful |
     | Cancelled    |
 
+Scenario Outline: User can filter by individual location
+  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  When I note the result_count
+  And I check '<location>' checkbox
+  And I wait for the page to reload
+  Then I see that the stated number of results does not exceed that result_count
+  And I see all the opportunities on the page are in the '<location>' location
+
+  Examples:
+    | location                       |
+    | Scotland                       |
+    | International (outside the UK) |
+    | Off-site                       |
+
 Scenario Outline: User can filter by both status and lot
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I click '<lot>'
+  And I wait for the page to reload
+  Then I see that the stated number of results does not exceed that result_count
+  And I note the result_count
   And I check '<status>' checkbox
   And I wait for the page to reload
   Then I see that the stated number of results does not exceed that result_count

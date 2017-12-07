@@ -40,6 +40,14 @@ Then (/^I see all the opportunities on the page are on the '(.*)' lot$/) do |lot
   lots_found.each { |x| x.text.should == lot }
 end
 
+Then (/^I see all the opportunities on the page are in the '(.*)' location/) do |lot|
+  locations_found = all(
+    :xpath,
+    '//*[@class="search-result"]//*[@class="search-result-important-metadata"][1]//*[@class="search-result-metadata-item"][2]'
+  )
+  locations_found.each { |x| x.text.should == lot }
+end
+
 Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |status|
   published_or_closed = all(
     :xpath,
