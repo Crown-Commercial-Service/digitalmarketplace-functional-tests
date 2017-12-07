@@ -228,8 +228,8 @@ Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
 
-Then /^I see #{MAYBE_VAR} in the page's h1$/ do |page_name_fragment|
-  find('h1').text.should include(normalize_whitespace(page_name_fragment))
+Then /^I see #{MAYBE_VAR} in the page's (.*)$/ do |page_name_fragment, selector|
+  find(selector).text.should include(normalize_whitespace(page_name_fragment))
 end
 
 Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
