@@ -354,7 +354,7 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
-  When I click the summary table Edit link for 'Day rate'
+  When I click the summary table 'Edit' link for 'Day rate'
 
   Then I am on the 'What’s the specialist’s day rate?' page
   And I see '£200' replayed in the question advice

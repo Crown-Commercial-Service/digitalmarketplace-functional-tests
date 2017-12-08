@@ -268,22 +268,26 @@ When /^I choose file '(.*)' for the field '(.*)'$/ do |file, label|
   attach_file(label, File.join(Dir.pwd, 'fixtures', file))
 end
 
-When /^I click the top\-level summary table Edit link for the section '(.*)'$/ do |field_to_edit|
+When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/ do |link_name, field_to_edit|
   edit_link = page.find(:xpath, "//h2[contains(text(), '#{field_to_edit}')]/following-sibling::p[1]/a[text()]")
-  edit_link.text().should have_content('Edit')
+  edit_link.text().should have_content(link_name)
   edit_link.click
 end
 
-When /I click the summary table Edit link for '(.*)'$/ do |field_to_edit|
-  edit_link = page.find(:xpath, "//tr/*/span[contains(text(), '#{field_to_edit}')]/../..//a[text()]")
-  edit_link.text().should have_content('Edit')
+When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
+  case elem_type
+    when 'link'
+      edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
+    else
+      edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//input[normalize-space(@value) = '#{link_name}']")
+  end
   edit_link.click
 end
 
-When /I update the value of '(.*)' to '(.*)' using the summary table Edit link/ do |field_to_edit, new_value|
+When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link/ do |field_to_edit, new_value, link_name|
   summary_page = current_url
 
-  step "I click the summary table Edit link for '#{field_to_edit}'"
+  step "I click the summary table '#{link_name}' link for '#{field_to_edit}'"
   step "I enter '#{new_value}' in the '#{field_to_edit}' field and click its associated 'Continue' button"
 
   page.visit(summary_page)
@@ -367,4 +371,3 @@ end
 Then(/^I should get a download file of type '(.*)'$/) do |file_type|
   expect(page.response_headers['Content-Disposition']).to match( "attachment;filename=\\S*\\." + file_type )
 end
-

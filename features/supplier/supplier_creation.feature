@@ -48,12 +48,12 @@ Scenario: User steps through supplier account creation process
     | field                  | value                        |
     | Email address          | test.supplier.email@test.com |
 
-  When I update the value of 'DUNS number' to '000000002' using the summary table Edit link
-  And I update the value of 'Companies House number' to 'SC000002' using the summary table Edit link
-  And I update the value of 'Company name' to 'Changed test company name' using the summary table Edit link
-  And I update the value of 'Contact name' to 'Changed contact name' using the summary table Edit link
-  And I update the value of 'Contact email' to 'test.changed.email@test.com' using the summary table Edit link
-  And I update the value of 'Contact phone number' to '9876543210' using the summary table Edit link
+  When I update the value of 'DUNS number' to '000000002' using the summary table 'Edit' link
+  And I update the value of 'Companies House number' to 'SC000002' using the summary table 'Edit' link
+  And I update the value of 'Company name' to 'Changed test company name' using the summary table 'Edit' link
+  And I update the value of 'Contact name' to 'Changed contact name' using the summary table 'Edit' link
+  And I update the value of 'Contact email' to 'test.changed.email@test.com' using the summary table 'Edit' link
+  And I update the value of 'Contact phone number' to '9876543210' using the summary table 'Edit' link
   Then I see the 'Your company details' summary table filled with:
     | field                  | value                       |
     | DUNS number            | 000000002                   |
@@ -63,7 +63,7 @@ Scenario: User steps through supplier account creation process
     | Contact email          | test.changed.email@test.com |
     | Contact phone number   | 9876543210                  |
 
-  When I click the summary table Edit link for 'Email address'
+  When I click the summary table 'Edit' link for 'Email address'
   And I enter 'changed.test.email@test.com' in the 'Your email address' field and click its associated 'Continue' button
   Then I see the 'Your login details' summary table filled with:
     | field                  | value                        |
