@@ -132,6 +132,10 @@ When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, butt
   page.all("." + button_link_class)[0].click
 end
 
+When /I click a link with text #{MAYBE_VAR}$/ do |link_text|
+  page.all('a', :text => link_text)[0].click
+end
+
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   # can't use above as we have services with the word 'next' in the name :(
   klass = ''
