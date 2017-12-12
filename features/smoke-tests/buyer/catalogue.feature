@@ -34,7 +34,7 @@ Scenario: User is able to search by service id and have result returned.
   Then I see that service.id in the search summary text
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
-  When I click that service.serviceName
+  When I click a link with text that service.serviceName
   Then I am on that service.serviceName page
 
 Scenario: User is able to search by service name and have result returned.
@@ -45,7 +45,7 @@ Scenario: User is able to search by service name and have result returned.
   Then I see that quoted service.serviceName in the search summary text
   And I see that quoted service.serviceName as the value of the 'q' field
   And I see that service in the search results
-  When I click that service.serviceName
+  When I click a link with text that service.serviceName
   Then I am on that service.serviceName page
 
 Scenario: User is able to navigate to service detail page via selecting the service from the search results
@@ -63,7 +63,7 @@ Scenario: User is able to search by keywords field on the search results page to
   Then I see that service.id in the search summary text
   And I see that service.id as the value of the 'q' field
   And I see that service in the search results
-  When I click that service.serviceName
+  When I click a link with text that service.serviceName
   Then I am on that service.serviceName page
 
 Scenario: User is able to click on a random category
