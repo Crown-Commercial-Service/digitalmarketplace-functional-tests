@@ -40,20 +40,20 @@ Then (/^I see all the opportunities on the page are on the '(.*)' lot$/) do |lot
   lots_found.each { |x| x.text.should == lot }
 end
 
-Then (/^I see all the opportunities on the page are in the '(.*)' location/) do |lot|
+Then (/^I see all the opportunities on the page are in the '(.*)' location/) do |location|
   locations_found = all(
     :xpath,
     '//*[@class="search-result"]//*[@class="search-result-important-metadata"][1]//*[@class="search-result-metadata-item"][2]'
   )
-  locations_found.each { |x| x.text.should == lot }
+  locations_found.each { |x| x.text.should == location }
 end
 
-Then (/^I see all the opportunities on the page are for the '(.*)' role/) do |lot|
+Then (/^I see all the opportunities on the page are for the '(.*)' role/) do |role|
   locations_found = all(
     :xpath,
     '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][2]'
   )
-  locations_found.each { |x| x.text.should == lot }
+  locations_found.each { |x| x.text.should == role }
 end
 
 Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |status|
