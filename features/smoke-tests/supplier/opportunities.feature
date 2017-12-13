@@ -41,9 +41,6 @@ Scenario Outline: User can filter by individual status
     | status       |
     | Open         |
     | Closed       |
-    | Awarded      |
-    | Unsuccessful |
-    | Cancelled    |
 
 Scenario Outline: User can filter by individual location
   Given I am on the /digital-outcomes-and-specialists/opportunities page
@@ -107,12 +104,12 @@ Scenario Outline: User can filter by both status, lot and location together
     | Digital specialists        | Closed       | South West England             |
     | Digital outcomes           | Closed       | International (outside the UK) |
     | User research participants | Closed       | Off-site                       |
-    | Digital specialists        | Awarded      | London                         |
-    | Digital outcomes           | Unsuccessful | International (outside the UK) |
-    | User research participants | Cancelled    | Off-site                       |
+    | Digital specialists        | Open         | London                         |
+    | Digital outcomes           | Closed       | International (outside the UK) |
+    | User research participants | Open         | Off-site                       |
     | Digital specialists        | Closed       | Wales                          |
-    | Digital outcomes           | Cancelled    | Yorkshire and the Humber       |
-    | User research participants | Awarded      | Northern Ireland               |
+    | Digital outcomes           | Open         | Yorkshire and the Humber       |
+    | User research participants | Closed       | Northern Ireland               |
 
 Scenario: Specialist roles are selectable for Digital specialists
   Given I am on the /digital-outcomes-and-specialists/opportunities page
