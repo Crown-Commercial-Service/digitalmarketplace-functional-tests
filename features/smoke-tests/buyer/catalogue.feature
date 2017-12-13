@@ -102,3 +102,10 @@ Scenario: User is able to paginate through search results and all of the navigat
   When I click the Previous Page link
   Then I am taken to page 1 of results
   And I see the same number of category links as noted
+
+Scenario: User gets no results for an unfindable term
+  Given I am on the /g-cloud/search page
+  And I enter 'metempsychosis' in the 'q' field
+  And I wait for the page to reload
+  Then I don't see a search result
+  And I see 'metempsychosis' in the search summary text

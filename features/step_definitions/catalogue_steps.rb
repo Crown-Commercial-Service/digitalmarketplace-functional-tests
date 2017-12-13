@@ -14,8 +14,12 @@ When(/^I click a random result in the list of service results returned$/) do
   a_elem.click
 end
 
-Then (/^I see a search result$/) do
-  page.should have_selector(:css, "div.search-result")
+Then (/^I (don't )?see a search result$/) do |negate|
+  if negate then
+    page.should_not have_selector(:css, "div.search-result")
+  else
+    page.should have_selector(:css, "div.search-result")
+  end
 end
 
 Then (/^I see that service in the search results$/) do
