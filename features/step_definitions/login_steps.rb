@@ -14,28 +14,6 @@ Given /^I have a production ([a-z-]+) user$/ do |user_role|
   puts "Email address: #{@user['emailAddress']}"
 end
 
-Given /^I have a ([a-z-]+) user(?: with supplier id (\d*))?$/ do |user_role, supplier_id|
-  randomString = SecureRandom.hex
-  password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
-
-  user_data = {
-    "emailAddress" => randomString + '@example.gov.uk',
-    "name" => "#{user_role.capitalize} Name #{randomString}",
-    "password" => password,
-    "role" => user_role,
-    "phoneNumber" => (SecureRandom.random_number(10000000) + 10000000000).to_s,
-  }
-
-  user_data['supplierId'] = supplier_id.to_i if user_role == 'supplier'
-
-  response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
-  response.code.should be(201), response.body
-  @user = JSON.parse(response.body)["users"]
-  @user['password'] = password
-  puts "Email address: #{@user['emailAddress']}"
-  @user
-end
-
 Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |production, user_role|
   login_page = '/user/login'
   steps %Q{
@@ -48,17 +26,17 @@ Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |productio
   }
 end
 
-Given 'I have a buyer' do
-  @buyer = step "I have a buyer user"
+Given 'I have a buyer user' do
+  @buyer_user = create_user('buyer')
 end
 
-Given 'I have a supplier' do
+Given 'I have a supplier user' do
   @supplier = create_supplier
-  @supplier_user = step "I have a supplier user with supplier id #{@supplier['id']}"
+  @supplier_user = create_user('supplier', @supplier['id'])
 end
 
 Given /^that (supplier|buyer) is logged in$/ do |user_role|
-  user = user_role == 'supplier' ? @supplier_user : @buyer
+  user = user_role == 'supplier' ? @supplier_user : @buyer_user
 
   steps %Q{
     And I am on the /user/login page

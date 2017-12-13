@@ -1,5 +1,5 @@
 Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
-  brief = create_brief(@framework['slug'], lot_slug, @buyer["id"])
+  brief = create_brief(@framework['slug'], lot_slug, @buyer_user["id"])
   puts "created brief with id #{brief['id']}"
   brief = publish_brief(brief['id']) unless status == "draft"
   withdraw_brief(brief['id']) if status == "withdrawn"
@@ -9,10 +9,10 @@ end
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
   matched_brief = get_briefs('digital-outcomes-and-specialists-2', status).sample
   @brief = matched_brief
-  @buyer = matched_brief['users'][0]
+  @buyer_user = matched_brief['users'][0]
   @lot_slug = matched_brief['lotSlug']
   @framework_slug = matched_brief['frameworkSlug']
-  @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
+  @buyer_user.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
   steps %Q{
     Given that buyer is logged in
   }
@@ -23,8 +23,8 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
   @brief = get_brief(submitted_brief_response['brief']['id'])
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
-  @buyer = @brief['users'][0]
-  @buyer.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
+  @buyer_user = @brief['users'][0]
+  @buyer_user.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
   steps %Q{
     Given that buyer is logged in
   }
