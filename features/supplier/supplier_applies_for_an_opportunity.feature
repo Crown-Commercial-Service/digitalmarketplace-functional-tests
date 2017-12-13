@@ -82,7 +82,7 @@ Scenario: Supplier applies for a digital-specialists brief
 
   When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
-  Then I am on the 'Check your answers' page
+  Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
       | field               | value                |
       | Day rate            | £200                 |
@@ -142,7 +142,7 @@ Scenario: Supplier applies for a digital-outcomes brief
 
   When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
-  Then I am on the 'Check your answers' page
+  Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
       | field               | value                |
       | Earliest start date | 09/09/17             |
@@ -200,7 +200,7 @@ Scenario: Supplier applies for a user-research-participants brief
 
   When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
-  Then I am on the 'Check your answers' page
+  Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
       | field               | value                |
       | Earliest start date | 09/09/17             |
@@ -308,7 +308,7 @@ Scenario: Supplier changes their answers before submission
 
   When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
-  Then I am on the 'Check your answers' page
+  Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
       | field               | value                |
       | Day rate            | £100                 |
