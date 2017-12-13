@@ -48,6 +48,14 @@ Then (/^I see all the opportunities on the page are in the '(.*)' location/) do 
   locations_found.each { |x| x.text.should == lot }
 end
 
+Then (/^I see all the opportunities on the page are for the '(.*)' role/) do |lot|
+  locations_found = all(
+    :xpath,
+    '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][2]'
+  )
+  locations_found.each { |x| x.text.should == lot }
+end
+
 Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |status|
   published_or_closed = all(
     :xpath,
@@ -60,6 +68,11 @@ Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |
       x.text.include?("Published").should be true
     end
   end
+end
+
+Then (/^I see no results$/) do
+  page.first(:css, ".search-summary-count").text.to_i.should == 0
+  page.should have_selector(:css, '.search-result', :count => 0)
 end
 
 Then /^I see the details of the brief match what was published$/ do
