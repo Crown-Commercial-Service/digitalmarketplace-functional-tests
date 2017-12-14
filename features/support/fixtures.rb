@@ -258,7 +258,7 @@ module Fixtures
       priceMax: "700",
       priceMin: "200",
       priceUnit: "Person",
-      pricingDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      pricingDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/test.pdf",
       QAAndTesting: false,
       resellingType: "not_reseller",
       securityTesting: false,
@@ -267,17 +267,17 @@ module Fixtures
           "Benefit 2"
       ],
       serviceConstraints: "None",
-      serviceDefinitionDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      serviceDefinitionDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/test.pdf",
       serviceDescription: "Deliver digital transformation by the bucketload!",
       serviceFeatures: [
           "Feature 1"
       ],
       serviceName: "Test cloud support service",
       setupAndMigrationService: false,
-      sfiaRateDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      sfiaRateDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/test.pdf",
       staffSecurityClearanceChecks: "staff_screening_not_bs7858_2012",
       supportLevels: "None",
-      termsAndConditionsDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/",
+      termsAndConditionsDocumentURL: "https://assets.digitalmarketplace.service.gov.uk/g-cloud-9/documents/test.pdf",
       training: false,
       webChatSupport: "no",
     }
