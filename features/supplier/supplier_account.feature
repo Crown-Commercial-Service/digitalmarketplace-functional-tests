@@ -2,7 +2,7 @@
 Feature: Supplier can view and edit their supplier account information
 
 Background:
-  Given I have a supplier
+  Given I have a supplier user
   And that supplier is logged in
   And I am on the /suppliers page
 
