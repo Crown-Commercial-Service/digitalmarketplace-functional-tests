@@ -1,4 +1,4 @@
-@smoke-tests @opportunities
+@smoke-tests @opportunities @skip-staging @skip-production
 Feature: Passive opportunity supplier journey
 
 Scenario: User can see the main links on the homepage
