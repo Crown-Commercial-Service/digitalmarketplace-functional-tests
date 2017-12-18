@@ -247,23 +247,23 @@ def withdraw_brief(brief_id)
   JSON.parse(response.body)['briefs']
 end
 
-def create_supplier
+def create_supplier(custom_supplier_data={})
   random_string = SecureRandom.hex
-
-  response = call_api(:post, "/suppliers", payload: {
-    updated_by: "functional tests",
-    suppliers: {
-      name: 'functional test supplier ' + random_string,
-      dunsNumber: rand(9999999999).to_s,
-      contactInformation: [
-        {
-          contactName: random_string,
-          email: random_string + "-supplier@user.dmdev",
-          phoneNumber: '%010d' % rand(10 ** 11 -1),
-        }
-      ]
-    }
-  })
+  supplier_data = {
+    name: 'functional test supplier ' + random_string,
+    dunsNumber: rand(9999999999).to_s,
+    contactInformation: [{
+      contactName: random_string,
+      email: random_string + "-supplier@user.dmdev",
+      phoneNumber: '%010d' % rand(10 ** 11 -1),
+    }]
+  }
+  supplier_data.update(custom_supplier_data)
+  response = call_api(
+    :post,
+    "/suppliers",
+    payload: {updated_by: "functional tests", suppliers: supplier_data}
+  )
   response.code.should be(201), _error(response, "Failed to create supplier")
   JSON.parse(response.body)['suppliers']
 end
