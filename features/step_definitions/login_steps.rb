@@ -45,6 +45,10 @@ Given 'I have a supplier' do
   @supplier = create_supplier
 end
 
+Given 'I have a supplier with:' do |table|
+  @supplier = get_or_create_supplier(table.rows_hash)
+end
+
 Given /^that (supplier|buyer) is logged in$/ do |user_role|
   user = user_role == 'supplier' ? @supplier_user : @buyer_user
 
