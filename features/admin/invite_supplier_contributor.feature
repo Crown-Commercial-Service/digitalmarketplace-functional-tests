@@ -15,3 +15,13 @@ Scenario Outline: Correct users can invite a contributors to a supplier account
   Examples:
     | role                    |
     | admin                   |
+
+Scenario Outline: Correct users cannot update the supplier name
+  Given I am logged in as the production <role> user
+  When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+1 page
+  Then I don't see the 'Users' link
+
+  Examples:
+    | role                    |
+    | admin-ccs-sourcing      |
+    | admin-manager           |
