@@ -333,3 +333,27 @@ def create_user(user_role, custom_user_data={})
   puts "Email address: #{@user['emailAddress']}"
   @user
 end
+
+def get_or_create_supplier(custom_supplier_data)
+  # This method is used to search for a supplier, and if it does not exist create that supplier. It will return
+  # that supplier and also set it to the global @supplier var.
+  # The possible argument combinations for the getting of a supplier are dependent on the available end points for
+  # suppliers.
+  # Therefore this method supports:
+  # id: being the supplier_id of the supplier (and should not be used with any other args as it's a primary key)
+  # name: name prefix of the supplier. This may result in unpredictable behaviour if the provided name is not unique.
+  # Should the supplier not be found we will attempt a post create with the provided supplier data.
+  if custom_supplier_data["id"] != nil
+    response = call_api(:get, "/suppliers/#{custom_supplier_data['id']}")
+    @supplier = JSON.parse(response.body)["suppliers"]
+    return @supplier
+  end
+  if custom_supplier_data["name"] != nil
+    response = call_api(:get, '/suppliers', params: {prefix: custom_supplier_data['name']})
+    @supplier = JSON.parse(response.body)['suppliers'][0]
+  end
+  if not @supplier
+    @supplier = create_supplier(custom_supplier_data)
+  end
+  return @supplier
+end
