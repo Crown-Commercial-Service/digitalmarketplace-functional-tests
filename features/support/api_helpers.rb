@@ -312,19 +312,19 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
   JSON.parse(response.body)['services']
 end
 
-def create_user(user_role, supplier_id=nil)
+def create_user(user_role, custom_user_data={})
   randomString = SecureRandom.hex
   password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
 
   user_data = {
-    "emailAddress" => randomString + '@example.gov.uk',
-    "name" => "#{user_role.capitalize} Name #{randomString}",
+    "emailAddress" => custom_user_data['emailAddress'] || custom_user_data['email_address'] || randomString + '@example.gov.uk',
+    "name" => custom_user_data['name'] || "#{user_role.capitalize} Name #{randomString}",
     "password" => password,
-    "role" => user_role,
+    "role" => custom_user_data['role'] || user_role,
     "phoneNumber" => (SecureRandom.random_number(10000000) + 10000000000).to_s,
   }
 
-  user_data['supplierId'] = supplier_id.to_i if user_role == 'supplier'
+  user_data['supplierId'] = custom_user_data['supplierId'] || custom_user_data['supplier_id'] || 0  if user_role == 'supplier'
 
   response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
   response.code.should be(201), response.body
