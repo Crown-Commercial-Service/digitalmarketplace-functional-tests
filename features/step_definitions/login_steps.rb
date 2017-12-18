@@ -32,7 +32,7 @@ end
 
 Given 'I have a supplier user' do
   @supplier = create_supplier
-  @supplier_user = create_user('supplier', @supplier['id'])
+  @supplier_user = create_user('supplier', {"supplierId"=>@supplier['id']})
 end
 
 Given /^that (supplier|buyer) is logged in$/ do |user_role|
