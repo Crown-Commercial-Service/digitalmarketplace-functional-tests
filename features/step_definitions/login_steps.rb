@@ -35,6 +35,12 @@ Given 'I have a supplier user' do
   @supplier_user = create_user('supplier', {"supplierId"=>@supplier['id']})
 end
 
+Given "I have a '(.*)' user with:" do |role|table|
+  custom_user_data = table.rows_hash
+  custom_user_data['role'] = role
+  instance_variable_set("@#{role}_user", get_or_create_user(custom_user_data))
+end
+
 Given 'I have a supplier' do
   @supplier = create_supplier
 end
