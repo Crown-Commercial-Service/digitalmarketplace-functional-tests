@@ -25,3 +25,14 @@ Scenario Outline: Correct users cannot update the supplier name
     | role                    |
     | admin-ccs-sourcing      |
     | admin-manager           |
+
+Scenario Outline: Correct users cannot update the supplier name
+  Given I am logged in as the production <role> user
+  When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+1 page
+  And I click the summary table 'Users' link for 'DM Functional Test Supplier 1'
+  Then I don't see the 'Send invitation' button
+
+  Examples:
+    | role                    |
+    | admin-framework-manager |
+    | admin-ccs-category      |
