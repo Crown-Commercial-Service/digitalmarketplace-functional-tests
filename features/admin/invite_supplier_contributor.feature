@@ -16,7 +16,7 @@ Scenario Outline: Correct users can invite a contributors to a supplier account
     | role                    |
     | admin                   |
 
-Scenario Outline: Correct users cannot update the supplier name
+Scenario Outline: Prohibited user roles cannot manage supplier users
   Given I am logged in as the production <role> user
   When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+1 page
   Then I don't see the 'Users' link
@@ -26,7 +26,7 @@ Scenario Outline: Correct users cannot update the supplier name
     | admin-ccs-sourcing      |
     | admin-manager           |
 
-Scenario Outline: Correct users cannot update the supplier name
+Scenario Outline: Prohibited user roles cannot invite users to a supplier
   Given I am logged in as the production <role> user
   When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+1 page
   And I click the summary table 'Users' link for 'DM Functional Test Supplier 1'
