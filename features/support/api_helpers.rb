@@ -247,23 +247,23 @@ def withdraw_brief(brief_id)
   JSON.parse(response.body)['briefs']
 end
 
-def create_supplier
+def create_supplier(custom_supplier_data={})
   random_string = SecureRandom.hex
-
-  response = call_api(:post, "/suppliers", payload: {
-    updated_by: "functional tests",
-    suppliers: {
-      name: 'functional test supplier ' + random_string,
-      dunsNumber: rand(9999999999).to_s,
-      contactInformation: [
-        {
-          contactName: random_string,
-          email: random_string + "-supplier@user.dmdev",
-          phoneNumber: '%010d' % rand(10 ** 11 -1),
-        }
-      ]
-    }
-  })
+  supplier_data = {
+    name: 'functional test supplier ' + random_string,
+    dunsNumber: rand(9999999999).to_s,
+    contactInformation: [{
+      contactName: random_string,
+      email: random_string + "-supplier@user.dmdev",
+      phoneNumber: '%010d' % rand(10 ** 11 -1),
+    }]
+  }
+  supplier_data.update(custom_supplier_data)
+  response = call_api(
+    :post,
+    "/suppliers",
+    payload: {updated_by: "functional tests", suppliers: supplier_data}
+  )
   response.code.should be(201), _error(response, "Failed to create supplier")
   JSON.parse(response.body)['suppliers']
 end
@@ -312,19 +312,19 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
   JSON.parse(response.body)['services']
 end
 
-def create_user(user_role, supplier_id=nil)
+def create_user(user_role, custom_user_data={})
   randomString = SecureRandom.hex
   password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
 
   user_data = {
-    "emailAddress" => randomString + '@example.gov.uk',
-    "name" => "#{user_role.capitalize} Name #{randomString}",
+    "emailAddress" => custom_user_data['emailAddress'] || custom_user_data['email_address'] || randomString + '@example.gov.uk',
+    "name" => custom_user_data['name'] || "#{user_role.capitalize} Name #{randomString}",
     "password" => password,
-    "role" => user_role,
+    "role" => custom_user_data['role'] || user_role,
     "phoneNumber" => (SecureRandom.random_number(10000000) + 10000000000).to_s,
   }
 
-  user_data['supplierId'] = supplier_id.to_i if user_role == 'supplier'
+  user_data['supplierId'] = custom_user_data['supplierId'] || custom_user_data['supplier_id'] || 0  if user_role == 'supplier'
 
   response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
   response.code.should be(201), response.body
@@ -332,4 +332,61 @@ def create_user(user_role, supplier_id=nil)
   @user['password'] = password
   puts "Email address: #{@user['emailAddress']}"
   @user
+end
+
+def get_or_create_supplier(custom_supplier_data)
+  # This method is used to search for a supplier, and if it does not exist create that supplier. It will return
+  # that supplier and also set it to the global @supplier var.
+  # The possible argument combinations for the getting of a supplier are dependent on the available end points for
+  # suppliers.
+  # Therefore this method supports:
+  # id: being the supplier_id of the supplier (and should not be used with any other args as it's a primary key)
+  # name: name prefix of the supplier. This may result in unpredictable behaviour if the provided name is not unique.
+  # Should the supplier not be found we will attempt a post create with the provided supplier data.
+  if custom_supplier_data["id"] != nil
+    response = call_api(:get, "/suppliers/#{custom_supplier_data['id']}")
+    @supplier = JSON.parse(response.body)["suppliers"]
+    return @supplier
+  end
+  if custom_supplier_data["name"] != nil
+    response = call_api(:get, '/suppliers', params: {prefix: custom_supplier_data['name']})
+    @supplier = JSON.parse(response.body)['suppliers'][0]
+  end
+  if not @supplier
+    @supplier = create_supplier(custom_supplier_data)
+  end
+  return @supplier
+end
+
+def get_or_create_user(custom_user_data)
+  # This method is used to search for a user, and if it does not exist create that user. It will return that user and
+  # also sets it to the global @user var.
+  # The possible argument combinations for the getting of a user are dependent on the available end points for users.
+  # Therefore this method supports:
+  # id: being the id of the user (and should not be used with any other args as it's a primary key)
+  # email_address: email_address of the account. This can be used independently.
+  # supplier_id: supplier id of the user. May result in unpredictable behaviour if there is more than one user with the
+  #     supplier_id and an email address is not specified
+  # Should the user not be found we will attempt a post create with the provided user data.
+  if custom_user_data["id"] != nil
+    response = call_api(:get, "/users/#{custom_user_data['id']}")
+    @user = JSON.parse(response.body)["users"]
+    return @user
+  end
+  if custom_user_data["email_address"] != nil or custom_user_data["supplier_id"] != nil
+    response = call_api(
+      :get,
+      "/users",
+      params: {
+        email_address: custom_user_data['email_address'],
+        supplier_id: custom_user_data['supplierId']
+      }
+    )
+    @user = response.code == 200 ? JSON.parse(response.body)["users"][0] : nil
+  end
+  if not @user
+    role = custom_user_data['role'] || (custom_user_data['supplier_id'] ? 'supplier' : 'buyer')
+    @user = create_user(role, custom_user_data)
+  end
+  return @user
 end

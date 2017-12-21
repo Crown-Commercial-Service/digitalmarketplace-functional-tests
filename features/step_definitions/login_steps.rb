@@ -32,7 +32,29 @@ end
 
 Given 'I have a supplier user' do
   @supplier = create_supplier
-  @supplier_user = create_user('supplier', @supplier['id'])
+  @supplier_user = create_user('supplier', {"supplierId"=>@supplier['id']})
+end
+
+Given "I have a '(.*)' user with:" do |role|table|
+  custom_user_data = table.rows_hash
+  custom_user_data['role'] = role
+  instance_variable_set("@#{role}_user", get_or_create_user(custom_user_data))
+end
+
+Given 'I have a supplier' do
+  @supplier = create_supplier
+end
+
+Given 'I have a supplier with:' do |table|
+  @supplier = get_or_create_supplier(table.rows_hash)
+end
+
+Given 'that supplier has a user with:' do |table|
+  # To be used in conjunction with the above 2 methods to create multiple users on a supplier with specific attributes
+  custom_user_data = table.rows_hash
+  user_data = {"supplier_id"=>@supplier['id']}
+  custom_user_data.update(user_data)
+  @supplier_user = get_or_create_user(custom_user_data)
 end
 
 Given /^that (supplier|buyer) is logged in$/ do |user_role|
