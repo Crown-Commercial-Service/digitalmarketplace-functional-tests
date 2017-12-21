@@ -109,3 +109,15 @@ RSpec::Matchers.define :include_url do |expected|
     actual_list.map {|actual| urls_are_equal(actual, expected)}.include?(true)
   end
 end
+
+# from https://github.com/ilyakatz/capybara/blob/c0844c8cf43801fa1d88e502b71b8e75ed6da017/lib/capybara/xpath.rb#L8
+def escape_xpath(string)
+  if string.include?("'")
+    string = string.split("'", -1).map do |substr|
+      "'#{substr}'"
+    end.join(%q{,"'",})
+    "concat(#{string})"
+  else
+    "'#{string}'"
+  end
+end
