@@ -26,30 +26,30 @@ Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |productio
   }
 end
 
-Given 'I have a buyer user' do
+Given /^I have a buyer user$/ do
   @buyer_user = create_user('buyer')
 end
 
-Given 'I have a supplier user' do
+Given /^I have a supplier user$/ do
   @supplier = create_supplier
   @supplier_user = create_user('supplier', {"supplierId"=>@supplier['id']})
 end
 
-Given "I have a '(.*)' user with:" do |role|table|
+Given /^I have a ([a-z-]+) user with:$/ do |role, table|
   custom_user_data = table.rows_hash
   custom_user_data['role'] = role
   instance_variable_set("@#{role}_user", get_or_create_user(custom_user_data))
 end
 
-Given 'I have a supplier' do
+Given /^I have a supplier$/ do
   @supplier = create_supplier
 end
 
-Given 'I have a supplier with:' do |table|
+Given /^I have a supplier with:$/ do |table|
   @supplier = get_or_create_supplier(table.rows_hash)
 end
 
-Given 'that supplier has a user with:' do |table|
+Given /^that supplier has a user with:$/ do |table|
   # To be used in conjunction with the above 2 methods to create multiple users on a supplier with specific attributes
   custom_user_data = table.rows_hash
   user_data = {"supplier_id"=>@supplier['id']}
