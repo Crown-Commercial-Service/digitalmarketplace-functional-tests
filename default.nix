@@ -21,7 +21,7 @@ in (with args; {
         pkgs.bundler
         pkgs.bundix
         pkgs.libxml2
-        pkgs.phantomjs
+        pkgs.phantomjs2
       ];
 
       # if we don't have this, we get unicode troubles in a --pure nix-shell
