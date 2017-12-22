@@ -133,7 +133,7 @@ When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, butt
 end
 
 When /I click a link with text #{MAYBE_VAR}$/ do |link_text|
-  page.all('a', :text => link_text)[0].click
+  page.find(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]").click
 end
 
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|
