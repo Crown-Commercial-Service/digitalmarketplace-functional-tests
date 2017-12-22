@@ -133,7 +133,11 @@ When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, butt
 end
 
 When /I click a link with text #{MAYBE_VAR}$/ do |link_text|
-  page.find(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]").click
+  found_links = page.all(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]")
+  if found_links.length > 1
+    puts "Warning: #{found_links.length} '#{link_text}' links found"
+  end
+  found_links[0].click
 end
 
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|
