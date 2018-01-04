@@ -310,9 +310,7 @@ When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link
 end
 
 Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
-  result_table_location = "//caption[@class='visually-hidden'][normalize-space(text())=\"#{table_heading}\"]/parent::table"
-  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
-  result_table_rows = all(:xpath, result_table_rows_location)
+  result_table_rows = get_table_rows_by_caption(table_heading)
 
   table.rows.each_with_index do |row, index|
     result_items = result_table_rows[index].all('td')
@@ -322,16 +320,12 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 end
 
 Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::*[1]"
-  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
-  result_table_rows = all(:xpath, result_table_rows_location)
+  result_table_rows = get_table_rows_by_caption(table_heading)
   result_table_rows.any? {|row| row.text.include? content}.should be true
 end
 
 Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?:y|ies)$/ do |table_heading, expected_number_of_rows, comparison|
-  result_table_location = "//*[@class='summary-item-heading'][normalize-space(text())=\"#{table_heading}\"]/following-sibling::*[1]"
-  result_table_rows_location = result_table_location + "/tbody/tr[@class='summary-item-row']"
-  number_of_table_rows = all(:xpath, result_table_rows_location).length
+  number_of_table_rows = get_table_rows_by_caption(table_heading).length
   case comparison
     when 'more'
       number_of_table_rows.should >= expected_number_of_rows.to_i
