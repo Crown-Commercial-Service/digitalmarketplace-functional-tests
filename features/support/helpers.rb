@@ -121,3 +121,10 @@ def escape_xpath(string)
     "'#{string}'"
   end
 end
+
+def get_table_rows_by_caption(caption)
+  result_table_xpath = "//caption[@class='visually-hidden'][normalize-space(text())=\"#{caption}\"]/parent::table"
+  rows_xpath = "/tbody/tr[@class='summary-item-row']"
+  result_table_rows_xpath = result_table_xpath + rows_xpath
+  page.all(:xpath, result_table_rows_xpath)
+end

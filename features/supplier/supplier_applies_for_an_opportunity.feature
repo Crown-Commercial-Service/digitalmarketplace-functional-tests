@@ -332,9 +332,9 @@ Scenario: Supplier changes their answers before submission
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
-  And I see the closing date of the brief in the 'Applications you’ve made' summary table
-  And I see 'Submitted' in the 'Applications you’ve made' summary table
+  Then I see 'Tea drinker' in the 'Completed opportunities' summary table
+  And I see the closing date of the brief in the 'Completed opportunities' summary table
+  And I see 'Submitted' in the 'Completed opportunities' summary table
 
 
 Scenario: Supplier changes their answers after submission
@@ -348,9 +348,9 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
-  And I see the closing date of the brief in the 'Applications you’ve made' summary table
-  And I see 'Submitted' in the 'Applications you’ve made' summary table
+  Then I see 'Tea drinker' in the 'Completed opportunities' summary table
+  And I see the closing date of the brief in the 'Completed opportunities' summary table
+  And I see 'Submitted' in the 'Completed opportunities' summary table
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
@@ -373,9 +373,9 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
-  And I see the closing date of the brief in the 'Applications you’ve made' summary table
-  And I see 'Submitted' in the 'Applications you’ve made' summary table
+  Then I see 'Tea drinker' in the 'Completed opportunities' summary table
+  And I see the closing date of the brief in the 'Completed opportunities' summary table
+  And I see 'Submitted' in the 'Completed opportunities' summary table
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
