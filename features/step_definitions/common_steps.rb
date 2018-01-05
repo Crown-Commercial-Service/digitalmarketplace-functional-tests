@@ -336,6 +336,25 @@ Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?
   end
 end
 
+Then /^I see an entry in the '(.*)' table with:$/ do |table_heading, table|
+  expected_row = table.rows[0]
+  result_table_rows = get_table_rows_by_caption(table_heading)
+  match = false
+
+  result_table_rows.each do |row|
+    # Get the row as an array of strings to compare with our expected row
+    row_text_values = row.all('td').map {|td| td.text}
+    # Ensure that the expected strings are in the correct place and that we skip anything with '<ANY>'
+    if expected_row.each_with_index.map {|expected_value, expected_index| expected_value == '<ANY>' or row_text_values[expected_index] == expected_value}.all?
+      match = true
+      break
+    end
+  end
+
+  match.should be(true), "Expected: #{expected_row.join(' | ')}"
+end
+
+
 Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |table_heading|
   closing_date = DateTime.strptime(@brief['createdAt'], '%Y-%m-%dT%H:%M:%S') + 14
   step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"
