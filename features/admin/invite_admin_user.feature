@@ -3,7 +3,6 @@ Feature: Admin manager can manage users
 
 Scenario Outline: Admin Manager user can log in and invite admin users
   Given I am logged in as the production <role> user
-  And I am on the /admin page
   And I click the 'View and edit admin accounts' link
   And I click the 'Invite user' link
   When I enter 'functional-test@user.marketplace.team' in the 'Email address' field
