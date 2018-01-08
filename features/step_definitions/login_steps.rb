@@ -38,7 +38,7 @@ end
 Given /^I have (?:a|an) ([a-z\-]+) user with:$/ do |role, table|
   custom_user_data = table.rows_hash
   custom_user_data['role'] = role
-  instance_variable_set("@#{role}_user", get_or_create_user(custom_user_data))
+  instance_variable_set("@#{role}_user".gsub('-', '_'), get_or_create_user(custom_user_data))
 end
 
 Given /^I have a supplier$/ do
