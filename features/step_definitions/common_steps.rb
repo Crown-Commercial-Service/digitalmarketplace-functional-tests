@@ -120,7 +120,7 @@ end
 
 When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
-    page.find(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}']").click
+    page.find(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}'] | //button[text()='#{button_link_name}']").click
   elsif elem_type == 'link'
     page.click_link(button_link_name)
   else
