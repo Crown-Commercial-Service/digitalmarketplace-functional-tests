@@ -2,7 +2,7 @@
 Feature: Admin manager can manage admin users
 
 Scenario Outline: Admin Manager user can log in and suspend admin users
-  Given I have an admin user with:
+  Given I have an <editing-role> user with:
     | email_address | dm-functional-test-manage-admin-user-<editing-role>@digital.cabinet-office.gov.uk |
     | name          | DM Functional Test Manage Admin User <editing-role>                              |
   And I am logged in as the production <role> user
