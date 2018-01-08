@@ -120,16 +120,12 @@ end
 
 When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
-    page.click_button(button_link_name)
+    page.find(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}']").click
   elsif elem_type == 'link'
     page.click_link(button_link_name)
   else
     page.click_link_or_button(button_link_name)
   end
-end
-
-When /I click a (button|link) with class name #{MAYBE_VAR}$/ do |elem_type, button_link_class|
-  page.all("." + button_link_class)[0].click
 end
 
 When /I click a link with text #{MAYBE_VAR}$/ do |link_text|
