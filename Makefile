@@ -1,17 +1,17 @@
 DM_ENVIRONMENT ?= local
 
 smoke-tests: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
 run: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
 rerun:
 	[ -s reports/rerun ] || (echo "rerun file is empty or does not exist"; exit 1)
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber -p rerun
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict -p rerun
 
 run-parallel: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "-t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "--strict -t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 build-report:
 	report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
