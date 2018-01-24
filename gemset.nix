@@ -163,10 +163,10 @@
   mini_portile2 = {
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "1y25adxb1hgg1wb2rn20g3vl07qziq6fz364jc5694611zz863hb";
+      sha256 = "13d32jjadpjj6d2wdhkfpsmy68zjx90p49bgf8f7nkpz86r1fr11";
       type = "gem";
     };
-    version = "2.1.0";
+    version = "2.3.0";
   };
   multi_json = {
     source = {
@@ -196,12 +196,13 @@
     dependencies = ["mini_portile2"];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "045xdg0w7nnsr2f2gb7v7bgx53xbc9dxf0jwzmh2pr3jyrzlm0cj";
+      sha256 = "105xh2zkr8nsyfaj2izaisarpnkrrl9000y3nyflg9cbzrfxv021";
       type = "gem";
     };
-    version = "1.6.8.1";
+    version = "1.8.1";
   };
   notifications-ruby-client = {
+    dependencies = ["jwt"];
     source = {
       remotes = ["https://rubygems.org"];
       sha256 = "1z4pawvms2xqsn64x0ixs7q76bdnqsflwp2kn776z7m43ww14msi";
