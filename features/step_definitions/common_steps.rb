@@ -396,3 +396,9 @@ end
 Then(/^I should get a download file of type '(.*)'$/) do |file_type|
   expect(page.response_headers['Content-Disposition']).to match( "attachment;filename=\\S*\\." + file_type )
 end
+
+Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|
+  page.find_by_id(
+    page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"]
+  ).text.should include(value.to_s)
+end

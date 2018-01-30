@@ -47,18 +47,20 @@ Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
 end
 
 Then (/^I note the number of search results$/) do
-  @service_count = CatalogueHelpers.get_service_count(page)
+  @result_count = CatalogueHelpers.get_service_count(page)
+  puts "Noted result_count: #{@result_count}"
 end
 
 Then /^I click a random category link$/ do
   links = CatalogueHelpers.get_category_links(page)
   link_el = links.sample
   @category_name = link_el.text.sub(/ \([0-9]*\)/, "")  # remove service count
+  puts "Clicking '#{link_el.text}'"
   link_el.click
 end
 
 Then(/^I see fewer search results than noted$/) do
-  expect(CatalogueHelpers.get_service_count(page)).to be < @service_count
+  expect(CatalogueHelpers.get_service_count(page)).to be < @result_count
 end
 
 Then(/^I select several random filters$/) do
@@ -67,6 +69,7 @@ end
 
 Then(/^I note the number of category links$/) do
   @category_link_count = CatalogueHelpers.get_category_links(page).length
+  puts "Noted category_link_count: #{@category_link_count}"
 end
 
 Then(/^I am taken to page (\d+) of results$/) do |page_number|
