@@ -17,10 +17,6 @@ Scenario: User steps through supplier account creation process
 
   When I enter '000000001' in the 'duns_number' field
   And I click 'Continue'
-  Then I am on the 'Companies House number (optional)' page
-
-  When I enter 'SC000001' in the 'companies_house_number' field
-  And I click 'Continue'
   Then I am on the 'Company name' page
 
   When I enter 'This is a test company name' in the 'company_name' field
@@ -39,7 +35,6 @@ Scenario: User steps through supplier account creation process
   And I see the 'Your company details' summary table filled with:
     | field                  | value                       |
     | DUNS number            | 000000001                   |
-    | Companies House number | SC000001                    |
     | Company name           | This is a test company name |
     | Contact name           | Company contact name        |
     | Contact email          | test.company.email@test.com |
@@ -49,7 +44,6 @@ Scenario: User steps through supplier account creation process
     | Email address          | test.supplier.email@test.com |
 
   When I update the value of 'DUNS number' to '000000002' using the summary table 'Edit' link
-  And I update the value of 'Companies House number' to 'SC000002' using the summary table 'Edit' link
   And I update the value of 'Company name' to 'Changed test company name' using the summary table 'Edit' link
   And I update the value of 'Contact name' to 'Changed contact name' using the summary table 'Edit' link
   And I update the value of 'Contact email' to 'test.changed.email@test.com' using the summary table 'Edit' link
@@ -57,7 +51,6 @@ Scenario: User steps through supplier account creation process
   Then I see the 'Your company details' summary table filled with:
     | field                  | value                       |
     | DUNS number            | 000000002                   |
-    | Companies House number | SC000002                    |
     | Company name           | Changed test company name   |
     | Contact name           | Changed contact name        |
     | Contact email          | test.changed.email@test.com |
