@@ -84,11 +84,14 @@ Scenario: User is able to click on several random filters
   And I have a random g-cloud lot from the API
   And I click that lot.name
   Then I am on the 'Search results' page
-  And I note the number of search results
-  Then I select several random filters
+  When I note the number of search results
+  Then a filter checkbox's associated aria-live region contains that result_count
+  When I select several random filters
   And I wait for the page to reload
   Then I am on the 'Search results' page
   And I see fewer search results than noted
+  When I note the number of search results
+  Then a filter checkbox's associated aria-live region contains that result_count
 
 Scenario: User is able to paginate through search results and all of the navigation is preserved
   Given I am on the /g-cloud page

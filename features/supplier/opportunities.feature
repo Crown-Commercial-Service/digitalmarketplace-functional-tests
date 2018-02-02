@@ -41,11 +41,14 @@ Scenario: Specialist roles are selectable for Digital specialists
   And I don't see any 'specialistRole' checkboxes
   When I click 'Digital specialists'
   And I note the result_count
-  And I check 'Designer' checkbox
+  Then a filter checkbox's associated aria-live region contains that result_count
+  When I check 'Designer' checkbox
   And I wait for the page to reload
   Then I see that the stated number of results does not exceed that result_count
   And I see all the opportunities on the page are on the 'Digital specialists' lot
   And I see all the opportunities on the page are for the 'Designer' role
+  When I note the result_count
+  Then a filter checkbox's associated aria-live region contains that result_count
 
 Scenario Outline: Specialist roles are not selectable for non-Digital specialists lots
   Given I am on the /digital-outcomes-and-specialists/opportunities page
