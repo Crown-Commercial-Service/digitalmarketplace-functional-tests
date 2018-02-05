@@ -76,11 +76,6 @@ Scenario: User steps through supplier account creation process
 
 
 @supplier-creation @skip-preview @skip-staging
-Feature: Create new supplier account
-
-Background:
-  Given There is at least one framework that can be applied to
-
 Scenario: User steps through supplier account creation process
   Given I am on the homepage
   When I click 'Become a supplier'
