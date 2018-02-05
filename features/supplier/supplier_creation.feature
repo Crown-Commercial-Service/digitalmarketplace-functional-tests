@@ -1,4 +1,4 @@
-@supplier-creation @skip-staging
+@supplier-creation
 Feature: Create new supplier account
 
 Background:
