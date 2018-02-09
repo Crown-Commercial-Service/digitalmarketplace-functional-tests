@@ -16,7 +16,7 @@ Scenario: User steps through supplier account creation process
   Then I am on the 'DUNS number' page
 
   When I enter '000000001' in the 'duns_number' field
-  And I click 'Continue'
+  And I click 'Save and continue'
   Then I am on the 'Company name' page
 
   When I enter 'This is a test company name' in the 'company_name' field
