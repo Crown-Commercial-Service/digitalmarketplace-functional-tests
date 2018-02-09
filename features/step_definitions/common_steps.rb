@@ -296,11 +296,12 @@ When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name,
   edit_link.click
 end
 
-When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link/ do |field_to_edit, new_value, link_name|
+When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link(?: and the '(.*)' button)?/ do |field_to_edit, new_value, link_name, button_name|
   summary_page = current_url
+  button_name ||= "Continue"
 
   step "I click the summary table '#{link_name}' link for '#{field_to_edit}'"
-  step "I enter '#{new_value}' in the '#{field_to_edit}' field and click its associated 'Continue' button"
+  step "I enter '#{new_value}' in the '#{field_to_edit}' field and click its associated '#{button_name}' button"
 
   page.visit(summary_page)
 end

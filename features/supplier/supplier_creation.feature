@@ -43,7 +43,7 @@ Scenario: User steps through supplier account creation process
     | field                  | value                        |
     | Email address          | test.supplier.email@test.com |
 
-  When I update the value of 'DUNS number' to '000000002' using the summary table 'Edit' link
+  When I update the value of 'DUNS number' to '000000002' using the summary table 'Edit' link and the 'Save and continue' button
   And I update the value of 'Company name' to 'Changed test company name' using the summary table 'Edit' link
   And I update the value of 'Contact name' to 'Changed contact name' using the summary table 'Edit' link
   And I update the value of 'Contact email' to 'test.changed.email@test.com' using the summary table 'Edit' link
