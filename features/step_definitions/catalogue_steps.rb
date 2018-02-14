@@ -34,9 +34,9 @@ Then (/^I see that service in the search results$/) do
       )
     } and sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
       p_element.text == normalize_whitespace(@service['supplierName'])
-    } and sr_element.all(:css, "li.search-result-metadata-item").any? { |li_element|
+    } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
       li_element.text == normalize_whitespace(@service['lotName'])
-    } and sr_element.all(:css, "li.search-result-metadata-item").any? { |li_element|
+    } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
       li_element.text == normalize_whitespace(@service['frameworkName'])
     }
   }.length.should be(1)
