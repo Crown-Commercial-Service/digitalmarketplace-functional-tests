@@ -28,7 +28,7 @@ Scenario: Award flow - Award a requirement to a winning supplier
   And I enter '1' in the 'input-awardedContractStartDate-month' field
   And I enter '2020' in the 'input-awardedContractStartDate-year' field
   And I enter '20000.00' in the 'input-awardedContractValue' field
-  And I click the 'Submit' button
+  And I click the 'submit' button
   Then I see a success banner message containing 'updated'
 
   When I go to that brief overview page
