@@ -6,30 +6,7 @@ Background:
   And that supplier is logged in
   And I am on the /suppliers page
 
-@skip-preview
-Scenario: Supplier user can edit supplier information
-  When I click 'Supplier details'
-  Then I am on the 'Supplier details' page
-
-  When I click 'Edit'
-  And I enter 'New name' in the 'Contact name' field
-  And I enter 'new-email@example.com' in the 'Contact email' field
-  And I enter '12345678' in the 'Contact phone number' field
-  And I enter 'New Address 1' in the 'contact_address1' field
-  And I enter 'New City' in the 'contact_city' field
-  And I enter 'N3W C0DE' in the 'contact_postcode' field
-  And I enter 'All fresh' in the 'Supplier summary' field
-  And I click 'Save and return'
-  Then I see the 'Supplier details' summary table filled with:
-    | field                     | value                           |
-    | Contact name              | New name                        |
-    | Contact email             | new-email@example.com           |
-    | Contact phone number      | 12345678                        |
-    | Registered office address | New Address 1 New City N3W C0DE |
-    | Supplier summary          | All fresh                       |
-
-
-@skip-preview @skip-staging
+@skip-staging
 Scenario: Supplier user can edit supplier information
   When I click 'Supplier details'
   Then I am on the 'Company details' page
