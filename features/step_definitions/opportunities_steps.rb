@@ -20,16 +20,17 @@ Then (/^I see an opportunity in the search results$/) do
   page.should have_selector(:css, ".search-result")
 end
 
-Then (/^I see that the stated number of results does not exceed that (\w+)$/) do |variable_name|
-  var = instance_variable_get("@#{variable_name}")
+Then (/^I see that the stated number of results (does not exceed|equals|is no fewer than) that (\w+)$/) do |comparison_string, variable_name|
+  var_val = instance_variable_get("@#{variable_name}")
   @new_result_count = page.first(:css, ".search-summary-count").text.to_i
   puts "Number of results: #{@new_result_count}"
-  @new_result_count.should <= var
-end
-
-Then (/^I see that the stated number of results equals that (\w+)$/) do |variable_name|
-  var = instance_variable_get("@#{variable_name}")
-  var.should == page.first(:css, ".search-summary-count").text.to_i
+  if comparison_string == "does not exceed"
+    @new_result_count.should <= var_val
+  elsif comparison_string == "equals"
+    @new_result_count.should == var_val
+  elsif comparison_string == "is no fewer than"
+    @new_result_count.should >= var_val
+  end
 end
 
 Then (/^I see all the opportunities on the page are on the '(.*)' lot$/) do |lot|
