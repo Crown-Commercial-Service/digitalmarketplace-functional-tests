@@ -83,7 +83,7 @@ Scenario Outline: User gets no results for impossible combinations of location a
     | Digital outcomes           | International (outside the UK) |
     | User research participants | Off-site                       |
 
-Scenario Outline: User can filter by both status, lot and location together
+Scenario Outline: User can filter by status, lot, location and keyword together
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I click '<lot>'
@@ -102,18 +102,43 @@ Scenario Outline: User can filter by both status, lot and location together
   And I see all the opportunities on the page are on the '<lot>' lot
   And I see all the opportunities on the page are of the '<status>' status
   And I see all the opportunities on the page are in the '<location>' location
+  When I enter '<phrase>' in the 'q' field
+  And I wait for the page to reload
+  Then I see '<phrase>' in the search summary text
+  And I see that the stated number of results does not exceed that result_count
+  And I note the result_count
+  And I see all the opportunities on the page are on the '<lot>' lot
+  And I see all the opportunities on the page are of the '<status>' status
+  And I see all the opportunities on the page are in the '<location>' location
+  # now we remove filters in a different order to test different combinations
+  When I uncheck '<status>' checkbox
+  And I wait for the page to reload
+  Then I see '<phrase>' in the search summary text
+  And I see that the stated number of results is no fewer than that result_count
+  And I note the result_count
+  And I see all the opportunities on the page are on the '<lot>' lot
+  And I see all the opportunities on the page are in the '<location>' location
+  When I click 'All categories'
+  Then I see '<phrase>' in the search summary text
+  And I see that the stated number of results is no fewer than that result_count
+  And I note the result_count
+  And I see all the opportunities on the page are in the '<location>' location
+  When I uncheck '<location>' checkbox
+  And I wait for the page to reload
+  Then I see '<phrase>' in the search summary text
+  And I see that the stated number of results is no fewer than that result_count
 
   Examples:
-    | lot                        | status       | location                       |
-    | Digital specialists        | Open         | Scotland                       |
-    | Digital outcomes           | Open         | International (outside the UK) |
-    | User research participants | Open         | Off-site                       |
-    | Digital specialists        | Closed       | South West England             |
-    | Digital outcomes           | Closed       | International (outside the UK) |
-    | User research participants | Closed       | Off-site                       |
-    | Digital specialists        | Open         | London                         |
-    | Digital outcomes           | Closed       | International (outside the UK) |
-    | User research participants | Open         | Off-site                       |
-    | Digital specialists        | Closed       | Wales                          |
-    | Digital outcomes           | Open         | Yorkshire and the Humber       |
-    | User research participants | Closed       | Northern Ireland               |
+    | lot                        | status       | location                       | phrase              |
+    | Digital specialists        | Open         | Scotland                       | governments         |
+    | Digital outcomes           | Open         | International (outside the UK) | digital             |
+    | User research participants | Open         | Off-site                       | services            |
+    | Digital specialists        | Closed       | South West England             | enterprise software |
+    | Digital outcomes           | Closed       | International (outside the UK) | delivery            |
+    | User research participants | Closed       | Off-site                       | "agile methodology" |
+    | Digital specialists        | Open         | London                         | improve             |
+    | Digital outcomes           | Closed       | International (outside the UK) | performance         |
+    | User research participants | Open         | Off-site                       | analyze             |
+    | Digital specialists        | Closed       | Wales                          | management          |
+    | Digital outcomes           | Open         | Yorkshire and the Humber       | national            |
+    | User research participants | Closed       | Northern Ireland               | metempsychosis      |
