@@ -147,8 +147,12 @@ When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   page.find(:css, "#{klass} :link").click()
 end
 
-When /I check #{MAYBE_VAR} checkbox$/ do |checkbox_label|
-  check_checkbox(checkbox_label)
+When /I (un)?check #{MAYBE_VAR} checkbox$/ do |maybe_un, checkbox_label|
+  if maybe_un
+    uncheck_checkbox(checkbox_label)
+  else
+    check_checkbox(checkbox_label)
+  end
 end
 
 When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radio_label, question|

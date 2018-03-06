@@ -64,7 +64,7 @@ end
 def uncheck_checkbox(locator_or_checkbox, options={})
   checkbox = return_element('checkbox', locator_or_checkbox, options)
 
-  check(checkbox[:id], options.merge({allow_label_click: true}))
+  uncheck(checkbox[:id], options.merge({allow_label_click: true}))
   puts "Unselected: #{checkbox.value}"
 end
 
