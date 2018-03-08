@@ -16,3 +16,7 @@ gem "rest-client"
 gem "rspec"
 gem "selenium-webdriver"
 gem "test-unit"
+
+group :test, :development do
+  gem "pry"
+end
