@@ -63,21 +63,6 @@ Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |
     '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
   )
   published_or_closed.each do |x|
-    if ['Awarded', 'Closed', 'Unsuccessful', 'Cancelled'].include? status
-      x.text.should == outcome(status)
-    else
-      x.text.include?("Published").should be true
-    end
-  end
-end
-
-# TO REMOVE
-Then (/^I see all the opportunities on the page are of the '(.*)' less detailed status$/) do |status|
-  published_or_closed = all(
-    :xpath,
-    '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
-  )
-  published_or_closed.each do |x|
     if ['Closed', 'Unsuccessful', 'Cancelled'].include? status
       x.text.should == status
     else
