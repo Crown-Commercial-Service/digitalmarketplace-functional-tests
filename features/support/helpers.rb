@@ -13,8 +13,23 @@ LOTS = {
   SCS: 'Specialist Cloud Services'
 }
 
+CLOSED_OUTCOMES = {
+  Awarded: 'Closed: awarded',
+  Cancelled: 'Closed: cancelled',
+  Closed: 'Closed: awaiting outcome',
+  Unsuccessful: 'Closed: no suitable suppliers'
+}.freeze
+
 def full_lot(lot)
   LOTS[lot.to_sym]
+end
+
+def closed_outcome?(status)
+  CLOSED_OUTCOMES.key?(status.to_sym)
+end
+
+def closed_outcome_status?(text)
+  CLOSED_OUTCOMES.value?(text)
 end
 
 def normalize_whitespace(text)
