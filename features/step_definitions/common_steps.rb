@@ -407,3 +407,11 @@ Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) 
     page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"]
   ).text.should include(value.to_s)
 end
+
+Then /^I set the page reload flag/ do
+  page.evaluate_script "$(document.body).addClass('not-reloaded')"
+end
+
+Then /^I see that the page has not been reloaded/ do
+  expect(page).to have_selector("body.not-reloaded")
+end
