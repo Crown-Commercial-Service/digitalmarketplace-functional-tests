@@ -2,7 +2,7 @@ When(/^I click a random result in the list of opportunity results returned$/) do
   search_results = all(:xpath, "//*[@class='search-result']")
   selected_result = search_results[rand(search_results.length)]
 
-  @result = @result || Hash.new
+  @result ||= Hash.new
 
   a_elem = selected_result.first(:xpath, ".//h2[@class='search-result-title']/a")
   @result['title'] = a_elem.text
@@ -17,7 +17,7 @@ When(/^I note the result_count$/) do
 end
 
 Then (/^I see an opportunity in the search results$/) do
-  page.should have_selector(:css, ".search-result")
+  expect(page).to have_selector(:css, ".search-result")
 end
 
 Then (/^I see that the stated number of results (does not exceed|equals|is no fewer than) that (\w+)$/) do |comparison_string, variable_name|
@@ -25,44 +25,28 @@ Then (/^I see that the stated number of results (does not exceed|equals|is no fe
   @new_result_count = page.first(:css, ".search-summary-count").text.to_i
   puts "Number of results: #{@new_result_count}"
   if comparison_string == "does not exceed"
-    @new_result_count.should <= var_val
+    expect(@new_result_count).to be <= var_val
   elsif comparison_string == "equals"
-    @new_result_count.should == var_val
+    expect(@new_result_count).to eq(var_val)
   elsif comparison_string == "is no fewer than"
-    @new_result_count.should >= var_val
+    expect(@new_result_count).to be >= var_val
   end
 end
 
 Then (/^I see all the opportunities on the page are on the '(.*)' lot$/) do |lot|
-  lots_found = all(
-    :xpath,
-    '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][1]'
-  )
-  lots_found.each { |x| x.text.should == lot }
+  search_result_metadata_items(:lot).each { |x| expect(x.text).to eq(lot) }
 end
 
 Then (/^I see all the opportunities on the page are in the '(.*)' location/) do |location|
-  locations_found = all(
-    :xpath,
-    '//*[@class="search-result"]//*[@class="search-result-important-metadata"][1]//*[@class="search-result-metadata-item"][2]'
-  )
-  locations_found.each { |x| x.text.should == location }
+  search_result_metadata_items(:location).each { |x| expect(x.text).to eq(location) }
 end
 
 Then (/^I see all the opportunities on the page are for the '(.*)' role/) do |role|
-  locations_found = all(
-    :xpath,
-    '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][2]'
-  )
-  locations_found.each { |x| x.text.should == role }
+  search_result_metadata_items(:role).each { |x| expect(x.text).to eq(role) }
 end
 
 Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |status|
-  published_or_closed = all(
-    :xpath,
-    '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
-  )
-  published_or_closed.each do |x|
+  search_result_metadata_items(:status).each do |x|
     if closed_outcome?(status)
       expect(x.text).to satisfy { |text| closed_outcome_status?(text) }
     else
@@ -87,8 +71,8 @@ Then (/^I see all the opportunities on the page are of the '(.*)' less detailed 
 end
 
 Then (/^I see no results$/) do
-  page.first(:css, ".search-summary-count").text.to_i.should == 0
-  page.should have_selector(:css, '.search-result', :count => 0)
+  expect(page.first(:css, ".search-summary-count").text.to_i).to eq(0)
+  expect(page).to have_selector(:css, '.search-result', :count => 0)
 end
 
 Then /^I see the details of the brief match what was published$/ do

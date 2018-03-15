@@ -11,7 +11,14 @@ LOTS = {
   PaaS: 'Platform as a Service',
   IaaS: 'Infrastructure as a Service',
   SCS: 'Specialist Cloud Services'
-}
+}.freeze
+
+META_DATA_XPATHS = {
+  location: '//*[@class="search-result"]//*[@class="search-result-important-metadata"][1]//*[@class="search-result-metadata-item"][2]',
+  lot: '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][1]',
+  role: '//*[@class="search-result"]//*[@class="search-result-metadata"][1]//*[@class="search-result-metadata-item"][2]',
+  status: '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
+}.freeze
 
 CLOSED_OUTCOMES = {
   Awarded: 'Closed: awarded',
@@ -22,6 +29,10 @@ CLOSED_OUTCOMES = {
 
 def full_lot(lot)
   LOTS[lot.to_sym]
+end
+
+def search_result_metadata_items(type)
+  all(:xpath, META_DATA_XPATHS[type])
 end
 
 def closed_outcome?(status)
