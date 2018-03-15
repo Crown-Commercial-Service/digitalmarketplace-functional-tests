@@ -21,7 +21,7 @@ Scenario: Supplier user can edit the name of a service
   When I click the top-level summary table 'Edit' link for the section 'Service name'
   Then I am on the 'Service name' page
   And I enter 'Changed cloud support service' in the 'serviceName' field
-  And I click 'Save and return to service'
+  And I click 'Save and return'
   Then I am on the 'Changed cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
 
@@ -32,7 +32,7 @@ Scenario: Supplier user can edit the description of a service
   When I click the top-level summary table 'Edit' link for the section 'About your service'
   Then I am on the 'About your service' page
   And I enter 'This is an updated description' in the 'serviceDescription' field
-  And I click 'Save and return to service'
+  And I click 'Save and return'
   Then I am on the 'Test cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And I see the 'About your service' summary table filled with:
@@ -47,7 +47,7 @@ Scenario: Supplier user can edit the features and benefits of a service
   Then I am on the 'Service features and benefits' page
   And I enter 'New Feature 2' in the 'input-serviceFeatures-2' field
   And I enter 'Updated Benefit 2' in the 'input-serviceBenefits-2' field
-  And I click 'Save and return to service'
+  And I click 'Save and return'
   Then I am on the 'Test cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And I see the 'Service features and benefits' summary table filled with:
@@ -58,7 +58,7 @@ Scenario: Supplier user can replace the service definition document
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
   And I choose file 'test.pdf' for the field 'serviceDefinitionDocumentURL'
-  And I click 'Save and return to service'
+  And I click 'Save and return'
   Then I am on the 'Test cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
 
@@ -66,7 +66,7 @@ Scenario: Supplier user can not replace the service definition document with a n
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
   And I choose file 'word.docx' for the field 'serviceDefinitionDocumentURL'
-  And I click 'Save and return to service'
+  And I click 'Save and return'
   Then I am on the 'Documents' page
   And I see a validation message containing 'Your document is not in an open format. Please save as an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
 
@@ -74,7 +74,7 @@ Scenario: Supplier user can not replace the service definition document with a f
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
   And I choose file '6mb.pdf' for the field 'serviceDefinitionDocumentURL'
-  And I click 'Save and return to service'
+  And I click 'Save and return'
   Then I am on the 'Documents' page
   And I see a validation message containing 'Your document exceeds the 5MB limit. Please reduce file size.'
 

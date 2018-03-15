@@ -24,11 +24,11 @@ Scenario: User steps through supplier account creation process
   And I enter 'Company contact name' in the 'contact_name' field
   And I enter 'test.company.email@test.com' in the 'email_address' field
   And I enter '0123456789' in the 'phone_number' field
-  And I click 'Continue'
+  And I click 'Save and continue'
   Then I am on the 'Create login' page
 
   When I enter 'test.supplier.email@test.com' in the 'email_address' field
-  And I click 'Continue'
+  And I click 'Save and continue'
   Then I am on the 'Check your information' page
   And I see the 'Your company details' summary table filled with:
     | field                  | value                       |
@@ -41,7 +41,7 @@ Scenario: User steps through supplier account creation process
     | field                  | value                        |
     | Email address          | test.supplier.email@test.com |
 
-  When I update the value of 'DUNS number' to '000000002' using the summary table 'Edit' link and the 'Save and continue' button
+  When I update the value of 'DUNS number' to '000000002' using the summary table 'Edit' link
   And I update the value of 'Company name' to 'Changed test company name' using the summary table 'Edit' link
   And I update the value of 'Contact name' to 'Changed contact name' using the summary table 'Edit' link
   And I update the value of 'Contact email' to 'test.changed.email@test.com' using the summary table 'Edit' link
@@ -80,17 +80,17 @@ Scenario: User steps through supplier account creation process
   Then I am on the 'Company name' page
 
   When I enter 'This is a test company name' in the 'company_name' field
-  And I click 'Continue'
+  And I click 'Save and continue'
   Then I am on the 'Company contact details' page
 
   When I enter 'Company contact name' in the 'contact_name' field
   Then I enter 'test.company.email@test.com' in the 'email_address' field
   Then I enter '0123456789' in the 'phone_number' field
-  And I click 'Continue'
+  And I click 'Save and continue'
   Then I am on the 'Create login' page
 
   When I enter 'test.supplier.email@test.com' in the 'email_address' field
-  And I click 'Continue'
+  And I click 'Save and continue'
   Then I am on the 'Check your information' page
   And I see the 'Your company details' summary table filled with:
     | field                  | value                       |
