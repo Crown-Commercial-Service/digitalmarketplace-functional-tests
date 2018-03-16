@@ -27,6 +27,14 @@ CLOSED_OUTCOMES = {
   Unsuccessful: 'Closed: no suitable suppliers'
 }.freeze
 
+#TO REMOVE
+OLD_CLOSED_OUTCOMES = %w(
+  Awarded
+  Cancelled
+  Closed
+  Unsuccessful
+).freeze
+
 def full_lot(lot)
   LOTS[lot.to_sym]
 end
@@ -41,6 +49,11 @@ end
 
 def closed_outcome_status?(text)
   CLOSED_OUTCOMES.value?(text)
+end
+
+#TO REMOVE
+def old_closed_outcome_status?(text)
+  OLD_CLOSED_OUTCOMES.include?(text)
 end
 
 def normalize_whitespace(text)

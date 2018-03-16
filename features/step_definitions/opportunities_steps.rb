@@ -63,7 +63,7 @@ Then (/^I see all the opportunities on the page are of the '(.*)' less detailed 
   )
   published_or_closed.each do |x|
     if ['Closed', 'Unsuccessful', 'Cancelled'].include? status
-      x.text.should == status
+      expect(x.text).to satisfy { |text| old_closed_outcome_status?(text) }
     else
       x.text.include?("Published").should be true
     end
