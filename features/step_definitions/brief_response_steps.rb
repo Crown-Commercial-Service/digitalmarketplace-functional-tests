@@ -62,11 +62,11 @@ Then /^I visit the '(.*)' question page for that brief response$/ do |question|
 end
 
 Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
-  page.should have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+  expect(page).to have_xpath("//span[@class='question-advice']/p", text: replayed_info)
 end
 
 Then /^I am on the '(.*)' page with brief '(.*)'/ do |str, brief_attribute|
-  page.should have_selector('h1', text: normalize_whitespace(str % (@brief[brief_attribute])))
+  expect(page).to have_selector('h1', text: normalize_whitespace(str % (@brief[brief_attribute])))
 end
 
 Given /^I publish an answer to a question$/ do

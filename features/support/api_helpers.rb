@@ -39,16 +39,16 @@ def update_framework_status(framework_slug, status)
       frameworks: {status: status, clarificationQuestionsOpen: status == 'open'},
       updated_by: "functional tests",
     })
-    response.code.should be(200), _error(response, "Failed to update framework status #{framework_slug} #{status}")
+    expect(response.code).to eq(200), _error(response, "Failed to update framework status #{framework_slug} #{status}")
   end
   return framework['status']
 end
 
 def get_user_by_email(email_address)
   response = call_api(:get, "/users", params: {email_address: email_address})
-  response.code.should be(200), _error(response, "Failed get details for user #{email_address}")
+  expect(response.code).to eq(200), _error(response, "Failed get details for user #{email_address}")
   users = JSON.parse(response.body)['users']
-  users.length.should be(1)
+  expect(users.length).to eq(1)
   return users[0]
 end
 
@@ -74,19 +74,19 @@ def ensure_user_exists(user_details)
         users: {locked: false},
         updated_by: "functional tests",
       }, safe_for_smoke_tests: true)
-      reset_failed_login_response.code.should be(200), _error(reset_failed_login_response, "Failed to ensure user #{user_details['emailAddress']} exists")
+      expect(reset_failed_login_response.code).to eq(200), _error(reset_failed_login_response, "Failed to ensure user #{user_details['emailAddress']} exists")
       # this should definitely fail now
-      auth_response.code.should be(200), _error(auth_response, "User #{user_details['emailAddress']} exists but we couldn't authenticate as them. Does our password agree with the one on the server?")
+      expet(auth_response.code).to eq(200), _error(auth_response, "User #{user_details['emailAddress']} exists but we couldn't authenticate as them. Does our password agree with the one on the server?")
     end
   else
-    creation_response.code.should be(201), _error(creation_response, "Failed to ensure user #{user_details['emailAddress']} exists")
+    expect(creation_response.code).to eq(201), _error(creation_response, "Failed to ensure user #{user_details['emailAddress']} exists")
   end
   return get_user_by_email(user_details['emailAddress'])
 end
 
 def ensure_no_framework_agreements_exist(framework_slug)
   response = call_api(:get, "/frameworks/#{framework_slug}/suppliers")
-  response.code.should be(200), _error(response, "Failed to get framework #{framework_slug}")
+  expect(response.code).to eq(200), _error(response, "Failed to get framework #{framework_slug}")
   supplier_frameworks = JSON.parse(response.body)["supplierFrameworks"]
   supplier_frameworks.each do |supplier_framework|
     set_supplier_on_framework(framework_slug, supplier_framework["supplierId"], false)
@@ -98,7 +98,7 @@ def set_supplier_on_framework(framework_slug, supplier_id, status)
     frameworkInterest: {onFramework: status},
     updated_by: "functional tests",
   })
-  response.code.should be(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
+  expect(response.code).to eq(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
 end
 
 def register_interest_in_framework(framework_slug, supplier_id)
@@ -108,7 +108,7 @@ def register_interest_in_framework(framework_slug, supplier_id)
     response = call_api(:put, path, payload: {
       updated_by: "functional tests"
     })
-    response.code.should match(/20[01]/), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
+    expect(response.code).to match(/20[01]/), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
   end
 end
 
@@ -118,7 +118,7 @@ def submit_supplier_declaration(framework_slug, supplier_id, declaration)
     declaration: declaration,
     updated_by: "functional tests",
   })
-  [200, 201].should include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
+  expect([200, 201]).to include(response.code), _error(response, "Failed to submit supplier declaration #{framework_slug} #{supplier_id}")
   JSON.parse(response.body)['declaration']
 end
 
@@ -201,7 +201,7 @@ def create_brief(framework_slug, lot_slug, user_id)
   brief_data['briefs']['frameworkSlug'] = framework_slug
 
   response = call_api(:post, '/briefs', payload: brief_data)
-  response.code.should be(201), _error(response, "Failed to create brief for #{lot_slug}, #{user_id}")
+  expect(response.code).to eq(201), _error(response, "Failed to create brief for #{lot_slug}, #{user_id}")
   JSON.parse(response.body)['briefs']
 end
 
@@ -220,13 +220,13 @@ def create_brief_response(lot_slug, brief_id, supplier_id)
   brief_response_data['briefResponses']['supplierId'] = supplier_id
 
   response = call_api(:post, '/brief-responses', payload: brief_response_data)
-  response.code.should be(201), _error(response, "Failed to create brief response for #{lot_slug}, #{brief_id}")
+  expect(response.code).to eq(201), _error(response, "Failed to create brief response for #{lot_slug}, #{brief_id}")
   JSON.parse(response.body)['briefResponses']['id']
 end
 
 def submit_brief_response(brief_response_id)
   response = call_api(:post, "/brief-responses/#{brief_response_id}/submit", payload: {updated_by: "functional tests"})
-  response.code.should be(200), _error(response, "Failed to submit brief response for #{brief_response_id}")
+  expect(response.code).to eq(200), _error(response, "Failed to submit brief response for #{brief_response_id}")
 end
 
 def publish_brief(brief_id)
@@ -234,7 +234,7 @@ def publish_brief(brief_id)
   response = call_api(:post, path, payload: {
     updated_by: "functional tests"
   })
-  response.code.should be(200), _error(response, "Failed to publish brief #{brief_id}")
+  expect(response.code).to eq(200), _error(response, "Failed to publish brief #{brief_id}")
   JSON.parse(response.body)['briefs']
 end
 
@@ -243,7 +243,7 @@ def withdraw_brief(brief_id)
   response = call_api(:post, path, payload: {
     updated_by: "functional tests"
   })
-  response.code.should be(200), _error(response, "Failed to withdraw brief #{brief_id}")
+  expect(response.code).to eq(200), _error(response, "Failed to withdraw brief #{brief_id}")
   JSON.parse(response.body)['briefs']
 end
 
@@ -264,7 +264,7 @@ def create_supplier(custom_supplier_data={})
     "/suppliers",
     payload: {updated_by: "functional tests", suppliers: supplier_data}
   )
-  response.code.should be(201), _error(response, "Failed to create supplier")
+  expect(response.code).to eq(201), _error(response, "Failed to create supplier")
   JSON.parse(response.body)['suppliers']
 end
 
@@ -308,7 +308,7 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
 
   service_path = "/services/#{random_service_id}"
   response = call_api(:put, service_path, payload: service_data)
-  response.code.should be(201), response.body
+  expect(response.code).to eq(201), response.body
   JSON.parse(response.body)['services']
 end
 
@@ -327,7 +327,7 @@ def create_user(user_role, custom_user_data={})
   user_data['supplierId'] = custom_user_data['supplierId'] || custom_user_data['supplier_id'] || 0  if user_role == 'supplier'
 
   response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
-  response.code.should be(201), response.body
+  expect(response.code).to eq(201), response.body
   @user = JSON.parse(response.body)["users"]
   @user['password'] = password
   puts "Email address: #{@user['emailAddress']}"
