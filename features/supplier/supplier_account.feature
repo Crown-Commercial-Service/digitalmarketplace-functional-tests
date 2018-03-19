@@ -16,7 +16,7 @@ Scenario: Supplier user can edit supplier information
   And I enter 'new-email@example.com' in the 'Contact email address' field
   And I enter '12345678' in the 'Contact phone number' field
   And I enter 'All fresh' in the 'Supplier summary' field
-  And I click 'Save and continue'
+  And I click 'Save and return'
   Then I see the 'What buyers will see' summary table filled with:
     | field                     | value                           |
     | Contact name              | New name                        |
