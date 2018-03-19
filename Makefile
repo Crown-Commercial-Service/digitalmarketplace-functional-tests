@@ -21,7 +21,7 @@ setup: install clean
 	mkdir -p reports/
 
 install:
-	bundle install --path .bundle
+	bundle install --path .bundle --without development test
 
 config/local.sh:
 	cp config/example.sh config/local.sh
