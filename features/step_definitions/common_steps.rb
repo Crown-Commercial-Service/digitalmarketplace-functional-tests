@@ -240,6 +240,10 @@ Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, se
   page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
+Then /^I see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
+  find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']")
+end
+
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
@@ -406,4 +410,12 @@ Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) 
   page.find_by_id(
     page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"]
   ).text.should include(value.to_s)
+end
+
+Then /^I set the page reload flag/ do
+  page.evaluate_script "$(document.body).addClass('not-reloaded')"
+end
+
+Then /^I see that the page has not been reloaded/ do
+  expect(page).to have_selector("body.not-reloaded")
 end
