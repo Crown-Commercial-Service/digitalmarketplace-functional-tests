@@ -9,7 +9,7 @@ Scenario: Live reload search hitting enter should not cause a full page reload
   And I set the page reload flag
   When I enter 'Tea\n' in the 'search' field
   Then I see that the page has not been reloaded
-  And I see the 'Clear filters' link with href 'digital-outcomes-and-specialists/opportunities?q=Tea'
+  And I see the 'Clear filters' link with href '/digital-outcomes-and-specialists/opportunities?q=Tea&doc_type=briefs&live-results=true'
 
 Scenario: Live reload search button should not cause a full page reload
   Given I am on the homepage
@@ -20,4 +20,4 @@ Scenario: Live reload search button should not cause a full page reload
   And I enter 'Tea' in the 'search' field
   When I click the 'Search' button
   Then I see that the page has not been reloaded
-  And I see the 'Clear filters' link with href 'digital-outcomes-and-specialists/opportunities?q=Tea'
+  And I see the 'Clear filters' link with href '/digital-outcomes-and-specialists/opportunities?q=Tea&doc_type=briefs&live-results=true'
