@@ -240,6 +240,10 @@ Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, se
   page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
+Then /^I see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
+  find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']")
+end
+
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   page.should have_selector('h1', text: normalize_whitespace(page_name))
 end
