@@ -4,7 +4,7 @@ Feature: Create new supplier account
 Background:
   Given There is at least one framework that can be applied to
 
-@skip-staging # Temporary duplicate scenario to be removed after new button content is release to staging.
+@skip-staging
 Scenario: User steps through supplier account creation process
   Given I am on the homepage
   When I click 'Become a supplier'
@@ -63,7 +63,7 @@ Scenario: User steps through supplier account creation process
   # We can't ever click the "Create account" button to check the final page because this will create a supplier entry
   # with DUNS number 000000001 and the test will never pass again.
 
-@skip-preview # Temporary duplicate scenario to be removed after new button content is release to staging.
+@skip-preview
 Scenario: User steps through supplier account creation process
   Given I am on the homepage
   When I click 'Become a supplier'
