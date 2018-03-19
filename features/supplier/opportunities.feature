@@ -1,22 +1,6 @@
 @opportunities
 Feature: Supplier viewing and filtering DOS opportunities - extension of smoke tests
 
-# TO REMOVE
-@skip-preview
-Scenario Outline: User can filter by individual status
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
-  When I note the result_count
-  And I check '<status>' checkbox
-  And I wait for the page to reload
-  Then I see that the stated number of results does not exceed that result_count
-  And I see all the opportunities on the page are of the '<status>' less detailed status
-
-  Examples:
-    | status       |
-    | Open         |
-    | Closed       |
-
-@skip-staging
 Scenario Outline: User can filter by individual status
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
@@ -99,69 +83,7 @@ Scenario Outline: User gets no results for impossible combinations of location a
     | Digital outcomes           | International (outside the UK) |
     | User research participants | Off-site                       |
 
-# TO REMOVE
-@skip-preview
-Scenario Outline: User can filter by status, lot, location and keyword together
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
-  When I note the result_count
-  And I click '<lot>'
-  Then I see that the stated number of results does not exceed that result_count
-  And I note the result_count
-  When I check '<status>' checkbox
-  And I wait for the page to reload
-  Then I see that the stated number of results does not exceed that result_count
-  And I note the result_count
-  And I see all the opportunities on the page are on the '<lot>' lot
-  And I see all the opportunities on the page are of the '<status>' less detailed status
-  When I check '<location>' checkbox
-  And I wait for the page to reload
-  Then I see that the stated number of results does not exceed that result_count
-  And I note the result_count
-  And I see all the opportunities on the page are on the '<lot>' lot
-  And I see all the opportunities on the page are of the '<status>' less detailed status
-  And I see all the opportunities on the page are in the '<location>' location
-  When I enter '<phrase>' in the 'q' field
-  And I wait for the page to reload
-  Then I see '<phrase>' in the search summary text
-  And I see that the stated number of results does not exceed that result_count
-  And I note the result_count
-  And I see all the opportunities on the page are on the '<lot>' lot
-  And I see all the opportunities on the page are of the '<status>' less detailed status
-  And I see all the opportunities on the page are in the '<location>' location
-  # now we remove filters in a different order to test different combinations
-  When I uncheck '<status>' checkbox
-  And I wait for the page to reload
-  Then I see '<phrase>' in the search summary text
-  And I see that the stated number of results is no fewer than that result_count
-  And I note the result_count
-  And I see all the opportunities on the page are on the '<lot>' lot
-  And I see all the opportunities on the page are in the '<location>' location
-  When I click 'All categories'
-  Then I see '<phrase>' in the search summary text
-  And I see that the stated number of results is no fewer than that result_count
-  And I note the result_count
-  And I see all the opportunities on the page are in the '<location>' location
-  When I uncheck '<location>' checkbox
-  And I wait for the page to reload
-  Then I see '<phrase>' in the search summary text
-  And I see that the stated number of results is no fewer than that result_count
 
-  Examples:
-    | lot                        | status       | location                       | phrase              |
-    | Digital specialists        | Open         | Scotland                       | governments         |
-    | Digital outcomes           | Open         | International (outside the UK) | digital             |
-    | User research participants | Open         | Off-site                       | services            |
-    | Digital specialists        | Closed       | South West England             | enterprise software |
-    | Digital outcomes           | Closed       | International (outside the UK) | delivery            |
-    | User research participants | Closed       | Off-site                       | "agile methodology" |
-    | Digital specialists        | Open         | London                         | improve             |
-    | Digital outcomes           | Closed       | International (outside the UK) | performance         |
-    | User research participants | Open         | Off-site                       | analyze             |
-    | Digital specialists        | Closed       | Wales                          | management          |
-    | Digital outcomes           | Open         | Yorkshire and the Humber       | national            |
-    | User research participants | Closed       | Northern Ireland               | metempsychosis      |
-
-@skip-staging
 Scenario Outline: User can filter by status, lot, location and keyword together
   Given I am on the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count

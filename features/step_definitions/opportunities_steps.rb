@@ -55,21 +55,6 @@ Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |
   end
 end
 
-# TO REMOVE
-Then (/^I see all the opportunities on the page are of the '(.*)' less detailed status$/) do |status|
-  published_or_closed = all(
-    :xpath,
-    '//*[@class="search-result"]//*[@class="search-result-metadata"][2]//*[@class="search-result-metadata-item"][1]'
-  )
-  published_or_closed.each do |x|
-    if ['Closed', 'Unsuccessful', 'Cancelled'].include? status
-      expect(x.text).to satisfy { |text| old_closed_outcome_status?(text) }
-    else
-      x.text.include?("Published").should be true
-    end
-  end
-end
-
 Then (/^I see no results$/) do
   expect(page.first(:css, ".search-summary-count").text.to_i).to eq(0)
   expect(page).to have_selector(:css, '.search-result', :count => 0)
