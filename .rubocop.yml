@@ -45,9 +45,6 @@ MultilineIfThen:
 ParenthesesAroundCondition:
   Enabled: false
 
-RedundantReturn:
-  Enabled: false
-
 SpaceAroundEqualsInParameterDefault:
   Enabled: false
 

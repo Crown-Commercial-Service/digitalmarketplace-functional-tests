@@ -41,7 +41,7 @@ def update_framework_status(framework_slug, status)
     })
     expect(response.code).to eq(200), _error(response, "Failed to update framework status #{framework_slug} #{status}")
   end
-  return framework['status']
+  framework['status']
 end
 
 def get_user_by_email(email_address)
@@ -49,7 +49,7 @@ def get_user_by_email(email_address)
   expect(response.code).to eq(200), _error(response, "Failed get details for user #{email_address}")
   users = JSON.parse(response.body)['users']
   expect(users.length).to eq(1)
-  return users[0]
+  users[0]
 end
 
 def ensure_user_exists(user_details)
@@ -81,7 +81,7 @@ def ensure_user_exists(user_details)
   else
     expect(creation_response.code).to eq(201), _error(creation_response, "Failed to ensure user #{user_details['emailAddress']} exists")
   end
-  return get_user_by_email(user_details['emailAddress'])
+  get_user_by_email(user_details['emailAddress'])
 end
 
 def ensure_no_framework_agreements_exist(framework_slug)
@@ -355,7 +355,7 @@ def get_or_create_supplier(custom_supplier_data)
   if not @supplier
     @supplier = create_supplier(custom_supplier_data)
   end
-  return @supplier
+  @supplier
 end
 
 def get_or_create_user(custom_user_data)
@@ -388,5 +388,5 @@ def get_or_create_user(custom_user_data)
     role = custom_user_data['role'] || (custom_user_data['supplier_id'] ? 'supplier' : 'buyer')
     @user = create_user(role, custom_user_data)
   end
-  return @user
+  @user
 end
