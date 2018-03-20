@@ -1,4 +1,4 @@
-@download-user-research-participants
+@download-user-research-participants @skip-staging
 Feature: Download user research participants
 
 Scenario Outline: Correct users can view the link to download buyer user reseach participants
