@@ -1,4 +1,4 @@
-@live-reload @skip-production
+@live-reload
 Feature: Live reload search
 
 Scenario: Live reload search hitting enter should not cause a full page reload
