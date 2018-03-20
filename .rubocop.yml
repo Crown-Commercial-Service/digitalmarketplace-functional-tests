@@ -1,0 +1,172 @@
+require: rubocop-rspec
+
+CaseIndentation:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+EmptyLineBetweenDefs:
+  Enabled: false
+
+SpaceAroundOperators:
+  Enabled: false
+
+SpaceBeforeBlockBraces:
+  Enabled: false
+
+SpaceAfterComma:
+  Enabled: false
+
+SpaceInsideParens:
+  Enabled: false
+
+TrailingBlankLines:
+  Enabled: false
+
+AndOr:
+  Enabled: false
+
+DefWithParentheses:
+  Enabled: false
+
+MethodCalledOnDoEndBlock:
+  Enabled: false
+
+MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+MultilineBlockChain:
+  Enabled: false
+
+MultilineIfThen:
+  Enabled: false
+
+ParenthesesAroundCondition:
+  Enabled: false
+
+RedundantReturn:
+  Enabled: false
+
+SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+UnusedBlockArgument:
+  Enabled: false
+
+VariableName:
+  Enabled: false
+
+HashSyntax:
+  Enabled: false
+
+WordArray:
+  Enabled: false
+
+AmbiguousRegexpLiteral:
+  Enabled: false
+
+AssignmentInCondition:
+  Enabled: false
+
+HandleExceptions:
+  Enabled: false
+
+ParenthesesAsGroupedExpression:
+  Enabled: false
+
+ShadowingOuterLocalVariable:
+  Enabled: false
+
+UselessAssignment:
+  Enabled: false
+
+Void:
+  Enabled: false
+
+BracesAroundHashParameters:
+  Enabled: false
+
+SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+SpaceInsideBlockBraces:
+  Enabled: false
+
+ParallelAssignment:
+  Enabled: false
+
+UnneededPercentQ:
+  Enabled: false
+
+EmptyLinesAroundModuleBody:
+  Enabled: false
+
+EmptyLinesAroundBeginBody:
+  Enabled: false
+
+EmptyLinesAroundBlockBody:
+  Enabled: false
+
+RedundantBlockCall:
+  Enabled: false
+
+UnneededInterpolation:
+  Enabled: false
+
+BarePercentLiterals:
+  Enabled: false
+
+SpaceAroundBlockParameters:
+  Enabled: false
+
+EmptyLinesAroundExceptionHandlingKeywords:
+  Enabled: false
+
+StringReplacement:
+  Enabled: false
+
+MultilineMethodCallBraceLayout:
+  Enabled: false
+
+ExtraSpacing:
+  Enabled: false
+
+DateTime:
+  Enabled: false
+
+SymbolArray:
+  Enabled: false
+
+SymbolProc:
+  Enabled: false
+
+AmbiguousBlockAssociation:
+  Enabled: false
+
+BlockLength:
+  Enabled: false
+
+NumericPredicate:
+  Enabled: false
+
+ZeroLengthPredicate:
+  Enabled: false
+
+RescueWithoutErrorClass:
+  Enabled: false
+
+RangeInclude:
+  Enabled: false
+
+MultilineIfModifier:
+  Enabled: false
+
+ConditionalAssignment:
+  Enabled: false
+
+IfInsideElse:
+  Enabled: false
+
+InverseMethods:
+  Enabled: false
