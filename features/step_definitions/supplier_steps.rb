@@ -20,6 +20,20 @@ Given 'There is at most one framework that can be applied to' do
   end
 end
 
+Given 'There is a framework that is open for applications' do
+  response = call_api(:get, "/frameworks")
+  response.code.should be(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  frameworks.delete_if {|framework| not ['open'].include?(framework['status'])}
+  if frameworks.empty?
+    puts 'SKIPPING as there are no open frameworks'
+    skip_this_scenario
+  else
+    @framework = frameworks[0]
+    puts "Applying to framework '#{@framework['name']}'"
+  end
+end
+
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
   organisation_size ||= %w[micro small medium large].sample
   submit_supplier_declaration(@framework['slug'], @supplier["id"], 'status': 'complete', 'organisationSize': organisation_size, 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo@bar.com')

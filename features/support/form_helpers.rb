@@ -212,4 +212,16 @@ module FormHelper
 
     values
   end
+
+  def get_answers_for_validated_questions
+    questions = page.all(:xpath, "//input[@class='text-box-with-error']")
+    options = {}
+    questions.each do |question|
+      if question["name"] =~ /email/i
+          options[question["name"]] = "lain@company.co.uk"
+      end
+    end
+    options
+  end
+
 end
