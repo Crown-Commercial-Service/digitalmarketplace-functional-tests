@@ -33,9 +33,6 @@ DefWithParentheses:
 MethodCalledOnDoEndBlock:
   Enabled: false
 
-MethodCallWithoutArgsParentheses:
-  Enabled: false
-
 MultilineBlockChain:
   Enabled: false
 
