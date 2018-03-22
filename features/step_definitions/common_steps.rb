@@ -4,7 +4,7 @@ require 'uri'
 
 Given /^I am on the homepage$/ do
   page.visit("#{dm_frontend_domain}")
-  page.should have_content("Digital Marketplace")
+  expect(page).to have_content("Digital Marketplace")
 end
 
 Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
@@ -16,19 +16,19 @@ Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
     @response = call_api(:get, url, domain: domain)
   else
     page.visit("#{dm_frontend_domain}#{url}")
-    page.should have_content("Digital Marketplace")
+    expect(page).to have_content("Digital Marketplace")
   end
 end
 
 Given /^I have a live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
   response = call_api(:get, "/frameworks")
-  response.code.should be(200), _error(response, "Failed getting frameworks")
+  expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
   frameworks.delete_if {|framework| framework['framework'] != metaframework_slug || framework['status'] != 'live'}
   if lot_slug
     frameworks.delete_if {|framework| framework['lots'].select { |lot| lot["slug"] == lot_slug}.to_a.empty?}
   end
-  frameworks.empty?.should be(false), _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
+  expect(frameworks).not_to be_empty, _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
   @framework = frameworks[0]
   puts @framework['slug']
 end
@@ -44,7 +44,7 @@ Given /^I have a random g-cloud service from the API$/ do
 
   params = {status: "published", framework: latest_g_cloud_slug}
   page_one = call_api(:get, "/services", params: params)
-  page_one.code.should == 200
+  expect(page_one.code).to eq(200)
   last_page_url = JSON.parse(page_one.body)['links']['last']
   params[:page] = if last_page_url then
                     1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
@@ -52,7 +52,7 @@ Given /^I have a random g-cloud service from the API$/ do
                     1
                   end
   random_page = call_api(:get, "/services", params: params)
-  random_page.code.should == 200
+  expect(random_page.code).to eq(200)
   services = JSON.parse(random_page.body)['services']
   @service = services[rand(services.length)]
   puts "Service ID: #{@service['id']}"
@@ -183,11 +183,11 @@ When /I check all '(.*)' checkboxes$/ do |checkbox_name|
 end
 
 Then /I don't see a '(.*)' checkbox$/ do |checkbox_name|
-  all_fields(checkbox_name, {type: 'checkbox'}).length.should == 0
+  expect(all_fields(checkbox_name, {type: 'checkbox'}).length).to eq(0)
 end
 
 Then /I don't see any '(.*)' checkboxes$/ do |checkbox_fieldname|
-  page.should have_selector(:xpath, "//input[@type='checkbox'][@name='#{checkbox_fieldname}']", :count => 0)
+  expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@name='#{checkbox_fieldname}']", :count => 0)
 end
 
 When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
@@ -218,26 +218,26 @@ Then /^I see a (success|warning|destructive|temporary-message) banner message co
   rescue
     banner_message = page.find(:css, ".banner-#{status}-with-action")
   end
-  banner_message.should have_content(message)
+  expect(banner_message).to have_content(message)
 end
 
 Then /^I don't see a banner message$/ do
-  page.should_not have_selector(:xpath, "//*[contains(@class, 'banner-')][contains(@class, '-action')]")
+  expect(page).not_to have_selector(:xpath, "//*[contains(@class, 'banner-')][contains(@class, '-action')]")
 end
 
 Then /^I see a validation message containing '(.*)'$/ do |message|
   validation_message = page.find(:css, ".validation-message")
-  validation_message.should have_content(message)
+  expect(validation_message).to have_content(message)
 end
 
 Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
-  breadcrumb.text().should == breadcrumb_text
+  expect(breadcrumb.text()).to eq(breadcrumb_text)
 end
 
 Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
-  page.should have_selector(:link_or_button, selector_text) if negative.empty?
-  page.should_not have_selector(:link_or_button, selector_text) unless negative.empty?
+  expect(page).to have_selector(:link_or_button, selector_text) if negative.empty?
+  expect(page).not_to have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
 Then /^I see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
@@ -245,43 +245,43 @@ Then /^I see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
-  page.should have_selector('h1', text: normalize_whitespace(page_name))
+  expect(page).to have_selector('h1', text: normalize_whitespace(page_name))
 end
 
 Then /^I see #{MAYBE_VAR} in the page's (.*)$/ do |page_name_fragment, selector|
-  find(selector).text.should include(normalize_whitespace(page_name_fragment))
+  expect(find(selector).text).to include(normalize_whitespace(page_name_fragment))
 end
 
 Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
-  find('h1').text.should end_with term
+  expect(find('h1').text).to end_with(term)
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
   if page.has_field?(field, {type: 'radio', visible: :all}) or page.has_field?(field, {type: 'checkbox', visible: :all})
-    first_field(field, {checked: true}).value.should == value
+    expect(first_field(field, {checked: true}).value).to eq(value)
   else
-    first_field(field).value.should == value
+    expect(first_field(field).value).to eq(value)
   end
 end
 
 Then /^I do not see the '(.*)' field$/ do |field_name|
-  page.should_not have_field(field_name)
+  expect(page).not_to have_field(field_name)
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' JSON field$/ do |value, field|
   json = JSON.parse(@response)
-  json.should include(field)
-  json[field].should eq(value)
+  expect(json).to include(field)
+  expect(json[field]).to eq(value)
 end
 
 Then /Display the value of the '(.*)' JSON field as '(.*)'$/ do |field, name|
   json = JSON.parse(@response)
-  json.should include(field)
+  expect(json).to include(field)
   puts "#{name}: #{json[field]}"
 end
 
 Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
-  first(:xpath, "//header//*[@class='context']").text.should  == normalize_whitespace(value)
+  expect(first(:xpath, "//header//*[@class='context']").text).to eq(normalize_whitespace(value))
 end
 
 When /^I choose file '(.*)' for the field '(.*)'$/ do |file, label|
@@ -290,7 +290,7 @@ end
 
 When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/ do |link_name, field_to_edit|
   edit_link = page.find(:xpath, "//h2[contains(text(), '#{field_to_edit}')]/following-sibling::p[1]/a[text()]")
-  edit_link.text().should have_content(link_name)
+  expect(edit_link.text()).to have_content(link_name)
   edit_link.click
 end
 
@@ -319,25 +319,25 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
 
   table.rows.each_with_index do |row, index|
     result_items = result_table_rows[index].all('td')
-    result_items[0].text.should == row[0]
-    result_items[1].text.should == row[1]
+    expect(result_items[0].text).to eq(row[0])
+    expect(result_items[1].text).to eq(row[1])
   end
 end
 
 Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
   result_table_rows = get_table_rows_by_caption(table_heading)
-  result_table_rows.any? {|row| row.text.include? content}.should be true
+  expect(result_table_rows.any? { |row| row.text.include?(content) }).to be true
 end
 
 Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?:y|ies)$/ do |table_heading, expected_number_of_rows, comparison|
   number_of_table_rows = get_table_rows_by_caption(table_heading).length
   case comparison
     when 'more'
-      number_of_table_rows.should >= expected_number_of_rows.to_i
+      expect(number_of_table_rows).to be >= expected_number_of_rows.to_i
     when 'fewer'
-      number_of_table_rows.should <= expected_number_of_rows.to_i
+      expect(number_of_table_rows).to be <= expected_number_of_rows.to_i
     else
-      puts number_of_table_rows.should == expected_number_of_rows.to_i
+      puts expect(number_of_table_rows).to eq(expected_number_of_rows.to_i)
   end
 end
 
@@ -356,7 +356,7 @@ Then /^I see an entry in the '(.*)' table with:$/ do |table_heading, table|
     end
   end
 
-  match.should be(true), "Expected: #{expected_row.join(' | ')}"
+  expect(match).to be(true), "Expected: #{expected_row.join(' | ')}"
 end
 
 
@@ -368,24 +368,25 @@ end
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
   if question
     within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../..") do
-      first_field(radio_button_name, {type: 'radio'}).should be_checked
+      expect(first_field(radio_button_name, {type: 'radio'})).to be_checked
     end
   else
-    first_field(radio_button_name, {type: 'radio'}).should be_checked
+    expect(first_field(radio_button_name, {type: 'radio'})).to be_checked
   end
 end
 
 Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
   has_content = page.has_content?(expected_text)
   if negative.empty?
-    has_content.should be true
-  else has_content.should be false
+    expect(has_content).to be true
+  else
+    expect(has_content).to be false
   end
 end
 
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
   place = "//*[@#{attribute_name} = \"#{attribute_value}\"]"
-  all(:xpath, place).length.should == 1
+  expect(all(:xpath, place).length).to eq(1)
 end
 
 Then /^I take a screenshot/ do
@@ -407,9 +408,13 @@ Then(/^I should get a download file of type '(.*)'$/) do |file_type|
 end
 
 Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|
-  page.find_by_id(
-    page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"]
-  ).text.should include(value.to_s)
+  expect(
+    page.find_by_id(
+      page.all(
+        :xpath,
+        "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"]
+    ).text
+  ).to include(value.to_s)
 end
 
 Then /^I set the page reload flag/ do

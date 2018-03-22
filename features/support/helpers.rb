@@ -68,7 +68,9 @@ def return_element(type, locator_or_element, options={})
   end
 
   # If the label for this radio/checkbox is not visible, it is effectively hidden from the user
-  page.all(:xpath, "//label[@for='#{element[:id]}']")[0].visible?.should be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
+  expect(
+    page.all(:xpath, "//label[@for='#{element[:id]}']")[0].visible?
+  ).to be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
 
   return element
 end

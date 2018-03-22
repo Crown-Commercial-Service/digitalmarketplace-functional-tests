@@ -6,7 +6,7 @@ require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
 
 RSpec.configure do |config|
-  config.expect_with(:rspec) { |c| c.syntax = [:should, :expect] }
+  config.expect_with(:rspec) { |c| c.syntax = [:expect] }
 end
 
 if (ENV['BROWSER'] == 'true')

@@ -17,14 +17,14 @@ When(/^I click that specific supplier$/) do
       a_element.text == normalize_whitespace(@supplier['name'])
     )
   }
-  a_elements.length.should be(1)
+  expect(a_elements.length).to eq(1)
   a_elements[0].click
 end
 
 Then(/^I do not see any suppliers that don't begin with that letter$/) do
   supplier_links = page.all(:css, ".search-result .search-result-title a")
   supplier_links.each { |element|
-    element.text[0].upcase.should == @letter
+    expect(element.text[0].upcase).to eq(@letter)
   }
   if supplier_links.length == 0 then
     puts "(but no suppliers were found)"
@@ -37,28 +37,28 @@ Then (/^I see that supplier in one of the pages that follow from clicking '(.*)'
     # if there wasn't another matching "next" link we should have errored out above
   end
 
-  search_result.first(:xpath,
-    ".//h2[@class='search-result-title']/a"
-  ).text.should == normalize_whitespace(@supplier['name'])
+  expect(
+    search_result.first(:xpath, ".//h2[@class='search-result-title']/a").text
+  ).to eq(normalize_whitespace(@supplier['name']))
 end
 
 Given(/I navigate to the list of '(.*)' page$/) do |value|
   page.visit("#{dm_frontend_domain}/g-cloud/suppliers?prefix=#{value.split(' ').last}")
-  @data_store = @data_store || Hash.new
+  @data_store ||= Hash.new
   @data_store['supplier_alphabet'] = "#{value.split(' ').last}"
 end
 
 Then(/I am taken to page '(.*)' of results$/) do |page_number|
   if current_url.include?('suppliers?')
-    current_url.should include("#{dm_frontend_domain}/g-cloud/suppliers?")
-    current_url.should include("prefix=#{@data_store['supplier_alphabet']}")
-    current_url.should include("page=#{page_number}")
-    current_url.should include("framework=g-cloud")
+    expect(current_url).to include("#{dm_frontend_domain}/g-cloud/suppliers?")
+    expect(current_url).to include("prefix=#{@data_store['supplier_alphabet']}")
+    expect(current_url).to include("page=#{page_number}")
+    expect(current_url).to include("framework=g-cloud")
     if page_number >= '2'
-      page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
     elsif page_number < '2'
-      page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-      page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
     end
   end
 end
@@ -72,10 +72,10 @@ Then(/pagination is '(.*)'$/) do |availability|
   end
 
   if pagination_available == 'available'
-    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   elsif pagination_available == 'not available'
-    page.should have_no_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   end
 end

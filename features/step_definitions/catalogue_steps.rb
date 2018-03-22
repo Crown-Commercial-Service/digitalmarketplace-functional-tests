@@ -16,30 +16,32 @@ end
 
 Then (/^I (don't )?see a search result$/) do |negate|
   if negate then
-    page.should_not have_selector(:css, "div.search-result")
+    expect(page).not_to have_selector(:css, "div.search-result")
   else
-    page.should have_selector(:css, "div.search-result")
+    expect(page).to have_selector(:css, "div.search-result")
   end
 end
 
 Then (/^I see that service in the search results$/) do
   # we do a broad match using xpath first
-  page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@service['id']}')]]").find_all { |sr_element|
-    # now refine with a much more precise test
-    sr_element.all(:css, "h2 a").any? { |a_element|
-      (
-        a_element[:href] =~ Regexp.new('^(.*\D)?'+"#{@service['id']}"+'(\D.*)?$')
-      ) and (
-        a_element.text == normalize_whitespace(@service['serviceName'])
-      )
-    } and sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
-      p_element.text == normalize_whitespace(@service['supplierName'])
-    } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
-      li_element.text == normalize_whitespace(@service['lotName'])
-    } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
-      li_element.text == normalize_whitespace(@service['frameworkName'])
-    }
-  }.length.should be(1)
+  expect(
+    page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@service['id']}')]]").find_all { |sr_element|
+      # now refine with a much more precise test
+      sr_element.all(:css, "h2 a").any? { |a_element|
+        (
+          a_element[:href] =~ Regexp.new('^(.*\D)?'+"#{@service['id']}"+'(\D.*)?$')
+        ) and (
+          a_element.text == normalize_whitespace(@service['serviceName'])
+        )
+      } and sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
+        p_element.text == normalize_whitespace(@service['supplierName'])
+      } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
+        li_element.text == normalize_whitespace(@service['lotName'])
+      } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
+        li_element.text == normalize_whitespace(@service['frameworkName'])
+      }
+    }.length
+  ).to eq(1)
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
@@ -74,16 +76,15 @@ end
 
 Then(/^I am taken to page (\d+) of results$/) do |page_number|
   page_number = page_number.to_i
-  current_url.should include("page=#{page_number}")
-  page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-  page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number+1} of')]")
+  expect(current_url).to include("page=#{page_number}")
+  expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+  expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number+1} of')]")
   if page_number == 1
-    page.should have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    page.should have_no_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   else
-    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
-    page.should have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number-1} of')]")
-
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number-1} of')]")
   end
 end
 
