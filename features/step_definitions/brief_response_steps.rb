@@ -12,7 +12,7 @@ Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
   @buyer_user = matched_brief['users'][0]
   @lot_slug = matched_brief['lotSlug']
   @framework_slug = matched_brief['frameworkSlug']
-  @buyer_user.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
+  @buyer_user.update('password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"])
   steps %Q{
     Given that buyer is logged in
   }
@@ -24,7 +24,7 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
   @buyer_user = @brief['users'][0]
-  @buyer_user.update({'password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"]})
+  @buyer_user.update('password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"])
   steps %Q{
     Given that buyer is logged in
   }

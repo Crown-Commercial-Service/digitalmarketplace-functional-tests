@@ -72,9 +72,6 @@ UselessAssignment:
 Void:
   Enabled: false
 
-BracesAroundHashParameters:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
