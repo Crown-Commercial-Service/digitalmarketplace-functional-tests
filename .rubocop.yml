@@ -27,9 +27,6 @@ TrailingBlankLines:
 AndOr:
   Enabled: false
 
-DefWithParentheses:
-  Enabled: false
-
 MethodCalledOnDoEndBlock:
   Enabled: false
 

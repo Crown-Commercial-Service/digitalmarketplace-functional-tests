@@ -40,31 +40,31 @@ def domain_for_app(app)
   end
 end
 
-def dm_api_domain()
+def dm_api_domain
   ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end
 
-def dm_api_access_token()
+def dm_api_access_token
   ENV['DM_API_ACCESS_TOKEN'] || 'myToken'
 end
 
-def dm_search_api_domain()
+def dm_search_api_domain
   ENV['DM_SEARCH_API_DOMAIN'] || 'http://localhost:5001'
 end
 
-def dm_search_api_access_token()
+def dm_search_api_access_token
   ENV['DM_SEARCH_API_ACCESS_TOKEN'] || 'myToken'
 end
 
-def dm_frontend_domain()
+def dm_frontend_domain
   ENV['DM_FRONTEND_DOMAIN']
 end
 
-def dm_pagination_limit()
+def dm_pagination_limit
   (ENV['DM_PAGINATION_LIMIT'] || 100).to_i
 end
 
-def dm_notify_api_key()
+def dm_notify_api_key
   ENV['DM_NOTIFY_API_KEY']
 end
 
