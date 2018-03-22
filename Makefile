@@ -3,7 +3,7 @@ DM_ENVIRONMENT ?= local
 smoke-tests: setup
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
-run: setup
+run: setup lint
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
 rerun:
@@ -28,6 +28,9 @@ config/local.sh:
 
 clean:
 	rm -rf reports/
+
+lint:
+	bundle exec govuk-lint-ruby features --diff
 
 docker-up:
 	$(eval export AWS_ACCESS_KEY_ID=$(shell aws configure get aws_access_key_id))

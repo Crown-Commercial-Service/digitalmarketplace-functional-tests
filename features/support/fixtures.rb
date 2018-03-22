@@ -1,7 +1,7 @@
 module Fixtures
 
   def self.digital_specialists_service
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       id: nil,
       supplierId: nil,
@@ -21,7 +21,7 @@ module Fixtures
   end
 
   def self.digital_outcomes_service
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       id: nil,
       supplierId: nil,
@@ -42,7 +42,7 @@ module Fixtures
   end
 
   def self.user_research_participants_service
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       id: nil,
       supplierId: nil,
@@ -62,7 +62,7 @@ module Fixtures
   end
 
   def self.user_research_studios_service
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       frameworkSlug: nil,
       id: nil,
@@ -93,7 +93,7 @@ module Fixtures
   end
 
   def self.digital_specialists_brief
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       frameworkSlug: nil,
       userId: nil,
@@ -133,7 +133,7 @@ module Fixtures
   end
 
   def self.digital_outcomes_brief
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       frameworkSlug: nil,
       userId: nil,
@@ -177,7 +177,7 @@ module Fixtures
   end
 
   def self.user_research_participants_brief
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       frameworkSlug: nil,
       userId: nil,
@@ -215,7 +215,7 @@ module Fixtures
   end
 
   def self.digital_specialists_brief_response
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       frameworkSlug: nil,
       userId: nil,
@@ -240,7 +240,7 @@ module Fixtures
   end
 
   def self.cloud_support_service
-    return {
+    {
       # `nil` values should be updated within the step when this fixture is used
       id: nil,
       supplierId: nil,

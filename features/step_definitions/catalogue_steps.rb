@@ -45,7 +45,7 @@ Then (/^I see that service in the search results$/) do
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
-  expect(find(:xpath, "//*[@class='search-summary']").text()).to include(normalize_whitespace(value))
+  expect(find(:xpath, "//*[@class='search-summary']").text).to include(normalize_whitespace(value))
 end
 
 Then (/^I note the number of search results$/) do

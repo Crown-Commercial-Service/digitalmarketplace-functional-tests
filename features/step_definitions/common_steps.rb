@@ -144,7 +144,7 @@ When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   elsif next_or_previous == 'Previous'
     klass = '.previous'
   end
-  page.find(:css, "#{klass} :link").click()
+  page.find(:css, "#{klass} :link").click
 end
 
 When /I (un)?check #{MAYBE_VAR} checkbox$/ do |maybe_un, checkbox_label|
@@ -232,7 +232,7 @@ end
 
 Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
-  expect(breadcrumb.text()).to eq(breadcrumb_text)
+  expect(breadcrumb.text).to eq(breadcrumb_text)
 end
 
 Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
@@ -290,7 +290,7 @@ end
 
 When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/ do |link_name, field_to_edit|
   edit_link = page.find(:xpath, "//h2[contains(text(), '#{field_to_edit}')]/following-sibling::p[1]/a[text()]")
-  expect(edit_link.text()).to have_content(link_name)
+  expect(edit_link.text).to have_content(link_name)
   edit_link.click
 end
 

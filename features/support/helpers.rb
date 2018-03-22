@@ -72,7 +72,7 @@ def return_element(type, locator_or_element, options={})
     page.all(:xpath, "//label[@for='#{element[:id]}']")[0].visible?
   ).to be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
 
-  return element
+  element
 end
 
 def choose_radio(locator_or_radio, options={})
@@ -123,7 +123,7 @@ def urls_are_equal(url1, url2)
       end
     end
   end
-  return true
+  true
 end
 
 RSpec::Matchers.define :match_url do |expected|
