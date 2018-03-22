@@ -25,7 +25,7 @@ Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
 
   count = case negative.empty? when true then 1 else 0 end
 
-  expect(page).to have_selector(:xpath, expr, :count => count)
+  expect(page).to have_selector(:xpath, expr, count: count)
 end
 
 When "I answer the following questions:" do |table|
@@ -34,7 +34,7 @@ When "I answer the following questions:" do |table|
     expr = "//li[a[text()='#{question}']]/span[@class='tick']"
 
     # should be no tick mark beside the question name on the overview page
-    expect(page).to have_selector(:xpath, expr, :count => 0)
+    expect(page).to have_selector(:xpath, expr, count: 0)
 
     # click the question name on the overview page (eg, "Location")
     click_on question
@@ -43,7 +43,7 @@ When "I answer the following questions:" do |table|
 
     click_on 'Save and continue'
 
-    expect(page).to have_selector(:xpath, expr, :count => 1)
+    expect(page).to have_selector(:xpath, expr, count: 1)
   }
 end
 
@@ -68,7 +68,7 @@ When "I answer all summary questions with:" do |table|
       click_on first('a').text
     end
 
-    answer = fill_form :with => with
+    answer = fill_form with: with
 
     @fields.merge! answer
 

@@ -16,14 +16,14 @@ if (ENV['BROWSER'] == 'true')
   Capybara.register_driver :selenium do |app|
     http_client = Selenium::WebDriver::Remote::Http::Default.new
     http_client.timeout = 180
-    Capybara::Selenium::Driver.new(app, :browser => :firefox, :http_client => http_client)
+    Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
   end
 else
   Capybara.default_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(
-      app, :timeout => 180, :phantomjs_logger => File.open(File::NULL, "w"), :phantomjs_options => [])
+      app, timeout: 180, phantomjs_logger: File.open(File::NULL, "w"), phantomjs_options: [])
   end
 end
 

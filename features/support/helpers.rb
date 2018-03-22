@@ -50,7 +50,7 @@ end
 ## finding and selecting invisible fields
 
 def all_fields(locator, options={})
-  all(:field, locator, options.merge({:visible => :all}))
+  all(:field, locator, options.merge({visible: :all}))
 end
 
 def first_field(locator, options={})
@@ -63,7 +63,7 @@ def return_element(type, locator_or_element, options={})
   else
     # when passing in the value of the element we want to choose/check, we pass it in as {:option => "value"}
     # but when we're finding it, we need to pass it in as {:with => "value"}
-    find_options = options[:option] ? {:with => options[:option]} : {}
+    find_options = options[:option] ? {with: options[:option]} : {}
     element = first_field(locator_or_element, find_options.merge({type: type}))
   end
 

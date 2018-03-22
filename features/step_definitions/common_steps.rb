@@ -187,7 +187,7 @@ Then /I don't see a '(.*)' checkbox$/ do |checkbox_name|
 end
 
 Then /I don't see any '(.*)' checkboxes$/ do |checkbox_fieldname|
-  expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@name='#{checkbox_fieldname}']", :count => 0)
+  expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@name='#{checkbox_fieldname}']", count: 0)
 end
 
 When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
