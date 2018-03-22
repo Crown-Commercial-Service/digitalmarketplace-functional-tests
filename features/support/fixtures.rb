@@ -7,10 +7,7 @@ module Fixtures
       supplierId: nil,
       frameworkSlug: nil,
       lot: 'digital-specialists',
-      developerLocations: [
-          "London",
-          "Scotland"
-        ],
+      developerLocations: %w[London Scotland],
       developerPriceMax: "200",
       developerPriceMin: "100",
       bespokeSystemInformation: true,
@@ -33,10 +30,7 @@ module Fixtures
         "Agile coaching"
       ],
       helpGovernmentImproveServices: true,
-      locations: [
-        "London",
-        "Scotland"
-      ],
+      locations: %w[London Scotland],
       openStandardsPrinciples: true,
     }
   end
@@ -49,10 +43,7 @@ module Fixtures
       frameworkSlug: nil,
       lot: 'user-research-participants',
       anonymousRecruitment: true,
-      locations: [
-        "London",
-        "Scotland"
-      ],
+      locations: %w[London Scotland],
       manageIncentives: true,
       recruitFromList: true,
       recruitMethods: [

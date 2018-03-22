@@ -33,9 +33,6 @@ UnusedBlockArgument:
 VariableName:
   Enabled: false
 
-WordArray:
-  Enabled: false
-
 AmbiguousRegexpLiteral:
   Enabled: false
 
@@ -94,9 +91,6 @@ ExtraSpacing:
   Enabled: false
 
 DateTime:
-  Enabled: false
-
-SymbolArray:
   Enabled: false
 
 SymbolProc:

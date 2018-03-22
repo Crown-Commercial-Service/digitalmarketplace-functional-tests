@@ -108,13 +108,13 @@ def urls_are_equal(url1, url2)
   end
   url1 = URI::parse(url1)
   url2 = URI::parse(url2)
-  [:scheme, :host, :path].each do |key|
+  %i[scheme host path].each do |key|
     if url1.send(key) != url2.send(key)
       return false
     end
   end
   # query and fragment parameters can appear in any order
-  [:query, :fragment].each do |key|
+  %i[query fragment].each do |key|
     if url1.send(key)
       if !url2.send(key)
         return false

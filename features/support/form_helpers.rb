@@ -169,7 +169,7 @@ module FormHelper
     values = Hash.new { |h, k| h[k] = {} }
 
     results.each do |result|
-      if [:checkbox, :radio].include? field_type(result)
+      if %i[checkbox radio].include? field_type(result)
 
         label = find("label[for='#{result[:id]}']").text
 
