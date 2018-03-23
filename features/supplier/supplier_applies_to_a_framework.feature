@@ -10,6 +10,7 @@ Scenario: Supplier submits a framework declaration
   Given I am on the /suppliers page
   When I click 'Apply'
   And I am on the 'Apply to framework' page for that framework application
+
   When I click 'Make supplier declaration'
   Then I am on the 'Make your supplier declaration' page
   When I click 'Start your declaration'
@@ -22,3 +23,4 @@ Scenario: Supplier submits a framework declaration
 
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
+  Then I submit a service for each lot

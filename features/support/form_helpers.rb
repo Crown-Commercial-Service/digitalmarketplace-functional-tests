@@ -124,8 +124,10 @@ module FormHelper
     with = options.delete(:with)
 
     result = all_fields(locator, options)
-
+    @result = result
+    @argumenta = [locator, options]
     if result.empty?
+
       query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
       raise Capybara::ElementNotFound.new("Unable to find #{query.description}")
     end
@@ -139,10 +141,18 @@ module FormHelper
       check_only locator, options.merge(with: with)
     when :list
       input_list locator, options.merge(with: with)
+    when :file
+      [{}]
     else
-      result = fill_in locator, options.merge(with: with)
-
-      [result]
+      if result.first.tag_name == "select"
+        [{}]
+      else
+        if result.first["name"] == "serviceDefinitionDocumentURL"
+          require 'pry'; pry.binding
+        end
+        result = fill_in locator, options.merge(with: with)
+        [result]
+      end
     end
   end
 
@@ -200,13 +210,12 @@ module FormHelper
     with = options.delete(:with) || {}
 
     values = {}
-
     maybe_within do
       find_fields.each do |name|
-
-        values[name] = (with[name] || random_for(name))
-
-        fill_field name, with: values[name]
+        if find_fields(locator=name).length > 0
+          values[name] = (with[name] || random_for(name))
+          fill_field name, with: values[name]
+        end
       end
     end
 
@@ -214,14 +223,111 @@ module FormHelper
   end
 
   def get_answers_for_validated_questions
-    questions = page.all(:xpath, "//input[@class='text-box-with-error']")
+    document = page.document
     options = {}
-    questions.each do |question|
-      if question["name"] =~ /email/i
+    questions = document.find_xpath("//input[@class='text-box-with-error']")
+    if questions.length > 0
+      questions.each do |question|
+        if question["name"] =~ /email/i
           options[question["name"]] = "lain@company.co.uk"
+        else options[question["name"]] = "Some text"
+        end
       end
+    end
+    pricing_questions = document.find_xpath("//input[@class='text-box pricing-input-with-unit']")
+    if pricing_questions.length > 0
+      pricing_questions.each do |question|
+        options[question["name"]] = "500"
+      end
+    end
+    document_questions = document.find_xpath("//input[@class='file-upload-input']")
+    if document_questions.length > 0
+      document_questions.each do |question|
+        attach_file(question["name"], File.join(Dir.pwd, 'fixtures', 'test.pdf'))
+      end
+      options = :gotosave
+    end
+    checkboxes = document.find_xpath("//input[@type='checkbox']")
+    if checkboxes.length > 0 && (document.text.include?("You can’t choose more than"))
+      checkboxes.each do |checkbox|
+        if checkbox.checked? then
+          checkbox.click
+        end
+      end
+      checkboxes[0].click
+      options = :gotosave
     end
     options
   end
 
+  def choose_options_for_select_fields
+    selects = page.document.find_xpath("//select")
+    selects.each do |element|
+      field = all_fields(element["name"])[0]
+      field_options = field.all('option')
+      field_options[rand(field_options.count - 1)].select_option
+    end
+  end
+
+  def answer_all_service_questions
+    document = page.document
+    while document.find_xpath("//a[text()='Answer question']").length > 0
+      if document.find_xpath("//input[@value='Mark as complete']").length > 0
+        return
+      end
+      next_answer_question_link = page.all(:xpath, "//a[text()='Answer question']")[0]
+      next_answer_question_link.click
+      # page.document.find_xpath("//span[text()='Backup and recovery']/following::a[text()='Answer question']")[0].click
+      answer_service_section
+    end
+  end
+
+  def answer_service_section
+    is_end_of_section = false
+    fail_counter = 0
+    while is_end_of_section == false
+      categories_headings = page.document.find_xpath("//h3[@class='categories-heading']")
+      if is_there_validation_header?
+        fail_counter += 1
+        if fail_counter > 7
+          require 'pry'; pry.binding
+          abort("Too many failures")
+        end
+        options = get_answers_for_validated_questions
+        unless options == :gotosave
+          answer = fill_form :with => options
+        end
+      elsif categories_headings.length > 0
+        categories_headings.each do |category_heading|
+          category_heading.click
+        end
+        checkbox = page.document.find_xpath("//input[@type='checkbox']")[0]
+        checkbox.click
+        options == :gotosave
+      else
+        answer = fill_form
+      end
+      unless options && options == :gotosave
+        if page.document.find_xpath("//select").length > 0
+          choose_options_for_select_fields
+        end
+        @fields.merge! answer
+        puts answer
+      end
+      submit_button = page.document.find_xpath("//input[@class='button-save']")[0].value
+      page.save_screenshot("screenshot_#{Time.new}.png")
+      if  submit_button == 'Save and continue'
+        click_on 'Save and continue'
+      else
+        click_on submit_button
+        unless is_there_validation_header?
+          is_end_of_section = true
+        end
+      end
+    end
+  end
+
+  def is_there_validation_header?
+    page.document.find_xpath("//h1").length > 1
+  end
 end
