@@ -13,9 +13,7 @@ Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
   @lot_slug = matched_brief['lotSlug']
   @framework_slug = matched_brief['frameworkSlug']
   @buyer_user.update('password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"])
-  steps %Q{
-    Given that buyer is logged in
-  }
+  steps "Given that buyer is logged in"
 end
 
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
@@ -25,9 +23,7 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
   @framework_slug = @brief['frameworkSlug']
   @buyer_user = @brief['users'][0]
   @buyer_user.update('password' => ENV["DM_PRODUCTION_BUYER_USER_PASSWORD"])
-  steps %Q{
-    Given that buyer is logged in
-  }
+  steps "Given that buyer is logged in"
 end
 
 Given /^I go to that brief page$/ do
@@ -72,16 +68,16 @@ end
 Given /^I publish an answer to a question$/ do
   @random_question_text = SecureRandom.hex
   @random_answer_text = SecureRandom.hex
-  steps %Q{
-      Then I enter '#{@random_question_text}' in the 'question' field
-      Then I enter '#{@random_answer_text}' in the 'answer' field
-      Then I click the 'Publish question and answer' button
+  steps %{
+    Then I enter '#{@random_question_text}' in the 'question' field
+    Then I enter '#{@random_answer_text}' in the 'answer' field
+    Then I click the 'Publish question and answer' button
   }
 end
 
 Then /^I see the published question and answer$/ do
-  steps %Q{
-      Then I see '#{@random_question_text}' in the 'Questions asked by suppliers' summary table
-      Then I see '#{@random_answer_text}' in the 'Questions asked by suppliers' summary table
+  steps %{
+    Then I see '#{@random_question_text}' in the 'Questions asked by suppliers' summary table
+    Then I see '#{@random_answer_text}' in the 'Questions asked by suppliers' summary table
   }
 end
