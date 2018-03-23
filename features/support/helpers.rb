@@ -50,7 +50,7 @@ end
 ## finding and selecting invisible fields
 
 def all_fields(locator, options={})
-  all(:field, locator, options.merge({:visible => :all}))
+  all(:field, locator, options.merge(visible: :all))
 end
 
 def first_field(locator, options={})
@@ -63,8 +63,8 @@ def return_element(type, locator_or_element, options={})
   else
     # when passing in the value of the element we want to choose/check, we pass it in as {:option => "value"}
     # but when we're finding it, we need to pass it in as {:with => "value"}
-    find_options = options[:option] ? {:with => options[:option]} : {}
-    element = first_field(locator_or_element, find_options.merge({type: type}))
+    find_options = options[:option] ? {with: options[:option]} : {}
+    element = first_field(locator_or_element, find_options.merge(type: type))
   end
 
   # If the label for this radio/checkbox is not visible, it is effectively hidden from the user
@@ -78,21 +78,21 @@ end
 def choose_radio(locator_or_radio, options={})
   radio = return_element('radio', locator_or_radio, options)
 
-  choose(radio[:id], options.merge({allow_label_click: true}))
+  choose(radio[:id], options.merge(allow_label_click: true))
   puts "Radio button value: #{radio.value}"
 end
 
 def check_checkbox(locator_or_checkbox, options={})
   checkbox = return_element('checkbox', locator_or_checkbox, options)
 
-  check(checkbox[:id], options.merge({allow_label_click: true}))
+  check(checkbox[:id], options.merge(allow_label_click: true))
   puts "Checkbox value: #{checkbox.value}"
 end
 
 def uncheck_checkbox(locator_or_checkbox, options={})
   checkbox = return_element('checkbox', locator_or_checkbox, options)
 
-  uncheck(checkbox[:id], options.merge({allow_label_click: true}))
+  uncheck(checkbox[:id], options.merge(allow_label_click: true))
   puts "Unselected: #{checkbox.value}"
 end
 

@@ -22,7 +22,7 @@ end
 
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
   organisation_size ||= ['micro', 'small', 'medium', 'large'].sample
-  submit_supplier_declaration(@framework['slug'], @supplier["id"], {'status': 'complete', 'organisationSize': organisation_size, 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo@bar.com'})
+  submit_supplier_declaration(@framework['slug'], @supplier["id"], 'status': 'complete', 'organisationSize': organisation_size, 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo@bar.com')
 end
 
 Given 'we accept that suppliers application to the framework' do

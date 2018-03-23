@@ -57,7 +57,7 @@ end
 
 Then (/^I see no results$/) do
   expect(page.first(:css, ".search-summary-count").text.to_i).to eq(0)
-  expect(page).to have_selector(:css, '.search-result', :count => 0)
+  expect(page).to have_selector(:css, '.search-result', count: 0)
 end
 
 Then /^I see the details of the brief match what was published$/ do

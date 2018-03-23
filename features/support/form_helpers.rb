@@ -110,7 +110,7 @@ module FormHelper
     result = all(:field, locator, options)
 
     with.zip(result).each do |value, element|
-      fill_in element[:id], :with => value
+      fill_in element[:id], with: value
     end
 
     result
@@ -132,15 +132,15 @@ module FormHelper
 
     case field_type result.first
     when :radio
-      choose_radio(locator, options.merge({ option: with }))
+      choose_radio(locator, options.merge(option: with))
 
       result.select { |v| v.value == with }
     when :checkbox
-      check_only locator, options.merge({ :with => with })
+      check_only locator, options.merge(with: with)
     when :list
-      input_list locator, options.merge({ :with => with })
+      input_list locator, options.merge(with: with)
     else
-      result = fill_in locator, options.merge({ :with => with })
+      result = fill_in locator, options.merge(with: with)
 
       [result]
     end

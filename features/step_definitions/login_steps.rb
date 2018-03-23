@@ -32,7 +32,7 @@ end
 
 Given /^I have a supplier user$/ do
   @supplier = create_supplier
-  @supplier_user = create_user('supplier', {"supplierId"=>@supplier['id']})
+  @supplier_user = create_user('supplier', "supplierId" => @supplier['id'])
 end
 
 Given /^I have (?:a|an) ([a-z\-]+) user with:$/ do |role, table|

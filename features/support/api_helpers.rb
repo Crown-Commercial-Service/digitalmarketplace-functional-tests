@@ -9,11 +9,11 @@ def call_api(method, path, options={})
   auth_token = options.delete(:auth_token) || dm_api_access_token
   url = "#{domain}#{path}"
   payload = options.delete(:payload)
-  options.merge!({
+  options.merge!(
     content_type: :json,
     accept: :json,
     authorization: "Bearer #{auth_token}"
-  })
+  )
   if payload.nil?
     RestClient.send(method, url, options) {|response, request, result| response}
   else

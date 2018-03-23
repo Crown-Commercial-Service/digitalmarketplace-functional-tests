@@ -166,28 +166,28 @@ When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radi
 end
 
 When /I check a random '(.*)' checkbox$/ do |checkbox_name|
-  checkbox = all_fields(checkbox_name, {type: 'checkbox'}).sample
+  checkbox = all_fields(checkbox_name, type: 'checkbox').sample
   check_checkbox(checkbox)
 end
 
 When /I choose a random '(.*)' radio button$/ do |name|
 
-  radio = all_fields(name, {type: 'radio'}).sample
+  radio = all_fields(name, type: 'radio').sample
   choose_radio(radio)
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
-  all_fields(checkbox_name, {type: 'checkbox'}).each do |checkbox|
+  all_fields(checkbox_name, type: 'checkbox').each do |checkbox|
     check_checkbox(checkbox)
   end
 end
 
 Then /I don't see a '(.*)' checkbox$/ do |checkbox_name|
-  expect(all_fields(checkbox_name, {type: 'checkbox'}).length).to eq(0)
+  expect(all_fields(checkbox_name, type: 'checkbox').length).to eq(0)
 end
 
 Then /I don't see any '(.*)' checkboxes$/ do |checkbox_fieldname|
-  expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@name='#{checkbox_fieldname}']", :count => 0)
+  expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@name='#{checkbox_fieldname}']", count: 0)
 end
 
 When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
@@ -257,8 +257,8 @@ Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
-  if page.has_field?(field, {type: 'radio', visible: :all}) or page.has_field?(field, {type: 'checkbox', visible: :all})
-    expect(first_field(field, {checked: true}).value).to eq(value)
+  if page.has_field?(field, type: 'radio', visible: :all) or page.has_field?(field, type: 'checkbox', visible: :all)
+    expect(first_field(field, checked: true).value).to eq(value)
   else
     expect(first_field(field).value).to eq(value)
   end
@@ -368,10 +368,10 @@ end
 Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
   if question
     within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../..") do
-      expect(first_field(radio_button_name, {type: 'radio'})).to be_checked
+      expect(first_field(radio_button_name, type: 'radio')).to be_checked
     end
   else
-    expect(first_field(radio_button_name, {type: 'radio'})).to be_checked
+    expect(first_field(radio_button_name, type: 'radio')).to be_checked
   end
 end
 

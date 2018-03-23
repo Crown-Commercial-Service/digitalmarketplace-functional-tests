@@ -16,14 +16,14 @@ if (ENV['BROWSER'] == 'true')
   Capybara.register_driver :selenium do |app|
     http_client = Selenium::WebDriver::Remote::Http::Default.new
     http_client.timeout = 180
-    Capybara::Selenium::Driver.new(app, :browser => :firefox, :http_client => http_client)
+    Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
   end
 else
   Capybara.default_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(
-      app, :timeout => 180, :phantomjs_logger => File.open(File::NULL, "w"), :phantomjs_options => [])
+      app, timeout: 180, phantomjs_logger: File.open(File::NULL, "w"), phantomjs_options: [])
   end
 end
 
@@ -40,31 +40,31 @@ def domain_for_app(app)
   end
 end
 
-def dm_api_domain()
+def dm_api_domain
   ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end
 
-def dm_api_access_token()
+def dm_api_access_token
   ENV['DM_API_ACCESS_TOKEN'] || 'myToken'
 end
 
-def dm_search_api_domain()
+def dm_search_api_domain
   ENV['DM_SEARCH_API_DOMAIN'] || 'http://localhost:5001'
 end
 
-def dm_search_api_access_token()
+def dm_search_api_access_token
   ENV['DM_SEARCH_API_ACCESS_TOKEN'] || 'myToken'
 end
 
-def dm_frontend_domain()
+def dm_frontend_domain
   ENV['DM_FRONTEND_DOMAIN']
 end
 
-def dm_pagination_limit()
+def dm_pagination_limit
   (ENV['DM_PAGINATION_LIMIT'] || 100).to_i
 end
 
-def dm_notify_api_key()
+def dm_notify_api_key
   ENV['DM_NOTIFY_API_KEY']
 end
 

@@ -27,9 +27,6 @@ TrailingBlankLines:
 AndOr:
   Enabled: false
 
-DefWithParentheses:
-  Enabled: false
-
 MethodCalledOnDoEndBlock:
   Enabled: false
 
@@ -49,9 +46,6 @@ UnusedBlockArgument:
   Enabled: false
 
 VariableName:
-  Enabled: false
-
-HashSyntax:
   Enabled: false
 
 WordArray:
@@ -76,9 +70,6 @@ UselessAssignment:
   Enabled: false
 
 Void:
-  Enabled: false
-
-BracesAroundHashParameters:
   Enabled: false
 
 SpaceInsideHashLiteralBraces:
