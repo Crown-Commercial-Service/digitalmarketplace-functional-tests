@@ -80,6 +80,16 @@ applications are running the functional tests can be run with
 
 (or you can substitute `local` with the name of whatever `config/*.sh` environment file you're using.
 
+## Linting
+
+`make run` also runs the govuk linter against any changed files within the features directory before running the tests.
+
+Run the linter by itself with `make lint`.
+
+To automagically correct any changes the linter suggests run `bundle exec govuk-lint-ruby features --diff -a`.
+
+Further info about the govuk linter can be found [here](https://github.com/alphagov/govuk-lint).
+
 
 ## Setting up your local environment with Docker Compose to run functional tests against
 
