@@ -35,7 +35,7 @@ Given /^I go to that brief page$/ do
   page.visit("#{dm_frontend_domain}#{url}")
 end
 
-Given /^I click the '(.*)' link for that brief$/ do | link_text |
+Given /^I click the '(.*)' link for that brief$/ do |link_text|
   page.find(:xpath, "//a[text()='#{link_text}' and contains(@href, '#{@brief['id']}')]").click
 end
 

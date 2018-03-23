@@ -9,18 +9,6 @@ Style/MutableConstant:
 EmptyLineBetweenDefs:
   Enabled: false
 
-SpaceAroundOperators:
-  Enabled: false
-
-SpaceBeforeBlockBraces:
-  Enabled: false
-
-SpaceAfterComma:
-  Enabled: false
-
-SpaceInsideParens:
-  Enabled: false
-
 TrailingBlankLines:
   Enabled: false
 
@@ -37,9 +25,6 @@ MultilineIfThen:
   Enabled: false
 
 ParenthesesAroundCondition:
-  Enabled: false
-
-SpaceAroundEqualsInParameterDefault:
   Enabled: false
 
 UnusedBlockArgument:
@@ -72,12 +57,6 @@ UselessAssignment:
 Void:
   Enabled: false
 
-SpaceInsideHashLiteralBraces:
-  Enabled: false
-
-SpaceInsideBlockBraces:
-  Enabled: false
-
 ParallelAssignment:
   Enabled: false
 
@@ -100,9 +79,6 @@ UnneededInterpolation:
   Enabled: false
 
 BarePercentLiterals:
-  Enabled: false
-
-SpaceAroundBlockParameters:
   Enabled: false
 
 EmptyLinesAroundExceptionHandlingKeywords:

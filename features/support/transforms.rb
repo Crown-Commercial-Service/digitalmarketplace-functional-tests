@@ -15,7 +15,7 @@ Transform /^#{MAYBE_VAR}$/ do |whole_match|
     # get base variable name
     term = instance_variable_get("@#{match[:variable]}")
     # now iterate along the chain of hash keys (if any)
-    (match[:attributes]||'').split('.').each do |key|
+    (match[:attributes] || '').split('.').each do |key|
       unless key.empty?
         term = term[key]
       end

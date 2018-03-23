@@ -1,6 +1,6 @@
 require "rest_client"
 
-def call_api(method, path, options={})
+def call_api(method, path, options = {})
   safe_for_smoke_tests = options.delete(:safe_for_smoke_tests)
   if @SMOKE_TESTS && method != :get && !safe_for_smoke_tests
     raise "Unsafe API request in smoke tests. Only GET methods are allowed"
@@ -15,14 +15,14 @@ def call_api(method, path, options={})
     authorization: "Bearer #{auth_token}"
   )
   if payload.nil?
-    RestClient.send(method, url, options) {|response, request, result| response}
+    RestClient.send(method, url, options) { |response, request, result| response }
   else
     # can't send a payload as part of a DELETE request using the ruby rest client
     # http://stackoverflow.com/questions/21104232/delete-method-with-a-payload-using-ruby-restclient
     if method == :delete
-      RestClient::Request.execute(method: :delete, url: url, payload: payload.to_json, headers: options) {|response, request, result| response}
+      RestClient::Request.execute(method: :delete, url: url, payload: payload.to_json, headers: options) { |response, request, result| response }
     else
-      RestClient.send(method, url, payload.to_json, options) {|response, request, result| response}
+      RestClient.send(method, url, payload.to_json, options) { |response, request, result| response }
     end
   end
 end
@@ -36,7 +36,7 @@ def update_framework_status(framework_slug, status)
   framework = JSON.parse(response.body)["frameworks"]
   if framework['status'] != status
     response = call_api(:post, "/frameworks/#{framework_slug}", payload: {
-      frameworks: {status: status, clarificationQuestionsOpen: status == 'open'},
+      frameworks: { status: status, clarificationQuestionsOpen: status == 'open' },
       updated_by: "functional tests",
     })
     expect(response.code).to eq(200), _error(response, "Failed to update framework status #{framework_slug} #{status}")
@@ -45,7 +45,7 @@ def update_framework_status(framework_slug, status)
 end
 
 def get_user_by_email(email_address)
-  response = call_api(:get, "/users", params: {email_address: email_address})
+  response = call_api(:get, "/users", params: { email_address: email_address })
   expect(response.code).to eq(200), _error(response, "Failed get details for user #{email_address}")
   users = JSON.parse(response.body)['users']
   expect(users.length).to eq(1)
@@ -71,7 +71,7 @@ def ensure_user_exists(user_details)
       # need to discover the user id to target...
       user = get_user_by_email(user_details['emailAddress'])
       reset_failed_login_response = call_api(:post, "/users/#{user['id']}", payload: {
-        users: {locked: false},
+        users: { locked: false },
         updated_by: "functional tests",
       }, safe_for_smoke_tests: true)
       expect(reset_failed_login_response.code).to eq(200), _error(reset_failed_login_response, "Failed to ensure user #{user_details['emailAddress']} exists")
@@ -95,7 +95,7 @@ end
 
 def set_supplier_on_framework(framework_slug, supplier_id, status)
   response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", payload: {
-    frameworkInterest: {onFramework: status},
+    frameworkInterest: { onFramework: status },
     updated_by: "functional tests",
   })
   expect(response.code).to eq(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
@@ -158,13 +158,13 @@ def get_brief(brief_id)
 end
 
 def get_briefs(framework_slug, status)
-  params = {status: status, framework: framework_slug, with_users: 'True'}
+  params = { status: status, framework: framework_slug, with_users: 'True' }
   response = call_api(:get, '/briefs', params: params)
   JSON.parse(response.body)['briefs']
 end
 
 def get_brief_responses(framework_slug, brief_response_status, brief_status)
-  params = {status: brief_response_status, framework: framework_slug}
+  params = { status: brief_response_status, framework: framework_slug }
   response = call_api(:get, '/brief-responses', params: params)
   brief_response_list = JSON.parse(response.body)['briefResponses']
   brief_response_list = brief_response_list.select { |x| x['brief']['status'] == brief_status }
@@ -225,7 +225,7 @@ def create_brief_response(lot_slug, brief_id, supplier_id)
 end
 
 def submit_brief_response(brief_response_id)
-  response = call_api(:post, "/brief-responses/#{brief_response_id}/submit", payload: {updated_by: "functional tests"})
+  response = call_api(:post, "/brief-responses/#{brief_response_id}/submit", payload: { updated_by: "functional tests" })
   expect(response.code).to eq(200), _error(response, "Failed to submit brief response for #{brief_response_id}")
 end
 
@@ -247,7 +247,7 @@ def withdraw_brief(brief_id)
   JSON.parse(response.body)['briefs']
 end
 
-def create_supplier(custom_supplier_data={})
+def create_supplier(custom_supplier_data = {})
   random_string = SecureRandom.hex
   supplier_data = {
     name: 'functional test supplier ' + random_string,
@@ -262,13 +262,13 @@ def create_supplier(custom_supplier_data={})
   response = call_api(
     :post,
     "/suppliers",
-    payload: {updated_by: "functional tests", suppliers: supplier_data}
+    payload: { updated_by: "functional tests", suppliers: supplier_data }
   )
   expect(response.code).to eq(201), _error(response, "Failed to create supplier")
   JSON.parse(response.body)['suppliers']
 end
 
-def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
+def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   # Create a 15 digit service ID, miniscule clash risk
   start = 10 ** 14
   last = 10 ** 15 - 1
@@ -312,7 +312,7 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role=nil)
   JSON.parse(response.body)['services']
 end
 
-def create_user(user_role, custom_user_data={})
+def create_user(user_role, custom_user_data = {})
   randomString = SecureRandom.hex
   password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
 
@@ -326,7 +326,7 @@ def create_user(user_role, custom_user_data={})
 
   user_data['supplierId'] = custom_user_data['supplierId'] || custom_user_data['supplier_id'] || 0  if user_role == 'supplier'
 
-  response = call_api(:post, "/users", payload: {users: user_data, updated_by: 'functional_tests'})
+  response = call_api(:post, "/users", payload: { users: user_data, updated_by: 'functional_tests' })
   expect(response.code).to eq(201), response.body
   @user = JSON.parse(response.body)["users"]
   @user['password'] = password
@@ -349,7 +349,7 @@ def get_or_create_supplier(custom_supplier_data)
     return @supplier
   end
   if custom_supplier_data["name"] != nil
-    response = call_api(:get, '/suppliers', params: {prefix: custom_supplier_data['name']})
+    response = call_api(:get, '/suppliers', params: { prefix: custom_supplier_data['name'] })
     @supplier = JSON.parse(response.body)['suppliers'][0]
   end
   if not @supplier
