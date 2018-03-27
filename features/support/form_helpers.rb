@@ -8,7 +8,7 @@ module FormHelper
       :checkbox
     elsif el[:type] == 'radio'
       :radio
-    elsif el[:type] == 'text' and  el.matches_css? 'div.input-list input'
+    elsif el[:type] == 'text' and el.matches_css? 'div.input-list input'
       # TODO condition is expensive.... can we cache?
       :list
     else
@@ -19,10 +19,10 @@ module FormHelper
   def random_string
     # Generate a random string
 
-    (0..rand(3)).map{ |i| SecureRandom.base64.gsub(/[+=\/]/, '') }.join
+    (0..rand(3)).map { |i| SecureRandom.base64.gsub(/[+=\/]/, '') }.join
   end
 
-  def random_for(locator, options={})
+  def random_for(locator, options = {})
     # Generate a suitable random value based on locator
 
     locator, options = nil, locator if locator.is_a? Hash
@@ -51,7 +51,7 @@ module FormHelper
     el.find_xpath("//label[@for='#{el[:id]}']")[0]
   end
 
-  def find_fields(locator=nil, options={})
+  def find_fields(locator = nil, options = {})
     # Find all field names
     # If the inputs themselves aren't visible (ie, radios and checkboxes), verify that the parent labels are
     results = all_fields(
@@ -65,7 +65,7 @@ module FormHelper
     results.uniq
   end
 
-  def check_only(locator=nil, options={})
+  def check_only(locator = nil, options = {})
     # Ensure only the values provided in options[:with] are selected
     # takes either a single string or array of strings
 
@@ -92,7 +92,7 @@ module FormHelper
     result
   end
 
-  def input_list(locator=nil, options={})
+  def input_list(locator = nil, options = {})
     # Enter the values provided in options[:with] into an input list
     # takes either a single string or array of strings
 
@@ -116,7 +116,7 @@ module FormHelper
     result
   end
 
-  def fill_field(locator=nil, options={})
+  def fill_field(locator = nil, options = {})
     # Like fill_in but will work with checkboxes, radios, and input lists too.
 
     locator, options = nil, locator if locator.is_a? Hash
@@ -146,7 +146,7 @@ module FormHelper
     end
   end
 
-  def maybe_within(locator=nil, options={}, &block)
+  def maybe_within(locator = nil, options = {}, &block)
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
 
@@ -159,14 +159,14 @@ module FormHelper
     end
   end
 
-  def find_substitutions(locator=nil, options={})
+  def find_substitutions(locator = nil, options = {})
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
 
     results = all_fields(locator, options)
 
     # hash that initialises empty keys to a hash
-    values = Hash.new{|h,k| h[k] = {}}
+    values = Hash.new { |h, k| h[k] = {} }
 
     results.each do |result|
       if [:checkbox, :radio].include? field_type(result)
@@ -174,7 +174,7 @@ module FormHelper
         label = find("label[for='#{result[:id]}']").text
 
         begin
-          description = all("label[for='#{result[:id]}'] p").map {|el| el.text}.join
+          description = all("label[for='#{result[:id]}'] p").map { |el| el.text }.join
 
           if not description.empty?
             label = label[0..(label.length - description.length - 2)]
@@ -191,7 +191,7 @@ module FormHelper
     values
   end
 
-  def fill_form(locator=nil, options={})
+  def fill_form(locator = nil, options = {})
     # Fill in all form fields with provided values, using random values for
     # any not provided.
 

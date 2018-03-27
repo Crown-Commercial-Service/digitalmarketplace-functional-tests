@@ -52,7 +52,7 @@ end
 Given /^that supplier has a user with:$/ do |table|
   # To be used in conjunction with the above 2 methods to create multiple users on a supplier with specific attributes
   custom_user_data = table.rows_hash
-  user_data = {"supplier_id"=>@supplier['id']}
+  user_data = { "supplier_id" => @supplier['id'] }
   custom_user_data.update(user_data)
   @supplier_user = get_or_create_user(custom_user_data)
 end

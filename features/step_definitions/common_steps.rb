@@ -24,9 +24,9 @@ Given /^I have a live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
-  frameworks.delete_if {|framework| framework['framework'] != metaframework_slug || framework['status'] != 'live'}
+  frameworks.delete_if { |framework| framework['framework'] != metaframework_slug || framework['status'] != 'live' }
   if lot_slug
-    frameworks.delete_if {|framework| framework['lots'].select { |lot| lot["slug"] == lot_slug}.to_a.empty?}
+    frameworks.delete_if { |framework| framework['lots'].select { |lot| lot["slug"] == lot_slug }.to_a.empty? }
   end
   expect(frameworks).not_to be_empty, _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
   @framework = frameworks[0]
@@ -35,14 +35,14 @@ end
 
 Given /^I have a random g-cloud service from the API$/ do
   frameworks = call_api(:get, "/frameworks")
-  live_g_cloud_slugs = JSON.parse(frameworks.body)["frameworks"].select {|framework|
+  live_g_cloud_slugs = JSON.parse(frameworks.body)["frameworks"].select { |framework|
     framework["framework"] == "g-cloud" && framework["status"] == "live"
-  }.map {|framework| framework["slug"]}
+  }.map { |framework| framework["slug"] }
   # reverse sort by whatever is after the final "-" in the framework slug
-  latest_g_cloud_slug = live_g_cloud_slugs.sort_by {|slug| slug.split('-')[-1] }.reverse[0]
+  latest_g_cloud_slug = live_g_cloud_slugs.sort_by { |slug| slug.split('-')[-1] }.reverse[0]
   puts "Latest live g-cloud framework slug: #{latest_g_cloud_slug}"
 
-  params = {status: "published", framework: latest_g_cloud_slug}
+  params = { status: "published", framework: latest_g_cloud_slug }
   page_one = call_api(:get, "/services", params: params)
   expect(page_one.code).to eq(200)
   last_page_url = JSON.parse(page_one.body)['links']['last']
@@ -61,11 +61,11 @@ end
 
 Given /^I have a random g-cloud lot from the API$/ do
   frameworks = call_api(:get, "/frameworks")
-  live_g_cloud_frameworks = JSON.parse(frameworks.body)["frameworks"].select {|framework|
+  live_g_cloud_frameworks = JSON.parse(frameworks.body)["frameworks"].select { |framework|
     framework["framework"] == "g-cloud" && framework["status"] == "live"
   }
   # reverse sort by whatever is after the final "-" in the framework slug
-  g_cloud_lot = live_g_cloud_frameworks.sort_by {|framework| framework["slug"].split('-')[-1] }.reverse[0]["lots"].sample
+  g_cloud_lot = live_g_cloud_frameworks.sort_by { |framework| framework["slug"].split('-')[-1] }.reverse[0]["lots"].sample
   puts "G-Cloud lot: #{g_cloud_lot['name']}"
   @lot = g_cloud_lot
 end
@@ -96,7 +96,7 @@ end
 
 # TODO merge with above step
 Given /^I have a random dos brief from the API$/ do
-  params = {status: "live,closed", framework: "digital-outcomes-and-specialists-2"}
+  params = { status: "live,closed", framework: "digital-outcomes-and-specialists-2" }
   page_one = call_api(:get, "/briefs", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
   params[:page] = if last_page_url then
@@ -191,7 +191,7 @@ Then /I don't see any '(.*)' checkboxes$/ do |checkbox_fieldname|
 end
 
 When /^I enter a random value in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
-  @fields||= {}
+  @fields ||= {}
   @fields[field_name] = SecureRandom.hex
   puts "#{field_name}: #{@fields[field_name]}"
   step "I enter '#{@fields[field_name]}' in the '#{field_name}' field#{maybe_click_statement}"
@@ -348,9 +348,9 @@ Then /^I see an entry in the '(.*)' table with:$/ do |table_heading, table|
 
   result_table_rows.each do |row|
     # Get the row as an array of strings to compare with our expected row
-    row_text_values = row.all('td').map {|td| td.text}
+    row_text_values = row.all('td').map { |td| td.text }
     # Ensure that the expected strings are in the correct place and that we skip anything with '<ANY>'
-    if expected_row.each_with_index.map {|expected_value, expected_index| expected_value == '<ANY>' or row_text_values[expected_index] == expected_value}.all?
+    if expected_row.each_with_index.map { |expected_value, expected_index| expected_value == '<ANY>' or row_text_values[expected_index] == expected_value }.all?
       match = true
       break
     end
@@ -404,7 +404,7 @@ And /^I wait (\d+) seconds/ do |seconds|
 end
 
 Then(/^I should get a download file of type '(.*)'$/) do |file_type|
-  expect(page.response_headers['Content-Disposition']).to match( "attachment;filename=\\S*\\." + file_type )
+  expect(page.response_headers['Content-Disposition']).to match("attachment;filename=\\S*\\." + file_type)
 end
 
 Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|

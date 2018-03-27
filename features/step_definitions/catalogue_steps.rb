@@ -29,7 +29,7 @@ Then (/^I see that service in the search results$/) do
       # now refine with a much more precise test
       sr_element.all(:css, "h2 a").any? { |a_element|
         (
-          a_element[:href] =~ Regexp.new('^(.*\D)?'+"#{@service['id']}"+'(\D.*)?$')
+          a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@service['id']}" + '(\D.*)?$')
         ) and (
           a_element.text == normalize_whitespace(@service['serviceName'])
         )
@@ -78,13 +78,13 @@ Then(/^I am taken to page (\d+) of results$/) do |page_number|
   page_number = page_number.to_i
   expect(current_url).to include("page=#{page_number}")
   expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-  expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number+1} of')]")
+  expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number + 1} of')]")
   if page_number == 1
     expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
     expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
   else
     expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number-1} of')]")
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number - 1} of')]")
   end
 end
 

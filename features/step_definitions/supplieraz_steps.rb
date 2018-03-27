@@ -12,7 +12,7 @@ When(/^I click that specific supplier$/) do
   a_elements = page.all(:xpath, "//*[@class='search-result']//h2//a[contains(@href, '#{@supplier['id']}')]").find_all { |a_element|
     # now refine with a much more precise test
     (
-      a_element[:href] =~ Regexp.new('^(.*\D)?'+"#{@supplier['id']}"+'(\D.*)?$')
+      a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@supplier['id']}" + '(\D.*)?$')
     ) and (
       a_element.text == normalize_whitespace(@supplier['name'])
     )
