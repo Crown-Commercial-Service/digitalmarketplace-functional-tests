@@ -16,7 +16,7 @@ end
 
 Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |production, user_role|
   login_page = '/user/login'
-  steps %Q{
+  steps %{
     Given I have a #{production}#{user_role} user
     And I am on the #{login_page} page
     When I enter that user.emailAddress in the 'Email address' field
@@ -60,7 +60,7 @@ end
 Given /^that (supplier|buyer) is logged in$/ do |user_role|
   user = user_role == 'supplier' ? @supplier_user : @buyer_user
 
-  steps %Q{
+  steps %{
     And I am on the /user/login page
     When I enter '#{user['emailAddress']}' in the 'Email address' field
     And I enter '#{user['password']}' in the 'Password' field
@@ -71,7 +71,7 @@ end
 
 When /^The wrong password is entered (\d+) times for that user$/ do |tries|
   tries.to_i.times do |n|
-    steps %Q{
+    steps %{
       Given I am on the /user/login page
       When I enter '#{@user['emailAddress']}' in the 'Email address' field
       And I enter 'the_wrong_password' in the 'Password' field
@@ -81,7 +81,7 @@ When /^The wrong password is entered (\d+) times for that user$/ do |tries|
 end
 
 Then /^That user can not log in using their correct password$/ do
-  steps %Q{
+  steps %{
     Given I am on the /user/login page
     When I enter '#{@user['emailAddress']}' in the 'Email address' field
     And I enter '#{@user['password']}' in the 'Password' field

@@ -95,7 +95,7 @@ When "I answer all summary questions with:" do |table|
 end
 
 When "I answer all summary questions" do
-  steps %Q{
+  steps %{
      When I answer all summary questions with:
        | field | value |
   }

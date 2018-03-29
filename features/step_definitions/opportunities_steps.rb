@@ -61,7 +61,7 @@ Then (/^I see no results$/) do
 end
 
 Then /^I see the details of the brief match what was published$/ do
-  steps %Q{
+  steps %{
     Given I see the 'Overview' summary table filled with:
       | field                        | value                         |
       | Specialist role              | Developer                     |

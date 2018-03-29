@@ -2,7 +2,7 @@ Given 'There is at least one framework that can be applied to' do
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
-  frameworks.delete_if { |framework| not ['coming', 'open'].include?(framework['status']) }
+  frameworks.delete_if { |framework| not %w[coming open].include?(framework['status']) }
   if frameworks.empty?
     puts 'SKIPPING as there are no coming or open frameworks'
     skip_this_scenario
@@ -13,7 +13,7 @@ Given 'There is at most one framework that can be applied to' do
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
-  frameworks.delete_if { |framework| not ['coming', 'open'].include?(framework['status']) }
+  frameworks.delete_if { |framework| not %w[coming open].include?(framework['status']) }
   if frameworks.length > 1
     puts 'SKIPPING as there is more than one framework coming or open'
     skip_this_scenario
@@ -21,7 +21,7 @@ Given 'There is at most one framework that can be applied to' do
 end
 
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
-  organisation_size ||= ['micro', 'small', 'medium', 'large'].sample
+  organisation_size ||= %w[micro small medium large].sample
   submit_supplier_declaration(@framework['slug'], @supplier["id"], 'status': 'complete', 'organisationSize': organisation_size, 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo@bar.com')
 end
 
