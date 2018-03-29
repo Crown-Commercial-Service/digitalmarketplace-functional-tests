@@ -46,7 +46,7 @@ Given /^I have a random g-cloud service from the API$/ do
   page_one = call_api(:get, "/services", params: params)
   expect(page_one.code).to eq(200)
   last_page_url = JSON.parse(page_one.body)['links']['last']
-  params[:page] = if last_page_url then
+  params[:page] = if last_page_url
                     1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
                   else
                     1
@@ -78,7 +78,7 @@ Given /^I have a random (?:([a-z-]+) )?supplier from the API$/ do |metaframework
   end
   page_one = call_api(:get, "/suppliers", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
-  params[:page] = if last_page_url then
+  params[:page] = if last_page_url
                     1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
                   else
                     1
@@ -99,7 +99,7 @@ Given /^I have a random dos brief from the API$/ do
   params = { status: "live,closed", framework: "digital-outcomes-and-specialists-2" }
   page_one = call_api(:get, "/briefs", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
-  params[:page] = if last_page_url then
+  params[:page] = if last_page_url
                     1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
                   else
                     1
@@ -257,7 +257,7 @@ Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
-  if page.has_field?(field, type: 'radio', visible: :all) or page.has_field?(field, type: 'checkbox', visible: :all)
+  if page.has_field?(field, type: 'radio', visible: :all) || page.has_field?(field, type: 'checkbox', visible: :all)
     expect(first_field(field, checked: true).value).to eq(value)
   else
     expect(first_field(field).value).to eq(value)
@@ -350,7 +350,7 @@ Then /^I see an entry in the '(.*)' table with:$/ do |table_heading, table|
     # Get the row as an array of strings to compare with our expected row
     row_text_values = row.all('td').map { |td| td.text }
     # Ensure that the expected strings are in the correct place and that we skip anything with '<ANY>'
-    if expected_row.each_with_index.map { |expected_value, expected_index| expected_value == '<ANY>' or row_text_values[expected_index] == expected_value }.all?
+    if expected_row.each_with_index.map { |expected_value, expected_index| (expected_value == '<ANY>') || (row_text_values[expected_index] == expected_value) }.all?
       match = true
       break
     end

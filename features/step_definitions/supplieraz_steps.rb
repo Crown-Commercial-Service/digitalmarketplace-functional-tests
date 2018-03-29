@@ -1,6 +1,6 @@
 When(/^I click the first letter of that supplier\.name$/) do
   # This step is hardcoded as we need to add a small exception for cases where the first character is non-alphabetic
-  if ('a'..'z').include? @supplier['name'][0].downcase then
+  if ('a'..'z').include? @supplier['name'][0].downcase
     step "I click '#{@supplier['name'][0].upcase}' link"
   end
 end
@@ -13,7 +13,7 @@ When(/^I click that specific supplier$/) do
     # now refine with a much more precise test
     (
       a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@supplier['id']}" + '(\D.*)?$')
-    ) and (
+    ) && (
       a_element.text == normalize_whitespace(@supplier['name'])
     )
   }
@@ -26,7 +26,7 @@ Then(/^I do not see any suppliers that don't begin with that letter$/) do
   supplier_links.each { |element|
     expect(element.text[0].upcase).to eq(@letter)
   }
-  if supplier_links.length == 0 then
+  if supplier_links.length == 0
     puts "(but no suppliers were found)"
   end
 end

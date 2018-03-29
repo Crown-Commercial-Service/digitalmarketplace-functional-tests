@@ -12,16 +12,10 @@ EmptyLineBetweenDefs:
 TrailingBlankLines:
   Enabled: false
 
-AndOr:
-  Enabled: false
-
 MethodCalledOnDoEndBlock:
   Enabled: false
 
 MultilineBlockChain:
-  Enabled: false
-
-MultilineIfThen:
   Enabled: false
 
 ParenthesesAroundCondition:

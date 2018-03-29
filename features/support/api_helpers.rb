@@ -298,7 +298,7 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   service_data['services']['supplierId'] = supplier_id
   service_data['services']['frameworkSlug'] = framework_slug
 
-  if lot_slug == 'digital-specialists' and role
+  if (lot_slug == 'digital-specialists') && role
     # Override the specialist role from the fixture by removing the old developer keys and adding keys
     # for the new role using the original developer values
     service_data['services']["#{role}Locations".to_sym] = service_data['services'].delete(:developerLocations)
@@ -373,7 +373,7 @@ def get_or_create_user(custom_user_data)
     @user = JSON.parse(response.body)["users"]
     return @user
   end
-  if custom_user_data["email_address"] != nil or custom_user_data["supplier_id"] != nil
+  if (custom_user_data["email_address"] != nil) || (custom_user_data["supplier_id"] != nil)
     response = call_api(
       :get,
       "/users",

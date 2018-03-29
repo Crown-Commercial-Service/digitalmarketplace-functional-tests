@@ -5,7 +5,7 @@ Then (/^I see that supplier in the list of suppliers$/) do
       # now refine with a much more precise test
       row_element.all(:css, "a").any? { |a_element|
         a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@supplier['id']}" + '(\D.*)?$')
-      } and row_element.all(:css, ".summary-item-field-first > span").any? { |span_element|
+      } && row_element.all(:css, ".summary-item-field-first > span").any? { |span_element|
         span_element.text == normalize_whitespace(@supplier['name'])
       }
     }.length
