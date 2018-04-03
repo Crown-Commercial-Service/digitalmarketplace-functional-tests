@@ -24,3 +24,6 @@ Scenario: Supplier submits a framework declaration
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
   Then I submit a service for each lot
+  And I see '1 service will be submitted' text on the page
+  And I click 'Back to framework application' link for that framework application
+  And I see 'Your application will be submitted at' text on the page
