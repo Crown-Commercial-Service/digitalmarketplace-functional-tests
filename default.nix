@@ -18,7 +18,6 @@ in (with args; {
       name = "digitalmarketplace-functional-tests-env";
       shortName = "dm-func-tst";
       buildInputs = [
-        pkgs.bundler
         pkgs.bundix
         pkgs.libxml2
         pkgs.phantomjs2
