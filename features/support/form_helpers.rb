@@ -8,7 +8,7 @@ module FormHelper
       :checkbox
     elsif el[:type] == 'radio'
       :radio
-    elsif el[:type] == 'text' and el.matches_css? 'div.input-list input'
+    elsif (el[:type] == 'text') && el.matches_css?('div.input-list input')
       # TODO condition is expensive.... can we cache?
       :list
     else
@@ -57,7 +57,7 @@ module FormHelper
     results = all_fields(
       locator, options
     ).select { |el|
-      el.visible? or get_parent_label(el).visible?
+      el.visible? || get_parent_label(el).visible?
     }.map { |v|
       v[:name]
     }
@@ -70,7 +70,7 @@ module FormHelper
     # takes either a single string or array of strings
 
     locator, options = nil, locator if locator.is_a? Hash
-    raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
+    raise "Must pass a hash containing 'with'" if (not options.is_a?(Hash)) || (not options.has_key?(:with))
     with = [options.delete(:with)].flatten
     result = all_fields(locator, options)
 
@@ -97,7 +97,7 @@ module FormHelper
     # takes either a single string or array of strings
 
     locator, options = nil, locator if locator.is_a? Hash
-    raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
+    raise "Must pass a hash containing 'with'" if (not options.is_a?(Hash)) || (not options.has_key?(:with))
     with = [options.delete(:with)].flatten
     result = all(:field, locator, options)
 
@@ -120,7 +120,7 @@ module FormHelper
     # Like fill_in but will work with checkboxes, radios, and input lists too.
 
     locator, options = nil, locator if locator.is_a? Hash
-    raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
+    raise "Must pass a hash containing 'with'" if (not options.is_a?(Hash)) || (not options.has_key?(:with))
     with = options.delete(:with)
 
     result = all_fields(locator, options)
@@ -204,7 +204,7 @@ module FormHelper
     maybe_within do
       find_fields.each do |name|
 
-        values[name] = (with[name] or random_for name)
+        values[name] = (with[name] || random_for(name))
 
         fill_field name, with: values[name]
       end

@@ -15,7 +15,7 @@ When(/^I click a random result in the list of service results returned$/) do
 end
 
 Then (/^I (don't )?see a search result$/) do |negate|
-  if negate then
+  if negate
     expect(page).not_to have_selector(:css, "div.search-result")
   else
     expect(page).to have_selector(:css, "div.search-result")
@@ -30,14 +30,14 @@ Then (/^I see that service in the search results$/) do
       sr_element.all(:css, "h2 a").any? { |a_element|
         (
           a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@service['id']}" + '(\D.*)?$')
-        ) and (
+        ) && (
           a_element.text == normalize_whitespace(@service['serviceName'])
         )
-      } and sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
+      } && sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
         p_element.text == normalize_whitespace(@service['supplierName'])
-      } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
+      } && sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
         li_element.text == normalize_whitespace(@service['lotName'])
-      } and sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
+      } && sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
         li_element.text == normalize_whitespace(@service['frameworkName'])
       }
     }.length
