@@ -368,13 +368,24 @@ Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |tab
   step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"
 end
 
-Then /^I see the '(.*)' radio button is checked(?: for the '(.*)' question)?$/ do |radio_button_name, question|
+Then /^I see the '(.*)' (radio button|checkbox) is (not |)checked(?: for the '(.*)' question)?$/ do |elem_name, elem_type, negative, question|
+  if elem_type == 'radio button'
+    elem_type = 'radio'
+  end
   if question
     within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../..") do
-      expect(first_field(radio_button_name, type: 'radio')).to be_checked
+      if negative.empty?
+        expect(first_field(elem_name, type: elem_type)).to be_checked
+      else
+        expect(first_field(elem_name, type: elem_type)).not_to be_checked
+      end
     end
   else
-    expect(first_field(radio_button_name, type: 'radio')).to be_checked
+    if negative.empty?
+      expect(first_field(elem_name, type: elem_type)).to be_checked
+    else
+      expect(first_field(elem_name, type: elem_type)).not_to be_checked
+    end
   end
 end
 
