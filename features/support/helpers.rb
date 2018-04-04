@@ -49,12 +49,13 @@ end
 
 ## finding and selecting invisible fields
 
+def merge_fields_and_print_answers(answer)
+  @fields.merge! answer
+  puts answer
+end
+
 def is_js_hidden?(html_element)
-  if html_element["class"]
-    html_element["class"].include?("js-hidden")
-  else
-    false
-  end
+  html_element["class"] && html_element["class"].include?("js-hidden")
 end
 
 def remove_js_hidden_fields_from_results(results)
@@ -72,10 +73,13 @@ def remove_js_hidden_fields_from_results(results)
   results
 end
 
-def all_fields(locator, options={})
-  results = (all(:field, locator, options.merge(visible: :all))).to_a
-  results = remove_js_hidden_fields_from_results(results)
-  results
+def find_elements_by_xpath(xpath)
+  page.document.find_xpath(xpath)
+end
+
+def all_fields(locator, options = {})
+  results = all(:field, locator, options.merge(visible: :all)).to_a
+  remove_js_hidden_fields_from_results(results)
 end
 
 def first_field(locator, options = {})
@@ -88,7 +92,7 @@ def return_element(type, locator_or_element, options = {})
   else
     # when passing in the value of the element we want to choose/check, we pass it in as {:option => "value"}
     # but when we're finding it, we need to pass it in as {:with => "value"}
-    find_options = options[:option] ? { :with => options[:option] } : {}
+    find_options = options[:option] ? { with: options[:option] } : {}
     element = first_field(locator_or_element, find_options.merge(type: type))
     unless element
       broader_search_for_element = first_field(locator_or_element)
@@ -98,25 +102,19 @@ def return_element(type, locator_or_element, options = {})
     end
   end
   # If the label for this radio/checkbox is not visible, it is effectively hidden from the user
-<<<<<<< HEAD
-
-  page.document.find_xpath(
+  expect(find_elements_by_xpath(
     "//label[@for='#{element[:id]}']"
-  )[0].visible?.to be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
+  )[0].visible?).to be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
 
   element
-=======
-  page.document.find_xpath("//label[@for='#{element[:id]}']")[0].visible?.should be(true), "Expected label for #{type} \"#{element.value}\" to be visible"
-  return element
->>>>>>> WIP Submitting service for each lot, details below:
 end
 
-def choose_radio(locator_or_radio, options={})
+def choose_radio(locator_or_radio, options = {})
   begin
     radio = return_element('radio', locator_or_radio, options)
     choose(radio[:id], options.merge(allow_label_click: true))
-  rescue
-    choose(radio[:id], {allow_label_click: true})
+  rescue Capybara::ElementNotFound
+    choose(radio[:id], allow_label_click: true)
   end
   puts "Radio button value: #{radio.value}"
 end

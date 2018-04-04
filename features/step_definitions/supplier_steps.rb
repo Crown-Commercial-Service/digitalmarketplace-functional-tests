@@ -22,9 +22,9 @@ end
 
 Given 'There is a framework that is open for applications' do
   response = call_api(:get, "/frameworks")
-  response.code.should be(200), _error(response, "Failed getting frameworks")
+  expect(response.code).to be(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
-  frameworks.delete_if {|framework| not ['open'].include?(framework['status'])}
+  frameworks.delete_if { |framework| not ['open'].include?(framework['status']) }
   if frameworks.empty?
     puts 'SKIPPING as there are no open frameworks'
     skip_this_scenario

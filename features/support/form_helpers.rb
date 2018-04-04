@@ -11,6 +11,8 @@ module FormHelper
     elsif (el[:type] == 'text') && el.matches_css?('div.input-list input')
       # TODO condition is expensive.... can we cache?
       :list
+    elsif el[:type] == 'file'
+      :file
     else
       :text
     end
@@ -47,8 +49,9 @@ module FormHelper
     end
   end
 
-  def get_parent_label(el)
-    el.find_xpath("//label[@for='#{el[:id]}']")[0]
+  def is_parent_label_visible?(el)
+    label = el.find_xpath("//label[@for='#{el[:id]}']")[0]
+    label && label.visible?
   end
 
   def find_fields(locator = nil, options = {})
@@ -57,7 +60,7 @@ module FormHelper
     results = all_fields(
       locator, options
     ).select { |el|
-      el.visible? || get_parent_label(el).visible?
+      el.visible? || is_parent_label_visible?(el)
     }.map { |v|
       v[:name]
     }
@@ -124,10 +127,8 @@ module FormHelper
     with = options.delete(:with)
 
     result = all_fields(locator, options)
-    @result = result
-    @argumenta = [locator, options]
-    if result.empty?
 
+    if result.empty?
       query = Capybara::Queries::SelectorQuery.new(:field, locator, options)
       raise Capybara::ElementNotFound.new("Unable to find #{query.description}")
     end
@@ -147,9 +148,6 @@ module FormHelper
       if result.first.tag_name == "select"
         [{}]
       else
-        if result.first["name"] == "serviceDefinitionDocumentURL"
-          require 'pry'; pry.binding
-        end
         result = fill_in locator, options.merge(with: with)
         [result]
       end
@@ -204,7 +202,6 @@ module FormHelper
   def fill_form(locator = nil, options = {})
     # Fill in all form fields with provided values, using random values for
     # any not provided.
-
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
     with = options.delete(:with) || {}
@@ -212,7 +209,7 @@ module FormHelper
     values = {}
     maybe_within do
       find_fields.each do |name|
-        if find_fields(locator=name).length > 0
+        if find_fields(locator = name).length > 0
           values[name] = (with[name] || random_for(name))
           fill_field name, with: values[name]
         end
@@ -222,62 +219,127 @@ module FormHelper
     values
   end
 
-  def get_answers_for_validated_questions
-    document = page.document
+  def check_first_checkbox
+    checkbox = find_elements_by_xpath("//input[@type='checkbox']")[0]
+    checkbox.click
+  end
+
+  def uncheck_all_checkboxes
+    checkboxes = find_elements_by_xpath("//input[@type='checkbox']")
+    checkboxes.each do |checkbox|
+      if checkbox.checked?
+        checkbox.click
+      end
+    end
+  end
+
+  def pass_text_validation
     options = {}
-    questions = document.find_xpath("//input[@class='text-box-with-error']")
-    if questions.length > 0
-      questions.each do |question|
-        if question["name"] =~ /email/i
-          options[question["name"]] = "lain@company.co.uk"
-        else options[question["name"]] = "Some text"
-        end
+    questions = find_elements_by_xpath("//input[@class='text-box-with-error']")
+    questions.each do |question|
+      if question["name"] =~ /email/i
+        options[question["name"]] = "lain@company.co.uk"
       end
-    end
-    pricing_questions = document.find_xpath("//input[@class='text-box pricing-input-with-unit']")
-    if pricing_questions.length > 0
-      pricing_questions.each do |question|
-        options[question["name"]] = "500"
-      end
-    end
-    document_questions = document.find_xpath("//input[@class='file-upload-input']")
-    if document_questions.length > 0
-      document_questions.each do |question|
-        attach_file(question["name"], File.join(Dir.pwd, 'fixtures', 'test.pdf'))
-      end
-      options = :gotosave
-    end
-    checkboxes = document.find_xpath("//input[@type='checkbox']")
-    if checkboxes.length > 0 && (document.text.include?("You can’t choose more than"))
-      checkboxes.each do |checkbox|
-        if checkbox.checked? then
-          checkbox.click
-        end
-      end
-      checkboxes[0].click
-      options = :gotosave
     end
     options
   end
 
+  def pass_pricing_validation
+    options = {}
+    pricing_questions = find_elements_by_xpath("//input[@class='text-box pricing-input-with-unit']")
+    pricing_questions.each do |question|
+      options[question["name"]] = "500"
+    end
+    options
+  end
+
+  def pass_document_upload_validation
+    document_questions = find_elements_by_xpath("//input[@class='file-upload-input']")
+    if document_questions.length > 0
+      document_questions.each do |question|
+        attach_file(question["name"], File.join(Dir.pwd, 'fixtures', 'test.pdf'))
+      end
+      return true
+    end
+    false
+  end
+
+  def pass_checked_boxes_upper_limit
+    checkboxes = find_elements_by_xpath("//input[@type='checkbox']")
+    if checkboxes.length > 0 && page.document.text.include?("You can’t choose more than")
+      uncheck_all_checkboxes
+      check_first_checkbox
+      return true
+    end
+    false
+  end
+
+  def pass_vat_number_validation
+    options = {}
+    if find_elements_by_xpath("//input[@name='vat_registered']").length > 0
+      options["vat_registered"] = "No"
+    end
+    options
+  end
+
+  def pass_companies_house_number_validation
+    options = {}
+    if find_elements_by_xpath("//input[@name='has_companies_house_number']").length > 0
+      options["has_companies_house_number"] = "No"
+      options["other_company_registration_number"] = "1234PONY"
+    end
+    options
+  end
+
+  def get_answers_for_validated_questions
+    if pass_document_upload_validation || pass_checked_boxes_upper_limit
+      return :gotosave
+    end
+    [
+      pass_text_validation,
+      pass_pricing_validation,
+      pass_vat_number_validation,
+      pass_companies_house_number_validation
+    ].inject(&:merge)
+  end
+
   def choose_options_for_select_fields
-    selects = page.document.find_xpath("//select")
+    selects = find_elements_by_xpath("//select")
     selects.each do |element|
       field = all_fields(element["name"])[0]
-      field_options = field.all('option')
-      field_options[rand(field_options.count - 1)].select_option
+      field_options = find_elements_by_xpath("//select[@name='#{element['name']}']/descendant::option")
+      selected = field_options[rand(field_options.count - 1)]
+      selected.select_option
+      puts "#{element['name']} => #{selected['value']}"
     end
   end
 
-  def answer_all_service_questions
-    document = page.document
-    while document.find_xpath("//a[text()='Answer question']").length > 0
-      if document.find_xpath("//input[@value='Mark as complete']").length > 0
+  def open_categories(categories_headings)
+    categories_headings.each do |category_heading|
+      category_heading.click
+    end
+  end
+
+  def find_and_click_submit_button
+    submit_button = find_elements_by_xpath("//input[@class='button-save']")[0].value
+    if submit_button == 'Save and continue'
+      click_on 'Save and continue'
+      false
+    else
+      click_on submit_button
+      true
+    end
+  end
+
+  def answer_all_service_questions(prompt_text)
+    while find_elements_by_xpath("//a[text()='#{prompt_text}']").length > 0
+      if find_elements_by_xpath("//input[@value='Mark as complete']").length > 0
         return
       end
-      next_answer_question_link = page.all(:xpath, "//a[text()='Answer question']")[0]
+      next_answer_question_link = page.all(:xpath, "//a[text()='#{prompt_text}']")[0]
       next_answer_question_link.click
-      # page.document.find_xpath("//span[text()='Backup and recovery']/following::a[text()='Answer question']")[0].click
+      # To debug particular section, use below line instead of above lines:
+      # find_elements_by_xpath("//span[text()='Section title here']/following::a[text()='Answer question']")[0].click
       answer_service_section
     end
   end
@@ -285,49 +347,31 @@ module FormHelper
   def answer_service_section
     is_end_of_section = false
     fail_counter = 0
-    while is_end_of_section == false
-      categories_headings = page.document.find_xpath("//h3[@class='categories-heading']")
+    until is_end_of_section
+      categories_headings = find_elements_by_xpath("//h3[@class='categories-heading']")
       if is_there_validation_header?
         fail_counter += 1
-        if fail_counter > 7
-          require 'pry'; pry.binding
-          abort("Too many failures")
-        end
+        abort("Too many failures") if fail_counter > 7
         options = get_answers_for_validated_questions
-        unless options == :gotosave
-          answer = fill_form :with => options
-        end
+        answer = fill_form(with: options) unless options == :gotosave
       elsif categories_headings.length > 0
-        categories_headings.each do |category_heading|
-          category_heading.click
-        end
-        checkbox = page.document.find_xpath("//input[@type='checkbox']")[0]
-        checkbox.click
-        options == :gotosave
+        open_categories(categories_headings)
+        check_first_checkbox
+        options = :gotosave
       else
         answer = fill_form
       end
       unless options && options == :gotosave
-        if page.document.find_xpath("//select").length > 0
-          choose_options_for_select_fields
-        end
-        @fields.merge! answer
-        puts answer
+        choose_options_for_select_fields
+        merge_fields_and_print_answers(answer)
       end
-      submit_button = page.document.find_xpath("//input[@class='button-save']")[0].value
-      page.save_screenshot("screenshot_#{Time.new}.png")
-      if  submit_button == 'Save and continue'
-        click_on 'Save and continue'
-      else
-        click_on submit_button
-        unless is_there_validation_header?
-          is_end_of_section = true
-        end
-      end
+      # turn on when debugging to take a screenshot of each step:
+      # page.save_screenshot("screenshot_#{Time.new}.png")
+      is_end_of_section = find_and_click_submit_button && !is_there_validation_header?
     end
   end
 
   def is_there_validation_header?
-    page.document.find_xpath("//h1").length > 1
+    find_elements_by_xpath("//h1").length > 1
   end
 end

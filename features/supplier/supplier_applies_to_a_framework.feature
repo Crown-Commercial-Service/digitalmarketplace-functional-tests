@@ -11,6 +11,12 @@ Scenario: Supplier submits a framework declaration
   When I click 'Apply'
   And I am on the 'Apply to framework' page for that framework application
 
+  When I click 'Enter your company details'
+  Then I am on the 'Company details' page
+  And I fill in all the missing details
+  And I click 'Save and confirm'
+  Then I am on the 'Apply to framework' page for that framework application
+
   When I click 'Make supplier declaration'
   Then I am on the 'Make your supplier declaration' page
   When I click 'Start your declaration'
