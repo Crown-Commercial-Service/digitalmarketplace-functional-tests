@@ -153,3 +153,25 @@ Setting up your local environment and database to run the functional tests again
   - Building your app locally will create a local image of it and give it the `:latest` tag.
   - Docker Compose will now use your local copy including your new stuff.
   - Then start the local container environment as described above.
+
+## Principles to follow when writing functional tests
+
+### Email addresses
+
+When using "dummy" email addresses in functional tests, stick to emails using one of the following domains:
+
+| Email domain            | Useful properties                                                                       |
+|-------------------------|-----------------------------------------------------------------------------------------|
+| `example.com`           | Buyer-account-invalid                                                                   |
+| `example.gov.uk`        | Buyer-account-valid                                                                     |
+| `user.marketplace.team` | Admin-account-valid, can run tests against existing users with existing services/briefs in the database, doesn't look immediately "fake" to external services |
+
+These domains have been added to the frontends' `DM_NOTIFY_REDIRECT_DOMAINS_TO_ADDRESS` config setting and should have
+any Notify emails destined for them redirected to a "safe" dummy address lest Notify lose karma with their downstream
+provider from all the nonexistent-address bounces. If a different domain *is* required, it should probably be added here
+and synchronized across all the frontends' settings.
+
+Even if the test being written isn't expected to result in a Notify message (e.g. maybe an address only expected to be
+used against Mailchimp or just stored in a declaration) it's still best to stick to this vetted list of email domains -
+you never know when someone's going to quietly add a new notification of an event, and it's quite useful to have a
+handle on what email addresses we're throwing about in general in case we get any other complaints from other services.

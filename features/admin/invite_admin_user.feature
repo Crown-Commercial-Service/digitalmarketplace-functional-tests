@@ -5,10 +5,10 @@ Scenario Outline: Admin Manager user can log in and invite admin users
   Given I am logged in as the production <role> user
   And I click the 'View and edit admin accounts' link
   And I click the 'Invite user' link
-  When I enter 'simulate-delivered@notifications.service.gov.uk' in the 'Email address' field
+  When I enter 'some-desired-admin@user.marketplace.team' in the 'Email address' field
   And I choose the 'Manage services' radio button
   And I click the 'Invite user' button
-  Then I see a success banner message containing 'An invitation has been sent to simulate-delivered@notifications.service.gov.uk.'
+  Then I see a success banner message containing 'An invitation has been sent to some-desired-admin@user.marketplace.team.'
 
   Examples:
     | role          |
