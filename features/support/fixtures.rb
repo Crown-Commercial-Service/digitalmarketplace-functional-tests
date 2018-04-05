@@ -226,7 +226,7 @@ module Fixtures
         { "yesNo": true, "evidence": "Second nice to have evidence" },
         { "yesNo": false },
       ],
-      respondToEmailAddress: "example-email@gov.uk",
+      respondToEmailAddress: "some-user@example.com",
     }
   end
 

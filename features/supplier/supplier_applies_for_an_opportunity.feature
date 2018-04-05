@@ -80,14 +80,14 @@ Scenario: Supplier applies for a digital-specialists brief
   And I click 'Save and continue'
   Then I am on the 'Email address the buyer should use to contact you' page
 
-  When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
+  When I enter 'marcus.tertius.moses@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
-      | field               | value                |
-      | Day rate            | £200                 |
-      | Earliest start date | 27/12/17             |
-      | Email address       | example-email@gov.uk |
+      | field               | value                               |
+      | Day rate            | £200                                |
+      | Earliest start date | 27/12/17                            |
+      | Email address       | marcus.tertius.moses@example.gov.uk |
   And I see the 'Your essential skills and experience' summary table filled with:
       | field       | value           |
       | Boil kettle | first evidence  |
@@ -140,13 +140,13 @@ Scenario: Supplier applies for a digital-outcomes brief
   And I click 'Save and continue'
   Then I am on the 'Email address the buyer should use to contact you' page
 
-  When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
+  When I enter 'under-wild-ferns@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
-      | field               | value                |
-      | Earliest start date | 09/09/17             |
-      | Email address       | example-email@gov.uk |
+      | field               | value                           |
+      | Earliest start date | 09/09/17                        |
+      | Email address       | under-wild-ferns@example.gov.uk |
   And I see the 'Your essential skills and experience' summary table filled with:
       | field                 | value                  |
       | Understand the rules. | I know all the rules   |
@@ -198,13 +198,13 @@ Scenario: Supplier applies for a user-research-participants brief
   And I click 'Save and continue'
   Then I am on the 'Email address the buyer should use to contact you' page
 
-  When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
+  When I enter 'throwaway@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
-      | field               | value                |
-      | Earliest start date | 09/09/17             |
-      | Email address       | example-email@gov.uk |
+      | field               | value                    |
+      | Earliest start date | 09/09/17                 |
+      | Email address       | throwaway@example.gov.uk |
   And I see the 'Your essential skills and experience' summary table filled with:
       | field                              | value                                   |
       | The horses must have four hooves   | They have the correct number of hooves. |
@@ -306,14 +306,14 @@ Scenario: Supplier changes their answers before submission
   And I click 'Save and continue'
   Then I am on the 'Email address the buyer should use to contact you' page
 
-  When I enter 'example-email@gov.uk' in the 'respondToEmailAddress' field
+  When I enter 'moustachecup@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary table filled with:
-      | field               | value                |
-      | Day rate            | £100                 |
-      | Earliest start date | 28/09/17             |
-      | Email address       | example-email@gov.uk |
+      | field               | value                       |
+      | Day rate            | £100                        |
+      | Earliest start date | 28/09/17                    |
+      | Email address       | moustachecup@example.gov.uk |
   And I see the 'Your essential skills and experience' summary table filled with:
       | field       | value            |
       | Boil kettle | Flick the switch |
