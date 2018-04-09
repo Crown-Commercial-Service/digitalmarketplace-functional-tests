@@ -45,7 +45,7 @@ Given /^I have a random g-cloud service from the API$/ do
   params = { status: "published", framework: latest_g_cloud_slug }
   page_one = call_api(:get, "/services", params: params)
   expect(page_one.code).to eq(200)
-  last_page_url = JSON.parse(page_one.body)['links']['last']
+  last_page_url = JSON.parse(page_one.body).dig('links', 'last')
   params[:page] = if last_page_url
                     1 + rand(CGI.parse(URI.parse(last_page_url).query)['page'][0].to_i)
                   else
