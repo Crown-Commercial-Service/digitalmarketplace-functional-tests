@@ -70,11 +70,9 @@ When "I answer all summary questions with:" do |table|
 
     answer = fill_form with: with
 
-    @fields.merge! answer
+    merge_fields_and_print_answers(answer)
 
     substitutions = find_substitutions
-
-    puts answer
 
     click_on 'Save and continue'
 
