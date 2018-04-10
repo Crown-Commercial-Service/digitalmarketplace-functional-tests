@@ -32,8 +32,8 @@ Then(/^I do not see any suppliers that don't begin with that letter$/) do
 end
 
 Then (/^I see that supplier in one of the pages that follow from clicking #{MAYBE_VAR}$/) do |next_link_label|
-  # vvv note assignment, not comparison here vvv
   until search_result = page.first(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@supplier['id']}')]]")
+    # ^^^ note assignment, not comparison here ^^^
     page.click_link(next_link_label)
     # if there wasn't another matching "next" link we should have errored out above
   end
