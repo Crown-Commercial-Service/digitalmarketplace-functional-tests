@@ -7,4 +7,23 @@ module CatalogueHelpers
     page.all(:css, ".lot-filters ul ul :link")
   end
 
+  def self.get_service_search_results(page, service)
+    page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{service['id']}')]]").find_all { |sr_element|
+      # now refine with a much more precise test
+      sr_element.all(:css, "h2 a").any? { |a_element|
+        (
+          a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{service['id']}" + '(\D.*)?$')
+        ) && (
+          a_element.text == normalize_whitespace(service['serviceName'])
+        )
+      } && sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
+        p_element.text == normalize_whitespace(service['supplierName'])
+      } && sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
+        li_element.text == normalize_whitespace(service['lotName'])
+      } && sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
+        li_element.text == normalize_whitespace(service['frameworkName'])
+      }
+    }
+  end
+
 end

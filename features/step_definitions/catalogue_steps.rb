@@ -22,26 +22,19 @@ Then (/^I (don't )?see a search result$/) do |negate|
   end
 end
 
-Then (/^I see that service in the search results$/) do
-  # we do a broad match using xpath first
-  expect(
-    page.all(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@service['id']}')]]").find_all { |sr_element|
-      # now refine with a much more precise test
-      sr_element.all(:css, "h2 a").any? { |a_element|
-        (
-          a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@service['id']}" + '(\D.*)?$')
-        ) && (
-          a_element.text == normalize_whitespace(@service['serviceName'])
-        )
-      } && sr_element.all(:css, "p.search-result-supplier").any? { |p_element|
-        p_element.text == normalize_whitespace(@service['supplierName'])
-      } && sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
-        li_element.text == normalize_whitespace(@service['lotName'])
-      } && sr_element.all(:css, "li.search-result-metadata-item,li.search-result-metadata-item-inline").any? { |li_element|
-        li_element.text == normalize_whitespace(@service['frameworkName'])
-      }
-    }.length
-  ).to eq(1)
+Then (/^I continue clicking #{MAYBE_VAR} until I see that service in the search results$/) do |next_link_label|
+  i = 1
+  until search_results = CatalogueHelpers.get_service_search_results(page, @service)
+    # ^^^ note assignment, not comparison here ^^^
+    i += 1
+    page.click_link(next_link_label)
+    # if there wasn't another matching "next" link we should have errored out above
+  end
+
+  expect(search_results.length).to eq(1)
+  @search_result = search_results[0]
+
+  puts "Found service on page #{i}"
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|

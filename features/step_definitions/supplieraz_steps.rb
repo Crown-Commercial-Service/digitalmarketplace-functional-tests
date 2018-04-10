@@ -31,8 +31,11 @@ Then(/^I do not see any suppliers that don't begin with that letter$/) do
   end
 end
 
-Then (/^I see that supplier in one of the pages that follow from clicking '(.*)'$/) do |next_link_label|
+Then (/^I see that supplier in one of the pages that follow from clicking #{MAYBE_VAR}$/) do |next_link_label|
+  i = 1
   until search_result = page.first(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@supplier['id']}')]]")
+    # ^^^ note assignment, not comparison here ^^^
+    i += 1
     page.click_link(next_link_label)
     # if there wasn't another matching "next" link we should have errored out above
   end
@@ -40,6 +43,8 @@ Then (/^I see that supplier in one of the pages that follow from clicking '(.*)'
   expect(
     search_result.first(:xpath, ".//h2[@class='search-result-title']/a").text
   ).to eq(normalize_whitespace(@supplier['name']))
+
+  puts "Found supplier on page #{i}"
 end
 
 Given(/I navigate to the list of '(.*)' page$/) do |value|
