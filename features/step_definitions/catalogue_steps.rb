@@ -23,14 +23,18 @@ Then (/^I (don't )?see a search result$/) do |negate|
 end
 
 Then (/^I continue clicking #{MAYBE_VAR} until I see that service in the search results$/) do |next_link_label|
+  i = 1
   until search_results = CatalogueHelpers.get_service_search_results(page, @service)
     # ^^^ note assignment, not comparison here ^^^
+    i += 1
     page.click_link(next_link_label)
     # if there wasn't another matching "next" link we should have errored out above
   end
 
   expect(search_results.length).to eq(1)
   @search_result = search_results[0]
+
+  puts "Found service on page #{i}"
 end
 
 Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
