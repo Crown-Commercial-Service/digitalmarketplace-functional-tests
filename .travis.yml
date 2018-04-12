@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.3.1
+install:
+  - gem install govuk-lint
+script:
+  - govuk-lint-ruby features --diff
+notifications:
+  email: false

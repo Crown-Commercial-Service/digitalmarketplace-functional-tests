@@ -218,7 +218,7 @@ end
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing '(.*)'$/ do |status, message|
   begin
     banner_message = page.find(:css, ".banner-#{status}-without-action")
-  rescue
+  rescue Capybara::ElementNotFound => e
     banner_message = page.find(:css, ".banner-#{status}-with-action")
   end
   expect(banner_message).to have_content(message)
