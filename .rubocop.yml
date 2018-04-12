@@ -99,9 +99,6 @@ NumericPredicate:
 ZeroLengthPredicate:
   Enabled: false
 
-RescueWithoutErrorClass:
-  Enabled: false
-
 RangeInclude:
   Enabled: false
 
