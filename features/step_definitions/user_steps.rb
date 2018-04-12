@@ -90,3 +90,13 @@ Then /^That user can not log in using their correct password$/ do
     And I don't see the 'Log out' button
   }
 end
+
+Given /^that user is on the user research mailing list$/ do
+  steps %{
+    Given I am on the homepage
+    When I click the 'View your account' link
+    And I click the 'Join the user research mailing list' link
+    And I check 'Send me emails about opportunities to get involved in user research' checkbox
+    And I click the 'Save changes' button
+  }
+end

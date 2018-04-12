@@ -225,3 +225,11 @@ Scenario: Supplier user can add and remove contributors
   Given I click 'Log out'
   Then That user can not log in using their correct password
   # TODO: And the user is shown as 'not active' on the admin users page
+
+Scenario: New users should have a link to join the use research mailing list
+  Then I see the 'Join the user research mailing list' link
+
+Scenario: Users on the mailing list should have the link to unsubscribe
+  Given that user is on the user research mailing list
+  When I am on the /suppliers page
+  Then I see the 'Unsubscribe from the user research mailing list' link

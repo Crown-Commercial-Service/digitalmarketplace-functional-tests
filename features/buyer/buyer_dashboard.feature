@@ -22,3 +22,14 @@ Scenario: Users should see message when no requirements are created
   Given I am logged in as a buyer user
   And I am on the /buyers page
   Then I see 'You don't have any requirements' text on the page
+
+Scenario: New users should have a link to join the use research mailing list
+  Given I am logged in as a buyer user
+  When I am on the /buyers page
+  Then I see the 'Join the user research mailing list' link
+
+Scenario: Users on the mailing list should have the link to unsubscribe
+  Given I am logged in as a buyer user
+  And that user is on the user research mailing list
+  When I am on the /buyers page
+  Then I see the 'Unsubscribe from the user research mailing list' link
