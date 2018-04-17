@@ -16,7 +16,7 @@ Scenario Outline: Correct users can deactivate and reactivate a supplier's contr
   And I click the 'Edit supplier accounts or view services' link
   And I enter 'DM Functional Test Supplier' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
-  And I click the summary table 'Users' link for 'DM Functional Test Supplier'
+  And I click a summary table 'Users' link for 'DM Functional Test Supplier'
   When I click the summary table 'Deactivate' button for 'DM Functional Test Supplier User #1'
   Then I see an entry in the 'Users' table with:
     | Name                                | Email address        | Last login  | Pwd changed | Locked |
@@ -35,7 +35,7 @@ Scenario Outline: Correct users can view but not deactivate suppliers users
   And I click the '<link-name>' link
   And I enter 'DM Functional Test Supplier' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
-  When I click the summary table 'Users' link for 'DM Functional Test Supplier'
+  When I click a summary table 'Users' link for 'DM Functional Test Supplier'
   Then I don't see the 'Deactivate' button
   And I see an entry in the 'Users' table with:
     | Name                                | Email address        | Last login  | Pwd changed | Locked | Status |
