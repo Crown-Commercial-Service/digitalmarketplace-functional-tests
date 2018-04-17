@@ -8,13 +8,13 @@ Scenario Outline: Correct users can edit a supplier name
   And I click the '<link-name>' link
   And I enter 'DM Functional Test Supplier' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
-  And I click the summary table 'Change name' link for 'DM Functional Test Supplier'
+  And I click a summary table 'Change name' link for 'DM Functional Test Supplier'
   When I enter 'functional-test-new-name' in the 'New name' field
   And I click the 'Save' button
   Then I see an entry in the 'Suppliers' table with:
     | Name                     | Change name | Users | Services |
     | functional-test-new-name | Change name | Users | Services |
-  When I click the summary table 'Change name' link for 'functional-test-new-name'
+  When I click a summary table 'Change name' link for 'functional-test-new-name'
   And I enter 'DM Functional Test Supplier' in the 'New name' field
   And I click the 'Save' button
   Then I see an entry in the 'Suppliers' table with:

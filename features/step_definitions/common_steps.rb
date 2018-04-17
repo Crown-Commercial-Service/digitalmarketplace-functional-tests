@@ -307,6 +307,21 @@ When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name,
   edit_link.click
 end
 
+When /I click a summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
+  case elem_type
+    when 'link'
+      edit_link = page.all(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
+    else
+      edit_link = page.all(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//input[normalize-space(@value) = '#{link_name}']")
+  end
+
+  if edit_link.length > 1
+    puts "Warning: #{edit_link.length} '#{link_name}' links found"
+  end
+
+  edit_link[0].click
+end
+
 When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link(?: and the '(.*)' button)?/ do |field_to_edit, new_value, link_name, button_name|
   summary_page = current_url
   button_name ||= "Save and continue"
