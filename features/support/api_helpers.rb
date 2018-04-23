@@ -76,7 +76,7 @@ def ensure_user_exists(user_details)
       }, safe_for_smoke_tests: true)
       expect(reset_failed_login_response.code).to eq(200), _error(reset_failed_login_response, "Failed to ensure user #{user_details['emailAddress']} exists")
       # this should definitely fail now
-      expet(auth_response.code).to eq(200), _error(auth_response, "User #{user_details['emailAddress']} exists but we couldn't authenticate as them. Does our password agree with the one on the server?")
+      expect(auth_response.code).to eq(200), _error(auth_response, "User #{user_details['emailAddress']} exists but we couldn't authenticate as them. Does our password agree with the one on the server?")
     end
   else
     expect(creation_response.code).to eq(201), _error(creation_response, "Failed to ensure user #{user_details['emailAddress']} exists")
