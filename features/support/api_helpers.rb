@@ -268,6 +268,16 @@ def create_supplier(custom_supplier_data = {})
   JSON.parse(response.body)['suppliers']
 end
 
+def update_supplier(supplier_id, data)
+  response = call_api(
+    :post,
+    "/suppliers/#{supplier_id}",
+    payload: { updated_by: "functional tests", suppliers: data }
+  )
+  expect(response.code).to eq(200), _error(response, "Failed to update supplier")
+  JSON.parse(response.body)['suppliers']
+end
+
 def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   # Create a 15 digit service ID, miniscule clash risk
   start = 10 ** 14
