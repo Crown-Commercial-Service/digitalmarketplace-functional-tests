@@ -1,4 +1,4 @@
-@password_change
+@password_change @skip-staging
 Feature: Password change
 Background:
 
