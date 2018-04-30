@@ -312,6 +312,20 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   JSON.parse(response.body)['services']
 end
 
+def get_a_service(status)
+  framework_response = call_api(:get, '/frameworks')
+  frameworks = JSON.parse(framework_response.body)['frameworks']
+  suitable_framework_slugs = []
+  frameworks.each do |framework|
+    if framework["status"] == "live" && framework["framework"] == "g-cloud"
+      suitable_framework_slugs << framework["slug"]
+    end
+  end
+  params = { status: status, framework: suitable_framework_slugs[0] }
+  response = call_api(:get, '/services', params: params)
+  JSON.parse(response.body)['services'][0]
+end
+
 def create_user(user_role, custom_user_data = {})
   randomString = SecureRandom.hex
   password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]

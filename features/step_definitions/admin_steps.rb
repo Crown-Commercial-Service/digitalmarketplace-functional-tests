@@ -20,3 +20,15 @@ Then (/^I see the number of suppliers listed is (\d+)$/) do |supplier_count|
     ).length
   ).to eq(supplier_count.to_i)
 end
+
+Given /^I have a (not-submitted|submitted|enabled|disabled|published|failed) service on a live G-Cloud framework$/ do |status|
+  @service = get_a_service(status)
+end
+
+When /^I enter that service id in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|
+  step "I enter '#{@service['id']}' in the '#{field_name}' field and click its associated '#{click_button_name}' button"
+end
+
+Then "I am on that service's editable page" do
+  step "I am on page with url '/admin/services/#{@service['id']}'"
+end
