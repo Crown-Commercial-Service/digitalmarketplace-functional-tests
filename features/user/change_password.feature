@@ -1,4 +1,4 @@
-@password_change @skip-staging
+@password_change @notify @skip-staging
 Feature: Password change
 Background:
 
@@ -13,6 +13,9 @@ Scenario Outline: Logged in user can change their password
   And I click 'Save changes' button
   Then I see a success banner message containing 'You have successfully changed your password.'
   And I am on the <dashboard_url> page
+  And I receive a 'change-password-alert' email for that user.emailAddress
+  And I click the link in that email
+  Then I am on the 'Reset password' page
 
   Examples:
     | role     |  dashboard_url |
@@ -31,6 +34,9 @@ Scenario Outline: Logged in admin user can change their password
   And I click 'Save changes' button
   Then I see a success banner message containing 'You have successfully changed your password.'
   And I am on the /admin page
+  And I receive a 'change-password-alert' email for that user.emailAddress
+  And I click the link in that email
+  Then I am on the 'Reset password' page
 
   Examples:
     | role                    |
