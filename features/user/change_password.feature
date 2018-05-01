@@ -1,4 +1,4 @@
-@password_change @notify @skip-staging
+@password-change @notify @skip-staging
 Feature: Password change
 Background:
 
@@ -45,3 +45,16 @@ Scenario Outline: Logged in admin user can change their password
     | admin-ccs-category      |
     | admin-ccs-sourcing      |
     | admin-manager           |
+
+
+Scenario: User sees validation if they input incorrect old password
+  Given I am logged in as a supplier user
+  And I am on the /suppliers page
+  When I click 'Change your password'
+  Then I am on the 'Change your password' page
+  When I enter 'WrongPassword' in the 'Old password' field
+  And I enter that user.password in the 'New password' field
+  And I enter that user.password in the 'Confirm new password' field
+  And I click 'Save changes' button
+  Then I am on the 'Change your password' page
+  And I see a validation message containing 'Make sure you’ve entered the right password.'
