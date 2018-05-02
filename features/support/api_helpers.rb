@@ -312,18 +312,22 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   JSON.parse(response.body)['services']
 end
 
-def get_a_service(status)
-  framework_response = call_api(:get, '/frameworks')
-  frameworks = JSON.parse(framework_response.body)['frameworks']
+def get_frameworks
+  frameworks_from_api = call_api(:get, '/frameworks')
+  all_frameworks = JSON.parse(frameworks_from_api.body)['frameworks']
+end
+
+def get_a_service(status, framework_type = "g-cloud")
+  all_frameworks = get_frameworks
   suitable_framework_slugs = []
-  frameworks.each do |framework|
-    if framework["status"] == "live" && framework["framework"] == "g-cloud"
+  all_frameworks.each do |framework|
+    if framework["status"] == "live" && framework["framework"] == framework_type
       suitable_framework_slugs << framework["slug"]
     end
   end
   params = { status: status, framework: suitable_framework_slugs[0] }
-  response = call_api(:get, '/services', params: params)
-  JSON.parse(response.body)['services'][0]
+  services_from_api = call_api(:get, '/services', params: params)
+  JSON.parse(services_from_api.body)['services'].sample
 end
 
 def create_user(user_role, custom_user_data = {})

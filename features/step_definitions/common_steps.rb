@@ -251,10 +251,6 @@ Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   expect(page).to have_selector('h1', text: normalize_whitespace(page_name))
 end
 
-Then /^I am on page with url #{MAYBE_VAR}$/ do |url|
-  expect(page.current_url).to eq("#{dm_frontend_domain}#{url}")
-end
-
 Then /^I see #{MAYBE_VAR} in the page's (.*)$/ do |page_name_fragment, selector|
   expect(find(selector).text).to include(normalize_whitespace(page_name_fragment))
 end
