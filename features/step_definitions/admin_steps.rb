@@ -29,7 +29,7 @@ When /^I enter that service id in the '(.*)' field( and click its associated '(.
   step "I enter '#{@service['id']}' in the '#{field_name}' field and click its associated '#{click_button_name}' button"
 end
 
-Then "I am on that service's editable page" do
+Then "I am on that service's page" do
   service_name = @service['serviceName']
   step "I am on '#{service_name}' page"
   puts "Service name: #{service_name}"
