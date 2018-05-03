@@ -6,6 +6,187 @@ Background:
   And that supplier is logged in
   And I am on the /suppliers page
 
+@skip-staging @skip-production
+Scenario: Supplier user can provide and change supplier details before confirming them for framework applications
+  When I click 'Company details'
+  Then I am on the 'Company details' page
+  And I don't see the 'Save and confirm' button
+
+  When I click 'Change'
+  And I enter 'New name' in the 'Contact name' field
+  And I enter 'new-email@example.com' in the 'Contact email address' field
+  And I enter '12345678' in the 'Contact phone number' field
+  And I enter 'All fresh' in the 'Supplier summary' field
+  And I click 'Save and return'
+  Then I see the 'What buyers will see' summary table filled with:
+    | field                     | value                           |
+    | Contact name              | New name                        |
+    | Contact email             | new-email@example.com           |
+    | Contact phone number      | 12345678                        |
+    | Summary                   | All fresh                       |
+
+  When I click the summary table 'Answer required' link for 'Registered company name'
+  Then I am on the 'Registered company name' page
+  And I enter 'Toys "ᴙ" Us' in the 'Registered company name' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Answer required' link for 'Registered company address'
+  And I am on the 'What is your registered office address?' page
+  And I enter '101 Toys Street' in the 'Building and street' field
+  And I enter 'Toytown' in the 'Town or city' field
+  And I enter 'T0 YSZ' in the 'Postcode' field
+  And I enter 'United Kingdom' in the 'location-autocomplete' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Answer required' link for 'Registration number'
+  And I am on the 'Are you registered with Companies House?' page
+  And I choose 'Yes' radio button
+  And I enter '18092231' in the 'companies_house_number' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Answer required' link for 'Trading status'
+  And I am on the 'What’s your trading status?' page
+  And I choose 'limited company (LTD)' radio button
+  And I click 'Save and return'
+
+  Then I click the summary table 'Answer required' link for 'Company size'
+  And I am on the 'What size is your organisation?' page
+  And I choose 'Large' radio button
+  And I click 'Save and return'
+
+  Then I click the summary table 'Answer required' link for 'VAT number'
+  And I am on the 'Are you registered for VAT?' page
+  And I choose 'Yes' radio button
+  And I enter '410802502' in the 'vat_number' field and click its associated 'Save and return' button
+
+  # Not checking DUNS number here, as the value is random
+  Then I see the 'Registration information' summary table filled with:
+    | field                     |  value                                        |
+    | Registered company name   | Toys "ᴙ" Us                                   |
+    | Registered company address| 101 Toys Street Toytown T0 YSZ United Kingdom |
+    | Registration number       | 18092231                                      |
+    | Trading status            | Limited company (LTD)                         |
+    | Company size              | Large                                         |
+    | VAT number                | 410802502                                     |
+
+  # Can pull the dunsNumber from the supplier and use it with this step
+  And I see 'that supplier.dunsNumber' text on the page
+
+  # This button should only appear once all details are filled in.
+  And I see the 'Save and confirm' button
+
+  When I click the summary table 'Change' link for 'Registered company name'
+  Then I am on the 'Registered company name' page
+  And I enter 'Toys "ᴙ" Not Us' in the 'Registered company name' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Change' link for 'Registered company address'
+  And I am on the 'What is your registered office address?' page
+  And I enter '101 Liquidation Street' in the 'Building and street' field
+  And I enter 'Shutdown' in the 'Town or city' field
+  And I enter 'N0 TOY' in the 'Postcode' field
+  And I enter 'France' in the 'location-autocomplete' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Change' link for 'Registration number'
+  And I am on the 'Are you registered with Companies House?' page
+  And I choose 'Yes' radio button
+  And I enter '18092232' in the 'companies_house_number' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Change' link for 'Trading status'
+  And I am on the 'What’s your trading status?' page
+  And I choose 'other' radio button
+  And I click 'Save and return'
+
+  Then I click the summary table 'Change' link for 'Company size'
+  And I am on the 'What size is your organisation?' page
+  And I choose 'Micro' radio button
+  And I click 'Save and return'
+
+  Then I click the summary table 'Change' link for 'VAT number'
+  And I am on the 'Are you registered for VAT?' page
+  And I choose 'No' radio button
+  And I click 'Save and return'
+
+  # Duns number is never editable
+  Then I click the summary table 'Change' link for 'DUNS number'
+  And I am on the 'Change your DUNS number' page
+  And I see 'Contact cloud_digital@crowncommercial.gov.uk to make changes to your:' text on the pages
+  And I don't see the 'Save and continue' button
+  And I click the 'Return to company details' link
+
+  # Not checking DUNS number here, as the value is random
+  Then I see the 'Registration information' summary table filled with:
+    | field                     |  value                                                |
+    | Registered company name   | Toys "ᴙ" Not Us                                       |
+    | Registered company address| 101 Liquidation Street Shutdown N0 TOY France         |
+    | Registration number       | 18092232                                              |
+    | Trading status            | Other                                                 |
+    | Company size              | Micro                                                 |
+    | VAT number                | Not VAT registered                                    |
+
+  # Can pull the dunsNumber from the supplier and use it with this step
+  And I see 'that supplier.dunsNumber' text on the page
+
+  # Confirming company details should redirect you back to the company details page if not currently applying to a
+  # framework
+  When I click the 'Save and confirm' button
+  Then I am on the 'Company details' page
+  And I don't see the 'Save and confirm' button
+
+  # Certain fields can't be changed after supplier details have been confirmed
+  When I click the summary table 'Change' link for 'Registered company name'
+  Then I am on the 'Change your registered company name' page
+  And I see 'Contact cloud_digital@crowncommercial.gov.uk to make changes to your:' text on the pages
+  And I don't see the 'Save and continue' button
+  Then I click the 'Return to company details' link
+
+  Then I click the summary table 'Change' link for 'Registration number'
+  Then I am on the 'Change your registration number' page
+  And I see 'Contact cloud_digital@crowncommercial.gov.uk to make changes to your:' text on the pages
+  And I don't see the 'Save and continue' button
+  Then I click the 'Return to company details' link
+
+  Then I click the summary table 'Change' link for 'VAT number'
+  Then I am on the 'Change your VAT number' page
+  And I see 'Contact cloud_digital@crowncommercial.gov.uk to make changes to your:' text on the pages
+  And I don't see the 'Save and continue' button
+  Then I click the 'Return to company details' link
+
+  Then I click the summary table 'Change' link for 'DUNS number'
+  Then I am on the 'Change your DUNS number' page
+  And I see 'Contact cloud_digital@crowncommercial.gov.uk to make changes to your:' text on the pages
+  And I don't see the 'Save and continue' button
+  Then I click the 'Return to company details' link
+
+  # Other fields can still be changed after supplier details have been confirmed
+  Then I click the summary table 'Change' link for 'Registered company address'
+  And I am on the 'What is your registered office address?' page
+  And I enter '188-196 Regent Street' in the 'Building and street' field
+  And I enter 'London' in the 'Town or city' field
+  And I enter 'W1B 5BT' in the 'Postcode' field
+  And I enter 'United Kingdom' in the 'location-autocomplete' field and click its associated 'Save and return' button
+
+  Then I click the summary table 'Change' link for 'Trading status'
+  And I am on the 'What’s your trading status?' page
+  And I choose 'public limited company (PLC)' radio button
+  And I click 'Save and return'
+
+  Then I click the summary table 'Change' link for 'Company size'
+  And I am on the 'What size is your organisation?' page
+  And I choose 'Large' radio button
+  And I click 'Save and return'
+  Then I am on the 'Company details' page
+
+  # Not checking DUNS number here, as the value is random
+  Then I see the 'Registration information' summary table filled with:
+    | field                     |  value                                                |
+    | Registered company name   | Toys "ᴙ" Not Us                                       |
+    | Registered company address| 188-196 Regent Street London W1B 5BT United Kingdom   |
+    | Registration number       | 18092232                                              |
+    | Trading status            | Public limited company (PLC)                          |
+    | Company size              | Large                                                 |
+    | VAT number                | Not VAT registered                                    |
+
+  # Can pull the dunsNumber from the supplier and use it with this step
+  And I see 'that supplier.dunsNumber' text on the page
+
+@skip-preview
 Scenario: Supplier user can provide and change supplier details before confirming them for framework applications
   When I click 'Supplier details'
   Then I am on the 'Company details' page
