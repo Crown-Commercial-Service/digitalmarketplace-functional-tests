@@ -19,8 +19,8 @@ Scenario: User has forgotten their password and requests a password reset
   And I receive a 'reset-password' email for that user.emailAddress
   And I click the link in that email
   Then I am on the 'Reset password' page
-  When I enter that user.password in the 'Password' field
-  And I enter that user.password in the 'Confirm password' field
+  When I enter that user.password in the 'New password' field
+  And I enter that user.password in the 'Confirm new password' field
   And I click 'Reset password' button
   Then I am on the 'Log in to the Digital Marketplace' page
   And I see a success banner message containing 'You have successfully changed your password.'
