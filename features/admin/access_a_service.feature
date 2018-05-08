@@ -20,7 +20,8 @@ Scenario: Admin with Service Manager role can edit, remove and publish a service
   When I click the 'Remove service' link
   Then I see a destructive banner message containing 'Are you sure you want to remove ‘Plant-based cloud hosting’?'
   When I click 'Remove'
-  Then I see a temporary-message banner message containing 'Removed by production-admin-ccs-category-user@example.gov.uk'
+  Then I see a temporary-message banner message containing 'Removed by '
+  And I see a temporary-message banner message containing 'that user.emailAddress'
   When I click 'Publish service'
   Then I see a destructive banner message containing 'Are you sure you want to publish ‘Plant-based cloud hosting’?'
   When I click 'Publish'
