@@ -6,7 +6,7 @@ Technology wise it is a Ruby project using:
 - [Capybara](https://github.com/jnicklas/capybara)
 - [Bundler](http://bundler.io/)
 
-## Bootstraping the project on Mac
+## Bootstrapping the project on Mac
 
 This installation assumes you're using [Homebrew](http://brew.sh/) and Ruby
 installed by Homebrew. We expect you to have [rbenv](https://github.com/rbenv/rbenv)
@@ -79,6 +79,28 @@ applications are running the functional tests can be run with
 `make run`
 
 (or you can substitute `local` with the name of whatever `config/*.sh` environment file you're using.
+
+#### Using Notify in functional tests
+
+If your scenario includes sending a Notify email, you can temporarily set a sandbox `DM_NOTIFY_API_KEY` in the app
+config for that scenario.
+
+For example, in the `config.py` for the scenario's frontend app:
+
+```
+class Development(Config):
+    ...
+
+    # DM_NOTIFY_API_KEY = "not_a_real_key-00000000-fake-uuid-0000-000000000000"
+    DM_NOTIFY_API_KEY = "my-sandbox-api-key-that-I-set-up-in-the-Notify-dashboard"
+
+```
+
+This should match the setting in your `local.sh` config file.
+
+This will allow the functional tests to assert that an email has arrived in the Notify sandbox.
+
+Remember not to commit the change to `config.py`!
 
 ## Linting
 
