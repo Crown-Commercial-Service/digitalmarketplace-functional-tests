@@ -8,15 +8,19 @@ Technology wise it is a Ruby project using:
 
 ## Bootstrapping the project on Mac
 
-This installation assumes you're using [Homebrew](http://brew.sh/) and Ruby
-installed by Homebrew. We expect you to have [rbenv](https://github.com/rbenv/rbenv)
-installed and expect you to be using that to manage your Ruby versions. We have seen
-problems installing Nokogiri with native Mac Ruby. Nokogiri can also cause problems
-if you have an old version of XCode. Upgrading to version 6.1.0 from 5.x has been
-known to resolve the issue. `brew doctor` will warn if your version of XCode is
-sufficiently out of date.
+This installation assumes you're using [rbenv](https://github.com/rbenv/rbenv) to 
+manage your Ruby versions. If you're on macOS you can use [Homebrew](brew.sh).
 
 ```bash
+brew install rbenv
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+```
+
+Once you have `rbenv` in your environment you can install Ruby 2.3.1, [bundler](http://bundler.io/),
+and then you're good to go :smile:.
+
+```bash
+rbenv install 2.3.1
 gem install bundler
 make install
 ```
