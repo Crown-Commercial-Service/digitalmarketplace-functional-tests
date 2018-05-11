@@ -20,7 +20,7 @@ Once you have `rbenv` in your environment you can install Ruby 2.3.1, [bundler](
 and then you're good to go :smile:.
 
 ```bash
-rbenv install && rbenv rehash  # install and use ruby from local .ruby-version 
+rbenv install 2.3.1
 gem install bundler
 make install
 ```
