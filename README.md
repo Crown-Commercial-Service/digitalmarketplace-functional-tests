@@ -17,6 +17,7 @@ known to resolve the issue. `brew doctor` will warn if your version of XCode is
 sufficiently out of date.
 
 ```bash
+rbenv install && rbenv rehash  # install and use ruby from local .ruby-version 
 gem install bundler
 make install
 ```
