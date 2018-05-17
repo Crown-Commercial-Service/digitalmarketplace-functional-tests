@@ -1,4 +1,4 @@
-@password-change @notify
+@password-change @notify @skip-staging
 Feature: Password change
 Background:
 
