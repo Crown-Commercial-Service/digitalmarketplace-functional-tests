@@ -20,4 +20,5 @@ gem "test-unit"
 
 group :test, :development do
   gem "pry"
+  gem "ruby-prof"
 end
