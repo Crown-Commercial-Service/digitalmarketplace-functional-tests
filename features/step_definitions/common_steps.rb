@@ -419,7 +419,7 @@ Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attri
 end
 
 Then /^I take a screenshot/ do
-  page.save_screenshot('screenshot.png')
+  page.save_screenshot('screenshot.png', full: true)
 end
 
 And /^I wait for the page to reload/ do
