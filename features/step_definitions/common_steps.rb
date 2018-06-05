@@ -407,7 +407,7 @@ end
 Then /^I (don't |)see '(.*?)'(?: or '(.*)')? text on the page/ do |negative, expected_text, alternative_expected_text|
   has_text = page.has_content?(expected_text)
 
-  has_alternative_text = nil
+  has_alternative_text = false
   if alternative_expected_text
     has_alternative_text = page.has_content?(alternative_expected_text)
   end
