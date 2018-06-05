@@ -201,3 +201,9 @@ Even if the test being written isn't expected to result in a Notify message (e.g
 used against Mailchimp or just stored in a declaration) it's still best to stick to this vetted list of email domains -
 you never know when someone's going to quietly add a new notification of an event, and it's quite useful to have a
 handle on what email addresses we're throwing about in general in case we get any other complaints from other services.
+
+### Debugging slow-running functional tests
+Capybara is a web testing framework designed to allow assertions against sites that dynamically load/display content. To do this, some of their selector/finder methods will look for elements/content, and retry over a given period if it's not visible immediately. This can cause test steps to pause for a second or two when we're not using the most appropriate selector (like a selector which looks for content _not_ being present if we don't expect it to be there, as opposed to using a selector that looks for content _being_ present, and then asserting the result is false).
+
+IF you run functional tests with the DM_DEBUG_SLOW_TESTS environment variable set, Capybara's synchronisation method will be monkeypatched to raise a SlowFinderError which will help debug where we might not be using the correct Capybara method for our 'happy' case so that we can easily find and change it to something more suitable.
+
