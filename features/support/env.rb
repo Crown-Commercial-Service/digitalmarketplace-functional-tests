@@ -69,8 +69,13 @@ def dm_notify_api_key
   ENV['DM_NOTIFY_API_KEY']
 end
 
+def dm_custom_wait_time
+  5
+end
+
 Capybara.asset_host = dm_frontend_domain
 Capybara.save_path = "reports/"
+Capybara.default_max_wait_time = 0.05
 
 if ENV['DM_DEBUG_SLOW_TESTS']
   # Monkeypatch Capybara's synchronize method to let us catch places where we're using the 'wrong' kind of finder

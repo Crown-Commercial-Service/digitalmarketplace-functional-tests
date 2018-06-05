@@ -255,7 +255,7 @@ def create_supplier(custom_supplier_data = {})
     contactInformation: [{
       contactName: random_string,
       email: random_string + "-supplier@example.com",
-      phoneNumber: '%010d' % rand(10 ** 11 -1),
+      phoneNumber: '%010d' % rand(10**11 - 1),
     }]
   }
   supplier_data.update(custom_supplier_data)
@@ -280,8 +280,8 @@ end
 
 def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   # Create a 15 digit service ID, miniscule clash risk
-  start = 10 ** 14
-  last = 10 ** 15 - 1
+  start = 10**14
+  last = 10**15 - 1
   random_service_id = rand(start..last).to_s
 
   service_data = {

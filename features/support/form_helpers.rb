@@ -8,8 +8,7 @@ module FormHelper
       :checkbox
     elsif el[:type] == 'radio'
       :radio
-    elsif (el[:type] == 'text') && el.matches_css?('div.input-list input')
-      # TODO condition is expensive.... can we cache?
+    elsif (el[:type] == 'text') && el.matches_css?('div.input-list input', wait: false)
       :list
     elsif el[:type] == 'file'
       :file
@@ -24,7 +23,7 @@ module FormHelper
     (0..rand(3)).map { |i| SecureRandom.base64.gsub(/[+=\/]/, '') }.join
   end
 
-  def random_for(locator, options = {})
+  def random_for(locator, options = { wait: false })
     # Generate a suitable random value based on locator
 
     locator, options = nil, locator if locator.is_a? Hash
@@ -54,7 +53,7 @@ module FormHelper
     label && label.visible?
   end
 
-  def find_fields(locator = nil, options = {})
+  def find_fields(locator = nil, options = { wait: false })
     # Find all field names
     # If the inputs themselves aren't visible (ie, radios and checkboxes), verify that the parent labels are
     results = all_fields(
@@ -68,7 +67,7 @@ module FormHelper
     results.uniq
   end
 
-  def check_only(locator = nil, options = {})
+  def check_only(locator = nil, options = { wait: false })
     # Ensure only the values provided in options[:with] are selected
     # takes either a single string or array of strings
 
@@ -95,7 +94,7 @@ module FormHelper
     result
   end
 
-  def input_list(locator = nil, options = {})
+  def input_list(locator = nil, options = { wait: false })
     # Enter the values provided in options[:with] into an input list
     # takes either a single string or array of strings
 
@@ -106,7 +105,7 @@ module FormHelper
 
     within result[0] do
       within(:xpath, '../..') do
-        (3..with.length).each { click_on find('.list-entry-add').text } if with.length > 2
+        (3..with.length).each { click_on find('.list-entry-add').text, wait: false } if with.length > 2
       end
     end
 
@@ -119,7 +118,7 @@ module FormHelper
     result
   end
 
-  def fill_field(locator = nil, options = {})
+  def fill_field(locator = nil, options = { wait: false })
     # Like fill_in but will work with checkboxes, radios, and input lists too.
 
     locator, options = nil, locator if locator.is_a? Hash
@@ -154,7 +153,7 @@ module FormHelper
     end
   end
 
-  def maybe_within(locator = nil, options = {}, &block)
+  def maybe_within(locator = nil, options = { wait: false }, &block)
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
 
@@ -167,7 +166,7 @@ module FormHelper
     end
   end
 
-  def find_substitutions(locator = nil, options = {})
+  def find_substitutions(locator = nil, options = { wait: false })
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
 
@@ -199,7 +198,7 @@ module FormHelper
     values
   end
 
-  def fill_form(locator = nil, options = {})
+  def fill_form(locator = nil, options = { wait: false })
     # Fill in all form fields with provided values, using random values for
     # any not provided.
     locator, options = nil, locator if locator.is_a? Hash
@@ -211,7 +210,7 @@ module FormHelper
       find_fields.each do |name|
         if find_fields(locator = name).length > 0
           values[name] = (with[name] || random_for(name))
-          fill_field name, with: values[name]
+          fill_field name, with: values[name], wait: false
         end
       end
     end
@@ -334,10 +333,10 @@ module FormHelper
   def find_and_click_submit_button
     submit_button = find_elements_by_xpath("//input[@class='button-save']")[0].value
     if submit_button == 'Save and continue'
-      click_on 'Save and continue'
+      click_on 'Save and continue', wait: false
       false
     else
-      click_on submit_button
+      click_on submit_button, wait: false
       true
     end
   end
