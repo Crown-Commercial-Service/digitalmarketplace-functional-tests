@@ -1,3 +1,7 @@
+When /^I start that framework application$/ do
+  page.all(:xpath, "//form[contains(@action, \"" + @framework["slug"] + "\")]//input[@type='submit']")[0].click
+end
+
 Then /^I am on the #{MAYBE_VAR} page for that framework application$/ do |page_title|
   page_title.sub! "framework", @framework['name']
   step "I am on the '#{page_title}' page"
@@ -31,13 +35,22 @@ Then(/^I submit a service for each lot$/) do
   lots_links.each_with_index do |_link, index|
     link = find_elements_by_xpath("//ul[@class='browse-list']//a")[index]
     link.click
-    click_on 'Add a service'
-    answer = fill_form
-    merge_fields_and_print_answers(answer)
-    click_on 'Save and continue'
-    answer_all_service_questions "Answer question"
-    find_elements_by_xpath("//input[@value='Mark as complete']")[0].click
-    click_on "Back to application"
+    begin
+      click_on 'Add a service'
+    rescue Capybara::ElementNotFound => e
+      answer_all_dos_lot_questions "Edit"
+      answer_all_service_questions "Add"
+      find_elements_by_xpath("//input[@value='Mark as complete']")[0].click
+    else
+      answer = fill_form
+      merge_fields_and_print_answers(answer)
+      click_on 'Save and continue'
+      answer_all_dos_lot_questions "Edit"
+      answer_all_service_questions "Answer question"
+      find_elements_by_xpath("//input[@value='Mark as complete']")[0].click
+      click_on "Back to application"
+    end
+
     # turn on when debugging to make a screenshot when a service for a lot is submitted:
     # page.save_screenshot("screenshot#{index}.png")
   end

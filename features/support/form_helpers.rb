@@ -291,6 +291,16 @@ module FormHelper
     options
   end
 
+  def pass_postcode_validation
+    options = {}
+    postcode_elements = find_elements_by_xpath("//input[contains(@name, 'Postcode')]")
+    if postcode_elements.length > 0
+      element_name = postcode_elements[0]["name"]
+      options[element_name] = "AB1 2CD"
+    end
+    options
+  end
+
   def get_answers_for_validated_questions
     if pass_document_upload_validation || pass_checked_boxes_upper_limit
       return :gotosave
@@ -299,7 +309,8 @@ module FormHelper
       pass_text_validation,
       pass_pricing_validation,
       pass_vat_number_validation,
-      pass_companies_house_number_validation
+      pass_companies_house_number_validation,
+      pass_postcode_validation
     ].inject(&:merge)
   end
 
@@ -331,16 +342,29 @@ module FormHelper
     end
   end
 
+  def is_service_complete
+    find_elements_by_xpath("//input[@value='Mark as complete']").length > 0
+  end
+
   def answer_all_service_questions(prompt_text)
     while find_elements_by_xpath("//a[text()='#{prompt_text}']").length > 0
-      if find_elements_by_xpath("//input[@value='Mark as complete']").length > 0
+      if is_service_complete
         return
       end
-      next_answer_question_link = page.all(:xpath, "//a[text()='#{prompt_text}']")[0]
-      next_answer_question_link.click
-      # To debug particular section, use below line instead of above lines:
-      # find_elements_by_xpath("//span[text()='Section title here']/following::a[text()='Answer question']")[0].click
-      answer_service_section
+
+      find_and_answer_next_question(prompt_text)
+    end
+  end
+
+  def answer_all_dos_lot_questions(prompt_text)
+    i = 0
+    find_elements_by_xpath("//a[text()='#{prompt_text}']").length.times do
+      if is_service_complete
+        return
+      end
+
+      find_and_answer_next_question(prompt_text, i)
+      i += 1
     end
   end
 
@@ -366,9 +390,19 @@ module FormHelper
         merge_fields_and_print_answers(answer)
       end
       # turn on when debugging to take a screenshot of each step:
-      # page.save_screenshot("screenshot_#{Time.new}.png")
+      page.save_screenshot("screenshot_#{Time.new}.png", full: true)
       is_end_of_section = find_and_click_submit_button && !is_there_validation_header?
     end
+  end
+
+  def find_and_answer_next_question(prompt_text, index = 0)
+    next_answer_question_link = find_elements_by_xpath("//a[text()='#{prompt_text}']")[index]
+    next_answer_question_link.click
+
+    # To debug particular section, use below line instead of above lines:
+    # find_elements_by_xpath("//span[text()='Section title here']/following::a[text()='Answer question']")[0].click
+
+    answer_service_section
   end
 
   def is_there_validation_header?

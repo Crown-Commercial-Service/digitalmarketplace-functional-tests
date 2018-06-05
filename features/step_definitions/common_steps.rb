@@ -404,12 +404,18 @@ Then /^I see the '(.*)' (radio button|checkbox) is (not |)checked(?: for the '(.
   end
 end
 
-Then /^I (don't |)see '(.*)' text on the page/ do |negative, expected_text|
-  has_content = page.has_content?(expected_text)
+Then /^I (don't |)see '(.*?)'(?: or '(.*)')? text on the page/ do |negative, expected_text, alternative_expected_text|
+  has_text = page.has_content?(expected_text)
+
+  has_alternative_text = nil
+  if alternative_expected_text
+    has_alternative_text = page.has_content?(alternative_expected_text)
+  end
+
   if negative.empty?
-    expect(has_content).to be true
+    expect(has_text || has_alternative_text).to be true
   else
-    expect(has_content).to be false
+    expect(has_text || has_alternative_text).to be false
   end
 end
 
@@ -419,7 +425,7 @@ Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attri
 end
 
 Then /^I take a screenshot/ do
-  page.save_screenshot('screenshot.png')
+  page.save_screenshot('screenshot.png', full: true)
 end
 
 And /^I wait for the page to reload/ do
