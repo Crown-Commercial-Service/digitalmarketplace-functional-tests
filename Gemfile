@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "capybara", "2.10.1"
+gem "capybara", "2.18.0"
 gem "capybara-screenshot", "1.0.14"
 gem "cucumber", "2.4.0"
 gem "govuk-lint", "3.7.0"

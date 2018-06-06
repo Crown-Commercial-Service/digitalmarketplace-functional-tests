@@ -161,10 +161,10 @@ end
 When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radio_label, question|
   if question
     within(:xpath, "//span[normalize-space(text())='#{question}']/../..") do
-      choose_radio(radio_label)
+      choose_radio(radio_label, wait: false)
     end
   else
-    choose_radio(radio_label)
+    choose_radio(radio_label, wait: false)
   end
 end
 
@@ -176,7 +176,7 @@ end
 When /I choose a random '(.*)' radio button$/ do |name|
 
   radio = all_fields(name, type: 'radio').sample
-  choose_radio(radio)
+  choose_radio(radio, wait: false)
 end
 
 When /I check all '(.*)' checkboxes$/ do |checkbox_name|
@@ -217,9 +217,9 @@ end
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing '(.*)'$/ do |status, message|
   begin
-    banner_message = page.find(:css, ".banner-#{status}-without-action")
+    banner_message = page.find(:css, ".banner-#{status}-without-action", wait: false)
   rescue Capybara::ElementNotFound => e
-    banner_message = page.find(:css, ".banner-#{status}-with-action")
+    banner_message = page.find(:css, ".banner-#{status}-with-action", wait: false)
   end
   expect(banner_message).to have_content(message)
 end
@@ -243,8 +243,8 @@ Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, se
   expect(page).not_to have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
-Then /^I see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
-  find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']")
+Then /^I wait to see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
+  find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']", wait: dm_custom_wait_time)
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
@@ -260,7 +260,7 @@ Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
 end
 
 Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
-  if page.has_field?(field, type: 'radio', visible: :all) || page.has_field?(field, type: 'checkbox', visible: :all)
+  if page.has_field?(field, type: 'radio', visible: :all, wait: false) || page.has_field?(field, type: 'checkbox', visible: :all, wait: false)
     expect(first_field(field, checked: true).value).to eq(value)
   else
     expect(first_field(field).value).to eq(value)
@@ -405,18 +405,12 @@ Then /^I see the '(.*)' (radio button|checkbox) is (not |)checked(?: for the '(.
 end
 
 Then /^I (don't |)see '(.*?)'(?: or '(.*)')? text on the page/ do |negative, expected_text, alternative_expected_text|
-  has_text = page.has_content?(expected_text)
+  method = negative.empty? ? :has_content? : :has_no_content?
 
-  has_alternative_text = false
-  if alternative_expected_text
-    has_alternative_text = page.has_content?(alternative_expected_text)
-  end
+  result = page.send(method, expected_text)
+  alternative_result = alternative_expected_text ? page.send(method, alternative_expected_text) : false
 
-  if negative.empty?
-    expect(has_text || has_alternative_text).to be true
-  else
-    expect(has_text || has_alternative_text).to be false
-  end
+  expect(result || alternative_result).to be true
 end
 
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
@@ -429,13 +423,9 @@ Then /^I take a screenshot/ do
 end
 
 And /^I wait for the page to reload/ do
-  Timeout.timeout(Capybara.default_max_wait_time) do
+  Timeout.timeout(dm_custom_wait_time) do
     loop until page.evaluate_script('jQuery.active').zero?
   end
-end
-
-And /^I wait (\d+) seconds/ do |seconds|
-  sleep seconds.to_i
 end
 
 Then(/^I should get a download file of type '(.*)'$/) do |file_type|

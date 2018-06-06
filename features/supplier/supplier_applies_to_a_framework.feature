@@ -2,11 +2,11 @@
 Feature: Apply to an open framework
 
 Background:
-  Given There is a framework that is open for applications
+  Given there is a framework that is open for applications
   And I have a supplier user
   And that supplier is logged in
 
-Scenario: Supplier submits a framework declaration
+Scenario: Supplier submits a framework application
   Given I am on the /suppliers page
   When I start that framework application
   Then I am on the 'Apply to framework' page for that framework application

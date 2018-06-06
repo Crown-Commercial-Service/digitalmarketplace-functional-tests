@@ -36,7 +36,7 @@ Then(/^I submit a service for each lot$/) do
     link = find_elements_by_xpath("//ul[@class='browse-list']//a")[index]
     link.click
     begin
-      click_on 'Add a service'
+      click_on 'Add a service', wait: false
     rescue Capybara::ElementNotFound => e
       answer_all_dos_lot_questions "Edit"
       answer_all_service_questions "Add"
@@ -44,11 +44,11 @@ Then(/^I submit a service for each lot$/) do
     else
       answer = fill_form
       merge_fields_and_print_answers(answer)
-      click_on 'Save and continue'
+      click_on 'Save and continue', wait: false
       answer_all_dos_lot_questions "Edit"
       answer_all_service_questions "Answer question"
       find_elements_by_xpath("//input[@value='Mark as complete']")[0].click
-      click_on "Back to application"
+      click_on "Back to application", wait: false
     end
 
     # turn on when debugging to make a screenshot when a service for a lot is submitted:

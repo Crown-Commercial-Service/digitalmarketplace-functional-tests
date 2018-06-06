@@ -54,6 +54,7 @@ Scenario: Supplier user can edit the features and benefits of a service
     | field                         | value                                                                                  |
     | Service features and benefits | Service features Feature 1 New Feature 2 Service benefits Benefit 1 Updated Benefit 2  |
 
+@file-upload
 Scenario: Supplier user can replace the service definition document
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
@@ -62,6 +63,7 @@ Scenario: Supplier user can replace the service definition document
   Then I am on the 'Test cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
 
+@file-upload
 Scenario: Supplier user can not replace the service definition document with a non-pdf file
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
@@ -70,6 +72,7 @@ Scenario: Supplier user can not replace the service definition document with a n
   Then I am on the 'Documents' page
   And I see a validation message containing 'Your document is not in an open format. Please save as an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
 
+@file-upload
 Scenario: Supplier user can not replace the service definition document with a file over 5MB
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page

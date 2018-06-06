@@ -20,7 +20,7 @@ Given 'There is at most one framework that can be applied to' do
   end
 end
 
-Given 'There is a framework that is open for applications' do
+Given 'there is a framework that is open for applications' do
   response = call_api(:get, "/frameworks")
   expect(response.code).to be(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']

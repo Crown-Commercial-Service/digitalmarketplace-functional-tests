@@ -77,16 +77,16 @@ def find_elements_by_xpath(xpath)
   page.document.find_xpath(xpath)
 end
 
-def all_fields(locator, options = {})
+def all_fields(locator, options = { wait: false })
   results = all(:field, locator, options.merge(visible: :all)).to_a
   remove_js_hidden_fields_from_results(results)
 end
 
-def first_field(locator, options = {})
+def first_field(locator, options = { wait: false })
   all_fields(locator, options)[0]
 end
 
-def return_element(type, locator_or_element, options = {})
+def return_element(type, locator_or_element, options = { wait: false })
   if locator_or_element.is_a? Capybara::Node::Element
     element = locator_or_element
   else
@@ -109,24 +109,24 @@ def return_element(type, locator_or_element, options = {})
   element
 end
 
-def choose_radio(locator_or_radio, options = {})
+def choose_radio(locator_or_radio, options = { wait: false })
   begin
     radio = return_element('radio', locator_or_radio, options)
-    choose(radio[:id], options.merge(allow_label_click: true))
+    choose(radio[:id], options.merge(allow_label_click: true, wait: false))
   rescue Capybara::ElementNotFound
-    choose(radio[:id], allow_label_click: true)
+    choose(radio[:id], allow_label_click: true, wait: false)
   end
   puts "Radio button value: #{radio.value}"
 end
 
-def check_checkbox(locator_or_checkbox, options = {})
+def check_checkbox(locator_or_checkbox, options = { wait: false })
   checkbox = return_element('checkbox', locator_or_checkbox, options)
 
   check(checkbox[:id], options.merge(allow_label_click: true))
   puts "Checkbox value: #{checkbox.value}"
 end
 
-def uncheck_checkbox(locator_or_checkbox, options = {})
+def uncheck_checkbox(locator_or_checkbox, options = { wait: false })
   checkbox = return_element('checkbox', locator_or_checkbox, options)
 
   uncheck(checkbox[:id], options.merge(allow_label_click: true))

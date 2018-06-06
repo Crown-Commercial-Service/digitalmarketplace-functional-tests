@@ -3,7 +3,6 @@ Feature: Reset user password
 
 Background:
   Given I have a buyer user
-  And I wait 2 seconds to ensure the reset token is created after the user
 
 Scenario: User has forgotten their password and requests a password reset
   When I am on the homepage
