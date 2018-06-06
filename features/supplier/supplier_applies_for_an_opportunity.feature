@@ -380,23 +380,7 @@ Scenario: Supplier changes their answers after submission
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
 
-
 @opportunity-clarification-question
-@skip-preview
-Scenario: Supplier asks a clarification question
-  Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
-  And that supplier has a service on the digital-specialists lot
-  And I go to that brief page
-  And I click 'Ask a question'
-  Then I am on 'Ask a question about ‘Tea drinker’' page
-  And I enter 'How do I ask a question?' in the 'clarification-question' field
-  And I click 'Ask question'
-  Then I see a success banner message containing 'Your question has been sent.'
-
-@opportunity-clarification-question
-@skip-staging
 Scenario: Supplier asks a clarification question
   Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
