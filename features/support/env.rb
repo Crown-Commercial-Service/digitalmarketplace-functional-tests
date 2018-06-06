@@ -1,6 +1,7 @@
 require 'erb'
 require 'rspec'
 require 'nokogiri'
+require 'capybara'
 require 'capybara/cucumber'
 require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
@@ -70,3 +71,30 @@ end
 
 Capybara.asset_host = dm_frontend_domain
 Capybara.save_path = "reports/"
+
+
+# Monkeypatch Capybara's synchronize method to let us catch places where we're using the 'wrong' kind of finder
+# Capybara has waiting and non-waiting finders. If we use a waiting finder to look for text that isn't present, when we
+# actually expect the text *not* to be there, our tests will run slower than they should.
+# Sourced from https://github.com/ngauthier/capybara-slow_finder_errors (MIT licence).
+module Capybara
+  class SlowFinderError < CapybaraError; end
+
+  module Node
+    class Base
+      def synchronize_with_timeout_error(*args, &block)
+        start_time = Time.now
+        synchronize_without_timeout_error(*args, &block)
+      rescue Capybara::ElementNotFound => e
+        seconds = args.first || Capybara.default_max_wait_time
+        if seconds > 0 && Time.now - start_time > seconds
+          raise SlowFinderError, "Timeout reached while running a *waiting* Capybara finder...perhaps you wanted to return immediately? Use a non-waiting Capybara finder. More info: http://blog.codeship.com/faster-rails-tests?utm_source=gem_exception"
+        end
+
+        raise
+      end
+      alias_method :synchronize_without_timeout_error, :synchronize
+      alias_method :synchronize, :synchronize_with_timeout_error
+    end
+  end
+end
