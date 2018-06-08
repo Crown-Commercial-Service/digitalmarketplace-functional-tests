@@ -24,8 +24,8 @@ end
 
 Then (/^I continue clicking #{MAYBE_VAR} until I see that service in the search results$/) do |next_link_label|
   i = 1
-  until search_results = CatalogueHelpers.get_service_search_results(page, @service)
-    # ^^^ note assignment, not comparison here ^^^
+  until (search_results = CatalogueHelpers.get_service_search_results(page, @service)).length != 0
+    # ^^^ note embedded assignment here ^^^
     i += 1
     page.click_link(next_link_label)
     # if there wasn't another matching "next" link we should have errored out above
