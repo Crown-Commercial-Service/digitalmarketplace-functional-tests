@@ -115,7 +115,7 @@ Scenario: User is still assessing services
   Given I am logged in as a buyer user
   When I have created and ended a search called 'my cloud project'
   And I click on the 'Tell us your outcome' link
-  And I select the "Still assessing" option
+  And I choose the 'Still assessing' radio button
   And I click "Save and Continue"
   And I am on the 'my cloud project' page
   Then I see "You've updated 'my cloud project'"
