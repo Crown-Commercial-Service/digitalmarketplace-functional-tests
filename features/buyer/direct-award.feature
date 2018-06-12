@@ -82,3 +82,41 @@ Scenario: User ends search and downloads results
   And I am on the 'Download your search results' page
   And I click the 'Download search results as comma-separated values' link
   And I should get a download file of type 'csv'
+
+
+Scenario: User awards contract
+  Given I am logged in as a buyer user
+  When I have created and ended a search called 'my cloud project'
+  And I click on the 'Tell us your outcome' link
+  And I award the contract to 'Supplier X'
+  And I am on the 'my cloud project' page
+  Then I see "You've updated 'my cloud project'"
+  And I see 'Contract awarded to Supplier X: Service Y'
+
+Scenario: User does not award contract as work is cancelled
+  Given I am logged in as a buyer user
+  When I have created and ended a search called 'my cloud project'
+  And I click on the 'Tell us your outcome' link
+  And I do not award the contract because the work is cancelled
+  And I am on the 'my cloud project' page
+  Then I see "You've updated 'my cloud project'"
+  And I see 'The work has been cancelled'
+
+Scenario: User does not award contract as there are no suitable services
+  Given I am logged in as a buyer user
+  When I have created and ended a search called 'my cloud project'
+  And I click on the 'Tell us your outcome' link
+  And I do not award the contract because there are no suitable services
+  And I am on the 'my cloud project' page
+  Then I see "You've updated 'my cloud project'"
+  And I see 'No suitable services found'
+
+Scenario: User is still assessing services
+  Given I am logged in as a buyer user
+  When I have created and ended a search called 'my cloud project'
+  And I click on the 'Tell us your outcome' link
+  And I select the "Still assessing" option
+  And I click "Save and Continue"
+  And I am on the 'my cloud project' page
+  Then I see "You've updated 'my cloud project'"
+  And I see 'No suitable services found'
