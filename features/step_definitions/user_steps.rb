@@ -86,7 +86,7 @@ Then /^That user can not log in using their correct password$/ do
     When I enter '#{@user['emailAddress']}' in the 'Email address' field
     And I enter '#{@user['password']}' in the 'Password' field
     And I click the 'Log in' button
-    Then I see a destructive banner message containing 'Accounts are locked after 5 failed attempts'
+    Then I see a destructive banner message containing 'Accounts are locked'
     And I don't see the 'Log out' button
   }
 end
