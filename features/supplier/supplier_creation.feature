@@ -5,7 +5,7 @@ Background:
   Given There is at least one framework that can be applied to
 
 Scenario: User steps through supplier account creation process
-  Given I am on the homepage
+  Given I visit the homepage
   When I click 'Become a supplier'
   Then I am on the 'Become a supplier' page
 

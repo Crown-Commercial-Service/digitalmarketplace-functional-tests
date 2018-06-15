@@ -9,7 +9,7 @@ Background:
   And we accept that suppliers application to the framework
   And that supplier returns a signed framework agreement for the framework
   And that supplier has a service on the cloud-support lot
-  When I am on the /suppliers page
+  When I visit the /suppliers page
   # The following step only works by virtue of there only being a single service for this supplier - multiple services on
   # multiple frameworks will cause multiple "View services" links to be present
   And I click 'View services'

@@ -54,7 +54,7 @@ Then /^I visit the '(.*)' question page for that brief response$/ do |question|
   end
   question_id = snaked.join
   url = "/suppliers/opportunities/#{@brief['id']}/responses/#{@brief_response}/#{question_id}"
-  step "I am on the #{url} page"
+  step "I visit the #{url} page"
 end
 
 Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|

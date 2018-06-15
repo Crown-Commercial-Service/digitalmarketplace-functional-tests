@@ -32,7 +32,7 @@ Scenario Outline: Admin Manager user can log in and suspend admin users
 Scenario Outline: Correct users cannot access the manage admin users page
   Given I am logged in as the production <role> user
   Then I don't see the 'View and edit admin accounts' link
-  When I am on the /admin/admin-users page
+  When I visit the /admin/admin-users page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:

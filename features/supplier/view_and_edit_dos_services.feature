@@ -11,7 +11,7 @@ Background:
 
 Scenario Outline: Supplier coming from dashboard to view the detail page for one of their services
   Given that supplier has a service on the <lot_slug> lot
-  And I am on the /suppliers page
+  And I visit the /suppliers page
 # The following step only works by virtue of there only being a single service for this supplier - multiple services on
 # multiple frameworks will cause multiple "View services" links to be present
   When I click 'View services'

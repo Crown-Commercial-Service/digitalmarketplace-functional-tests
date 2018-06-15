@@ -11,7 +11,7 @@ Background:
 Scenario: Supplier is not eligible as they are not on the framework
   Given I go to that brief page
   And I click 'Apply'
-  Then I am on 'You can’t apply for this opportunity' page
+  Then I am on the 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you’re not a Digital Outcomes and Specialists 2 supplier.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-digital-outcomes-and-specialists-2'
 
@@ -22,7 +22,7 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
   And that supplier has a service on the digital-outcomes lot
   And I go to that brief page
   And I click 'Apply'
-  Then I am on 'You can’t apply for this opportunity' page
+  Then I am on the 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-lot'
 
@@ -33,7 +33,7 @@ Scenario: Supplier is not eligible as they can not provide the developer role
   And that supplier has a service on the digital-specialists lot for the designer role
   And I go to that brief page
   And I click 'Apply'
-  Then I am on 'You can’t apply for this opportunity' page
+  Then I am on the 'You can’t apply for this opportunity' page
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide this specialist role when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-role'
 
@@ -46,10 +46,10 @@ Scenario: Supplier applies for a digital-specialists brief
   And I have a live digital-specialists brief
   And I go to that brief page
   And I click 'Apply for this opportunity'
-  Then I am on 'Before you start' page
+  Then I am on the 'Before you start' page
 
   When I click 'Start application'
-  Then I am on 'When is the earliest the specialist can start work?' page
+  Then I am on the 'When is the earliest the specialist can start work?' page
   And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
 
   When I enter '27/12/17' in the 'availability' field
@@ -113,10 +113,10 @@ Scenario: Supplier applies for a digital-outcomes brief
   And I have a live digital-outcomes brief
   And I go to that brief page
   And I click 'Apply for this opportunity'
-  Then I am on 'Before you start' page
+  Then I am on the 'Before you start' page
 
   When I click 'Start application'
-  Then I am on 'When is the earliest the team can start?' page
+  Then I am on the 'When is the earliest the team can start?' page
   And I see 'The buyer needs the team to start: Thursday 28 September 2017' replayed in the question advice
 
   When I enter '09/09/17' in the 'availability' field
@@ -170,10 +170,10 @@ Scenario: Supplier applies for a user-research-participants brief
   And I have a live user-research-participants brief
   And I go to that brief page
   And I click 'Apply for this opportunity'
-  Then I am on 'Before you start' page
+  Then I am on the 'Before you start' page
 
   When I click 'Start application'
-  Then I am on 'When is the earliest you can recruit participants?' page
+  Then I am on the 'When is the earliest you can recruit participants?' page
   And I see 'The buyer needs participants: January to April' replayed in the question advice
 
   When I enter '09/09/17' in the 'availability' field
@@ -230,7 +230,7 @@ Scenario: Previous page links are used during response flow and existing data is
   And that supplier has filled in their response to that brief but not submitted it
   When I visit the 'Respond to email address' question page for that brief response
   And I click 'Back to previous page' link
-  Then I am on 'Do you have any of the nice-to-have skills or experience?' page
+  Then I am on the 'Do you have any of the nice-to-have skills or experience?' page
   And I see the 'Yes' radio button is checked for the 'Talk snobbishly about water quality' question
   And I see 'First nice to have evidence' as the value of the 'Evidence of Talk snobbishly about water quality' field
   And I see the 'Yes' radio button is checked for the 'Sip quietly' question
@@ -238,19 +238,19 @@ Scenario: Previous page links are used during response flow and existing data is
   And I see the 'No' radio button is checked for the 'Provide biscuits' question
   And I do not see the 'Evidence of Provide biscuits' field
   When I click 'Back to previous page' link
-  Then I am on 'Give evidence of the essential skills and experience' page
+  Then I am on the 'Give evidence of the essential skills and experience' page
   And I see 'first evidence' as the value of the 'Boil kettle' field
   And I see 'second evidence' as the value of the 'Taste tea' field
   And I see 'third evidence' as the value of the 'Wash mug' field
   And I see 'fourth evidence' as the value of the 'Dry mug' field
   When I click 'Back to previous page' link
-  Then I am on 'Do you have all the essential skills and experience?' page
+  Then I am on the 'Do you have all the essential skills and experience?' page
   And I see the 'Yes' radio button is checked
   When I click 'Back to previous page' link
-  Then I am on 'What’s the specialist’s day rate?' page
+  Then I am on the 'What’s the specialist’s day rate?' page
   And I see '200' as the value of the 'dayRate' field
   When I click 'Back to previous page' link
-  Then I am on 'When is the earliest the specialist can start work?' page
+  Then I am on the 'When is the earliest the specialist can start work?' page
   And I see '27/12/17' as the value of the 'availability' field
   And I don't see the 'Back to previous page' link
 
@@ -264,10 +264,10 @@ Scenario: Supplier changes their answers before submission
   And that supplier has filled in their response to that brief but not submitted it
   And I go to that brief page
   And I click 'Apply for this opportunity'
-  Then I am on 'Before you start' page
+  Then I am on the 'Before you start' page
 
   When I click 'Continue application'
-  Then I am on 'When is the earliest the specialist can start work?' page
+  Then I am on the 'When is the earliest the specialist can start work?' page
   And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
   And I see '27/12/17' as the value of the 'availability' field
 
@@ -388,7 +388,7 @@ Scenario: Supplier asks a clarification question
   And that supplier has a service on the digital-specialists lot
   And I go to that brief page
   And I click 'Ask a question'
-  Then I am on 'Ask a question about ‘Tea drinker’' page
+  Then I am on the 'Ask a question about ‘Tea drinker’' page
   And I enter 'How do I ask a question?' in the 'clarification_question' field
   And I click 'Ask question'
   Then I see a success banner message containing 'Your question has been sent.'

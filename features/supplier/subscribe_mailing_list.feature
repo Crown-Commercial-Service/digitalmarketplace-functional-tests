@@ -5,7 +5,7 @@ Background:
   # This initial check only makes sense while we only have two frameworks - i.e. G-Cloud and Digital Outcomes and Specialists
   Given There is at most one framework that can be applied to
   # Navigate to the mailing list page from the home page
-  And I am on the homepage
+  And I visit the homepage
   And I click 'Become a supplier'
   Then I am on the 'Become a supplier' page
   And I click 'Get notifications when applications are opening'

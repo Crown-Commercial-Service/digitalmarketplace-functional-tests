@@ -2,7 +2,7 @@
 Feature: Live reload search
 
 Scenario: Live reload search hitting enter should not cause a full page reload
-  Given I am on the homepage
+  Given I visit the homepage
   And I click 'View Digital Outcomes and Specialists opportunities'
   And I am on the 'Digital Outcomes and Specialists opportunities' page
   Then I wait to see the 'Clear filters' link with href 'digital-outcomes-and-specialists/opportunities'
@@ -12,7 +12,7 @@ Scenario: Live reload search hitting enter should not cause a full page reload
   And I wait to see the 'Clear filters' link with href '/digital-outcomes-and-specialists/opportunities?q=Tea%5Cn'
 
 Scenario: Live reload search button should not cause a full page reload
-  Given I am on the homepage
+  Given I visit the homepage
   And I click 'View Digital Outcomes and Specialists opportunities'
   And I am on the 'Digital Outcomes and Specialists opportunities' page
   Then I wait to see the 'Clear filters' link with href 'digital-outcomes-and-specialists/opportunities'

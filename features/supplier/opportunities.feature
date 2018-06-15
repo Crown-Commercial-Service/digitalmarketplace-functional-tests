@@ -2,7 +2,7 @@
 Feature: Supplier viewing and filtering DOS opportunities - extension of smoke tests
 
 Scenario Outline: User can filter by individual status
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I check '<status>' checkbox
   And I wait for the page to reload
@@ -15,14 +15,14 @@ Scenario Outline: User can filter by individual status
     | Closed       |
 
 Scenario: Checking all statuses returns all results
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I check all 'status' checkboxes
   And I wait for the page to reload
   Then I see that the stated number of results equals that result_count
 
 Scenario Outline: User can filter by individual location
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I check '<location>' checkbox
   And I wait for the page to reload
@@ -36,7 +36,7 @@ Scenario Outline: User can filter by individual location
     | Off-site                       |
 
 Scenario: Specialist roles are selectable for Digital specialists
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   Then I don't see a 'Designer' checkbox
   And I don't see any 'specialistRole' checkboxes
   When I click 'Digital specialists'
@@ -51,7 +51,7 @@ Scenario: Specialist roles are selectable for Digital specialists
   Then a filter checkbox's associated aria-live region contains that result_count
 
 Scenario Outline: Specialist roles are not selectable for non-Digital specialists lots
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   Then I don't see a 'Designer' checkbox
   And I don't see any 'specialistRole' checkboxes
   When I click '<lot>'
@@ -64,7 +64,7 @@ Scenario Outline: Specialist roles are not selectable for non-Digital specialist
     | User research participants |
 
 Scenario Outline: User gets no results for impossible combinations of location and lot
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   And I click '<lot>'
   And I check '<location>' checkbox
   And I wait for the page to reload
@@ -86,7 +86,7 @@ Scenario Outline: User gets no results for impossible combinations of location a
 
 
 Scenario Outline: User can filter by status, lot, location and keyword together
-  Given I am on the /digital-outcomes-and-specialists/opportunities page
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
   And I click '<lot>'
   Then I see that the stated number of results does not exceed that result_count

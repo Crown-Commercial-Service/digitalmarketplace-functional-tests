@@ -2,7 +2,7 @@
 Feature: Create buyer account
 
 Scenario: Create a new buyer account when trying to create a requirement from the home page
-  Given I am on the homepage
+  Given I visit the homepage
   When I click 'Find an individual specialist'
   Then I am on the 'Find an individual specialist' page
 

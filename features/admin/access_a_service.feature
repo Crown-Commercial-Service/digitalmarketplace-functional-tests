@@ -8,14 +8,14 @@ Scenario: Admin with Service Manager role can edit, remove and publish a service
   Given I am logged in as the production admin-ccs-category user
   And I am on the 'Admin' page
   When I click 'Edit suppliers and services'
-  Then I am on 'Edit suppliers and services' page
+  Then I am on the 'Edit suppliers and services' page
   When I enter that service id in the 'service_id' field and click its associated 'Search' button
   Then I am on that service's page
 
   When I click the top-level summary table 'Edit' link for the section 'About your service'
-  Then I am on 'About your service' page
+  Then I am on the 'About your service' page
   When I enter 'Plant-based cloud hosting' in the 'serviceName' field and click its associated 'Save and return to summary' button
-  Then I am on 'Plant-based cloud hosting' page
+  Then I am on the 'Plant-based cloud hosting' page
 
   When I click the 'Remove service' link
   Then I see a destructive banner message containing 'Are you sure you want to remove ‘Plant-based cloud hosting’?'
@@ -32,7 +32,7 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
   Given I am logged in as the production <role> user
   And I am on the 'Admin' page
   When I click '<link_name>'
-  Then I am on '<link_name>' page
+  Then I am on the '<link_name>' page
   When I enter that service id in the 'service_id' field and click its associated 'Search' button
   Then I am on that service's page
   And I don't see the 'Edit' link
@@ -46,7 +46,7 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
 
 Scenario Outline: Admins with Admin Manager and Auditor roles cannot access supplier services
   Given I am logged in as the production <role> user
-  And I am on the /admin/find-suppliers-and-services page
+  And I visit the /admin/find-suppliers-and-services page
   Then I don't see 'Find a service by service ID' text on the page
 
   Examples:
