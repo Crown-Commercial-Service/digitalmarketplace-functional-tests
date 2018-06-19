@@ -83,7 +83,6 @@ Scenario: User ends search and downloads results
   And I click the 'Download search results as comma-separated values' link
   And I should get a download file of type 'csv'
 
-@direct-award-new
 Scenario: User awards contract
   Given I am logged in as a buyer user
   And I have created and ended a search called 'my cloud project'
@@ -93,33 +92,41 @@ Scenario: User awards contract
   When I click the 'Tell us the outcome' link
   And I award the contract to 'NCCIS' for the 'my cloud project' search
   And I am on the 'my cloud project' page
-  Then I see "You've updated 'my cloud project'"
-  And I see 'Contract awarded to Supplier X: Service Y'
+  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  And I see 'Contract awarded to CareerVision Ltd: NCCIS' text on the page
 
 Scenario: User does not award contract as work is cancelled
   Given I am logged in as a buyer user
-  When I have created and ended a search called 'my cloud project'
-  And I click the 'Tell us the outcome' link
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'ods'
+  And I click the 'Return to overview' link
+  And I am on the 'my cloud project' page
+  When I click the 'Tell us the outcome' link
   And I do not award the contract because the work is cancelled
   And I am on the 'my cloud project' page
-  Then I see "You've updated 'my cloud project'"
-  And I see 'The work has been cancelled'
+  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  And I see 'The work has been cancelled' text on the page
 
 Scenario: User does not award contract as there are no suitable services
   Given I am logged in as a buyer user
-  When I have created and ended a search called 'my cloud project'
-  And I click the 'Tell us the outcome' link
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'ods'
+  And I click the 'Return to overview' link
+  And I am on the 'my cloud project' page
+  When I click the 'Tell us the outcome' link
   And I do not award the contract because there are no suitable services
   And I am on the 'my cloud project' page
-  Then I see "You've updated 'my cloud project'"
-  And I see 'No suitable services found'
+  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  And I see 'No suitable services found' text on the page
 
 Scenario: User is still assessing services
   Given I am logged in as a buyer user
-  When I have created and ended a search called 'my cloud project'
-  And I click the 'Tell us the outcome' link
-  And I choose the 'Still assessing' radio button
-  And I click "Save and Continue"
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'ods'
+  And I click the 'Return to overview' link
   And I am on the 'my cloud project' page
-  Then I see "You've updated 'my cloud project'"
-  And I see 'No suitable services found'
+  When I click the 'Tell us the outcome' link
+  And I choose the 'We are still assessing services' radio button
+  And I click 'Save and continue'
+  And I am on the 'my cloud project' page
+  Then I see the 'Tell us the outcome' link

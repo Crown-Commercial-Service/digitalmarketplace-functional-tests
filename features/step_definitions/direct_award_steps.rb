@@ -54,22 +54,22 @@ end
 
 When(/^I do not award the contract because the work is cancelled$/) do
   steps %{
-    Given I am on the 'Did you award contract?' page
+    Given I am on the 'Did you award a contract for ‘my cloud project’' page
     And I choose the 'No' radio button
     And I click 'Save and continue'
-    Then I am on the "Why didn't you award contract?" page
-    And I choose the 'Work cancelled' radio button
-    And I click 'Submit'
+    Then I am on the 'Why didn’t you award a contract?' page
+    And I choose the 'The work has been cancelled' radio button
+    And I click 'Save and continue'
   }
 end
 
 When(/^I do not award the contract because there are no suitable services$/) do
   steps %{
-    Given I am on the 'Did you award contract?' page
+    Given I am on the 'Did you award a contract for ‘my cloud project’' page
     And I choose the 'No' radio button
     And I click 'Save and continue'
-    Then I am on the "Why didn't you award contract?" page
-    And I choose the 'No suitable services' radio button
-    And I click 'Submit'
+    Then I am on the 'Why didn’t you award a contract?' page
+    And I choose the 'There were no suitable services' radio button
+    And I click 'Save and continue'
   }
 end
