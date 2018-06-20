@@ -102,7 +102,7 @@ Scenario: User does not award contract as work is cancelled
   And I click the 'Return to overview' link
   And I am on the 'my cloud project' page
   When I click the 'Tell us the outcome' link
-  And I do not award the contract because the work is cancelled
+  And I do not award the contract because 'The work has been cancelled'
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see 'The work has been cancelled' text on the page
@@ -110,11 +110,11 @@ Scenario: User does not award contract as work is cancelled
 Scenario: User does not award contract as there are no suitable services
   Given I am logged in as a buyer user
   And I have created and ended a search called 'my cloud project'
-  And I have downloaded the search results as a file of type 'ods'
+  And I have downloaded the search results as a file of type 'csv'
   And I click the 'Return to overview' link
   And I am on the 'my cloud project' page
   When I click the 'Tell us the outcome' link
-  And I do not award the contract because there are no suitable services
+  And I do not award the contract because 'There were no suitable services'
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see 'No suitable services found' text on the page

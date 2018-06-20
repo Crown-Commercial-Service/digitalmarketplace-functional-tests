@@ -1,4 +1,4 @@
-When(/^I have created and saved a search called '(.*)'$/) do |search_name|
+When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   steps %{
     Given I visit the /g-cloud/search?q=email+analysis+provider page
     And I click 'Save search'
@@ -26,9 +26,15 @@ When (/^I have downloaded the search results as a file of type '(.*)'$/) do |fil
   steps %{
     And I click the 'Download search results' link
     And I am on the 'Download your search results' page
-    And I click the 'Download search results as a spreadsheet' link
-    And I should get a download file of type '#{file_type}'
   }
+  if file_type == 'ods'
+    steps "And I click the 'Download search results as a spreadsheet' link"
+  elsif file_type == 'csv'
+    steps "And I click the 'Download search results as comma-separated values' link"
+  else
+    puts "The file type '#{file_type}' is not recognised"
+  end
+  steps "And I should get a download file of type '#{file_type}'"
 end
 
 When (/^I award the contract to '(.*)' for the '(.*)' search$/) do |supplier_name, search_name|
@@ -52,24 +58,21 @@ When (/^I award the contract to '(.*)' for the '(.*)' search$/) do |supplier_nam
   }
 end
 
-When(/^I do not award the contract because the work is cancelled$/) do
-  steps %{
-    Given I am on the 'Did you award a contract for ‘my cloud project’' page
-    And I choose the 'No' radio button
-    And I click 'Save and continue'
-    Then I am on the 'Why didn’t you award a contract?' page
-    And I choose the 'The work has been cancelled' radio button
-    And I click 'Save and continue'
-  }
-end
 
-When(/^I do not award the contract because there are no suitable services$/) do
+When (/^I do not award the contract because '(.*)'$/) do |reason|
   steps %{
     Given I am on the 'Did you award a contract for ‘my cloud project’' page
     And I choose the 'No' radio button
     And I click 'Save and continue'
     Then I am on the 'Why didn’t you award a contract?' page
-    And I choose the 'There were no suitable services' radio button
-    And I click 'Save and continue'
   }
+  case reason
+    when 'The work has been cancelled'
+      steps "And I choose the 'The work has been cancelled' radio button"
+    when 'There were no suitable services'
+      steps "And I choose the 'There were no suitable services' radio button"
+    else
+      puts 'The reason for not awarding the contract is not recognised'
+  end
+  steps "And I click 'Save and continue'"
 end
