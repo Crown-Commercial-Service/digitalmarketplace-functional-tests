@@ -105,7 +105,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   # Duns number is never editable
   Then I click the summary table 'Correct a mistake' link for 'DUNS number'
   And I am on the 'Correct a mistake in your DUNS number' page
-  And I see 'Contact cloud_digital@crowncommercial.gov.uk to correct a mistake in your:' text on the pages
+  And I see 'Contact enquiries@digitalmarketplace.service.gov.uk to correct a mistake in your:' text on the pages
   And I don't see the 'Save and continue' button
   And I click the 'Return to company details' link
 
