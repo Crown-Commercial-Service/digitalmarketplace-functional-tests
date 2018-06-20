@@ -28,7 +28,7 @@ Scenario Outline: Correct users can edit a supplier name
 
 Scenario Outline: Correct users cannot update the supplier name
   Given I am logged in as the production <role> user
-  When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Update+supplier+name+feature page
+  When I visit the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Update+supplier+name+feature page
   Then I don't see the 'Change name' link
 
   Examples:

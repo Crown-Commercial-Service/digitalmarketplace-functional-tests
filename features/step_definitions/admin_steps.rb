@@ -31,6 +31,6 @@ end
 
 Then "I am on that service's page" do
   service_name = @service['serviceName']
-  step "I am on '#{service_name}' page"
+  step "I am on the '#{service_name}' page"
   puts "Service name: #{service_name}"
 end

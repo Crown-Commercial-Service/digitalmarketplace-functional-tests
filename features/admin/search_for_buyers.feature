@@ -18,7 +18,7 @@ Scenario Outline: Correct users can search for buyers by brief id
 Scenario Outline: Correct users cannot search for buyers by brief id
   Given I am logged in as the production <role> user
   Then I don't see the 'Find a buyer by opportunity ID' link
-  When I am on the /admin/buyers page
+  When I visit the /admin/buyers page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:

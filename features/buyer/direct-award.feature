@@ -1,9 +1,9 @@
 @direct-award
 Feature: Direct Award flows
-  
+
 Scenario: Unauthenticated user can save a search after logging in
   Given I have a production buyer user
-  And I am on the /g-cloud/search page
+  And I visit the /g-cloud/search page
   And I click 'Save search'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -18,7 +18,7 @@ Scenario: Unauthenticated user can save a search after logging in
 
 Scenario: User can save a search
   Given I am logged in as a buyer user
-  And I am on the /g-cloud/search page
+  And I visit the /g-cloud/search page
   And I click 'Save search'
   Then I am on the 'Choose where to save your search' page
   And I enter 'my cloud project' in the 'Name your search' field
@@ -28,7 +28,7 @@ Scenario: User can save a search
 Scenario: User with saved searches completes new saved search
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
-  And I am on the /g-cloud/search page
+  And I visit the /g-cloud/search page
   And I click 'Save search'
   Then I am on the 'Choose where to save your search' page
   And I choose the 'Create a new saved search' radio button
@@ -39,7 +39,7 @@ Scenario: User with saved searches completes new saved search
 Scenario: User updates existing saved search
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project - exiting'
-  And I am on the /g-cloud/search page
+  And I visit the /g-cloud/search page
   And I click 'Save search'
   Then I am on the 'Choose where to save your search' page
   And I choose the 'my cloud project - exiting' radio button
@@ -49,7 +49,7 @@ Scenario: User updates existing saved search
 Scenario: User edits existing search
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
-  And I am on the /buyers page
+  And I visit the /buyers page
   Then I click the 'View your saved searches' link
   Then I click the 'my cloud project' link
   Then I am on the 'my cloud project' page
@@ -64,7 +64,7 @@ Scenario: User edits existing search
 Scenario: User ends search and downloads results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
-  And I am on the /buyers page
+  And I visit the /buyers page
   Then I click the 'View your saved searches' link
   Then I click the 'my cloud project' link
   Then I am on the 'my cloud project' page
@@ -82,4 +82,3 @@ Scenario: User ends search and downloads results
   And I am on the 'Download your search results' page
   And I click the 'Download search results as comma-separated values' link
   And I should get a download file of type 'csv'
- 

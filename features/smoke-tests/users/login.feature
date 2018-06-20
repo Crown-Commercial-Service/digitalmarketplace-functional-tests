@@ -3,7 +3,7 @@ Feature: Different types of user can log in
 
 @with-production-supplier-user
 Scenario: Supplier user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production supplier user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
@@ -16,7 +16,7 @@ Scenario: Supplier user can log in
 
 @with-production-buyer-user
 Scenario: Buyer user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production buyer user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
@@ -29,7 +29,7 @@ Scenario: Buyer user can log in
 
 @with-production-admin-user
 Scenario: Admin user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production admin user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
@@ -40,7 +40,7 @@ Scenario: Admin user can log in
 
 @with-production-admin-ccs-category-user
 Scenario: Admin CCS Category user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production admin-ccs-category user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
@@ -51,7 +51,7 @@ Scenario: Admin CCS Category user can log in
 
 @with-production-admin-ccs-sourcing-user
 Scenario: Admin CCS Sourcing user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production admin-ccs-sourcing user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
@@ -62,7 +62,7 @@ Scenario: Admin CCS Sourcing user can log in
 
 @with-production-admin-framework-manager-user
 Scenario: Admin Framework Manager user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production admin-framework-manager user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
@@ -73,7 +73,7 @@ Scenario: Admin Framework Manager user can log in
 
 @with-production-admin-manager-user
 Scenario: Admin Manager user can log in
-  Given I am on the homepage
+  Given I visit the homepage
   And I have a production admin-manager user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page

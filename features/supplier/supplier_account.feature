@@ -4,7 +4,7 @@ Feature: Supplier can view and edit their supplier account information
 Background:
   Given I have a supplier user
   And that supplier is logged in
-  And I am on the /suppliers page
+  And I visit the /suppliers page
 
 Scenario: Supplier user can provide and change supplier details before confirming them for framework applications
   When I click 'Company details'
@@ -207,7 +207,7 @@ Scenario: Supplier user can add and remove contributors
   Given I enter 'New collaborator' in the 'Your name' field
   And I enter 'Password1234' in the 'Password' field
   When I click 'Create account'
-  Then I am on the /suppliers page
+  Then I am on the 'New collaborator' page
 
   When I click 'Contributors'
   Then I see 'that user.emailAddress' text on the page
@@ -217,7 +217,7 @@ Scenario: Supplier user can add and remove contributors
   When I click 'Remove'
   Then I see a success banner message containing 'has been removed as a contributor.'
 
-  Given I am on the /suppliers page
+  Given I visit the /suppliers page
   When I click 'Contributors'
   Then I don't see 'that user.name' text on the page
   And I don't see 'that user.emailAddress' text on the page
@@ -231,5 +231,5 @@ Scenario: New users should have a link to join the use research mailing list
 
 Scenario: Users on the mailing list should have the link to unsubscribe
   Given that user is on the user research mailing list
-  When I am on the /suppliers page
+  When I visit the /suppliers page
   Then I see the 'Unsubscribe from the user research mailing list' link

@@ -4,7 +4,7 @@ Background:
 
 Scenario Outline: New buyer user should see user research banner
   Given I am logged in as a <role> user
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   Then I see 'Help us improve the Digital Marketplace' text on the page
 
@@ -15,13 +15,13 @@ Scenario Outline: New buyer user should see user research banner
 
 Scenario Outline: User should be able to dismiss user research banner
   Given I am logged in as a <role> user
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   # Test Javascript dismiss
   When I click the 'Close' link
   Then I don't see 'Help us improve the Digital Marketplace' text on the page
   # Test cookie prevents display after dismiss
-  When I am on the /buyers page
+  When I visit the /buyers page
   Then I don't see 'Help us improve the Digital Marketplace' text on the page
 
   Examples:
@@ -31,11 +31,11 @@ Scenario Outline: User should be able to dismiss user research banner
 
 Scenario Outline: User should be not see banner after visiting user research page directly
   Given I am logged in as a <role> user
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   Then I see 'Help us improve the Digital Marketplace' text on the page
-  When I am on the /user/notifications/user-research page
-  And I am on the homepage
+  When I visit the /user/notifications/user-research page
+  And I visit the homepage
   And I click the 'View your account' link
   Then I don't see 'Help us improve the Digital Marketplace' text on the page
 
@@ -46,10 +46,10 @@ Scenario Outline: User should be not see banner after visiting user research pag
 
 Scenario Outline: User should be not see banner after visiting user research page from banner link
   Given I am logged in as a <role> user
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   When I click the 'Sign up to be a potential user research participant' link
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   Then I don't see 'Help us improve the Digital Marketplace' text on the page
 
@@ -60,10 +60,10 @@ Scenario Outline: User should be not see banner after visiting user research pag
 
 Scenario Outline: User should be not see banner after visiting user research page from account settings link
   Given I am logged in as a <role> user
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   When I click the 'Join the user research mailing list' link
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   Then I don't see 'Help us improve the Digital Marketplace' text on the page
 
@@ -74,7 +74,7 @@ Scenario Outline: User should be not see banner after visiting user research pag
 
 Scenario Outline: User should be able to sign up for the user research mailing list
   Given I am logged in as a <role> user
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   And I click the 'Join the user research mailing list' link
   When I check 'Send me emails about opportunities to get involved in user research' checkbox
@@ -93,7 +93,7 @@ Scenario Outline: User should be able to sign up for the user research mailing l
 Scenario Outline: User should be able to opt out of the user research mailing list
   Given I am logged in as a <role> user
   And that user is on the user research mailing list
-  And I am on the homepage
+  And I visit the homepage
   And I click the 'View your account' link
   And I click the 'Unsubscribe from the user research mailing list' link
   When I uncheck 'Send me emails about opportunities to get involved in user research' checkbox

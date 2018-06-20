@@ -22,7 +22,7 @@ Scenario Outline: Correct users can search for users by email address
 Scenario Outline: Correct users cannot search for users by email address
   Given I am logged in as the production <role> user
   Then I don't see the 'Find a user by email' link
-  When I am on the /admin/users page
+  When I visit the /admin/users page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:

@@ -18,7 +18,7 @@ Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |productio
   login_page = '/user/login'
   steps %{
     Given I have a #{production}#{user_role} user
-    And I am on the #{login_page} page
+    And I visit the #{login_page} page
     When I enter that user.emailAddress in the 'Email address' field
     And I enter that user.password in the 'Password' field
     And I click the 'Log in' button
@@ -61,7 +61,7 @@ Given /^that (supplier|buyer) is logged in$/ do |user_role|
   user = user_role == 'supplier' ? @supplier_user : @buyer_user
 
   steps %{
-    And I am on the /user/login page
+    And I visit the /user/login page
     When I enter '#{user['emailAddress']}' in the 'Email address' field
     And I enter '#{user['password']}' in the 'Password' field
     And I click the 'Log in' button
@@ -72,7 +72,7 @@ end
 When /^The wrong password is entered (\d+) times for that user$/ do |tries|
   tries.to_i.times do |n|
     steps %{
-      Given I am on the /user/login page
+      Given I visit the /user/login page
       When I enter '#{@user['emailAddress']}' in the 'Email address' field
       And I enter 'the_wrong_password' in the 'Password' field
       And I click the 'Log in' button
@@ -82,7 +82,7 @@ end
 
 Then /^That user can not log in using their correct password$/ do
   steps %{
-    Given I am on the /user/login page
+    Given I visit the /user/login page
     When I enter '#{@user['emailAddress']}' in the 'Email address' field
     And I enter '#{@user['password']}' in the 'Password' field
     And I click the 'Log in' button
@@ -93,7 +93,7 @@ end
 
 Given /^that user is on the user research mailing list$/ do
   steps %{
-    Given I am on the homepage
+    Given I visit the homepage
     When I click the 'View your account' link
     And I click the 'Join the user research mailing list' link
     And I check 'Send me emails about opportunities to get involved in user research' checkbox

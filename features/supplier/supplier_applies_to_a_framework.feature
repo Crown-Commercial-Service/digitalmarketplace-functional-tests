@@ -7,7 +7,7 @@ Background:
   And that supplier is logged in
 
 Scenario: Supplier submits a framework application
-  Given I am on the /suppliers page
+  Given I visit the /suppliers page
   When I start that framework application
   Then I am on the 'Apply to framework' page for that framework application
 

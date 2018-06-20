@@ -18,7 +18,7 @@ Scenario Outline: Correct users can invite a contributors to a supplier account
 
 Scenario Outline: Prohibited user roles cannot manage supplier users
   Given I am logged in as the production <role> user
-  When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
+  When I visit the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
   Then I don't see the 'Users' link
 
   Examples:
@@ -28,7 +28,7 @@ Scenario Outline: Prohibited user roles cannot manage supplier users
 
 Scenario Outline: Prohibited user roles cannot invite users to a supplier
   Given I am logged in as the production <role> user
-  When I am on the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
+  When I visit the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
   And I click the summary table 'Users' link for 'DM Functional Test Supplier - Invite a contributor feature'
   Then I don't see the 'Send invitation' button
 

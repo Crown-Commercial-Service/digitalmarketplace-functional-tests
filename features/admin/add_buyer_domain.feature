@@ -25,7 +25,7 @@ Scenario Outline: Admin user can see invalid format message for invalid domain s
 
 Scenario Outline: Correct users cannot access the add a buyer domain
   Given I am logged in as the production <role> user
-  And I am on the /admin/buyers/add-buyer-domains page
+  And I visit the /admin/buyers/add-buyer-domains page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:

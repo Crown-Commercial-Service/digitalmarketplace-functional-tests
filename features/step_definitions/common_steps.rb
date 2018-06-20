@@ -2,12 +2,12 @@ require 'date'
 require 'securerandom'
 require 'uri'
 
-Given /^I am on the homepage$/ do
+Given /^I visit the homepage$/ do
   page.visit("#{dm_frontend_domain}")
   expect(page).to have_content("Digital Marketplace")
 end
 
-Given /^I am on the (.* )?(\/.*) page$/ do |app, url|
+Given /^I visit the (.* )?(\/.*) page$/ do |app, url|
   # If the app is set, then send the request using rest-client instead of capybara
   # and store the result in @response. Otherwise, poltergeist/phantomjs try to wrap
   # the response JSON in HTML.
@@ -249,6 +249,10 @@ end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
   expect(page).to have_selector('h1', text: normalize_whitespace(page_name))
+end
+
+Then /^I am at the (\/.*) url$/ do |page_url|
+  expect(page.current_path).to include(page_url)
 end
 
 Then /^I see #{MAYBE_VAR} in the page's (.*)$/ do |page_name_fragment, selector|

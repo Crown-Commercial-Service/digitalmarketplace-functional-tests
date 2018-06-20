@@ -16,7 +16,7 @@ Scenario Outline: Admin Manager user can log in and invite admin users
 
 Scenario Outline: Correct users cannot access the invite admin user page
   Given I am logged in as the production <role> user
-  And I am on the /admin/admin-users/invite page
+  And I visit the /admin/admin-users/invite page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:

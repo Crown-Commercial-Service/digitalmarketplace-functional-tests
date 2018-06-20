@@ -2,7 +2,7 @@ When /^I start that framework application$/ do
   page.all(:xpath, "//form[contains(@action, \"" + @framework["slug"] + "\")]//input[@type='submit']")[0].click
 end
 
-Then /^I am on the #{MAYBE_VAR} page for that framework application$/ do |page_title|
+Then /^I am on #{MAYBE_VAR} page for that framework application$/ do |page_title|
   page_title.sub! "framework", @framework['name']
   step "I am on the '#{page_title}' page"
 end

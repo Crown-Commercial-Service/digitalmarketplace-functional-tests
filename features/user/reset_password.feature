@@ -5,7 +5,7 @@ Background:
   Given I have a buyer user
 
 Scenario: User has forgotten their password and requests a password reset
-  When I am on the homepage
+  When I visit the homepage
   And I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
 
