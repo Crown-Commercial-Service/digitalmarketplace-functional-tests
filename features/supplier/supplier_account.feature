@@ -207,7 +207,7 @@ Scenario: Supplier user can add and remove contributors
   Given I enter 'New collaborator' in the 'Your name' field
   And I enter 'Password1234' in the 'Password' field
   When I click 'Create account'
-  Then I am on the 'New collaborator' page
+  Then I am on that supplier.name page
 
   When I click 'Contributors'
   Then I see 'that user.emailAddress' text on the page
