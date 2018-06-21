@@ -38,13 +38,13 @@ Scenario: User with saved searches completes new saved search
 
 Scenario: User updates existing saved search
   Given I am logged in as a buyer user
-  And I have created and saved a search called 'my cloud project - exiting'
+  And I have created and saved a search called 'my cloud project - existing'
   And I visit the /g-cloud/search page
   And I click 'Save search'
   Then I am on the 'Choose where to save your search' page
-  And I choose the 'my cloud project - exiting' radio button
+  And I choose the 'my cloud project - existing' radio button
   And I click 'Save and continue'
-  Then I am on the 'my cloud project - exiting' page
+  Then I am on the 'my cloud project - existing' page
 
 Scenario: User edits existing search
   Given I am logged in as a buyer user
@@ -82,3 +82,51 @@ Scenario: User ends search and downloads results
   And I am on the 'Download your search results' page
   And I click the 'Download search results as comma-separated values' link
   And I should get a download file of type 'csv'
+
+Scenario: User awards contract
+  Given I am logged in as a buyer user
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'ods'
+  And I click the 'Return to overview' link
+  And I am on the 'my cloud project' page
+  When I click the 'Tell us the outcome' link
+  And I award the contract to 'NCCIS' for the 'my cloud project' search
+  And I am on the 'my cloud project' page
+  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  And I see 'Contract awarded to CareerVision Ltd: NCCIS' text on the page
+
+Scenario: User does not award contract as work is cancelled
+  Given I am logged in as a buyer user
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'ods'
+  And I click the 'Return to overview' link
+  And I am on the 'my cloud project' page
+  When I click the 'Tell us the outcome' link
+  And I do not award the contract because 'The work has been cancelled'
+  And I am on the 'my cloud project' page
+  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  And I see 'The work has been cancelled' text on the page
+
+Scenario: User does not award contract as there are no suitable services
+  Given I am logged in as a buyer user
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'csv'
+  And I click the 'Return to overview' link
+  And I am on the 'my cloud project' page
+  When I click the 'Tell us the outcome' link
+  And I do not award the contract because 'There were no suitable services'
+  And I am on the 'my cloud project' page
+  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  And I see 'No suitable services found' text on the page
+
+Scenario: User is still assessing services
+  Given I am logged in as a buyer user
+  And I have created and ended a search called 'my cloud project'
+  And I have downloaded the search results as a file of type 'ods'
+  And I click the 'Return to overview' link
+  And I am on the 'my cloud project' page
+  When I click the 'Tell us the outcome' link
+  And I choose the 'We are still assessing services' radio button
+  And I click 'Save and continue'
+  And I am on the 'my cloud project' page
+  Then I see the 'Tell us the outcome' link
