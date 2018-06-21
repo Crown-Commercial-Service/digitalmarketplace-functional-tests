@@ -38,13 +38,13 @@ Scenario: User with saved searches completes new saved search
 
 Scenario: User updates existing saved search
   Given I am logged in as a buyer user
-  And I have created and saved a search called 'my cloud project - exiting'
+  And I have created and saved a search called 'my cloud project - existing'
   And I visit the /g-cloud/search page
   And I click 'Save search'
   Then I am on the 'Choose where to save your search' page
-  And I choose the 'my cloud project - exiting' radio button
+  And I choose the 'my cloud project - existing' radio button
   And I click 'Save and continue'
-  Then I am on the 'my cloud project - exiting' page
+  Then I am on the 'my cloud project - existing' page
 
 Scenario: User edits existing search
   Given I am logged in as a buyer user

@@ -11,7 +11,7 @@ end
 When (/^I have created and ended a search called '(.*)'$/) do |search_name|
   steps %{
     And I have created and saved a search called '#{search_name}'
-    And I am on the /buyers page
+    And I visit the /buyers page
     Then I click the 'View your saved searches' link
     Then I click the '#{search_name}' link
     Then I am on the '#{search_name}' page
@@ -57,7 +57,6 @@ When (/^I award the contract to '(.*)' for the '(.*)' search$/) do |supplier_nam
     And I click 'Submit'
   }
 end
-
 
 When (/^I do not award the contract because '(.*)'$/) do |reason|
   steps %{
