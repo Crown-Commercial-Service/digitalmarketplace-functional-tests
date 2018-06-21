@@ -1,4 +1,4 @@
-@lock-account
+@user @lock-account
 Feature: Users are locked if they enter the wrong password too many times
 
 Scenario: User has 10 failed login attempts and is locked out of their account

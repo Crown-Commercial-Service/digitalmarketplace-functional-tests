@@ -1,4 +1,4 @@
-@search-for-buyers
+@admin @search-for-buyers
 Feature: Find a buyer
 
 Scenario Outline: Correct users can search for buyers by brief id

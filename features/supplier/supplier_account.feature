@@ -1,4 +1,4 @@
-@supplier_account
+@supplier @supplier_account
 Feature: Supplier can view and edit their supplier account information
 
 Background:

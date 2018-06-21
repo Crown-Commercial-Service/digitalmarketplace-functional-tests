@@ -1,4 +1,4 @@
-@invite-admin-user
+@admin @invite-admin-user
 Feature: Admin manager can manage users
 
 Scenario Outline: Admin Manager user can log in and invite admin users

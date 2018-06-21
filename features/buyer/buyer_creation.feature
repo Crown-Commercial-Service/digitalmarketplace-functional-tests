@@ -1,4 +1,4 @@
-@newbuyer @skip-staging @notify
+@buyer @newbuyer @skip-staging @notify
 Feature: Create buyer account
 
 Scenario: Create a new buyer account when trying to create a requirement from the home page

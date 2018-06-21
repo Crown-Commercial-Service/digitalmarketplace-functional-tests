@@ -1,4 +1,4 @@
-@brief-response
+@supplier @brief-response
 Feature: Supplier applies for an opportunity
 
 Background:

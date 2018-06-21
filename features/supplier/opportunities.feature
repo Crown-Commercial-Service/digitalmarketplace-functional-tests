@@ -1,4 +1,4 @@
-@opportunities
+@supplier @opportunities
 Feature: Supplier viewing and filtering DOS opportunities - extension of smoke tests
 
 Scenario Outline: User can filter by individual status

@@ -1,4 +1,4 @@
-@search-for-users
+@admin @search-for-users
 Feature: Search for users
 
 Scenario Outline: Correct users can search for users by email address

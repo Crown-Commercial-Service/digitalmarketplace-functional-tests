@@ -1,4 +1,4 @@
-@cancel
+@buyer @cancel
 Feature: Cancel a requirement outside the award flow
   In order to ensure the procurement process is fair and transparent
   As a buyer within government

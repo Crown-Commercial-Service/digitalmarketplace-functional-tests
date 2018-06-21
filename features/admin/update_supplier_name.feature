@@ -1,4 +1,4 @@
-@update-supplier-name
+@admin @update-supplier-name
 Feature: Update supplier name
 
 Scenario Outline: Correct users can edit a supplier name

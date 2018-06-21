@@ -1,4 +1,4 @@
-@view_and_edit_g_cloud_services
+@supplier @view_and_edit_g_cloud_services
 Feature: G-Cloud supplier can view and edit their G-Cloud services
 
 Background:

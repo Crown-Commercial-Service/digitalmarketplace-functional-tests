@@ -1,4 +1,4 @@
-@supplier-framework-application
+@supplier @supplier-framework-application
 Feature: Apply to an open framework
 
 Background:

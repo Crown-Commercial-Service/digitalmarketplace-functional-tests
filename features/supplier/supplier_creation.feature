@@ -1,4 +1,4 @@
-@supplier-creation
+@supplier @supplier-creation
 Feature: Create new supplier account
 
 Background:

@@ -1,4 +1,4 @@
-@admin-service-access
+@admin @admin-service-access
 Feature: Admins viewing, editing, removing and publishing supplier services
 
 Background:
