@@ -1,4 +1,4 @@
-@withdraw
+@supplier @withdraw
 Feature: Withdraw opportunity supplier journey
 
 Scenario: See detail page for a withdrawn brief

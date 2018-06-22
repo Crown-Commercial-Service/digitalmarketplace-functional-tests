@@ -1,4 +1,4 @@
-@invite-supplier-contributor
+@admin @invite-supplier-contributor
 Feature: Invite a contributor to a supplier account
 
 Scenario Outline: Correct users can invite a contributors to a supplier account

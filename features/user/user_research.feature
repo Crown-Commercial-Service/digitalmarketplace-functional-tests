@@ -1,4 +1,4 @@
-@user-research
+@user @user-research
 Feature: User Research
 Background:
 

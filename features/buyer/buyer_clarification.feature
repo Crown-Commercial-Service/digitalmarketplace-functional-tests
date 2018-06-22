@@ -1,4 +1,4 @@
-@buyer-clarification
+@buyer @buyer-clarification
 Feature: Buyer publishes question and answer
 
 Scenario: Buyer publishes answers to clarification questions on a brief which the public can see

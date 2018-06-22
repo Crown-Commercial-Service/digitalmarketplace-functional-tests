@@ -1,4 +1,4 @@
-@supplier-subscribe-mailing-list
+@supplier @supplier-subscribe-mailing-list
 Feature: Subscribe to the open framework notification mailing list without an account
 
 Background:

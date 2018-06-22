@@ -1,4 +1,4 @@
-@deactivate-supplier-user
+@admin @deactivate-supplier-user
 Feature: Deactivate a supplier's contributor
 
 Background:

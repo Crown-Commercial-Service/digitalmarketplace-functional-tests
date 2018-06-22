@@ -1,4 +1,4 @@
-@direct-award
+@buyer @direct-award
 Feature: Direct Award flows
 
 Scenario: Unauthenticated user can save a search after logging in

@@ -1,4 +1,4 @@
-@manage-users
+@admin @manage-users
 Feature: Admin manager can manage admin users
 
 Scenario Outline: Admin Manager user can log in and suspend admin users

@@ -1,4 +1,4 @@
-@view_and_edit_dos_services
+@supplier @view_and_edit_dos_services
 Feature: Supplier being able to view their DOS services
 
 Background:

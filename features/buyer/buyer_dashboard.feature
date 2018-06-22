@@ -1,4 +1,4 @@
-@buyer-dashboard
+@buyer @buyer-dashboard
 Feature: Buyer Dashboard
 
 Scenario: Users should see new Dashboard
