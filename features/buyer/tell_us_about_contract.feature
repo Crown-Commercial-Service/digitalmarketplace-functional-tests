@@ -4,7 +4,7 @@ Feature: Direct Award flows
 Scenario: Unauthenticated user can save a search after logging in
   Given I have a production buyer user
   And I visit the /g-cloud/search page
-  And I click 'Save search'
+  And I click 'Save your search'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
   And I enter that user.password in the 'Password' field
@@ -19,7 +19,7 @@ Scenario: Unauthenticated user can save a search after logging in
 Scenario: User can save a search
   Given I am logged in as a buyer user
   And I visit the /g-cloud/search page
-  And I click 'Save search'
+  And I click 'Save your search'
   Then I am on the 'Choose where to save your search' page
   And I enter 'my cloud project' in the 'Name your search' field
   And I click 'Save and continue'
@@ -29,7 +29,7 @@ Scenario: User with saved searches completes new saved search
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
   And I visit the /g-cloud/search page
-  And I click 'Save search'
+  And I click 'Save your search'
   Then I am on the 'Choose where to save your search' page
   And I choose the 'Create a new saved search' radio button
   And I enter 'my cloud project2' in the 'Name your search' field
@@ -40,7 +40,7 @@ Scenario: User updates existing saved search
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project - existing'
   And I visit the /g-cloud/search page
-  And I click 'Save search'
+  And I click 'Save your search'
   Then I am on the 'Choose where to save your search' page
   And I choose the 'my cloud project - existing' radio button
   And I click 'Save and continue'
@@ -55,7 +55,7 @@ Scenario: User edits existing search
   Then I am on the 'my cloud project' page
   And I click the 'Edit search' link
   Then I am on the 'Search results' page
-  And I click 'Save search'
+  And I click 'Save your search'
   Then I am on the 'Choose where to save your search' page
   And I choose the 'my cloud project' radio button
   And I click 'Save and continue'
