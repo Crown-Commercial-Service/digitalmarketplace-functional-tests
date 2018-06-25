@@ -1,7 +1,7 @@
 When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   steps %{
     Given I visit the /g-cloud/search?q=email+analysis+provider page
-    And I click 'Save search'
+    And I click 'Save your search'
     Then I am on the 'Choose where to save your search' page
     And I enter '#{search_name}' in the 'Name your search' field
     And I click 'Save and continue'
