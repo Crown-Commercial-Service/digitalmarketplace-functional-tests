@@ -1,6 +1,7 @@
 @admin @invite-supplier-contributor
 Feature: Invite a contributor to a supplier account
 
+@notify
 Scenario Outline: Correct users can invite a contributors to a supplier account
   Given I am logged in as the production <role> user
   And I have a supplier with:
