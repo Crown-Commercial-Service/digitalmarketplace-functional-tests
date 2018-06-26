@@ -2,7 +2,7 @@ When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   steps %{
     Given I visit the /g-cloud/search?q=email+analysis+provider page
     And I click 'Save your search'
-    Then I am on the 'Choose where to save your search' page
+    Then I am on the 'Save your search' page
     And I enter '#{search_name}' in the 'Name your search' field
     And I click 'Save and continue'
   }
@@ -15,7 +15,7 @@ When (/^I have created and ended a search called '(.*)'$/) do |search_name|
     Then I click the 'View your saved searches' link
     Then I click the '#{search_name}' link
     Then I am on the '#{search_name}' page
-    And I click the 'End search' link
+    And I click the 'Export your results' link
     Then I am on the 'End your search' page
     And I click the 'End search and continue' button
     Then I am on the '#{search_name}' page
@@ -25,7 +25,7 @@ end
 When (/^I have downloaded the search results as a file of type '(.*)'$/) do |file_type|
   steps %{
     And I click the 'Download search results' link
-    And I am on the 'Download your search results' page
+    And I am on the 'Download your results' page
   }
   if file_type == 'ods'
     steps "And I click the 'Download search results as a spreadsheet' link"
