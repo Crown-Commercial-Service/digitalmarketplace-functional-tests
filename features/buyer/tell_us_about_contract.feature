@@ -120,12 +120,11 @@ Scenario: User does not award contract as there are no suitable services
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see 'No suitable services found' text on the page
 
-Scenario: User is still assessing services
+Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
   And I have created and ended a search called 'my cloud project'
   And I have downloaded the search results as a file of type 'ods'
-  And I click the 'Return to your tasklist' link
-  And I am on the 'my cloud project' page
+  When I visit the /buyers/direct-award/g-cloud page
   When I click the 'Tell us the outcome' link
   And I choose the 'We are still assessing services' radio button
   And I click 'Save and continue'
