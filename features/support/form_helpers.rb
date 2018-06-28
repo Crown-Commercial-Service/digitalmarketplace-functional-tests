@@ -292,7 +292,8 @@ module FormHelper
 
   def pass_postcode_validation
     options = {}
-    postcode_elements = find_elements_by_xpath("//input[contains(@name, 'Postcode')]")
+    # Match fields for both 'postcode' and 'labAddressPostcode'
+    postcode_elements = find_elements_by_xpath("//input[contains(@name, 'ostcode')]")
     if postcode_elements.length > 0
       element_name = postcode_elements[0]["name"]
       options[element_name] = "AB1 2CD"
