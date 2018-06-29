@@ -78,7 +78,7 @@ Scenario: User ends search and downloads results
   And I should get a download file of type 'ods'
   And I click the 'Return to your tasklist' link
   Then I am on the 'my cloud project' page
-  And I click the 'Download your results again.' link
+  And I click the 'Download your results again' link
   And I am on the 'Download your results' page
   And I click the 'Download search results as comma-separated values' link
   And I should get a download file of type 'csv'
