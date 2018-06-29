@@ -51,7 +51,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I click 'Save and return'
 
   Then I click the summary table 'Answer required' link for 'VAT number'
-  And I am on the 'Are you registered for VAT?' page
+  And I am on the 'Are you registered for VAT in the UK?' page
   And I choose 'Yes' radio button
   And I enter '410802502' in the 'vat_number' field and click its associated 'Save and return' button
 
@@ -98,7 +98,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I click 'Save and return'
 
   Then I click the summary table 'Correct a mistake' link for 'VAT number'
-  And I am on the 'Are you registered for VAT?' page
+  And I am on the 'Are you registered for VAT in the UK?' page
   And I choose 'No' radio button
   And I click 'Save and return'
 
