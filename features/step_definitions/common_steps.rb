@@ -39,7 +39,8 @@ Given /^I have a random g-cloud service from the API$/ do
     framework["framework"] == "g-cloud" && framework["status"] == "live"
   }.map { |framework| framework["slug"] }
   # reverse sort by whatever is after the final "-" in the framework slug
-  latest_g_cloud_slug = live_g_cloud_slugs.sort_by { |slug| slug.split('-')[-1] }.reverse[0]
+  latest_g_cloud_slug = live_g_cloud_slugs.sort_by { |slug| slug.split('-')[-1].to_i }.reverse[0]
+
   puts "Latest live g-cloud framework slug: #{latest_g_cloud_slug}"
 
   params = { status: "published", framework: latest_g_cloud_slug }
@@ -65,7 +66,7 @@ Given /^I have a random g-cloud lot from the API$/ do
     framework["framework"] == "g-cloud" && framework["status"] == "live"
   }
   # reverse sort by whatever is after the final "-" in the framework slug
-  g_cloud_lot = live_g_cloud_frameworks.sort_by { |framework| framework["slug"].split('-')[-1] }.reverse[0]["lots"].sample
+  g_cloud_lot = live_g_cloud_frameworks.sort_by { |framework| framework["slug"].split('-')[-1].to_i }.reverse[0]["lots"].sample
   puts "G-Cloud lot: #{g_cloud_lot['name']}"
   @lot = g_cloud_lot
 end
