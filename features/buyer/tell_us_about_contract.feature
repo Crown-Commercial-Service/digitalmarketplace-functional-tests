@@ -86,10 +86,7 @@ Scenario: User exports and downloads results
 
 Scenario: User awards contract
   Given I am logged in as a buyer user
-  And I have created and ended a search called 'my cloud project'
-  And I have downloaded the search results as a file of type 'ods'
-  And I click the 'Return to your tasklist' link
-  And I am on the 'my cloud project' page
+  And I am ready to tell the coutcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
   And I award the contract to 'NCCIS' for the 'my cloud project' search
   And I am on the 'my cloud project' page
@@ -98,10 +95,7 @@ Scenario: User awards contract
 
 Scenario: User does not award contract as work is cancelled
   Given I am logged in as a buyer user
-  And I have created and ended a search called 'my cloud project'
-  And I have downloaded the search results as a file of type 'ods'
-  And I click the 'Return to your tasklist' link
-  And I am on the 'my cloud project' page
+  And I am ready to tell the coutcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
   And I do not award the contract because 'The work has been cancelled'
   And I am on the 'my cloud project' page
@@ -110,20 +104,16 @@ Scenario: User does not award contract as work is cancelled
 
 Scenario: User does not award contract as there are no suitable services
   Given I am logged in as a buyer user
-  And I have created and ended a search called 'my cloud project'
-  And I have downloaded the search results as a file of type 'csv'
-  And I click the 'Return to your tasklist' link
-  And I am on the 'my cloud project' page
+  And I am ready to tell the coutcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
   And I do not award the contract because 'There were no suitable services'
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see 'No suitable services found' text on the page
-
+@test
 Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
-  And I have created and ended a search called 'my cloud project'
-  And I have downloaded the search results as a file of type 'ods'
+  And I am ready to tell the coutcome for the 'my cloud project' saved search
   When I visit the /buyers/direct-award/g-cloud page
   When I click the 'Tell us the outcome' link
   And I choose the 'We are still assessing services' radio button

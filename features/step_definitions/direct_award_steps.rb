@@ -8,7 +8,7 @@ When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   }
 end
 
-When (/^I have created and ended a search called '(.*)'$/) do |search_name|
+When (/^I am ready to tell the coutcome for the '(.*)' saved search$/) do |search_name|
   steps %{
     And I have created and saved a search called '#{search_name}'
     And I visit the /buyers page
@@ -16,9 +16,13 @@ When (/^I have created and ended a search called '(.*)'$/) do |search_name|
     Then I click the '#{search_name}' link
     Then I am on the '#{search_name}' page
     And I click the 'Export your results' link
-    Then I am on the 'End your search' page
-    And I click the 'End search and continue' button
-    Then I am on the '#{search_name}' page
+    Then I am on the 'Before you export your results' page
+    And I check 'I understand that I cannot edit my search again after I export my results' checkbox
+    And I click the 'Export results and continue' button
+    Then I am on the 'my cloud project' page
+    When I have downloaded the search results as a file of type 'ods'
+    And I click the 'Return to your task list' link
+    Then I am on the 'my cloud project' page
   }
 end
 
