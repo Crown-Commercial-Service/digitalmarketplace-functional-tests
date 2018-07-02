@@ -61,27 +61,28 @@ Scenario: User edits existing search
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
 
-Scenario: User ends search and downloads results
+Scenario: User exports and downloads results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
   And I visit the /buyers page
-  Then I click the 'View your saved searches' link
-  Then I click the 'my cloud project' link
+  When I click the 'View your saved searches' link
+  And I click the 'my cloud project' link
   Then I am on the 'my cloud project' page
-  And I click the 'Export your results' link
-  Then I am on the 'End your search' page
-  And I click the 'End search and continue' button
+  When I click the 'Export your results' link
+  Then I am on the 'Before you export your results' page
+  When I check 'I understand that I cannot edit my search again after I export my results' checkbox
+  And I click the 'Export results and continue' button
   Then I am on the 'my cloud project' page
-  And I click the 'Download search results' link
-  And I am on the 'Download your results' page
-  And I click the 'Download search results as a spreadsheet' link
-  And I should get a download file of type 'ods'
-  And I click the 'Return to your tasklist' link
+  When I click the 'Download search results' link
+  Then I am on the 'Download your results' page
+  When I click the 'Download search results as a spreadsheet' link
+  Then I should get a download file of type 'ods'
+  When I click the 'Return to your task list' link
   Then I am on the 'my cloud project' page
-  And I click the 'Download your results again' link
-  And I am on the 'Download your results' page
-  And I click the 'Download search results as comma-separated values' link
-  And I should get a download file of type 'csv'
+  When I click the 'Download your results again' link
+  Then I am on the 'Download your results' page
+  When I click the 'Download search results as comma-separated values' link
+  Then I should get a download file of type 'csv'
 
 Scenario: User awards contract
   Given I am logged in as a buyer user
