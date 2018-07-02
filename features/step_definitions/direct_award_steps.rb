@@ -16,7 +16,7 @@ When (/^I have created and ended a search called '(.*)'$/) do |search_name|
     Then I click the '#{search_name}' link
     Then I am on the '#{search_name}' page
     And I click the 'Export your results' link
-    Then I am on the 'End your search' page
+    Then I am on the 'Before you export your results' page
     And I click the 'End search and continue' button
     Then I am on the '#{search_name}' page
   }
