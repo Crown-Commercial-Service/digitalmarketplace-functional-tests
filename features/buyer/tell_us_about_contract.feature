@@ -69,7 +69,7 @@ Scenario: User ends search and downloads results
   Then I click the 'my cloud project' link
   Then I am on the 'my cloud project' page
   And I click the 'Export your results' link
-  Then I am on the 'End your search' page
+  Then I am on the 'Before you export your results' page
   And I click the 'End search and continue' button
   Then I am on the 'my cloud project' page
   And I click the 'Download search results' link
