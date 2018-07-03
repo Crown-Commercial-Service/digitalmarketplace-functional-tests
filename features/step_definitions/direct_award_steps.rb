@@ -1,6 +1,6 @@
 When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   steps %{
-    Given I visit the /g-cloud/search?q=email+analysis+provider page
+    Given I visit the /g-cloud/search?q=email+analysis+provider+system page
     And I click 'Save your search'
     Then I am on the 'Save your search' page
     And I enter '#{search_name}' in the 'Name your search' field
