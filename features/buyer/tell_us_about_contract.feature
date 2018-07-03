@@ -86,7 +86,7 @@ Scenario: User exports and downloads results
 
 Scenario: User awards contract
   Given I am logged in as a buyer user
-  And I am ready to tell the coutcome for the 'my cloud project' saved search
+  And I am ready to tell the outcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
   And I award the contract to 'NCCIS' for the 'my cloud project' search
   And I am on the 'my cloud project' page
@@ -95,7 +95,7 @@ Scenario: User awards contract
 
 Scenario: User does not award contract as work is cancelled
   Given I am logged in as a buyer user
-  And I am ready to tell the coutcome for the 'my cloud project' saved search
+  And I am ready to tell the outcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
   And I do not award the contract because 'The work has been cancelled'
   And I am on the 'my cloud project' page
@@ -104,7 +104,7 @@ Scenario: User does not award contract as work is cancelled
 
 Scenario: User does not award contract as there are no suitable services
   Given I am logged in as a buyer user
-  And I am ready to tell the coutcome for the 'my cloud project' saved search
+  And I am ready to tell the outcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
   And I do not award the contract because 'There were no suitable services'
   And I am on the 'my cloud project' page
@@ -113,7 +113,7 @@ Scenario: User does not award contract as there are no suitable services
 
 Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
-  And I am ready to tell the coutcome for the 'my cloud project' saved search
+  And I am ready to tell the outcome for the 'my cloud project' saved search
   When I visit the /buyers/direct-award/g-cloud page
   When I click the 'Tell us the outcome' link
   And I choose the 'We are still assessing services' radio button

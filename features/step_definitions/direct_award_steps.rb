@@ -8,7 +8,7 @@ When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   }
 end
 
-When (/^I am ready to tell the coutcome for the '(.*)' saved search$/) do |search_name|
+When (/^I am ready to tell the outcome for the '(.*)' saved search$/) do |search_name|
   steps %{
     And I have created and saved a search called '#{search_name}'
     And I visit the /buyers page
