@@ -16,10 +16,12 @@ Scenario: User can see the main links on the homepage
 Scenario: User can click through to g-cloud page
   Given I visit the homepage
   When I click 'Find cloud hosting, software and support'
+  Then I am on the 'Find cloud hosting, software and support' page
+  When I click 'Start a new search'
   Then I am on the 'Cloud hosting, software and support' page
 
 Scenario: User can select a lot from the g-cloud page and see search results.
-  Given I visit the /g-cloud page
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   When I have a random g-cloud lot from the API
   When I click that lot.name
   Then I am on the 'Search results' page
@@ -67,7 +69,7 @@ Scenario: User is able to search by keywords field on the search results page to
   Then I am on that service.serviceName page
 
 Scenario: User is able to click on a random category
-  Given I visit the /g-cloud page
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
   And I click that lot.name
   Then I am on the 'Search results' page
@@ -80,7 +82,7 @@ Scenario: User is able to click on a random category
   And I see fewer search results than noted
 
 Scenario: User is able to click on several random filters
-  Given I visit the /g-cloud page
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
   And I click that lot.name
   Then I am on the 'Search results' page
@@ -94,7 +96,7 @@ Scenario: User is able to click on several random filters
   Then a filter checkbox's associated aria-live region contains that result_count
 
 Scenario: User is able to paginate through search results and all of the navigation is preserved
-  Given I visit the /g-cloud page
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
   And I click that lot.name
   Then I am on the 'Search results' page
