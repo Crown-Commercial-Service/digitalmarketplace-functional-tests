@@ -110,7 +110,7 @@ Scenario: User does not award contract as there are no suitable services
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see 'No suitable services found' text on the page
-@test
+
 Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
   And I am ready to tell the coutcome for the 'my cloud project' saved search
