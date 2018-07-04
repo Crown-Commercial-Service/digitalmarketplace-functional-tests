@@ -376,6 +376,7 @@ Scenario: Supplier changes their answers after submission
   Then I see 'Tea drinker' in the 'Completed opportunities' summary table
   And I see the closing date of the brief in the 'Completed opportunities' summary table
   And I see 'Submitted' in the 'Completed opportunities' summary table
+  And I see 'You don’t have any draft applications' text on the page
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
@@ -414,7 +415,7 @@ Scenario: Supplier can see the link to the opportunities dashboard
   Then I see the 'View your opportunities' link
 
 @opportunities-dashboard
-Scenario: Supplier can see the empty string on the opportunities dashboard
+Scenario: Supplier can see their draft applications on the opportunities dashboard
   Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
   And that supplier returns a signed framework agreement for the framework
@@ -424,3 +425,4 @@ Scenario: Supplier can see the empty string on the opportunities dashboard
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
   Then I see 'You haven’t applied to any opportunities' text on the page
+  Then I see 'Tea drinker' in the 'Draft opportunities' summary table
