@@ -104,7 +104,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I click 'Save and return'
 
   # Duns number is never editable
-  Then I click the summary table 'Correct a mistake' link for 'DUNS number'
+  Then I click the summary table 'Change' link for 'DUNS number'
   And I am on the 'Correct a mistake in your DUNS number' page
   And I see 'Contact enquiries@digitalmarketplace.service.gov.uk to correct a mistake in your:' text on the pages
   And I don't see the 'Save and continue' button
@@ -130,27 +130,27 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I don't see the 'Save and confirm' button
 
   # Certain fields can't be changed after supplier details have been confirmed
-  When I click the summary table 'Correct a mistake' link for 'Registered company name'
+  When I click the summary table 'Change' link for 'Registered company name'
   Then I am on the 'Correct a mistake in your registered company name' page
-  And I see 'If you want to change your registered company name, you must create a new supplier account using a different login email address.' text on the pages
+  And I see 'You must create a new supplier account using a different login email address if you want to change your registered company name.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
-  Then I click the summary table 'Correct a mistake' link for 'Registration number'
+  Then I click the summary table 'Change' link for 'Registration number'
   Then I am on the 'Correct a mistake in your registration number' page
-  And I see 'If you want to change your registration number, you must create a new supplier account using a different login email address.' text on the pages
+  And I see 'You must create a new supplier account using a different login email address if you want to change your registration number.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
-  Then I click the summary table 'Correct a mistake' link for 'VAT number'
+  Then I click the summary table 'Change' link for 'VAT number'
   Then I am on the 'Correct a mistake in your VAT number' page
-  And I see 'If you want to change your VAT number, you must create a new supplier account using a different login email address.' text on the pages
+  And I see 'You must create a new supplier account using a different login email address if you want to change your VAT number.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
-  Then I click the summary table 'Correct a mistake' link for 'DUNS number'
+  Then I click the summary table 'Change' link for 'DUNS number'
   Then I am on the 'Correct a mistake in your DUNS number' page
-  And I see 'If you want to change your DUNS number, you must create a new supplier account using a different login email address.' text on the pages
+  And I see 'You must create a new supplier account using a different login email address if you want to change your DUNS number.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
