@@ -1,6 +1,6 @@
 When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   case search_name
-  when 'my cloud project' , 'my cloud project - existing'
+    when 'my cloud project', 'my cloud project - existing'
       steps "Given I visit the /g-cloud/search?q=email+analysis+provider+system page"
     when 'export limit test project'
       steps "Given I visit the /g-cloud/search?q=cloud+software+nhs page"
