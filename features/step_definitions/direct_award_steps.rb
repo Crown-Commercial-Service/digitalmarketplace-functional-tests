@@ -86,12 +86,6 @@ When (/^I have downloaded the search results as a file of type '(.*)'$/) do |fil
 end
 
 And (/^I see the '(.*)' instruction list item status showing as '(.*)'$/) do |list_item, status|
-  # list_item_box_status = ''
-  # if status == 'Completed'
-  #   list_item_box_status = 'complete'
-  # elsif status == "Can’t start yet"
-  #   list_item_box_status = 'inactive'
-  # end
   page.find(:xpath, "//*[contains(@class, 'instruction-list')]//*[contains(@class, 'instruction-list-item-body')][contains(text(),'#{list_item}')]/../*[contains(@class, 'instruction-list-item-box')][contains(text(),'#{status}')]")
 end
 

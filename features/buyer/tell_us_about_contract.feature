@@ -127,7 +127,6 @@ Scenario: User awards contract
   And I award the contract to 'NCCIS' for the 'my cloud project' search
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
-  #And I see 'Contract awarded to CareerVision Ltd: NCCIS' text on the page
   And I see the 'Award a contract' instruction list item status showing as 'Contract awarded to CareerVision Ltd: NCCIS'
 
 Scenario: User does not award contract as work is cancelled
@@ -138,7 +137,6 @@ Scenario: User does not award contract as work is cancelled
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'The work has been cancelled'
-  #And I see 'The work has been cancelled' text on the page
 
 Scenario: User does not award contract as there are no suitable services
   Given I am logged in as a buyer user
@@ -148,7 +146,6 @@ Scenario: User does not award contract as there are no suitable services
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'No suitable services found'
-  #And I see 'No suitable services found' text on the page
 
 Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
