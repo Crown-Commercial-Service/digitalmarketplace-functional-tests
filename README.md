@@ -25,6 +25,12 @@ gem install bundler
 make install
 ```
 
+You may have to install `phantomjs` separately:
+
+```bash
+brew install phantomjs
+```
+
 ## Running tests
 
 If you have an environment set up then tests can be run with `bundle exec cucumber`
@@ -76,7 +82,9 @@ the `config/` directory. There is an example file `config/example.sh`.  Copy thi
 different experience depending on your setup.
 
 In order to run the functional tests against local apps you will need a reverse proxy
-that serves the application through the same host / port. There is an Nginx config provided
+that serves the application through the same host / port (if you are using 
+[dmrunner](https://github.com/alphagov/digitalmarketplace-runner) to run
+your local environment, then this will be done for you). There is an Nginx config provided
 with a bootstrap script at `nginx/bootstrap.sh`. Once this has been run and all the
 applications are running the functional tests can be run with
 
@@ -117,11 +125,15 @@ To automagically correct any changes the linter suggests run `bundle exec govuk-
 Further info about the govuk linter can be found [here](https://github.com/alphagov/govuk-lint).
 
 
-## Setting up your local environment with Docker Compose to run functional tests against
+## Running functional tests locally with dmrunner or Docker Compose
 
-Setting up your local environment and database to run the functional tests against can be a pain. Wouldn't it be nice if you could get all the apps up and running, backed by a database in the correct state with just one command? That's hopefully what we can do with Docker Compose. It uses the latest tagged Docker images of the apps as well as a DB dump of your choosing to achieve this.
+Setting up your local environment and database to run the functional tests against can be a pain. Wouldn't it be nice if you could get all the apps up and running, backed by a database in the correct state with just one command?
 
-### Setup
+[dmrunner](https://github.com/alphagov/digitalmarketplace-runner) is an experimental utility to run all the apps and services locally (see the README for setup details).
+
+An alternative is Docker Compose. It uses the latest tagged Docker images of the apps as well as a DB dump of your choosing to achieve this.
+
+### Docker Compose Setup
 
   - Do all of this without any apps running locally to avoid issues with blocking ports.
   - Have Docker installed on your machine - see [here](https://www.docker.com/docker-mac)
