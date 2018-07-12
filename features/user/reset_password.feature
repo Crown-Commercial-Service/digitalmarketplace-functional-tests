@@ -1,4 +1,4 @@
-@user @reset-password @notify @skip-staging
+@user @reset-password @requires-credentials @notify @skip-staging
 Feature: Reset user password
 
 Background:

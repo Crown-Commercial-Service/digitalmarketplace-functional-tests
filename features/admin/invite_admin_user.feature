@@ -1,7 +1,7 @@
 @admin @invite-admin-user
 Feature: Admin manager can manage users
 
-@notify
+@requires-credentials @notify
 Scenario Outline: Admin Manager user can log in and invite admin users
   Given I am logged in as the production <role> user
   And I click the 'View and edit admin accounts' link
