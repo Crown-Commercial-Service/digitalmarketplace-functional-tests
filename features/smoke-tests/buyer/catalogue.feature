@@ -18,12 +18,13 @@ Scenario: User can click through to g-cloud page
   When I click 'Find cloud hosting, software and support'
   Then I am on the 'Find cloud hosting, software and support' page
   When I click 'Start a new search'
-  Then I am on the 'Cloud hosting, software and support' page
+  Then I am on the 'Choose a category' page
 
 Scenario: User can select a lot from the g-cloud page and see search results.
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   When I have a random g-cloud lot from the API
-  When I click that lot.name
+  When I choose that lot.name radio button
+  And I click 'Search for services'
   Then I am on the 'Search results' page
   And I see that lot.name breadcrumb
   And I see a search result
@@ -71,7 +72,8 @@ Scenario: User is able to search by keywords field on the search results page to
 Scenario: User is able to click on a random category
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
-  And I click that lot.name
+  And I choose that lot.name radio button
+  And I click 'Search for services'
   Then I am on the 'Search results' page
   And I note the number of search results
 
@@ -84,7 +86,8 @@ Scenario: User is able to click on a random category
 Scenario: User is able to click on several random filters
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
-  And I click that lot.name
+  And I choose that lot.name radio button
+  And I click 'Search for services'
   Then I am on the 'Search results' page
   When I note the number of search results
   Then a filter checkbox's associated aria-live region contains that result_count
@@ -98,7 +101,8 @@ Scenario: User is able to click on several random filters
 Scenario: User is able to paginate through search results and all of the navigation is preserved
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
-  And I click that lot.name
+  And I choose that lot.name radio button
+  And I click 'Search for services'
   Then I am on the 'Search results' page
   And I note the number of category links
   And I click the Next Page link
