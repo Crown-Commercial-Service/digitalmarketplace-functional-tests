@@ -1,6 +1,11 @@
 When (/^I have created and saved a search called '(.*)'$/) do |search_name|
+  case search_name
+    when 'my cloud project', 'my cloud project - existing'
+      steps "Given I visit the /g-cloud/search?q=email+analysis+provider+system page"
+    when 'export limit test project'
+      steps "Given I visit the /g-cloud/search?q=cloud+software+nhs page"
+  end
   steps %{
-    Given I visit the /g-cloud/search?q=email+analysis+provider+system page
     And I click 'Save your search'
     Then I am on the 'Save your search' page
     And I enter '#{search_name}' in the 'Name your search' field
@@ -10,35 +15,23 @@ end
 
 When (/^I am ready to tell the outcome for the '(.*)' saved search$/) do |search_name|
   steps %{
-    And I have created and saved a search called '#{search_name}'
-    And I visit the /buyers page
-    Then I click the 'View your saved searches' link
-    Then I click the '#{search_name}' link
-    Then I am on the '#{search_name}' page
-    And I click the 'Export your results' link
-    Then I am on the 'Before you export your results' page
-    And I check 'I understand that I cannot edit my search again after I export my results' checkbox
-    And I click the 'Export results and continue' button
-    Then I am on the 'my cloud project' page
-    When I have downloaded the search results as a file of type 'ods'
+    Given I have created and saved a search called '#{search_name}'
+    And I am on the '#{search_name}' page
+    And I have exported my results for the '#{search_name}' saved search
     And I click the 'Return to your task list' link
-    Then I am on the 'my cloud project' page
+    And I click the 'Confirm you have read and understood how to assess services' button
   }
 end
 
-When (/^I have downloaded the search results as a file of type '(.*)'$/) do |file_type|
+When (/^I have exported my results for the '(.*)' saved search$/) do |search_name|
   steps %{
-    And I click the 'Download search results' link
-    And I am on the 'Download your results' page
+    Given I visit the /buyers/direct-award/g-cloud page
+    And I click the '#{search_name}' link
+    And I click the 'Export your results' link
+    And I check 'I understand that I cannot edit my search again after I export my results' checkbox
+    And I click the 'Export results and continue' button
+    Then I see a success banner message containing 'Results exported. Your files are ready to download.'
   }
-  if file_type == 'ods'
-    steps "And I click the 'Download search results as a spreadsheet' link"
-  elsif file_type == 'csv'
-    steps "And I click the 'Download search results as comma-separated values' link"
-  else
-    puts "The file type '#{file_type}' is not recognised"
-  end
-  steps "And I should get a download file of type '#{file_type}'"
 end
 
 When (/^I award the contract to '(.*)' for the '(.*)' search$/) do |supplier_name, search_name|
@@ -71,11 +64,31 @@ When (/^I do not award the contract because '(.*)'$/) do |reason|
   }
   case reason
     when 'The work has been cancelled'
-      steps "And I choose the 'The work has been cancelled' radio button"
+      step "And I choose the 'The work has been cancelled' radio button"
     when 'There were no suitable services'
-      steps "And I choose the 'There were no suitable services' radio button"
+      step "And I choose the 'There were no suitable services' radio button"
     else
       puts 'The reason for not awarding the contract is not recognised'
   end
   steps "And I click 'Save and continue'"
+end
+
+When (/^I have downloaded the search results as a file of type '(.*)'$/) do |file_type|
+  step "And I click the 'Download your results' link"
+  if file_type == 'ods'
+    steps "And I click the 'Download search results as a spreadsheet' link"
+  elsif file_type == 'csv'
+    steps "And I click the 'Download search results as comma-separated values' link"
+  else
+    puts "The file type '#{file_type}' is not recognised"
+  end
+  steps "And I should get a download file of type '#{file_type}'"
+end
+
+And (/^I see the '(.*)' instruction list item status showing as '(.*)'$/) do |list_item, status|
+  page.find(:xpath, "//*[contains(@class, 'instruction-list')]//*[contains(@class, 'instruction-list-item-body')][contains(text(),'#{list_item}')]/../*[contains(@class, 'instruction-list-item-box')][contains(text(),'#{status}')]")
+end
+
+And (/^I see the '(.*)' instruction list item has a warning message of '(.*)'$/) do |list_item, message|
+  page.find(:xpath, "//*[contains(@class, 'instruction-list')]//*[contains(@class, 'instruction-list-item-body')][contains(text(),'#{list_item}')]/..//strong[contains(normalize-space(text()), '#{message}')]")
 end
