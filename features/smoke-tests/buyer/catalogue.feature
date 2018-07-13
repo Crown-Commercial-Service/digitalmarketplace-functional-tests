@@ -13,6 +13,17 @@ Scenario: User can see the main links on the homepage
   And I see the 'View Digital Outcomes and Specialists opportunities' link
   And I see the 'Become a supplier' link
 
+@skip-local
+@skip-preview
+@skip-staging
+Scenario: User can click through to g-cloud page
+  Given I visit the homepage
+  When I click 'Find cloud hosting, software and support'
+  Then I am on the 'Find cloud hosting, software and support' page
+  When I click 'Start a new search'
+  Then I am on the 'Cloud hosting, software and support' page
+
+@skip-production
 Scenario: User can click through to g-cloud page
   Given I visit the homepage
   When I click 'Find cloud hosting, software and support'
@@ -20,6 +31,18 @@ Scenario: User can click through to g-cloud page
   When I click 'Start a new search'
   Then I am on the 'Choose a category' page
 
+@skip-local
+@skip-preview
+@skip-staging
+Scenario: User can select a lot from the g-cloud page and see search results.
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
+  When I have a random g-cloud lot from the API
+  When I click that lot.name
+  Then I am on the 'Search results' page
+  And I see that lot.name breadcrumb
+  And I see a search result
+
+@skip-production
 Scenario: User can select a lot from the g-cloud page and see search results.
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   When I have a random g-cloud lot from the API
@@ -69,6 +92,23 @@ Scenario: User is able to search by keywords field on the search results page to
   And I click a link with text that service.serviceName in that search_result
   Then I am on that service.serviceName page
 
+@skip-local
+@skip-preview
+@skip-staging
+Scenario: User is able to click on a random category
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  And I note the number of search results
+
+  When I click a random category link
+  Then I am on the 'Search results' page
+  And I see that category_name in the search summary text
+  And I see a search result
+  And I see fewer search results than noted
+
+@skip-production
 Scenario: User is able to click on a random category
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
@@ -83,6 +123,24 @@ Scenario: User is able to click on a random category
   And I see a search result
   And I see fewer search results than noted
 
+@skip-local
+@skip-preview
+@skip-staging
+Scenario: User is able to click on several random filters
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  When I note the number of search results
+  Then a filter checkbox's associated aria-live region contains that result_count
+  When I select several random filters
+  And I wait for the page to reload
+  Then I am on the 'Search results' page
+  And I see fewer search results than noted
+  When I note the number of search results
+  Then a filter checkbox's associated aria-live region contains that result_count
+
+@skip-production
 Scenario: User is able to click on several random filters
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
@@ -98,6 +156,23 @@ Scenario: User is able to click on several random filters
   When I note the number of search results
   Then a filter checkbox's associated aria-live region contains that result_count
 
+@skip-local
+@skip-preview
+@skip-staging
+Scenario: User is able to paginate through search results and all of the navigation is preserved
+  Given I visit the /buyers/direct-award/g-cloud/choose-lot page
+  And I have a random g-cloud lot from the API
+  And I click that lot.name
+  Then I am on the 'Search results' page
+  And I note the number of category links
+  And I click the Next Page link
+  Then I am taken to page 2 of results
+  And I see the same number of category links as noted
+  When I click the Previous Page link
+  Then I am taken to page 1 of results
+  And I see the same number of category links as noted
+
+@skip-production
 Scenario: User is able to paginate through search results and all of the navigation is preserved
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
