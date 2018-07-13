@@ -15,7 +15,6 @@ Scenario: User can see the main links on the homepage
 
 @skip-local
 @skip-preview
-@skip-staging
 Scenario: User can click through to g-cloud page
   Given I visit the homepage
   When I click 'Find cloud hosting, software and support'
@@ -23,6 +22,7 @@ Scenario: User can click through to g-cloud page
   When I click 'Start a new search'
   Then I am on the 'Cloud hosting, software and support' page
 
+@skip-staging
 @skip-production
 Scenario: User can click through to g-cloud page
   Given I visit the homepage
@@ -33,7 +33,6 @@ Scenario: User can click through to g-cloud page
 
 @skip-local
 @skip-preview
-@skip-staging
 Scenario: User can select a lot from the g-cloud page and see search results.
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   When I have a random g-cloud lot from the API
@@ -42,6 +41,7 @@ Scenario: User can select a lot from the g-cloud page and see search results.
   And I see that lot.name breadcrumb
   And I see a search result
 
+@skip-staging
 @skip-production
 Scenario: User can select a lot from the g-cloud page and see search results.
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
@@ -94,7 +94,6 @@ Scenario: User is able to search by keywords field on the search results page to
 
 @skip-local
 @skip-preview
-@skip-staging
 Scenario: User is able to click on a random category
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
@@ -108,6 +107,7 @@ Scenario: User is able to click on a random category
   And I see a search result
   And I see fewer search results than noted
 
+@skip-staging
 @skip-production
 Scenario: User is able to click on a random category
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
@@ -125,7 +125,6 @@ Scenario: User is able to click on a random category
 
 @skip-local
 @skip-preview
-@skip-staging
 Scenario: User is able to click on several random filters
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
@@ -140,6 +139,7 @@ Scenario: User is able to click on several random filters
   When I note the number of search results
   Then a filter checkbox's associated aria-live region contains that result_count
 
+@skip-staging
 @skip-production
 Scenario: User is able to click on several random filters
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
@@ -158,7 +158,6 @@ Scenario: User is able to click on several random filters
 
 @skip-local
 @skip-preview
-@skip-staging
 Scenario: User is able to paginate through search results and all of the navigation is preserved
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
@@ -172,6 +171,7 @@ Scenario: User is able to paginate through search results and all of the navigat
   Then I am taken to page 1 of results
   And I see the same number of category links as noted
 
+@skip-staging
 @skip-production
 Scenario: User is able to paginate through search results and all of the navigation is preserved
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
