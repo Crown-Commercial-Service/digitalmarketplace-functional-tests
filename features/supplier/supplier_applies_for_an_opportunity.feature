@@ -381,7 +381,7 @@ Scenario: Supplier changes their answers after submission
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
 
-@opportunity-clarification-question
+@requires-credentials @notify @opportunity-clarification-question
 Scenario: Supplier asks a clarification question
   Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework

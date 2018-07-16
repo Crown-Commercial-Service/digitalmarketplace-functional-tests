@@ -1,7 +1,7 @@
 @buyer @newbuyer @skip-staging
 Feature: Create buyer account
 
-@notify
+@requires-credentials @notify
 Scenario: Create a new buyer account when trying to create a requirement from the home page
   Given I visit the homepage
   When I click 'Find an individual specialist'

@@ -55,16 +55,21 @@ To run features with a specific tag run
 
 `make ARGS='--tags ...' run`
 
-To include or exclude tags see [the cucumber documentation](https://github.com/cucumber/cucumber/wiki/Tags#running-a-subset-of-scenarios)
+To include or exclude tags see [the cucumber documentation](https://docs.cucumber.io/cucumber/api/#running-a-subset-of-scenarios)
 
 ## Tags
 Tags are used to include/exclude given tests on certain environments. The following tags are currently supported:
 
 | Tag Name                    | Description                                           |
 |-----------------------------|-------------------------------------------------------|
+| notify                      | Tests whether an email was sent.                      |
+| mailchimp                   | Tests updating a mailing list.                        |
+| file-upload                 | Tests uploading files.                                |
+| requires-credentials        | All tests which require API tokens.                   |
 | smoke-tests                 |                                                       |
 | opportunities               |                                                       |               
 | requirements                |                                                       |
+| direct-award                |                                                       |
 | brief-response              |                                                       |
 | with-production-<type>-user |                                                       |
 | skip                        | Skip this test everywhere (e.g. temporarily disabled) |
