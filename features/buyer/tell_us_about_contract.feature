@@ -61,7 +61,6 @@ Scenario: User edits existing search
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
 
-@skip-staging
 Scenario: User exports results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'export limit test project'
@@ -86,7 +85,6 @@ Scenario: User exports results
   When I click the 'Return to your task list' link
   Then I see the 'Export your results' instruction list item status showing as 'Completed'
 
-@skip-staging
 Scenario: User download results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
@@ -101,7 +99,6 @@ Scenario: User download results
   When I click the 'Download search results as comma-separated values' link
   Then I should get a download file of type 'csv'
 
-@skip-staging
 Scenario: User downloads results - via the saved searches dashboard
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
@@ -111,7 +108,6 @@ Scenario: User downloads results - via the saved searches dashboard
   When I click the 'Download search results as a spreadsheet' link
   Then I should get a download file of type 'ods'
 
-@skip-staging
 Scenario: User confirms understanding how to assess services
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
@@ -124,7 +120,6 @@ Scenario: User confirms understanding how to assess services
   And I see a success banner message containing 'You’ve confirmed that you have read and understood how to assess services.'
   And I see the 'Start assessing services' instruction list item status showing as 'Completed'
 
-@skip-staging
 Scenario: User awards contract
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
@@ -134,7 +129,6 @@ Scenario: User awards contract
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'Contract awarded to CareerVision Ltd: NCCIS'
 
-@skip-staging
 Scenario: User does not award contract as work is cancelled
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
@@ -144,7 +138,6 @@ Scenario: User does not award contract as work is cancelled
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'The work has been cancelled'
 
-@skip-staging
 Scenario: User does not award contract as there are no suitable services
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
@@ -154,7 +147,6 @@ Scenario: User does not award contract as there are no suitable services
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'No suitable services found'
 
-@skip-staging
 Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
