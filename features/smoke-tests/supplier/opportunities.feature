@@ -34,3 +34,12 @@ Scenario Outline: User can filter by individual lot and keyword search
     | Digital specialists        |
     | Digital outcomes           |
     | User research participants |
+
+Scenario: User receives a 404 page when attempting to access a page beyond the number of search results
+  Given I visit the /digital-outcomes-and-specialists/opportunities?q=metempsychosis&page=2 page
+  Then I am on the 'Page could not be found' page
+
+Scenario: User receives a 404 page when attempting to access a page absurdly beyond the number of search results
+  Given I visit the /digital-outcomes-and-specialists/opportunities?page=50000 page
+  Then I am on the 'Page could not be found' page
+
