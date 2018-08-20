@@ -118,3 +118,11 @@ Scenario: User gets no results for an unfindable term
   And I wait for the page to reload
   Then I don't see a search result
   And I see 'metempsychosis' in the search summary text
+
+Scenario: User receives a 404 page when attempting to access a page beyond the number of search results
+  Given I visit the /g-cloud/search?q=metempsychosis&page=2 page
+  Then I am on the 'Page could not be found' page
+
+Scenario: User receives a 404 page when attempting to access a page absurdly beyond the number of search results
+  Given I visit the /g-cloud/search?page=50000 page
+  Then I am on the 'Page could not be found' page
