@@ -381,6 +381,36 @@ Scenario: Supplier changes their answers after submission
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
 
+
+Scenario: Supplier can resume incomplete application
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-outcomes lot
+  And I have a live digital-outcomes brief
+  And I go to that brief page
+  And I click 'Apply for this opportunity'
+  Then I am on the 'Before you start' page
+
+  When I click 'Start application'
+  Then I am on the 'When is the earliest the team can start?' page
+  And I see 'The buyer needs the team to start: Thursday 28 September 2017' replayed in the question advice
+
+  When I enter '09/09/17' in the 'availability' field
+  And I click 'Save and continue'
+  Then I am on the 'Do you have all the essential skills and experience?' page
+
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Hide and seek ninjas' in the 'Draft opportunities' summary table
+  And I click the 'Complete your application' link
+  Then I am on the 'Before you start' page
+
+  When I click 'Continue application'
+  Then I am on the 'When is the earliest the team can start?' page
+  And I see '09/09/17' as the value of the 'availability' field
+
+
 @requires-credentials @notify @opportunity-clarification-question
 Scenario: Supplier asks a clarification question
   Given that supplier has applied to be on that framework
