@@ -43,3 +43,8 @@ Scenario: User receives a 404 page when attempting to access a page absurdly bey
   Given I visit the /digital-outcomes-and-specialists/opportunities?page=50000 page
   Then I am on the 'Page could not be found' page
 
+Scenario: User can fetch the highest possible page number on this index
+  Given I visit the /digital-outcomes-and-specialists/opportunities page
+  And I note the total number of pages of results
+  When I visit the page number of that page_count
+  Then I see a search result
