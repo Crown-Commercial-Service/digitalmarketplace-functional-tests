@@ -46,6 +46,15 @@ Then (/^I note the number of search results$/) do
   puts "Noted result_count: #{@result_count}"
 end
 
+Then (/^I note the total number of pages of results$/) do
+  @page_count = CatalogueHelpers.get_page_count(page)
+  if not @page_count
+    puts "Unable to find page count - assuming single page"
+    @page_count = "1"
+  end
+  puts "Noted page_count: #{@page_count}"
+end
+
 Then /^I click a random category link$/ do
   links = CatalogueHelpers.get_category_links(page)
   link_el = links.sample
@@ -79,6 +88,14 @@ Then(/^I am taken to page (\d+) of results$/) do |page_number|
     expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
     expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number - 1} of')]")
   end
+end
+
+When(/^I visit(?: the)? page number(?: of)? #{MAYBE_VAR}/) do |page_number|
+  current_url_uri = URI(current_url)
+  query_hash = Hash[URI::decode_www_form(current_url_uri.query || "")]
+  query_hash["page"] = page_number
+  current_url_uri.query = URI::encode_www_form(query_hash)
+  page.visit(current_url_uri.to_s)
 end
 
 Then(/^I see the same number of category links as noted/) do

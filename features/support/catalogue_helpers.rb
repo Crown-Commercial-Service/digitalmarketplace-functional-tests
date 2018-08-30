@@ -3,6 +3,18 @@ module CatalogueHelpers
     page.find(:xpath, "//*[@class='search-summary-count']").text.to_i
   end
 
+  def self.get_page_count(page)
+    begin
+      /\s*(\d+)\s*of\s*(\d+)\s*/.match(page.find(:xpath, "//*[@class='next']//*[@class='page-numbers']").text)[2]
+    rescue Capybara::ElementNotFound
+      begin
+        /\s*(\d+)\s*of\s*(\d+)\s*/.match(page.find(:xpath, "//*[@class='previous']//*[@class='page-numbers']").text)[2]
+      rescue Capybara::ElementNotFound
+        nil
+      end
+    end
+  end
+
   def self.get_category_links(page)
     page.all(:css, ".lot-filters ul ul :link")
   end
