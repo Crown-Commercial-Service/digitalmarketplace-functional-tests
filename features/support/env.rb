@@ -41,6 +41,10 @@ def domain_for_app(app)
   end
 end
 
+def dm_environment
+  ENV['DM_ENVIRONMENT'] || 'development'
+end
+
 def dm_api_domain
   ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end

@@ -1,10 +1,12 @@
 #!/bin/bash
 
-export DM_API_DOMAIN=${DM_API_DOMAIN:=http://localhost:5000}
+export DM_ENVIRONMENT=${DM_ENVIRONMENT:="preview"}
+
+export DM_API_DOMAIN=${DM_API_DOMAIN:=https://api.${DM_ENVIRONMENT}.marketplace.team}
 export DM_API_ACCESS_TOKEN=${DM_API_ACCESS_TOKEN:=myToken}
-export DM_SEARCH_API_DOMAIN=${DM_SEARCH_API_DOMAIN:=http://localhost:5001}
+export DM_SEARCH_API_DOMAIN=${DM_SEARCH_API_DOMAIN:=https://search-api.${DM_ENVIRONMENT}.marketplace.team}
 export DM_SEARCH_API_ACCESS_TOKEN=${DM_SEARCH_API_ACCESS_TOKEN:=myToken}
-export DM_FRONTEND_DOMAIN=${DM_FRONTEND_DOMAIN:=http://localhost}
+export DM_FRONTEND_DOMAIN=${DM_FRONTEND_DOMAIN:=https://www.${DM_ENVIRONMENT}.marketplace.team}
 
 export DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
 
