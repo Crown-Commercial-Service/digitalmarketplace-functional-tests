@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "aws-sdk-s3", "1.20.0"
 gem "capybara", "2.18.0"
 gem "capybara-screenshot", "1.0.14"
 gem "cucumber", "2.4.0"
