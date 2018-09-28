@@ -73,6 +73,10 @@ def dm_notify_api_key
   ENV['DM_NOTIFY_API_KEY']
 end
 
+def dm_documents_bucket_name
+  ENV['DM_DOCUMENTS_BUCKET_NAME']
+end
+
 def dm_custom_wait_time
   5
 end

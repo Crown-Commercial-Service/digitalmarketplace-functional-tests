@@ -66,8 +66,9 @@ Tags are used to include/exclude given tests on certain environments. The follow
 | mailchimp                   | Tests updating a mailing list.                        |
 | file-upload                 | Tests uploading files.                                |
 | requires-credentials        | All tests which require API tokens.                   |
+| requires-aws-credentials    | All tests which require AWS credentials.              |
 | smoke-tests                 |                                                       |
-| opportunities               |                                                       |               
+| opportunities               |                                                       |
 | requirements                |                                                       |
 | direct-award                |                                                       |
 | brief-response              |                                                       |
@@ -118,6 +119,13 @@ This should match the setting in your `local.sh` config file.
 This will allow the functional tests to assert that an email has arrived in the Notify sandbox.
 
 Remember not to commit the change to `config.py`!
+
+#### AWS credentials in functional tests
+
+Tests with the tag `@requires-aws-credentials` require the environment to be set up with an AWS key that has permission
+to `PUT` to the bucket named in `DM_DOCUMENTS_BUCKET_NAME`. These can be specified in the normal ways for AWS
+credentials - in `~/.aws/credentials` or directly in environment variables. If this permission requires you to change
+roles, remember to also set the corrent `AWS_PROFILE`.
 
 ## Linting
 

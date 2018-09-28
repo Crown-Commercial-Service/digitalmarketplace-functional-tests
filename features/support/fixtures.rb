@@ -273,4 +273,13 @@ module Fixtures
       webChatSupport: "no",
     }
   end
+
+  def self.eicar_test_signature
+    # the eicar test signature should never be stored in plaintext in a repository as its presence will likely trigger
+    # all sorts of warnings from automatic scanners. instead it is stored as two parts that must be xor'ed together
+    # to produce the final string.
+    part_a = File.open(File.join(Dir.pwd, 'fixtures/eicar.part-a'), "rb") { |file| file.gets(nil).unpack("C*") }
+    part_b = File.open(File.join(Dir.pwd, 'fixtures/eicar.part-b'), "rb") { |file| file.gets(nil).unpack("C*") }
+    part_a.zip(part_b).map { |a, b| a ^ b }.pack("C*")
+  end
 end
