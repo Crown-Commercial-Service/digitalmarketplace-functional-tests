@@ -8,6 +8,7 @@ Background:
   And I have a supplier user
   And that supplier is logged in
 
+@skip-preview
 Scenario: Supplier is not eligible as they are not on the framework
   Given I go to that brief page
   And I click 'Apply'
@@ -15,6 +16,7 @@ Scenario: Supplier is not eligible as they are not on the framework
   And I see 'You can’t apply for this opportunity because you’re not a Digital Outcomes and Specialists 2 supplier.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-digital-outcomes-and-specialists-2'
 
+@skip-preview
 Scenario: Supplier is not eligible as they are not on the digital-specialists lot
   Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
@@ -26,6 +28,7 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-lot'
 
+@skip-preview
 Scenario: Supplier is not eligible as they can not provide the developer role
   Given that supplier has applied to be on that framework
   And we accept that suppliers application to the framework
@@ -37,6 +40,37 @@ Scenario: Supplier is not eligible as they can not provide the developer role
   And I see 'You can’t apply for this opportunity because you didn’t say you could provide this specialist role when you applied to the Digital Outcomes and Specialists 2 framework.' text on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-role'
 
+@skip-staging
+Scenario: Supplier is not eligible as they are not on the framework
+  Given I go to that brief page
+  And I click 'Apply'
+  Then I am on the 'You can’t apply for this opportunity' page
+  And I see 'You can’t apply for this opportunity because you’re not a Digital Outcomes and Specialists 3 supplier.' text on the page
+  And I see a 'data-reason' attribute with the value 'supplier-not-on-digital-outcomes-and-specialists-3'
+
+@skip-staging
+Scenario: Supplier is not eligible as they are not on the digital-specialists lot
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-outcomes lot
+  And I go to that brief page
+  And I click 'Apply'
+  Then I am on the 'You can’t apply for this opportunity' page
+  And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists 3 framework.' text on the page
+  And I see a 'data-reason' attribute with the value 'supplier-not-on-lot'
+
+@skip-staging
+Scenario: Supplier is not eligible as they can not provide the developer role
+  Given that supplier has applied to be on that framework
+  And we accept that suppliers application to the framework
+  And that supplier returns a signed framework agreement for the framework
+  And that supplier has a service on the digital-specialists lot for the designer role
+  And I go to that brief page
+  And I click 'Apply'
+  Then I am on the 'You can’t apply for this opportunity' page
+  And I see 'You can’t apply for this opportunity because you didn’t say you could provide this specialist role when you applied to the Digital Outcomes and Specialists 3 framework.' text on the page
+  And I see a 'data-reason' attribute with the value 'supplier-not-on-role'
 
 Scenario: Supplier applies for a digital-specialists brief
   Given that supplier has applied to be on that framework
