@@ -2,7 +2,7 @@
 Feature: Supplier being able to view their DOS services
 
 Background:
-  Given I have a live digital-outcomes-and-specialists framework
+  Given I have the latest live digital-outcomes-and-specialists framework
   And I have a supplier user
   And that supplier is logged in
   And that supplier has applied to be on that framework
