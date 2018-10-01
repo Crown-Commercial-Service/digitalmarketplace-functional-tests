@@ -2,7 +2,7 @@
 Feature: G-Cloud supplier can view and edit their G-Cloud services
 
 Background:
-  Given I have a live g-cloud framework with the cloud-support lot
+  Given I have the latest live g-cloud framework with the cloud-support lot
   And I have a supplier user
   And that supplier is logged in
   And that supplier has applied to be on that framework
@@ -13,7 +13,7 @@ Background:
   # The following step only works by virtue of there only being a single service for this supplier - multiple services on
   # multiple frameworks will cause multiple "View services" links to be present
   And I click 'View services'
-  Then I am on the 'G-Cloud 9 services' page
+  Then I am on the 'G-Cloud 10 services' page
   When I click 'Test cloud support service'
   Then I am on the 'Test cloud support service' page
 

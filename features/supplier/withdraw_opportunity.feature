@@ -2,7 +2,7 @@
 Feature: Withdraw opportunity supplier journey
 
 Scenario: See detail page for a withdrawn brief
-  Given I have a live digital-outcomes-and-specialists framework
+  Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
   And I have a withdrawn digital-specialists brief
   When I go to that brief page

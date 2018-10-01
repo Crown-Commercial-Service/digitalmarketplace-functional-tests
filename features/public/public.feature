@@ -2,7 +2,7 @@
 Feature: Published requirements can be viewed by the public
 
 Scenario: Public views the publish requirements. Details presented matches what was publisehd.
-  Given I have a live digital-outcomes-and-specialists framework
+  Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
   And that buyer is logged in
   And I have a live digital-specialists brief

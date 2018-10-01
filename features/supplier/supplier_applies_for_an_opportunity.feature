@@ -2,7 +2,7 @@
 Feature: Supplier applies for an opportunity
 
 Background:
-  Given I have a live digital-outcomes-and-specialists framework
+  Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
   And I have a live digital-specialists brief
   And I have a supplier user

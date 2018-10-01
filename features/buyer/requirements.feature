@@ -139,7 +139,7 @@ Scenario: Create user research participants
 
 @copy-requirements
 Scenario Outline: Copy requirements
-  Given I have a live digital-outcomes-and-specialists framework
+  Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
   And that buyer is logged in
   And I have a <status> digital-specialists brief
@@ -159,7 +159,7 @@ Scenario Outline: Copy requirements
 
 
 Scenario Outline: View requirement in a dashboard
-  Given I have a live digital-outcomes-and-specialists framework
+  Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
   And that buyer is logged in
   And I have a <status> digital-specialists brief

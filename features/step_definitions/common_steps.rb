@@ -20,7 +20,7 @@ Given /^I visit the (.* )?(\/.*) page$/ do |app, url|
   end
 end
 
-Given /^I have a live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
+Given /^I have the latest live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
@@ -29,7 +29,7 @@ Given /^I have a live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_
     frameworks.delete_if { |framework| framework['lots'].select { |lot| lot["slug"] == lot_slug }.to_a.empty? }
   end
   expect(frameworks).not_to be_empty, _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
-  @framework = frameworks[0]
+  @framework = frameworks.sort_by! { |framework| framework[:id] }.reverse![0]
   puts @framework['slug']
 end
 
