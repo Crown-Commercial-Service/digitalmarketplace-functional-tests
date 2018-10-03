@@ -5,13 +5,17 @@ require 'uri'
 require 'notifications/client'
 
 module DMNotify
-  def self.get_email(message_type, email_address)
-    email_hash = Base64.urlsafe_encode64(Digest::SHA256.digest(email_address))
+  def self.get_email_raw(reference)
     client = Notifications::Client.new(dm_notify_api_key)
     client.get_notifications(
       'template_type' => 'email',
-      'reference' => "#{message_type}-#{email_hash}"
+      'reference' => reference,
     )
+  end
+
+  def self.get_email(message_type, email_address)
+    email_hash = Base64.urlsafe_encode64(Digest::SHA256.digest(email_address))
+    self.get_email_raw("#{message_type}-#{email_hash}")
   end
 end
 

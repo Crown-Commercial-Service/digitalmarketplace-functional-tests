@@ -41,6 +41,10 @@ def domain_for_app(app)
   end
 end
 
+def dm_environment
+  ENV['DM_ENVIRONMENT'] || 'development'
+end
+
 def dm_api_domain
   ENV['DM_API_DOMAIN'] || 'http://localhost:5000'
 end
@@ -67,6 +71,10 @@ end
 
 def dm_notify_api_key
   ENV['DM_NOTIFY_API_KEY']
+end
+
+def dm_documents_bucket_name
+  ENV['DM_DOCUMENTS_BUCKET_NAME']
 end
 
 def dm_custom_wait_time

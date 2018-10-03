@@ -21,6 +21,7 @@ in (with args; {
         pkgs.bundix
         pkgs.libxml2
         pkgs.phantomjs2
+        ((import ./aws-auth.nix) (with pkgs; { inherit stdenv fetchFromGitHub makeWrapper jq awscli openssl; }))
       ];
 
       # if we don't have this, we get unicode troubles in a --pure nix-shell
