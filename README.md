@@ -83,7 +83,7 @@ Tags are used to include/exclude given tests on certain environments. The follow
 
 
 First you need to create a file to set up your local environment variables - this must be in
-the `config/` directory. There is an example file `config/example.sh`.  Copy this to
+the `config/` directory. There is an example file `config/local.example.sh`.  Copy this to
 `config/local.sh` - this should hopefully work out of the box, but you might have a
 different experience depending on your setup.
 
