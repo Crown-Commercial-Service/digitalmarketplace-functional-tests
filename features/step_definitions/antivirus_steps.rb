@@ -8,8 +8,10 @@ When /^I upload #{MAYBE_VAR} to the documents bucket under the key #{MAYBE_VAR}$
   s3 = Aws::S3::Resource.new(region: 'eu-west-1')  # actual region is unimportant
   @s3_obj = s3.bucket(dm_documents_bucket_name).object(destination_key)
   @s3_obj_response = @s3_obj.put(
+    acl: "bucket-owner-full-control",
     body: file_contents,
   )
+  puts "File etag: #{@s3_obj_response.etag}"
 end
 
 Then /^I receive a notification regarding that file within ([0-9]+) minutes?$/ do |minutes_string|
