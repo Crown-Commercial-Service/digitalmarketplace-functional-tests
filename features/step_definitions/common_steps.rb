@@ -97,7 +97,7 @@ end
 
 # TODO merge with above step
 Given /^I have a random dos brief from the API$/ do
-  params = { status: "live,closed", framework: "digital-outcomes-and-specialists-2" }
+  params = { status: "live,closed", framework: "digital-outcomes-and-specialists-3" }
   page_one = call_api(:get, "/briefs", params: params)
   last_page_url = JSON.parse(page_one.body)['links']['last']
   params[:page] = if last_page_url

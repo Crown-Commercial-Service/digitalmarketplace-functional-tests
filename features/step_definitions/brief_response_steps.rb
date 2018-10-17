@@ -7,7 +7,7 @@ Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
 end
 
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
-  matched_brief = get_briefs('digital-outcomes-and-specialists-2', status).sample
+  matched_brief = get_briefs('digital-outcomes-and-specialists-3', status).sample
   @brief = matched_brief
   @buyer_user = matched_brief['users'][0]
   @lot_slug = matched_brief['lotSlug']
@@ -17,7 +17,7 @@ Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
 end
 
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
-  submitted_brief_response = get_brief_responses('digital-outcomes-and-specialists-2', 'submitted', 'closed').sample
+  submitted_brief_response = get_brief_responses('digital-outcomes-and-specialists-3', 'submitted', 'closed').sample
   @brief = get_brief(submitted_brief_response['brief']['id'])
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
