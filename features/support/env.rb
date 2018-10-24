@@ -34,6 +34,8 @@ def domain_for_app(app)
     dm_api_domain
   when "search-api"
     dm_search_api_domain
+  when "antivirus-api"
+    dm_antivirus_api_domain
   when "frontend"
     dm_frontend_domain
   else
@@ -59,6 +61,10 @@ end
 
 def dm_search_api_access_token
   ENV['DM_SEARCH_API_ACCESS_TOKEN'] || 'myToken'
+end
+
+def dm_antivirus_api_domain
+  ENV['DM_ANTIVIRUS_API_DOMAIN'] || 'http://localhost:5008'
 end
 
 def dm_frontend_domain

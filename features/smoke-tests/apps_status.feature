@@ -13,6 +13,12 @@ Feature: Apps /_status is ok
     Then I see 'ok' as the value of the 'status' JSON field
     And Display the value of the 'version' JSON field as 'Release version'
 
+  @status @antivirus-api
+  Scenario: Check the antivirus API /_status
+    Given I visit the antivirus-api /_status page
+    Then I see 'ok' as the value of the 'status' JSON field
+    And Display the value of the 'version' JSON field as 'Release version'
+
   @status @user-frontend
   Scenario: Check the user frontend /_status
     Given I visit the frontend /user/_status page
