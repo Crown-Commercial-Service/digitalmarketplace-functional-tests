@@ -13,7 +13,9 @@ Background:
   # The following step only works by virtue of there only being a single service for this supplier - multiple services on
   # multiple frameworks will cause multiple "View services" links to be present
   And I click 'View services'
-  Then I am on the 'G-Cloud 10 services' page
+  # Two steps below so we can assert the page title for either G9 or G10
+  Then I am on the 'Your G-Cloud' page
+  And I see the page's h1 ends in 'services'
   When I click 'Test cloud support service'
   Then I am on the 'Test cloud support service' page
 
