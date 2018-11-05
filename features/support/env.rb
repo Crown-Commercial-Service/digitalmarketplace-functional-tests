@@ -1,6 +1,5 @@
 require 'erb'
 require 'rspec'
-require 'nokogiri'
 require 'capybara'
 require 'capybara/cucumber'
 require 'capybara/poltergeist'
