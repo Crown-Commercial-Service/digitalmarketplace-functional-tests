@@ -6,6 +6,7 @@ Background:
   And that supplier is logged in
   And I visit the /suppliers page
 
+@skip-staging
 Scenario: Supplier user can provide and change supplier details before confirming them for framework applications
   When I click 'Company details'
   Then I am on the 'Company details' page
@@ -50,11 +51,6 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I choose 'Large' radio button
   And I click 'Save and return'
 
-  Then I click the summary table 'Answer required' link for 'VAT number'
-  And I am on the 'Are you registered for VAT in the UK?' page
-  And I choose 'Yes' radio button
-  And I enter '410802502' in the 'vat_number' field and click its associated 'Save and return' button
-
   # Not checking DUNS number here, as the value is random
   Then I see the 'Registration information' summary table filled with:
     | field                     |  value                                        |
@@ -63,7 +59,6 @@ Scenario: Supplier user can provide and change supplier details before confirmin
     | Registration number       | 18092231                                      |
     | Trading status            | Limited company (LTD)                         |
     | Company size              | Large                                         |
-    | VAT number                | 410802502                                     |
 
   # Can pull the dunsNumber from the supplier and use it with this step
   And I see 'that supplier.dunsNumber' text on the page
@@ -97,11 +92,6 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I choose 'Micro' radio button
   And I click 'Save and return'
 
-  Then I click the summary table 'Change' link for 'VAT number'
-  And I am on the 'Are you registered for VAT in the UK?' page
-  And I choose 'No' radio button
-  And I click 'Save and return'
-
   # Duns number is never editable
   Then I click the summary table 'Change' link for 'DUNS number'
   And I am on the 'Correct a mistake in your DUNS number' page
@@ -117,7 +107,6 @@ Scenario: Supplier user can provide and change supplier details before confirmin
     | Registration number       | 18092232                                              |
     | Trading status            | Other                                                 |
     | Company size              | Micro                                                 |
-    | VAT number                | Not VAT registered                                    |
 
   # Can pull the dunsNumber from the supplier and use it with this step
   And I see 'that supplier.dunsNumber' text on the page
@@ -138,12 +127,6 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   Then I click the summary table 'Change' link for 'Registration number'
   Then I am on the 'Correct a mistake in your registration number' page
   And I see 'You must create a new supplier account using a different login email address if you want to change your registration number.' text on the pages
-  And I don't see the 'Save and continue' button
-  Then I click the 'Return to company details' link
-
-  Then I click the summary table 'Change' link for 'VAT number'
-  Then I am on the 'Correct a mistake in your VAT number' page
-  And I see 'You must create a new supplier account using a different login email address if you want to change your VAT number.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
@@ -180,7 +163,6 @@ Scenario: Supplier user can provide and change supplier details before confirmin
     | Registration number       | 18092232                                              |
     | Trading status            | Public limited company (PLC)                          |
     | Company size              | Large                                                 |
-    | VAT number                | Not VAT registered                                    |
 
   # Can pull the dunsNumber from the supplier and use it with this step
   And I see 'that supplier.dunsNumber' text on the page
