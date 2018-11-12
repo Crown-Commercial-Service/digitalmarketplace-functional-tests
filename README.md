@@ -68,11 +68,12 @@ Tags are used to include/exclude given tests on certain environments. The follow
 | requires-credentials        | All tests which require API tokens.                   |
 | requires-aws-credentials    | All tests which require AWS credentials.              |
 | smoke-tests                 |                                                       |
+| antivirus                   |                                                       |
 | opportunities               |                                                       |
 | requirements                |                                                       |
 | direct-award                |                                                       |
 | brief-response              |                                                       |
-| with-production-<type>-user |                                                       |
+| with-production-_type_-user |                                                       |
 | skip                        | Skip this test everywhere (e.g. temporarily disabled) |
 | skip-preview                | Will not run on the preview environment.              |
 | skip-staging                | Will not run on the staging environment.              |
