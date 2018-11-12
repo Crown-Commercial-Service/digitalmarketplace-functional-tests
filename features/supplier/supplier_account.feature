@@ -6,7 +6,6 @@ Background:
   And that supplier is logged in
   And I visit the /suppliers page
 
-@skip-staging
 Scenario: Supplier user can provide and change supplier details before confirming them for framework applications
   When I click 'Company details'
   Then I am on the 'Company details' page
