@@ -1,5 +1,5 @@
 @smoke-tests @opportunities
-Feature: Passive opportunity supplier journey
+Feature: Passive opportunity supplier journey (smoke tests)
 
 Scenario: User can see the main links on the homepage
   Given I visit the homepage
