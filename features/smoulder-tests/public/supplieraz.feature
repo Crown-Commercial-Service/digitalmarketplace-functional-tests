@@ -1,9 +1,5 @@
-@smoke-tests
+@smoulder-tests
 Feature: Passive supplier a-z browsing journey
-
-Scenario: User can see the main links on the homepage
-  Given I visit the homepage
-  Then I see the 'G-Cloud supplier A–Z' link
 
 Scenario: User can click through to opportunities page
   Given I visit the homepage
