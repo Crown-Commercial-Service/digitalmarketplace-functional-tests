@@ -2,8 +2,8 @@ require "rest_client"
 
 def call_api(method, path, options = {})
   safe_for_smoke_tests = options.delete(:safe_for_smoke_tests)
-  if @SMOKE_TESTS && method != :get && !safe_for_smoke_tests
-    raise "Unsafe API request in smoke tests. Only GET methods are allowed"
+  if (@SMOKE_TESTS || @SMOULDER_TESTS) && method != :get && !safe_for_smoke_tests
+    raise "Unsafe API request in smoke/smoulder tests. Only GET methods are allowed"
   end
   domain = options.delete(:domain) || dm_api_domain
   auth_token = options.delete(:auth_token) || dm_api_access_token
