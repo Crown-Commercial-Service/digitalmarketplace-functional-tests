@@ -390,10 +390,10 @@
   rack = {
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "158hbn7rlc3czp2vivvam44dv6vmzz16qrh5dbzhfxbfsgiyrqw1";
+      sha256 = "1pcgv8dv4vkaczzlix8q3j68capwhk420cddzijwqgi2qb4lm1zm";
       type = "gem";
     };
-    version = "2.0.5";
+    version = "2.0.6";
   };
   rack-test = {
     dependencies = ["rack"];
