@@ -1,9 +1,5 @@
 @smoke-tests @opportunities
-Feature: Passive opportunity supplier journey
-
-Scenario: User can see the main links on the homepage
-  Given I visit the homepage
-  Then I see the 'View Digital Outcomes and Specialists opportunities' link
+Feature: Passive opportunity supplier journey (smoke tests)
 
 Scenario: User can click through to opportunities page
   Given I visit the homepage

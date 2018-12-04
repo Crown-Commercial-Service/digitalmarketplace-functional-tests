@@ -3,6 +3,12 @@ DM_ENVIRONMENT ?= local
 smoke-tests: setup
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
+smoulder-tests: setup
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+
+smoulder-tests-parallel: setup
+	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "--strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+
 run: setup lint
 	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
