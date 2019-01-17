@@ -389,7 +389,7 @@ def get_or_create_supplier(custom_supplier_data)
       custom_supplier_data.delete('registeredName')
       @supplier = create_supplier(custom_supplier_data)
       # Update supplier with registeredName afterwards
-      update_supplier(@supplier['id'], { registeredName: registered_name })
+      update_supplier(@supplier['id'], registeredName: registered_name)
     end
   end
   if not @supplier
