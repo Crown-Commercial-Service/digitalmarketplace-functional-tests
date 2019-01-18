@@ -380,6 +380,18 @@ def get_or_create_supplier(custom_supplier_data)
     response = call_api(:get, '/suppliers', params: { prefix: custom_supplier_data['name'] })
     @supplier = JSON.parse(response.body)['suppliers'][0]
   end
+  if custom_supplier_data["registeredName"] != nil
+    registered_name = custom_supplier_data["registeredName"]
+    response = call_api(:get, '/suppliers', params: { name: registered_name })
+    @supplier = JSON.parse(response.body)['suppliers'][0]
+    if not @supplier
+      # Create supplier without registeredName as this will fail validation
+      custom_supplier_data.delete('registeredName')
+      @supplier = create_supplier(custom_supplier_data)
+      # Update supplier with registeredName afterwards
+      update_supplier(@supplier['id'], registeredName: registered_name)
+    end
+  end
   if not @supplier
     @supplier = create_supplier(custom_supplier_data)
   end
