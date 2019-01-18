@@ -49,6 +49,7 @@ Scenario Outline: Correct users can view but not deactivate suppliers users
     | admin-ccs-category      | Edit suppliers and services |
     | admin-framework-manager | View suppliers and services |
 
+@skip-staging
 Scenario Outline: Correct users cannot view suppliers users
   Given I am logged in as the production <role> user
   When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Deactivate+a+supplier's+contributor+feature page

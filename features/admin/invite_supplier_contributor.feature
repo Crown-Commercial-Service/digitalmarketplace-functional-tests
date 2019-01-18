@@ -1,4 +1,4 @@
-@admin @invite-supplier-contributor
+@admin @invite-supplier-contributor @skip-staging
 Feature: Invite a contributor to a supplier account
 
 @requires-credentials @notify
