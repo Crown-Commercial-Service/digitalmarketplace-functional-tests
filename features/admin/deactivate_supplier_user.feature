@@ -51,7 +51,7 @@ Scenario Outline: Correct users can view but not deactivate suppliers users
 
 Scenario Outline: Correct users cannot view suppliers users
   Given I am logged in as the production <role> user
-  When I visit the /admin/suppliers?supplier_name_prefix=DM+Functional+Test+Supplier+-+Deactivate+a+supplier's+contributor+feature page
+  When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Deactivate+a+supplier's+contributor+feature page
   Then I don't see the 'Users' link
 
   Examples:
