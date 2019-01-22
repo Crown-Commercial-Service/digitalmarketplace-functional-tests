@@ -1,4 +1,4 @@
-@admin @search-supplier-name @skip-staging
+@admin @search-supplier-name
 Feature: Search by registered supplier name
 
 Scenario Outline: Correct users search for a supplier by registered name
