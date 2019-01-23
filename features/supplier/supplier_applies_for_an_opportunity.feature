@@ -17,8 +17,8 @@ Scenario: Supplier is not eligible as they are not on the framework
 
 Scenario: Supplier is not eligible as they are not on the digital-specialists lot
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-outcomes lot
   And I go to that brief page
   And I click 'Apply'
@@ -28,8 +28,8 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
 
 Scenario: Supplier is not eligible as they can not provide the developer role
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot for the designer role
   And I go to that brief page
   And I click 'Apply'
@@ -39,8 +39,8 @@ Scenario: Supplier is not eligible as they can not provide the developer role
 
 Scenario: Supplier applies for a digital-specialists brief
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And I go to that brief page
@@ -106,8 +106,8 @@ Scenario: Supplier applies for a digital-specialists brief
 
 Scenario: Supplier applies for a digital-outcomes brief
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-outcomes lot
   And I have a live digital-outcomes brief
   And I go to that brief page
@@ -163,8 +163,8 @@ Scenario: Supplier applies for a digital-outcomes brief
 
 Scenario: Supplier applies for a user-research-participants brief
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the user-research-participants lot
   And I have a live user-research-participants brief
   And I go to that brief page
@@ -222,8 +222,8 @@ Scenario: Supplier applies for a user-research-participants brief
 
 Scenario: Previous page links are used during response flow and existing data is replayed
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it
@@ -256,8 +256,8 @@ Scenario: Previous page links are used during response flow and existing data is
 
 Scenario: Supplier changes their answers before submission
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it
@@ -338,8 +338,8 @@ Scenario: Supplier changes their answers before submission
 
 Scenario: Supplier changes their answers after submission
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it
@@ -383,8 +383,8 @@ Scenario: Supplier changes their answers after submission
 
 Scenario: Supplier can resume incomplete application
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-outcomes lot
   And I have a live digital-outcomes brief
   And I go to that brief page
@@ -413,8 +413,8 @@ Scenario: Supplier can resume incomplete application
 @requires-credentials @notify @opportunity-clarification-question
 Scenario: Supplier asks a clarification question
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I go to that brief page
   And I click 'Ask a question'
@@ -425,7 +425,7 @@ Scenario: Supplier asks a clarification question
 
 Scenario: Supplier can see sign framework agreement call to action
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
+  And we accepted that suppliers application to the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it
@@ -435,8 +435,8 @@ Scenario: Supplier can see sign framework agreement call to action
 @opportunities-dashboard
 Scenario: Supplier can see the link to the opportunities dashboard
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it
@@ -446,8 +446,8 @@ Scenario: Supplier can see the link to the opportunities dashboard
 @opportunities-dashboard
 Scenario: Supplier can see their draft applications on the opportunities dashboard
   Given that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the digital-specialists lot
   And I have a live digital-specialists brief
   And that supplier has filled in their response to that brief but not submitted it

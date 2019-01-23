@@ -40,11 +40,11 @@ Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that 
   submit_supplier_declaration(@framework['slug'], @supplier["id"], 'status': 'complete', 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo.bar@example.com')
 end
 
-Given 'we accept that suppliers application to the framework' do
+Given 'we accepted that suppliers application to the framework' do
   set_supplier_on_framework(@framework['slug'], @supplier["id"], true)
 end
 
-Given 'that supplier returns a signed framework agreement for the framework' do
+Given 'that supplier has returned a signed framework agreement for the framework' do
   sign_framework_agreement(@framework['slug'], @supplier['id'], @supplier_user['id'])
 end
 
