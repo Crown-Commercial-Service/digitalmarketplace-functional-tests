@@ -2,7 +2,7 @@
 Feature: Find a buyer
 
 Scenario Outline: Correct users can search for buyers by brief id
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   And I click the 'Find a buyer by opportunity ID' link
   When I enter '18723' in the 'Find a buyer by opportunity ID' field
   And I click the 'Search' button
@@ -16,7 +16,7 @@ Scenario Outline: Correct users can search for buyers by brief id
     | admin-ccs-category      |
 
 Scenario Outline: Correct users cannot search for buyers by brief id
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   Then I don't see the 'Find a buyer by opportunity ID' link
   When I visit the /admin/buyers page
   Then I am on the 'You don’t have permission to perform this action' page
