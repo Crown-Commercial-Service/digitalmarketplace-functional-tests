@@ -342,7 +342,7 @@ end
 
 def create_user(user_role, custom_user_data = {})
   randomString = SecureRandom.hex
-  password = ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
+  password = ENV["DM_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
 
   user_data = {
     "emailAddress" => custom_user_data['emailAddress'] || custom_user_data['email_address'] || randomString + '@example.gov.uk',

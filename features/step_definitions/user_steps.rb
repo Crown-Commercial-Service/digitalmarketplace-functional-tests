@@ -2,13 +2,13 @@ Given /^I have a production ([a-z-]+) user$/ do |user_role|
   randomString = SecureRandom.hex
 
   user_details = {
-    "emailAddress" => ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_EMAIL"],
+    "emailAddress" => ENV["DM_#{user_role.upcase.gsub('-', '_')}_USER_EMAIL"],
     "name" => "#{user_role.capitalize} Name #{randomString}",
-    "password" => ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"],
+    "password" => ENV["DM_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"],
     "role" => user_role,
   }
 
-  user_details["supplierId"] = ENV['DM_PRODUCTION_SUPPLIER_USER_SUPPLIER_ID'].to_i if user_role == "supplier"
+  user_details["supplierId"] = ENV['DM_SUPPLIER_USER_SUPPLIER_ID'].to_i if user_role == "supplier"
 
   @user = user_details.merge(ensure_user_exists(user_details))
   puts "Email address: #{@user['emailAddress']}"
