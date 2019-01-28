@@ -24,7 +24,7 @@ Scenario Outline: Logged in user can change their password
 
 
 Scenario Outline: Logged in admin user can change their password
-  Given I am logged in as an existing <role> user
+  Given I am logged in as a production <role> user
   And I visit the /admin page
   When I click 'Change your password'
   Then I am on the 'Change your password' page

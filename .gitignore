@@ -1,11 +1,6 @@
 .bundle
 
 reports/
+config/
 sql/data/
 local.nix
-
-# config files
-config/local.sh
-config/preview.sh
-config/staging.sh
-config/production.sh

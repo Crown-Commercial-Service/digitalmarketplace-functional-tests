@@ -2,7 +2,7 @@
 Feature: Update supplier name
 
 Scenario Outline: Correct users can edit a supplier name
-  Given I am logged in as the existing <role> user
+  Given I am logged in as the production <role> user
   And I have a supplier with:
     | name          | DM Functional Test Supplier - Update supplier name feature |
   And I click the '<link-name>' link
@@ -27,7 +27,7 @@ Scenario Outline: Correct users can edit a supplier name
     | admin-ccs-category      | Edit suppliers and services             |
 
 Scenario Outline: Correct users cannot update the supplier name
-  Given I am logged in as the existing <role> user
+  Given I am logged in as the production <role> user
   When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Update+supplier+name+feature page
   Then I don't see the 'Change name' link
 
