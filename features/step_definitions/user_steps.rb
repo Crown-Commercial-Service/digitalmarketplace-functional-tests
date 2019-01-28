@@ -1,23 +1,23 @@
-Given /^I have an existing ([a-z-]+) user$/ do |user_role|
+Given /^I have a production ([a-z-]+) user$/ do |user_role|
   randomString = SecureRandom.hex
 
   user_details = {
-    "emailAddress" => ENV["DM_#{user_role.upcase.gsub('-', '_')}_USER_EMAIL"],
+    "emailAddress" => ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_EMAIL"],
     "name" => "#{user_role.capitalize} Name #{randomString}",
-    "password" => ENV["DM_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"],
+    "password" => ENV["DM_PRODUCTION_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"],
     "role" => user_role,
   }
 
-  user_details["supplierId"] = ENV['DM_SUPPLIER_USER_SUPPLIER_ID'].to_i if user_role == "supplier"
+  user_details["supplierId"] = ENV['DM_PRODUCTION_SUPPLIER_USER_SUPPLIER_ID'].to_i if user_role == "supplier"
 
   @user = user_details.merge(ensure_user_exists(user_details))
   puts "Email address: #{@user['emailAddress']}"
 end
 
-Given /^I am logged in as (?:a|an|the) (existing )?([\w\-]+) user$/ do |existing, user_role|
+Given /^I am logged in as (?:a|the) (production )?([\w\-]+) user$/ do |production, user_role|
   login_page = '/user/login'
   steps %{
-    Given I have a #{existing}#{user_role} user
+    Given I have a #{production}#{user_role} user
     And I visit the #{login_page} page
     When I enter that user.emailAddress in the 'Email address' field
     And I enter that user.password in the 'Password' field

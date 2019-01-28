@@ -1,10 +1,10 @@
 @smoke-tests
 Feature: Different types of user can log in
 
-@with-supplier-user
+@with-production-supplier-user
 Scenario: Supplier user can log in
   Given I visit the homepage
-  And I have an existing supplier user
+  And I have a production supplier user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -14,10 +14,10 @@ Scenario: Supplier user can log in
   When I click the 'View your account' link
   Then I see that user.emailAddress as the page header context
 
-@with-buyer-user
+@with-production-buyer-user
 Scenario: Buyer user can log in
   Given I visit the homepage
-  And I have an existing buyer user
+  And I have a production buyer user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -27,10 +27,10 @@ Scenario: Buyer user can log in
   When I click the 'View your account' link
   Then I see that user.emailAddress as the page header context
 
-@with-admin-user
+@with-production-admin-user
 Scenario: Admin user can log in
   Given I visit the homepage
-  And I have an existing admin user
+  And I have a production admin user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -38,10 +38,10 @@ Scenario: Admin user can log in
   And I click the 'Log in' button
   Then I see the 'Log out' link
 
-@with-admin-ccs-category-user
+@with-production-admin-ccs-category-user
 Scenario: Admin CCS Category user can log in
   Given I visit the homepage
-  And I have an existing admin-ccs-category user
+  And I have a production admin-ccs-category user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -49,10 +49,10 @@ Scenario: Admin CCS Category user can log in
   And I click the 'Log in' button
   Then I see the 'Log out' link
 
-@with-admin-ccs-sourcing-user
+@with-production-admin-ccs-sourcing-user
 Scenario: Admin CCS Sourcing user can log in
   Given I visit the homepage
-  And I have an existing admin-ccs-sourcing user
+  And I have a production admin-ccs-sourcing user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -60,10 +60,10 @@ Scenario: Admin CCS Sourcing user can log in
   And I click the 'Log in' button
   Then I see the 'Log out' link
 
-@with-admin-framework-manager-user
+@with-production-admin-framework-manager-user
 Scenario: Admin Framework Manager user can log in
   Given I visit the homepage
-  And I have an existing admin-framework-manager user
+  And I have a production admin-framework-manager user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
@@ -71,10 +71,10 @@ Scenario: Admin Framework Manager user can log in
   And I click the 'Log in' button
   Then I see the 'Log out' link
 
-@with-admin-manager-user
+@with-production-admin-manager-user
 Scenario: Admin Manager user can log in
   Given I visit the homepage
-  And I have an existing admin-manager user
+  And I have a production admin-manager user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field

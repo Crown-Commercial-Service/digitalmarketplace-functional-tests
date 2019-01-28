@@ -2,7 +2,7 @@
 Feature: Search by registered supplier name
 
 Scenario Outline: Correct users search for a supplier by registered name
-  Given I am logged in as the existing <role> user
+  Given I am logged in as the production <role> user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
     | registeredName | DM Functional Test Supplier - Search registered supplier name |

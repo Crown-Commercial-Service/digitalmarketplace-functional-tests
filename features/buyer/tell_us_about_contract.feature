@@ -2,7 +2,7 @@
 Feature: Direct Award flows
 
 Scenario: Unauthenticated user can save a search after logging in
-  Given I have an existing buyer user
+  Given I have a production buyer user
   And I visit the /g-cloud/search page
   And I click 'Save your search'
   Then I am on the 'Log in to the Digital Marketplace' page
