@@ -55,6 +55,7 @@ Scenario Outline: Correct users cannot view suppliers users
   Then I don't see the 'Users' link
 
   Examples:
-    | role                    |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
+    | role                      |
+    | admin-ccs-sourcing        |
+    | admin-manager             |
+    | admin-ccs-data-controller |

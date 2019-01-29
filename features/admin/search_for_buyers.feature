@@ -22,7 +22,8 @@ Scenario Outline: Correct users cannot search for buyers by brief id
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:
-    | role                    |
-    | admin-framework-manager |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
+    | role                      |
+    | admin-framework-manager   |
+    | admin-ccs-sourcing        |
+    | admin-manager             |
+    | admin-ccs-data-controller |

@@ -21,8 +21,9 @@ Scenario Outline: Correct users cannot access the invite admin user page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:
-    | role                    |
-    | admin-framework-manager |
-    | admin-ccs-sourcing      |
-    | admin-ccs-category      |
-    | admin                   |
+    | role                      |
+    | admin-framework-manager   |
+    | admin-ccs-sourcing        |
+    | admin-ccs-category        |
+    | admin                     |
+    | admin-ccs-data-controller |
