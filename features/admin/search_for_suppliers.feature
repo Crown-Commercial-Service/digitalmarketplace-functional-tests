@@ -22,7 +22,7 @@ Scenario Outline: Correct users search for a supplier by registered name
 
 @with-production-admin-ccs-data-controller-user
 Scenario: Admin data controller user can search for a supplier by registered name
-  Given I am logged in as the production admin-ccs-data-controller user
+  Given I am logged in as the existing admin-ccs-data-controller user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
     | registeredName | DM Functional Test Supplier - Search registered supplier name |
@@ -36,7 +36,7 @@ Scenario: Admin data controller user can search for a supplier by registered nam
 
 @search-supplier-duns @with-production-admin-ccs-data-controller-user
 Scenario: Admin data controller user can search for a supplier by DUNS number
-  Given I am logged in as the production admin-ccs-data-controller user
+  Given I am logged in as the existing admin-ccs-data-controller user
   And I have a random supplier from the API
   And I click the 'View and edit suppliers' link
   And I click the 'DUNS Number' link
@@ -47,7 +47,7 @@ Scenario: Admin data controller user can search for a supplier by DUNS number
 
 @search-supplier-company-number @with-production-admin-ccs-data-controller-user
 Scenario: Admin data controller user can search for a supplier by companies house number
-  Given I am logged in as the production admin-ccs-data-controller user
+  Given I am logged in as the existing admin-ccs-data-controller user
   And I have a supplier with:
     | name                 | DM Functional Test Supplier - Search companies house number feature |
     | companiesHouseNumber | 01234567                                                            |

@@ -85,7 +85,7 @@ Scenario: Admin Manager user can log in
 @with-production-admin-ccs-data-controller-user
 Scenario: Admin Manager user can log in
   Given I visit the homepage
-  And I have a production admin-ccs-data-controller user
+  And I have an existing admin-ccs-data-controller user
   When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
   When I enter that user.emailAddress in the 'Email address' field
