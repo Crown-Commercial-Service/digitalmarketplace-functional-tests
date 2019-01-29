@@ -5,7 +5,7 @@ Background:
   Given I have a published service on a live G-Cloud framework
 
 Scenario: Admin with Service Manager role can edit, remove and publish a service
-  Given I am logged in as the production admin-ccs-category user
+  Given I am logged in as the existing admin-ccs-category user
   And I am on the 'Admin' page
   When I click 'Edit suppliers and services'
   Then I am on the 'Edit suppliers and services' page
@@ -29,7 +29,7 @@ Scenario: Admin with Service Manager role can edit, remove and publish a service
 
 
 Scenario Outline: Admins with Framework Manager and Support roles can view, but neither edit, nor remove services
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   And I am on the 'Admin' page
   When I click '<link_name>'
   Then I am on the '<link_name>' page
@@ -45,7 +45,7 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
 
 
 Scenario Outline: Admins with Admin Manager and Auditor roles cannot access supplier services
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   And I visit the /admin/find-suppliers-and-services page
   Then I don't see 'Find a service by service ID' text on the page
 
