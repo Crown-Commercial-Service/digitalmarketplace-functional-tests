@@ -3,7 +3,7 @@ Feature: Invite a contributor to a supplier account
 
 @requires-credentials @notify
 Scenario Outline: Correct users can invite a contributors to a supplier account
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   And I have a supplier with:
     | name          | DM Functional Test Supplier - Invite a contributor feature |
   And I click the 'Edit supplier accounts or view services' link
@@ -18,7 +18,7 @@ Scenario Outline: Correct users can invite a contributors to a supplier account
     | admin                   |
 
 Scenario Outline: Prohibited user roles cannot manage supplier users
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
   Then I don't see the 'Users' link
 
@@ -28,7 +28,7 @@ Scenario Outline: Prohibited user roles cannot manage supplier users
     | admin-manager           |
 
 Scenario Outline: Prohibited user roles cannot invite users to a supplier
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
   And I click the summary table 'Users' link for 'DM Functional Test Supplier - Invite a contributor feature'
   Then I don't see the 'Send invitation' button

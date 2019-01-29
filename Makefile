@@ -1,36 +1,43 @@
 DM_ENVIRONMENT ?= local
 
+CONFIG := config/${DM_ENVIRONMENT}.sh
+
 smoke-tests: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
 smoulder-tests: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
 smoulder-tests-parallel: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "--strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec parallel_cucumber features/ -n 4 -o "--strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 run: setup lint
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
 rerun:
 	[ -s reports/rerun ] || (echo "rerun file is empty or does not exist"; exit 1)
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec cucumber --strict -p rerun
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict -p rerun
 
 run-parallel: setup
-	[ -f config/${DM_ENVIRONMENT}.sh ] && . config/${DM_ENVIRONMENT}.sh ; bundle exec parallel_cucumber features/ -n 4 -o "--strict -t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec parallel_cucumber features/ -n 4 -o "--strict -t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 build-report:
 	report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
 
-setup: install clean
-	@echo "Environment:" ${DM_ENVIRONMENT}
+setup: install config clean
 	mkdir -p reports/
 
 install:
 	bundle install --path .bundle --without development test
 
-config/local.sh:
-	cp config/example.sh config/local.sh
+.PHONY: config
+config:
+	@[ -z "$${DM_API_DOMAIN}" ] && ${MAKE} ${CONFIG} || true
+	@[ -f ${CONFIG} ] && echo 'Using config from ${CONFIG}' || echo 'Using config from envvars'
+	@echo "Environment:" ${DM_ENVIRONMENT}
+
+config/%.sh: config/%.example.sh
+	@[ -f ${CONFIG} ] || (echo "Copying example config" && cp $? $@)
 
 clean:
 	rm -rf reports/

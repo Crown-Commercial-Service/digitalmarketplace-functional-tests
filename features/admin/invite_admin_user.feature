@@ -3,7 +3,7 @@ Feature: Admin manager can manage users
 
 @requires-credentials @notify
 Scenario Outline: Admin Manager user can log in and invite admin users
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   And I click the 'View and edit admin accounts' link
   And I click the 'Invite user' link
   When I enter 'some-desired-admin@user.marketplace.team' in the 'Email address' field
@@ -16,7 +16,7 @@ Scenario Outline: Admin Manager user can log in and invite admin users
     | admin-manager |
 
 Scenario Outline: Correct users cannot access the invite admin user page
-  Given I am logged in as the production <role> user
+  Given I am logged in as the existing <role> user
   And I visit the /admin/admin-users/invite page
   Then I am on the 'You don’t have permission to perform this action' page
 
