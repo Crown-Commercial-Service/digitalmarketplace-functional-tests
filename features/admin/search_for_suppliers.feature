@@ -20,7 +20,7 @@ Scenario Outline: Correct users search for a supplier by registered name
     | admin-ccs-category        | Edit suppliers and services             |
 
 
-@with-production-admin-ccs-data-controller-user
+@search-supplier-name @with-admin-ccs-data-controller-user
 Scenario: Admin data controller user can search for a supplier by registered name
   Given I am logged in as the existing admin-ccs-data-controller user
   And I have a supplier with:
@@ -34,7 +34,7 @@ Scenario: Admin data controller user can search for a supplier by registered nam
     | DM Functional Test Supplier - Search supplier name feature | Users | Services |
 
 
-@search-supplier-duns @with-production-admin-ccs-data-controller-user
+@search-supplier-duns @with-admin-ccs-data-controller-user
 Scenario: Admin data controller user can search for a supplier by DUNS number
   Given I am logged in as the existing admin-ccs-data-controller user
   And I have a random supplier from the API
@@ -45,7 +45,7 @@ Scenario: Admin data controller user can search for a supplier by DUNS number
   And I see that supplier in the list of suppliers
 
 
-@search-supplier-company-number @with-production-admin-ccs-data-controller-user
+@search-supplier-company-number @with-admin-ccs-data-controller-user
 Scenario: Admin data controller user can search for a supplier by companies house number
   Given I am logged in as the existing admin-ccs-data-controller user
   And I have a supplier with:

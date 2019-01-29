@@ -82,7 +82,7 @@ Scenario: Admin Manager user can log in
   And I click the 'Log in' button
   Then I see the 'Log out' link
 
-@with-production-admin-ccs-data-controller-user
+@with-admin-ccs-data-controller-user
 Scenario: Admin Manager user can log in
   Given I visit the homepage
   And I have an existing admin-ccs-data-controller user
