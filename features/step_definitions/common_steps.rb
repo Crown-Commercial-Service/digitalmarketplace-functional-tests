@@ -347,7 +347,7 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
   end
 end
 
-Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
+Then /^I see #{MAYBE_VAR} in the '(.*)' summary table$/ do |content, table_heading|
   result_table_rows = get_table_rows_by_caption(table_heading)
   expect(result_table_rows.any? { |row| row.text.include?(content) }).to be true
 end
