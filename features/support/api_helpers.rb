@@ -300,7 +300,7 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
     when 'cloud-support'
       service_data['services'] = Fixtures.cloud_support_service
     else
-      puts 'Lot slug not recoginsed'
+      puts 'Lot slug not recognised'
   end
 
   # Set attributes not included in the fixture
