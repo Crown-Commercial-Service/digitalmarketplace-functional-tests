@@ -37,7 +37,7 @@ end
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
   organisation_size ||= %w[micro small medium large].sample
   update_supplier(@supplier["id"], 'organisationSize': organisation_size)
-  submit_supplier_declaration(@framework['slug'], @supplier["id"], 'status': 'complete', 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo.bar@example.com')
+  @declaration = submit_supplier_declaration(@framework['slug'], @supplier["id"], 'status': 'complete', 'nameOfOrganisation': 'foobarbaz', 'primaryContactEmail': 'foo.bar@example.com')
 end
 
 Given 'we accepted that suppliers application to the framework' do
@@ -50,4 +50,5 @@ end
 
 Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do |lot_slug, role_type|
   @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"], role_type)
+  puts "service id: #{@service['id']}"
 end
