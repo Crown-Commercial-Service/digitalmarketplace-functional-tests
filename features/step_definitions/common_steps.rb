@@ -433,8 +433,30 @@ And /^I wait for the page to reload/ do
   end
 end
 
-Then(/^I should get a download file of type '(.*)'$/) do |file_type|
-  expect(page.response_headers['Content-Disposition']).to match("attachment;filename=\\S*\\." + file_type)
+Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)? '(.*?)')?(?: (?:and|with) content.?type(?: of)? '(.*?)')?( in a new window)?$/) do |download_inline, ending, content_type, maybe_new_window|
+  if maybe_new_window
+    # beware - not all drivers *necessarily* keep the windows list in a defined order
+    target_window = windows.last
+    # any "new window" shouldn't be the current window
+    expect(target_window.current?).to be(false)
+    # if this is a just-opened window, it shouldn't have any history
+    within_window(target_window) do
+      expect(page.evaluate_script('window.history.length')).to eq(1)
+    end
+  else
+    target_window = current_window
+  end
+
+  within_window(target_window) do
+    disposition_parts = page.response_headers['Content-Disposition'].split(";")
+    expect(disposition_parts[0]).to eq(case download_inline when "download" then "attachment" else download_inline end)
+    if ending
+      expect(disposition_parts[1]).to match("^\s*filename=.*#{Regexp.escape(ending)}['\"]?\s*$")
+    end
+    if content_type
+      expect(page.response_headers['Content-Type']).to eq(content_type)
+    end
+  end
 end
 
 Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|

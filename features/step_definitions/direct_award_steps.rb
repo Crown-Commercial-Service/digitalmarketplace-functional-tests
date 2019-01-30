@@ -82,7 +82,7 @@ When (/^I have downloaded the search results as a file of type '(.*)'$/) do |fil
   else
     puts "The file type '#{file_type}' is not recognised"
   end
-  steps "And I should get a download file of type '#{file_type}'"
+  steps "And I should get a download file with filename ending '.#{file_type}'"
 end
 
 And (/^I see the '(.*)' instruction list item status showing as '(.*)'$/) do |list_item, status|
