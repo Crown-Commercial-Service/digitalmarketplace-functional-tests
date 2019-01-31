@@ -34,6 +34,7 @@ Scenario Outline: Prohibited user roles cannot invite users to a supplier
   Then I don't see the 'Send invitation' button
 
   Examples:
-    | role                    |
-    | admin-framework-manager |
-    | admin-ccs-category      |
+    | role                      |
+    | admin-framework-manager   |
+    | admin-ccs-category        |
+    | admin-ccs-data-controller |

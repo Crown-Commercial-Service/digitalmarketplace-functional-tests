@@ -23,11 +23,12 @@ Scenario Outline: Admin Manager user can log in and suspend admin users
     | DM Functional Test Manage Admin User <editing-role> | dm-functional-test-manage-admin-user-<editing-role>@digital.cabinet-office.gov.uk | <editing-role-name> | Active |
 
   Examples:
-    | role          | editing-role            | editing-role-name |
-    | admin-manager | admin-framework-manager | Manage framework  |
-    | admin-manager | admin                   | Support accounts  |
-    | admin-manager | admin-ccs-sourcing      | Audit framework   |
-    | admin-manager | admin-ccs-category      | Manage services   |
+    | role          | editing-role              | editing-role-name |
+    | admin-manager | admin-framework-manager   | Manage framework  |
+    | admin-manager | admin                     | Support accounts  |
+    | admin-manager | admin-ccs-sourcing        | Audit framework   |
+    | admin-manager | admin-ccs-category        | Manage services   |
+    | admin-manager | admin-ccs-data-controller | Manage data       |
 
 Scenario Outline: Correct users cannot access the manage admin users page
   Given I am logged in as the existing <role> user
@@ -36,8 +37,9 @@ Scenario Outline: Correct users cannot access the manage admin users page
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:
-    | role                    |
-    | admin-framework-manager |
-    | admin-ccs-sourcing      |
-    | admin-ccs-category      |
-    | admin                   |
+    | role                      |
+    | admin-framework-manager   |
+    | admin-ccs-sourcing        |
+    | admin-ccs-category        |
+    | admin                     |
+    | admin-ccs-data-controller |

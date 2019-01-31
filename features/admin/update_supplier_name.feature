@@ -32,7 +32,8 @@ Scenario Outline: Correct users cannot update the supplier name
   Then I don't see the 'Change name' link
 
   Examples:
-    | role                    |
-    | admin-framework-manager |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
+    | role                      |
+    | admin-framework-manager   |
+    | admin-ccs-sourcing        |
+    | admin-manager             |
+    | admin-ccs-data-controller |

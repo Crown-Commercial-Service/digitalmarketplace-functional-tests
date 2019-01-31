@@ -50,6 +50,7 @@ Scenario Outline: Admins with Admin Manager and Auditor roles cannot access supp
   Then I don't see 'Find a service by service ID' text on the page
 
   Examples:
-    | role                    |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
+    | role                      |
+    | admin-ccs-sourcing        |
+    | admin-manager             |
+    | admin-ccs-data-controller |

@@ -29,8 +29,9 @@ Scenario Outline: Correct users cannot access the add a buyer domain
   Then I am on the 'You don’t have permission to perform this action' page
 
   Examples:
-    | role                    |
-    | admin-framework-manager |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
-    | admin-ccs-category      |
+    | role                      |
+    | admin-framework-manager   |
+    | admin-ccs-sourcing        |
+    | admin-manager             |
+    | admin-ccs-category        |
+    | admin-ccs-data-controller |
