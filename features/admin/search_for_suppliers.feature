@@ -2,7 +2,7 @@
 Feature: Search by registered supplier name
 
 @search-supplier-name
-Scenario Outline: Correct users search for a supplier by registered name
+Scenario Outline: Scenario Outline name: Admin user can search for a supplier by registered name
   Given I am logged in as the existing <role> user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
@@ -11,27 +11,14 @@ Scenario Outline: Correct users search for a supplier by registered name
   And I enter 'Functional Test Supplier - Search registered' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
   Then I see an entry in the 'Suppliers' table with:
-    | Name                                                       | Change name | Users | Services |
-    | DM Functional Test Supplier - Search supplier name feature | Change name | Users | Services |
-
+    | Name                                                       | Users | Services |
+    | DM Functional Test Supplier - Search supplier name feature | Users | Services |
+  
   Examples:
     | role                      | link-name                               |
     | admin                     | Edit supplier accounts or view services |
     | admin-ccs-category        | Edit suppliers and services             |
-
-
-@search-supplier-name @with-admin-ccs-data-controller-user
-Scenario: Admin data controller user can search for a supplier by registered name
-  Given I am logged in as the existing admin-ccs-data-controller user
-  And I have a supplier with:
-    | name           | DM Functional Test Supplier - Search supplier name feature |
-    | registeredName | DM Functional Test Supplier - Search registered supplier name |
-  And I click the 'View and edit suppliers' link
-  And I enter 'Functional Test Supplier - Search registered' in the 'Find a supplier by name' field
-  And I click the 'find_supplier_by_name_search' button
-  Then I see an entry in the 'Suppliers' table with:
-    | Name                                                       | Users | Services |
-    | DM Functional Test Supplier - Search supplier name feature | Users | Services |
+    | admin-ccs-data-controller | View and edit suppliers                 |                     
 
 
 @search-supplier-duns @with-admin-ccs-data-controller-user
