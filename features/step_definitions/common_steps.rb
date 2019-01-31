@@ -2,12 +2,12 @@ require 'date'
 require 'securerandom'
 require 'uri'
 
-Given /^I visit the homepage$/ do
+Given /^I (?:re-?)?visit the homepage$/ do
   page.visit("#{dm_frontend_domain}")
   expect(page).to have_content("Digital Marketplace")
 end
 
-Given /^I visit the (.* )?(\/.*) page$/ do |app, url|
+Given /^I (?:re-?)?visit the (.* )?(\/.*) page$/ do |app, url|
   # If the app is set, then send the request using rest-client instead of capybara
   # and store the result in @response. Otherwise, poltergeist/phantomjs try to wrap
   # the response JSON in HTML.
@@ -239,12 +239,12 @@ Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   expect(breadcrumb.text).to eq(breadcrumb_text)
 end
 
-Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
+Then /^I (don't |)see (?:the|a) '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
   expect(page).to have_selector(:link_or_button, selector_text) if negative.empty?
   expect(page).not_to have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
-Then /^I wait to see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
+Then /^I wait to see (?:the|a) '(.*)' link with href '(.*)'$/ do |selector_text, href|
   find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']", wait: dm_custom_wait_time)
 end
 
