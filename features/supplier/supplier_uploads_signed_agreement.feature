@@ -36,7 +36,9 @@ Scenario: Supplier successfully uploads a signed agreement for a framework
   And I see the 'I have the authority to return' checkbox is not checked
   When I check the 'I have the authority to return' checkbox
   And I click the 'Return signed signature page' button
-  Then I see that framework.name in the page's h1
+  Then I receive a 'contract-review-agreement' email for that declaration.primaryContactEmail
+  And I receive a 'contract-review-agreement' email for that supplier_user.emailAddress
+  And I see that framework.name in the page's h1
   And I see the page's h1 ends in 'documents'
   And I see a success banner message containing 'Your framework agreement has been returned to the Crown Commercial Service to be countersigned'
   And I see an entry in the 'Agreement details' table with:
