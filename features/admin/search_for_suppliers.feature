@@ -56,5 +56,5 @@ Scenario: Admin data controller user can search for a supplier by companies hous
   When I enter '01234567' in the 'Find a supplier by company registration number' field
   And I click the 'find_supplier_by_company_registration_number_search' button
   Then I see an entry in the 'Suppliers' table with:
-    | Name                                                                     | Users | Services |
-    | DM Functional Test Supplier - Search company registration number feature | Users | Services |
+    | Name                                                                | Users | Services |
+    | DM Functional Test Supplier - Search companies house number feature | Users | Services |
