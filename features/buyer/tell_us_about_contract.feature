@@ -85,20 +85,22 @@ Scenario: User exports results
   When I click the 'Return to your task list' link
   Then I see the 'Export your results' instruction list item status showing as 'Completed'
 
+@file-download
 Scenario: User download results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
   And I have exported my results for the 'my cloud project' saved search
   Then I am on the 'Download your results' page
   When I click the 'Download search results as a spreadsheet' link
-  Then I should get a download file of type 'ods'
+  Then I should get a download file with filename ending '.ods' and content type 'application/vnd.oasis.opendocument.spreadsheet'
   When I click the 'Return to your task list' link
   Then I am on the 'my cloud project' page
   When I click the 'Download your results' link
   Then I am on the 'Download your results' page
   When I click the 'Download search results as comma-separated values' link
-  Then I should get a download file of type 'csv'
+  Then I should get a download file with filename ending '.csv' and content type 'text/csv; header=present; charset=utf-8'
 
+@file-download
 Scenario: User downloads results - via the saved searches dashboard
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
@@ -106,7 +108,7 @@ Scenario: User downloads results - via the saved searches dashboard
   And I click the 'Download results' link
   Then I am on the 'Download your results' page
   When I click the 'Download search results as a spreadsheet' link
-  Then I should get a download file of type 'ods'
+  Then I should get a download file with filename ending '.ods' and content type 'application/vnd.oasis.opendocument.spreadsheet'
 
 Scenario: User confirms understanding how to assess services
   Given I am logged in as a buyer user
@@ -147,6 +149,7 @@ Scenario: User does not award contract as there are no suitable services
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'No suitable services found'
 
+@file-download
 Scenario: User is still assessing services - via the saved searches dashboard
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search

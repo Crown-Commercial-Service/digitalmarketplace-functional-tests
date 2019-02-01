@@ -2,12 +2,12 @@ require 'date'
 require 'securerandom'
 require 'uri'
 
-Given /^I visit the homepage$/ do
+Given /^I (?:re-?)?visit the homepage$/ do
   page.visit("#{dm_frontend_domain}")
   expect(page).to have_content("Digital Marketplace")
 end
 
-Given /^I visit the (.* )?(\/.*) page$/ do |app, url|
+Given /^I (?:re-?)?visit the (.* )?(\/.*) page$/ do |app, url|
   # If the app is set, then send the request using rest-client instead of capybara
   # and store the result in @response. Otherwise, poltergeist/phantomjs try to wrap
   # the response JSON in HTML.
@@ -129,11 +129,15 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
-When /I click a link with text #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |link_text, element|
+When /I click a link with text( containing)? #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |maybe_containing, link_text, element|
   expect(element).not_to be_a(String), "It's not yet decided what a plain String should mean in this context"
 
   region = element || page
-  found_links = region.all(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]")
+  if maybe_containing
+    found_links = region.all(:xpath, "//a[contains(normalize-space(string()), normalize-space(#{escape_xpath(link_text)}))]")
+  else
+    found_links = region.all(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]")
+  end
   if found_links.length > 1
     puts "Warning: #{found_links.length} '#{link_text}' links found"
   end
@@ -239,12 +243,12 @@ Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
   expect(breadcrumb.text).to eq(breadcrumb_text)
 end
 
-Then /^I (don't |)see the '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
+Then /^I (don't |)see (?:the|a) '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
   expect(page).to have_selector(:link_or_button, selector_text) if negative.empty?
   expect(page).not_to have_selector(:link_or_button, selector_text) unless negative.empty?
 end
 
-Then /^I wait to see the '(.*)' link with href '(.*)'$/ do |selector_text, href|
+Then /^I wait to see (?:the|a) '(.*)' link with href '(.*)'$/ do |selector_text, href|
   find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']", wait: dm_custom_wait_time)
 end
 
@@ -347,7 +351,7 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
   end
 end
 
-Then /^I see '(.*)' in the '(.*)' summary table$/ do |content, table_heading|
+Then /^I see #{MAYBE_VAR} in the '(.*)' summary table$/ do |content, table_heading|
   result_table_rows = get_table_rows_by_caption(table_heading)
   expect(result_table_rows.any? { |row| row.text.include?(content) }).to be true
 end
@@ -433,8 +437,30 @@ And /^I wait for the page to reload/ do
   end
 end
 
-Then(/^I should get a download file of type '(.*)'$/) do |file_type|
-  expect(page.response_headers['Content-Disposition']).to match("attachment;filename=\\S*\\." + file_type)
+Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)? '(.*?)')?(?: (?:and|with) content.?type(?: of)? '(.*?)')?( in a new window)?$/) do |download_inline, ending, content_type, maybe_new_window|
+  if maybe_new_window
+    # beware - not all drivers *necessarily* keep the windows list in a defined order
+    target_window = windows.last
+    # any "new window" shouldn't be the current window
+    expect(target_window.current?).to be(false)
+    # if this is a just-opened window, it shouldn't have any history
+    within_window(target_window) do
+      expect(page.evaluate_script('window.history.length')).to eq(1)
+    end
+  else
+    target_window = current_window
+  end
+
+  within_window(target_window) do
+    disposition_parts = page.response_headers['Content-Disposition'].split(";")
+    expect(disposition_parts[0]).to eq(case download_inline when "download" then "attachment" else download_inline end)
+    if ending
+      expect(disposition_parts[1]).to match("^\s*filename=.*#{Regexp.escape(ending)}['\"]?\s*$")
+    end
+    if content_type
+      expect(page.response_headers['Content-Type']).to eq(content_type)
+    end
+  end
 end
 
 Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|

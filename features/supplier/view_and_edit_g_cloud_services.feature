@@ -6,8 +6,8 @@ Background:
   And I have a supplier user
   And that supplier is logged in
   And that supplier has applied to be on that framework
-  And we accept that suppliers application to the framework
-  And that supplier returns a signed framework agreement for the framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the cloud-support lot
   When I visit the /suppliers page
   # The following step only works by virtue of there only being a single service for this supplier - multiple services on
