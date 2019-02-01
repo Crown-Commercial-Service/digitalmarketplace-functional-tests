@@ -129,11 +129,15 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
-When /I click a link with text #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |link_text, element|
+When /I click a link with text( containing)? #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |maybe_containing, link_text, element|
   expect(element).not_to be_a(String), "It's not yet decided what a plain String should mean in this context"
 
   region = element || page
-  found_links = region.all(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]")
+  if maybe_containing
+    found_links = region.all(:xpath, "//a[contains(normalize-space(string()), normalize-space(#{escape_xpath(link_text)}))]")
+  else
+    found_links = region.all(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]")
+  end
   if found_links.length > 1
     puts "Warning: #{found_links.length} '#{link_text}' links found"
   end
