@@ -15,7 +15,7 @@ Scenario Outline: Admin ccs-data-controller user can search for a supplier by re
     | DM Functional Test Supplier - Search supplier name feature | Users | Services |                   
 
 @search-supplier-name
-Scenario Outline: Scenario Outline name: Admin user can search for a supplier by registered name
+Scenario Outline: Admin user can search for a supplier by registered name
   Given I am logged in as the existing <role> user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
