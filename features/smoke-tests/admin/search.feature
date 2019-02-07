@@ -4,7 +4,7 @@ Feature: Admin users can search for objects
 @with-admin-user
 Scenario: Admin can find a supplier by name
   Given I am logged in as the existing admin user
-  And I visit the /admin/search page
+  And I visit the /admin/find-suppliers-and-services page
   And I have a random supplier from the API
   When I enter that supplier.name in the 'Find a supplier by name' field and click its associated 'Search' button
   Then I am on the 'Suppliers' page
@@ -13,9 +13,8 @@ Scenario: Admin can find a supplier by name
 @with-admin-user
 Scenario: Admin can find a supplier by DUNS number
   Given I am logged in as the existing admin user
-  And I visit the /admin/search page
+  And I visit the /admin/find-suppliers-and-services page
   And I have a random supplier from the API
-  And I click the 'DUNS Number' link
   When I enter that supplier.dunsNumber in the 'Find a supplier by DUNS number' field and click its associated 'Search' button
   Then I am on the 'Suppliers' page
   And I see the number of suppliers listed is 1
