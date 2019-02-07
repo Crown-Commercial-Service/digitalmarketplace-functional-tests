@@ -9,6 +9,7 @@ Scenario: Admin with Service Manager role can edit, remove and publish a service
   And I am on the 'Admin' page
   When I click 'Edit suppliers and services'
   Then I am on the 'Edit suppliers and services' page
+  And I click the 'Service ID' link
   When I enter that service id in the 'service_id' field and click its associated 'Search' button
   Then I am on that service's page
 
@@ -33,6 +34,7 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
   And I am on the 'Admin' page
   When I click '<link_name>'
   Then I am on the '<link_name>' page
+  And I click the 'Service ID' link
   When I enter that service id in the 'service_id' field and click its associated 'Search' button
   Then I am on that service's page
   And I don't see the 'Edit' link
@@ -46,8 +48,8 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
 
 Scenario Outline: Admins with Admin Manager and Auditor roles cannot access supplier services
   Given I am logged in as the existing <role> user
-  And I visit the /admin/find-suppliers-and-services page
-  Then I don't see 'Find a service by service ID' text on the page
+  And I visit the /admin/search page
+  Then I don't see 'Service ID' text on the page
 
   Examples:
     | role                      |
