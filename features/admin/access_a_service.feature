@@ -4,6 +4,7 @@ Feature: Admins viewing, editing, removing and publishing supplier services
 Background:
   Given I have a published service on a live G-Cloud framework
 
+@skip-preview
 Scenario: Admin with Service Manager role can edit, remove and publish a service
   Given I am logged in as the existing admin-ccs-category user
   And I am on the 'Admin' page
@@ -28,6 +29,7 @@ Scenario: Admin with Service Manager role can edit, remove and publish a service
   Then I see a success banner message containing 'You published ‘Plant-based cloud hosting’.'
 
 
+@skip-preview
 Scenario Outline: Admins with Framework Manager and Support roles can view, but neither edit, nor remove services
   Given I am logged in as the existing <role> user
   And I am on the 'Admin' page
@@ -44,6 +46,7 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
     | admin                   | Edit supplier accounts or view services   |
 
 
+@skip-preview
 Scenario Outline: Admins with Admin Manager and Auditor roles cannot access supplier services
   Given I am logged in as the existing <role> user
   And I visit the /admin/find-suppliers-and-services page

@@ -1,7 +1,7 @@
 @smoke-tests
 Feature: Admin users can search for objects
 
-@with-admin-user
+@with-admin-user @skip-preview @skip-local
 Scenario: Admin can find a supplier by name
   Given I am logged in as the existing admin user
   And I visit the /admin/find-suppliers-and-services page
@@ -10,7 +10,7 @@ Scenario: Admin can find a supplier by name
   Then I am on the 'Suppliers' page
   And I see that supplier in the list of suppliers
 
-@with-admin-user
+@with-admin-user @skip-preview @skip-local
 Scenario: Admin can find a supplier by DUNS number
   Given I am logged in as the existing admin user
   And I visit the /admin/find-suppliers-and-services page
