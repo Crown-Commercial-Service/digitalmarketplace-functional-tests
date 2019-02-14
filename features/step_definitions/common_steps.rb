@@ -20,6 +20,14 @@ Given /^I (?:re-?)?visit the (.* )?(\/.*) page$/ do |app, url|
   end
 end
 
+Given /^the response (?:(header ))?(.*) should be (.*)$/ do |header, attribute, value|
+  if header
+    expect(@response.headers[attribute.to_sym].to_s).to eq(value)
+  else
+    expect(@response.send(attribute).to_s).to eq(value)
+  end
+end
+
 Given /^I have the latest live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
