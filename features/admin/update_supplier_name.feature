@@ -28,11 +28,12 @@ Scenario Outline: Correct users can edit a supplier name
     | DM Functional Test Supplier - Update supplier name feature | Users | Services |
 
   Examples:
-    | role                    | link-name                               |
-    | admin                   | Edit supplier accounts or view services |
-    | admin-ccs-category      | Edit suppliers and services             |
+    | role                      | link-name                               |
+    | admin                     | Edit supplier accounts or view services |
+    | admin-ccs-category        | Edit suppliers and services             |
+    | admin-ccs-data-controller | View and edit suppliers                 |
 
-Scenario Outline: Correct users cannot update the supplier name
+Scenario Outline: Admin framework manager user can view but not update the supplier name
   Given I am logged in as the existing <role> user
   When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Update+supplier+name+feature page
   When I click the 'DM Functional Test Supplier - Update supplier name feature' link
@@ -42,6 +43,3 @@ Scenario Outline: Correct users cannot update the supplier name
   Examples:
     | role                      |
     | admin-framework-manager   |
-    | admin-ccs-sourcing        |
-    | admin-manager             |
-    | admin-ccs-data-controller |
