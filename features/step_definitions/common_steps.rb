@@ -355,7 +355,11 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
   table.rows.each_with_index do |row, index|
     result_items = result_table_rows[index].all('td')
     expect(result_items[0].text).to eq(row[0])
-    expect(result_items[1].text).to eq(row[1])
+    # Skip anything with '<ANY>'
+    if row[1] != '<ANY>'
+      # Concatenate any multi-line strings
+      expect(result_items[1].text.split.join(' ')).to eq(row[1])
+    end
   end
 end
 
