@@ -324,6 +324,16 @@ When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name,
   edit_link.click
 end
 
+When /I click the summary table '(.*)' (link|button) for the '(.*)' link$/ do |link_name, elem_type, field_to_edit|
+  case elem_type
+    when 'link'
+      edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//a[contains(normalize-space(text()), '#{link_name}')]")
+    else
+      edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//input[normalize-space(@value) = '#{link_name}']")
+  end
+  edit_link.click
+end
+
 When /I click a summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
   case elem_type
     when 'link'

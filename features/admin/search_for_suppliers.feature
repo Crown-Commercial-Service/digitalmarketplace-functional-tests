@@ -11,8 +11,8 @@ Scenario Outline: Correct users search for a supplier by registered name
   And I enter 'Functional Test Supplier - Search registered' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
   Then I see an entry in the 'Suppliers' table with:
-    | Name                                                       | Change name | Users | Services |
-    | DM Functional Test Supplier - Search supplier name feature | Change name | Users | Services |
+    | Name                                                       | Users | Services |
+    | DM Functional Test Supplier - Search supplier name feature | Users | Services |
 
   Examples:
     | role                      | link-name                               |
