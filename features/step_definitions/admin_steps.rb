@@ -16,7 +16,7 @@ Then (/^I see the number of suppliers listed is (\d+)$/) do |supplier_count|
   expect(
     page.all(
       :xpath,
-      "//*[@class='summary-item-row'][.//*[@class='summary-item-field-first']]"
+      "//*[@class='summary-item-row'][.//*[@class='summary-item-field-first-half']]"
     ).length
   ).to eq(supplier_count.to_i)
 end
