@@ -14,18 +14,12 @@ Scenario Outline: Correct users can edit a supplier name
   Then I am on the 'Change supplier name' page
   When I enter 'DM Functional Test Supplier - Update supplier name feature - Changed Name' in the 'New name' field
   And I click the 'Save' button
-  Then I see an entry in the 'Suppliers' table with:
-    | Name                                                                      | Users | Services |
-    | DM Functional Test Supplier - Update supplier name feature - Changed Name | Users | Services |
-  When I click the 'DM Functional Test Supplier - Update supplier name feature - Changed Name' link
   Then I am on the 'DM Functional Test Supplier - Update supplier name feature - Changed Name' page
   When I click the 'Edit supplier name' link
   Then I am on the 'Change supplier name' page
   And I enter 'DM Functional Test Supplier - Update supplier name feature' in the 'New name' field
   And I click the 'Save' button
-  Then I see an entry in the 'Suppliers' table with:
-    | Name                                                       | Users | Services |
-    | DM Functional Test Supplier - Update supplier name feature | Users | Services |
+  Then I am on the 'DM Functional Test Supplier - Update supplier name feature' page
 
   Examples:
     | role                      | link-name                               |
