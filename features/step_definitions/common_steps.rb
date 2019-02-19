@@ -38,7 +38,7 @@ Given /^I have the latest live (.*) framework(?: with the (.*) lot)?$/ do |metaf
   end
   expect(frameworks).not_to be_empty, _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
   @framework = frameworks.sort_by! { |framework| framework[:id] }.reverse![0]
-  puts @framework['slug']
+  puts "Framework: #{@framework['slug']}"
 end
 
 Given /^I have a random g-cloud service from the API$/ do

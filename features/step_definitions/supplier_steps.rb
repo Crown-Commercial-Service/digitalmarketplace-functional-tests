@@ -20,17 +20,20 @@ Given 'There is at most one framework that can be applied to' do
   end
 end
 
-Given 'there is a framework that is open for applications' do
+Given /^there is a framework that is open for applications(?: with clarification questions (open|closed))?$/ do |cq_open_closed|
   response = call_api(:get, "/frameworks")
   expect(response.code).to be(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
   frameworks.delete_if { |framework| not ['open'].include?(framework['status']) }
+  if cq_open_closed
+    frameworks.delete_if { |framework| (cq_open_closed == 'open') != framework['clarificationQuestionsOpen'] }
+  end
   if frameworks.empty?
-    puts 'SKIPPING as there are no open frameworks'
+    puts "SKIPPING as there are no open frameworks#{if cq_open_closed then " with clarification questions #{cq_open_closed}" end}"
     skip_this_scenario
   else
     @framework = frameworks[0]
-    puts "Applying to framework '#{@framework['name']}'"
+    puts "Framework: '#{@framework['slug']}'"
   end
 end
 
