@@ -59,3 +59,7 @@ end
 And(/^I fill in all the missing details$/) do
   answer_all_service_questions "Answer required"
 end
+
+Given /^that supplier has confirmed their company details for that application$/ do
+  confirm_company_details_for_framework(@framework['slug'], @supplier['id'])
+end
