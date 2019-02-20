@@ -18,13 +18,18 @@ Then /^I receive a notification regarding that file within ([0-9]+) minutes?$/ d
   etag = @s3_obj_response.etag.downcase.gsub(/[^a-z0-9]/, '')
   minutes = minutes_string.to_i
 
+  expected_ref = "eicar-found-#{etag}-#{dm_environment}"
+  puts "Notify ref: #{expected_ref}"
+
   messages = nil
   (0..(minutes * 6)).each {
     sleep(10)
-    messages = DMNotify.get_email_raw("eicar-found-#{etag}-#{dm_environment}")
+    messages = DMNotify.get_email_raw(expected_ref)
     if messages.collection.length != 0
       break
     end
   }
   expect(messages.collection.length).to eq(1)
+  @email = messages.collection[0]
+  puts "Notify id: #{@email.id}"
 end

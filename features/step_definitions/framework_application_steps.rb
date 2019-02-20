@@ -59,3 +59,32 @@ end
 And(/^I fill in all the missing details$/) do
   answer_all_service_questions "Answer required"
 end
+
+Given /^that supplier has confirmed their company details for that application$/ do
+  confirm_company_details_for_framework(@framework['slug'], @supplier['id'])
+end
+
+Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? email regarding that question for #{MAYBE_VAR}$/ do |negate, question_type, maybe_confirmation, target_address|
+  ref_prefix = (
+    case question_type
+    when 'follow-up'
+      expect(maybe_confirmation).to be_nil  # no such thing as a follow up confirmation
+      'fw-follow-up-question'
+    else
+      if maybe_confirmation
+        'fw-clarification-question-confirm'
+      else
+        'fw-clarification-question'
+      end
+    end
+  )
+  expected_ref = "#{ref_prefix}-#{DMNotify.hash_string(@fields['clarification_question'].strip)}-#{DMNotify.hash_string(target_address)}"
+  puts "Notify ref: #{expected_ref}"
+
+  messages = DMNotify.get_email_raw(expected_ref)
+  expect(messages.collection.length).to (negate ? eq(0) : be > 0)
+  if not negate
+    @email = messages.collection[0]
+    puts "Notify id: #{@email.id}"
+  end
+end

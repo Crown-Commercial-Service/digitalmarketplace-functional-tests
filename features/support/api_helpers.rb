@@ -98,7 +98,15 @@ def set_supplier_on_framework(framework_slug, supplier_id, status)
     frameworkInterest: { onFramework: status },
     updated_by: "functional tests",
   })
-  expect(response.code).to eq(200), _error(response, "Failed to update agreement status #{supplier_id} #{framework_slug}")
+  expect(response.code).to eq(200), _error(response, "Failed to update supplier_framework status #{supplier_id} #{framework_slug}")
+end
+
+def confirm_company_details_for_framework(framework_slug, supplier_id)
+  response = call_api(:post, "/suppliers/#{supplier_id}/frameworks/#{framework_slug}", payload: {
+    frameworkInterest: { applicationCompanyDetailsConfirmed: true },
+    updated_by: "functional tests",
+  })
+  expect(response.code).to eq(200), _error(response, "Failed to confirm supplier's company details for framework #{supplier_id} #{framework_slug}")
 end
 
 def register_interest_in_framework(framework_slug, supplier_id)
