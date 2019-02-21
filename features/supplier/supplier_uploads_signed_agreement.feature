@@ -20,7 +20,7 @@ Scenario: Supplier successfully uploads a signed agreement for a framework
   # is tricky to set up as it currently requires switching framework states to achieve
   When I click the 'Return your signed signature page' button
   Then I see 'Details of the person' in the page's h1
-  And I see the page's h1 ends in that declaration.nameOfOrganisation
+  And I see the page's h1 ends in that declaration.supplierRegisteredName
   When I enter 'Mr Cornelius Kelleher' in the 'Full name' field
   And I enter 'Manager' in the 'Role at the company' field
   And I click the 'Save and continue' button
@@ -28,7 +28,7 @@ Scenario: Supplier successfully uploads a signed agreement for a framework
   When I choose file 'test.pdf' for the field 'signature_page'
   And I click the 'Save and continue' button
   Then I see 'Check the details' in the page's h1
-  And I see the page's h1 ends in that declaration.nameOfOrganisation
+  And I see the page's h1 ends in that declaration.supplierRegisteredName
   And I see the 'Supplier information' summary table filled with:
     |field            |value                        |
     |Person who signed|Mr Cornelius Kelleher Manager|
