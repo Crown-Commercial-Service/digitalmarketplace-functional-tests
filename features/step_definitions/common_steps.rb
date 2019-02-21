@@ -324,6 +324,16 @@ When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name,
   edit_link.click
 end
 
+When /I click the summary table '(.*)' (link|button) for the '(.*)' link$/ do |link_name, elem_type, field_to_edit|
+  case elem_type
+    when 'link'
+      edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//a[contains(normalize-space(text()), '#{link_name}')]")
+    else
+      edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//input[normalize-space(@value) = '#{link_name}']")
+  end
+  edit_link.click
+end
+
 When /I click a summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
   case elem_type
     when 'link'
@@ -355,7 +365,11 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
   table.rows.each_with_index do |row, index|
     result_items = result_table_rows[index].all('td')
     expect(result_items[0].text).to eq(row[0])
-    expect(result_items[1].text).to eq(row[1])
+    # Skip anything with '<ANY>'
+    if row[1] != '<ANY>'
+      # Concatenate any multi-line strings
+      expect(result_items[1].text.split.join(' ')).to eq(row[1])
+    end
   end
 end
 
