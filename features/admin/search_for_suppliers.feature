@@ -54,7 +54,7 @@ Scenario: Admin data controller user can search for a supplier by registered nam
     | DM Functional Test Supplier - Search supplier name feature | Users | Services |
 
 
-@search-supplier-duns @with-admin-ccs-data-controller-user
+@search-supplier-duns @with-admin-ccs-data-controller-user @skip-staging
 Scenario: Admin data controller user can search for a supplier by DUNS number
   Given I am logged in as the existing admin-ccs-data-controller user
   And I have a random supplier from the API
