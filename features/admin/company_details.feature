@@ -1,4 +1,4 @@
-@admin @company-details @skip-staging
+@admin @company-details
 Feature: Company details page
 
 Background:
