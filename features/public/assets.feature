@@ -1,4 +1,4 @@
-@assets @skip @skip-local
+@assets @skip-local
 Feature: Favicon.ico should return a blank, transparent gif on assets. domain
 
 Scenario: Request favicon from assets domain
