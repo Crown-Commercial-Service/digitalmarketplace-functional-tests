@@ -253,7 +253,7 @@ module FormHelper
   end
 
   def pass_document_upload_validation
-    document_questions = find_elements_by_xpath("//input[@class='file-upload-input']")
+    document_questions = find_elements_by_xpath("//div[not(contains(@style, 'display:none'))]//input[@class='file-upload-input']")
     if document_questions.length > 0
       document_questions.each do |question|
         attach_file(question["name"], File.join(Dir.pwd, 'fixtures', 'test.pdf'))
