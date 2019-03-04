@@ -254,7 +254,15 @@ module FormHelper
 
   def pass_document_upload_validation
     document_questions = find_elements_by_xpath("//input[@class='file-upload-input']")
-    if document_questions.length > 0
+    if document_questions.length > 1
+      # Hack for file upload followup questions that are only shown after answering the appropriate
+      # Yes/No parent question
+      # TODO: make this less awful?
+      document_questions.first do |question|
+        attach_file(question["name"], File.join(Dir.pwd, 'fixtures', 'test.pdf'))
+      end
+      return true
+    elsif document_questions.length == 1
       document_questions.each do |question|
         attach_file(question["name"], File.join(Dir.pwd, 'fixtures', 'test.pdf'))
       end
