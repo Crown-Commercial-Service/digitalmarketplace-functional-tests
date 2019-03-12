@@ -23,7 +23,7 @@ else
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(
-      app, timeout: 180, phantomjs_logger: File.open(File::NULL, "w"), phantomjs_options: [])
+      app, timeout: 180, phantomjs_logger: File.open(File::NULL, "w"), phantomjs_options: ["--ssl-protocol=tlsv1.2"])
   end
 end
 
