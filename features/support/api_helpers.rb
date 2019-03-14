@@ -364,7 +364,15 @@ def create_user(user_role, custom_user_data = {})
 
   response = call_api(:post, "/users", payload: { users: user_data, updated_by: 'functional_tests' })
   expect(response.code).to eq(201), response.body
+
   @user = JSON.parse(response.body)["users"]
+
+  if (custom_user_data['active'] || '').casecmp("false").zero?
+    # this can't be specified at creation time so we need to follow up with an update to the user
+    response = call_api(:post, "/users/#{@user['id']}", payload: { users: { 'active': false }, updated_by: 'functional_tests' })
+    expect(response.code).to eq(200), response.body
+    @user = JSON.parse(response.body)["users"]
+  end
   @user['password'] = password
   puts "Email address: #{@user['emailAddress']}"
   @user
