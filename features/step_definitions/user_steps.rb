@@ -14,15 +14,25 @@ Given /^I have (?:an|the) existing ([a-z-]+) user$/ do |user_role|
   puts "Email address: #{@user['emailAddress']}"
 end
 
-Given /^I am logged in as (a|the existing) ([\w\-]+) user$/ do |existing, user_role|
-  login_page = '/user/login'
+Then /^I(?: can)? log ?in as #{MAYBE_VAR}$/ do |specified_user|
+  expect(specified_user).not_to be_a(String), "It's not yet decided what a plain String should mean in this context"
+
+  @loginas_user = specified_user
   steps %{
-    Given I have #{existing} #{user_role} user
-    And I visit the #{login_page} page
-    When I enter that user.emailAddress in the 'Email address' field
-    And I enter that user.password in the 'Password' field
+    Given I visit the /user/login page
+    Then I am on the 'Log in to the Digital Marketplace' page
+    When I enter that loginas_user.emailAddress in the 'Email address' field
+    And I enter that loginas_user.password in the 'Password' field
     And I click the 'Log in' button
     Then I see the 'Log out' button
+  }
+  @loginas_user = nil
+end
+
+Given /^I am logged in as (a|the existing) ([\w\-]+) user$/ do |existing, user_role|
+  steps %{
+    Given I have #{existing} #{user_role} user
+    And I log in as that user
   }
 end
 
@@ -58,14 +68,8 @@ Given /^that supplier has a user with:$/ do |table|
 end
 
 Given /^that (supplier|buyer) is logged in$/ do |user_role|
-  user = user_role == 'supplier' ? @supplier_user : @buyer_user
-
   steps %{
-    And I visit the /user/login page
-    When I enter '#{user['emailAddress']}' in the 'Email address' field
-    And I enter '#{user['password']}' in the 'Password' field
-    And I click the 'Log in' button
-    Then I see the 'Log out' button
+    And I log in as that #{user_role}_user
   }
 end
 
@@ -73,7 +77,7 @@ When /^the wrong password is entered (\d+) times for that user$/ do |tries|
   tries.to_i.times do |n|
     steps %{
       Given I visit the /user/login page
-      When I enter '#{@user['emailAddress']}' in the 'Email address' field
+      When I enter that user.emailAddress in the 'Email address' field
       And I enter 'the_wrong_password' in the 'Password' field
       And I click the 'Log in' button
     }
@@ -83,8 +87,8 @@ end
 Then /^that user can not log in using their correct password$/ do
   steps %{
     Given I visit the /user/login page
-    When I enter '#{@user['emailAddress']}' in the 'Email address' field
-    And I enter '#{@user['password']}' in the 'Password' field
+    When I enter that user.emailAddress in the 'Email address' field
+    And I enter that user.emailAddress in the 'Password' field
     And I click the 'Log in' button
     Then I see a destructive banner message containing 'Accounts are locked'
     And I don't see the 'Log out' button
