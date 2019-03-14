@@ -204,7 +204,7 @@ Scenario: Supplier user can add and remove contributors
   And I don't see 'that user.emailAddress' text on the page
 
   Given I click 'Log out'
-  Then That user can not log in using their correct password
+  Then that user can not log in using their correct password
   # TODO: And the user is shown as 'not active' on the admin users page
 
 Scenario: New users should have a link to join the use research mailing list
