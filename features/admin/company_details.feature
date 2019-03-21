@@ -49,7 +49,7 @@ Scenario Outline: Correct admin roles can view a supplier's details
     | admin-ccs-data-controller | View and edit suppliers                 | Search for suppliers                    |
 
 
-@with-admin-ccs-data-controller-user
+@with-admin-ccs-data-controller-user @skip-staging
 Scenario: Admin CCS Data Controller can edit a supplier's details
   Given I am logged in as the existing admin-ccs-data-controller user
   And I am on the 'Admin' page
