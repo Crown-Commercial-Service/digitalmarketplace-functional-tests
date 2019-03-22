@@ -222,6 +222,14 @@ When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)'
   end
 end
 
+When /^I enter #{MAYBE_VAR} in the '(.*)' field and click the selected autocomplete option?$/ do |value, field_name|
+  field_element = page.find_field field_name
+  field_element.set value
+  # Find the sibling <ul>'s focused autocomplete <li> and click it
+  focused_dropdown_item = field_element.find(:xpath, "following-sibling::ul[contains(@class, 'autocomplete__menu')]/li[contains(@class, 'autocomplete__option--focused')]")
+  focused_dropdown_item.click
+end
+
 When(/^I choose a random uppercase letter$/) do
   @letter = ('A'..'Z').to_a.sample
   puts "letter: #{@letter}"
