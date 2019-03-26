@@ -382,11 +382,12 @@ def get_or_create_supplier(custom_supplier_data)
   if custom_supplier_data["id"] != nil
     response = call_api(:get, "/suppliers/#{custom_supplier_data['id']}")
     @supplier = JSON.parse(response.body)["suppliers"]
-    return @supplier
+    return @supplier if @supplier
   end
   if custom_supplier_data["name"] != nil
     response = call_api(:get, '/suppliers', params: { prefix: custom_supplier_data['name'] })
     @supplier = JSON.parse(response.body)['suppliers'][0]
+    return @supplier if @supplier
   end
   if custom_supplier_data["registeredName"] != nil
     registered_name = custom_supplier_data["registeredName"]
