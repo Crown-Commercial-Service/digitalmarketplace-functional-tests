@@ -31,12 +31,12 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
 
   When I click the summary table 'Change' link for 'Company registered name'
   Then I am on the 'Update registered company name for ‘DM Functional Test Supplier - Edit company details feature’' page
-  When I enter 'DM Functional Edited Ltd.' in the 'Registered company name' field and click its associated 'Save' button
+  When I enter 'We Have Edited These Company Details Ltd.' in the 'Registered company name' field and click its associated 'Save' button
   Then I am on the 'DM Functional Test Supplier - Edit company details feature' page
   And I see a success banner message containing 'The details for ‘DM Functional Test Supplier - Edit company details feature’ have been updated.'
   And I see the 'Company details for G-Cloud 10' summary table filled with:
     | field                        | value                                           |
-    | Company registered name      | DM Functional Edited Ltd.                       |
+    | Company registered name      | We Have Edited These Company Details Ltd.       |
     | Company registration number  | 87654321                                        |
     | DUNS Number                  | <ANY>                                           |
     | Address                      | 10 Downing Street London AB1 2CD United Kingdom |
@@ -48,7 +48,7 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
   And I see a success banner message containing 'The details for ‘DM Functional Test Supplier - Edit company details feature’ have been updated.'
   And I see the 'Company details for G-Cloud 10' summary table filled with:
     | field                        | value                                           |
-    | Company registered name      | DM Functional Edited Ltd.                       |
+    | Company registered name      | We Have Edited These Company Details Ltd.       |
     | Company registration number  | 12345678                                        |
     | DUNS Number                  | <ANY>                                           |
     | Address                      | 10 Downing Street London AB1 2CD United Kingdom |
@@ -69,14 +69,14 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
   And I see a success banner message containing 'The details for ‘DM Functional Test Supplier - Edit company details feature’ have been updated.'
   And I see the 'Company details for G-Cloud 10' summary table filled with:
     | field                        | value                                       |
-    | Company registered name      | DM Functional Edited Ltd.                   |
+    | Company registered name      | We Have Edited These Company Details Ltd.   |
     | Company registration number  | 12345678                                    |
     | DUNS Number                  | <ANY>                                       |
     | Address                      | 11 Downing Street New London EF1 2GH France |
 
   # Reset details for next test run
   When I click the summary table 'Change' link for 'Company registered name'
-  When I enter 'DM Functional Test Suppliers Ltd.' in the 'Registered company name' field and click its associated 'Save' button
+  When I enter 'We Edit Company Details Ltd.' in the 'Registered company name' field and click its associated 'Save' button
   When I click the summary table 'Change' link for 'Company registration number'
   And I enter '87654321' in the 'Companies House number' field and click its associated 'Save' button
   When I click the summary table 'Change' link for 'Address'
