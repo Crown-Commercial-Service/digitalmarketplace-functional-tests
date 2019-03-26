@@ -4,6 +4,7 @@ Feature: Editing company details
 Background:
   Given I have the latest live g-cloud framework with the cloud-support lot
   And I have a supplier with:
+      | id                   | 712152                                                     |
       | name                 | DM Functional Test Supplier - Edit company details feature |
       | registeredName       | We Edit Company Details Ltd.                               |
       | companiesHouseNumber | 87654321                                                   |
