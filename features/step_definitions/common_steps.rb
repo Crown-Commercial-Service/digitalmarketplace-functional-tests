@@ -137,7 +137,7 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
-When /I click a link with text( containing)? #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |maybe_containing, link_text, element|
+When /I click a( random)? link with text( containing)? #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |maybe_random, maybe_containing, link_text, element|
   expect(element).not_to be_a(String), "It's not yet decided what a plain String should mean in this context"
 
   region = element || page
@@ -146,10 +146,12 @@ When /I click a link with text( containing)? #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/
   else
     found_links = region.all(:xpath, "//a[normalize-space(string())=normalize-space(#{escape_xpath(link_text)})]")
   end
-  if found_links.length > 1
+
+  if found_links.length > 1 && !maybe_random
     puts "Warning: #{found_links.length} '#{link_text}' links found"
   end
-  found_links[0].click
+
+  (maybe_random ? found_links.sample : found_links[0]).click
 end
 
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|

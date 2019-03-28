@@ -63,6 +63,15 @@ Given /^that supplier has confirmed their company details for that application$/
   confirm_company_details_for_framework(@framework['slug'], @supplier['id'])
 end
 
+Given /^that supplier has begun the application process for that framework$/ do
+  register_interest_in_framework(@framework['slug'], @supplier['id'])
+end
+
+Given /^that supplier has not begun the declaration for that application$/ do
+  remove_supplier_declaration(@supplier['id'], @framework['slug'])
+  set_supplier_framework_prefill_declaration(@supplier['id'], @framework['slug'], nil)
+end
+
 Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? email regarding that question for #{MAYBE_VAR}$/ do |negate, question_type, maybe_confirmation, target_address|
   ref_prefix = (
     case question_type

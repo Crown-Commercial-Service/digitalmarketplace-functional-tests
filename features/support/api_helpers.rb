@@ -465,3 +465,41 @@ def get_or_create_user(custom_user_data)
   role = custom_user_data['role'] || (custom_user_data['supplierId'] ? 'supplier' : 'buyer')
   @user = create_user(role, custom_user_data)
 end
+
+def get_supplier_with_reusable_declaration
+  reusable_frameworks = (get_frameworks.select do |framework|
+    framework['allowDeclarationReuse']
+  end).shuffle
+
+  supplier_framework = nil
+  reusable_frameworks.detect do |framework|
+    body_json = JSON.parse(call_api(:get, "/frameworks/#{framework['slug']}/suppliers?with_declarations=false").body)
+    supplier_framework = body_json['supplierFrameworks'].shuffle.detect do |sf|
+      sf['onFramework']
+    end
+  end
+
+  expect(supplier_framework).not_to be_nil
+  JSON.parse(call_api(:get, "/suppliers/#{supplier_framework['supplierId']}").body)['suppliers']
+end
+
+def remove_supplier_declaration(supplier_id, framework_slug)
+  response = call_api(
+    :post,
+    "/suppliers/#{supplier_id}/frameworks/#{framework_slug}/declaration",
+    payload: { updated_by: "functional_tests" },
+  )
+  expect(response.code).to eq(200), response.body
+end
+
+def set_supplier_framework_prefill_declaration(supplier_id, framework_slug, from_framework_slug)
+  response = call_api(
+    :post,
+    "/suppliers/#{supplier_id}/frameworks/#{framework_slug}",
+    payload: {
+      frameworkInterest: { prefillDeclarationFromFrameworkSlug: from_framework_slug },
+      updated_by: "functional_tests",
+    },
+  )
+  expect(response.code).to eq(200), response.body
+end
