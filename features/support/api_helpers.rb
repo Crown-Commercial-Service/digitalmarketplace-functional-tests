@@ -116,7 +116,7 @@ def register_interest_in_framework(framework_slug, supplier_id)
     response = call_api(:put, path, payload: {
       updated_by: "functional tests"
     })
-    expect(response.code).to match(/20[01]/), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
+    expect(response.code).to be_between(200, 201), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
   end
 end
 
