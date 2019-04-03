@@ -25,7 +25,7 @@ Scenario: Initially-rejected mailing-list subscription
   When I enter 'example@example.com' in the 'email_address' field
   And I click 'Subscribe'
   Then I am on the 'Sign up for Digital Marketplace email alerts' page
-  And I see a destructive banner message containing 'The service is unavailable at the moment. If the problem continues please contact enquiries@digitalmarketplace.service.gov.uk'
+  And I see a destructive banner message containing 'This email address cannot be used to sign up for Digital Marketplace alerts. Please use a different email address or contact enquiries@digitalmarketplace.service.gov.uk'
   # but this page should still be a valid, working form
   And I see 'example@example.com' as the value of the 'email_address' field
   When I enter 'functional-test-email@user.marketplace.team' in the 'email_address' field
