@@ -3,12 +3,12 @@ Feature: Apply to an open framework
 
 Background:
   Given there is a framework that is open for applications
-  And I have a supplier user
-  And that supplier is logged in
 
 Scenario: Supplier submits a framework application
-  Given I visit the /suppliers page
-  When I start that framework application
+  Given I have a supplier user
+  And that supplier is logged in
+  When I visit the /suppliers page
+  And I start that framework application
   Then I am on the 'Apply to framework' page for that framework application
 
   When I click 'Enter your company details'
@@ -22,7 +22,7 @@ Scenario: Supplier submits a framework application
   When I click 'Start your declaration'
   Then I am on the 'Your declaration overview' page
 
-  When I answer all questions on that page
+  When I follow the first 'Edit' link and answer all questions on that page and those following until I'm back on the 'Your declaration overview' page
   Then I click 'Make declaration' button
   And I am on the 'Apply to framework' page for that framework application
   And I see 'You’ve made the supplier declaration' text on the page

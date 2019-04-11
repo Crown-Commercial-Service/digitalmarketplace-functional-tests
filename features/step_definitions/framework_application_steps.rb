@@ -12,17 +12,16 @@ Then /^I click #{MAYBE_VAR} link for that framework application$/ do |link_title
   step "I click a link with text '#{link_title}'"
 end
 
-Then(/^I answer all questions on that page$/) do
-  page_header_at_start = page.all(:xpath, "//h1")[0].text
+Then(/^I follow the first 'Edit' link and answer all questions on that page and those following until I'm (?:back )?on #{MAYBE_VAR} page$/) do |terminating_page_name|
   edit_links = page.all(:xpath, "//p[@class='summary-item-top-level-action']/a[text()='Edit']")
   edit_links[0].click
-  page_header = nil
-  until page_header_at_start == page.all(:xpath, "//h1")[0].text
-    if page_header == page.all(:xpath, "//h1")[0].text
+  page_name = nil
+  until page.all(:xpath, "//h1")[0].text == terminating_page_name
+    if page_name == page.all(:xpath, "//h1")[0].text
       options = get_answers_for_validated_questions
       answer = fill_form with: options
     else
-      page_header = page.all(:xpath, "//h1")[0].text
+      page_name = page.all(:xpath, "//h1")[0].text
       answer = fill_form
     end
     merge_fields_and_print_answers(answer)

@@ -53,10 +53,12 @@ end
 
 Given /^I have a supplier$/ do
   @supplier = create_supplier
+  puts "supplier id: #{@supplier['id']}"
 end
 
 Given /^I have a supplier with:$/ do |table|
   @supplier = get_or_create_supplier(table.rows_hash)
+  puts "supplier id: #{@supplier['id']}"
 end
 
 Given /^that supplier has a user with:$/ do |table|
