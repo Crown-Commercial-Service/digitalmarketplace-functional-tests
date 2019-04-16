@@ -9,7 +9,6 @@ Scenario: User has forgotten their password and requests a password reset
 
   And that user is able to reset their password
 
-@skip-staging
 Scenario: Inactive user trying to reset password instead receives an informational message
   Given I have a buyer user with:
     | active | false |
