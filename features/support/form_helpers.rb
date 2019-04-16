@@ -398,7 +398,7 @@ module FormHelper
         merge_fields_and_print_answers(answer)
       end
       # turn on when debugging to take a screenshot of each step:
-      page.save_screenshot("screenshot_#{Time.new}.png", full: true)
+      # page.save_screenshot("screenshot_#{Time.new}.png", full: true)
       is_end_of_section = find_and_click_submit_button && !is_there_validation_header?
     end
   end
