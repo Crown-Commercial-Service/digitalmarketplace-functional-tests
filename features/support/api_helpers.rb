@@ -455,8 +455,8 @@ def get_or_create_user(custom_user_data)
         return @user
       end
 
-      expect(custom_user_data["emailAddress"]).to be(
-        nil,
+      expect(custom_user_data["emailAddress"]).to(
+        be(nil),
         "User specified by email address exists but doesn't match requested properties (#{mismatched_properties})"
       )
     end
