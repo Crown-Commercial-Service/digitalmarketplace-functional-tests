@@ -175,6 +175,34 @@ RSpec::Matchers.define :include_url do |expected|
   end
 end
 
+class String
+  def camelize(arg = :lower)
+    return self if self !~ /_/ && self =~ /[A-Z]+.*/
+
+    split('_').map.with_index { |e, i| i == 0 && arg == :lower ? e.downcase : e.capitalize }.join
+  end
+end
+
+class Hash
+  def camelize(arg = :lower)
+    # this both squashes out entries with nil values (to ensure they don't override a colliding key with a real value
+    # and converts keys to camelcase
+    map.reject { |k, v| v == nil }.map { |k, v| [k.camelize(arg), v] }.to_h
+  end
+end
+
+def detect_boolean_strings(input)
+  input_norm = input.respond_to?(:downcase) ? input.downcase : input
+  if %w[f false].include? input_norm
+    return false
+  end
+  if %w[t true].include? input_norm
+    return true
+  end
+
+  input
+end
+
 # from https://github.com/ilyakatz/capybara/blob/c0844c8cf43801fa1d88e502b71b8e75ed6da017/lib/capybara/xpath.rb#L8
 def escape_xpath(string)
   if string.include?("'")
