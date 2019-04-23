@@ -116,7 +116,7 @@ def register_interest_in_framework(framework_slug, supplier_id)
     response = call_api(:put, path, payload: {
       updated_by: "functional tests"
     })
-    expect(response.code).to match(/20[01]/), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
+    expect(response.code).to be_between(200, 201), _error(response, "Failed to register interest in framework #{framework_slug} #{supplier_id}")
   end
 end
 
@@ -349,18 +349,19 @@ def get_a_service(status, framework_type = "g-cloud")
 end
 
 def create_user(user_role, custom_user_data = {})
+  custom_user_data = custom_user_data.camelize(:lower)
   randomString = SecureRandom.hex
   password = ENV["DM_#{user_role.upcase.gsub('-', '_')}_USER_PASSWORD"]
 
   user_data = {
-    "emailAddress" => custom_user_data['emailAddress'] || custom_user_data['email_address'] || randomString + '@example.gov.uk',
+    "emailAddress" => custom_user_data['emailAddress'] || randomString + '@example.gov.uk',
     "name" => custom_user_data['name'] || "#{user_role.capitalize} Name #{randomString}",
     "password" => password,
     "role" => custom_user_data['role'] || user_role,
     "phoneNumber" => (SecureRandom.random_number(10000000) + 10000000000).to_s,
   }
 
-  user_data['supplierId'] = custom_user_data['supplierId'] || custom_user_data['supplier_id'] || 0  if user_role == 'supplier'
+  user_data['supplierId'] = custom_user_data['supplierId'] || 0  if user_role == 'supplier'
 
   response = call_api(:post, "/users", payload: { users: user_data, updated_by: 'functional_tests' })
   expect(response.code).to eq(201), response.body
@@ -421,29 +422,84 @@ def get_or_create_user(custom_user_data)
   # The possible argument combinations for the getting of a user are dependent on the available end points for users.
   # Therefore this method supports:
   # id: being the id of the user (and should not be used with any other args as it's a primary key)
-  # email_address: email_address of the account. This can be used independently.
-  # supplier_id: supplier id of the user. May result in unpredictable behaviour if there is more than one user with the
-  #     supplier_id and an email address is not specified
+  # emailAddress: email_address of the account. This can be used independently.
+  # supplierId: supplier id of the user. May result in unpredictable behaviour if there is more than one user with the
+  #     supplierId and an emailAddress is not specified
   # Should the user not be found we will attempt a post create with the provided user data.
+  custom_user_data = custom_user_data.camelize(:lower)
   if custom_user_data["id"] != nil
     response = call_api(:get, "/users/#{custom_user_data['id']}")
     @user = JSON.parse(response.body)["users"]
+    @user['password'] = ENV["DM_#{@user['role'].upcase.gsub('-', '_')}_USER_PASSWORD"]
     return @user
   end
-  if (custom_user_data["email_address"] != nil) || (custom_user_data["supplier_id"] != nil)
+  if (custom_user_data["emailAddress"] != nil) || (custom_user_data["supplierId"] != nil)
     response = call_api(
       :get,
       "/users",
       params: {
-        email_address: custom_user_data['email_address'],
+        email_address: custom_user_data['emailAddress'],
         supplier_id: custom_user_data['supplierId']
       }
     )
     @user = response.code == 200 ? JSON.parse(response.body)["users"][0] : nil
+
+    if @user != nil
+      @user['password'] = ENV["DM_#{@user['role'].upcase.gsub('-', '_')}_USER_PASSWORD"]
+
+      mismatched_properties = custom_user_data.map.reject do |k, v|
+        v == nil || @user[k] == nil || detect_boolean_strings(v) == detect_boolean_strings(@user[k])
+      end.to_h
+
+      if mismatched_properties.empty?
+        return @user
+      end
+
+      expect(custom_user_data["emailAddress"]).to be(
+        nil,
+        "User specified by email address exists but doesn't match requested properties (#{mismatched_properties})"
+      )
+    end
   end
-  if not @user
-    role = custom_user_data['role'] || (custom_user_data['supplier_id'] ? 'supplier' : 'buyer')
-    @user = create_user(role, custom_user_data)
+
+  role = custom_user_data['role'] || (custom_user_data['supplierId'] ? 'supplier' : 'buyer')
+  @user = create_user(role, custom_user_data)
+end
+
+def get_supplier_with_reusable_declaration
+  reusable_frameworks = (get_frameworks.select do |framework|
+    framework['allowDeclarationReuse']
+  end).shuffle
+
+  supplier_framework = nil
+  reusable_frameworks.detect do |framework|
+    body_json = JSON.parse(call_api(:get, "/frameworks/#{framework['slug']}/suppliers?with_declarations=false").body)
+    supplier_framework = body_json['supplierFrameworks'].shuffle.detect do |sf|
+      sf['onFramework']
+    end
   end
-  @user
+
+  expect(supplier_framework).not_to be_nil
+  JSON.parse(call_api(:get, "/suppliers/#{supplier_framework['supplierId']}").body)['suppliers']
+end
+
+def remove_supplier_declaration(supplier_id, framework_slug)
+  response = call_api(
+    :post,
+    "/suppliers/#{supplier_id}/frameworks/#{framework_slug}/declaration",
+    payload: { updated_by: "functional_tests" },
+  )
+  expect(response.code).to eq(200), response.body
+end
+
+def set_supplier_framework_prefill_declaration(supplier_id, framework_slug, from_framework_slug)
+  response = call_api(
+    :post,
+    "/suppliers/#{supplier_id}/frameworks/#{framework_slug}",
+    payload: {
+      frameworkInterest: { prefillDeclarationFromFrameworkSlug: from_framework_slug },
+      updated_by: "functional_tests",
+    },
+  )
+  expect(response.code).to eq(200), response.body
 end

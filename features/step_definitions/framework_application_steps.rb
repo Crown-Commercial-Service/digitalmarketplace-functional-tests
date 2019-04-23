@@ -12,17 +12,16 @@ Then /^I click #{MAYBE_VAR} link for that framework application$/ do |link_title
   step "I click a link with text '#{link_title}'"
 end
 
-Then(/^I answer all questions on that page$/) do
-  page_header_at_start = page.all(:xpath, "//h1")[0].text
+Then(/^I follow the first 'Edit' link and answer all questions on that page and those following until I'm (?:back )?on #{MAYBE_VAR} page$/) do |terminating_page_name|
   edit_links = page.all(:xpath, "//p[@class='summary-item-top-level-action']/a[text()='Edit']")
   edit_links[0].click
-  page_header = nil
-  until page_header_at_start == page.all(:xpath, "//h1")[0].text
-    if page_header == page.all(:xpath, "//h1")[0].text
+  page_name = nil
+  until page.all(:xpath, "//h1")[0].text == terminating_page_name
+    if page_name == page.all(:xpath, "//h1")[0].text
       options = get_answers_for_validated_questions
       answer = fill_form with: options
     else
-      page_header = page.all(:xpath, "//h1")[0].text
+      page_name = page.all(:xpath, "//h1")[0].text
       answer = fill_form
     end
     merge_fields_and_print_answers(answer)
@@ -62,6 +61,15 @@ end
 
 Given /^that supplier has confirmed their company details for that application$/ do
   confirm_company_details_for_framework(@framework['slug'], @supplier['id'])
+end
+
+Given /^that supplier has begun the application process for that framework$/ do
+  register_interest_in_framework(@framework['slug'], @supplier['id'])
+end
+
+Given /^that supplier has not begun the declaration for that application$/ do
+  remove_supplier_declaration(@supplier['id'], @framework['slug'])
+  set_supplier_framework_prefill_declaration(@supplier['id'], @framework['slug'], nil)
 end
 
 Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? email regarding that question for #{MAYBE_VAR}$/ do |negate, question_type, maybe_confirmation, target_address|

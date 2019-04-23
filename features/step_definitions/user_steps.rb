@@ -53,17 +53,17 @@ end
 
 Given /^I have a supplier$/ do
   @supplier = create_supplier
+  puts "supplier id: #{@supplier['id']}"
 end
 
 Given /^I have a supplier with:$/ do |table|
   @supplier = get_or_create_supplier(table.rows_hash)
+  puts "supplier id: #{@supplier['id']}"
 end
 
 Given /^that supplier has a user with:$/ do |table|
-  # To be used in conjunction with the above 2 methods to create multiple users on a supplier with specific attributes
-  custom_user_data = table.rows_hash
-  user_data = { "supplier_id" => @supplier['id'] }
-  custom_user_data.update(user_data)
+  # can be used in conjunction with the above 2 methods to create multiple users on a supplier with specific attributes
+  custom_user_data = { "supplier_id" => @supplier['id'] }.merge(table.rows_hash)
   @supplier_user = get_or_create_user(custom_user_data)
 end
 

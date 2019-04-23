@@ -67,3 +67,9 @@ Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do 
   @service = create_live_service(@framework['slug'], lot_slug, @supplier["id"], role_type)
   puts "service id: #{@service['id']}"
 end
+
+Given 'I have a supplier with a reusable declaration' do
+  @supplier = get_supplier_with_reusable_declaration
+  puts "supplier id: #{@supplier['id']}"
+end
+
