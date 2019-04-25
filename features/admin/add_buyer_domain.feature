@@ -20,8 +20,9 @@ Scenario Outline: Admin user can see invalid format message for invalid domain s
   Then I see a destructive banner message containing '‘test’ is not a valid format'
 
   Examples:
-    | role  |
-    | admin |
+    | role                      |
+    | admin                     |
+    | admin-ccs-category        |
 
 Scenario Outline: Correct users cannot access the add a buyer domain
   Given I am logged in as the existing <role> user
@@ -33,5 +34,4 @@ Scenario Outline: Correct users cannot access the add a buyer domain
     | admin-framework-manager   |
     | admin-ccs-sourcing        |
     | admin-manager             |
-    | admin-ccs-category        |
     | admin-ccs-data-controller |
