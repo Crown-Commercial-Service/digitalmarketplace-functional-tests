@@ -74,6 +74,9 @@ def remove_js_hidden_fields_from_results(results)
 end
 
 def find_elements_by_xpath(xpath)
+  # it appears we use this semi-documented inner method of the *poltergeist* api because the standard
+  # capybara all/find_all interface doesn't allow us to specify wait: false. this is a way of achieving
+  # such an effect.
   page.document.find_xpath(xpath)
 end
 
