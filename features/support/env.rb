@@ -136,8 +136,8 @@ module Capybara
     class Base
       def synchronize_with_unload_wait(*args, &block)
         Timeout.timeout(dm_pre_load_wait_time) do
-          until driver.evaluate_script('window.performance.timing.navigationStart < window.performance.timing.domComplete')
-            # navigationStart has been updated more recently than domComplete, domComplete presumably still
+          until driver.evaluate_script('window.performance.timing.navigationStart < window.performance.timing.loadEventEnd')
+            # navigationStart has been updated more recently than loadEventEnd, loadEventEnd presumably still
             # carrying the value set when the *old* page got loaded - that means the dom is probably in the
             # process of loading (or at least requesting) a new page. any following page queries will
             # presumably be targeted at the upcoming page, which isn't ready.
