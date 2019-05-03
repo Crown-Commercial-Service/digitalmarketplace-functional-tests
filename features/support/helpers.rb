@@ -73,11 +73,14 @@ def remove_js_hidden_fields_from_results(results)
   results
 end
 
-def find_elements_by_xpath(xpath)
-  # it appears we use this semi-documented inner method of the *poltergeist* api because the standard
-  # capybara all/find_all interface doesn't allow us to specify wait: false. this is a way of achieving
-  # such an effect.
-  page.document.find_xpath(xpath)
+def find_elements_by_xpath(sel)
+  # this function is used in places where the test wants to check for "all" elements matching a selector
+  # but doesn't want to wait (effectively at all), but using an actual nil `wait` value will cause the
+  # synchronize method to not be called at all. the problem being that this will bypass the "fix" we've
+  # put in to make the test wait for the page not to be in a "loading" state (see
+  # `synchronize_with_unload_wait`). so instead we give capybara a miniscule wait time so as ensure our
+  # mechanism is called but not significantly slow down the test.
+  page.all(:xpath, sel, wait: 0.001, visible: :all)
 end
 
 def all_fields(locator, options = { wait: false })
