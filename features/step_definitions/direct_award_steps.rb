@@ -34,13 +34,13 @@ When (/^I have exported my results for the '(.*)' saved search$/) do |search_nam
   }
 end
 
-When (/^I award the contract to '(.*)' for the '(.*)' search$/) do |supplier_name, search_name|
+When (/^I award the contract for the '(.*)' search$/) do |search_name|
   steps %{
     Given I am on the 'Did you award a contract for ‘#{search_name}’?' page
     And I choose the 'Yes' radio button
     And I click 'Save and continue'
     Then I am on the 'Which service won the contract?' page
-    And I choose the '#{supplier_name}' radio button
+    And I choose a random 'which_service_won_the_contract' radio button
     And I click 'Save and continue'
     Then I am on the 'Tell us about your contract' page
     And I enter '20' in the 'input-start_date-day' field
