@@ -126,10 +126,10 @@ Scenario: User awards contract
   Given I am logged in as a buyer user
   And I am ready to tell the outcome for the 'my cloud project' saved search
   When I click the 'Tell us the outcome' link
-  And I award the contract to 'NCCIS' for the 'my cloud project' search
+  And I award the contract for the 'my cloud project' search
   And I am on the 'my cloud project' page
   Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
-  And I see the 'Award a contract' instruction list item status showing as 'Contract awarded to CareerVision Ltd: NCCIS'
+  And I see the 'Award a contract' instruction list item status showing as 'Contract awarded'
 
 Scenario: User does not award contract as work is cancelled
   Given I am logged in as a buyer user
