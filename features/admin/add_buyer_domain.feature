@@ -1,4 +1,4 @@
-@admin @add-buyer-domain @skip-staging
+@admin @add-buyer-domain
 Feature: Admin buyer domains
 
 Scenario Outline: Admin user can attempt to add domain and sees duplicate domain error message when domain exists

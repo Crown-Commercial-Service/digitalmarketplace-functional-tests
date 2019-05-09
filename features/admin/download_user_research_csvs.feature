@@ -1,4 +1,4 @@
-@admin @download-user-research-participants @skip-staging
+@admin @download-user-research-participants
 Feature: Download user research participants
 
 Scenario Outline: Correct users can view the link to download buyer user research participants
