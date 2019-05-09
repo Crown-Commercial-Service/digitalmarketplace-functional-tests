@@ -11,9 +11,10 @@ Background:
     | name          | Deactivate a suppliers contributor feature User #2 |
     | email_address | user-two@example.com                               |
 
+@skip-staging
 Scenario Outline: Correct users can deactivate and reactivate a supplier's contributor
   Given I am logged in as the existing <role> user
-  And I click the 'Edit supplier accounts or view services' link
+  And I click the '<link-name>' link
   And I enter 'DM Functional Test Supplier - Deactivate a suppliers contributor feature' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
   And I click the summary table 'Users' link for the 'DM Functional Test Supplier - Deactivate a suppliers contributor feature' link
@@ -27,9 +28,11 @@ Scenario Outline: Correct users can deactivate and reactivate a supplier's contr
     | Deactivate a suppliers contributor feature User #1 | user-one@example.com | <ANY>       | <ANY>       | No     |
 
   Examples:
-    | role  |
-    | admin |
+    | role                | link-name                               |
+    | admin               | Edit supplier accounts or view services |
+    | admin-ccs-category  | Edit suppliers and services             |
 
+@skip-staging
 Scenario Outline: Correct users can view but not deactivate suppliers users
   Given I am logged in as the existing <role> user
   And I click the '<link-name>' link
@@ -45,7 +48,6 @@ Scenario Outline: Correct users can view but not deactivate suppliers users
 
   Examples:
     | role                    | link-name                   |
-    | admin-ccs-category      | Edit suppliers and services |
     | admin-framework-manager | View suppliers and services |
 
 Scenario Outline: Correct users cannot view suppliers users
