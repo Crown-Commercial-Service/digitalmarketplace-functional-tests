@@ -41,6 +41,6 @@ Scenario: Admin Manager user can log in
   Then I can log in as that user
 
 @with-admin-ccs-data-controller-user
-Scenario: Admin Manager user can log in
+Scenario: Admin CCS Data Controller user can log in
   Given I have an existing admin-ccs-data-controller user
   Then I can log in as that user
