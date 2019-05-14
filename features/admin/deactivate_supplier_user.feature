@@ -11,7 +11,6 @@ Background:
     | name          | Deactivate a suppliers contributor feature User #2 |
     | email_address | user-two@example.com                               |
 
-@skip-staging
 Scenario Outline: Correct users can deactivate and reactivate a supplier's contributor
   Given I am logged in as the existing <role> user
   And I click the '<link-name>' link
@@ -32,7 +31,6 @@ Scenario Outline: Correct users can deactivate and reactivate a supplier's contr
     | admin               | Edit supplier accounts or view services |
     | admin-ccs-category  | Edit suppliers and services             |
 
-@skip-staging
 Scenario Outline: Correct users can view but not deactivate suppliers users
   Given I am logged in as the existing <role> user
   And I click the '<link-name>' link
