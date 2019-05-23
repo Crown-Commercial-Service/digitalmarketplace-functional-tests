@@ -27,7 +27,7 @@ Scenario Outline: Correct admin roles can view a supplier's details
     | DM Functional Test Supplier - Company details feature | Users | Services |
   And I click the 'DM Functional Test Supplier - Company details feature' link
   Then I am on the 'DM Functional Test Supplier - Company details feature' page
-  And I see the 'Company details for G-Cloud 10' summary table filled with:
+  And I see the 'Company details for supplier account' summary table filled with:
     | field                        | value                                            |
     | Company registered name      | DM Functional Test Suppliers Ltd.                |
     | Company registration number  | 87654321                                         |
