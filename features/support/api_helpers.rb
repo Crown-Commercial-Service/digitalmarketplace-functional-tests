@@ -267,12 +267,33 @@ def create_supplier(custom_supplier_data = {})
     }]
   }
   supplier_data.update(custom_supplier_data)
+
+  creatable_attrs = {}
+  updatable_attrs = {}
+  supplier_data.each do |key, value|
+    if %i[id companiesHouseNumber contactInformation dunsNumber description name].include? key
+      creatable_attrs[key] = value
+    else
+      updatable_attrs[key] = value
+    end
+  end
+
   response = call_api(
     :post,
     "/suppliers",
-    payload: { updated_by: "functional tests", suppliers: supplier_data }
+    payload: { updated_by: "functional tests", suppliers: creatable_attrs }
   )
   expect(response.code).to eq(201), _error(response, "Failed to create supplier")
+  parsed_response = JSON.parse(response.body)['suppliers']
+
+  if !updatable_attrs.empty?
+    response = call_api(
+      :post,
+      "/suppliers/#{parsed_response['id']}",
+      payload: { updated_by: "functional tests", suppliers: updatable_attrs }
+    )
+    expect(response.code).to eq(200), _error(response, "Failed to update created supplier with provided attributes")
+  end
   JSON.parse(response.body)['suppliers']
 end
 
