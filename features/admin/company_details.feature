@@ -28,11 +28,11 @@ Scenario Outline: Correct admin roles can view a supplier's details
   And I click the 'DM Functional Test Supplier - Company details feature' link
   Then I am on the 'DM Functional Test Supplier - Company details feature' page
   And I see the 'Company details for supplier account' summary table filled with:
-    | field                        | value                                            |
-    | Company registered name      | DM Functional Test Suppliers Ltd.                |
-    | Company registration number  | 87654321                                         |
-    | DUNS Number                  | <ANY>                                            |
-    | Address                      | 10 Downing Street London AB1 2CD United Kingdom  |
+    | field                        | value                                |
+    | Company registered name      | DM Functional Test Suppliers Ltd.    |
+    | Company registration number  | 87654321                             |
+    | DUNS Number                  | <ANY>                                |
+    | Address                      | 14 Duke Street Dublin H3 LY5 Ireland |
   And I see an entry in the 'Frameworks' table with:
     | field       | link1         | link2           |
     | G-Cloud 10  | View services | View agreements |
