@@ -272,6 +272,9 @@ def create_supplier(custom_supplier_data = {})
   }
   supplier_data.update(custom_supplier_data)
 
+  # the "create supplier" endpoint is restricted in the attributes it will allow to be set at creation time,
+  # so we have to separate these out and possibly follow the creation up with an update to set the remaining
+  # attributes
   creatable_attrs = {}
   updatable_attrs = {}
   supplier_data.each do |key, value|
