@@ -39,7 +39,7 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
     | Company registered name      | We Have Edited These Company Details Ltd.       |
     | Company registration number  | 87654321                                        |
     | DUNS Number                  | <ANY>                                           |
-    | Address                      | 10 Downing Street London AB1 2CD United Kingdom |
+    | Address                      | 14 Duke Street Dublin H3 LY5 Ireland            |
 
   When I click the summary table 'Change' link for 'Company registration number'
   Then I am on the 'Update registered company number for ‘DM Functional Test Supplier - Edit company details feature’' page
@@ -51,7 +51,7 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
     | Company registered name      | We Have Edited These Company Details Ltd.       |
     | Company registration number  | 12345678                                        |
     | DUNS Number                  | <ANY>                                           |
-    | Address                      | 10 Downing Street London AB1 2CD United Kingdom |
+    | Address                      | 14 Duke Street Dublin H3 LY5 Ireland            |
 
   When I click the summary table 'Change' link for 'DUNS Number'
   Then I see 'You need to contact cloud_digital@crowncommercial.gov.uk to change a supplier DUNS number.' text on the page
@@ -80,8 +80,8 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
   When I click the summary table 'Change' link for 'Company registration number'
   And I enter '87654321' in the 'Companies House number' field and click its associated 'Save' button
   When I click the summary table 'Change' link for 'Address'
-  And I enter '10 Downing Street' in the 'Building and street' field
-  And I enter 'London' in the 'Town or city' field
-  And I enter 'AB1 2CD' in the 'Postcode' field
-  And I enter 'United Kingdom' in the 'location-autocomplete' field and click the selected autocomplete option
+  And I enter '14 Duke Street' in the 'Building and street' field
+  And I enter 'Dublin' in the 'Town or city' field
+  And I enter 'H3 LY5' in the 'Postcode' field
+  And I enter 'Ireland' in the 'location-autocomplete' field and click the selected autocomplete option
   And I click the 'Save' button

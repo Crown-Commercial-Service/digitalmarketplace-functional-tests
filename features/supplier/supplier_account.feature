@@ -28,7 +28,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   Then I am on the 'Registered company name' page
   And I enter 'Toys "ᴙ" Us' in the 'Registered company name' field and click its associated 'Save and return' button
 
-  Then I click the summary table 'Answer required' link for 'Registered company address'
+  Then I click the summary table 'Change' link for 'Registered company address'
   And I am on the 'What is your registered office address?' page
   And I enter '101 Toys Street' in the 'Building and street' field
   And I enter 'Toytown' in the 'Town or city' field

@@ -264,7 +264,11 @@ def create_supplier(custom_supplier_data = {})
       contactName: random_string,
       email: random_string + "-supplier@example.com",
       phoneNumber: '%010d' % rand(10**11 - 1),
-    }]
+      address1: "14 Duke Street",
+      city: "Dublin",
+      postcode: "H3 LY5",
+    }],
+    registrationCountry: "country:IE",
   }
   supplier_data.update(custom_supplier_data)
 
