@@ -9,7 +9,9 @@ end
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
   matched_brief = get_briefs('digital-outcomes-and-specialists-3', status).sample
   @brief = matched_brief
-  @buyer_user = matched_brief['users'][0]
+  puts "brief id: #{@brief['id']}"
+  @buyer_user = (matched_brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+  puts "user id: #{@buyer_user['id']}"
   @lot_slug = matched_brief['lotSlug']
   @framework_slug = matched_brief['frameworkSlug']
   @buyer_user.update('password' => ENV["DM_BUYER_USER_PASSWORD"])
@@ -19,9 +21,11 @@ end
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
   submitted_brief_response = get_brief_responses('digital-outcomes-and-specialists-3', 'submitted', 'closed').sample
   @brief = get_brief(submitted_brief_response['brief']['id'])
+  puts "brief id: #{@brief['id']}"
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
-  @buyer_user = @brief['users'][0]
+  @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+  puts "user id: #{@buyer_user['id']}"
   @buyer_user.update('password' => ENV["DM_BUYER_USER_PASSWORD"])
   steps "Given that buyer is logged in"
 end
@@ -42,6 +46,7 @@ end
 
 Given 'that supplier has filled in their response to that brief but not submitted it' do
   @brief_response = create_brief_response(@brief['lotSlug'], @brief['id'], @supplier['id'])
+  puts "brief response id: #{@brief_response['id']}"
 end
 
 Given 'that supplier submits their response to that brief' do
