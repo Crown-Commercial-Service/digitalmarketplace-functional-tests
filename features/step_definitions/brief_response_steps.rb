@@ -46,7 +46,6 @@ end
 
 Given 'that supplier has filled in their response to that brief but not submitted it' do
   @brief_response = create_brief_response(@brief['lotSlug'], @brief['id'], @supplier['id'])
-  puts "brief response id: #{@brief_response['id']}"
 end
 
 Given 'that supplier submits their response to that brief' do
