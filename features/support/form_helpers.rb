@@ -309,6 +309,21 @@ module FormHelper
     options
   end
 
+  def pass_dos_service_essentials
+    options = {}
+    # Match fields for the mandatory questions
+    service_essentials_elements = find_elements_by_xpath("//input[contains(@name, 'helpGovernmentImproveServices')]")
+    if service_essentials_elements.length > 0
+      # TODO: figure out a way of avoiding hardcoding these
+      options["helpGovernmentImproveServices"] = "Yes"
+      options["bespokeSystemInformation"] = "Yes"
+      options["dataProtocols"] = "Yes"
+      options["openStandardsPrinciples"] = "Yes"
+      options["accessibleApplicationsOutcomes"] = "Yes"
+    end
+    options
+  end
+
   def get_answers_for_validated_questions
     if pass_document_upload_validation || pass_checked_boxes_upper_limit
       return :gotosave
@@ -318,7 +333,8 @@ module FormHelper
       pass_pricing_validation,
       pass_vat_number_validation,
       pass_companies_house_number_validation,
-      pass_postcode_validation
+      pass_postcode_validation,
+      pass_dos_service_essentials
     ].inject(&:merge)
   end
 
