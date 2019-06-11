@@ -22,7 +22,7 @@ run-parallel: setup
 	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec parallel_cucumber features/ -n 4 -o "--strict -t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 build-report:
-	report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
+	bundle exec report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
 
 setup: install config clean
 	mkdir -p reports/
