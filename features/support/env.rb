@@ -27,6 +27,11 @@ else
       }
     )
     driver = Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps)
+  end
+
+  Capybara::Screenshot.register_driver(:headless_chromium) do |driver, path|
+    driver.browser.save_screenshot(path)
+  end
 
   Capybara.default_driver = :headless_chromium
 end
