@@ -18,7 +18,8 @@ if (ENV['BROWSER'] == 'firefox')
     Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
   end
 else
-
+  require 'webdrivers/chromedriver'
+  Capybara.default_driver = :selenium_chrome_headless
 end
 
 def domain_for_app(app)
