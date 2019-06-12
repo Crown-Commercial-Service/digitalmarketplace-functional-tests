@@ -2,14 +2,13 @@ require 'erb'
 require 'rspec'
 require 'capybara'
 require 'capybara/cucumber'
-require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
 
 RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = [:expect] }
 end
 
-if (ENV['BROWSER'] == 'true')
+if (ENV['BROWSER'] == 'firefox')
   require 'selenium-webdriver'
   Capybara.default_driver = :selenium
 
@@ -19,12 +18,7 @@ if (ENV['BROWSER'] == 'true')
     Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
   end
 else
-  Capybara.default_driver = :poltergeist
 
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(
-      app, timeout: 180, phantomjs_logger: File.open(File::NULL, "w"), phantomjs_options: ["--ssl-protocol=tlsv1.2"])
-  end
 end
 
 def domain_for_app(app)
