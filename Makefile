@@ -7,7 +7,7 @@ DM_ENVIRONMENT ?= local
 CONFIG := config/${DM_ENVIRONMENT}.sh
 
 smoke-tests: setup
-	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags @smoke-tests --tags @homepage --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags @smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
 
 smoulder-tests: setup
 	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT}
