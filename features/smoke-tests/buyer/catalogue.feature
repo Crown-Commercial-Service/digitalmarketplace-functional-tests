@@ -19,10 +19,10 @@ Scenario: User is able to navigate to service detail page via selecting the serv
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
   Given I visit the /g-cloud/search page
   And I have a random g-cloud service from the API
-  And I enter that service.id in the 'q' field
+  And I search for that service.id using the search box
   And I wait for the page to reload
   Then I see that service.id in the search summary text
-  And I see that service.id as the value of the 'q' field
+  And I see that service.id as the search query in the search box
   When I continue clicking 'Next' until I see that service in the search results
   And I click a link with text that service.serviceName in that search_result
   Then I am on that service.serviceName page

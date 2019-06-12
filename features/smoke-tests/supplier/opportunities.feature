@@ -20,7 +20,7 @@ Scenario Outline: User can filter by individual lot and keyword search
   And I see all the opportunities on the page are on the '<lot>' lot
   And I note the result_count
   # using the plural here helps us exercise stemming
-  When I enter 'governments' in the 'q' field
+  When I search for 'governments' using the search box
   And I wait for the page to reload
   Then I see 'governments' in the search summary text
   And I see that the stated number of results does not exceed that result_count
