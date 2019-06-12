@@ -1,3 +1,7 @@
 *
 
+!Gemfile
+!Gemfile.lock
+!Makefile
+
 !nginx/
