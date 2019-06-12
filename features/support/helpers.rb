@@ -44,7 +44,7 @@ def closed_outcome_status?(text)
 end
 
 def normalize_whitespace(text)
-  Capybara::Helpers.normalize_whitespace(text)
+  text.to_s.gsub(/[[:space:]]+/, ' ').strip
 end
 
 ## finding and selecting invisible fields
