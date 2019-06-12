@@ -33,7 +33,6 @@ GEM
       launchy
     childprocess (1.0.1)
       rake (< 13.0)
-    cliver (0.3.2)
     coderay (1.1.2)
     cucumber (2.4.0)
       builder (>= 2.1.2)
@@ -82,11 +81,6 @@ GEM
       parallel
     parser (2.6.4.1)
       ast (~> 2.4.0)
-    phantomjs (2.1.1.0)
-    poltergeist (1.18.0)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     power_assert (1.1.5)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -152,9 +146,10 @@ GEM
       unf_ext
     unf_ext (0.0.7.6)
     unicode-display_width (1.6.0)
-    websocket-driver (0.7.1)
-      websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    webdrivers (4.1.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -171,8 +166,6 @@ DEPENDENCIES
   launchy (= 2.4.3)
   notifications-ruby-client (= 3.1.0)
   parallel_tests (= 2.18.0)
-  phantomjs (= 2.1.1.0)
-  poltergeist (= 1.18.0)
   pry (= 0.12.2)
   rake (= 12.3.2)
   report_builder (= 0.1.4)
@@ -183,6 +176,7 @@ DEPENDENCIES
   ruby-prof (= 0.18.0)
   selenium-webdriver (= 3.142.3)
   test-unit (= 3.3.3)
+  webdrivers (~> 4.0)
 
 BUNDLED WITH
    2.0.2
