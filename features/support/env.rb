@@ -27,6 +27,7 @@ else
       }
     )
     driver = Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps)
+  end
 
   Capybara.default_driver = :headless_chromium
 end
