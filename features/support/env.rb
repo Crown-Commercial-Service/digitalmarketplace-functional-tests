@@ -23,7 +23,7 @@ else
   Capybara.register_driver :headless_chromium do |app|
     caps = Selenium::WebDriver::Remote::Capabilities.chrome(
       "chromeOptions" => {
-        "args" => ["headless", "disable-gpu", "no-sandbox", "window-size=1366,768"]
+        "args" => ["headless", "disable-gpu", "no-sandbox", "window-size=1366,1366"]
       }
     )
     driver = Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps)
