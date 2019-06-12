@@ -104,7 +104,7 @@ Scenario Outline: User can filter by status, lot, location and keyword together
   And I see all the opportunities on the page are on the '<lot>' lot
   And I see all the opportunities on the page are of the '<status>' status
   And I see all the opportunities on the page are in the '<location>' location
-  When I enter '<phrase>' in the 'q' field
+  When I search for '<phrase>' using the search box
   And I wait for the page to reload
   Then I see '<phrase>' in the search summary text
   And I see that the stated number of results does not exceed that result_count

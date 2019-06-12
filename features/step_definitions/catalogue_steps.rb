@@ -1,3 +1,12 @@
+When /^I search for #{MAYBE_VAR} using the search box$/ do |query|
+  page.fill_in "q", with: query
+  page.click_button("Search")
+end
+
+When /^I see #{MAYBE_VAR} as the search query in the search box$/ do |query|
+  expect(page.find_field("q").value).to eq(query)
+end
+
 When(/^I click a random result in the list of service results returned$/) do
   search_results = all(:xpath, "//*[@class='search-result']")
   selected_result = search_results[rand(search_results.length)]

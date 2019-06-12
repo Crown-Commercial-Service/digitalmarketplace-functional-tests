@@ -13,10 +13,10 @@ Scenario: User can select a lot from the g-cloud page and see search results.
 Scenario: User is able to search by service id and have result returned.
   Given I visit the /g-cloud/search page
   And I have a random g-cloud service from the API
-  When I enter that service.id in the 'q' field
+  When I search for that service.id using the search box
   And I wait for the page to reload
   Then I see that service.id in the search summary text
-  And I see that service.id as the value of the 'q' field
+  And I see that service.id as the search query in the search box
   When I continue clicking 'Next' until I see that service in the search results
   And I click a link with text that service.serviceName in that search_result
   Then I am on that service.serviceName page
@@ -24,10 +24,10 @@ Scenario: User is able to search by service id and have result returned.
 Scenario: User is able to search by service name and have result returned.
   Given I visit the /g-cloud/search page
   And I have a random g-cloud service from the API
-  When I enter that quoted service.serviceName in the 'q' field
+  When I search for that quoted service.serviceName using the search box
   And I wait for the page to reload
   Then I see that quoted service.serviceName in the search summary text
-  And I see that quoted service.serviceName as the value of the 'q' field
+  And I see that quoted service.serviceName as the search query in the search box
   When I continue clicking 'Next' until I see that service in the search results
   And I click a link with text that service.serviceName in that search_result
   Then I am on that service.serviceName page
@@ -62,7 +62,7 @@ Scenario: User is able to paginate through search results and all of the navigat
 
 Scenario: User gets no results for an unfindable term
   Given I visit the /g-cloud/search page
-  And I enter 'metempsychosis' in the 'q' field
+  And I search for 'metempsychosis' using the search box
   And I wait for the page to reload
   Then I don't see a search result
   And I see 'metempsychosis' in the search summary text
