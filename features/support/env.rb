@@ -18,7 +18,17 @@ if (ENV['BROWSER'] == 'firefox')
     Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
   end
 else
+  require 'selenium-webdriver'
 
+  Capybara.register_driver :headless_chromium do |app|
+    caps = Selenium::WebDriver::Remote::Capabilities.chrome(
+      "chromeOptions" => {
+        "args" => ["headless", "disable-gpu", "no-sandbox"]
+      }
+    )
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps)
+
+  Capybara.default_driver = :headless_chromium
 end
 
 def domain_for_app(app)
