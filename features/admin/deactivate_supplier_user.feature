@@ -7,9 +7,11 @@ Background:
   And that supplier has a user with:
     | name          | Deactivate a suppliers contributor feature User #1 |
     | email_address | user-one@example.com                               |
+    | active        | true                                               |
   And that supplier has a user with:
     | name          | Deactivate a suppliers contributor feature User #2 |
     | email_address | user-two@example.com                               |
+    | active        | true                                               |
 
 Scenario Outline: Correct users can deactivate and reactivate a supplier's contributor
   Given I am logged in as the existing <role> user
