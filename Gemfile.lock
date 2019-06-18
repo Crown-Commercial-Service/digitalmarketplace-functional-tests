@@ -28,8 +28,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    capybara-screenshot (1.0.14)
-      capybara (>= 1.0, < 3)
+    capybara-screenshot (1.0.23)
+      capybara (>= 1.0, < 4)
       launchy
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
@@ -163,7 +163,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk-s3 (= 1.42.0)
   capybara (= 2.18.0)
-  capybara-screenshot (= 1.0.14)
+  capybara-screenshot (= 1.0.23)
   cucumber (= 2.4.0)
   govuk-lint (= 3.7.0)
   json (= 2.0.2)

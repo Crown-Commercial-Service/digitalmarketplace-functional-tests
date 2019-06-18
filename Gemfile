@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "aws-sdk-s3", "1.42.0"
 gem "capybara", "2.18.0"
-gem "capybara-screenshot", "1.0.14"
+gem "capybara-screenshot", "1.0.23"
 gem "cucumber", "2.4.0"
 gem "govuk-lint", "3.7.0"
 gem "json", "2.0.2"
