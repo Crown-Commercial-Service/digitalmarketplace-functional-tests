@@ -141,7 +141,7 @@ GEM
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
-    test-unit (3.2.1)
+    test-unit (3.3.3)
       power_assert
     unf (0.1.4)
       unf_ext
@@ -175,7 +175,7 @@ DEPENDENCIES
   rspec (= 3.8.0)
   ruby-prof (= 0.17.0)
   selenium-webdriver (= 3.142.3)
-  test-unit (= 3.2.1)
+  test-unit (= 3.3.3)
 
 BUNDLED WITH
    2.0.1

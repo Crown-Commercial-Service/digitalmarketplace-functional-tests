@@ -16,7 +16,7 @@ gem "report_builder", "1.8"
 gem "rest-client", "2.0.2"
 gem "rspec", "3.8.0"
 gem "selenium-webdriver", "3.142.3"
-gem "test-unit", "3.2.1"
+gem "test-unit", "3.3.3"
 
 group :test, :development do
   gem "pry", "0.11.3"
