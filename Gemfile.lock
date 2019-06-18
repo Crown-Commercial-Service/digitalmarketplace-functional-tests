@@ -127,7 +127,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     rubocop-rspec (1.33.0)
       rubocop (>= 0.60.0)
-    ruby-prof (0.17.0)
+    ruby-prof (0.18.0)
     ruby-progressbar (1.10.1)
     rubyzip (1.2.3)
     sass (3.7.4)
@@ -173,7 +173,7 @@ DEPENDENCIES
   report_builder (= 1.8)
   rest-client (= 2.0.2)
   rspec (= 3.8.0)
-  ruby-prof (= 0.17.0)
+  ruby-prof (= 0.18.0)
   selenium-webdriver (= 3.142.3)
   test-unit (= 3.3.3)
 
