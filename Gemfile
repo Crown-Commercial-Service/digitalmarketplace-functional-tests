@@ -14,7 +14,7 @@ gem "poltergeist", "1.18.0"
 gem "rake", "12.3.2"
 gem "report_builder", "1.8"
 gem "rest-client", "2.0.2"
-gem "rspec", "3.5.0"
+gem "rspec", "3.8.0"
 gem "selenium-webdriver", "3.0.0"
 gem "test-unit", "3.2.1"
 
