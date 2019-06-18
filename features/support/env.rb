@@ -128,12 +128,45 @@ if ENV['DM_DEBUG_SLOW_TESTS']
   end
 end
 
-# Monkeypatch Capybara's synchronize method to wait longer if it detects the page to be in a loading state.
-# Note this is done *after* the possible patching via synchronize_with_timeout_error, so that it wraps
-# *outside* that.
 module Capybara
   module Node
     class Base
+      # Monkeypatch the internals of the syncronise method to wait for `dm_custom_wait_time` seconds unless the error is
+      # Capybara::ElementNotFound in which case use the `default_max_wait_time`. We require a shorter wait time on
+      # ElementNotFound in case we are checking that an element does not exist. We don't want to wait 5 seconds for it
+      # it to appear.
+      # https://github.com/teamcapybara/capybara/blob/2.18.0/lib/capybara/node/base.rb#L77
+      def synchronize(seconds = session_options.default_max_wait_time, options = {})
+        start_time = Capybara::Helpers.monotonic_time
+        if session.synchronized
+          yield
+        else
+          session.synchronized = true
+          begin
+            yield
+          rescue => e # rubocop:disable RescueStandardError
+            session.raise_server_error!
+            raise e unless driver.wait?
+            raise e unless catch_error?(e, options[:errors])
+
+            seconds = e.class == Capybara::ElementNotFound ? seconds : dm_custom_wait_time
+            raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds
+
+            sleep(0.05)
+            raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Capybara::Helpers.monotonic_time == start_time
+
+            reload if session_options.automatic_reload
+            retry
+          ensure
+            session.synchronized = false
+          end
+        end
+      end
+
+      # Monkeypatch Capybara's synchronize method to wait longer if it detects the page to be in a loading state.
+      # Note this is done *after* the possible patching via synchronize_with_timeout_error, so that it wraps
+      # *outside* that.
+
       def synchronize_with_unload_wait(*args, &block)
         Timeout.timeout(dm_pre_load_wait_time) do
           until driver.evaluate_script('window.performance.timing.navigationStart < window.performance.timing.loadEventEnd')
