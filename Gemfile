@@ -19,6 +19,6 @@ gem "selenium-webdriver", "3.142.3"
 gem "test-unit", "3.3.3"
 
 group :test, :development do
-  gem "pry", "0.11.3"
+  gem "pry", "0.12.2"
   gem "ruby-prof", "0.17.0"
 end
