@@ -77,7 +77,7 @@ GEM
     notifications-ruby-client (3.1.0)
       jwt (>= 1.5, < 3)
     parallel (1.17.0)
-    parallel_tests (2.15.0)
+    parallel_tests (2.18.0)
       parallel
     parser (2.6.3.0)
       ast (~> 2.4.0)
@@ -165,7 +165,7 @@ DEPENDENCIES
   json (= 2.2.0)
   launchy (= 2.4.3)
   notifications-ruby-client (= 3.1.0)
-  parallel_tests (= 2.15.0)
+  parallel_tests (= 2.18.0)
   phantomjs (= 2.1.1.0)
   poltergeist (= 1.18.0)
   pry (= 0.12.2)
