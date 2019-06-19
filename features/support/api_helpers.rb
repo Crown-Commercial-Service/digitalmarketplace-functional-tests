@@ -503,7 +503,7 @@ def get_supplier_with_reusable_declaration
   reusable_frameworks.detect do |framework|
     body_json = JSON.parse(call_api(:get, "/frameworks/#{framework['slug']}/suppliers?with_declarations=false").body)
     supplier_framework = body_json['supplierFrameworks'].shuffle.detect do |sf|
-      sf['onFramework']
+      sf['onFramework'] && sf['allowDeclarationReuse']
     end
   end
 
