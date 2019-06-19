@@ -374,10 +374,10 @@
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "1rxp2v34z1w107hks3892v04pnzq5kj85xplks53z6kamn7p1knx";
+      sha256 = "1fg7l97wwb3d92p89vmky83ngwfcf8408fdcv2nazghcglwph84x";
       type = "gem";
     };
-    version = "2.29.0";
+    version = "2.15.0";
   };
   parser = {
     dependencies = ["ast"];
