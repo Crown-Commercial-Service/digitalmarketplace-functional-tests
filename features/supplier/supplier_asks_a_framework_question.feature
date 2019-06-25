@@ -1,7 +1,7 @@
 @supplier @supplier-framework-question
 Feature: Supplier asks a framework question
 
-
+@skip-staging
 Scenario: Supplier asks a clarification question
   Given there is a framework that is open for applications with clarification questions open
   And I have a supplier user
@@ -24,6 +24,7 @@ Scenario: Supplier asks a clarification question
   And I don't receive a follow-up question email regarding that question for 'follow-up@example.gov.uk'
   And I see a success banner message containing 'Your clarification question has been sent.'
 
+@skip-staging
 Scenario: Supplier asks a question about their application
   Given there is a framework that is open for applications with clarification questions closed
   And I have a supplier user
