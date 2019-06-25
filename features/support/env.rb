@@ -156,7 +156,6 @@ module Capybara
             raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Capybara::Helpers.monotonic_time == start_time
 
             reload if session_options.automatic_reload
-            sleep(0.05) if e.class == Capybara::Poltergeist::ObsoleteNode
             retry
           ensure
             session.synchronized = false
