@@ -149,7 +149,7 @@ module Capybara
             raise e unless driver.wait?
             raise e unless catch_error?(e, options[:errors])
             puts(e.class)
-            seconds = ([Capybara::ExpectationNotMet, Capybara::ElementNotFound].include? e.class) ? seconds : dm_custom_wait_time
+            seconds = (e.is_a? Capybara::ElementNotFound) ? seconds : dm_custom_wait_time
             puts(seconds)
             raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds
 
