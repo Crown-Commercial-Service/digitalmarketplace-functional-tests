@@ -149,14 +149,13 @@ module Capybara
             raise e unless driver.wait?
             raise e unless catch_error?(e, options[:errors])
 
-            seconds = e.class == Capybara::ElementNotFound ? seconds : dm_custom_wait_time
+            seconds = e.is_a? Capybara::ElementNotFound ? seconds : dm_custom_wait_time
             raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds
 
             sleep(0.05)
             raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Capybara::Helpers.monotonic_time == start_time
 
             reload if session_options.automatic_reload
-            sleep(0.05) if e.class == Capybara::Poltergeist::ObsoleteNode
             retry
           ensure
             session.synchronized = false
