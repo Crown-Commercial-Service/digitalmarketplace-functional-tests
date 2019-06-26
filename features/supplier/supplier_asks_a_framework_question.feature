@@ -1,7 +1,7 @@
 @supplier @supplier-framework-question
 Feature: Supplier asks a framework question
 
-
+@skip-staging
 Scenario: Supplier asks a clarification question
   Given there is a framework that is open for applications with clarification questions open
   And I have a supplier user
@@ -15,8 +15,8 @@ Scenario: Supplier asks a clarification question
   When I click 'View communications and ask clarification questions'
   Then I see that framework.name in the page's h1
   And I see the page's h1 ends in 'updates'
-  And I see 'The deadline for clarification questions is' text on the page
-  And I see 'will not respond to you individually' text on the page
+  And I see 'You can ask clarification questions until' text on the page
+  And I see 'Answers are published to this page around twice a week' text on the page
   When I enter a random value in the 'clarification_question' field
   And I click the 'Ask question' button
   Then I receive a clarification question email regarding that question for 'clarification-questions@example.gov.uk'
@@ -24,6 +24,7 @@ Scenario: Supplier asks a clarification question
   And I don't receive a follow-up question email regarding that question for 'follow-up@example.gov.uk'
   And I see a success banner message containing 'Your clarification question has been sent.'
 
+@skip-staging
 Scenario: Supplier asks a question about their application
   Given there is a framework that is open for applications with clarification questions closed
   And I have a supplier user
@@ -38,11 +39,4 @@ Scenario: Supplier asks a question about their application
   Then I see that framework.name in the page's h1
   And I see the page's h1 ends in 'updates'
   And I see 'The deadline for asking clarification questions has now passed' text on the page
-  And I see 'You'll get a private reply' text on the page
-  When I enter a random value in the 'clarification_question' field
-  And I click the 'Ask question' button
-  Then I receive a follow-up question email regarding that question for 'follow-up@example.gov.uk'
-  And I don't receive a clarification question email regarding that question for 'clarification-questions@example.gov.uk'
-  And I don't receive a clarification question confirmation email regarding that question for that supplier_user.emailAddress
-  And I see a success banner message containing 'Your question has been sent.'
-
+  And I see 'Contact the support team' text on the page
