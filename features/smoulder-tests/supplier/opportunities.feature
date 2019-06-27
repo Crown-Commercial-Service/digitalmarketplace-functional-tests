@@ -50,7 +50,6 @@ Scenario: Specialist roles are selectable for Digital specialists
   When I note the result_count
   Then a filter checkbox's associated aria-live region contains that result_count
 
-@skip-production
 Scenario Outline: Specialist roles are not selectable for non-Digital specialists lots
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   Then I don't see a 'Designer' checkbox
@@ -64,7 +63,6 @@ Scenario Outline: Specialist roles are not selectable for non-Digital specialist
     | Digital outcomes           |
     | User research participants |
 
-@skip-production
 Scenario Outline: User gets no results for impossible combinations of location and lot
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   And I click '<lot>'
@@ -87,7 +85,6 @@ Scenario Outline: User gets no results for impossible combinations of location a
 
 
 
-@skip-production
 Scenario Outline: User can filter by status, lot, location and keyword together
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count

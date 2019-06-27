@@ -27,7 +27,6 @@ Scenario: User is able to search by keywords field on the search results page to
   And I click a link with text that service.serviceName in that search_result
   Then I am on that service.serviceName page
 
-@skip-production
 Scenario: User is able to click on several random filters
   Given I visit the /buyers/direct-award/g-cloud/choose-lot page
   And I have a random g-cloud lot from the API
