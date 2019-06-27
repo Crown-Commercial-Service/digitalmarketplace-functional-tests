@@ -64,6 +64,12 @@ Then (/^I note the total number of pages of results$/) do
   puts "Noted page_count: #{@page_count}"
 end
 
+Then(/^I click the (.*) category link$/) do |category|
+  # Look for links only in the lot-filters div so we don't click any
+  # search results which happen to include the name of a lot/category.
+  page.find(:css, ".lot-filters a", text: category).click
+end
+
 Then /^I click a random category link$/ do
   links = CatalogueHelpers.get_category_links(page)
   link_el = links.sample
