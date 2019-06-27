@@ -12,7 +12,6 @@ Scenario: User is able to navigate to opportunity detail page via selecting the 
   When I click a random result in the list of opportunity results returned
   Then I am on that result.title page
 
-@skip-production
 Scenario Outline: User can filter by individual lot and keyword search
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
