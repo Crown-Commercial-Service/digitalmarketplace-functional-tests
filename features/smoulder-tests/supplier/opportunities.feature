@@ -54,7 +54,7 @@ Scenario Outline: Specialist roles are not selectable for non-Digital specialist
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   Then I don't see a 'Designer' checkbox
   And I don't see any 'specialistRole' checkboxes
-  When I click '<lot>'
+  When I click the '<lot>' category link
   Then I don't see a 'Designer' checkbox
   And I don't see any 'specialistRole' checkboxes
 
@@ -65,7 +65,7 @@ Scenario Outline: Specialist roles are not selectable for non-Digital specialist
 
 Scenario Outline: User gets no results for impossible combinations of location and lot
   Given I visit the /digital-outcomes-and-specialists/opportunities page
-  And I click '<lot>'
+  And I click the '<lot>' category link
   And I check '<location>' checkbox
   And I wait for the page to reload
   Then I see no results
@@ -88,7 +88,7 @@ Scenario Outline: User gets no results for impossible combinations of location a
 Scenario Outline: User can filter by status, lot, location and keyword together
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
-  And I click '<lot>'
+  And I click the '<lot>' category link
   Then I see that the stated number of results does not exceed that result_count
   And I note the result_count
   When I check '<status>' checkbox
