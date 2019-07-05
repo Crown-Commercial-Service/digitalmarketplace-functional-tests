@@ -7,6 +7,7 @@ Scenario: User can click through to opportunities page
   Then I am on the 'Digital Outcomes and Specialists opportunities' page
   And I see an opportunity in the search results
 
+@skip
 Scenario: User is able to navigate to opportunity detail page via selecting the opportunity from the search results
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I click a random result in the list of opportunity results returned
