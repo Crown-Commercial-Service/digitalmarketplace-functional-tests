@@ -9,7 +9,6 @@ Scenario: User can click through to g-cloud page
   When I click 'Start a new search'
   Then I am on the 'Choose a category' page
 
-@skip
 Scenario: User is able to navigate to service detail page via selecting the service from the search results
   Given I visit the /g-cloud/search page
   Then I am on the 'Search results' page
