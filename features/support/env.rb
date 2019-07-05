@@ -181,7 +181,7 @@ module Capybara
         synchronize_without_unload_wait(*args, &block)
       end
       alias_method :synchronize_without_unload_wait, :synchronize
-      alias_method :synchronize, :synchronize_with_unload_wait
+      alias_method :synchronize, :synchronize_with_unload_wait # rubocop:disable Lint/DuplicateMethods
     end
   end
 end
