@@ -167,40 +167,21 @@ module Capybara
       # Note this is done *after* the possible patching via synchronize_with_timeout_error, so that it wraps
       # *outside* that.
 
-      def is_page_loading
-        browser_params = driver.evaluate_script(%q({
-          "navigationStart": window.performance.timing.navigationStart,
-          "loadEventEnd": window.performance.timing.loadEventEnd,
-          "xhr_semaphore": (window.GOVUK && window.GOVUK.xhr_semaphore) || 0
-        }))
-
-        if browser_params['navigationStart'] > browser_params['loadEventEnd']
-          # navigationStart has been updated more recently than loadEventEnd, loadEventEnd presumably still
-          # carrying the value set when the *old* page got loaded - that means the dom is probably in the
-          # process of loading (or at least requesting) a new page. any following page queries will
-          # presumably be targeted at the upcoming page, which isn't ready.
-          reason = "navigationStart (#{browser_params['navigationStart']}) > loadEventEnd (#{browser_params['loadEventEnd']})"
-        elsif browser_params['xhr_semaphore'] > 0
-          # window.GOVUK.xhr_semaphore's non-zero value indicates that the page still has an ajax request in flight
-          reason = "xhr_semaphore = #{browser_params['xhr_semaphore']}"
-        else
-          return false
-        end
-
-        DEBUG_FILE.write "#{Time.now.utc.round(10).iso8601(6)}: #{reason} @ #{caller.to_a.select { |pth| pth.include? '/features/' }}\n"
-        true
-      end
-
-      def synchronize_with_navigation_wait(*args, &block)
+      def synchronize_with_unload_wait(*args, &block)
         Timeout.timeout(dm_pre_load_wait_time) do
-          until !is_page_loading
+          until driver.evaluate_script('window.performance.timing.navigationStart < window.performance.timing.loadEventEnd')
+            DEBUG_FILE.write "#{Time.now.utc.round(10).iso8601(6)}: #{caller.to_a.select { |pth| pth.include? '/features/' }}\n"
+            # navigationStart has been updated more recently than loadEventEnd, loadEventEnd presumably still
+            # carrying the value set when the *old* page got loaded - that means the dom is probably in the
+            # process of loading (or at least requesting) a new page. any following page queries will
+            # presumably be targeted at the upcoming page, which isn't ready.
             sleep(0.01)
           end
         end
-        synchronize_without_navigation_wait(*args, &block)
+        synchronize_without_unload_wait(*args, &block)
       end
-      alias_method :synchronize_without_navigation_wait, :synchronize
-      alias_method :synchronize, :synchronize_with_navigation_wait # rubocop:disable Lint/DuplicateMethods
+      alias_method :synchronize_without_unload_wait, :synchronize
+      alias_method :synchronize, :synchronize_with_unload_wait # rubocop:disable Lint/DuplicateMethods
     end
   end
 end
