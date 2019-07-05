@@ -84,7 +84,7 @@ Scenario Outline: User gets no results for impossible combinations of location a
     | User research participants | Off-site                       |
 
 
-  @skip
+
 Scenario Outline: User can filter by status, lot, location and keyword together
   Given I visit the /digital-outcomes-and-specialists/opportunities page
   When I note the result_count
