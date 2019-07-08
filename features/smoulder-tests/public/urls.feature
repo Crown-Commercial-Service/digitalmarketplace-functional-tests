@@ -11,4 +11,4 @@ Scenario: Use of trailing slashes in URL path
 
 Scenario: Use of relative URL path components
   Given I visit the /user/../help page
-  Then I am on the 'What do you need help with?' page
+  Then I am on the 'Help and feedback' page
