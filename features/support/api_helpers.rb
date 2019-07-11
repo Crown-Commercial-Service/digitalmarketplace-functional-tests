@@ -259,7 +259,7 @@ def create_supplier(custom_supplier_data = {})
   random_string = SecureRandom.hex
   supplier_data = {
     name: 'functional test supplier ' + random_string,
-    dunsNumber: rand(9999999999).to_s,
+    dunsNumber: rand(999999999).to_s,
     contactInformation: [{
       contactName: random_string,
       email: random_string + "-supplier@example.com",
