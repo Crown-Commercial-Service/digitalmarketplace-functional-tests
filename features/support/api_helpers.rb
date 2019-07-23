@@ -494,6 +494,39 @@ def get_or_create_user(custom_user_data)
   @user = create_user(role, custom_user_data)
 end
 
+def get_unacknowledged_service_update_audit_events(service_id)
+  response = call_api(
+    :get,
+    "/audit-events",
+    params: {
+      "object-type": "services",
+      "object-id": service_id,
+      "latest-first": "true",
+      "audit-type": "update_service",
+      "acknowledged": "false",
+    },
+  )
+  expect(response.code).to eq(200), response.body
+  JSON.parse(response.body)
+end
+
+def acknowledge_all_service_updates(service_id)
+  listing_response_json = get_unacknowledged_service_update_audit_events(service_id)
+
+  if listing_response_json["auditEvents"].length != 0
+    puts "Acknowledging #{listing_response_json['auditEvents'].length} audit events"
+    ack_response = call_api(
+      :post,
+      "/services/#{service_id}/updates/acknowledge",
+      payload: {
+        "latestAuditEventId": listing_response_json["auditEvents"][0]['id'],
+        "updated_by": "functional_tests",
+      },
+    )
+    expect(ack_response.code).to eq(200), ack_response.body
+  end
+end
+
 def get_supplier_with_reusable_declaration
   reusable_frameworks = (get_frameworks.select do |framework|
     framework['allowDeclarationReuse']

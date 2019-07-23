@@ -9,6 +9,7 @@ Background:
   And we accepted that suppliers application to the framework
   And that supplier has returned a signed framework agreement for the framework
   And that supplier has a service on the cloud-support lot
+  And I ensure that all update audit events for that service are acknowledged
   When I visit the /suppliers page
   # The following step only works by virtue of there only being a single service for this supplier - multiple services on
   # multiple frameworks will cause multiple "View services" links to be present
@@ -26,6 +27,7 @@ Scenario: Supplier user can edit the name of a service
   And I click 'Save and return'
   Then I am on the 'Changed cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+  And that service has unacknowledged update audit events
 
 Scenario: Supplier user can edit the description of a service
   Given I see the 'About your service' summary table filled with:
@@ -40,6 +42,7 @@ Scenario: Supplier user can edit the description of a service
   And I see the 'About your service' summary table filled with:
     | field                        | value                          |
     | Service description          | This is an updated description |
+  And that service has unacknowledged update audit events
 
 Scenario: Supplier user can edit the features and benefits of a service
   Given I see the 'Service features and benefits' summary table filled with:
@@ -55,6 +58,7 @@ Scenario: Supplier user can edit the features and benefits of a service
   And I see the 'Service features and benefits' summary table filled with:
     | field                         | value                                                                                  |
     | Service features and benefits | Service features Feature 1 New Feature 2 Service benefits Benefit 1 Updated Benefit 2  |
+  And that service has unacknowledged update audit events
 
 @requires-credentials @file-upload
 Scenario: Supplier user can replace the service definition document
@@ -64,6 +68,7 @@ Scenario: Supplier user can replace the service definition document
   And I click 'Save and return'
   Then I am on that service.serviceName page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+  And that service has unacknowledged update audit events
 
 @requires-credentials @file-upload
 Scenario: Supplier user can not replace the service definition document with a non-pdf file
@@ -73,6 +78,7 @@ Scenario: Supplier user can not replace the service definition document with a n
   And I click 'Save and return'
   Then I am on the 'Documents' page
   And I see a validation message containing 'Your document is not in an open format. Please save as an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
+  And that service has no unacknowledged update audit events
 
 @requires-credentials @file-upload
 Scenario: Supplier user can not replace the service definition document with a file over 5MB
@@ -82,6 +88,7 @@ Scenario: Supplier user can not replace the service definition document with a f
   And I click 'Save and return'
   Then I am on the 'Documents' page
   And I see a validation message containing 'Your document exceeds the 5MB limit. Please reduce file size.'
+  And that service has no unacknowledged update audit events
 
 Scenario: Supplier can remove their G-Cloud service from the marketplace
   When I click 'Remove service'
@@ -92,3 +99,4 @@ Scenario: Supplier can remove their G-Cloud service from the marketplace
 
   When I click that service.serviceName
   Then I see a temporary-message banner message containing 'This service was removed'
+  And that service has no unacknowledged update audit events

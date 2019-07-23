@@ -68,6 +68,20 @@ Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do 
   puts "service id: #{@service['id']}"
 end
 
+Given 'I ensure that all update audit events for that service are acknowledged' do
+  acknowledge_all_service_updates(@service['id'])
+end
+
+Given /^that service has( no)? unacknowledged update audit events$/ do |negate|
+  audit_events_json = get_unacknowledged_service_update_audit_events(@service['id'])
+  if negate
+    expect(audit_events_json['auditEvents'].length).to eq(0), "#{audit_events_json['auditEvents'].length} found"
+  else
+    expect(audit_events_json['auditEvents'].length).not_to eq(0), "None found"
+    puts "Found #{audit_events_json['auditEvents'].length}"
+  end
+end
+
 Given 'I have a supplier with a reusable declaration' do
   @supplier = get_supplier_with_reusable_declaration
   puts "supplier id: #{@supplier['id']}"
