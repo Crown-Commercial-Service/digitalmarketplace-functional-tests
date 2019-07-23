@@ -16,8 +16,8 @@ Background:
   # Two steps below so we can assert the page title for either G9 or G10
   Then I am on the 'Your G-Cloud' page
   And I see the page's h1 ends in 'services'
-  When I click 'Test cloud support service'
-  Then I am on the 'Test cloud support service' page
+  When I click that service.serviceName
+  Then I am on that service.serviceName page
 
 Scenario: Supplier user can edit the name of a service
   When I click the top-level summary table 'Edit' link for the section 'Service name'
@@ -35,7 +35,7 @@ Scenario: Supplier user can edit the description of a service
   Then I am on the 'About your service' page
   And I enter 'This is an updated description' in the 'serviceDescription' field
   And I click 'Save and return'
-  Then I am on the 'Test cloud support service' page
+  Then I am on that service.serviceName page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And I see the 'About your service' summary table filled with:
     | field                        | value                          |
@@ -50,7 +50,7 @@ Scenario: Supplier user can edit the features and benefits of a service
   And I enter 'New Feature 2' in the 'input-serviceFeatures-2' field
   And I enter 'Updated Benefit 2' in the 'input-serviceBenefits-2' field
   And I click 'Save and return'
-  Then I am on the 'Test cloud support service' page
+  Then I am on that service.serviceName page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And I see the 'Service features and benefits' summary table filled with:
     | field                         | value                                                                                  |
@@ -62,7 +62,7 @@ Scenario: Supplier user can replace the service definition document
   Then I am on the 'Documents' page
   And I choose file 'test.pdf' for the field 'serviceDefinitionDocumentURL'
   And I click 'Save and return'
-  Then I am on the 'Test cloud support service' page
+  Then I am on that service.serviceName page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
 
 @requires-credentials @file-upload
@@ -90,5 +90,5 @@ Scenario: Supplier can remove their G-Cloud service from the marketplace
   When I click 'Remove service'
   Then I see a success banner message containing 'Test cloud support service has been removed.'
 
-  When I click 'Test cloud support service'
+  When I click that service.serviceName
   Then I see a temporary-message banner message containing 'This service was removed'
