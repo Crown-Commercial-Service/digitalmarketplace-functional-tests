@@ -23,6 +23,8 @@ end
 
 Given /^I have a (not-submitted|submitted|enabled|disabled|published|failed) service on a live G-Cloud framework$/ do |status|
   @service = get_a_service(status)
+  puts "Service id: #{@service['id']}"
+  puts "Service name: #{@service['serviceName']}"
 end
 
 When /^I enter that service id in the '(.*)' field( and click its associated '(.*)' button)?$/ do |field_name, maybe_click_statement, click_button_name|

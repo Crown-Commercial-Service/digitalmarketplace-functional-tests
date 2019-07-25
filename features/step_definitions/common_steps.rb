@@ -238,7 +238,7 @@ When(/^I choose a random uppercase letter$/) do
 end
 
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
-Then /^I see a (success|warning|destructive|temporary-message) banner message containing '(.*)'$/ do |status, message|
+Then /^I see a (success|warning|destructive|temporary-message) banner message containing #{MAYBE_VAR}$/ do |status, message|
   begin
     banner_message = page.find(:css, ".banner-#{status}-without-action", wait: false)
   rescue Capybara::ElementNotFound => e
@@ -324,7 +324,7 @@ When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/
   edit_link.click
 end
 
-When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
+When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |link_name, elem_type, field_to_edit|
   case elem_type
     when 'link'
       edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
@@ -334,7 +334,7 @@ When /I click the summary table '(.*)' (link|button) for '(.*)'$/ do |link_name,
   edit_link.click
 end
 
-When /I click the summary table '(.*)' (link|button) for the '(.*)' link$/ do |link_name, elem_type, field_to_edit|
+When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR} link$/ do |link_name, elem_type, field_to_edit|
   case elem_type
     when 'link'
       edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//a[contains(normalize-space(text()), '#{link_name}')]")
@@ -344,7 +344,7 @@ When /I click the summary table '(.*)' (link|button) for the '(.*)' link$/ do |l
   edit_link.click
 end
 
-When /I click a summary table '(.*)' (link|button) for '(.*)'$/ do |link_name, elem_type, field_to_edit|
+When /I click a summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |link_name, elem_type, field_to_edit|
   case elem_type
     when 'link'
       edit_link = page.all(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
@@ -383,9 +383,9 @@ Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
   end
 end
 
-Then /^I see #{MAYBE_VAR} in the '(.*)' summary table$/ do |content, table_heading|
+Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' summary table$/ do |negate, content, table_heading|
   result_table_rows = get_table_rows_by_caption(table_heading)
-  expect(result_table_rows.any? { |row| row.text.include?(content) }).to be true
+  expect(result_table_rows.any? { |row| row.text.include?(content) }).to be negate.empty?
 end
 
 Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?:y|ies)$/ do |table_heading, expected_number_of_rows, comparison|
