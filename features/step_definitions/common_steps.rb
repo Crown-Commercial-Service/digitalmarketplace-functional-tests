@@ -237,6 +237,12 @@ When(/^I choose a random uppercase letter$/) do
   puts "letter: #{@letter}"
 end
 
+When(/^I choose a random sentence$/) do
+  lexicon = %w[apple banana cherry date fig gooseberry juniper]
+  @random_sentence = ((0..8).map { |n| lexicon.sample }).join(" ").capitalize + "."
+  puts "sentence: #{@random_sentence}"
+end
+
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing #{MAYBE_VAR}$/ do |status, message|
   begin
