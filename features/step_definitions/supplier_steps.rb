@@ -82,6 +82,14 @@ Given /^that service has( no)? unacknowledged update audit events$/ do |negate|
   end
 end
 
+Given /^user #{MAYBE_VAR} sets the (\w+) of that service to #{MAYBE_VAR}$/ do |editor_email, field_name, new_text|
+  update_service(
+    @service['id'],
+    { field_name => new_text },
+    editor_email,
+  )
+end
+
 Given 'I have a supplier with a reusable declaration' do
   @supplier = get_supplier_with_reusable_declaration
   puts "supplier id: #{@supplier['id']}"

@@ -527,6 +527,18 @@ def acknowledge_all_service_updates(service_id)
   end
 end
 
+def update_service(service_id, service_data, updated_by)
+  response = call_api(
+    :post,
+    "/services/#{service_id}",
+    payload: {
+      "services": service_data,
+      "updated_by": updated_by,
+    },
+  )
+  expect(response.code).to eq(200), response.body
+end
+
 def get_supplier_with_reusable_declaration
   reusable_frameworks = (get_frameworks.select do |framework|
     framework['allowDeclarationReuse']
