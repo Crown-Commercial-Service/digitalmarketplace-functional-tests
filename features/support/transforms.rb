@@ -4,6 +4,12 @@
 MAYBE_VAR_RE = '((?:the )?(?:\'(?<value>.*)\')|(?:that (?<quoted>quoted )?(?<variable>\w+)(?<attributes>(?:\.[\w-]+)*)))'
 MAYBE_VAR = MAYBE_VAR_RE.gsub(/<[a-z]+>/, ':')
 
+# the following transform, used in conjunction with our habit of putting quotation marks
+# *outside* our steps' capture groups, is unfortunately overzealous - causing any captured
+# parameter to be possibly transformed if e.g. beginning with "that ".
+# TODO we should decide what to do about this, possibly by making _all_ our outer-quoted
+# capture groups use MAYBE_VAR somehow
+
 Transform /^#{MAYBE_VAR}$/ do |whole_match|
   # to access the inner regex groups we have to perform the regex again with the groups captured. from what i can tell
   # Transforms don't work very well with multiple arguments, so we implement the transform itself as a single-argument
