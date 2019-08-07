@@ -1,3 +1,7 @@
+SHELL := /bin/bash
+
+export BUNDLE_PATH ?= .bundle
+
 DM_ENVIRONMENT ?= local
 
 CONFIG := config/${DM_ENVIRONMENT}.sh
@@ -24,11 +28,11 @@ run-parallel: setup
 build-report:
 	bundle exec report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
 
-setup: install config clean
+setup: config clean
 	mkdir -p reports/
 
 install:
-	bundle install --path .bundle --without development
+	bundle install --without development
 
 .PHONY: config
 config:
