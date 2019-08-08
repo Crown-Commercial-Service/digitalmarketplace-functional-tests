@@ -15,9 +15,10 @@ Scenario Outline: Correct users can search for users by email address
     | DM Functional Test Search User 1 | buyer |          | <ANY>      | <ANY>                | No     |
 
   Examples:
-    | role                    |
-    | admin                   |
-    | admin-ccs-category      |
+    | role                      |
+    | admin                     |
+    | admin-ccs-category        |
+    | admin-ccs-data-controller |
 
 Scenario Outline: Correct users cannot search for users by email address
   Given I am logged in as the existing <role> user
@@ -30,4 +31,3 @@ Scenario Outline: Correct users cannot search for users by email address
     | admin-framework-manager   |
     | admin-ccs-sourcing        |
     | admin-manager             |
-    | admin-ccs-data-controller |
