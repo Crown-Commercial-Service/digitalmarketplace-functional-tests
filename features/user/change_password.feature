@@ -1,4 +1,4 @@
-@user @password-change @requires-credentials @notify @skip-staging
+@user @password-change @requires-credentials @notify
 Feature: Password change
 Background:
 
@@ -23,6 +23,7 @@ Scenario Outline: Logged in user can change their password
     | supplier |  /suppliers    |
 
 
+@skip-staging
 Scenario Outline: Logged in admin user can change their password
   Given I am logged in as the existing <role> user
   And I visit the /admin page
