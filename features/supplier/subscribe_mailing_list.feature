@@ -19,7 +19,7 @@ Scenario: Successful mailing-list subscription from the home page
   Then I am on the 'Digital Marketplace' page
   And I see a success banner message containing 'You will receive email notifications to functional-test-email@user.marketplace.team when applications are opening.'
 
-@requires-credentials @mailchimp @skip-staging
+@requires-credentials @mailchimp
 Scenario: Initially-rejected mailing-list subscription
   # example@example.com should be rejected by mailchimp as an obvious fake address
   When I enter 'example@example.com' in the 'email_address' field

@@ -166,7 +166,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   # Can pull the dunsNumber from the supplier and use it with this step
   And I see 'that supplier.dunsNumber' text on the page
 
-@requires-credentials @notify @skip-staging
+@requires-credentials @notify
 Scenario: Supplier user can add and remove contributors
   When I click 'Contributors'
   Then I am on the 'Invite or remove contributors' page

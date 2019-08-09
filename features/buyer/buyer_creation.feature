@@ -1,4 +1,4 @@
-@buyer @newbuyer @skip-staging
+@buyer @newbuyer
 Feature: Create buyer account
 
 @requires-credentials @notify
