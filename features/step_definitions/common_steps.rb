@@ -506,8 +506,9 @@ Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) 
     page.find_by_id(
       page.all(
         :xpath,
-        "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"]
-    ).text
+        "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample["aria-controls"],
+        visible: :true
+    ).text(:all)
   ).to include(value.to_s)
 end
 
