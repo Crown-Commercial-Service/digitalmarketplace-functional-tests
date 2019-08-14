@@ -215,9 +215,14 @@ When /^I enter a random value in the '(.*)' field( and click its associated '(.*
   step "I enter '#{@fields[field_name]}' in the '#{field_name}' field#{maybe_click_statement}"
 end
 
+When /^I enter #{MAYBE_VAR} in the '(.*)' field and hit enter$/ do |value, field_name|
+    field_element = page.find_field field_name
+    field_element.send_keys(value, :enter)
+end
+
 When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
   field_element = page.find_field field_name
-  field_element.set value
+  field_element.send_keys(value)
   if maybe_click_statement
     form_element = field_element.find(:xpath, "ancestor::form")
     form_element.click_button(click_button_name)
@@ -273,7 +278,7 @@ Then /^I (don't |)see (?:the|a) '(.*)' (button|link)$/ do |negative, selector_te
 end
 
 Then /^I wait to see (?:the|a) '(.*)' link with href '(.*)'$/ do |selector_text, href|
-  find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']", wait: dm_custom_wait_time)
+  find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']", wait: dm_custom_wait_time, visible: :all)
 end
 
 Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
