@@ -9,7 +9,7 @@ RSpec.configure do |config|
 end
 
 if (ENV['BROWSER'] == 'firefox')
-  require 'selenium-webdriver'
+  require 'webdrivers/geckodriver'
   Capybara.default_driver = :selenium
 
   Capybara.register_driver :selenium do |app|
@@ -18,22 +18,7 @@ if (ENV['BROWSER'] == 'firefox')
     Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
   end
 else
-  require 'selenium-webdriver'
-
-  Capybara.register_driver :headless_chromium do |app|
-    caps = Selenium::WebDriver::Remote::Capabilities.chrome(
-      "chromeOptions" => {
-        "args" => ["headless", "disable-gpu", "no-sandbox", "window-size=1366,1366"]
-      }
-    )
-    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps)
-  end
-
-  Capybara::Screenshot.register_driver(:headless_chromium) do |driver, path|
-    driver.browser.save_screenshot(path)
-  end
-
-  Capybara.default_driver = :headless_chromium
+  Capybara.default_driver = :selenium_chrome_headless
 end
 
 def domain_for_app(app)
