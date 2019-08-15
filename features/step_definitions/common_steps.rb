@@ -222,6 +222,7 @@ end
 
 When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
   field_element = page.find_field field_name
+  field_element.native.clear
   field_element.send_keys(value)
   if maybe_click_statement
     form_element = field_element.find(:xpath, "ancestor::form")
