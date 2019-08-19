@@ -12,14 +12,14 @@ Background:
   Then I am on the 'Sign up for Digital Marketplace email alerts' page
   And I don't see a banner message
 
-@requires-credentials @mailchimp
+@requires-credentials @mailchimp @skip-local
 Scenario: Successful mailing-list subscription from the home page
   When I enter 'functional-test-email@user.marketplace.team' in the 'email_address' field
   And I click 'Subscribe'
   Then I am on the 'Digital Marketplace' page
   And I see a success banner message containing 'You will receive email notifications to functional-test-email@user.marketplace.team when applications are opening.'
 
-@requires-credentials @mailchimp
+@requires-credentials @mailchimp @skip-local
 Scenario: Initially-rejected mailing-list subscription
   # example@example.com should be rejected by mailchimp as an obvious fake address
   When I enter 'example@example.com' in the 'email_address' field
