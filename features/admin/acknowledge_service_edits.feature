@@ -3,7 +3,7 @@ Feature: Admin acknowledging service edits
 
 Background:
   Given I have a published service on a live G-Cloud framework
-  And I ensure that all update audit events for that service are acknowledged
+  And I ensure that all update audit events are acknowledged
 
 Scenario: Admin approves service edits
   Given I choose a random sentence

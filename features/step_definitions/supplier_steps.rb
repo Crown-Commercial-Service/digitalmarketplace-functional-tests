@@ -68,6 +68,10 @@ Given /^that supplier has a service on the (.*) lot(?: for the (.*) role)?$/ do 
   puts "service id: #{@service['id']}"
 end
 
+Given 'I ensure that all update audit events are acknowledged' do
+  acknowledge_all_service_updates
+end
+
 Given 'I ensure that all update audit events for that service are acknowledged' do
   acknowledge_all_service_updates(@service['id'])
 end

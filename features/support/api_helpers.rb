@@ -494,23 +494,28 @@ def get_or_create_user(custom_user_data)
   @user = create_user(role, custom_user_data)
 end
 
-def get_unacknowledged_service_update_audit_events(service_id)
+def get_unacknowledged_service_update_audit_events(service_id = nil)
+  params = {
+    "latest-first": "true",
+    "audit-type": "update_service",
+    "acknowledged": "false",
+  }
+  if service_id
+    params.update({ # rubocop:disable Style/BracesAroundHashParameters
+      "object-type": "services",
+      "object-id": service_id,
+    })
+  end
   response = call_api(
     :get,
     "/audit-events",
-    params: {
-      "object-type": "services",
-      "object-id": service_id,
-      "latest-first": "true",
-      "audit-type": "update_service",
-      "acknowledged": "false",
-    },
+    params: params,
   )
   expect(response.code).to eq(200), response.body
   JSON.parse(response.body)
 end
 
-def acknowledge_all_service_updates(service_id)
+def acknowledge_all_service_updates(service_id = nil)
   listing_response_json = get_unacknowledged_service_update_audit_events(service_id)
 
   if listing_response_json["auditEvents"].length != 0
