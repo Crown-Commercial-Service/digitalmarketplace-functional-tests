@@ -43,7 +43,7 @@ Scenario: Supplier successfully uploads a signed agreement for a framework
   And I see a success banner message containing 'Your framework agreement has been returned to the Crown Commercial Service to be countersigned'
   And I see an entry in the 'Agreement details' table with:
     |field            |value                        |
-    |Person who signed|Mr Cornelius Kelleher Manager|
+    |Person who signed|Mr Cornelius Kelleher\nManager|
   And I see an entry in the 'Agreement details' table with:
     |field           |value                         |
     |Countersignature|Waiting for CCS to countersign|
