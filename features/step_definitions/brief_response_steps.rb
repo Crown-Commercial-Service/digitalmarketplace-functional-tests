@@ -24,7 +24,8 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
   puts "brief id: #{@brief['id']}"
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
-  @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+  @buyer_user = @brief['users'].sample
+  ensure_user_can_log_in @buyer_user
   puts "user id: #{@buyer_user['id']}"
   @buyer_user.update('password' => ENV["DM_BUYER_USER_PASSWORD"])
   steps "Given that buyer is logged in"

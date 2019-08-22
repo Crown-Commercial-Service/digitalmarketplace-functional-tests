@@ -84,6 +84,15 @@ def ensure_user_exists(user_details)
   get_user_by_email(user_details['emailAddress'])
 end
 
+def ensure_user_can_log_in(user)
+  if user['active'] == 'false'
+    call_api(:post, "/users/#{user['id']}", payload: { users: { active: true } }, updated_by: "functional_tests")
+  end
+  if user['locked'] == 'true'
+    call_api(:post, "/users/#{user['id']}", payload: { users: { locked: false } }, updated_by: "functional_tests")
+  end
+end
+
 def ensure_no_framework_agreements_exist(framework_slug)
   response = call_api(:get, "/frameworks/#{framework_slug}/suppliers")
   expect(response.code).to eq(200), _error(response, "Failed to get framework #{framework_slug}")
