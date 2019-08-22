@@ -187,6 +187,10 @@ def get_brief_responses(framework_slug, brief_response_status, brief_status)
     next_page += 1
   end
 
+  if brief_reponse_list.empty?
+    raise "No #{brief_response_status} brief responses for #{brief_status} briefs"
+  end
+
   brief_response_list
 end
 
