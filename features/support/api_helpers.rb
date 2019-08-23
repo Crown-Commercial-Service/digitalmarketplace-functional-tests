@@ -27,6 +27,17 @@ def call_api(method, path, options = {})
   end
 end
 
+def iter_api(method, path, key, options = {})
+  page = 1
+  Enumerator.new do |enum|
+    loop do
+      response = JSON.parse call_api(method, path + "?page=#{page}", options).body
+      response.fetch(key).each { |x| enum << x }
+      response["links"].key?("next") ? page += 1 : break
+    end
+  end
+end
+
 def _error(response, message)
   "#{message}\n#{response.code} - #{response.body}"
 end
@@ -188,6 +199,15 @@ def get_brief_responses(framework_slug, brief_response_status, brief_status)
   end
 
   brief_response_list
+end
+
+def iter_brief_responses(framework_slug, brief_response_status, brief_status)
+  params = { status: brief_response_status, framework: framework_slug }
+  Enumerator.new do |enum|
+    brief_responses = iter_api(:get, '/brief-responses', 'briefResponses', params: params)
+    brief_responses = brief_responses.select { |x| x['brief']['status'] == brief_status }
+    brief_responses.each { |x| enum << x }
+  end
 end
 
 def create_brief(framework_slug, lot_slug, user_id)
