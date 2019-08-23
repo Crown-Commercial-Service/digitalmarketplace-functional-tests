@@ -19,12 +19,15 @@ Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
 end
 
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
-  submitted_brief_response = get_brief_responses('digital-outcomes-and-specialists-3', 'submitted', 'closed').sample
-  @brief = get_brief(submitted_brief_response['brief']['id'])
-  puts "brief id: #{@brief['id']}"
+  submitted_brief_responses = iter_brief_responses('digital-outcomes-and-specialists-3', 'submitted', 'closed')
+  submitted_brief_responses.each do |brief_response|
+    @brief = get_brief(brief_response['brief']['id'])
+    @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+    break if @buyer_user
+  end
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
-  @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+  puts "brief id: #{@brief['id']}"
   puts "user id: #{@buyer_user['id']}"
   @buyer_user.update('password' => ENV["DM_BUYER_USER_PASSWORD"])
   steps "Given that buyer is logged in"
