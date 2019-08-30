@@ -85,14 +85,14 @@ Scenario: User exports results
   When I click the 'Return to your task list' link
   Then I see the 'Export your results' instruction list item status showing as 'Completed'
 
-@file-download
+@file-download @this
 Scenario: User download results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
   And I have exported my results for the 'my cloud project' saved search
   Then I am on the 'Download your results' page
   When I click the 'Download search results as a spreadsheet' link
-  Then I should get a download file with filename ending '.ods' and content type 'application/vnd.oasis.opendocument.spreadsheet'
+  Then the downloaded file name should be '.ods'
   When I click the 'Return to your task list' link
   Then I am on the 'my cloud project' page
   When I click the 'Download your results' link

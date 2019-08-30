@@ -3,23 +3,80 @@ require 'rspec'
 require 'capybara'
 require 'capybara/cucumber'
 require 'capybara-screenshot/cucumber'
+require 'webdrivers/geckodriver'
+require 'selenium-webdriver'
+require_relative 'downloads'
+
 
 RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = [:expect] }
 end
 
-if (ENV['BROWSER'] == 'firefox')
-  require 'webdrivers/geckodriver'
-  Capybara.default_driver = :selenium
+# options = Selenium::WebDriver::Chrome::Options.new
+# options.add_argument('--ignore-certificate-errors')
+# options.add_argument('--disable-popup-blocking')
+# options.add_argument('--disable-translate')
+# options.add_argument('--headless')
+# Capybara.register_driver :selenium_chrome do |app|
+#     Capybara::Selenium::Driver.new(app, :browser => :chrome, :options => options)
+# end
+  
 
-  Capybara.register_driver :selenium do |app|
-    http_client = Selenium::WebDriver::Remote::Http::Default.new
-    http_client.timeout = 180
-    Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
-  end
-else
-  Capybara.default_driver = :selenium_chrome_headless
+
+# Capybara.current_driver = :selenium_chrome
+
+
+
+Capybara.register_driver :headless_chrome do |app|
+  # if ENV['CHROME_DEBUG'].present?
+  #   configurationSetting = {}
+  # else
+    configurationSetting = { args: %w(headless disable-gpu no-sandbox --start-maximized
+                                      --window-size=1980,2080 --enable-features=NetworkService,NetworkServiceInProcess),
+                            prefs: {
+                                        prompt_for_download: false, 
+                                        default_directory:  File.join(Dir.pwd(), 'tmp','downloads')
+                                      } }
+  # end
+
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: configurationSetting
+  )
+
+  Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+    desired_capabilities: capabilities
 end
+
+Capybara.default_driver = :headless_chrome
+Capybara.default_driver.download_path = File.join(Dir.pwd(), 'tmp','downloads')
+
+# if (ENV['BROWSER'] == 'firefox')
+#   Capybara.register_driver :selenium do |app|
+#     http_client = Selenium::WebDriver::Remote::Http::Default.new
+#     http_client.timeout = 180
+#     Capybara::Selenium::Driver.new(app, browser: :firefox, http_client: http_client)
+#   end
+# else
+#   Capybara.register_driver :selenium_chrome do |app|
+#     Capybara::Selenium::Driver.new(app, :browser => :chrome)
+#   end
+#   options = Selenium::WebDriver::Chrome::Options.new
+#   options.add_argument('--ignore-certificate-errors')
+#   options.add_argument('--disable-popup-blocking')
+#   options.add_argument('--disable-translate')
+#   options.add_argument('--headless')
+
+
+#   prefs = {
+#     prompt_for_download: false, 
+#     default_directory: DownloadHelpers::PATH.to_s
+#   }
+#   options.add_preference(:download, prefs)
+#   driver = Selenium::WebDriver.for :chrome, options: options
+#   Capybara.current_driver = :selenium_chrome
+# end
+
 
 def domain_for_app(app)
   case app

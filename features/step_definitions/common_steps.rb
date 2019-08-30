@@ -1,6 +1,7 @@
 require 'date'
 require 'securerandom'
 require 'uri'
+require 'pry'
 
 Given /^I (?:re-?)?visit the homepage$/ do
   page.visit("#{dm_frontend_domain}")
@@ -505,6 +506,11 @@ Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)?
       expect(page.response_headers['Content-Type']).to eq(content_type)
     end
   end
+end
+
+Then(/^the downloaded file name should be '\.ods'$/) do
+  binding.pry
+  download_content.should == '\.ods'
 end
 
 Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|
