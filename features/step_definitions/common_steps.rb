@@ -215,6 +215,12 @@ When /^I enter a random value in the '(.*)' field( and click its associated '(.*
   step "I enter '#{@fields[field_name]}' in the '#{field_name}' field#{maybe_click_statement}"
 end
 
+When /^I enter #{MAYBE_VAR} in the '(.*)' field and hit enter$/ do |value, field_name|
+  field_element = page.find_field field_name
+  field_element.set value
+  field_element.send_keys :enter
+end
+
 When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
   field_element = page.find_field field_name
   field_element.set value
