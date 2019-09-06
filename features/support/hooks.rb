@@ -10,6 +10,10 @@ Before do
   Capybara.reset_sessions!
 end
 
+Before do
+  Capybara.page.current_window.resize_to 1366, 768
+end
+
 require 'fileutils'
 FileUtils.mkdir_p "reports"
 DEBUG_FILE = File.open("reports/debug.#{Process.pid}.out", "a")
