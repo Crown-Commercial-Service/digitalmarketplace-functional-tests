@@ -8,9 +8,13 @@ RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = [:expect] }
 end
 
-if (ENV['BROWSER'] == 'firefox')
+case ENV['BROWSER']
+when 'firefox'
   require 'webdrivers/geckodriver'
   Capybara.default_driver = :selenium
+when 'chrome'
+  require 'webdrivers/chromedriver'
+  Capybara.default_driver = :selenium_chrome
 else
   require 'webdrivers/chromedriver'
   Capybara.default_driver = :selenium_chrome_headless
