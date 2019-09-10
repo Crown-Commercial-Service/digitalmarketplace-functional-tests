@@ -129,7 +129,7 @@ end
 
 When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
-    page.all(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}'] | //button[contains(normalize-space(text()), '#{button_link_name}')]")[0].click
+    page.all(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}'] | //button[contains(normalize-space(text()), '#{button_link_name}')] | //button[@name='#{button_link_name}']")[0].click
   elsif elem_type == 'link'
     page.click_link(button_link_name)
   else
