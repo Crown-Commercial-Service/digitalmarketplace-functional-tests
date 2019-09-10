@@ -28,6 +28,8 @@ Scenario: Supplier user can edit the name of a service
   Then I am on the 'Changed cloud support service' page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And that service has unacknowledged update audit events
+  # tidy up
+  Then I ensure that all update audit events for that service are acknowledged
 
 Scenario: Supplier user can edit the description of a service
   Given I see the 'About your service' summary table filled with:
@@ -43,6 +45,8 @@ Scenario: Supplier user can edit the description of a service
     | field                        | value                          |
     | Service description          | This is an updated description |
   And that service has unacknowledged update audit events
+  # tidy up
+  Then I ensure that all update audit events for that service are acknowledged
 
 Scenario: Supplier user can edit the features and benefits of a service
   Given I see the 'Service features and benefits' summary table filled with:
@@ -59,6 +63,8 @@ Scenario: Supplier user can edit the features and benefits of a service
     | field                         | value                                                                                  |
     | Service features and benefits | Service features Feature 1 New Feature 2 Service benefits Benefit 1 Updated Benefit 2  |
   And that service has unacknowledged update audit events
+  # tidy up
+  Then I ensure that all update audit events for that service are acknowledged
 
 @requires-credentials @file-upload
 Scenario: Supplier user can replace the service definition document
@@ -69,6 +75,8 @@ Scenario: Supplier user can replace the service definition document
   Then I am on that service.serviceName page
   And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And that service has unacknowledged update audit events
+  # tidy up
+  Then I ensure that all update audit events for that service are acknowledged
 
 @requires-credentials @file-upload
 Scenario: Supplier user can not replace the service definition document with a non-pdf file
