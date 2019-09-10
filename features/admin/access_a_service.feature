@@ -5,7 +5,8 @@ Background:
   Given I have a published service on a live G-Cloud framework
 
 Scenario: Admin with Service Manager role can edit, remove and publish a service
-  Given I am logged in as the existing admin-ccs-category user
+  Given I ensure that all update audit events for that service are acknowledged
+  And I am logged in as the existing admin-ccs-category user
   And I am on the 'Admin' page
   When I click 'Edit suppliers and services'
   Then I am on the 'Edit suppliers and services' page
@@ -17,6 +18,8 @@ Scenario: Admin with Service Manager role can edit, remove and publish a service
   Then I am on the 'About your service' page
   When I enter 'Plant-based cloud hosting' in the 'serviceName' field and click its associated 'Save and return to summary' button
   Then I am on the 'Plant-based cloud hosting' page
+  # edits by admins shouldn't result in update audit events that need acknowledgement
+  And that service has no unacknowledged update audit events
 
   When I click the 'Remove service' link
   Then I see a destructive banner message containing 'Are you sure you want to remove ‘Plant-based cloud hosting’?'
