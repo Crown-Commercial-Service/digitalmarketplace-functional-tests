@@ -331,38 +331,41 @@ When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/
 end
 
 When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |link_name, elem_type, field_to_edit|
+  row = page.find("td", exact_text: field_to_edit).ancestor("tr")
   case elem_type
     when 'link'
-      edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
+      edit_link = row.find_link(link_name)
     else
-      edit_link = page.find(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//input[normalize-space(@value) = '#{link_name}']")
+      edit_link = row.find_button(link_name)
   end
   edit_link.click
 end
 
 When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR} link$/ do |link_name, elem_type, field_to_edit|
+  row = page.find_link(exact_text: field_to_edit).ancestor("tr")
   case elem_type
     when 'link'
-      edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//a[contains(normalize-space(text()), '#{link_name}')]")
+      edit_link = row.find_link(link_name)
     else
-      edit_link = page.find(:xpath, "//tr/td/*/a[normalize-space(text()) = '#{field_to_edit}']/../../..//input[normalize-space(@value) = '#{link_name}']")
+      edit_link = page.find_button(link_name)
   end
   edit_link.click
 end
 
 When /I click a summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |link_name, elem_type, field_to_edit|
+  rows = page.all("td", exact_text: field_to_edit)
   case elem_type
     when 'link'
-      edit_link = page.all(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//a[contains(normalize-space(text()), '#{link_name}')]")
+      edit_links = rows.flat_map { |row| row.find_link(link_name) }
     else
-      edit_link = page.all(:xpath, "//tr/*/span[normalize-space(text()) = '#{field_to_edit}']/../..//input[normalize-space(@value) = '#{link_name}']")
+      edit_links = rows.flat_map { |row| row.find_button(link_name) }
   end
 
-  if edit_link.length > 1
-    puts "Warning: #{edit_link.length} '#{link_name}' links found"
+  if edit_links.length > 1
+    puts "Warning: #{edit_links.length} '#{link_name}' links found"
   end
 
-  edit_link[0].click
+  edit_links.first.click
 end
 
 When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link(?: and the '(.*)' button)?/ do |field_to_edit, new_value, link_name, button_name|
