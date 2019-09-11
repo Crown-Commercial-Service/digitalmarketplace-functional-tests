@@ -66,16 +66,10 @@ EmptyLinesAroundBeginBody:
 EmptyLinesAroundBlockBody:
   Enabled: false
 
-RedundantBlockCall:
-  Enabled: false
-
 UnneededInterpolation:
   Enabled: false
 
 EmptyLinesAroundExceptionHandlingKeywords:
-  Enabled: false
-
-StringReplacement:
   Enabled: false
 
 MultilineMethodCallBraceLayout:
@@ -100,9 +94,6 @@ NumericPredicate:
   Enabled: false
 
 ZeroLengthPredicate:
-  Enabled: false
-
-RangeInclude:
   Enabled: false
 
 MultilineIfModifier:
