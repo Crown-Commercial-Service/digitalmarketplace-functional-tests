@@ -73,6 +73,7 @@ module FormHelper
 
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if (not options.is_a?(Hash)) || (not options.has_key?(:with))
+
     with = [options.delete(:with)].flatten
     result = all_fields(locator, options)
 
@@ -100,6 +101,7 @@ module FormHelper
 
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if (not options.is_a?(Hash)) || (not options.has_key?(:with))
+
     with = [options.delete(:with)].flatten
     result = all(:field, locator, options)
 
@@ -123,6 +125,7 @@ module FormHelper
 
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash containing 'with'" if (not options.is_a?(Hash)) || (not options.has_key?(:with))
+
     with = options.delete(:with)
 
     result = all_fields(locator, options)
@@ -203,6 +206,7 @@ module FormHelper
     # any not provided.
     locator, options = nil, locator if locator.is_a? Hash
     raise "Must pass a hash" if not options.is_a?(Hash)
+
     with = options.delete(:with) || {}
 
     values = {}
@@ -328,6 +332,7 @@ module FormHelper
     if pass_document_upload_validation || pass_checked_boxes_upper_limit
       return :gotosave
     end
+
     [
       pass_text_validation,
       pass_pricing_validation,

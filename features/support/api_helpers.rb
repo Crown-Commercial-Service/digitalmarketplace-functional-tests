@@ -5,6 +5,7 @@ def call_api(method, path, options = {})
   if (@SMOKE_TESTS || @SMOULDER_TESTS) && method != :get && !safe_for_smoke_tests
     raise "Unsafe API request in smoke/smoulder tests. Only GET methods are allowed"
   end
+
   domain = options.delete(:domain) || dm_api_domain
   auth_token = options.delete(:auth_token) || dm_api_access_token
   url = "#{domain}#{path}"

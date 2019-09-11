@@ -146,6 +146,7 @@ def urls_are_equal(url1, url2)
     if !url2.start_with? "/"
       return false
     end
+
     url1 = "http://localhost#{url1}"
     url2 = "http://localhost#{url2}"
   end

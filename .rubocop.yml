@@ -116,3 +116,9 @@ IfInsideElse:
 
 InverseMethods:
   Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
