@@ -11,7 +11,7 @@ smoulder-tests: setup
 smoulder-tests-parallel: setup
 	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec parallel_cucumber features/ -n 4 -o "--strict --tags @smoulder-tests,@smoke-tests --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
-run: setup lint
+run: setup
 	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --tags ~@skip --tags ~@skip-${DM_ENVIRONMENT} ${ARGS}
 
 rerun:
