@@ -18,7 +18,9 @@ gem "selenium-webdriver", "3.142.3"
 gem "test-unit", "3.3.3"
 
 group :test do
-  gem "govuk-lint", "3.11.2"
+  gem "govuk-lint", "~> 3.11.4"
+  gem "rubocop", "~> 0.74.0"
+  gem "rubocop-rspec"
 end
 
 group :development do

@@ -4,6 +4,6 @@ before_install:
   - gem install bundler
 bundler_args: --without development
 script:
-  - govuk-lint-ruby features --diff
+  - rubocop features
 notifications:
   email: false

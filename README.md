@@ -141,13 +141,13 @@ roles, remember to also set the corrent `AWS_PROFILE`.
 
 ## Linting
 
-`make run` also runs the govuk linter against any changed files within the features directory before running the tests.
+`make run` also runs the Rubocop linter on any Ruby files within the features directory before running the tests.
 
 Run the linter by itself with `make lint`.
 
-To automagically correct any changes the linter suggests run `bundle exec govuk-lint-ruby features --diff -a`.
+To automagically correct any changes the linter suggests run `bundle exec rubocop features -a`.
 
-Further info about the govuk linter can be found [here](https://github.com/alphagov/govuk-lint).
+Further info about the linter can be found [here](https://docs.rubocop.org/en/stable/).
 
 
 ## Running functional tests locally with dmrunner or Docker Compose

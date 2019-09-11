@@ -1,5 +1,8 @@
 require: rubocop-rspec
 
+inherit_gem:
+  govuk-lint: "configs/rubocop/all.yml"
+
 CaseIndentation:
   Enabled: false
 
