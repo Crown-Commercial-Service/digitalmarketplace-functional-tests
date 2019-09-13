@@ -16,11 +16,11 @@ brew install rbenv
 echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 ```
 
-Once you have `rbenv` in your environment you can install Ruby 2.3.1, [bundler](http://bundler.io/),
+Once you have `rbenv` in your environment you can install Ruby 2.6, [bundler](http://bundler.io/),
 and then you're good to go :smile:.
 
 ```bash
-rbenv install 2.3.1
+rbenv install
 gem install bundler
 make install
 ```
