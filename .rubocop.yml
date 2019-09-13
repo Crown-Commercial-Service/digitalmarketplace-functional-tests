@@ -1,5 +1,8 @@
 require: rubocop-rspec
 
+inherit_gem:
+  govuk-lint: "configs/rubocop/all.yml"
+
 CaseIndentation:
   Enabled: false
 
@@ -63,16 +66,10 @@ EmptyLinesAroundBeginBody:
 EmptyLinesAroundBlockBody:
   Enabled: false
 
-RedundantBlockCall:
-  Enabled: false
-
 UnneededInterpolation:
   Enabled: false
 
 EmptyLinesAroundExceptionHandlingKeywords:
-  Enabled: false
-
-StringReplacement:
   Enabled: false
 
 MultilineMethodCallBraceLayout:
@@ -99,9 +96,6 @@ NumericPredicate:
 ZeroLengthPredicate:
   Enabled: false
 
-RangeInclude:
-  Enabled: false
-
 MultilineIfModifier:
   Enabled: false
 
@@ -112,4 +106,10 @@ IfInsideElse:
   Enabled: false
 
 InverseMethods:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Style/WordArray:
   Enabled: false
