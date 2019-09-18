@@ -25,6 +25,8 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
     @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
     break if @buyer_user
   end
+  raise 'could not find an active user for a closed brief with responses' if not @buyer_user
+
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
   puts "brief id: #{@brief['id']}"
