@@ -7,8 +7,8 @@ RUN apt-get -y update && apt-get -y install \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Add a user for running our functional tests
-RUN groupadd --gid 1000 functional-tests \
-	&& useradd --uid 1000 --gid functional-tests --groups audio,video --create-home functional-tests
+RUN groupadd --gid 1001 functional-tests \
+	&& useradd --uid 998 --gid functional-tests --groups audio,video --create-home functional-tests
 
 USER functional-tests
 WORKDIR /usr/src/app
