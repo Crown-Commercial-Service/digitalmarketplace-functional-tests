@@ -94,10 +94,6 @@ def dm_custom_wait_time
   5
 end
 
-def dm_pre_load_wait_time
-  5
-end
-
 Capybara.asset_host = dm_frontend_domain
 Capybara.save_path = "reports/"
 Capybara.default_max_wait_time = 0.05
@@ -126,64 +122,6 @@ if ENV['DM_DEBUG_SLOW_TESTS']
         alias_method :synchronize_without_timeout_error, :synchronize
         alias_method :synchronize, :synchronize_with_timeout_error
       end
-    end
-  end
-end
-
-module Capybara
-  module Node
-    class Base
-      # Monkeypatch the internals of the syncronise method to wait for `dm_custom_wait_time` seconds unless the error is
-      # Capybara::ElementNotFound in which case use the `default_max_wait_time`. We require a shorter wait time on
-      # ElementNotFound in case we are checking that an element does not exist. We don't want to wait 5 seconds for it
-      # it to appear.
-      # https://github.com/teamcapybara/capybara/blob/2.18.0/lib/capybara/node/base.rb#L77
-      def synchronize(seconds = session_options.default_max_wait_time, options = {})
-        start_time = Capybara::Helpers.monotonic_time
-        if session.synchronized
-          yield
-        else
-          session.synchronized = true
-          begin
-            yield
-          rescue => e # rubocop:disable RescueStandardError
-            session.raise_server_error!
-            raise e unless driver.wait?
-            raise e unless catch_error?(e, options[:errors])
-
-            seconds = (e.is_a? Capybara::ElementNotFound) ? seconds : dm_custom_wait_time # rubocop:disable TernaryParentheses
-            raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds
-
-            sleep(0.05)
-            raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Capybara::Helpers.monotonic_time == start_time
-
-            reload if session_options.automatic_reload
-            retry
-          ensure
-            session.synchronized = false
-          end
-        end
-      end
-
-      # Monkeypatch Capybara's synchronize method to wait longer if it detects the page to be in a loading state.
-      # Note this is done *after* the possible patching via synchronize_with_timeout_error, so that it wraps
-      # *outside* that.
-
-      def synchronize_with_unload_wait(*args, &block)
-        Timeout.timeout(dm_pre_load_wait_time) do
-          until driver.evaluate_script('window.performance.timing.navigationStart < window.performance.timing.loadEventEnd')
-            DEBUG_FILE.write "#{Time.now.utc.round(10).iso8601(6)}: #{caller.to_a.select { |pth| pth.include? '/features/' }}\n"
-            # navigationStart has been updated more recently than loadEventEnd, loadEventEnd presumably still
-            # carrying the value set when the *old* page got loaded - that means the dom is probably in the
-            # process of loading (or at least requesting) a new page. any following page queries will
-            # presumably be targeted at the upcoming page, which isn't ready.
-            sleep(0.01)
-          end
-        end
-        synchronize_without_unload_wait(*args, &block)
-      end
-      alias_method :synchronize_without_unload_wait, :synchronize
-      alias_method :synchronize, :synchronize_with_unload_wait # rubocop:disable Lint/DuplicateMethods
     end
   end
 end
