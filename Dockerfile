@@ -1,4 +1,4 @@
-# docker run \
+# docker run --rm \
 #    -v $(pwd):/app \
 #    -e DM_API_DOMAIN \
 #    -e ...
