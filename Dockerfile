@@ -8,10 +8,6 @@ FROM ruby:2.6
 
 WORKDIR /app
 
-# Tell the webdrivers gem to install webdrivers somewhere global
-ENV WD_INSTALL_DIR /webdrivers
-RUN mkdir -p /webdrivers && chmod 777 /webdrivers
-
 # Install Chromium
 RUN apt-get -y update \
     && apt-get -y install chromium \
@@ -24,5 +20,10 @@ RUN gem install bundler
 # Install functional tests requirements
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --deployment --path $BUNDLE_PATH
+
+# Install webdrivers
+ENV WD_INSTALL_DIR /webdrivers
+RUN mkdir -p /webdrivers && chmod 777 /webdrivers
+RUN bundle exec ruby -e 'require "webdrivers/chromedriver"; Webdrivers::Chromedriver.update'
 
 CMD ["make", "run"]
