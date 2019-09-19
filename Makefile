@@ -23,7 +23,7 @@ rerun:
 	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict -p rerun
 
 run-parallel: setup
-	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec parallel_cucumber features/ -n 4 -o "--strict -t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec parallel_cucumber features/ -o "--strict -t ~@skip -t ~@skip-${DM_ENVIRONMENT} ${ARGS} -p run-parallel"
 
 build-report:
 	bundle exec report_builder -s 'reports' -o 'reports/index' -f html -t features,errors -T '<img src="https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif">Functional Test Results'
