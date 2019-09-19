@@ -8,6 +8,10 @@ FROM ruby:2.6-stretch
 
 WORKDIR /app
 
+# Tell the webdrivers gem to install webdrivers somewhere global
+ENV WD_INSTALL_DIR /webdrivers
+RUN mkdir -p /webdrivers && chmod 777 /webdrivers
+
 # Install Chromium
 RUN apt-get -y update \
     && apt-get -y install chromium \
