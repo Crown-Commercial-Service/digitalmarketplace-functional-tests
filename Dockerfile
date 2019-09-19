@@ -4,7 +4,7 @@
 #    -e ...
 #    -e ...
 #    digitalmarketplace/functional-tests make smoke-tests
-FROM ruby:2.6-stretch
+FROM ruby:2.6
 
 WORKDIR /app
 
