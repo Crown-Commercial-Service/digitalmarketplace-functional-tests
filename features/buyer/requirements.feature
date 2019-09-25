@@ -126,7 +126,8 @@ Scenario: Create user research participants
     And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-   When I click 'Review and publish your requirements'
+   When I see the 'Review and publish your requirements' link
+   And  I click 'Review and publish your requirements'
    Then I see the 'Publish requirements' button
     And I click 'Publish requirements'
 

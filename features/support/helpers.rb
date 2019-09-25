@@ -228,3 +228,12 @@ def get_table_rows_by_caption(caption)
   result_table_rows_xpath = result_table_xpath + rows_xpath
   page.all(:xpath, result_table_rows_xpath)
 end
+
+def scroll_to(element)
+  puts 'fooooooooooo'
+  script = <<-JS
+    arguments[0].scrollIntoView(true);
+  JS
+
+  Capybara.current_session.driver.browser.execute_script(script, element.native)
+end

@@ -128,11 +128,14 @@ Given /^I have a random dos brief from the API$/ do
 end
 
 When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
+  match_query = "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}'] | //button[contains(normalize-space(text()), '#{button_link_name}')] | //button[@name='#{button_link_name}']"
   if elem_type == 'button'
-    page.all(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}'] | //button[contains(normalize-space(text()), '#{button_link_name}')] | //button[@name='#{button_link_name}']")[0].click
+    scroll_to(page.all(:xpath, match_query)[0])
+    page.all(:xpath, match_query)[0].click
   elsif elem_type == 'link'
     page.click_link(button_link_name)
   else
+    scroll_to(page.all(:xpath, match_query)[0])
     page.click_link_or_button(button_link_name)
   end
 end
