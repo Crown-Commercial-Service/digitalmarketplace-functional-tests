@@ -5,17 +5,17 @@ end
 Given "I have created $type requirement" do |type|
   page.visit("#{dm_frontend_domain}")
 
-  click_on "Find #{type}", wait: false
+  click_on "Find #{type}"
 
   expect(page).to have_selector('h1', text: "Find #{type}")
 
-  click_on 'Create requirement', wait: false
+  steps "And I click 'Create requirement'"
 
   answers = fill_form
 
   @fields.merge! answers
 
-  click_on 'Save and continue', wait: false
+  steps "And I click 'Save and continue'"
 
   expect(page).to have_selector('h1', text: answers['title'])
 end
@@ -37,11 +37,11 @@ When "I answer the following questions:" do |table|
     expect(page).to have_selector(:xpath, expr, count: 0)
 
     # click the question name on the overview page (eg, "Location")
-    click_on question, wait: false
+    click_on question
 
     @fields.merge! fill_form
 
-    click_on 'Save and continue', wait: false
+    steps "And I click 'Save and continue'"
 
     expect(page).to have_selector(:xpath, expr, count: 1)
   }
@@ -65,7 +65,7 @@ When "I answer all summary questions with:" do |table|
 
   all('tr.summary-item-row').to_a.each_with_index do |row, index|
     within all('tr.summary-item-row')[index] do
-      click_on first('a').text, wait: false
+      click_on first('a').text
     end
 
     answer = fill_form with: with
@@ -74,7 +74,7 @@ When "I answer all summary questions with:" do |table|
 
     substitutions = find_substitutions
 
-    click_on 'Save and continue', wait: false
+    steps "And I click 'Save and continue'"
 
     within all('tr.summary-item-row')[index] do
       # Find the value in the summary table.
