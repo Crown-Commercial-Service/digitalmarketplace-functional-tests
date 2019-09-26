@@ -40,8 +40,8 @@ When "I answer the following questions:" do |table|
     click_on question
 
     @fields.merge! fill_form
-
-    steps "And I click 'Save and continue'"
+    steps "When I see the 'Save and continue' link"
+    steps "And I click the 'Save and continue' button"
 
     expect(page).to have_selector(:xpath, expr, count: 1)
   }

@@ -230,7 +230,6 @@ def get_table_rows_by_caption(caption)
 end
 
 def scroll_to(element)
-  puts 'fooooooooooo'
   script = <<-JS
     arguments[0].scrollIntoView(true);
   JS
