@@ -92,7 +92,7 @@ Then /^I see the details of the brief match what was published$/ do
       | field                                  | value                                                                                                                                 |
       | How many specialists to evaluate       | #{@brief['numberOfSuppliers']}                                                                                                        |
       | Cultural fit criteria                  | #{@brief['culturalFitCriteria'].join(' ')}                                                                                            |
-      | Assessment methods                     | Work history                                                                                                                          |
-      | Evaluation weighting                   | Technical competence #{@brief['technicalWeighting']}% Cultural fit #{@brief['culturalWeighting']}% Price #{@brief['priceWeighting']}% |
+#      | Assessment methods                     | Work history                                                                                                                          |
+#      | Evaluation weighting                   | Technical competence #{@brief['technicalWeighting']}% Cultural fit #{@brief['culturalWeighting']}% Price #{@brief['priceWeighting']}% |
   }
 end
