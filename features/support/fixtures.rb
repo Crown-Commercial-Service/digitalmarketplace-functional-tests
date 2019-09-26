@@ -10,6 +10,7 @@ module Fixtures
       developerLocations: %w[London Scotland],
       developerPriceMax: "200",
       developerPriceMin: "100",
+      developerAccessibleApplications: true,
       bespokeSystemInformation: true,
       dataProtocols: true,
       helpGovernmentImproveServices: true,
@@ -25,6 +26,7 @@ module Fixtures
       frameworkSlug: nil,
       lot: 'digital-outcomes',
       bespokeSystemInformation: true,
+      accessibleApplicationsOutcomes: true,
       dataProtocols: true,
       deliveryTypes: [
         "Agile coaching"

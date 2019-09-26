@@ -368,6 +368,7 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   if (lot_slug == 'digital-specialists') && role
     # Override the specialist role from the fixture by removing the old developer keys and adding keys
     # for the new role using the original developer values
+    service_data['services']["#{role}AccessibleApplications".to_sym] = service_data['services'].delete(:developerAccessibleApplications)
     service_data['services']["#{role}Locations".to_sym] = service_data['services'].delete(:developerLocations)
     service_data['services']["#{role}PriceMax".to_sym] = service_data['services'].delete(:developerPriceMax)
     service_data['services']["#{role}PriceMin".to_sym] = service_data['services'].delete(:developerPriceMin)
