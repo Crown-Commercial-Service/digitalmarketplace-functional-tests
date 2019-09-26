@@ -347,9 +347,17 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
 
   case lot_slug
     when 'digital-specialists'
-      service_data['services'] = Fixtures.digital_specialists_service
+      if framework_slug == 'digital-outcomes-and-specialists-4'
+        service_data['services'] = Fixtures.digital_specialists_service_dos4
+      else
+        service_data['services'] = Fixtures.digital_specialists_service
+      end
     when 'digital-outcomes'
-      service_data['services'] = Fixtures.digital_outcomes_service
+      if framework_slug == 'digital-outcomes-and-specialists-4'
+        service_data['services'] = Fixtures.digital_outcomes_service_dos4
+      else
+        service_data['services'] = Fixtures.digital_outcomes_service
+      end
     when 'user-research-participants'
       service_data['services'] = Fixtures.user_research_participants_service
     when 'user-research-studios'
@@ -368,10 +376,14 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
   if (lot_slug == 'digital-specialists') && role
     # Override the specialist role from the fixture by removing the old developer keys and adding keys
     # for the new role using the original developer values
-    service_data['services']["#{role}AccessibleApplications".to_sym] = service_data['services'].delete(:developerAccessibleApplications)
     service_data['services']["#{role}Locations".to_sym] = service_data['services'].delete(:developerLocations)
     service_data['services']["#{role}PriceMax".to_sym] = service_data['services'].delete(:developerPriceMax)
     service_data['services']["#{role}PriceMin".to_sym] = service_data['services'].delete(:developerPriceMin)
+
+    if framework_slug == 'digital-outcomes-and-specialists-4'
+      # Additional service attribute for DOS4 specialists
+      service_data['services']["#{role}AccessibleApplications".to_sym] = service_data['services'].delete(:developerAccessibleApplications)
+    end
   end
 
   service_path = "/services/#{random_service_id}"
