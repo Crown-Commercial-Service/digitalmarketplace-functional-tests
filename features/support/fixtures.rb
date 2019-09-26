@@ -17,6 +17,24 @@ module Fixtures
     }
   end
 
+  def self.digital_specialists_service_dos4
+    {
+      # `nil` values should be updated within the step when this fixture is used
+      id: nil,
+      supplierId: nil,
+      frameworkSlug: nil,
+      lot: 'digital-specialists',
+      developerLocations: %w[London Scotland],
+      developerPriceMax: "200",
+      developerPriceMin: "100",
+      developerAccessibleApplications: true,
+      bespokeSystemInformation: true,
+      dataProtocols: true,
+      helpGovernmentImproveServices: true,
+      openStandardsPrinciples: true
+    }
+  end
+
   def self.digital_outcomes_service
     {
       # `nil` values should be updated within the step when this fixture is used
@@ -25,6 +43,25 @@ module Fixtures
       frameworkSlug: nil,
       lot: 'digital-outcomes',
       bespokeSystemInformation: true,
+      dataProtocols: true,
+      deliveryTypes: [
+        "Agile coaching"
+      ],
+      helpGovernmentImproveServices: true,
+      locations: %w[London Scotland],
+      openStandardsPrinciples: true,
+    }
+  end
+
+  def self.digital_outcomes_service_dos4
+    {
+      # `nil` values should be updated within the step when this fixture is used
+      id: nil,
+      supplierId: nil,
+      frameworkSlug: nil,
+      lot: 'digital-outcomes',
+      bespokeSystemInformation: true,
+      accessibleApplicationsOutcomes: true,
       dataProtocols: true,
       deliveryTypes: [
         "Agile coaching"
