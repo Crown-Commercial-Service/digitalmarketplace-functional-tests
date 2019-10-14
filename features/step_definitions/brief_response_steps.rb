@@ -7,8 +7,7 @@ Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
 end
 
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
-  framework = 'digital-outcomes-and-specialists-4'
-  @brief = get_briefs(framework, status).sample
+  @brief = get_briefs(status).sample
   if @brief
     puts "brief id: #{@brief['id']}"
   else
@@ -29,8 +28,7 @@ Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
 end
 
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
-  framework = 'digital-outcomes-and-specialists-3'  # TODO: change to DOS4 when there are more closed DOS4 briefs
-  submitted_brief_responses = iter_brief_responses(framework, 'submitted', 'closed')
+  submitted_brief_responses = iter_brief_responses('submitted', 'closed')
   submitted_brief_responses.each do |brief_response|
     @brief = get_brief(brief_response['brief']['id'])
     @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]

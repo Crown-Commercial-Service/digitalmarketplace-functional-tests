@@ -177,9 +177,8 @@ def get_brief(brief_id)
   JSON.parse(response.body)['briefs']
 end
 
-def get_briefs(framework_slug, status)
+def get_briefs(status)
   params = {
-    framework: framework_slug,
     human: 'True',  # sort by latest first
     status: status,
     with_users: 'True',
@@ -207,9 +206,8 @@ def get_brief_responses(framework_slug, brief_response_status, brief_status)
   brief_response_list
 end
 
-def iter_brief_responses(framework_slug, brief_response_status, brief_status)
+def iter_brief_responses(brief_response_status, brief_status)
   params = {
-    framework: framework_slug,
     human: 'True',  # sort by latest first
     status: brief_response_status,
   }
