@@ -7,9 +7,13 @@ Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
 end
 
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
-  matched_brief = get_briefs('digital-outcomes-and-specialists-3', status).sample
+  framework = 'digital-outcomes-and-specialists-3'
+  matched_brief = get_briefs(framework, status).sample
+  raise "could not find a #{status} #{framework} brief" if not matched_brief
+
   @brief = matched_brief
   puts "brief id: #{@brief['id']}"
+
   @buyer_user = (matched_brief['users'].select { |u| u["active"] && !u["locked"] })[0]
   puts "user id: #{@buyer_user['id']}"
   @lot_slug = matched_brief['lotSlug']
