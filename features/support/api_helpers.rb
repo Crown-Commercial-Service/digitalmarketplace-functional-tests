@@ -178,7 +178,12 @@ def get_brief(brief_id)
 end
 
 def get_briefs(framework_slug, status)
-  params = { status: status, framework: framework_slug, with_users: 'True' }
+  params = {
+    framework: framework_slug,
+    human: 'True',  # sort by latest first
+    status: status,
+    with_users: 'True',
+  }
   response = call_api(:get, '/briefs', params: params)
   JSON.parse(response.body)['briefs']
 end
@@ -203,7 +208,11 @@ def get_brief_responses(framework_slug, brief_response_status, brief_status)
 end
 
 def iter_brief_responses(framework_slug, brief_response_status, brief_status)
-  params = { status: brief_response_status, framework: framework_slug }
+  params = {
+    framework: framework_slug,
+    human: 'True',  # sort by latest first
+    status: brief_response_status,
+  }
   Enumerator.new do |enum|
     brief_responses = iter_api(:get, '/brief-responses', 'briefResponses', params: params)
     brief_responses = brief_responses.select { |x| x['brief']['status'] == brief_status }
