@@ -23,13 +23,14 @@ Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
 end
 
 Given /^I am logged in as the buyer of a closed brief with responses$/ do
-  submitted_brief_responses = iter_brief_responses('digital-outcomes-and-specialists-3', 'submitted', 'closed')
+  framework = 'digital-outcomes-and-specialists-3'  # TODO: change to DOS4 when there are more closed DOS4 briefs
+  submitted_brief_responses = iter_brief_responses(framework, 'submitted', 'closed')
   submitted_brief_responses.each do |brief_response|
     @brief = get_brief(brief_response['brief']['id'])
     @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
     break if @buyer_user
   end
-  raise 'could not find an active user for a closed brief with responses' if not @buyer_user
+  raise "could not find an active user for a closed #{framework} brief with responses" if not @buyer_user
 
   @lot_slug = @brief['lotSlug']
   @framework_slug = @brief['frameworkSlug']
