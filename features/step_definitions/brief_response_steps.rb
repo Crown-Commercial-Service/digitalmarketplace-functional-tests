@@ -8,16 +8,22 @@ end
 
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
   framework = 'digital-outcomes-and-specialists-4'
-  matched_brief = get_briefs(framework, status).sample
-  raise "could not find a #{status} #{framework} brief" if not matched_brief
+  @brief = get_briefs(framework, status).sample
+  if @brief
+    puts "brief id: #{@brief['id']}"
+  else
+    raise "could not find a #{status} brief"
+  end
 
-  @brief = matched_brief
-  puts "brief id: #{@brief['id']}"
+  @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+  if @buyer_user
+    puts "user id: #{@buyer_user['id']}"
+  else
+    raise "could not find active user for #{status} brief #{brief['id']}"
+  end
 
-  @buyer_user = (matched_brief['users'].select { |u| u["active"] && !u["locked"] })[0]
-  puts "user id: #{@buyer_user['id']}"
-  @lot_slug = matched_brief['lotSlug']
-  @framework_slug = matched_brief['frameworkSlug']
+  @lot_slug = @brief['lotSlug']
+  @framework_slug = @brief['frameworkSlug']
   @buyer_user.update('password' => ENV["DM_BUYER_USER_PASSWORD"])
   steps "Given that buyer is logged in"
 end
