@@ -7,7 +7,7 @@ Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
 end
 
 Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
-  framework = 'digital-outcomes-and-specialists-3'
+  framework = 'digital-outcomes-and-specialists-4'
   matched_brief = get_briefs(framework, status).sample
   raise "could not find a #{status} #{framework} brief" if not matched_brief
 
