@@ -1,6 +1,7 @@
 @user @lock-account
 Feature: Users are locked if they enter the wrong password too many times
 
+@skip-preview
 Scenario: User has 10 failed login attempts and is locked out of their account
   Given I have a supplier user
   When the wrong password is entered 10 times for that user
