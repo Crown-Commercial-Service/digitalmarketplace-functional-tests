@@ -1,7 +1,6 @@
 @user @lock-account
 Feature: Users are locked if they enter the wrong password too many times
 
-@skip-staging
 Scenario: User has 5 failed login attempts and is locked out of their account
   Given I have a supplier user
   When the wrong password is entered 5 times for that user
