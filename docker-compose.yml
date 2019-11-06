@@ -22,7 +22,7 @@ services:
     restart: always
     image: "digitalmarketplace/search-api:latest"
     ports:
-      - "5001:80"
+      - "5009:80"
     environment:
       - DM_ENVIRONMENT=development
       - ELASTICSEARCH_HOST=http://elasticsearch:9200
