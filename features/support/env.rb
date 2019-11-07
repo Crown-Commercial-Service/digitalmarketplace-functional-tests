@@ -57,7 +57,7 @@ def dm_api_access_token
 end
 
 def dm_search_api_domain
-  ENV['DM_SEARCH_API_DOMAIN'] || 'http://localhost:5001'
+  ENV['DM_SEARCH_API_DOMAIN'] || 'http://localhost:5009'
 end
 
 def dm_search_api_access_token
