@@ -1,10 +1,9 @@
-@buyer @requirements
+@buyer @requirements @skip-staging @skip-production
 Feature: Create and publish a requirement
   In order to find individuals and teams that can provide the needed services
   As a buyer within government
   I want to be able to create and publish a requirement
 
-@skip-local @skip-preview
 Scenario: Create individual specialist requirement
   Given I am logged in as a buyer user
     And I have created an individual specialist requirement
@@ -42,8 +41,7 @@ Scenario: Create individual specialist requirement
    And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-   When I click 'Review and publish your requirements'
-    And I click 'Publish requirements'
+    When I click 'Publish your requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Specialist role' link
@@ -52,9 +50,8 @@ Scenario: Create individual specialist requirement
    And I don't see the 'Shortlist and evaluation process' link
    And I don't see the 'Set how long your requirements will be open for' link
    And I don't see the 'Describe question and answer session' link
-   And I don't see the 'Review and publish your requirements' link
+   And I don't see the 'Publish your requirements' link
 
-@skip-local @skip-preview
 Scenario: Create team to provide an outcome
   Given I am logged in as a buyer user
     And I have created a team to provide an outcome requirement
@@ -89,16 +86,14 @@ Scenario: Create team to provide an outcome
     And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-   When I click 'Review and publish your requirements'
-    And I click 'Publish requirements'
+    When I click 'Publish your requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Location' link
    And I don't see the 'Description of work' link
    And I don't see the 'Shortlist and evaluation process' link
-   And I don't see the 'Review and publish your requirements' link
+   And I don't see the 'Publish your requirements' link
 
-@skip-local @skip-preview
 Scenario: Create user research participants
   Given I am logged in as a buyer user
     And I have created user research participants requirement
@@ -129,91 +124,10 @@ Scenario: Create user research participants
     And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-   When I click 'Review and publish your requirements'
-   Then I see the 'Publish requirements' button
-    And I click 'Publish requirements'
+  Then I click 'Publish your requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Location' link
    And I don't see the 'Description of work' link
    And I don't see the 'Shortlist and evaluation process' link
-   And I don't see the 'Review and publish your requirements' link
-
-
-@copy-requirements
-Scenario Outline: Copy requirements
-  Given I have the latest live digital-outcomes-and-specialists framework
-  And I have a buyer user
-  And that buyer is logged in
-  And I have a <status> digital-specialists brief
-  And I click the 'View your account' link
-  And I click the 'View your requirements' link
-  When I click the 'Make a copy' button
-  Then I am on the 'What you want to call your requirements' page
-  And I see 'Tea drinker copy' as the value of the 'title' field
-  When I click the 'Save and continue' button
-  Then I am on the 'Tea drinker copy' page
-
-  Examples:
-    | status    |
-    | live      |
-    | withdrawn |
-    | draft     |
-
-
-Scenario Outline: View requirement in a dashboard
-  Given I have the latest live digital-outcomes-and-specialists framework
-  And I have a buyer user
-  And that buyer is logged in
-  And I have a <status> digital-specialists brief
-  When I click 'View your account'
-  And I click 'View your requirements'
-  And I see 'Tea drinker' in the '<table heading>' summary table
-
-  Examples:
-    | status    | table heading            |
-    | live      | Published requirements   |
-    | withdrawn | Closed requirements      |
-    | draft     | Unpublished requirements |
-
-
-Scenario: Delete a draft requirement
-  Given I am logged in as a buyer user
-  And I have created an individual specialist requirement
-
-  When I click 'Delete'
-  Then I see a destructive banner message containing 'Are you sure you want to delete these requirements?'
-  When I click 'Yes, delete'
-  Then I see a success banner message containing 'were deleted'
-
-
-Scenario: Withdraw live requirements
-  Given I am logged in as the buyer of a live brief
-
-  When I click the 'View your account' link
-  And I click the 'View your requirements' link
-  Then I see that the 'Published requirements' summary table has 1 or more entries
-
-  When I go to that brief overview page
-  Then I see the 'Withdraw requirements' link
-  And I click 'Withdraw requirements'
-  Then I see a destructive banner message containing 'Are you sure you want to withdraw these requirements?'
-  When I click 'Withdraw requirements'
-  Then I see a success banner message containing 'withdrawn your requirements'
-
-
-Scenario: Edit a draft requirement
-  Given I am logged in as a buyer user
-  And I have created an individual specialist requirement
-  When I click 'Title'
-  Then I am on the 'What you want to call your requirements' page
-  When I enter 'Green Tea Drinker' in the 'input-title' field and click its associated 'Save and continue' button
-  Then I am on the 'Green Tea Drinker' page
-
-
-@skip-local @skip-preview
-Scenario: There is no 'Publish requirements' button for an incomplete requirement draft
-  Given I am logged in as a buyer user
-  And I have created an individual specialist requirement
-  When I click 'Review and publish your requirements'
-  Then I don't see the 'Publish requirements' button
+   And I don't see the 'Publish your requirements' link
