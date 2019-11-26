@@ -258,7 +258,7 @@ Then /^I don't see a banner message$/ do
 end
 
 Then /^I see a validation message containing '(.*)'$/ do |message|
-  validation_message = page.find(:css, ".validation-message")
+  validation_message = page.find(:css, ".validation-message, .govuk-error-message")
   expect(validation_message).to have_content(message)
 end
 
