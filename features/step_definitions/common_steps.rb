@@ -317,7 +317,7 @@ Then /Display the value of the '(.*)' JSON field as '(.*)'$/ do |field, name|
 end
 
 Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
-  expect(first(:xpath, "//header//*[@class='context']").text).to eq(normalize_whitespace(value))
+  expect(page.find(:css, "header .context, [class*='govuk-caption']")).to have_text(value)
 end
 
 When /^I choose file '(.*)' for the field '(.*)'$/ do |file, label|
