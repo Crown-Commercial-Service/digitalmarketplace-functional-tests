@@ -21,13 +21,13 @@ Scenario Outline: Correct users search for a supplier by registered name
     | admin-ccs-data-controller | View and edit suppliers                 |
 
 
-@search-supplier-name @with-admin-ccs-sourcing-user
+@search-supplier-name @with-admin-ccs-sourcing-user @skip-staging
   Scenario: CCS Sourcing user can search for a supplier by registered name
   Given I am logged in as the existing admin-ccs-sourcing user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
     | registeredName | DM Functional Test Supplier - Search registered supplier name |
-  And I click the 'Edit supplier declarations' link
+  And I click the 'View and edit supplier declarations' link
   And I enter 'Functional Test Supplier - Search registered' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
   Then I see an entry in the 'Suppliers' table with:
