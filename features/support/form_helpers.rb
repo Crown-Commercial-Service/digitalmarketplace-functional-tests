@@ -361,18 +361,23 @@ module FormHelper
   end
 
   def find_and_click_submit_button
-    submit_button = find_elements_by_xpath("//input[@class='button-save']")[0].value
-    if submit_button == 'Save and continue'
-      click_on 'Save and continue', wait: false
-      false
-    else
-      click_on submit_button, wait: false
+    # Get the submit buttons on the page, and categorise by whether we expect to redirect to the summary or not
+    save_and_return_button = find_elements_by_xpath("//button[contains(normalize-space(text()), 'Save and return')] | //button[contains(normalize-space(text()), 'Save and return to service summary')]")[0]
+    save_and_continue_button = find_elements_by_xpath("//button[contains(normalize-space(text()), 'Save and continue')]")[0]
+
+    if save_and_return_button
+      save_and_return_button.click
+      # Section finished - return to summary
       true
+    elsif save_and_continue_button
+      save_and_continue_button.click
+      # Go to next page in the section
+      false
     end
   end
 
   def is_service_complete
-    find_elements_by_xpath("//input[@value='Mark as complete']").length > 0
+    find_elements_by_xpath("//button[contains(normalize-space(text()), 'Mark as complete')]").length > 0
   end
 
   def answer_all_service_questions(prompt_text)
