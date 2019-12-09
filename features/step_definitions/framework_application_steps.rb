@@ -25,7 +25,7 @@ Then(/^I follow the first 'Edit' link and answer all questions on that page and 
       answer = fill_form
     end
     merge_fields_and_print_answers(answer)
-    find_elements_by_xpath("//button[contains(normalize-space(text()), 'Save and continue')] | //button[contains(normalize-space(text()), 'Save and return to declaration overview')]")[0].click
+    first(:button, text: /(Save and continue)|(Save and return to declaration overview)/).click
   end
 end
 
@@ -39,14 +39,14 @@ Then(/^I submit a service for each lot$/) do
     rescue Capybara::ElementNotFound => e
       answer_all_dos_lot_questions "Edit"
       answer_all_service_questions "Add"
-      find_elements_by_xpath("//button[contains(normalize-space(text()), 'Mark as complete')]")[0].click
+      first(:button, "Mark as complete").click
     else
       answer = fill_form
       merge_fields_and_print_answers(answer)
       click_on 'Save and continue', wait: false
       answer_all_dos_lot_questions "Edit"
       answer_all_service_questions "Answer question"
-      find_elements_by_xpath("//button[contains(normalize-space(text()), 'Mark as complete')]")[0].click
+      first(:button, "Mark as complete").click
       click_on "Back to application", wait: false
     end
 
