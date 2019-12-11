@@ -42,6 +42,7 @@ Scenario: Create individual specialist requirement
    Then 'Describe question and answer session' should be ticked
 
     When I click 'Publish your requirements'
+     And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Specialist role' link
@@ -87,6 +88,7 @@ Scenario: Create team to provide an outcome
    Then 'Describe question and answer session' should be ticked
 
     When I click 'Publish your requirements'
+     And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Location' link
@@ -125,6 +127,7 @@ Scenario: Create user research participants
    Then 'Describe question and answer session' should be ticked
 
   Then I click 'Publish your requirements'
+   And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Location' link
