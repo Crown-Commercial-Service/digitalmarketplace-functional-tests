@@ -42,8 +42,8 @@ config/%.sh: config/%.example.sh
 clean:
 	rm -rf reports/
 
-lint:
-	bundle exec govuk-lint-ruby features --diff
+lint: install
+	bundle exec rubocop features
 
 docker-up:
 	$(eval export AWS_ACCESS_KEY_ID=$(shell aws configure get aws_access_key_id))

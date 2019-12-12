@@ -41,7 +41,15 @@ Scenario: Create individual specialist requirement
    And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-    When I click 'Publish your requirements'
+   When I click 'Preview your requirements'
+   Then I am on the 'Preview your requirements' page
+    And I see the 'Return to overview' link
+    And I see 'Incomplete applications' text in the desktop preview panel
+    And I see 'Tuesday 8 September 2020' text in the desktop preview panel
+    And I see 'Technical competence 10%' text in the desktop preview panel
+    And I click 'Confirm your requirements and publish'
+   Then I am on the 'Publish your requirements and evaluation criteria' page
+    And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Specialist role' link
@@ -86,7 +94,15 @@ Scenario: Create team to provide an outcome
     And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-    When I click 'Publish your requirements'
+   When I click 'Preview your requirements'
+   Then I am on the 'Preview your requirements' page
+    And I see the 'Return to overview' link
+    And I see '0 SME, 0 large' text in the desktop preview panel
+    And I see 'Wednesday 9 September 2020' text in the desktop preview panel
+    And I see 'Cultural fit 5%' text in the desktop preview panel
+    And I click 'Confirm your requirements and publish'
+   Then I am on the 'Publish your requirements and evaluation criteria' page
+    And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Location' link
@@ -124,7 +140,15 @@ Scenario: Create user research participants
     And I click 'Return to overview'
    Then 'Describe question and answer session' should be ticked
 
-  Then I click 'Publish your requirements'
+   When I click 'Preview your requirements'
+   Then I am on the 'Preview your requirements' page
+    And I see the 'Return to overview' link
+    And I see 'Deadline for asking questions' text in the desktop preview panel
+    And I see 'View question and answer session details' text in the desktop preview panel
+    And I see 'Price 80%' text in the desktop preview panel
+    And I click 'Confirm your requirements and publish'
+   Then I am on the 'Publish your requirements and evaluation criteria' page
+    And I click 'Publish requirements'
 
   Then I don't see the 'Title' link
    And I don't see the 'Location' link
