@@ -228,9 +228,8 @@ Scenario: Edit a draft requirement
   Then I am on the 'Green Tea Drinker' page
 
 
-@skip-local @skip-preview
 Scenario: There is no 'Publish requirements' button for an incomplete requirement draft
   Given I am logged in as a buyer user
   And I have created an individual specialist requirement
-  When I click 'Review and publish your requirements'
+  When I click 'Publish your requirements'
   Then I don't see the 'Publish requirements' button
