@@ -16,7 +16,7 @@ Background:
   And that supplier has a service on the cloud-support lot
 
 @with-admin-ccs-data-controller-user
-@skip-preview @skip-staging @skip-production
+@skip-staging @skip-production
 Scenario: Admin CCS Data Controller can edit a supplier's details
   Given I am logged in as the existing admin-ccs-data-controller user
   And I am on the 'Admin' page
@@ -89,7 +89,7 @@ Scenario: Admin CCS Data Controller can edit a supplier's details
 
 
 @with-admin-ccs-data-controller-user
-@skip-local
+@skip-preview @skip-local
 Scenario: Admin CCS Data Controller can edit a supplier's details
   Given I am logged in as the existing admin-ccs-data-controller user
   And I am on the 'Admin' page
