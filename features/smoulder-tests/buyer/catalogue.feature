@@ -7,7 +7,6 @@ Scenario: User can select a lot from the g-cloud page and see search results.
   When I choose that lot.name radio button
   And I click 'Search for services'
   Then I am on the 'Search results' page
-  And I see that lot.name breadcrumb
   And I see a search result
 
 Scenario: User is able to search by service id and have result returned.
