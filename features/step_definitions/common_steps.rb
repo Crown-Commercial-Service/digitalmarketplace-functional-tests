@@ -262,11 +262,6 @@ Then /^I see a validation message containing '(.*)'$/ do |message|
   expect(validation_message).to have_content(message)
 end
 
-Then /^I see #{MAYBE_VAR} breadcrumb$/ do |breadcrumb_text|
-  breadcrumb = page.all(:xpath, "//div[@id='global-breadcrumb']/nav//li").last
-  expect(breadcrumb.text).to eq(breadcrumb_text)
-end
-
 Then /^I (don't |)see (?:the|a) '(.*)' (button|link)$/ do |negative, selector_text, selector_type|
   expect(page).to have_selector(:link_or_button, selector_text) if negative.empty?
   expect(page).not_to have_selector(:link_or_button, selector_text) unless negative.empty?
