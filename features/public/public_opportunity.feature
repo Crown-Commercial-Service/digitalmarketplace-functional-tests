@@ -6,7 +6,7 @@ Scenario: Public views the publish requirements. Details presented matches what 
   And I have a buyer user
   And that buyer is logged in
   And I have a live digital-specialists brief
-  And I click the 'Log out' button
+  And I click 'Log out'
 
   When I go to that brief page
   Then I see the details of the brief match what was published
