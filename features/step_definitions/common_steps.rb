@@ -517,3 +517,8 @@ end
 Then /^I see that the page has not been reloaded/ do
   expect(page).to have_selector("body.not-reloaded")
 end
+
+When /^I see the '(.*)' field prefilled with #{MAYBE_VAR}?$/ do |field_name, value|
+  field_element = page.find_field field_name
+  expect(field_element.value).to include(normalize_whitespace(value))
+end
