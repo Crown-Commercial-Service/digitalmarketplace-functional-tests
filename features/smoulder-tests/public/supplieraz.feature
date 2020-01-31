@@ -1,15 +1,6 @@
 @smoulder-tests
 Feature: Passive supplier a-z browsing journey
 
-@skip-local
-@skip-preview
-@skip-staging
-Scenario: User can click through to opportunities page
-  Given I visit the homepage
-  When I click 'G-Cloud supplier A–Z'
-  Then I am on the 'Suppliers starting with A' page
-
-@skip-production
 Scenario: User can click through to opportunities page
   Given I visit the homepage
   When I click 'G-Cloud supplier A to Z'
