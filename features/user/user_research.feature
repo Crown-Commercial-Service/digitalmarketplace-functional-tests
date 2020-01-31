@@ -1,4 +1,4 @@
-@skip-local @skip-preview
+@skip-local @skip-preview @skip-staging
 @user @user-research
 Feature: User Research
 Background:
