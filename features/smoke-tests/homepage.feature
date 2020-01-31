@@ -3,6 +3,7 @@ Feature: Check appropriate links on homepage
 
 @skip-local
 @skip-preview
+@skip-staging
 Scenario: User can see the main links on the homepage
   Given I visit the homepage
   Then I see the 'Find cloud hosting, software and support' link
@@ -15,7 +16,6 @@ Scenario: User can see the main links on the homepage
   And I see the 'Become a supplier' link
   And I see the 'G-Cloud supplier A–Z' link
 
-@skip-staging
 @skip-production
 Scenario: User can see the main links on the homepage
   Given I visit the homepage
