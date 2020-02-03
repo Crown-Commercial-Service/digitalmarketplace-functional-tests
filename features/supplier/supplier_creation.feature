@@ -1,10 +1,10 @@
 @supplier @supplier-creation
-Feature: Create new supplier account
+Feature: User steps through supplier account creation process
 
 Background:
   Given There is at least one framework that can be applied to
 
-Scenario: User steps through supplier account creation process
+Scenario: Create new supplier account (without duns flow)
   Given I visit the homepage
   When I click 'Become a supplier'
   Then I am on the 'Become a supplier' page
@@ -13,7 +13,7 @@ Scenario: User steps through supplier account creation process
   Then I am on the 'Create a supplier account' page
 
   When I click 'Start'
-  Then I am on the 'DUNS number' page
+  Then I am on the 'Enter your DUNS number' page
 
   When I enter '999999999' in the 'duns_number' field
   And I click 'Continue'
@@ -61,3 +61,65 @@ Scenario: User steps through supplier account creation process
 
   # We can't ever click the "Create account" button to check the final page because this will create a supplier entry
   # with DUNS number 000000001 and the test will never pass again.
+
+Scenario: Create new supplier account (with duns flow)
+  Given I visit the homepage
+  When I click 'Become a supplier'
+  And I click 'Create a supplier account'
+  And I click 'Start'
+  Then I am on the 'Enter your DUNS number' page
+
+  When I enter '288305220' in the 'duns_number' field
+  And I click 'Continue'
+  Then I am on the 'We found these details' page
+  And I see the 'We found these details' summary table filled with:
+    | field                  | value                          |
+    | DUNS number            | 288305220                      |
+    | Company name           | SAVE THE CHILDREN FUND         |
+
+  When I choose the 'Yes' radio button for the 'Is this the company you want to create an account for?' question
+  And I click 'Continue'
+  Then I am on the 'Your company details' page
+  And I see the 'Company name' field prefilled with 'SAVE THE CHILDREN FUND'
+
+  When I enter 'Company contact name' in the 'contact_name' field
+  And I enter 'murphy.and.company@example.com' in the 'email_address' field
+  And I enter '0123456789' in the 'phone_number' field
+  And I click 'Continue'
+  Then I am on the 'Create login' page
+
+  When I enter 'murphy@example.com' in the 'email_address' field
+  And I click 'Continue'
+  Then I am on the 'Check your information' page
+  And I see the 'Your company details' summary table filled with:
+    | field                  | value                          |
+    | DUNS number            | 288305220                      |
+    | Company name           | SAVE THE CHILDREN FUND         |
+    | Contact name           | Company contact name           |
+    | Contact email          | murphy.and.company@example.com |
+    | Contact phone number   | 0123456789                     |
+  And I see the 'Your login details' summary table filled with:
+    | field                  | value              |
+    | Email address          | murphy@example.com |
+
+  # We can't ever click the "Create account" button to check the final page because this will create a supplier entry
+  # with DUNS number 288305220 and the test will never pass again.
+
+Scenario: DUNS Number already exists
+  # Uses DUNS Number for CCS
+  Given I visit the /suppliers/create/duns-number page
+  And I am on the 'Enter your DUNS number' page
+  When I enter '232204180' in the 'duns_number' field
+  And I click 'Continue'
+  Then I am on the 'Enter your DUNS number' page
+  And I see a validation message containing 'DUNS number already used'
+  And I see the 'DUNS number' field prefilled with '232204180'
+
+Scenario: DUNS Number does not exist
+  Given I visit the /suppliers/create/duns-number page
+  And I am on the 'Enter your DUNS number' page
+  When I enter '111111111' in the 'duns_number' field
+  And I click 'Continue'
+  Then I am on the 'Enter your DUNS number' page
+  And I see a validation message containing 'DUNS number not found'
+  And I see the 'DUNS number' field prefilled with '111111111'
