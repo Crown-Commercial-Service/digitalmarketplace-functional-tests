@@ -280,7 +280,7 @@ Then /^I am at the (\/.*) url$/ do |page_url|
 end
 
 Then /^I see #{MAYBE_VAR} in the page's (.*)$/ do |page_name_fragment, selector|
-  expect(find(selector).text).to include(normalize_whitespace(page_name_fragment))
+  expect(page.find('main').find(selector).text).to include(normalize_whitespace(page_name_fragment))
 end
 
 Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
