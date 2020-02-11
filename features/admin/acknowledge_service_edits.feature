@@ -16,7 +16,7 @@ Scenario: Admin approves service edits
   And I see that service.supplierName in the 'Edited services' summary table
   When I click the summary table 'View changes' link for that service.id
   Then I am on that service.serviceName page
-  And I see 'functional.test@example.com made 1 edit' in the page's main
+  And I see 'functional.test@example.com made 1 edit' text on the page
   And I see that random_sentence in the page's ins
 
   # Before we approve the edit we're going to test a race condition of the supplier re-editing the service
@@ -33,7 +33,7 @@ Scenario: Admin approves service edits
   And I see that service.supplierName in the 'Edited services' summary table
   When I click the summary table 'View changes' link for that service.id
   Then I am on that service.serviceName page
-  And I see 'functional.test@example.com made 1 edit' in the page's main
+  And I see 'functional.test@example.com made 1 edit' text on the page
   # This is the second random_sentence now of course
   And I see that random_sentence in the page's ins
 
