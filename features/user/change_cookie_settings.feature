@@ -1,4 +1,3 @@
-@skip-staging
 @user @cookie-settings
 Feature: Change cookie settings
 
