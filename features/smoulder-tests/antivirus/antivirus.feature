@@ -1,3 +1,4 @@
+@skip-preview @skip-staging @skip-production
 Feature: Antivirus scanning
 
 @smoulder-tests @antivirus @notify @file-upload @requires-aws-credentials @skip-local
