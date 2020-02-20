@@ -228,3 +228,11 @@ def get_table_rows_by_caption(caption)
   result_table_rows_xpath = result_table_xpath + rows_xpath
   page.all(:xpath, result_table_rows_xpath)
 end
+
+def get_summary_list_rows_by_preceding_heading(heading)
+  # do we even h5?
+  heading_xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4][normalize-space(string())=normalize-space(#{escape_xpath(heading)})]"
+  dl_rows_xpath = "/following-sibling::*[position()=1][self::dl]/*"
+
+  page.all(:xpath, heading_xpath + dl_rows_xpath)
+end

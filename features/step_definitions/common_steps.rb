@@ -325,8 +325,8 @@ When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/
   edit_link.click
 end
 
-When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |link_name, elem_type, field_to_edit|
-  row = page.find("td", exact_text: field_to_edit).ancestor("tr")
+When /I click the summary (table|list) #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |table_or_list, link_name, elem_type, field_to_edit|
+  row = page.find(table_or_list == "table" ? "td" : "dt", exact_text: field_to_edit).ancestor(table_or_list == "table" ? "tr" : "dl > *")
   case elem_type
     when 'link'
       edit_link = row.find_link(link_name)
@@ -363,26 +363,37 @@ When /I click a summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |
   edit_links.first.click
 end
 
-When /I update the value of '(.*)' to '(.*)' using the summary table '(.*)' link(?: and the '(.*)' button)?/ do |field_to_edit, new_value, link_name, button_name|
+When /I update the value of '(.*)' to '(.*)' using the summary (table|list) '(.*)' link(?: and the '(.*)' button)?/ do |field_to_edit, new_value, table_or_list, link_name, button_name|
   summary_page = current_url
   button_name ||= "Save and continue"
 
-  step "I click the summary table '#{link_name}' link for '#{field_to_edit}'"
+  step "I click the summary #{table_or_list} '#{link_name}' link for '#{field_to_edit}'"
   step "I enter '#{new_value}' in the '#{field_to_edit}' field and click its associated '#{button_name}' button"
 
   page.visit(summary_page)
 end
 
-Then /^I see the '(.*)' summary table filled with:$/ do |table_heading, table|
-  result_table_rows = get_table_rows_by_caption(table_heading)
+Then /^I see the '(.*)' summary (table|list) filled with:$/ do |heading, table_or_list, expected_table|
+  if table_or_list == "table"
+    result_rows = get_table_rows_by_caption(heading)
+  else
+    result_rows = get_summary_list_rows_by_preceding_heading(heading)
+  end
+  puts result_rows.length
+  expected_table.rows.each_with_index do |expected_row, index|
+    if table_or_list == "table"
+      tds = result_rows[index].all('td')
+      result_key = tds[0]
+      result_value = tds[1]
+    else
+      result_key = result_rows[index].find('dt')
+      result_value = result_rows[index].all('dd')[0]
+    end
 
-  table.rows.each_with_index do |row, index|
-    result_items = result_table_rows[index].all('td')
-    expect(result_items[0].text).to eq(row[0])
+    expect(result_key.text).to eq(expected_row[0])
     # Skip anything with '<ANY>'
-    if row[1] != '<ANY>'
-      # Concatenate any multi-line strings
-      expect(result_items[1].text.split.join(' ')).to eq(row[1])
+    if expected_row[1] != '<ANY>'
+      expect(result_value.text(normalize_ws: true)).to eq(expected_row[1])
     end
   end
 end
