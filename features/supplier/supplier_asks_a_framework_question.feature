@@ -18,7 +18,7 @@ Scenario: Supplier asks a clarification question
   And I see 'You can ask clarification questions until' text on the page
   And I see 'Answers are published to this page around twice a week' text on the page
   When I enter a random value in the 'clarification_question' field
-  And I click the 'Ask question' button
+  And I click the 'Ask a question' button
   Then I receive a clarification question email regarding that question for 'clarification-questions@example.gov.uk'
   And I receive a clarification question confirmation email regarding that question for that supplier_user.emailAddress
   And I don't receive a follow-up question email regarding that question for 'follow-up@example.gov.uk'
