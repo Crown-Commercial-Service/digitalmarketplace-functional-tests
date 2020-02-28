@@ -11,13 +11,14 @@ Scenario: Supplier submits a framework application
   And I start that framework application
   Then I am on the 'Apply to framework' page for that framework application
 
-  When I click 'Enter your company details'
+  When I click 'Confirm your company details'
   Then I am on the 'Company details' page
   And I fill in all the missing details
   And I click 'Save and confirm'
   Then I am on the 'Apply to framework' page for that framework application
+  And I see 'Done' text on the page
 
-  When I click 'Make supplier declaration'
+  When I click 'Make your supplier declaration'
   Then I am on the 'Make your supplier declaration' page
   When I click 'Start your declaration'
   Then I am on the 'Your declaration overview' page
@@ -26,7 +27,7 @@ Scenario: Supplier submits a framework application
   When I follow the first 'Edit' link and answer all questions on that page and those following until I'm back on the 'Your declaration overview' page
   Then I click 'Make declaration' button
   And I am on the 'Apply to framework' page for that framework application
-  And I see 'You’ve made the supplier declaration' text on the page
+  And I see 'Done' text on the page
 
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
@@ -34,7 +35,9 @@ Scenario: Supplier submits a framework application
   And I see '1 service will be submitted' or '1 lab will be submitted' text on the page
   And I click 'Back to framework application' link for that framework application
 
-  And I see 'Your application will be submitted at' text on the page
+  Then I am on the 'Apply to framework' page for that framework application
+  And I see 'Your application is complete and will be submitted automatically' text on the page
+  And I see '3 services' text on the page
 
 Scenario: Supplier re-uses a declaration
   Given I have a supplier with a reusable declaration
@@ -48,7 +51,7 @@ Scenario: Supplier re-uses a declaration
   And I click 'Continue your application'
   Then I am on the 'Apply to framework' page for that framework application
 
-  When I click 'Make supplier declaration'
+  When I click 'Make your supplier declaration'
   Then I am on the 'Make your supplier declaration' page
   When I click 'Start your declaration'
   Then I am on the 'Reusing answers from an earlier declaration' page
