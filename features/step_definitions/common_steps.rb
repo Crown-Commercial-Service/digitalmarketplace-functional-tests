@@ -484,6 +484,12 @@ And /^I wait for the page to reload/ do
   end
 end
 
+And /^I wait for the page to load/ do
+  Timeout.timeout(dm_custom_wait_time) do
+    loop until page.evaluate_script('document.readyState') === 'complete'
+  end
+end
+
 Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)? '(.*?)')?(?: (?:and|with) content.?type(?: of)? '(.*?)')?( in a new window)?$/) do |download_inline, ending, content_type, maybe_new_window|
   if maybe_new_window
     # beware - not all drivers *necessarily* keep the windows list in a defined order

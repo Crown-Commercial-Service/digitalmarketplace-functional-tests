@@ -9,9 +9,19 @@ Scenario: User can click through to g-cloud page
   When I click 'Start a new search'
   Then I am on the 'Choose a category' page
 
+@skip-preview
 Scenario: User is able to navigate to service detail page via selecting the service from the search results
   Given I visit the /g-cloud/search page
   Then I am on the 'Search results' page
+  When I click a random result in the list of service results returned
+  Then I am on that result.title page
+  And I see that result.supplier_name as the page header context
+
+@skip-staging @skip-production
+Scenario: User is able to navigate to service detail page via selecting the service from the search results
+  Given I visit the /g-cloud/search page
+  Then I am on the 'Search results' page
+  And I wait for the page to load
   When I click a random result in the list of service results returned
   Then I am on that result.title page
   And I see that result.supplier_name as the page header context
