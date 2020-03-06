@@ -16,6 +16,15 @@ Scenario: User is able to navigate to service detail page via selecting the serv
   Then I am on that result.title page
   And I see that result.supplier_name as the page header context
 
+@skip-staging @skip-production
+Scenario: User is able to navigate to service detail page via selecting the service from the search results
+  Given I visit the /g-cloud/search page
+  Then I am on the 'Search results' page
+  And I wait for the page to load
+  When I click a random result in the list of service results returned
+  Then I am on that result.title page
+  And I see that result.supplier_name as the page header context
+
 Scenario: User is able to search by keywords field on the search results page to narrow down the results returned
   Given I visit the /g-cloud/search page
   And I have a random g-cloud service from the API
