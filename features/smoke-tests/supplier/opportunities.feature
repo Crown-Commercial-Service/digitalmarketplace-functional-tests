@@ -9,12 +9,6 @@ Scenario: User can click through to opportunities page
 
 Scenario: User is able to navigate to opportunity detail page via selecting the opportunity from the search results
   Given I visit the /digital-outcomes-and-specialists/opportunities page
-  When I click a random result in the list of opportunity results returned
-  Then I am on that result.title page
-
-@skip-staging @skip-production
-Scenario: User is able to navigate to opportunity detail page via selecting the opportunity from the search results
-  Given I visit the /digital-outcomes-and-specialists/opportunities page
   And I wait for the page to load
   When I click a random result in the list of opportunity results returned
   Then I am on that result.title page
