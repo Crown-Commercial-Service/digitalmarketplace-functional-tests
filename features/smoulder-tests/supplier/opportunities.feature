@@ -73,6 +73,7 @@ Scenario Outline: User gets no results for impossible combinations of location a
   When I click 'Clear filters'
   And I wait for the page to reload
   And I click 'All categories'
+  And I wait for the page to load
   And I check '<location>' checkbox
   And I wait for the page to reload
   Then I don't see the '<lot>' link
@@ -121,6 +122,7 @@ Scenario Outline: User can filter by status, lot, location and keyword together
   And I see all the opportunities on the page are on the '<lot>' lot
   And I see all the opportunities on the page are in the '<location>' location
   When I click 'All categories'
+  And I wait for the page to load
   Then I see '<phrase>' in the search summary text
   And I see that the stated number of results is no fewer than that result_count
   And I note the result_count
