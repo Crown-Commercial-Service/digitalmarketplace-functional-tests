@@ -51,13 +51,20 @@ Scenario: User is able to paginate through search results and all of the navigat
   And I choose that lot.name radio button
   And I click 'Search for services'
   Then I am on the 'Search results' page
+  When I check the 'Developed Vetting (DV)' checkbox
+  And I check the 'Security Clearance (SC)' checkbox
+  And I wait for the page to reload
   And I note the number of category links
   And I click the Next Page link
   Then I am taken to page 2 of results
   And I see the same number of category links as noted
+  And I see the 'Developed Vetting (DV)' checkbox is checked
+  And I see the 'Security Clearance (SC)' checkbox is checked
   When I click the Previous Page link
   Then I am taken to page 1 of results
   And I see the same number of category links as noted
+  And I see the 'Developed Vetting (DV)' checkbox is checked
+  And I see the 'Security Clearance (SC)' checkbox is checked
 
 Scenario: User gets no results for an unfindable term
   Given I visit the /g-cloud/search page
