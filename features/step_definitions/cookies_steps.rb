@@ -37,6 +37,7 @@ And(/^a tracking pageview (has been|has not been) fired( with a redacted email)?
   if has_tracking == 'has been'
     if redacted
       expect(google_analytics_request_with_param('[email]')).not_to be_nil
+      expect(google_analytics_request_with_param('joe@example.com')).to be_nil
     else
       expect(google_analytics_requests).not_to be_empty
     end
