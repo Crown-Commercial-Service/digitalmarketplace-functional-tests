@@ -52,7 +52,7 @@ Scenario: User does a search and PII is redacted from analytics
   Then I see 'Can we store analytics cookies on your device?' text on the page
   And I click 'Yes' button
   When I visit the /g-cloud/search?q=joe@example.com page
-  Then a tracking pageview has been fired with a redacted email
+  Then a tracking pageview has been fired with joe@example.com redacted
 
 Scenario: User rejects analytics and navigates between DMP and Gov.uk
   Given I visit the homepage

@@ -33,11 +33,11 @@ def google_analytics_request_with_param(param)
   end
 end
 
-And(/^a tracking pageview (has been|has not been) fired( with a redacted email)?$/) do |has_tracking, redacted|
+And(/^a tracking pageview (has been|has not been) fired(?: with (.+@.+) redacted)?$/) do |has_tracking, email|
   if has_tracking == 'has been'
-    if redacted
+    if email
       expect(google_analytics_request_with_param('[email]')).not_to be_nil
-      expect(google_analytics_request_with_param('joe@example.com')).to be_nil
+      expect(google_analytics_request_with_param(email)).to be_nil
     else
       expect(google_analytics_requests).not_to be_empty
     end
