@@ -28,7 +28,7 @@ When (/^I have exported my results for the '(.*)' saved search$/) do |search_nam
     Given I visit the /buyers/direct-award/g-cloud page
     And I click the '#{search_name}' link
     And I click the 'Export your results' link
-    And I check 'I understand that I cannot edit my search after I export my results' checkbox
+    And I check I understand that I cannot edit my search after I export my results checkbox
     And I click the 'Export results and continue' button
     Then I see a success banner message containing 'Results exported. Your files are ready to download.'
   }
@@ -83,6 +83,12 @@ When (/^I have downloaded the search results as a file of type '(.*)'$/) do |fil
     puts "The file type '#{file_type}' is not recognised"
   end
   steps "And I should get a download file with filename ending '.#{file_type}'"
+end
+
+# Override to support different versions of content on preview and staging
+# TODO remove once alphagov/digitalmarketplace-buyer-frontend#1030 has been released
+And "I check I understand that I cannot edit my search after I export my results checkbox" do
+  check_checkbox('user_understands')
 end
 
 And (/^I see the '(.*)' instruction list item status showing as '(.*)'$/) do |list_item, status|
