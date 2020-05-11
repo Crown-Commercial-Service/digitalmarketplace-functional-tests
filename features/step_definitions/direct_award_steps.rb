@@ -28,7 +28,7 @@ When (/^I have exported my results for the '(.*)' saved search$/) do |search_nam
     Given I visit the /buyers/direct-award/g-cloud page
     And I click the '#{search_name}' link
     And I click the 'Export your results' link
-    And I check 'I understand that I cannot edit my search again after I export my results' checkbox
+    And I check 'I understand that I cannot edit my search after I export my results' checkbox
     And I click the 'Export results and continue' button
     Then I see a success banner message containing 'Results exported. Your files are ready to download.'
   }
