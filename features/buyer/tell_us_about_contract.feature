@@ -78,7 +78,7 @@ Scenario: User exports results
   And I see the 'Save a search' instruction list item status showing as 'Completed'
   When I click the 'Export your results' link
   Then I am on the 'Before you export your results' page
-  When I check 'I understand that I cannot edit my search again after I export my results' checkbox
+  When I check I understand that I cannot edit my search after I export my results checkbox
   And I click the 'Export results and continue' button
   Then I am on the 'Download your results' page
   And I see a success banner message containing 'Results exported. Your files are ready to download.'
