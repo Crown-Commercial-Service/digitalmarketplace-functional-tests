@@ -25,10 +25,10 @@ gem install bundler
 make install
 ```
 
-You may have to install `phantomjs` separately:
+You will have to install `phantomjs` separately:
 
 ```bash
-brew install phantomjs
+brew cask install phantomjs
 ```
 
 ## Running tests
