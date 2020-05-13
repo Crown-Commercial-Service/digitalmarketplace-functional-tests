@@ -280,7 +280,7 @@ module FormHelper
       document_questions.each do |question|
         file_to_attach = random_pdf_or_odt.call
         puts "Attaching file #{file_to_attach}"
-        attach_file(question["name"], File.join(Dir.pwd, 'fixtures', random_pdf_or_odt.call))
+        attach_file(question["name"], File.join(Dir.pwd, 'fixtures', file_to_attach))
       end
       return true
     end
