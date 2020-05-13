@@ -259,9 +259,10 @@ module FormHelper
   def pass_document_upload_validation
     document_questions = find_elements_by_xpath("//input[@class='file-upload-input']")
 
-    random_pdf_or_odt = -> { true_half_the_time = Random.new.rand(n = 2) > 0
-    file_format = true_half_the_time ? 'pdf' : 'odt'
-    "test.#{file_format}"
+    random_pdf_or_odt = -> {
+      true_half_the_time = Random.new.rand(n = 2) > 0
+      file_format = true_half_the_time ? 'pdf' : 'odt'
+      "test.#{file_format}"
     }
 
     if document_questions.length > 1
