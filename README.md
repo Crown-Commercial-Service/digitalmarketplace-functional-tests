@@ -1,7 +1,7 @@
-# digitalmarketplace-functional-tests
-BDD tests for the digital marketplace suite of applications.
+# Digital Marketplace Functional Tests
+BDD tests for the Digital Marketplace suite of applications.
 
-Technology wise it is a Ruby project using:
+A Ruby project using:
 - [Cucumber](http://cukes.info/)
 - [Capybara](https://github.com/jnicklas/capybara)
 - [Bundler](http://bundler.io/)
@@ -244,6 +244,23 @@ Capybara is a web testing framework designed to allow assertions against sites t
 
 IF you run functional tests with the DM_DEBUG_SLOW_TESTS environment variable set, Capybara's synchronisation method will be monkeypatched to raise a SlowFinderError which will help debug where we might not be using the correct Capybara method for our 'happy' case so that we can easily find and change it to something more suitable.
 
+## Updating Ruby dependencies
+
+Update the dependency in the `Gemfile` and run
+
+```bash
+bundle install
+```
+
+Commit the changes to `Gemfile` and `Gemfile.lock`.
+
+To update the `Gemfile.lock` only (for example, to fix vulnerability warnings), run:
+
+```bash
+bundle update
+```
+
+Commit the changes to `Gemfile.lock`.
 
 ## Licence
 
