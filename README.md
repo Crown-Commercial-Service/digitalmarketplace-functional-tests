@@ -1,7 +1,7 @@
-# digitalmarketplace-functional-tests
-BDD tests for the digital marketplace suite of applications.
+# Digital Marketplace Functional Tests
+BDD tests for the Digital Marketplace suite of applications.
 
-Technology wise it is a Ruby project using:
+A Ruby project using:
 - [Cucumber](http://cukes.info/)
 - [Capybara](https://github.com/jnicklas/capybara)
 - [Bundler](http://bundler.io/)
