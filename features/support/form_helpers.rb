@@ -249,7 +249,9 @@ module FormHelper
 
   def pass_pricing_validation
     options = {}
-    pricing_questions = find_elements_by_xpath("//input[@class='text-box pricing-input-with-unit']")
+    pricing_questions = find_elements_by_xpath(
+      "//input[contains(@class, 'dmp-price-input__input') or contains(@class, 'pricing-input-with-unit')]"
+    )
     pricing_questions.each do |question|
       options[question["name"]] = "500"
     end
