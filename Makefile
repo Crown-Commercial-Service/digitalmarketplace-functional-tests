@@ -28,7 +28,9 @@ setup: install config clean
 	mkdir -p reports/
 
 install:
-	bundle install --path .bundle --without development
+	bundle config set path '.bundle';\
+	bundle config set without 'development';\
+	bundle install
 
 .PHONY: config
 config:
