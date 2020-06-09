@@ -243,6 +243,11 @@ When(/^I choose a random sentence$/) do
   puts "sentence: #{@random_sentence}"
 end
 
+Then /^I see a (success|error|notice) flash message containing #{MAYBE_VAR}$/ do |type, message|
+  flash_message = page.find(:css, ".dm-alert.dm-alert--#{type}", wait: false)
+  expect(flash_message).to have_content(message)
+end
+
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing #{MAYBE_VAR}$/ do |status, message|
   begin
