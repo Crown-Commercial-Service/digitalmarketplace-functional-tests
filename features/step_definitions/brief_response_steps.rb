@@ -95,7 +95,7 @@ end
 
 Then /^I see the published question and answer$/ do
   steps %{
-    Then I see '#{@random_question_text}' in the 'Questions asked by suppliers' summary table
-    Then I see '#{@random_answer_text}' in the 'Questions asked by suppliers' summary table
+    Then I see '#{@random_question_text}' in the 'Questions asked by suppliers' summary list
+    Then I see '#{@random_answer_text}' in the 'Questions asked by suppliers' summary list
   }
 end

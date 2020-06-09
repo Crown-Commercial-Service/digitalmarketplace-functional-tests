@@ -403,6 +403,11 @@ Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' summary table$/ do |negate, con
   expect(result_table_rows.any? { |row| row.text.include?(content) }).to be negate.empty?
 end
 
+Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' summary list$/ do |negate, content, table_heading|
+  result_table_rows = get_summary_list_rows_by_preceding_heading(table_heading)
+  expect(result_table_rows.any? { |row| row.text.include?(content) }).to be negate.empty?
+end
+
 Then /^I see that the '(.*)' summary table has (\d+)(?: or (more|fewer))? entr(?:y|ies)$/ do |table_heading, expected_number_of_rows, comparison|
   number_of_table_rows = get_table_rows_by_caption(table_heading).length
   case comparison
