@@ -21,5 +21,5 @@ Scenario: Inactive user trying to reset password instead receives an information
 
   When I enter that user.emailAddress in the 'Email address' field
   And I click 'Send reset email' button
-  Then I see a success banner message containing 'send a link to reset the password'
+  Then I see a success flash message containing 'send a link to reset the password'
   And I receive a 'reset-password-inactive' email for that user.emailAddress
