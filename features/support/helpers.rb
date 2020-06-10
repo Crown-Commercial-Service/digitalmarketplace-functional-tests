@@ -233,6 +233,7 @@ def get_summary_list_rows_by_preceding_heading(heading)
   # do we even h5?
   heading_xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4][normalize-space(string())=normalize-space(#{escape_xpath(heading)})]"
   dl_rows_xpath = "/following-sibling::*[position()=1][self::dl]/*"
-
-  page.all(:xpath, heading_xpath + dl_rows_xpath)
+  paragraph_xpath = '/following-sibling::p'
+  # some lists have a preceding paragraph
+  page.all(:xpath, heading_xpath + dl_rows_xpath).any? ? page.all(:xpath, heading_xpath + dl_rows_xpath) : page.all(:xpath, heading_xpath + paragraph_xpath + dl_rows_xpath)
 end
