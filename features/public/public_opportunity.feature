@@ -1,4 +1,4 @@
-@public-opportunity-view
+@public-opportunity-view @skip-staging @skip-production
 Feature: Published requirements can be viewed by the public
 
 Scenario: Public views the publish requirements. Details presented matches what was published.
