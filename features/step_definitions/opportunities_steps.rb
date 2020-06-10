@@ -62,7 +62,7 @@ end
 
 Then /^I see the details of the brief match what was published$/ do
   steps %{
-    Given I see the 'Overview' summary table filled with:
+    Given I see the 'Overview' summary list filled with:
       | field                        | value                         |
       | Specialist role              | Developer                     |
       | Summary of the work          | #{@brief['summary']}          |
@@ -71,24 +71,24 @@ Then /^I see the details of the brief match what was published$/ do
       | Location                     | #{@brief['workplaceAddress']} |
       | Organisation the work is for | #{@brief['organisation']}     |
       | Maximum day rate             |                               |
-    Given I see the 'About the work' summary table filled with:
+    Given I see the 'About the work' summary list filled with:
       | field                             | value                         |
       | Early market engagement           |                               |
       | Who the specialist will work with | #{@brief['existingTeam']}     |
       | What the specialist will work on  | #{@brief['specialistWork']}   |
-    Given I see the 'Work setup' summary table filled with:
+    Given I see the 'Work setup' summary list filled with:
       | field                                  | value                            |
       | Address where the work will take place | #{@brief['workplaceAddress']}    |
       | Working arrangements                   | #{@brief['workingArrangements']} |
       | Security clearance                     |                                  |
-    Given I see the 'Additional information' summary table filled with:
+    Given I see the 'Additional information' summary list filled with:
       | field                                  | value                            |
       | Additional terms and conditions        |                                  |
-    Given I see the 'Skills and experience' summary table filled with:
+    Given I see the 'Skills and experience' summary list filled with:
       | field                                  | value                                         |
       | Essential skills and experience        | #{@brief['essentialRequirements'].join(' ')}  |
       | Nice-to-have skills and experience     | #{@brief['niceToHaveRequirements'].join(' ')} |
-    Given I see the 'How suppliers will be evaluated' summary table filled with:
+    Given I see the 'How suppliers will be evaluated' summary list filled with:
       | field                                  | value                                                                                                                                 |
       | How many specialists to evaluate       | #{@brief['numberOfSuppliers']}                                                                                                        |
       | Cultural fit criteria                  | #{@brief['culturalFitCriteria'].join(' ')}                                                                                            |

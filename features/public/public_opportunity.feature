@@ -1,7 +1,7 @@
-@public-opportunity-view
+@public-opportunity-view @skip-staging
 Feature: Published requirements can be viewed by the public
 
-Scenario: Public views the publish requirements. Details presented matches what was publisehd.
+Scenario: Public views the publish requirements. Details presented matches what was published.
   Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
   And that buyer is logged in
