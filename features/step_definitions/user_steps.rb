@@ -90,7 +90,7 @@ Then /^that user can not log in using their correct password$/ do
     When I enter that user.emailAddress in the 'Email address' field
     And I enter that user.emailAddress in the 'Password' field
     And I click the 'Log in' button
-    Then I see a destructive banner message containing 'Accounts are locked'
+    Then I see a error flash message containing 'Accounts are locked'
     And I don't see the 'Log out' button
   }
 end
@@ -113,7 +113,7 @@ Then /^that user is able to reset their password$/ do
 
     When I enter that user.emailAddress in the 'Email address' field
     And I click 'Send reset email' button
-    Then I see a success banner message containing 'send a link to reset the password'
+    Then I see a success flash message containing 'send a link to reset the password'
     And I receive a 'reset-password' email for that user.emailAddress
     And I click the link in that email
     Then I am on the 'Reset password' page
@@ -121,6 +121,6 @@ Then /^that user is able to reset their password$/ do
     And I enter that user.password in the 'Confirm new password' field
     And I click 'Reset password' button
     Then I am on the 'Log in to the Digital Marketplace' page
-    And I see a success banner message containing 'You have successfully changed your password.'
+    And I see a success flash message containing 'You have successfully changed your password.'
   }
 end
