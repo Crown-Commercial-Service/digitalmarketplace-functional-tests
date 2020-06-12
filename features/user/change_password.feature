@@ -11,7 +11,7 @@ Scenario Outline: Logged in user can change their password
   And I enter that user.password in the 'New password' field
   And I enter that user.password in the 'Confirm new password' field
   And I click 'Save changes' button
-  Then I see a success banner message containing 'You have successfully changed your password.'
+  Then I see a success flash message containing 'You have successfully changed your password.'
   And I am at the <dashboard_url> url
   And I receive a 'change-password-alert' email for that user.emailAddress
   And I click the link in that email

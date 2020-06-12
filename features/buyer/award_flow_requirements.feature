@@ -13,7 +13,6 @@ Background:
   When I click the 'Let suppliers know the outcome' link for that brief
   Then I am on the 'Have you awarded a contract for %s?' page with brief 'title'
 
-
 Scenario: Award flow - Award a requirement to a winning supplier
 
   Given I choose 'Yes' radio button
@@ -29,7 +28,7 @@ Scenario: Award flow - Award a requirement to a winning supplier
   And I enter '2020' in the 'input-awardedContractStartDate-year' field
   And I enter '20000.00' in the 'input-awardedContractValue' field
   And I click the 'submit' button
-  Then I see a success banner message containing 'updated'
+  Then I see a success flash message containing 'updated'
 
   When I go to that brief overview page
   Then I see the 'View suppliers who applied' link
@@ -49,7 +48,7 @@ Scenario: Award Flow - Cancel requirements
   When I choose 'Your requirements have been cancelled' radio button
   And I click the 'Update requirements' button
   Then I am on the '%s' page with brief 'title'
-  And I see a success banner message containing 'updated'
+  And I see a success flash message containing 'updated'
 
   When I go to that brief page
   Then I see a temporary-message banner message containing 'This opportunity was cancelled'
@@ -65,17 +64,16 @@ Scenario: Award flow - Mark requirements as unsuccessful
   When I choose 'There were no suitable suppliers' radio button
   And I click the 'Update requirements' button
   Then I am on the '%s' page with brief 'title'
-  And I see a success banner message containing 'updated'
+  And I see a success flash message containing 'updated'
 
   When I go to that brief page
   Then I see a temporary-message banner message containing 'No suitable suppliers applied'
   And I see a temporary-message banner message containing 'The buyer didn't award this contract because no suppliers met their '
   And I see a temporary-message banner message containing 'requirements. They may publish an updated version later.'
 
-
 Scenario: Award flow - Abort flow as still evaluating
 
   Given I choose 'We are still evaluating suppliers' radio button
   And I click the 'Save and continue' button
   Then I am on the 'Your requirements' page
-  And I see a success banner message containing 'updated'
+  And I see a success flash message containing 'updated'
