@@ -597,6 +597,13 @@ def get_supplier_with_reusable_declaration
   JSON.parse(call_api(:get, "/suppliers/#{supplier_framework['supplierId']}").body)['suppliers']
 end
 
+def get_supplier_with_copyable_service(framework)
+  @existing_service = get_a_service("published", framework['family'])
+  puts "Service name: #{@existing_service['serviceName']}"
+  puts "Service ID: #{@existing_service['id']}"
+  JSON.parse(call_api(:get, "/suppliers/#{@existing_service['supplierId']}").body)['suppliers']
+end
+
 def remove_supplier_declaration(supplier_id, framework_slug)
   response = call_api(
     :post,
