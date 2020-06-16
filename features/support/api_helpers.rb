@@ -601,6 +601,7 @@ def get_supplier_with_copyable_service(framework)
   @existing_service = get_a_service("published", framework['family'])
   puts "Service name: #{@existing_service['serviceName']}"
   puts "Service ID: #{@existing_service['id']}"
+  puts "Lot name: #{@existing_service['lotName']}"
   JSON.parse(call_api(:get, "/suppliers/#{@existing_service['supplierId']}").body)['suppliers']
 end
 
