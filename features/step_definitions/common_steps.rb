@@ -244,7 +244,7 @@ When(/^I choose a random sentence$/) do
 end
 
 Then /^I see a (success|error|notice) flash message containing #{MAYBE_VAR}$/ do |type, message|
-  flash_message = page.find(:css, ".dm-alert.dm-alert--#{type}", wait: false)
+  flash_message = page.find(:css, ".dm-alert.dm-alert--#{type}, div.flash-message-container", wait: false)
   expect(flash_message).to have_content(message)
 end
 

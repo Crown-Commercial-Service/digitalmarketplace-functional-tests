@@ -193,7 +193,6 @@ Scenario Outline: View requirement in a dashboard
     | withdrawn | Closed requirements      |
     | draft     | Unpublished requirements |
 
-
 Scenario: Delete a draft requirement
   Given I am logged in as a buyer user
   And I have created an individual specialist requirement
@@ -201,8 +200,7 @@ Scenario: Delete a draft requirement
   When I click 'Delete'
   Then I see a destructive banner message containing 'Are you sure you want to delete these requirements?'
   When I click 'Yes, delete'
-  Then I see a success banner message containing 'were deleted'
-
+  Then I see a success flash message containing 'were deleted'
 
 Scenario: Withdraw live requirements
   Given I am logged in as the buyer of a live brief
@@ -216,7 +214,7 @@ Scenario: Withdraw live requirements
   And I click 'Withdraw requirements'
   Then I see a destructive banner message containing 'Are you sure you want to withdraw these requirements?'
   When I click 'Withdraw requirements'
-  Then I see a success banner message containing 'withdrawn your requirements'
+  Then I see a success flash message containing 'withdrawn your requirements'
 
 
 Scenario: Edit a draft requirement
