@@ -119,12 +119,13 @@ Then /^I am on #{MAYBE_VAR} page for that lot$/ do |page_title|
 end
 
 Then /^I( don't)? see the existing service in the copyable services table$/ do |negate|
-  service_name = @existing_service['serviceName']
-  previous_framework_name = @existing_service['frameworkName']
+  previous_framework_slug = @existing_service['frameworkSlug']
+  expected_link = "/suppliers/frameworks/#{previous_framework_slug}/services/#{@existing_service['id']}"
+
   if negate
-    step "I don't see '#{service_name}' in the 'Previous framework services' summary table"
+    expect(page).not_to have_link(href: expected_link)
   else
-    step "I see '#{service_name}' in the 'Previous framework services' summary table"
+    expect(page).to have_link(href: expected_link)
   end
 end
 
@@ -137,25 +138,25 @@ Then "I click the 'Add' button for the existing service" do
 end
 
 Then /^I( don't)? see that service in the Draft services section$/ do |negate|
-  service_name = @existing_service['serviceName']
+  service_name = normalize_whitespace(@existing_service['serviceName'])
   if negate
-    step "I don't see '#{service_name}' in the 'Draft services' summary table"
+    expect(page).not_to have_link(service_name)
   else
-    step "I see '#{service_name}' in the 'Draft services' summary table"
+    expect(page).to have_link(service_name)
   end
 end
 
 Then "I click the link to edit the newly copied service" do
-  service_name = @existing_service['serviceName']
+  service_name = normalize_whitespace(@existing_service['serviceName'])
   step "I click the '#{service_name}' link"
 end
 
 Then "I am on the draft service page" do
-  service_name = @existing_service['serviceName']
+  service_name = normalize_whitespace(@existing_service['serviceName'])
   step "I am on the '#{service_name}' page"
 end
 
 Then "I see confirmation that I have removed that draft service" do
-  service_name = @existing_service['serviceName']
+  service_name = normalize_whitespace(@existing_service['serviceName'])
   step "I see a success banner message containing '#{service_name} was removed'"
 end
