@@ -404,7 +404,7 @@ def get_frameworks
   all_frameworks = JSON.parse(frameworks_from_api.body)['frameworks']
 end
 
-def get_a_service(status, framework_type = "g-cloud")
+def get_a_service(status, framework_type = "g-cloud", must_be_copyable = false)
   all_frameworks = get_frameworks
   suitable_framework_slugs = []
   all_frameworks.each do |framework|
@@ -414,7 +414,14 @@ def get_a_service(status, framework_type = "g-cloud")
   end
   params = { status: status, framework: suitable_framework_slugs[0] }
   services_from_api = call_api(:get, '/services', params: params)
-  JSON.parse(services_from_api.body)['services'].sample
+  service_list = JSON.parse(services_from_api.body)['services']
+
+  if must_be_copyable
+    # Check if the service has already been used to create a draft service
+    service_list = service_list.select { |x| x['copiedToFollowingFramework'] == false }
+  end
+
+  service_list.sample
 end
 
 def create_user(user_role, custom_user_data = {})
@@ -595,6 +602,14 @@ def get_supplier_with_reusable_declaration
 
   expect(supplier_framework).not_to be_nil
   JSON.parse(call_api(:get, "/suppliers/#{supplier_framework['supplierId']}").body)['suppliers']
+end
+
+def get_supplier_with_copyable_service(framework)
+  @existing_service = get_a_service("published", framework['family'], must_be_copyable = true)
+  puts "Service name: #{@existing_service['serviceName']}"
+  puts "Service ID: #{@existing_service['id']}"
+  puts "Lot name: #{@existing_service['lotName']}"
+  JSON.parse(call_api(:get, "/suppliers/#{@existing_service['supplierId']}").body)['suppliers']
 end
 
 def remove_supplier_declaration(supplier_id, framework_slug)

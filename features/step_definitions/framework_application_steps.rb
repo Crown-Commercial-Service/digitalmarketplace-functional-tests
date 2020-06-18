@@ -96,3 +96,67 @@ Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? e
     puts "Notify id: #{@email.id}"
   end
 end
+
+
+Then 'I click on the lot link for the existing service' do
+  lot_name = @existing_service['lotName']
+  lot_link = page.all(:xpath, "//div[@class='govuk-grid-column-two-thirds framework-lots-table']//a[text()='#{lot_name}']")
+  lot_link[0].click
+end
+
+
+Then /^I click the link to view and add services from the previous framework/ do
+  # The previous framework name includes a &nbsp, so use the link here instead
+  framework_slug = @framework['slug']
+  lot_slug = @existing_service['lotSlug']
+  step "I visit the /suppliers/frameworks/#{framework_slug}/submissions/#{lot_slug}/previous-services page"
+end
+
+
+Then /^I am on #{MAYBE_VAR} page for that lot$/ do |page_title|
+  page_title.sub! "lot", @existing_service['lotName'].downcase
+  step "I am on the '#{page_title}' page"
+end
+
+Then /^I( don't)? see the existing service in the copyable services table$/ do |negate|
+  previous_framework_slug = @existing_service['frameworkSlug']
+  expected_link = "/suppliers/frameworks/#{previous_framework_slug}/services/#{@existing_service['id']}"
+
+  if negate
+    expect(page).not_to have_link(href: expected_link)
+  else
+    expect(page).to have_link(href: expected_link)
+  end
+end
+
+Then "I click the 'Add' button for the existing service" do
+  # We want to pick our specific service, as there could be multiple ones on the page.
+  # TODO: replace use of data analytics label with a proper unique identifier
+  button_analytics_label = "ID: #{@existing_service['id']}"
+  button = page.all(:xpath, "//form//button[@data-analytics-label='#{button_analytics_label}']")[0]
+  button.click
+end
+
+Then /^I( don't)? see that service in the Draft services section$/ do |negate|
+  service_name = normalize_whitespace(@existing_service['serviceName'])
+  if negate
+    expect(page).not_to have_link(service_name)
+  else
+    expect(page).to have_link(service_name)
+  end
+end
+
+Then "I click the link to edit the newly copied service" do
+  service_name = normalize_whitespace(@existing_service['serviceName'])
+  step "I click the '#{service_name}' link"
+end
+
+Then "I am on the draft service page" do
+  service_name = normalize_whitespace(@existing_service['serviceName'])
+  step "I am on the '#{service_name}' page"
+end
+
+Then "I see confirmation that I have removed that draft service" do
+  service_name = normalize_whitespace(@existing_service['serviceName'])
+  step "I see a success banner message containing '#{service_name} was removed'"
+end

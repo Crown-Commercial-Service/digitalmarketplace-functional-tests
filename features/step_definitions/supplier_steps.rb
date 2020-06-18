@@ -95,3 +95,8 @@ Given 'I have a supplier with a reusable declaration' do
   puts "supplier id: #{@supplier['id']}"
 end
 
+
+Given 'I have a supplier with a copyable service' do
+  @supplier = get_supplier_with_copyable_service(@framework)
+  puts "supplier id: #{@supplier['id']}"
+end
