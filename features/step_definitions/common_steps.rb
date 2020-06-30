@@ -251,7 +251,7 @@ end
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing #{MAYBE_VAR}$/ do |status, message|
   begin
-    banner_message = page.find(:css, ".banner-#{status}-without-action", wait: false)
+    banner_message = page.find(:css, ".dm-banner, .banner-#{status}-without-action", wait: false)
   rescue Capybara::ElementNotFound => e
     banner_message = page.find(:css, ".banner-#{status}-with-action", wait: false)
   end
