@@ -30,7 +30,7 @@ When (/^I have exported my results for the '(.*)' saved search$/) do |search_nam
     And I click the 'Export your results' link
     And I check 'I understand that I cannot edit my search after I export my results' checkbox
     And I click the 'Export results and continue' button
-    Then I see a success banner message containing 'Results exported. Your files are ready to download.'
+    Then I see a success flash message containing 'Results exported. Your files are ready to download.'
   }
 end
 
