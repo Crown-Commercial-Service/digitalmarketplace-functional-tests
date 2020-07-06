@@ -81,7 +81,7 @@ Scenario: User exports results
   When I check 'I understand that I cannot edit my search after I export my results' checkbox
   And I click the 'Export results and continue' button
   Then I am on the 'Download your results' page
-  And I see a success banner message containing 'Results exported. Your files are ready to download.'
+  And I see a success flash message containing 'Results exported. Your files are ready to download.'
   When I click the 'Return to your task list' link
   Then I see the 'Export your results' instruction list item status showing as 'Completed'
 
@@ -119,7 +119,7 @@ Scenario: User confirms understanding how to assess services
   And I see the 'Award a contract' instruction list item status showing as 'Can’t start yet'
   When I click the 'Confirm you have read and understood how to assess services' button
   Then I am on the 'my cloud project' page
-  And I see a success banner message containing 'You’ve confirmed that you have read and understood how to assess services.'
+  And I see a success flash message containing 'You’ve confirmed that you have read and understood how to assess services.'
   And I see the 'Start assessing services' instruction list item status showing as 'Completed'
 
 Scenario: User awards contract
@@ -128,7 +128,7 @@ Scenario: User awards contract
   When I click the 'Tell us the outcome' link
   And I award the contract for the 'my cloud project' search
   And I am on the 'my cloud project' page
-  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  Then I see a success flash message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'Contract awarded'
 
 Scenario: User does not award contract as work is cancelled
@@ -137,7 +137,7 @@ Scenario: User does not award contract as work is cancelled
   When I click the 'Tell us the outcome' link
   And I do not award the contract because 'The work has been cancelled'
   And I am on the 'my cloud project' page
-  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  Then I see a success flash message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'The work has been cancelled'
 
 Scenario: User does not award contract as there are no suitable services
@@ -146,7 +146,7 @@ Scenario: User does not award contract as there are no suitable services
   When I click the 'Tell us the outcome' link
   And I do not award the contract because 'There were no suitable services'
   And I am on the 'my cloud project' page
-  Then I see a success banner message containing 'You’ve updated ‘my cloud project’'
+  Then I see a success flash message containing 'You’ve updated ‘my cloud project’'
   And I see the 'Award a contract' instruction list item status showing as 'No suitable services found'
 
 @file-download
