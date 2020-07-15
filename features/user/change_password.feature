@@ -71,31 +71,6 @@ Scenario Outline: Logged in admin user can change their password
     | admin-manager           |
 
 
-@skip-preview
-Scenario Outline: Logged in admin user can change their password
-  Given I am logged in as the existing <role> user
-  And I visit the /admin page
-  When I click 'Change your password'
-  Then I am on the 'Change your password' page
-  When I enter that user.password in the 'Old password' field
-  And I enter that user.password in the 'New password' field
-  And I enter that user.password in the 'Confirm new password' field
-  And I click 'Save changes' button
-  Then I see a success banner message containing 'You have successfully changed your password.'
-  And I am at the /admin url
-  And I receive a 'change-password-alert' email for that user.emailAddress
-  And I click the link in that email
-  Then I am on the 'Reset password' page
-
-  Examples:
-    | role                    |
-    | admin                   |
-    | admin-framework-manager |
-    | admin-ccs-category      |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
-
-
 @skip-staging
 Scenario: User sees validation if they input incorrect old password
   Given I am logged in as a supplier user
