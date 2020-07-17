@@ -106,12 +106,6 @@ Given /^that user is on the user research mailing list$/ do
 end
 
 Then /^that user is able to reset their password$/ do
-  if dm_environment == 'staging'
-    success_message = "You have successfully changed your password."
-  else
-    success_message = "Your password has been successfully changed."
-  end
-
   steps %{
     Given I visit the /user/login page
     When I click 'Forgotten password'
@@ -127,6 +121,6 @@ Then /^that user is able to reset their password$/ do
     And I enter that user.password in the 'Confirm new password' field
     And I click 'Reset password' button
     Then I am on the 'Log in to the Digital Marketplace' page
-    And I see a success flash message containing '#{success_message}'
+    And I see a success flash message containing 'Your password has been successfully changed.'
   }
 end
