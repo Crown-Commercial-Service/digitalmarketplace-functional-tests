@@ -49,7 +49,7 @@ To run only the smoulder test suite
 
 To run tests for a specific environment file
 
-Create a `config/<environment>.sh` file and run `DM_ENVIRONMENT=preview make smoke-tests`
+Create a `config/<environment>.sh` file and run `DM_ENVIRONMENT=<environment> make smoke-tests`
 
 To run a specific feature run with
 
