@@ -63,8 +63,21 @@ When "I answer all summary questions with:" do |table|
     end
   end
 
-  all('tr.summary-item-row').to_a.each_with_index do |row, index|
-    within all('tr.summary-item-row')[index] do
+  is_summary_table = page.first('tr.summary-item-row')
+
+  # Hack to make it work with both cases until we remove summary table
+  if is_summary_table
+    row_class = 'tr.summary-item-row'
+    cell_class = 'td'
+    cell_index = 1
+  else
+    row_class = 'div.govuk-summary-list__row'
+    cell_class = 'dd.govuk-summary-list__value'
+    cell_index = 0
+  end
+
+  all(row_class).to_a.each_with_index do |row, index|
+    within all(row_class)[index] do
       click_on first('a').text, wait: false
     end
 
@@ -76,16 +89,16 @@ When "I answer all summary questions with:" do |table|
 
     click_on 'Save and continue', wait: false
 
-    within all('tr.summary-item-row')[index] do
+    within all(row_class)[index] do
       # Find the value in the summary table.
       # Can be overriden using the expected_summary_table_value column of the Cucumber table
       answer.each do |k, v|
         if v.respond_to? :each
           v.each do |v|
-            expect(all('td')[1].text).to include(expected_summary_table_values[k] || substitutions[k][v] || v)
+            expect(all(cell_class)[cell_index].text).to include(expected_summary_table_values[k] || substitutions[k][v] || v)
           end
         else
-          expect(all('td')[1].text).to include(expected_summary_table_values[k] || substitutions[k][v] || v)
+          expect(all(cell_class)[cell_index].text).to include(expected_summary_table_values[k] || substitutions[k][v] || v)
         end
       end
     end
