@@ -193,6 +193,65 @@ Scenario Outline: View requirement in a dashboard
     | withdrawn | Closed requirements      |
     | draft     | Unpublished requirements |
 
+
+@skip-staging
+Scenario: Delete a draft requirement
+  Given I am logged in as the buyer of a draft brief
+  And I go to that brief overview page
+  
+  Then I see the 'Delete draft requirements' link
+  And I click 'Delete draft requirements'
+  Then I am on the 'Are you sure you want to delete these requirements?' page
+  Then I see the 'Yes, delete' button
+  And I click 'Yes, delete'
+  Then I am on the 'Your requirements' page
+  And I see a success flash message containing 'were deleted'
+
+
+@skip-staging
+Scenario: Cancel a delete draft requirement request
+  Given I am logged in as the buyer of a draft brief
+  And I go to that brief overview page
+  
+  Then I see the 'Delete draft requirements' link
+  And I click 'Delete draft requirements'
+  Then I am on the 'Are you sure you want to delete these requirements?' page
+  Then I see the 'Cancel' link
+  And I click 'Cancel'
+  Then I am on that brief overview page
+
+
+@skip-staging
+Scenario: Withdraw live requirements
+  Given I am logged in as the buyer of a live brief
+
+  When I click the 'View your account' link
+  And I click the 'View your requirements' link
+  Then I see that the 'Published requirements' summary table has 1 or more entries
+
+  When I go to that brief overview page
+  Then I see the 'Withdraw requirements' link
+  And I click 'Withdraw requirements'
+  Then I am on the 'Are you sure you want to withdraw these requirements?' page
+  Then I see the 'Withdraw requirements' button
+  And I click 'Withdraw requirements'
+  Then I am on the 'Your requirements' page
+  Then I see a success flash message containing 'withdrawn your requirements'
+
+
+@skip-staging
+Scenario: Cancel a withdraw draft requirement request
+  Given I am logged in as the buyer of a live brief
+  And I go to that brief overview page
+  
+  Then I see the 'Withdraw requirements' link
+  And I click 'Withdraw requirements'
+  Then I am on the 'Are you sure you want to withdraw these requirements?' page
+  Then I see the 'Cancel' link
+  And I click 'Cancel'
+  Then I am on that brief overview page
+
+@skip-local @skip-preview
 Scenario: Delete a draft requirement
   Given I am logged in as a buyer user
   And I have created an individual specialist requirement
@@ -202,6 +261,8 @@ Scenario: Delete a draft requirement
   When I click 'Yes, delete'
   Then I see a success flash message containing 'were deleted'
 
+
+@skip-local @skip-preview
 Scenario: Withdraw live requirements
   Given I am logged in as the buyer of a live brief
 

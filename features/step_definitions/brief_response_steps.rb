@@ -6,7 +6,7 @@ Given /^I have a (draft|live|withdrawn) (.*) brief$/ do |status, lot_slug|
   @brief = brief
 end
 
-Given /^I am logged in as the buyer of a (closed|live) brief$/ do |status|
+Given /^I am logged in as the buyer of a (draft|closed|live) brief$/ do |status|
   @brief = get_briefs(status).sample
   if @brief
     puts "brief id: #{@brief['id']}"
@@ -81,6 +81,10 @@ end
 
 Then /^I am on the '(.*)' page with brief '(.*)'/ do |str, brief_attribute|
   expect(page).to have_selector('h1', text: normalize_whitespace(str % (@brief[brief_attribute])))
+end
+
+Then "I am on that brief overview page" do
+  expect(page).to have_selector('h1', text: normalize_whitespace(@brief['title']))
 end
 
 Given /^I publish an answer to a question$/ do
