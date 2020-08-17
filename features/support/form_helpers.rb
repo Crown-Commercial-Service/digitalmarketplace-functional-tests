@@ -8,7 +8,7 @@ module FormHelper
       :checkbox
     elsif el[:type] == 'radio'
       :radio
-    elsif (el[:type] == 'text') && el.matches_css?('div.input-list input', wait: false)
+    elsif (el[:type] == 'text') && el.matches_css?('div.input-list input, .dm-list-input__item-container input', wait: false)
       :list
     elsif el[:type] == 'file'
       :file
@@ -105,9 +105,15 @@ module FormHelper
     with = [options.delete(:with)].flatten
     result = all(:field, locator, options)
 
+    if result[0]["class"].include? "dm-list-input__item-input"
+      parent_xpath = '../../../../..'
+    else
+      parent_xpath = '../..'
+    end
+
     within result[0] do
-      within(:xpath, '../..') do
-        (3..with.length).each { click_on find('.list-entry-add').text, wait: false } if with.length > 2
+      within(:xpath, parent_xpath) do
+        (3..with.length).each { click_on find('.list-entry-add, .dm-list-input__item-add').text, wait: false } if with.length > 2
       end
     end
 
