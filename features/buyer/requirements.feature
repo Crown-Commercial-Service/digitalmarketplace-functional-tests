@@ -194,7 +194,6 @@ Scenario Outline: View requirement in a dashboard
     | draft     | Unpublished requirements |
 
 
-@skip-staging
 Scenario: Delete a draft requirement
   Given I am logged in as the buyer of a draft brief
   And I go to that brief overview page
@@ -208,7 +207,6 @@ Scenario: Delete a draft requirement
   And I see a success flash message containing 'were deleted'
 
 
-@skip-staging
 Scenario: Cancel a delete draft requirement request
   Given I am logged in as the buyer of a draft brief
   And I go to that brief overview page
@@ -221,7 +219,6 @@ Scenario: Cancel a delete draft requirement request
   Then I am on that brief overview page
 
 
-@skip-staging
 Scenario: Withdraw live requirements
   Given I am logged in as the buyer of a live brief
 
@@ -239,7 +236,6 @@ Scenario: Withdraw live requirements
   Then I see a success flash message containing 'withdrawn your requirements'
 
 
-@skip-staging
 Scenario: Cancel a withdraw draft requirement request
   Given I am logged in as the buyer of a live brief
   And I go to that brief overview page
@@ -250,33 +246,7 @@ Scenario: Cancel a withdraw draft requirement request
   Then I see the 'Cancel' link
   And I click 'Cancel'
   Then I am on that brief overview page
-
-@skip-local @skip-preview
-Scenario: Delete a draft requirement
-  Given I am logged in as a buyer user
-  And I have created an individual specialist requirement
-
-  When I click 'Delete'
-  Then I see a destructive banner message containing 'Are you sure you want to delete these requirements?'
-  When I click 'Yes, delete'
-  Then I see a success flash message containing 'were deleted'
-
-
-@skip-local @skip-preview
-Scenario: Withdraw live requirements
-  Given I am logged in as the buyer of a live brief
-
-  When I click the 'View your account' link
-  And I click the 'View your requirements' link
-  Then I see that the 'Published requirements' summary table has 1 or more entries
-
-  When I go to that brief overview page
-  Then I see the 'Withdraw requirements' link
-  And I click 'Withdraw requirements'
-  Then I see a destructive banner message containing 'Are you sure you want to withdraw these requirements?'
-  When I click 'Withdraw requirements'
-  Then I see a success flash message containing 'withdrawn your requirements'
-
+  
 
 Scenario: Edit a draft requirement
   Given I am logged in as a buyer user
