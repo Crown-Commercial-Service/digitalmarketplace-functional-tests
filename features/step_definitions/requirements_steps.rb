@@ -28,6 +28,21 @@ Then(/^'(.*)' should (not |)be ticked$/) do |label, negative|
   expect(page).to have_selector(:xpath, expr, count: count)
 end
 
+Then(/^'(.*)' should (not |)be completed$/) do |task_name, completed|
+  task_list_item_selector = "li.dm-task-list__item"
+  task_list_tag_selector = "strong.govuk-tag.dm-task-list__tag"
+
+  task_list_item = page.find(task_list_item_selector, text: task_name)
+
+  if completed.include? "not"
+    # tag should be "To do" or "Optional"
+    expect(task_list_item.find(task_list_tag_selector)).to have_text(/(To do|Optional)/)
+  else
+    # tag should be "Done"
+    expect(task_list_item.find(task_list_tag_selector)).to have_text("Done")
+  end
+end
+
 When "I answer the following questions:" do |table|
 
   table.rows.flatten.each { |question|
@@ -44,6 +59,29 @@ When "I answer the following questions:" do |table|
     click_on 'Save and continue', wait: false
 
     expect(page).to have_selector(:xpath, expr, count: 1)
+  }
+end
+
+When "I complete the following tasks:" do |table|
+
+  table.rows.flatten.each { |task_name|
+    task_list_item_selector = "li.dm-task-list__item"
+    task_list_tag_selector = "strong.govuk-tag.dm-task-list__tag"
+
+    task_list_item = page.find(task_list_item_selector, text: task_name)
+
+    # tag should be "To do" or "Optional"
+    expect(task_list_item.find(task_list_tag_selector)).to have_text(/(To do|Optional)/)
+
+    # click the question name on the overview page (eg, "Location")
+    click_on task_name, wait: false
+
+    @fields.merge! fill_form
+
+    click_on 'Save and continue', wait: false
+
+    task_list_item = page.find(task_list_item_selector, text: task_name)
+    expect(task_list_item.find(task_list_tag_selector)).to have_text("Done")
   }
 end
 
