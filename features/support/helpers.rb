@@ -223,9 +223,12 @@ def escape_xpath(string)
 end
 
 def get_table_rows_by_caption(caption)
-  result_table_xpath = "//caption[@class='visually-hidden'][normalize-space(string())=#{escape_xpath(caption)}]/parent::table"
+  # Have to account for both toolkit summary table and govukTable. Can simplify once fully moved to GOVUK.
+  result_table_xpath = "//caption[normalize-space(string())=#{escape_xpath(caption)}]/parent::table"
   rows_xpath = "/tbody/tr[@class='summary-item-row']"
-  result_table_rows_xpath = result_table_xpath + rows_xpath
+  govuk_rows_xpath = "/tbody/tr[@class='govuk-table__row']"
+  # Use the Xpath "or" operator to look for toolkit summary table rows and govukTable rows
+  result_table_rows_xpath = result_table_xpath + rows_xpath + "|" + result_table_xpath + govuk_rows_xpath
   page.all(:xpath, result_table_rows_xpath)
 end
 
