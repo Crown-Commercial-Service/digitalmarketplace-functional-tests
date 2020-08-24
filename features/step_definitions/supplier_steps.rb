@@ -100,3 +100,27 @@ Given 'I have a supplier with a copyable service' do
   @supplier = get_supplier_with_copyable_service(@framework)
   puts "supplier id: #{@supplier['id']}"
 end
+
+Given /^I have the latest live or standstill framework$/ do
+  response = call_api(:get, "/frameworks")
+  expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  @framework = frameworks.select { |f| f['status'] == 'live' || f['status'] == 'standstill' }.max_by { |f| f['applicationsCloseAtUTC'] }
+  expect(frameworks).not_to be_empty, _error(response, "No live frameworks found")
+  puts "Framework: #{@framework['slug']}"
+end
+
+And(/^that supplier has added company details$/) do
+  set_supplier_registered_name(@supplier["id"])
+end
+
+
+Given(/^I visit the start sign framework agreement page for that framework$/) do
+  url = "/suppliers/frameworks/#{@framework['slug']}/start-framework-agreement-signing"
+  page.visit("#{dm_frontend_domain}#{url}")
+end
+
+Then(/^I see the sign agreement confirmation page$/) do
+  confirmation_message = "You’ve signed the #{@framework['name']} Framework Agreement"
+  expect(page).to have_selector('h1', text: normalize_whitespace(confirmation_message))
+end

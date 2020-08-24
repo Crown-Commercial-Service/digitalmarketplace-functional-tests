@@ -632,3 +632,11 @@ def set_supplier_framework_prefill_declaration(supplier_id, framework_slug, from
   )
   expect(response.code).to eq(200), response.body
 end
+
+def set_supplier_registered_name(supplier_id)
+  response = call_api(:post, "/suppliers/#{supplier_id}", payload: {
+      suppliers: { registeredName: "Awesome Company" },
+      updated_by: "functional tests",
+  })
+  expect(response.code).to eq(200), _error(response, "Failed to update supplier companies house number #{supplier_id}")
+end

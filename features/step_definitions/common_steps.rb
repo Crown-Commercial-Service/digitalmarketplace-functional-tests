@@ -28,7 +28,7 @@ Given /^the response (?:(header ))?(.*) should be (.*)$/ do |header, attribute, 
   end
 end
 
-Given /^I have the latest live (.*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
+Given /^I have the latest live (\S*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
