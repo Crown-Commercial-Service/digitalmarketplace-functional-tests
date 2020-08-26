@@ -118,9 +118,9 @@ end
 def choose_radio(locator_or_radio, options = { wait: false })
   begin
     radio = return_element('radio', locator_or_radio, options)
-    choose(radio[:id], options.merge(allow_label_click: true, wait: false))
+    choose(radio[:id], options.merge(allow_label_click: true, wait: false, id: radio[:id]))
   rescue Capybara::ElementNotFound
-    choose(radio[:id], allow_label_click: true, wait: false)
+    choose(radio[:id], allow_label_click: true, wait: false, id: radio[:id])
   end
   puts "Radio button value: #{radio.value}"
 end
