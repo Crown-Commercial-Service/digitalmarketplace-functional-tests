@@ -638,5 +638,5 @@ def set_supplier_registered_name(supplier_id, registered_name)
       suppliers: { registeredName: registered_name },
       updated_by: "functional tests",
   })
-  expect(response.code).to eq(200), _error(response, "Failed to update supplier companies house number #{supplier_id}")
+  expect(response.code).to eq(200), _error(response, "Failed to update supplier registered name #{supplier_id}")
 end
