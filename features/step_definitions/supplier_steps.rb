@@ -110,8 +110,12 @@ Given /^I have the latest live or standstill framework$/ do
   puts "Framework: #{@framework['slug']}"
 end
 
-And(/^that supplier has added company details$/) do
-  set_supplier_registered_name(@supplier["id"])
+And /^that supplier has set company name as (.*)$/ do |company_name|
+  set_supplier_registered_name(@supplier["id"], company_name)
+end
+
+Then /^I see (.*) within the page's text$/ do |text|
+  expect(page.find('main').text).to include(normalize_whitespace(text))
 end
 
 
