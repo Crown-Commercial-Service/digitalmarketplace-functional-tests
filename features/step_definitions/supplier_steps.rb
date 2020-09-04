@@ -106,8 +106,12 @@ Given /^I have the latest live or standstill framework$/ do
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
-  @framework = frameworks.select { |f| f['status'] == 'live' || f['status'] == 'standstill' }.max_by { |f| f['applicationsCloseAtUTC'] }
-  expect(frameworks).not_to be_empty, _error(response, "No live frameworks found")
+  live_or_standstill_frameworks = frameworks.select { |f| f['status'] == 'live' || f['status'] == 'standstill' }
+  if live_or_standstill_frameworks.empty?
+    puts 'SKIPPING as there are no live or standstill frameworks'
+    skip_this_scenario
+  end
+  @framework = live_or_standstill_frameworks.max_by { |f| f['applicationsCloseAtUTC'] }
   puts "Framework: #{@framework['slug']}"
 end
 
