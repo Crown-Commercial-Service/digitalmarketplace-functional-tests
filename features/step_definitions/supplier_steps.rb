@@ -40,6 +40,7 @@ end
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
   organisation_size ||= %w[micro small medium large].sample
   update_supplier(@supplier["id"], 'organisationSize': organisation_size)
+  set_supplier_registered_name(@supplier["id"], 'DM Functional Test Suppliers Ltd.')
   @declaration = submit_supplier_declaration(
     @framework['slug'],
     @supplier["id"],
