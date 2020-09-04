@@ -39,8 +39,8 @@ end
 
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
   organisation_size ||= %w[micro small medium large].sample
-  update_supplier(@supplier["id"], 'organisationSize': organisation_size)
-  set_supplier_registered_name(@supplier["id"], 'DM Functional Test Suppliers Ltd.')
+  update_supplier(@supplier["id"],  'organisationSize': organisation_size,
+                                    'registeredName': 'DM Functional Test Suppliers Ltd.')
   @declaration = submit_supplier_declaration(
     @framework['slug'],
     @supplier["id"],
@@ -109,10 +109,6 @@ Given /^I have the latest live or standstill framework$/ do
   @framework = frameworks.select { |f| f['status'] == 'live' || f['status'] == 'standstill' }.max_by { |f| f['applicationsCloseAtUTC'] }
   expect(frameworks).not_to be_empty, _error(response, "No live frameworks found")
   puts "Framework: #{@framework['slug']}"
-end
-
-And /^that supplier has set company name as (.*)$/ do |company_name|
-  set_supplier_registered_name(@supplier["id"], company_name)
 end
 
 Then /^I see (.*) within the page's text$/ do |text|
