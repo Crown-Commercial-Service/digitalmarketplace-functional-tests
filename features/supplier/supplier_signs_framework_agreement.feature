@@ -1,4 +1,4 @@
-@supplier @supplier_account @gideon_test
+@supplier @supplier_account @esignature @supplier_esignature
 Feature: Supplier can sign an agreement electronically
 
   Background:
