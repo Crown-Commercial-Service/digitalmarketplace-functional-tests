@@ -1,5 +1,3 @@
-#!/bin/bash
-
 export DM_ENVIRONMENT=${DM_ENVIRONMENT:="development"}
 
 export DM_API_DOMAIN=${DM_API_DOMAIN:=https://api.${DM_ENVIRONMENT}.marketplace.team}
