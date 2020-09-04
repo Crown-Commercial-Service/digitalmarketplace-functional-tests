@@ -110,7 +110,7 @@ Given /^I have the latest live or standstill e-signature framework$/ do
   # TODO: Is there a more robust way to detect e-signature supporting frameworks?
   live_or_standstill_e_signature_frameworks = frameworks.select { |f| (f['status'] == 'live' || f['status'] == 'standstill') && Date.parse(f['frameworkLiveAtUTC']) >= Date.parse('2020-09-28') }
   if live_or_standstill_e_signature_frameworks.empty?
-    puts 'SKIPPING as there are no live or standstill frameworks'
+    puts 'SKIPPING as there are no live or standstill e-signature frameworks'
     skip_this_scenario
   end
   @framework = live_or_standstill_e_signature_frameworks.max_by { |f| f['applicationsCloseAtUTC'] }
