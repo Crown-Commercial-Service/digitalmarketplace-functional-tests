@@ -102,16 +102,18 @@ Given 'I have a supplier with a copyable service' do
   puts "supplier id: #{@supplier['id']}"
 end
 
-Given /^I have the latest live or standstill framework$/ do
+Given /^I have the latest live or standstill e-signature framework$/ do
   response = call_api(:get, "/frameworks")
   expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
   frameworks = JSON.parse(response.body)['frameworks']
-  live_or_standstill_frameworks = frameworks.select { |f| f['status'] == 'live' || f['status'] == 'standstill' }
-  if live_or_standstill_frameworks.empty?
+  # we use frameworkLiveAtUTC as a proxy to detect g-cloud-12 or later frameworks which support e-signature
+  # TODO: Is there a more robust way to detect e-signature supporting frameworks?
+  live_or_standstill_e_signature_frameworks = frameworks.select { |f| (f['status'] == 'live' || f['status'] == 'standstill') && Date.parse(f['frameworkLiveAtUTC']) >= Date.parse('2020-09-28') }
+  if live_or_standstill_e_signature_frameworks.empty?
     puts 'SKIPPING as there are no live or standstill frameworks'
     skip_this_scenario
   end
-  @framework = live_or_standstill_frameworks.max_by { |f| f['applicationsCloseAtUTC'] }
+  @framework = live_or_standstill_e_signature_frameworks.max_by { |f| f['applicationsCloseAtUTC'] }
   puts "Framework: #{@framework['slug']}"
 end
 

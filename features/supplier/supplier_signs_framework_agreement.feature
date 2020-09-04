@@ -2,7 +2,7 @@
 Feature: Supplier can sign an agreement electronically
 
   Background:
-    Given I have the latest live or standstill framework
+    Given I have the latest live or standstill e-signature framework
     And I have a supplier user
     And that supplier has applied to be on that framework
     And we accepted that suppliers application to the framework
