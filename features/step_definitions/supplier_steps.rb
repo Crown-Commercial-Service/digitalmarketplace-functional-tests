@@ -39,7 +39,8 @@ end
 
 Given /^that(?: (micro|small|medium|large))? supplier has applied to be on that framework$/ do |organisation_size|
   organisation_size ||= %w[micro small medium large].sample
-  update_supplier(@supplier["id"], 'organisationSize': organisation_size)
+  update_supplier(@supplier["id"],  'organisationSize': organisation_size,
+                                    'registeredName': 'DM Functional Test Suppliers Ltd.')
   @declaration = submit_supplier_declaration(
     @framework['slug'],
     @supplier["id"],
@@ -99,4 +100,34 @@ end
 Given 'I have a supplier with a copyable service' do
   @supplier = get_supplier_with_copyable_service(@framework)
   puts "supplier id: #{@supplier['id']}"
+end
+
+Given /^I have the latest live or standstill e-signature framework$/ do
+  response = call_api(:get, "/frameworks")
+  expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  # we use frameworkLiveAtUTC as a proxy to detect g-cloud-12 or later frameworks which support e-signature
+  # TODO: Is there a more robust way to detect e-signature supporting frameworks?
+  live_or_standstill_e_signature_frameworks = frameworks.select { |f| (f['status'] == 'live' || f['status'] == 'standstill') && Date.parse(f['frameworkLiveAtUTC']) >= Date.parse('2020-09-28') }
+  if live_or_standstill_e_signature_frameworks.empty?
+    puts 'SKIPPING as there are no live or standstill e-signature frameworks'
+    skip_this_scenario
+  end
+  @framework = live_or_standstill_e_signature_frameworks.max_by { |f| f['applicationsCloseAtUTC'] }
+  puts "Framework: #{@framework['slug']}"
+end
+
+Then /^I see (.*) within the page's text$/ do |text|
+  expect(page.find('main').text).to include(normalize_whitespace(text))
+end
+
+
+Given(/^I visit the start sign framework agreement page for that framework$/) do
+  url = "/suppliers/frameworks/#{@framework['slug']}/start-framework-agreement-signing"
+  page.visit("#{dm_frontend_domain}#{url}")
+end
+
+Then(/^I see the sign agreement confirmation page$/) do
+  confirmation_message = "You’ve signed the #{@framework['name']} Framework Agreement"
+  expect(page).to have_selector('h1', text: normalize_whitespace(confirmation_message))
 end
