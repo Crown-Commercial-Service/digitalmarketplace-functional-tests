@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 DM_ENVIRONMENT ?= local
 
 CONFIG := config/${DM_ENVIRONMENT}.sh

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 export DM_ENVIRONMENT=${DM_ENVIRONMENT:="local"}
 
 export DM_API_PORT=${DM_API_PORT:=5000}

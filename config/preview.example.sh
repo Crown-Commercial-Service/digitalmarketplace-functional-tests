@@ -1,5 +1,3 @@
-#!/bin/bash
-
 export DM_ENVIRONMENT=${DM_ENVIRONMENT:="preview"}
 
 export DM_API_ACCESS_TOKEN=${DM_API_ACCESS_TOKEN:=myToken}
