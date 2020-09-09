@@ -90,7 +90,7 @@ Then /^that user can not log in using their correct password$/ do
     When I enter that user.emailAddress in the 'Email address' field
     And I enter that user.emailAddress in the 'Password' field
     And I click the 'Log in' button
-    Then I see a error flash message containing 'Accounts are locked'
+    Then I see 'Accounts are locked' text on the page
     And I don't see the 'Log out' button
   }
 end
