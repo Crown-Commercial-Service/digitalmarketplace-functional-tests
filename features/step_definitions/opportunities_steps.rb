@@ -1,10 +1,10 @@
 When(/^I click a random result in the list of opportunity results returned$/) do
-  search_results = all(:xpath, "//*[@class='search-result']")
+  search_results = all(:xpath, "//*[@class='app-search-result']")
   selected_result = search_results[rand(search_results.length)]
 
   @result ||= Hash.new
 
-  a_elem = selected_result.first(:xpath, ".//h2[@class='search-result-title']/a")
+  a_elem = selected_result.first(:css, "h2.govuk-heading-s a")
   @result['title'] = a_elem.text
   puts "Result name: #{@result['title']}"
 
@@ -17,7 +17,7 @@ When(/^I note the result_count$/) do
 end
 
 Then (/^I see an opportunity in the search results$/) do
-  expect(page).to have_selector(:css, ".search-result")
+  expect(page).to have_selector(:css, ".app-search-result")
 end
 
 Then (/^I see that the stated number of results (does not exceed|equals|is no fewer than) that (\w+)$/) do |comparison_string, variable_name|
