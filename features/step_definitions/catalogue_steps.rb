@@ -8,16 +8,16 @@ When /^I see #{MAYBE_VAR} as the search query in the search box$/ do |query|
 end
 
 When(/^I click a random result in the list of service results returned$/) do
-  search_results = all(:xpath, "//*[@class='search-result']")
+  search_results = all(:xpath, "//*[@class='app-search-result' or @class='search-result']")
   selected_result = search_results[rand(search_results.length)]
 
   @result = @result || Hash.new
 
-  a_elem = selected_result.first(:xpath, ".//h2[@class='search-result-title']/a")
+  a_elem = selected_result.first(:css, "h2.govuk-heading-s a, h2.search-result-title a")
   @result['title'] = a_elem.text
   puts "Result name: #{ERB::Util.h @result['title']}"
 
-  @result['supplier_name'] = selected_result.first(:xpath, ".//*[@class='search-result-supplier']").text
+  @result['supplier_name'] = selected_result.first(:css, "p:nth-of-type(1), .search-result-supplier").text
   puts "Result supplier_name: #{ERB::Util.h @result['supplier_name']}"
 
   a_elem.click
@@ -25,9 +25,9 @@ end
 
 Then (/^I (don't )?see a search result$/) do |negate|
   if negate
-    expect(page).not_to have_selector(:css, "div.search-result")
+    expect(page).not_to have_selector(:css, "li.app-search-result, div.search-result")
   else
-    expect(page).to have_selector(:css, "div.search-result")
+    expect(page).to have_selector(:css, "li.app-search-result, div.search-result")
   end
 end
 
