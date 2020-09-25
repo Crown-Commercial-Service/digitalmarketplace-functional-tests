@@ -85,7 +85,7 @@ Scenario: Supplier user can not replace the service definition document with a n
   And I choose file 'word.docx' for the field 'serviceDefinitionDocumentURL'
   And I click 'Save and return'
   Then I am on the 'Documents' page
-  And I see a validation message containing 'Your document is not in an open format. Please save as an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
+  And I see a validation message containing 'an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
   And that service has no unacknowledged update audit events
 
 @requires-credentials @file-upload
@@ -95,7 +95,7 @@ Scenario: Supplier user can not replace the service definition document with a f
   And I choose file '6mb.pdf' for the field 'serviceDefinitionDocumentURL'
   And I click 'Save and return'
   Then I am on the 'Documents' page
-  And I see a validation message containing 'Your document exceeds the 5MB limit. Please reduce file size.'
+  And I see a validation message containing '5MB'
   And that service has no unacknowledged update audit events
 
 Scenario: Supplier can remove their G-Cloud service from the marketplace
