@@ -1,4 +1,4 @@
-@staging
+@skip-preview
 @supplier @file-upload @file-download @requires-credentials
 Feature: Supplier uploads a signed agreement for a framework
 
