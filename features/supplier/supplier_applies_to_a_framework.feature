@@ -1,4 +1,4 @@
-@supplier @supplier-framework-application
+@skip @supplier @supplier-framework-application
 Feature: Apply to an open framework
 
 Background:
@@ -12,7 +12,7 @@ Scenario: Supplier submits a framework application
   Then I am on the 'Apply to framework' page for that framework application
 
   When I click 'Confirm your company details'
-  Then I am on the 'Company details' page
+  Then I am on the 'Your company details' page
   And I fill in all the missing details
   And I click 'Save and confirm'
   Then I am on the 'Apply to framework' page for that framework application
