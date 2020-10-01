@@ -51,8 +51,8 @@ Scenario: User is able to paginate through search results and all of the navigat
   And I choose that lot.name radio button
   And I click 'Search for services'
   Then I am on the 'Search results' page
-  When I check the 'Developed Vetting (DV)' checkbox
-  And I check the 'Security Clearance (SC)' checkbox
+  And I check the 'Developed Vetting (DV)' checkbox in the 'Minimum government security clearance' group
+  And I check the 'Security Clearance (SC)' checkbox in the 'Minimum government security clearance' group
   And I wait for the page to reload
   And I note the number of category links
   And I click the Next Page link

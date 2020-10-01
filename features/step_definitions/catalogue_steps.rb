@@ -82,8 +82,31 @@ Then(/^I see fewer search results than noted$/) do
   expect(CatalogueHelpers.get_service_count(page)).to be < @result_count
 end
 
+When(/^I (un)?check the (.*) checkbox in the (.*) group$/) do |maybe_un, checkbox_label, group_label|
+  if has_css?(".dm-option-select")
+    begin
+      is_checkbox_visible = page.find("label", text: checkbox_label)
+    rescue Capybara::ElementNotFound
+      page.find("button.dm-option-select__button", text: group_label).click
+    end
+  end
+
+  if not maybe_un
+    check_checkbox(checkbox_label)
+  else
+    uncheck_checkbox(checkbox_label)
+  end
+end
+
 Then(/^I select several random filters$/) do
-  page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample.click
+  # We now hide options by default, so need to open them up first
+  if has_css?("button.dm-option-select__button")
+    button_el = page.all(:css, 'button.dm-option-select__button').sample
+    button_el.click
+    page.all(:css, ".js-opened .govuk-checkboxes__label").sample.click
+  else
+    page.all(:xpath, "//div[contains(@class, 'govuk-option-select')]//input[@type='checkbox']").sample.click
+  end
 end
 
 Then(/^I note the number of category links$/) do
