@@ -35,7 +35,7 @@ Scenario Outline: Correct admin roles can view a supplier's details
     | Address                      | 14 Duke Street Dublin H3 LY5 Ireland |
   And I see an entry in the 'Frameworks' table with:
     | field       | link1         | link2           |
-    | G-Cloud 11  | View services | View agreements |
+    | G-Cloud 12  | View services | View agreements |
   When I click the 'Users' link
   Then I am on the 'DM Functional Test Supplier - Company details feature' page
   And I see an entry in the 'Users' table with:
