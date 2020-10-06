@@ -156,11 +156,20 @@ end
 
 When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   # can't use above as we have services with the word 'next' in the name :(
+  # @TODO: Remove old classes when DM-GOVUK Search Page is released.
   klass = ''
   if next_or_previous == 'Next'
-    klass = '.next'
+    if page.has_css?('.dm-pagination')
+      klass = '.dm-pagination__item--next'
+    else
+      klass = '.next'
+    end
   elsif next_or_previous == 'Previous'
-    klass = '.previous'
+    if page.has_css?('.dm-pagination')
+      klass = '.dm-pagination__item--previous'
+    else
+      klass = '.previous'
+    end
   end
   page.find(:css, "#{klass} :link").click
 end

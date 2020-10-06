@@ -117,14 +117,27 @@ end
 Then(/^I am taken to page (\d+) of results$/) do |page_number|
   page_number = page_number.to_i
   expect(current_url).to include("page=#{page_number}")
-  expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-  expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number + 1} of')]")
-  if page_number == 1
-    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+
+  if page.has_css?('.dm-pagination') # @TODO: New pagination - remove else clause when search page released
+    expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Next page')]")
+    expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), '#{page_number + 1} of')]")
+    if page_number == 1
+      expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Next page')]")
+      expect(page).not_to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Previous page')]")
+    else
+      expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Previous page')]")
+      expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), '#{page_number - 1} of')]")
+    end
   else
-    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number - 1} of')]")
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number + 1} of')]")
+    if page_number == 1
+      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    else
+      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]/..//following-sibling::span[@class='page-numbers'][contains(text(), '#{page_number - 1} of')]")
+    end
   end
 end
 
