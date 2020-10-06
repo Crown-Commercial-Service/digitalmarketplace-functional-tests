@@ -54,22 +54,45 @@ Given(/I navigate to the list of '(.*)' page$/) do |value|
 end
 
 Then(/I am taken to page '(.*)' of results$/) do |page_number|
+  # @TODO: Remove old pagination styles once DM-GOVUK search page is released
   if current_url.include?('suppliers?')
     expect(current_url).to include("#{dm_frontend_domain}/g-cloud/suppliers?")
     expect(current_url).to include("prefix=#{@data_store['supplier_alphabet']}")
     expect(current_url).to include("page=#{page_number}")
     expect(current_url).to include("framework=g-cloud")
     if page_number >= '2'
-      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(
+        :xpath,
+        (
+          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
+          "|"
+          "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+        )
+      )
     elsif page_number < '2'
-      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-      expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(
+        :xpath,
+        (
+          "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]"
+          "|"
+          "//nav//ul//li//a//span[contains(text(), 'Next page')]"
+        )
+      )
+      expect(page).not_to have_selector(
+        :xpath,
+        (
+          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
+          "|"
+          "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+        )
+      )
     end
   end
 end
 
 
 Then(/pagination is '(.*)'$/) do |availability|
+  # @TODO: Remove old pagination styles once DM-GOVUK search page is released
   if current_url.include?('suppliers?')
     pagination_available = "#{availability}"
   else
@@ -77,10 +100,38 @@ Then(/pagination is '(.*)'$/) do |availability|
   end
 
   if pagination_available == 'available'
-    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).to have_selector(
+      :xpath,
+      (
+        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]"
+        "|"
+        "//nav//ul//li//a//span[contains(text(), 'Next page')]"
+      )
+    )
+    expect(page).not_to have_selector(
+      :xpath,
+      (
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
+        "|"
+        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+      )
+    )
   elsif pagination_available == 'not available'
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).not_to have_selector(
+      :xpath,
+      (
+        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]"
+        "|"
+        "//nav//ul//li//a//span[contains(text(), 'Next page')]"
+      )
+    )
+    expect(page).not_to have_selector(
+      :xpath,
+      (
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
+        "|"
+        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+      )
+    )
   end
 end
