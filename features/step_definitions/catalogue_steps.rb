@@ -121,7 +121,7 @@ Then(/^I am taken to page (\d+) of results$/) do |page_number|
   if page.has_css?('.dm-pagination') # @TODO: New pagination - remove else clause when search page released
     expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Next page')]")
     expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), '#{page_number + 1} of')]")
-    if page_number == 1)
+    if page_number == 1
       expect(page).not_to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Previous page')]")
     else
       expect(page).to have_selector(:xpath, "//nav//ul//li//a//span[contains(text(), 'Previous page')]")

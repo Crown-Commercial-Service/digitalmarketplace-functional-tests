@@ -77,28 +77,22 @@ Then(/I am taken to page '(.*)' of results$/) do |page_number|
     if page_number >= '2'
       expect(page).to have_selector(
         :xpath,
-        (
-          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
-          "|" \
-          "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
-        )
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
+        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
       )
     elsif page_number < '2'
       expect(page).to have_selector(
         :xpath,
-        (
-          "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
-          "|" \
-          "//nav//ul//li//a//span[contains(text(), 'Next page')]"
-        )
+        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
+        "//nav//ul//li//a//span[contains(text(), 'Next page')]"
       )
       expect(page).not_to have_selector(
         :xpath,
-        (
-          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
-          "|" \
-          "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
-        )
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
+        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
       )
     end
   end
@@ -116,36 +110,28 @@ Then(/pagination is '(.*)'$/) do |availability|
   if pagination_available == 'available'
     expect(page).to have_selector(
       :xpath,
-      (
-        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
-        "|" \
-        "//nav//ul//li//a//span[contains(text(), 'Next page')]"
-      )
+      "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Next page')]"
     )
     expect(page).not_to have_selector(
       :xpath,
-      (
-        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
-        "|" \
-        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
-      )
+      "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
     )
   elsif pagination_available == 'not available'
     expect(page).not_to have_selector(
       :xpath,
-      (
-        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
-        "|" \
-        "//nav//ul//li//a//span[contains(text(), 'Next page')]"
-      )
+      "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Next page')]"
     )
     expect(page).not_to have_selector(
       :xpath,
-      (
-        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
-        "|" \
-        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
-      )
+      "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
     )
   end
 end
