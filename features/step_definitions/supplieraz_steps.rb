@@ -7,9 +7,15 @@ end
 
 When(/^I click that specific supplier$/) do
   # This step is hardcoded as we want to make sure we don't somehow click a similarly-named supplier
+  # @TODO: Remove else clause when DM-GOVUK search pages are released
+  if page.has_css?('.app-search-result')
+    result_class = 'app-search-result'
+  else
+    result_class = 'search-result'
+  end
 
   # we do a broad match using xpath first
-  a_elements = page.all(:xpath, "//*[@class='search-result']//h2//a[contains(@href, '#{@supplier['id']}')]").find_all { |a_element|
+  a_elements = page.all(:xpath, "//*[@class='#{result_class}']//h2//a[contains(@href, '#{@supplier['id']}')]").find_all { |a_element|
     # now refine with a much more precise test
     (
       a_element[:href] =~ Regexp.new('^(.*\D)?' + "#{@supplier['id']}" + '(\D.*)?$')
@@ -33,7 +39,15 @@ end
 
 Then (/^I see that supplier in one of the pages that follow from clicking #{MAYBE_VAR}$/) do |next_link_label|
   i = 1
-  until search_result = page.first(:xpath, "//*[@class='search-result'][.//h2//a[contains(@href, '#{@supplier['id']}')]]")
+  # @TODO: Remove else clause when DM-GOVUK search pages are released
+  if page.has_css?('.app-search-result')
+    result_class = 'app-search-result'
+    result_heading_class = 'govuk-heading-s govuk-!-margin-bottom-1'
+  else
+    result_class = 'search-result'
+    result_heading_class = 'search-result-title'
+  end
+  until search_result = page.first(:xpath, "//*[@class='#{result_class}'][.//h2//a[contains(@href, '#{@supplier['id']}')]]")
     # ^^^ note assignment, not comparison here ^^^
     i += 1
     page.click_link(next_link_label)
@@ -41,7 +55,7 @@ Then (/^I see that supplier in one of the pages that follow from clicking #{MAYB
   end
 
   expect(
-    search_result.first(:xpath, ".//h2[@class='search-result-title']/a").text
+    search_result.first(:xpath, ".//h2[@class='#{result_heading_class}']/a").text
   ).to eq(normalize_whitespace(@supplier['name']))
 
   puts "Found supplier on page #{i}"
@@ -54,22 +68,39 @@ Given(/I navigate to the list of '(.*)' page$/) do |value|
 end
 
 Then(/I am taken to page '(.*)' of results$/) do |page_number|
+  # @TODO: Remove old pagination styles once DM-GOVUK search page is released
   if current_url.include?('suppliers?')
     expect(current_url).to include("#{dm_frontend_domain}/g-cloud/suppliers?")
     expect(current_url).to include("prefix=#{@data_store['supplier_alphabet']}")
     expect(current_url).to include("page=#{page_number}")
     expect(current_url).to include("framework=g-cloud")
     if page_number >= '2'
-      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(
+        :xpath,
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
+        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+      )
     elsif page_number < '2'
-      expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-      expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+      expect(page).to have_selector(
+        :xpath,
+        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
+        "//nav//ul//li//a//span[contains(text(), 'Next page')]"
+      )
+      expect(page).not_to have_selector(
+        :xpath,
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
+        "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+      )
     end
   end
 end
 
 
 Then(/pagination is '(.*)'$/) do |availability|
+  # @TODO: Remove old pagination styles once DM-GOVUK search page is released
   if current_url.include?('suppliers?')
     pagination_available = "#{availability}"
   else
@@ -77,10 +108,30 @@ Then(/pagination is '(.*)'$/) do |availability|
   end
 
   if pagination_available == 'available'
-    expect(page).to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).to have_selector(
+      :xpath,
+      "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Next page')]"
+    )
+    expect(page).not_to have_selector(
+      :xpath,
+      "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+    )
   elsif pagination_available == 'not available'
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]")
-    expect(page).not_to have_selector(:xpath, "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]")
+    expect(page).not_to have_selector(
+      :xpath,
+      "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Next page')]"
+    )
+    expect(page).not_to have_selector(
+      :xpath,
+      "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+      "|" \
+      "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
+    )
   end
 end
