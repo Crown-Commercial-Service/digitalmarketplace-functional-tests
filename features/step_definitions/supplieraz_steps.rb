@@ -78,8 +78,8 @@ Then(/I am taken to page '(.*)' of results$/) do |page_number|
       expect(page).to have_selector(
         :xpath,
         (
-          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
-          "|"
+          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+          "|" \
           "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
         )
       )
@@ -87,16 +87,16 @@ Then(/I am taken to page '(.*)' of results$/) do |page_number|
       expect(page).to have_selector(
         :xpath,
         (
-          "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]"
-          "|"
+          "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+          "|" \
           "//nav//ul//li//a//span[contains(text(), 'Next page')]"
         )
       )
       expect(page).not_to have_selector(
         :xpath,
         (
-          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
-          "|"
+          "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+          "|" \
           "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
         )
       )
@@ -117,16 +117,16 @@ Then(/pagination is '(.*)'$/) do |availability|
     expect(page).to have_selector(
       :xpath,
       (
-        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]"
-        "|"
+        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
         "//nav//ul//li//a//span[contains(text(), 'Next page')]"
       )
     )
     expect(page).not_to have_selector(
       :xpath,
       (
-        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
-        "|"
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
         "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
       )
     )
@@ -134,16 +134,16 @@ Then(/pagination is '(.*)'$/) do |availability|
     expect(page).not_to have_selector(
       :xpath,
       (
-        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]"
-        "|"
+        "//a[contains(text(), 'Next')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
         "//nav//ul//li//a//span[contains(text(), 'Next page')]"
       )
     )
     expect(page).not_to have_selector(
       :xpath,
       (
-        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]"
-        "|"
+        "//a[contains(text(), 'Previous')]//following-sibling::span[contains(text(),'page')]" \
+        "|" \
         "//nav//ul//li//a//span[contains(text(), 'Previous page')]"
       )
     )
