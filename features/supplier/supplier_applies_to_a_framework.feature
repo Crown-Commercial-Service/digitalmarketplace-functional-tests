@@ -86,12 +86,12 @@ Scenario: Supplier copies a service from a previous framework
   When I click the 'Add' button for the existing service
   Then I see 'You'll need to review it before it can be completed.' text on the page
 
-  When I click 'Back to services'
+  When I ensure I am on the services page
   Then I see that service in the Draft services section
   When I click the link to view and add services from the previous framework
   Then I don't see the existing service in the copyable services table
 
-  When I click 'Back to services'
+  When I ensure I am on the services page
   And I click the link to edit the newly copied service
   Then I am on the draft service page
 

@@ -127,6 +127,12 @@ Then 'I remove existing drafts with the same name' do
   end
 end
 
+When 'I ensure I am on the services page' do
+  if ! page.all(:xpath, "//a[contains(text(), 'Back to services')]").empty?
+    step "I click 'Back to services'"
+  end
+end
+
 Then /^I am on #{MAYBE_VAR} page for that lot$/ do |page_title|
   page_title.sub! "lot", @existing_service['lotName'].downcase
   step "I am on the '#{page_title}' page"
