@@ -99,8 +99,8 @@ end
 
 
 Then 'I click on the lot link for the existing service' do
-  lot_name = @existing_service['lotName']
-  lot_link = page.all(:xpath, "//div[@class='govuk-grid-column-two-thirds framework-lots-table']//a[text()='#{lot_name}']")
+  lotSlug = @existing_service['lotSlug']
+  lot_link = page.all(:xpath, "//div[@class='govuk-grid-column-two-thirds framework-lots-table']//a[contains(@href, '#{lotSlug}')]")
   lot_link[0].click
 end
 
