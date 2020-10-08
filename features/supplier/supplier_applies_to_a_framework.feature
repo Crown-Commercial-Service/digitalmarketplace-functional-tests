@@ -96,7 +96,7 @@ Scenario: Supplier copies a service from a previous framework
   Then I am on the draft service page
 
   When I click the 'Remove draft service' button
-  Then I see 'Are you sure you want to remove this service?' text on the page
+  Then I see 'Are you sure you want to remove this' text on the page
   When I click the 'Yes, remove' button
   Then I see confirmation that I have removed that draft service
   Then I don't see that service in the Draft services section
