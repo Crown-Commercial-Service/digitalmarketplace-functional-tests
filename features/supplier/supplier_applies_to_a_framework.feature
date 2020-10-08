@@ -37,7 +37,7 @@ Scenario: Supplier submits a framework application
 
   Then I am on the 'Apply to framework' page for that framework application
   And I see 'Your application is complete and will be submitted automatically' text on the page
-  And I see '3 services' text on the page
+  And I have submitted services for each lot
 
 Scenario: Supplier re-uses a declaration
   Given I have a supplier with a reusable declaration
