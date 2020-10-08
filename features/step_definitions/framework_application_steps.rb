@@ -112,6 +112,20 @@ Then /^I click the link to view and add services from the previous framework/ do
   step "I visit the /suppliers/frameworks/#{framework_slug}/submissions/#{lot_slug}/previous-services page"
 end
 
+# Some suppliers have multiple services with the same name. Delete all existing
+# drafts with the same name as the service we want to add to avoid later
+# trouble finding links.
+Then 'I remove existing drafts with the same name' do
+  loop do
+    draft_services_with_same_name = page.all(:xpath, "//a[contains(text(), \"#{normalize_whitespace(@existing_service['serviceName'])}\")]")
+    break if draft_services_with_same_name.empty?
+
+    draft_services_with_same_name.first.click
+    step "I click the 'Remove draft service' button"
+    step "I see 'Are you sure you want to remove this' text on the page"
+    step "I click the 'Yes, remove' button"
+  end
+end
 
 Then /^I am on #{MAYBE_VAR} page for that lot$/ do |page_title|
   page_title.sub! "lot", @existing_service['lotName'].downcase
