@@ -99,8 +99,8 @@ end
 
 
 Then 'I click on the lot link for the existing service' do
-  lot_name = @existing_service['lotName']
-  lot_link = page.all(:xpath, "//div[@class='govuk-grid-column-two-thirds framework-lots-table']//a[text()='#{lot_name}']")
+  lotSlug = @existing_service['lotSlug']
+  lot_link = page.all(:xpath, "//div[@class='govuk-grid-column-two-thirds framework-lots-table']//a[contains(@href, '#{lotSlug}')]")
   lot_link[0].click
 end
 
@@ -112,6 +112,26 @@ Then /^I click the link to view and add services from the previous framework/ do
   step "I visit the /suppliers/frameworks/#{framework_slug}/submissions/#{lot_slug}/previous-services page"
 end
 
+# Some suppliers have multiple services with the same name. Delete all existing
+# drafts with the same name as the service we want to add to avoid later
+# trouble finding links.
+Then 'I remove existing drafts with the same name' do
+  loop do
+    draft_services_with_same_name = page.all(:xpath, "//a[contains(text(), \"#{normalize_whitespace(@existing_service['serviceName'])}\")]")
+    break if draft_services_with_same_name.empty?
+
+    draft_services_with_same_name.first.click
+    step "I click the 'Remove draft service' button"
+    step "I see 'Are you sure you want to remove this' text on the page"
+    step "I click the 'Yes, remove' button"
+  end
+end
+
+When 'I ensure I am on the services page' do
+  if ! page.all(:xpath, "//a[contains(text(), 'Back to services')]").empty?
+    step "I click 'Back to services'"
+  end
+end
 
 Then /^I am on #{MAYBE_VAR} page for that lot$/ do |page_title|
   page_title.sub! "lot", @existing_service['lotName'].downcase
@@ -159,4 +179,9 @@ end
 Then "I see confirmation that I have removed that draft service" do
   service_name = normalize_whitespace(@existing_service['serviceName'])
   step "I see a success banner message containing '#{service_name} was removed'"
+end
+
+Then "I have submitted services for each lot" do
+  lot_count = @framework['lots'].length
+  step "I see '#{lot_count} services' text on the page"
 end

@@ -98,7 +98,8 @@ end
 
 
 Given 'I have a supplier with a copyable service' do
-  @supplier = get_supplier_with_copyable_service(@framework)
+  lot_with_no_limit = @framework['lots'].select { |lot| lot["oneServiceLimit"] == false }.first
+  @supplier = get_supplier_with_copyable_service(@framework, lot = lot_with_no_limit['slug'])
   puts "supplier id: #{@supplier['id']}"
 end
 
