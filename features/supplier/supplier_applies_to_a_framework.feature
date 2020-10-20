@@ -65,7 +65,8 @@ Scenario: Supplier re-uses a declaration
   # at time of writing we redact so much data from the test datasets as to make this infeasible. revisit this.
 
 Scenario: Supplier copies a service from a previous framework
-  Given I have a supplier with a copyable service
+  Given I have a lot which accepts multiple services
+  And I have a supplier with a copyable service
   And that supplier has a user with:
     |active|true|
   And that supplier has begun the application process for that framework
@@ -103,3 +104,32 @@ Scenario: Supplier copies a service from a previous framework
   When I click the link to view and add services from the previous framework
   Then I am on the 'Previous lot services' page for that lot
   And I see the existing service in the copyable services table
+
+Scenario: Supplier copies a service for a lot limited to one service from a previous framework
+  Given I have a lot limited to a single service
+  And I have a supplier with a copyable service
+  And that supplier has a user with:
+    |active|true|
+  And that supplier has begun the application process for that framework
+  And that supplier has confirmed their company details for that application
+  And that supplier is logged in
+  When I visit the /suppliers page
+  And I click 'Continue your application'
+  Then I am on the 'Apply to framework' page for that framework application
+
+  When I click 'Add, edit and complete services'
+  Then I am on the 'Your framework services' page for that framework application
+  
+  When I click on the lot link for the existing service
+  Then I see 'Do you want to reuse your previous' text on the page
+
+  When I choose the 'Yes' radio button
+  And I click the 'Save and continue' button
+  Then I am on the draft service page
+
+  When I click the 'Remove draft service' button
+  Then I see 'Are you sure you want to remove' text on the page
+
+  When I click the 'Yes, remove' button
+  Then I see confirmation that I have removed that draft service
+  And I am on the 'Your framework services' page for that framework application
