@@ -112,21 +112,6 @@ Then /^I click the link to view and add services from the previous framework/ do
   step "I visit the /suppliers/frameworks/#{framework_slug}/submissions/#{lot_slug}/previous-services page"
 end
 
-# Some suppliers have multiple services with the same name. Delete all existing
-# drafts with the same name as the service we want to add to avoid later
-# trouble finding links.
-Then 'I remove existing drafts with the same name' do
-  loop do
-    draft_services_with_same_name = page.all(:xpath, "//a[contains(text(), \"#{normalize_whitespace(@existing_service['serviceName'])}\")]")
-    break if draft_services_with_same_name.empty?
-
-    draft_services_with_same_name.first.click
-    step "I click the 'Remove draft service' button"
-    step "I see 'Are you sure you want to remove this' text on the page"
-    step "I click the 'Yes, remove' button"
-  end
-end
-
 When 'I ensure I am on the services page' do
   if ! page.all(:xpath, "//a[contains(text(), 'Back to services')]").empty?
     step "I click 'Back to services'"
@@ -155,20 +140,22 @@ Then "I click the 'Add' button for the existing service" do
   button_analytics_label = "ID: #{@existing_service['id']}"
   button = page.all(:xpath, "//form//button[@data-analytics-label='#{button_analytics_label}']")[0]
   button.click
+
+  new_service = get_draft_service_copied_from(@existing_service, @framework['slug'])
+  @new_service_href = "/suppliers/frameworks/#{@framework['slug']}/submissions/#{new_service['lotSlug']}/#{new_service['id']}"
 end
 
 Then /^I( don't)? see that service in the Draft services section$/ do |negate|
   service_name = normalize_whitespace(@existing_service['serviceName'])
   if negate
-    expect(page).not_to have_link(service_name)
+    expect(page).not_to have_link(service_name, href: @new_service_href)
   else
-    expect(page).to have_link(service_name)
+    expect(page).to have_link(service_name, href: @new_service_href)
   end
 end
 
 Then "I click the link to edit the newly copied service" do
-  service_name = normalize_whitespace(@existing_service['serviceName'])
-  step "I click the '#{service_name}' link"
+  find_link(href: @new_service_href).click
 end
 
 Then "I am on the draft service page" do

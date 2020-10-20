@@ -636,3 +636,18 @@ def set_supplier_framework_prefill_declaration(supplier_id, framework_slug, from
   )
   expect(response.code).to eq(200), response.body
 end
+
+def get_draft_service_copied_from(old_service, framework_slug)
+  response = call_api(
+    :get,
+    "/draft-services",
+    params: {
+      supplier_id: old_service['supplierId'],
+      framework: framework_slug,
+    },
+  )
+
+  expect(response.code).to eq(200), response.body
+  all_services = JSON.parse(response.body)["services"]
+  all_services.find { |s| s['copiedFromServiceId'] == old_service['id'] }
+end
