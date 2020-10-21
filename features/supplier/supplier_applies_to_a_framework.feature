@@ -78,7 +78,6 @@ Scenario: Supplier copies a service from a previous framework
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
   Then I click on the lot link for the existing service
-  And I remove existing drafts with the same name
   And I click the link to view and add services from the previous framework
   Then I am on the 'Previous lot services' page for that lot
   And I see the existing service in the copyable services table
