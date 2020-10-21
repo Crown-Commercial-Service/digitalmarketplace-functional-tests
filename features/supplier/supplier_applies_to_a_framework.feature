@@ -95,11 +95,17 @@ Scenario: Supplier copies a service from a previous framework
   And I click the link to edit the newly copied service
   Then I am on the draft service page
 
-  When I click the 'Remove draft service' button
+  When I submit a copied service
+  Then I see 'was marked as complete' text on the page
+
+  When I ensure I am on the services page
+  And I click the link to edit the newly copied service
+  And I click the 'Remove draft service' button
   Then I see 'Are you sure you want to remove this' text on the page
+
   When I click the 'Yes, remove' button
-  Then I see confirmation that I have removed that draft service
-  Then I don't see that service in the Draft services section
+  Then I see a success banner message containing 'was removed'
+  And I don't see that service in the Draft services section
 
   When I click the link to view and add services from the previous framework
   Then I am on the 'Previous lot services' page for that lot
@@ -127,7 +133,11 @@ Scenario: Supplier copies a service for a lot limited to one service from a prev
   And I click the 'Save and continue' button
   Then I am on the draft service page
 
-  When I click the 'Remove draft service' button
+  When I submit a copied service
+  Then I see 'was marked as complete' text on the page
+
+  When I click on the lot link for the existing service
+  And I click the 'Remove draft service' button
   Then I see 'Are you sure you want to remove' text on the page
 
   When I click the 'Yes, remove' button
