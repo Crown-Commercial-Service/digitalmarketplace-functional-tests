@@ -97,11 +97,11 @@ Given 'I have a supplier with a reusable declaration' do
 end
 
 Given 'I have a lot which accepts multiple services' do
-  @lot = @framework['lots'].find { |lot| lot["oneServiceLimit"] == false }
+  @lot = @framework['lots'].filter { |lot| lot["oneServiceLimit"] == false }.sample
 end
 
 Given 'I have a lot limited to a single service' do
-  @lot = @framework['lots'].find { |lot| lot["oneServiceLimit"] }
+  @lot = @framework['lots'].filter { |lot| lot["oneServiceLimit"] }.sample
   # This sort of lot does not exist on g-cloud
   unless @lot
     skip_this_scenario
