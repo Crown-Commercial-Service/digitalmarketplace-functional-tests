@@ -96,10 +96,20 @@ Given 'I have a supplier with a reusable declaration' do
   puts "supplier id: #{@supplier['id']}"
 end
 
+Given 'I have a lot which accepts multiple services' do
+  @lot = @framework['lots'].find { |lot| lot["oneServiceLimit"] == false }
+end
+
+Given 'I have a lot limited to a single service' do
+  @lot = @framework['lots'].find { |lot| lot["oneServiceLimit"] }
+  # This sort of lot does not exist on g-cloud
+  unless @lot
+    skip_this_scenario
+  end
+end
 
 Given 'I have a supplier with a copyable service' do
-  lot_with_no_limit = @framework['lots'].select { |lot| lot["oneServiceLimit"] == false }.first
-  @supplier = get_supplier_with_copyable_service(@framework, lot = lot_with_no_limit['slug'])
+  @supplier = get_supplier_with_copyable_service(@framework, lot_slug = @lot['slug'])
   puts "supplier id: #{@supplier['id']}"
 end
 
