@@ -55,6 +55,12 @@ Then(/^I submit a service for each lot$/) do
   end
 end
 
+Then("I submit a copied service") do
+  answer_all_dos_lot_questions "Edit"
+  answer_all_service_questions "Add"
+  first(:button, "Mark as complete").click
+end
+
 And(/^I fill in all the missing details$/) do
   answer_all_service_questions "Answer required"
 end
@@ -145,12 +151,11 @@ Then "I click the 'Add' button for the existing service" do
   @new_service_href = "/suppliers/frameworks/#{@framework['slug']}/submissions/#{new_service['lotSlug']}/#{new_service['id']}"
 end
 
-Then /^I( don't)? see that service in the Draft services section$/ do |negate|
-  service_name = normalize_whitespace(@existing_service['serviceName'])
+Then(/^I( don't)? see that service in the Draft services section$/) do |negate|
   if negate
-    expect(page).not_to have_link(service_name, href: @new_service_href)
+    expect(page).not_to have_link(href: @new_service_href)
   else
-    expect(page).to have_link(service_name, href: @new_service_href)
+    expect(page).to have_link(href: @new_service_href)
   end
 end
 
