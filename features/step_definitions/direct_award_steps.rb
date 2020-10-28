@@ -8,6 +8,9 @@ When (/^I have created and saved a search called '(.*)'$/) do |search_name|
   steps %{
     And I click 'Save your search'
     Then I am on the 'Save your search' page
+    And I choose the 'Save a new search' radio button
+    And I click 'Save and continue'
+    Then I am on the 'Save a new search' page
     And I enter '#{search_name}' in the 'Name your search' field
     And I click 'Save and continue'
   }

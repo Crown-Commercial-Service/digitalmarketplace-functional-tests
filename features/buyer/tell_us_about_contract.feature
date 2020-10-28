@@ -12,6 +12,8 @@ Scenario: Unauthenticated user can save a search after logging in
   Then I see the 'Log out' link
   Then I am on the 'Save your search' page
   And I choose the 'Save a new search' radio button
+  And I click 'Save and continue'
+  Then I am on the 'Save a new search' page
   And I enter 'my cloud project' in the 'Name your search' field
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
@@ -21,6 +23,9 @@ Scenario: User can save a search
   And I visit the /g-cloud/search page
   And I click 'Save your search'
   Then I am on the 'Save your search' page
+  And I choose the 'Save a new search' radio button
+  And I click 'Save and continue'
+  Then I am on the 'Save a new search' page
   And I enter 'my cloud project' in the 'Name your search' field
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
@@ -32,6 +37,8 @@ Scenario: User with saved searches completes new saved search
   And I click 'Save your search'
   Then I am on the 'Save your search' page
   And I choose the 'Save a new search' radio button
+  And I click 'Save and continue'
+  Then I am on the 'Save a new search' page
   And I enter 'my cloud project2' in the 'Name your search' field
   And I click 'Save and continue'
   Then I am on the 'my cloud project2' page
