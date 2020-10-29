@@ -651,3 +651,51 @@ def get_draft_service_copied_from(old_service, framework_slug)
   all_services = JSON.parse(response.body)["services"]
   all_services.find { |s| s['copiedFromServiceId'] == old_service['id'] }
 end
+
+def get_direct_award_project(user, project_name)
+  response = call_api(
+    :get,
+    "/direct-award/projects",
+    params: {
+      "user-id": user["id"],
+      "latest-first": true,
+    },
+  )
+
+  expect(response.code).to eq(200), response.body
+  all_projects = JSON.parse(response.body)["projects"]
+  all_projects.find { |s| s["name"] == project_name }
+end
+
+def create_direct_award_project(user, project_name, search_query)
+  response = call_api(
+    :post,
+    "/direct-award/projects",
+    payload: {
+      "project": {
+        "name": project_name,
+        "userId": user["id"]
+      },
+      "updated_by": "functional tests"
+    }
+  )
+
+  expect(response.code).to eq(201), response
+  project = JSON.parse(response.body)["project"]
+
+  response = call_api(
+    :post,
+    "/direct-award/projects/#{project['id']}/searches",
+    payload: {
+      "search": {
+        "searchUrl": "#{dm_search_api_domain}/#{@framework['slug']}/services/search?#{search_query}",
+        "userId": @user["id"]
+      },
+      "updated_by": "functional tests"
+    }
+  )
+
+  expect(response.code).to eq(201), response
+
+  project
+end

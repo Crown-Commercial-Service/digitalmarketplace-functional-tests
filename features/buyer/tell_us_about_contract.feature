@@ -1,6 +1,10 @@
 @buyer @direct-award
 Feature: Direct Award flows
 
+Background:
+  Given I have the latest live g-cloud framework
+
+@skip-local @skip-preview
 Scenario: Unauthenticated user can save a search after logging in
   Given I have an existing buyer user
   And I visit the /g-cloud/search page
@@ -16,6 +20,25 @@ Scenario: Unauthenticated user can save a search after logging in
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
 
+@skip-staging
+Scenario: Unauthenticated user can save a search after logging in
+  Given I have an existing buyer user
+  And I visit the /g-cloud/search page
+  And I click 'Save your search'
+  Then I am on the 'Log in to the Digital Marketplace' page
+  When I enter that user.emailAddress in the 'Email address' field
+  And I enter that user.password in the 'Password' field
+  And I click the 'Log in' button
+  Then I see the 'Log out' link
+  Then I am on the 'Save your search' page
+  And I choose the 'Save a new search' radio button
+  And I click 'Save and continue'
+  Then I am on the 'Save a new search' page
+  And I enter 'my cloud project' in the 'Name your search' field
+  And I click 'Save and continue'
+  Then I am on the 'my cloud project' page
+
+@skip-local @skip-preview
 Scenario: User can save a search
   Given I am logged in as a buyer user
   And I visit the /g-cloud/search page
@@ -25,6 +48,20 @@ Scenario: User can save a search
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
 
+@skip-staging
+Scenario: User can save a search
+  Given I am logged in as a buyer user
+  And I visit the /g-cloud/search page
+  And I click 'Save your search'
+  Then I am on the 'Save your search' page
+  And I choose the 'Save a new search' radio button
+  And I click 'Save and continue'
+  Then I am on the 'Save a new search' page
+  And I enter 'my cloud project' in the 'Name your search' field
+  And I click 'Save and continue'
+  Then I am on the 'my cloud project' page
+
+@skip-local @skip-preview
 Scenario: User with saved searches completes new saved search
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
@@ -32,6 +69,20 @@ Scenario: User with saved searches completes new saved search
   And I click 'Save your search'
   Then I am on the 'Save your search' page
   And I choose the 'Save a new search' radio button
+  And I enter 'my cloud project2' in the 'Name your search' field
+  And I click 'Save and continue'
+  Then I am on the 'my cloud project2' page
+
+@skip-staging
+Scenario: User with saved searches completes new saved search
+  Given I am logged in as a buyer user
+  And I have created and saved a search called 'my cloud project'
+  And I visit the /g-cloud/search page
+  And I click 'Save your search'
+  Then I am on the 'Save your search' page
+  And I choose the 'Save a new search' radio button
+  And I click 'Save and continue'
+  Then I am on the 'Save a new search' page
   And I enter 'my cloud project2' in the 'Name your search' field
   And I click 'Save and continue'
   Then I am on the 'my cloud project2' page
