@@ -1,19 +1,16 @@
 When (/^I have created and saved a search called '(.*)'$/) do |search_name|
-  case search_name
-    when 'my cloud project', 'my cloud project - existing'
-      steps "Given I visit the /g-cloud/search?q=email+analysis+provider+system page"
-    when 'export limit test project'
-      steps "Given I visit the /g-cloud/search?q=cloud+software+nhs page"
+  @project = get_direct_award_project(@user, search_name)
+  if not @project
+    case search_name
+      when 'my cloud project', 'my cloud project - existing'
+        search_query = "q=email+analysis+provider+system"
+      when 'export limit test project'
+        search_query = "q=cloud+software+nhs"
+    end
+    @project = create_direct_award_project(@user, search_name, search_query)
   end
-  steps %{
-    And I click 'Save your search'
-    Then I am on the 'Save your search' page
-    And I choose the 'Save a new search' radio button
-    And I click 'Save and continue'
-    Then I am on the 'Save a new search' page
-    And I enter '#{search_name}' in the 'Name your search' field
-    And I click 'Save and continue'
-  }
+  puts "#{@framework['name']} project: #{@project['id']}"
+  steps "Given I visit the /buyers/direct-award/g-cloud/projects/#{@project['id']} page"
 end
 
 When (/^I am ready to tell the outcome for the '(.*)' saved search$/) do |search_name|

@@ -1,6 +1,9 @@
 @buyer @buyer-dashboard
 Feature: Buyer Dashboard
 
+Background:
+  Given I have the latest live g-cloud framework
+
 Scenario: Users should see new Dashboard
   Given I am logged in as a buyer user
   And I visit the /buyers page
