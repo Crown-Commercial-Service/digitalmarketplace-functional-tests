@@ -12,7 +12,7 @@ When(/^I click a random result in the list of opportunity results returned$/) do
 end
 
 When(/^I note the result_count$/) do
-  @result_count = page.first(:css, ".search-summary-count").text.to_i
+  @result_count = page.first(:css, ".app-search-summary__count, .search-summary-count").text.to_i
   puts "Noted result_count: #{@result_count}"
 end
 
@@ -22,7 +22,7 @@ end
 
 Then (/^I see that the stated number of results (does not exceed|equals|is no fewer than) that (\w+)$/) do |comparison_string, variable_name|
   var_val = instance_variable_get("@#{variable_name}")
-  @new_result_count = page.first(:css, ".search-summary-count").text.to_i
+  @new_result_count = page.first(:css, ".app-search-summary__count, .search-summary-count").text.to_i
   puts "Number of results: #{@new_result_count}"
   if comparison_string == "does not exceed"
     expect(@new_result_count).to be <= var_val
@@ -56,7 +56,7 @@ Then (/^I see all the opportunities on the page are of the '(.*)' status$/) do |
 end
 
 Then (/^I see no results$/) do
-  expect(page.first(:css, ".search-summary-count").text.to_i).to eq(0)
+  expect(page.first(:css, ".app-search-summary__count, .search-summary-count").text.to_i).to eq(0)
   expect(page).to have_selector(:css, '.search-result', count: 0)
 end
 

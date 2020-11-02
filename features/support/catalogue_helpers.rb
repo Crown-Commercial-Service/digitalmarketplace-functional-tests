@@ -1,6 +1,6 @@
 module CatalogueHelpers
   def self.get_service_count(page)
-    page.find(:xpath, "//*[@class='search-summary-count']").text.to_i
+    page.find(:css, ".app-search-summary__count, .search-summary-count").text.to_i
   end
 
   def self.get_page_count(page)
