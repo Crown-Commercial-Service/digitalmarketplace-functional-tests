@@ -71,6 +71,7 @@ Scenario: User edits existing search
   And I click 'Save and continue'
   Then I am on the 'my cloud project' page
 
+@skip-preview @skip-local
 Scenario: User exports results
   Given I am logged in as a buyer user
   And I have created and saved a search called 'export limit test project'
@@ -80,6 +81,31 @@ Scenario: User exports results
   Then I am on the 'export limit test project' page
   And I see the 'Export your results' instruction list item has a warning message of 'You have too many services to assess. Refine your search until you have no more than 30 results.'
   And I see the 'Export your results' instruction list item status showing as 'Can’t start yet'
+  When I visit the /g-cloud/search?q=cloud+software+nhs&lot=cloud-hosting page
+  And I click 'Save your search'
+  Then I am on the 'Save your search' page
+  And I choose the 'export limit test project' radio button
+  And I click 'Save and continue'
+  And I see the 'Save a search' instruction list item status showing as 'Completed'
+  When I click the 'Export your results' link
+  Then I am on the 'Before you export your results' page
+  When I check 'I understand that I cannot edit my search after I export my results' checkbox
+  And I click the 'Export results and continue' button
+  Then I am on the 'Download your results' page
+  And I see a success flash message containing 'Results exported. Your files are ready to download.'
+  When I click the 'Return to your task list' link
+  Then I see the 'Export your results' instruction list item status showing as 'Completed'
+
+@skip-staging
+Scenario: User exports results
+  Given I am logged in as a buyer user
+  And I have created and saved a search called 'export limit test project'
+  And I visit the /buyers page
+  When I click the 'View your saved searches' link
+  And I click the 'export limit test project' link
+  Then I am on the 'export limit test project' page
+  And I see the 'Save a search' instruction list item has a warning message of 'You have too many services to assess. Refine your search until you have no more than 30 results.'
+  And I see the 'Export your results' instruction list item status showing as 'Cannot start yet'
   When I visit the /g-cloud/search?q=cloud+software+nhs&lot=cloud-hosting page
   And I click 'Save your search'
   Then I am on the 'Save your search' page
@@ -120,6 +146,7 @@ Scenario: User downloads results - via the saved searches dashboard
   When I click the 'Download search results as a spreadsheet' link
   Then I should get a download file with filename ending '.ods' and content type 'application/vnd.oasis.opendocument.spreadsheet'
 
+@skip-local @skip-preview
 Scenario: User confirms understanding how to assess services
   Given I am logged in as a buyer user
   And I have created and saved a search called 'my cloud project'
@@ -127,6 +154,19 @@ Scenario: User confirms understanding how to assess services
   And I click the 'Return to your task list' link
   Then I see the 'Export your results' instruction list item status showing as 'Completed'
   And I see the 'Award a contract' instruction list item status showing as 'Can’t start yet'
+  When I click the 'Confirm you have read and understood how to assess services' button
+  Then I am on the 'my cloud project' page
+  And I see a success flash message containing 'You’ve confirmed that you have read and understood how to assess services.'
+  And I see the 'Start assessing services' instruction list item status showing as 'Completed'
+
+@skip-staging
+Scenario: User confirms understanding how to assess services
+  Given I am logged in as a buyer user
+  And I have created and saved a search called 'my cloud project'
+  And I have exported my results for the 'my cloud project' saved search
+  And I click the 'Return to your task list' link
+  Then I see the 'Export your results' instruction list item status showing as 'Completed'
+  And I see the 'Award a contract' instruction list item status showing as 'Cannot start yet'
   When I click the 'Confirm you have read and understood how to assess services' button
   Then I am on the 'my cloud project' page
   And I see a success flash message containing 'You’ve confirmed that you have read and understood how to assess services.'

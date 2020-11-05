@@ -86,9 +86,11 @@ When (/^I have downloaded the search results as a file of type '(.*)'$/) do |fil
 end
 
 And (/^I see the '(.*)' instruction list item status showing as '(.*)'$/) do |list_item, status|
-  page.find(:xpath, "//*[contains(@class, 'instruction-list')]//*[contains(@class, 'instruction-list-item-body')][contains(text(),'#{list_item}')]/../*[contains(@class, 'instruction-list-item-box')][contains(text(),'#{status}')]")
+  list_item = page.find(".dm-task-list li, .instruction-list .instruction-list-item", text: list_item)
+  expect(list_item).to have_selector(".app-tag--box, .instruction-list-item-box", text: status)
 end
 
 And (/^I see the '(.*)' instruction list item has a warning message of '(.*)'$/) do |list_item, message|
-  page.find(:xpath, "//*[contains(@class, 'instruction-list')]//*[contains(@class, 'instruction-list-item-body')][contains(text(),'#{list_item}')]/..//strong[contains(normalize-space(text()), '#{message}')]")
+  list_item = page.find(".dm-task-list li, .instruction-list .instruction-list-item", text: list_item)
+  expect(list_item).to have_selector(".govuk-error-message, strong", text: message)
 end
