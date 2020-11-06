@@ -86,11 +86,11 @@ When (/^I have downloaded the search results as a file of type '(.*)'$/) do |fil
 end
 
 And (/^I see the '(.*)' instruction list item status showing as '(.*)'$/) do |list_item, status|
-  list_item = page.find(".dm-task-list li, .instruction-list .instruction-list-item", text: list_item)
-  expect(list_item).to have_selector(".app-tag--box, .instruction-list-item-box", text: status)
+  list_item = page.find(".dm-task-list li", text: list_item)
+  expect(list_item).to have_selector(".app-tag--box", text: status)
 end
 
 And (/^I see the '(.*)' instruction list item has a warning message of '(.*)'$/) do |list_item, message|
-  list_item = page.find(".dm-task-list li, .instruction-list .instruction-list-item", text: list_item)
-  expect(list_item).to have_selector(".govuk-error-message, strong", text: message)
+  list_item = page.find(".dm-task-list li", text: list_item)
+  expect(list_item).to have_selector(".govuk-error-message", text: message)
 end
