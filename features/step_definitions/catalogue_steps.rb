@@ -67,7 +67,7 @@ end
 Then(/^I click the (.*) category link$/) do |category|
   # Look for links only in the lot-filters div so we don't click any
   # search results which happen to include the name of a lot/category.
-  page.find(:css, ".lot-filters a", text: category).click
+  page.find(:css, ".lot-filters a, .app-lot-filter a", text: category).click
 end
 
 Then /^I click a random category link$/ do

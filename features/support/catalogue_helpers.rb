@@ -16,7 +16,7 @@ module CatalogueHelpers
   end
 
   def self.get_category_links(page)
-    page.all(:css, ".lot-filters ul ul :link")
+    page.all(:css, ".lot-filters ul ul :link, .app-lot-filter ul ul :link")
   end
 
   def self.get_service_search_results(page, service)
