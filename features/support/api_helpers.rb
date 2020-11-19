@@ -591,10 +591,18 @@ def update_service(service_id, service_data, updated_by)
   expect(response.code).to eq(200), response.body
 end
 
-def get_supplier_with_reusable_declaration
-  reusable_frameworks = (get_frameworks.select do |framework|
-    framework['allowDeclarationReuse']
-  end).shuffle
+def get_supplier_with_reusable_declaration(reuse_for_framework = {})
+  # the logic for whether a supplier can reuse a declaration is as follows:
+  # for all frameworks
+  #   except the one the supplier is applying to
+  #   that allow declaration reuse
+  #   and are closed
+  # find the most recent
+  # from https://github.com/alphagov/digitalmarketplace-supplier-frontend/blob/5bb727aa7b4ec852ba98a7f3d16f858609de8cf0/app/main/views/frameworks.py#L414
+
+  reusable_frameworks = (get_frameworks.select { |framework|
+    framework['allowDeclarationReuse'] && framework['slug'] != reuse_for_framework['slug']
+  }).shuffle
 
   supplier_framework = nil
   reusable_frameworks.detect do |framework|

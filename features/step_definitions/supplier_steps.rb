@@ -92,7 +92,7 @@ Given /^user #{MAYBE_VAR} sets the (\w+) of that service to #{MAYBE_VAR}$/ do |e
 end
 
 Given 'I have a supplier with a reusable declaration' do
-  @supplier = get_supplier_with_reusable_declaration
+  @supplier = get_supplier_with_reusable_declaration(@framework)
   puts "supplier id: #{@supplier['id']}"
 end
 
