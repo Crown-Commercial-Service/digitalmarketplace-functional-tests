@@ -33,9 +33,7 @@ Scenario Outline: Correct admin roles can view a supplier's details
     | Company registration number  | 87654321                             |
     | DUNS Number                  | <ANY>                                |
     | Address                      | 14 Duke Street Dublin H3 LY5 Ireland |
-  And I see an entry in the 'Frameworks' table with:
-    | field       | link1         | link2           |
-    | G-Cloud 12  | View services | View agreements |
+  And I see the framework the supplier is on in the 'Frameworks' table
   When I click the 'Users' link
   Then I am on the 'DM Functional Test Supplier - Company details feature' page
   And I see an entry in the 'Users' table with:

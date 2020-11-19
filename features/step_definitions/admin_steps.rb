@@ -36,3 +36,14 @@ Then "I am on that service's page" do
   step "I am on the '#{service_name}' page"
   puts "Service name: #{service_name}"
 end
+
+Then "I see the framework the supplier is on in the 'Frameworks' table" do
+  expected_row = [@framework['name'], "View services", "View agreements"]
+  table_rows = get_table_rows_by_caption('Frameworks')
+
+  match = table_rows.find do |row|
+    expected_row == row.all('td').map { |td| td.text }
+  end
+
+  expect(match).not_to be_nil, "Expected: #{expected_row.join(' | ')}"
+end
