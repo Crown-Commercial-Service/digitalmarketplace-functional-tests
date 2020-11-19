@@ -56,8 +56,12 @@ Then(/^I submit a service for each lot$/) do
 end
 
 Then("I submit a copied service") do
-  answer_all_dos_lot_questions "Edit"
-  answer_all_service_questions "Add"
+  if @framework["family"] == "digital-outcomes-and-specialists"
+    answer_all_dos_lot_questions "Edit"
+    answer_all_service_questions "Add"
+  elsif @framework["family"] == "g-cloud"
+    answer_all_service_questions "Answer question"
+  end
   first(:button, "Mark as complete").click
 end
 
@@ -149,6 +153,7 @@ Then "I click the 'Add' button for the existing service" do
 
   new_service = get_draft_service_copied_from(@existing_service, @framework['slug'])
   @new_service_href = "/suppliers/frameworks/#{@framework['slug']}/submissions/#{new_service['lotSlug']}/#{new_service['id']}"
+  puts "Draft service URL: #{@new_service_href}"
 end
 
 Then(/^I( don't)? see that service in the Draft services section$/) do |negate|
