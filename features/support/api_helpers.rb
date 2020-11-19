@@ -417,12 +417,22 @@ def get_a_service(status, framework_type = "g-cloud", must_be_copyable = false, 
     params['lot'] = lot_slug
   end
 
-  services_from_api = call_api(:get, '/services', params: params)
-  service_list = JSON.parse(services_from_api.body)['services']
+  response = call_api(:get, '/services', params: params)
+  service_list = JSON.parse(response.body)['services']
 
   if must_be_copyable
     # Check if the service has already been used to create a draft service
     service_list = service_list.select { |x| x['copiedToFollowingFramework'] == false }
+
+    # If we have not found any required brief responses so far on the first page then we will iterate
+    # through the pages until we do find atleast one
+    next_page = 2
+    while service_list.empty? && JSON.parse(response.body)['links']['next']
+      response = call_api(:get, "/services?page=#{next_page}", params: params)
+      service_list = JSON.parse(response.body)["briefResponses"]
+      service_list = service_list.select { |x| x['copiedToFollowingFramework'] == false }
+      next_page += 1
+    end
   end
 
   service_list.sample
