@@ -429,7 +429,7 @@ def get_a_service(status, framework_type = "g-cloud", must_be_copyable = false, 
     next_page = 2
     while service_list.empty? && JSON.parse(response.body)['links']['next']
       response = call_api(:get, "/services?page=#{next_page}", params: params)
-      service_list = JSON.parse(response.body)["briefResponses"]
+      service_list = JSON.parse(response.body)["services"]
       service_list = service_list.select { |x| x['copiedToFollowingFramework'] == false }
       next_page += 1
     end
