@@ -26,7 +26,7 @@ Scenario: Supplier user can edit the name of a service
   And I enter 'Changed cloud support service' in the 'serviceName' field
   And I click 'Save and return'
   Then I am on the 'Changed cloud support service' page
-  And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+  And I see a success flash message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And that service has unacknowledged update audit events
   # tidy up
   Then I ensure that all update audit events for that service are acknowledged
@@ -40,7 +40,7 @@ Scenario: Supplier user can edit the description of a service
   And I enter 'This is an updated description' in the 'serviceDescription' field
   And I click 'Save and return'
   Then I am on that service.serviceName page
-  And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+  And I see a success flash message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And I see the 'About your service' summary table filled with:
     | field                        | value                          |
     | Service description          | This is an updated description |
@@ -58,7 +58,7 @@ Scenario: Supplier user can edit the features and benefits of a service
   And I enter 'Updated Benefit 2' in the 'input-serviceBenefits-2' field
   And I click 'Save and return'
   Then I am on that service.serviceName page
-  And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+  And I see a success flash message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And I see the 'Service features and benefits' summary table filled with:
     | field                         | value                                                                                  |
     | Service features and benefits | Service features Feature 1 New Feature 2 Service benefits Benefit 1 Updated Benefit 2  |
@@ -73,7 +73,7 @@ Scenario: Supplier user can replace the service definition document
   And I choose file 'test.pdf' for the field 'serviceDefinitionDocumentURL'
   And I click 'Save and return'
   Then I am on that service.serviceName page
-  And I see a success banner message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
+  And I see a success flash message containing 'You’ve edited your service. The changes are now live on the Digital Marketplace.'
   And that service has unacknowledged update audit events
   # tidy up
   Then I ensure that all update audit events for that service are acknowledged
@@ -103,7 +103,7 @@ Scenario: Supplier can remove their G-Cloud service from the marketplace
   Then I see a destructive banner message containing 'Are you sure you want to remove your service?'
 
   When I click 'Remove service'
-  Then I see a success banner message containing 'Test cloud support service has been removed.'
+  Then I see a success flash message containing 'Test cloud support service has been removed.'
 
   When I click that service.serviceName
   Then I see a temporary-message banner message containing 'This service was removed'

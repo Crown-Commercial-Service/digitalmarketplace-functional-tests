@@ -101,7 +101,7 @@ Scenario: Supplier applies for a digital-specialists brief
 
   When I click 'Submit application'
   Then I am on the 'What happens next' page
-  And I see a success banner message containing 'Your application has been submitted.'
+  And I see a success flash message containing 'Your application has been submitted.'
 
 
 Scenario: Supplier applies for a digital-outcomes brief
@@ -158,7 +158,7 @@ Scenario: Supplier applies for a digital-outcomes brief
 
   When I click 'Submit application'
   Then I am on the 'What happens next' page
-  And I see a success banner message containing 'Your application has been submitted.'
+  And I see a success flash message containing 'Your application has been submitted.'
 
 
 Scenario: Supplier applies for a user-research-participants brief
@@ -217,7 +217,7 @@ Scenario: Supplier applies for a user-research-participants brief
 
   When I click 'Submit application'
   Then I am on the 'What happens next' page
-  And I see a success banner message containing 'Your application has been submitted.'
+  And I see a success flash message containing 'Your application has been submitted.'
 
 
 Scenario: Previous page links are used during response flow and existing data is replayed
@@ -327,7 +327,7 @@ Scenario: Supplier changes their answers before submission
   And I see 'Once you submit you can update your application until' text on the page
   When I click 'Submit application'
   Then I am on the 'What happens next' page
-  And I see a success banner message containing 'Your application has been submitted.'
+  And I see a success flash message containing 'Your application has been submitted.'
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
@@ -421,7 +421,7 @@ Scenario: Supplier asks a clarification question
   Then I am on the 'Ask a question about ‘Tea drinker’' page
   And I enter 'How do I ask a question?' in the 'clarification_question' field
   And I click 'Ask question'
-  Then I see a success banner message containing 'Your question has been sent.'
+  Then I see a success flash message containing 'Your question has been sent.'
 
 Scenario: Supplier can see sign framework agreement call to action
   Given that supplier has applied to be on that framework

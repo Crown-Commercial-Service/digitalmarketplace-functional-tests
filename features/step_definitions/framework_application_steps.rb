@@ -175,7 +175,7 @@ end
 
 Then "I see confirmation that I have removed that draft service" do
   service_name = normalize_whitespace(@existing_service['serviceName'])
-  step "I see a success banner message containing '#{service_name} was removed'"
+  step "I see a success flash message containing '#{service_name} was removed'"
 end
 
 Then "I have submitted services for each lot" do
