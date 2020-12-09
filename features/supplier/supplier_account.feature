@@ -179,7 +179,7 @@ Scenario: Supplier user can add and remove contributors
   Given I have a random email address
   When I enter that email_address in the 'email_address' field
   And I click 'Send invite'
-  Then I see a success banner message containing 'Contributor invited'
+  Then I see a success flash message containing 'Contributor invited'
 
   Given I receive a 'create-user-account' email for that email_address
   When I click the link in that email
@@ -196,7 +196,7 @@ Scenario: Supplier user can add and remove contributors
   And I see 'that email_address' text on the page
 
   When I click 'Remove'
-  Then I see a success banner message containing 'has been removed as a contributor.'
+  Then I see a success flash message containing 'has been removed as a contributor.'
 
   Given I visit the /suppliers page
   When I click 'Contributors'

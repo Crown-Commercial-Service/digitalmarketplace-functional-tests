@@ -10,7 +10,7 @@ Background:
   Then I am on the 'Become a supplier' page
   And I click 'Get notifications when applications are opening'
   Then I am on the 'Sign up for Digital Marketplace email alerts' page
-  And I don't see a banner message
+  And I don't see a flash message
 
 @requires-credentials @mailchimp
 Scenario: Successful mailing-list subscription from the home page
@@ -25,7 +25,7 @@ Scenario: Initially-rejected mailing-list subscription
   When I enter 'example@example.com' in the 'email_address' field
   And I click 'Subscribe'
   Then I am on the 'Sign up for Digital Marketplace email alerts' page
-  And I see a destructive banner message containing 'This email address cannot be used to sign up for Digital Marketplace alerts. Please use a different email address or contact cloud_digital@crowncommercial.gov.uk'
+  And I see a error flash message containing 'This email address cannot be used to sign up for Digital Marketplace alerts. Please use a different email address or contact cloud_digital@crowncommercial.gov.uk'
   # but this page should still be a valid, working form
   And I see 'example@example.com' as the value of the 'email_address' field
   When I enter 'functional-test-email@user.marketplace.team' in the 'email_address' field

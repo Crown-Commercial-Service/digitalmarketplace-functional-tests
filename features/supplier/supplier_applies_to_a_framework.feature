@@ -104,7 +104,7 @@ Scenario: Supplier copies a service from a previous framework
   Then I see 'Are you sure you want to remove this' text on the page
 
   When I click the 'Yes, remove' button
-  Then I see a success banner message containing 'was removed'
+  Then I see a success flash message containing 'was removed'
   And I don't see that service in the Draft services section
 
   When I click the link to view and add services from the previous framework

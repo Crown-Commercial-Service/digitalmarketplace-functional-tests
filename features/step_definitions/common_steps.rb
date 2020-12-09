@@ -257,6 +257,10 @@ Then /^I see a (success|error|notice) flash message containing #{MAYBE_VAR}$/ do
   expect(flash_message).to have_content(message)
 end
 
+Then /^I don't see a flash message$/ do
+  expect(page).not_to have_selector(:css, ".dm-alert")
+end
+
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
 Then /^I see a (success|warning|destructive|temporary-message) banner message containing #{MAYBE_VAR}$/ do |status, message|
   begin
