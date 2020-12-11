@@ -76,7 +76,7 @@ Then /^I visit the '(.*)' question page for that brief response$/ do |question|
 end
 
 Then /^I see '(.*)' replayed in the question advice$/ do |replayed_info|
-  expect(page).to have_xpath("//span[@class='question-advice']/p", text: replayed_info)
+  expect(page).to have_xpath("//span[@class='question-advice']/p | //p[@class='govuk-body']", text: replayed_info)
 end
 
 Then /^I am on the '(.*)' page with brief '(.*)'/ do |str, brief_attribute|

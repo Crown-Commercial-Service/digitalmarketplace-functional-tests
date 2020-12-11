@@ -467,7 +467,7 @@ Then /^I see the '(.*)' (radio button|checkbox) is (not |)checked(?: for the '(.
     elem_type = 'radio'
   end
   if question
-    within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../..") do
+    within(:xpath, "//span[normalize-space(text())=\"#{question}\"]/../.. | //legend[normalize-space(text())=\"#{question}\"]/..") do
       if negative.empty?
         expect(first_field(elem_name, type: elem_type)).to be_checked
       else
