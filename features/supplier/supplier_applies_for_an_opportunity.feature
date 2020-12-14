@@ -331,9 +331,9 @@ Scenario: Supplier changes their answers before submission
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Completed opportunities' summary table
-  And I see the closing date of the brief in the 'Completed opportunities' summary table
-  And I see 'Submitted' in the 'Completed opportunities' summary table
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
+  And I see 'Submitted' in the 'Applications you’ve made' summary table
 
 
 Scenario: Supplier changes their answers after submission
@@ -347,9 +347,9 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Completed opportunities' summary table
-  And I see the closing date of the brief in the 'Completed opportunities' summary table
-  And I see 'Submitted' in the 'Completed opportunities' summary table
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
+  And I see 'Submitted' in the 'Applications you’ve made' summary table
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
@@ -372,9 +372,9 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Tea drinker' in the 'Completed opportunities' summary table
-  And I see the closing date of the brief in the 'Completed opportunities' summary table
-  And I see 'Submitted' in the 'Completed opportunities' summary table
+  Then I see 'Tea drinker' in the 'Applications you’ve made' summary table
+  And I see the closing date of the brief in the 'Applications you’ve made' summary table
+  And I see 'Submitted' in the 'Applications you’ve made' summary table
   And I see 'You don’t have any draft applications' text on the page
 
   When I click the 'Tea drinker' link
@@ -401,7 +401,7 @@ Scenario: Supplier can resume incomplete application
 
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
-  Then I see 'Hide and seek ninjas' in the 'Draft opportunities' summary table
+  Then I see 'Hide and seek ninjas' in the 'Applications you’ve started' summary table
   And I click the 'Complete your application' link
   Then I am on the 'Before you start' page
 
@@ -454,4 +454,4 @@ Scenario: Supplier can see their draft applications on the opportunities dashboa
   When I click the 'View your account' link
   And I click the 'View your opportunities' link
   Then I see 'You haven’t applied to any opportunities' text on the page
-  Then I see 'Tea drinker' in the 'Draft opportunities' summary table
+  Then I see 'Tea drinker' in the 'Applications you’ve started' summary table
