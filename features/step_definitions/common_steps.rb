@@ -457,7 +457,7 @@ Then /^I see an entry in the '(.*)' table with:$/ do |table_heading, table|
 end
 
 
-Then /^I see the closing date of the brief in the '(.*)' (summary )?table$/ do |table_heading|
+Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |table_heading|
   closing_date = DateTime.strptime(@brief['createdAt'], '%Y-%m-%dT%H:%M:%S') + 14
   step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"
 end
