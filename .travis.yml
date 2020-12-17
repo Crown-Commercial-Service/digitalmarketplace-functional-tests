@@ -1,9 +1,0 @@
-language: ruby
-before_install:
-  - yes | gem update --system
-  - gem install bundler
-bundler_args: --without development
-script:
-  - rubocop features
-notifications:
-  email: false
