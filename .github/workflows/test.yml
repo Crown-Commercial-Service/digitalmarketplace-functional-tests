@@ -1,0 +1,17 @@
+name: Test
+
+on: [pull_request]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+    - name: Install dependencies
+      run: bundle install
+    - name: Run linting
+      run: bundle exec rubocop features
