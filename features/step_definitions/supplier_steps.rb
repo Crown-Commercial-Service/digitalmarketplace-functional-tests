@@ -139,6 +139,6 @@ Given(/^I visit the start sign framework agreement page for that framework$/) do
 end
 
 Then(/^I see the sign agreement confirmation page$/) do
-  confirmation_message = "You’ve signed the #{@framework['name']} Framework Agreement"
+  confirmation_message = "You’ve signed the #{@framework['name']}"
   expect(page).to have_selector('h1', text: normalize_whitespace(confirmation_message))
 end
