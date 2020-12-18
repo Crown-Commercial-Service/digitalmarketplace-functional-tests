@@ -253,7 +253,7 @@ Scenario: Previous page links are used during response flow and existing data is
   And I see '27/12/17' as the value of the 'availability' field
   And I don't see the 'Back to previous page' link
 
-@skip-preview
+@skip-local @skip-preview
 Scenario: Supplier changes their answers before submission
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
@@ -417,7 +417,7 @@ Scenario: Supplier changes their answers before submission
   And I see the closing date of the brief in the 'Applications you’ve made' table
   And I see 'Submitted' in the 'Applications you’ve made' table
 
-@skip-preview
+@skip-local @skip-preview
 Scenario: Supplier changes their answers after submission
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
@@ -508,7 +508,7 @@ Scenario: Supplier changes their answers after submission
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
 
-@skip-preview
+@skip-local @skip-preview
 Scenario: Supplier can resume incomplete application
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
@@ -601,7 +601,8 @@ Scenario: Supplier can see the link to the opportunities dashboard
   When I click the 'View your account' link
   Then I see the 'View your opportunities' link
 
-@opportunities-dashboard @skip-preview
+@opportunities-dashboard
+@skip-local @skip-preview
 Scenario: Supplier can see their draft applications on the opportunities dashboard
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
