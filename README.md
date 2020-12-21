@@ -86,6 +86,7 @@ Tags are used to include/exclude given tests on certain environments. The follow
 | brief-response              |                                                       |
 | with-_type_-user            |                                                       |
 | skip                        | Skip this test everywhere (e.g. temporarily disabled) |
+| skip-local                  | Will not run on the local environment.                |
 | skip-preview                | Will not run on the preview environment.              |
 | skip-staging                | Will not run on the staging environment.              |
 | skip-production             | Will not run on the production environment.           |

@@ -416,7 +416,7 @@ Then /^I see the '(.*)' summary (table|list) filled with:$/ do |heading, table_o
   end
 end
 
-Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' summary table$/ do |negate, content, table_heading|
+Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' (?:summary )?table$/ do |negate, content, table_heading|
   result_table_rows = get_table_rows_by_caption(table_heading)
   expect(result_table_rows.any? { |row| row.text.include?(content) }).to be negate.empty?
 end
@@ -457,9 +457,13 @@ Then /^I see an entry in the '(.*)' table with:$/ do |table_heading, table|
 end
 
 
-Then /^I see the closing date of the brief in the '(.*)' summary table$/ do |table_heading|
+Then /^I see the closing date of the brief in the '(.*)' (summary |)table$/ do |table_heading, summary|
   closing_date = DateTime.strptime(@brief['createdAt'], '%Y-%m-%dT%H:%M:%S') + 14
-  step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"
+  if summary == 'summary'
+    step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' summary table"
+  else
+    step "I see '#{closing_date.strftime('%A %-d %B %Y')}' in the '#{table_heading}' table"
+  end
 end
 
 Then /^I see the '(.*)' (radio button|checkbox) is (not |)checked(?: for the '(.*)' question)?$/ do |elem_name, elem_type, negative, question|
