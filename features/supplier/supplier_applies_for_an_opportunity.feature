@@ -82,7 +82,7 @@ Scenario: Supplier applies for a digital-specialists brief
   When I enter 'marcus.tertius.moses@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                               |
       | Day rate            | £200                                |
       | Earliest start date | 27/12/17                            |
@@ -102,7 +102,6 @@ Scenario: Supplier applies for a digital-specialists brief
   When I click 'Submit application'
   Then I am on the 'What happens next' page
   And I see a success flash message containing 'Your application has been submitted.'
-
 
 Scenario: Supplier applies for a digital-outcomes brief
   Given that supplier has applied to be on that framework
@@ -142,7 +141,7 @@ Scenario: Supplier applies for a digital-outcomes brief
   When I enter 'under-wild-ferns@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                           |
       | Earliest start date | 09/09/17                        |
       | Email address       | under-wild-ferns@example.gov.uk |
@@ -200,7 +199,7 @@ Scenario: Supplier applies for a user-research-participants brief
   When I enter 'throwaway@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                    |
       | Earliest start date | 09/09/17                 |
       | Email address       | throwaway@example.gov.uk |
@@ -308,7 +307,7 @@ Scenario: Supplier changes their answers before submission
   When I enter 'moustachecup@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                       |
       | Day rate            | £100                        |
       | Earliest start date | 28/09/17                    |
@@ -353,7 +352,7 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
-  When I click the summary table 'Edit' link for 'Day rate'
+  When I click the summary list 'Change' link for 'Day rate'
 
   Then I am on the 'What’s the specialist’s day rate?' page
   And I see '£200' replayed in the question advice
@@ -362,7 +361,7 @@ Scenario: Supplier changes their answers after submission
   When I enter '100' in the 'dayRate' field
   And I click 'Save and continue'
   Then I am on the 'Your application for ‘Tea drinker’' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                |
       | Day rate            | £100                 |
 
