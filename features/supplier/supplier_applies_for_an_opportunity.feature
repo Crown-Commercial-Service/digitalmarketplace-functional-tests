@@ -87,13 +87,13 @@ Scenario: Supplier applies for a digital-specialists brief
       | Day rate            | £200                                |
       | Earliest start date | 27/12/17                            |
       | Email address       | marcus.tertius.moses@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field       | value           |
       | Boil kettle | first evidence  |
       | Taste tea   | second evidence |
       | Wash mug    | third evidence  |
       | Dry mug     | fourth evidence |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                               | value |
       | Talk snobbishly about water quality | First nice to have evidence  |
       | Sip quietly                         | Second nice to have evidence |
@@ -145,11 +145,11 @@ Scenario: Supplier applies for a digital-outcomes brief
       | field               | value                           |
       | Earliest start date | 09/09/17                        |
       | Email address       | under-wild-ferns@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field                 | value                  |
       | Understand the rules. | I know all the rules   |
       | Hide dead good.       | I know the best hiding |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                                          | value                           |
       | Be invisible.                                  | You can see right through them. |
       | Be able to count to 100 really really quickly. |                                 |
@@ -203,12 +203,12 @@ Scenario: Supplier applies for a user-research-participants brief
       | field               | value                    |
       | Earliest start date | 09/09/17                 |
       | Email address       | throwaway@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field                              | value                                   |
       | The horses must have four hooves   | They have the correct number of hooves. |
       | The horses must have lovely coats  | So shiny...                             |
       | The horses must be many hands tall | All at least 50                         |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                              | value                |
       | Liking sugar lumps                 |                      |
       | Being good at jumping over fences  | No jump is too high. |
@@ -312,13 +312,13 @@ Scenario: Supplier changes their answers before submission
       | Day rate            | £100                        |
       | Earliest start date | 28/09/17                    |
       | Email address       | moustachecup@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field       | value            |
       | Boil kettle | Flick the switch |
       | Taste tea   | Drink the tea    |
       | Wash mug    | Use soap         |
       | Dry mug     | fourth evidence  |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                               | value |
       | Talk snobbishly about water quality | First nice to have evidence |
       | Sip quietly                         |                             |
