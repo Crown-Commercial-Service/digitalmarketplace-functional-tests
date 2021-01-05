@@ -391,7 +391,7 @@ When /I update the value of '(.*)' to '(.*)' using the summary (table|list) '(.*
   page.visit(summary_page)
 end
 
-Then /^I see the '(.*)' summary (table|list) filled with:$/ do |heading, table_or_list, expected_table|
+Then /^I see the '(.*)'(?: summary)? (table|list) filled with:$/ do |heading, table_or_list, expected_table|
   if table_or_list == "table"
     result_rows = get_table_rows_by_caption(heading)
   else
