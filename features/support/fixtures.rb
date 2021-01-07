@@ -9,7 +9,6 @@ module Fixtures
       lot: 'digital-specialists',
       developerLocations: %w[London Scotland],
       developerPriceMax: "200",
-      developerPriceMin: "100",
       bespokeSystemInformation: true,
       dataProtocols: true,
       helpGovernmentImproveServices: true,
