@@ -475,7 +475,7 @@ Scenario: Previous page links are used during response flow and existing data is
   And I see '200' as the value of the 'dayRate' field
   When I click 'Back to previous page' link
   Then I am on the 'When is the earliest the specialist can start work?' page
-  And I see '27/12/17' as the value of the 'availability' field
+  And I see '2017-12-27' as the value of the 'availability' field
   And I don't see the 'Back to previous page' link
 
 @skip-staging @skip-local
@@ -529,9 +529,9 @@ Scenario: Supplier changes their answers before submission
   When I click 'Continue application'
   Then I am on the 'When is the earliest the specialist can start work?' page
   And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
-  And I see '27/12/17' as the value of the 'availability' field
+  And I see '2017-12-27' as the value of the 'availability' field
 
-  When I enter '28/09/17' in the 'availability' field
+  When I enter '2017-12-28' in the 'availability' field
   And I click 'Save and continue'
   Then I am on the 'What’s the specialist’s day rate?' page
   And I see '£200' replayed in the question advice
@@ -572,7 +572,7 @@ Scenario: Supplier changes their answers before submission
   And I see the 'Your details' summary table filled with:
       | field               | value                       |
       | Day rate            | £100                        |
-      | Earliest start date | 28/09/17                    |
+      | Earliest start date | 2017-12-28                  |
       | Email address       | moustachecup@example.gov.uk |
   And I see the 'Your essential skills and experience' summary table filled with:
       | field       | value            |
@@ -658,7 +658,7 @@ Scenario: Supplier changes their answers before submission
   And I see the 'Your details' summary list filled with:
       | field               | value                       |
       | Day rate            | £100                        |
-      | Earliest start date | Thursday 9 September 2017   |
+      | Earliest start date | Thursday 28 September 2017  |
       | Email address       | moustachecup@example.gov.uk |
   And I see the 'Your essential skills and experience' table filled with:
       | field       | value            |
@@ -847,6 +847,7 @@ Scenario: Supplier asks a clarification question
   And I click 'Ask question'
   Then I see a success flash message containing 'Your question has been sent.'
 
+@skip-preview
 Scenario: Supplier can see sign framework agreement call to action
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
@@ -855,6 +856,16 @@ Scenario: Supplier can see sign framework agreement call to action
   And that supplier has filled in their response to that brief but not submitted it
   When I click the 'View your account' link
   Then I see the 'You must sign the framework agreement to sell these services' link
+
+@skip-staging @skip-local
+Scenario: Supplier can see sign framework agreement call to action
+  Given that supplier has applied to be on that framework
+  And we accepted that suppliers application to the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I click the 'View your account' link
+  Then I see the 'You must sign the framework award form to sell these services' link
 
 @opportunities-dashboard
 Scenario: Supplier can see the link to the opportunities dashboard

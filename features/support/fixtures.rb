@@ -281,7 +281,7 @@ module Fixtures
       userId: nil,
       briefId: nil,
       supplierId: nil,
-      availability: "27/12/17",
+      availability: "2017-12-27",
       dayRate: "200",
       essentialRequirements: [
         { "evidence": "first evidence" },
