@@ -154,7 +154,9 @@ Scenario: Supplier applies for a digital-specialists brief
   Then I am on the 'When is the earliest the specialist can start work?' page
   And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
 
-  When I enter '27/12/17' in the 'availability' field
+  When I enter '27' in the 'availability-day' field
+  And I enter '12' in the 'availability-month' field
+  And I enter '2017' in the 'availability-year' field
   And I click 'Save and continue'
   Then I am on the 'What’s the specialist’s day rate?' page
   And I see '£200' replayed in the question advice
@@ -188,7 +190,7 @@ Scenario: Supplier applies for a digital-specialists brief
   And I see the 'Your details' summary list filled with:
       | field               | value                               |
       | Day rate            | £200                                |
-      | Earliest start date | 27/12/17                            |
+      | Earliest start date | Wednesday 27 December 2017          |
       | Email address       | marcus.tertius.moses@example.gov.uk |
   And I see the 'Your essential skills and experience' table filled with:
       | field       | value           |
@@ -278,7 +280,9 @@ Scenario: Supplier applies for a digital-outcomes brief
   Then I am on the 'When is the earliest the team can start?' page
   And I see 'The buyer needs the team to start: Thursday 28 September 2017' replayed in the question advice
 
-  When I enter '09/09/17' in the 'availability' field
+  When I enter '09' in the 'availability-day' field
+  And I enter '09' in the 'availability-month' field
+  And I enter '2017' in the 'availability-year' field
   And I click 'Save and continue'
   Then I am on the 'Do you have all the essential skills and experience?' page
 
@@ -304,7 +308,7 @@ Scenario: Supplier applies for a digital-outcomes brief
   Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary list filled with:
       | field               | value                           |
-      | Earliest start date | 09/09/17                        |
+      | Earliest start date | Saturday 9 September 2017       |
       | Email address       | under-wild-ferns@example.gov.uk |
   And I see the 'Your essential skills and experience' table filled with:
       | field                 | value                  |
@@ -394,7 +398,9 @@ Scenario: Supplier applies for a user-research-participants brief
   Then I am on the 'When is the earliest you can recruit participants?' page
   And I see 'The buyer needs participants: January to April' replayed in the question advice
 
-  When I enter '09/09/17' in the 'availability' field
+  When I enter '09' in the 'availability-day' field
+  And I enter '09' in the 'availability-month' field
+  And I enter '2017' in the 'availability-year' field
   And I click 'Save and continue'
   Then I am on the 'Do you have all the essential skills and experience?' page
 
@@ -421,7 +427,7 @@ Scenario: Supplier applies for a user-research-participants brief
   Then I am on the 'Check and submit your answers' page
   And I see the 'Your details' summary list filled with:
       | field               | value                    |
-      | Earliest start date | 09/09/17                 |
+      | Earliest start date | Saturday 9 September 2017|
       | Email address       | throwaway@example.gov.uk |
   And I see the 'Your essential skills and experience' table filled with:
       | field                              | value                                   |
@@ -438,7 +444,7 @@ Scenario: Supplier applies for a user-research-participants brief
   Then I am on the 'What happens next' page
   And I see a success flash message containing 'Your application has been submitted.'
 
-
+@skip-preview
 Scenario: Previous page links are used during response flow and existing data is replayed
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
@@ -470,6 +476,42 @@ Scenario: Previous page links are used during response flow and existing data is
   When I click 'Back to previous page' link
   Then I am on the 'When is the earliest the specialist can start work?' page
   And I see '27/12/17' as the value of the 'availability' field
+  And I don't see the 'Back to previous page' link
+
+@skip-staging @skip-local
+Scenario: Previous page links are used during response flow and existing data is replayed
+  Given that supplier has applied to be on that framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
+  And that supplier has a service on the digital-specialists lot
+  And I have a live digital-specialists brief
+  And that supplier has filled in their response to that brief but not submitted it
+  When I visit the 'Respond to email address' question page for that brief response
+  And I click 'Back to previous page' link
+  Then I am on the 'Do you have any of the nice-to-have skills or experience?' page
+  And I see the 'Yes' radio button is checked for the 'Talk snobbishly about water quality' question
+  And I see 'First nice to have evidence' as the value of the 'Evidence of Talk snobbishly about water quality' field
+  And I see the 'Yes' radio button is checked for the 'Sip quietly' question
+  And I see 'Second nice to have evidence' as the value of the 'Evidence of Sip quietly' field
+  And I see the 'No' radio button is checked for the 'Provide biscuits' question
+  And I do not see the 'Evidence of Provide biscuits' field
+  When I click 'Back to previous page' link
+  Then I am on the 'Give evidence of the essential skills and experience' page
+  And I see 'first evidence' as the value of the 'Boil kettle' field
+  And I see 'second evidence' as the value of the 'Taste tea' field
+  And I see 'third evidence' as the value of the 'Wash mug' field
+  And I see 'fourth evidence' as the value of the 'Dry mug' field
+  When I click 'Back to previous page' link
+  Then I am on the 'Do you have all the essential skills and experience?' page
+  And I see the 'Yes' radio button is checked
+  When I click 'Back to previous page' link
+  Then I am on the 'What’s the specialist’s day rate?' page
+  And I see '200' as the value of the 'dayRate' field
+  When I click 'Back to previous page' link
+  Then I am on the 'When is the earliest the specialist can start work?' page
+  And I see '27' as the value of the 'availability-day' field
+  And I see '12' as the value of the 'availability-month' field
+  And I see '2017' as the value of the 'availability-year' field
   And I don't see the 'Back to previous page' link
 
 @skip-local @skip-preview
@@ -569,9 +611,13 @@ Scenario: Supplier changes their answers before submission
   When I click 'Continue application'
   Then I am on the 'When is the earliest the specialist can start work?' page
   And I see 'The buyer needs the specialist to start: Saturday 31 December 2016' replayed in the question advice
-  And I see '27/12/17' as the value of the 'availability' field
+  And I see '27' as the value of the 'availability-day' field
+  And I see '12' as the value of the 'availability-month' field
+  And I see '2017' as the value of the 'availability-year' field
 
-  When I enter '28/09/17' in the 'availability' field
+  When I enter '28' in the 'availability-day' field
+  And I enter '09' in the 'availability-month' field
+  And I enter '2017' in the 'availability-year' field
   And I click 'Save and continue'
   Then I am on the 'What’s the specialist’s day rate?' page
   And I see '£200' replayed in the question advice
@@ -612,7 +658,7 @@ Scenario: Supplier changes their answers before submission
   And I see the 'Your details' summary list filled with:
       | field               | value                       |
       | Day rate            | £100                        |
-      | Earliest start date | 28/09/17                    |
+      | Earliest start date | Thursday 9 September 2017   |
       | Email address       | moustachecup@example.gov.uk |
   And I see the 'Your essential skills and experience' table filled with:
       | field       | value            |
@@ -726,7 +772,7 @@ Scenario: Supplier changes their answers after submission
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
 
-
+@skip-preview
 Scenario: Supplier can resume incomplete application
   Given that supplier has applied to be on that framework
   And we accepted that suppliers application to the framework
@@ -755,6 +801,38 @@ Scenario: Supplier can resume incomplete application
   Then I am on the 'When is the earliest the team can start?' page
   And I see '09/09/17' as the value of the 'availability' field
 
+@skip-staging @skip-local
+Scenario: Supplier can resume incomplete application
+  Given that supplier has applied to be on that framework
+  And we accepted that suppliers application to the framework
+  And that supplier has returned a signed framework agreement for the framework
+  And that supplier has a service on the digital-outcomes lot
+  And I have a live digital-outcomes brief
+  And I go to that brief page
+  And I click 'Apply for this opportunity'
+  Then I am on the 'Before you start' page
+
+  When I click 'Start application'
+  Then I am on the 'When is the earliest the team can start?' page
+  And I see 'The buyer needs the team to start: Thursday 28 September 2017' replayed in the question advice
+
+  When I enter '09' in the 'availability-day' field
+  And I enter '09' in the 'availability-month' field
+  And I enter '2017' in the 'availability-year' field
+  And I click 'Save and continue'
+  Then I am on the 'Do you have all the essential skills and experience?' page
+
+  When I click the 'View your account' link
+  And I click the 'View your opportunities' link
+  Then I see 'Hide and seek ninjas' in the 'Applications you’ve started' table
+  And I click the 'Complete your application' link
+  Then I am on the 'Before you start' page
+
+  When I click 'Continue application'
+  Then I am on the 'When is the earliest the team can start?' page
+  And I see '09' as the value of the 'availability-day' field
+  And I see '09' as the value of the 'availability-month' field
+  And I see '2017' as the value of the 'availability-year' field
 
 @requires-credentials @notify @opportunity-clarification-question
 Scenario: Supplier asks a clarification question
