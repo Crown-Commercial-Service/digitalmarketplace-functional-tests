@@ -121,6 +121,37 @@ module Fixtures
     }
   end
 
+  def self.user_research_studios_service_dos5
+    {
+      # `nil` values should be updated within the step when this fixture is used
+      frameworkSlug: nil,
+      id: nil,
+      labAccessibility: "Access is via steps and no hearing loops are present",
+      labAddressBuilding: "The Great Briefs by Whitechapel, Marketplace Street",
+      labAddressPostcode: "GDS20 5DM",
+      labAddressTown: "GDSbury",
+      labBabyChanging: false,
+      labCarPark: "Local public parking provided",
+      labDesktopStreaming: "Yes, for an additional cost",
+      labDeviceStreaming: "Yes, for an additional cost",
+      labEyeTracking: "Yes, for an additional cost",
+      labHosting: "Yes, included as standard",
+      labPriceMin: "949",
+      labPublicTransport: "Regular bus services provided to local populations such as Gloucester and Cheltenham in addition to train stations",
+      labSize: "25",
+      labStreaming: "Yes, for an additional cost",
+      labTechAssistance: "Yes, for an additional cost",
+      labTimeMin: "8 hours",
+      labToilets: true,
+      labViewingArea: "No",
+      labWaitingArea: "Yes, included as standard",
+      labWiFi: true,
+      lot: 'user-research-studios',
+      serviceName: "GDSvieux Innovation Lab",
+      supplierId: nil
+    }
+  end
+
   def self.digital_specialists_brief
     {
       # `nil` values should be updated within the step when this fixture is used

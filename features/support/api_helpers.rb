@@ -368,7 +368,11 @@ def create_live_service(framework_slug, lot_slug, supplier_id, role = nil)
     when 'user-research-participants'
       service_data['services'] = Fixtures.user_research_participants_service
     when 'user-research-studios'
-      service_data['services'] = Fixtures.user_research_studios_service
+      if framework_slug == 'digital-outcomes-and-specialists-5'
+        service_data['services'] = Fixtures.user_research_studios_service_dos5
+      else
+        service_data['services'] = Fixtures.user_research_studios_service
+      end
     when 'cloud-support'
       service_data['services'] = Fixtures.cloud_support_service
     else
