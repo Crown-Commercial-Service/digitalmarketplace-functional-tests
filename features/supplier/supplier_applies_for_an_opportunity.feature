@@ -118,18 +118,18 @@ Scenario: Supplier applies for a digital-specialists brief
   When I enter 'marcus.tertius.moses@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                               |
       | Day rate            | £200                                |
       | Earliest start date | 27/12/17                            |
       | Email address       | marcus.tertius.moses@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field       | value           |
       | Boil kettle | first evidence  |
       | Taste tea   | second evidence |
       | Wash mug    | third evidence  |
       | Dry mug     | fourth evidence |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                               | value |
       | Talk snobbishly about water quality | First nice to have evidence  |
       | Sip quietly                         | Second nice to have evidence |
@@ -247,15 +247,15 @@ Scenario: Supplier applies for a digital-outcomes brief
   When I enter 'under-wild-ferns@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                           |
       | Earliest start date | 09/09/17                        |
       | Email address       | under-wild-ferns@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field                 | value                  |
       | Understand the rules. | I know all the rules   |
       | Hide dead good.       | I know the best hiding |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                                          | value                           |
       | Be invisible.                                  | You can see right through them. |
       | Be able to count to 100 really really quickly. |                                 |
@@ -364,16 +364,16 @@ Scenario: Supplier applies for a user-research-participants brief
   When I enter 'throwaway@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                    |
       | Earliest start date | 09/09/17                 |
       | Email address       | throwaway@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field                              | value                                   |
       | The horses must have four hooves   | They have the correct number of hooves. |
       | The horses must have lovely coats  | So shiny...                             |
       | The horses must be many hands tall | All at least 50                         |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                              | value                |
       | Liking sugar lumps                 |                      |
       | Being good at jumping over fences  | No jump is too high. |
@@ -569,18 +569,18 @@ Scenario: Supplier changes their answers before submission
   When I enter 'moustachecup@example.gov.uk' in the 'respondToEmailAddress' field
   And I click 'Save and continue'
   Then I am on the 'Check and submit your answers' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                       |
       | Day rate            | £100                        |
       | Earliest start date | 2017-12-28                  |
       | Email address       | moustachecup@example.gov.uk |
-  And I see the 'Your essential skills and experience' summary table filled with:
+  And I see the 'Your essential skills and experience' table filled with:
       | field       | value            |
       | Boil kettle | Flick the switch |
       | Taste tea   | Drink the tea    |
       | Wash mug    | Use soap         |
       | Dry mug     | fourth evidence  |
-  And I see the 'Your nice-to-have skills and experience' summary table filled with:
+  And I see the 'Your nice-to-have skills and experience' table filled with:
       | field                               | value |
       | Talk snobbishly about water quality | First nice to have evidence |
       | Sip quietly                         |                             |
@@ -700,7 +700,7 @@ Scenario: Supplier changes their answers after submission
 
   When I click the 'Tea drinker' link
   Then I am on the 'Your application for ‘Tea drinker’' page
-  When I click the summary table 'Edit' link for 'Day rate'
+  When I click the summary list 'Edit' link for 'Day rate'
 
   Then I am on the 'What’s the specialist’s day rate?' page
   And I see '£200' replayed in the question advice
@@ -709,7 +709,7 @@ Scenario: Supplier changes their answers after submission
   When I enter '100' in the 'dayRate' field
   And I click 'Save and continue'
   Then I am on the 'Your application for ‘Tea drinker’' page
-  And I see the 'Your details' summary table filled with:
+  And I see the 'Your details' summary list filled with:
       | field               | value                |
       | Day rate            | £100                 |
 
