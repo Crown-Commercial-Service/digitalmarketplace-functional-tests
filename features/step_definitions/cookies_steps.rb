@@ -39,10 +39,10 @@ And(/^a tracking pageview (has been|has not been) fired(?: with (.+@.+) redacted
       expect(google_analytics_request_with_param('[email]')).not_to be_nil
       expect(google_analytics_request_with_param(email)).to be_nil
     else
-      expect(google_analytics_requests).not_to be_empty
+      expect(google_analytics_request_with_param('t=pageview')).not_to be_nil
     end
   else
-    # Should be no requests sent to the GA domain
-    expect(google_analytics_requests).to be_empty
+    # Should be no track pageview requests sent to the GA domain
+    expect(google_analytics_request_with_param('t=pageview')).to be_nil
   end
 end
