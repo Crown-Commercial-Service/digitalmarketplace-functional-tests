@@ -131,7 +131,6 @@ Scenario: User confirms understanding how to assess services
   And I see the 'Award a contract' instruction list item status showing as 'Cannot start yet'
   When I click the 'Confirm you have read and understood how to assess services' button
   Then I am on the 'my cloud project' page
-  And I see a success flash message containing 'You’ve confirmed that you have read and understood how to assess services.'
   And I see the 'Start assessing services' instruction list item status showing as 'Completed'
 
 Scenario: User awards contract
