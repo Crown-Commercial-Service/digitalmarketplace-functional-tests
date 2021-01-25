@@ -1,4 +1,4 @@
-@supplier @supplier-creation
+@smoulder-tests @supplier @supplier-creation
 Feature: User steps through supplier account creation process
 
 Background:
