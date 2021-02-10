@@ -11,7 +11,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   Then I am on the 'Your company details' page
   And I don't see the 'Save and confirm' button
 
-  When I click the summary list 'Change' link for 'Contact name'
+  When I click the summary list 'Edit' link for 'Contact name'
   And I enter 'New name' in the 'Contact name' field
   And I enter 'new-email@example.com' in the 'Contact email address' field
   And I enter '12345678' in the 'Contact phone number' field
@@ -28,7 +28,7 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   Then I am on the 'Registered company name' page
   And I enter 'Toys "ᴙ" Us' in the 'Registered company name' field and click its associated 'Save and return' button
 
-  Then I click the summary list 'Change' link for 'Registered company address'
+  Then I click the summary list 'Edit' link for 'Registered company address'
   And I am on the 'What is your registered office address?' page
   And I enter '101 Toys Street' in the 'Building and street' field
   And I enter 'Toytown' in the 'Town or city' field
@@ -65,34 +65,34 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   # This button should only appear once all details are filled in.
   And I see the 'Save and confirm' button
 
-  When I click the summary list 'Change' link for 'Registered company name'
+  When I click the summary list 'Edit' link for 'Registered company name'
   Then I am on the 'Registered company name' page
   And I enter 'Toys "ᴙ" Not Us' in the 'Registered company name' field and click its associated 'Save and return' button
 
-  Then I click the summary list 'Change' link for 'Registered company address'
+  Then I click the summary list 'Edit' link for 'Registered company address'
   And I am on the 'What is your registered office address?' page
   And I enter '101 Liquidation Street' in the 'Building and street' field
   And I enter 'Shutdown' in the 'Town or city' field
   And I enter 'N0 TOY' in the 'Postcode' field
   And I enter 'France' in the 'location-autocomplete' field and click its associated 'Save and return' button
 
-  Then I click the summary list 'Change' link for 'Registration number'
+  Then I click the summary list 'Edit' link for 'Registration number'
   And I am on the 'Are you registered with Companies House?' page
   And I choose 'Yes' radio button
   And I enter '18092232' in the 'companies_house_number' field and click its associated 'Save and return' button
 
-  Then I click the summary list 'Change' link for 'Trading status'
+  Then I click the summary list 'Edit' link for 'Trading status'
   And I am on the 'What’s your trading status?' page
   And I choose 'other' radio button
   And I click 'Save and return'
 
-  Then I click the summary list 'Change' link for 'Company size'
+  Then I click the summary list 'Edit' link for 'Company size'
   And I am on the 'What size is your organisation?' page
   And I choose 'Micro' radio button
   And I click 'Save and return'
 
   # Duns number is never editable
-  Then I click the summary list 'Change' link for 'DUNS number'
+  Then I click the summary list 'Edit' link for 'DUNS number'
   And I am on the 'Correct a mistake in your DUNS number' page
   And I see 'Contact cloud_digital@crowncommercial.gov.uk to correct a mistake in your:' text on the pages
   And I don't see the 'Save and continue' button
@@ -117,38 +117,38 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I don't see the 'Save and confirm' button
 
   # Certain fields can't be changed after supplier details have been confirmed
-  When I click the summary list 'Change' link for 'Registered company name'
+  When I click the summary list 'Edit' link for 'Registered company name'
   Then I am on the 'Correct a mistake in your registered company name' page
   And I see 'You must create a new supplier account using a different login email address if you want to change your registered company name.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
-  Then I click the summary list 'Change' link for 'Registration number'
+  Then I click the summary list 'Edit' link for 'Registration number'
   Then I am on the 'Correct a mistake in your registration number' page
   And I see 'You must create a new supplier account using a different login email address if you want to change your registration number.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
-  Then I click the summary list 'Change' link for 'DUNS number'
+  Then I click the summary list 'Edit' link for 'DUNS number'
   Then I am on the 'Correct a mistake in your DUNS number' page
   And I see 'You must create a new supplier account using a different login email address if you want to change your DUNS number.' text on the pages
   And I don't see the 'Save and continue' button
   Then I click the 'Return to company details' link
 
   # Other fields can still be changed after supplier details have been confirmed
-  Then I click the summary list 'Change' link for 'Registered company address'
+  Then I click the summary list 'Edit' link for 'Registered company address'
   And I am on the 'What is your registered office address?' page
   And I enter '188-196 Regent Street' in the 'Building and street' field
   And I enter 'London' in the 'Town or city' field
   And I enter 'W1B 5BT' in the 'Postcode' field
   And I enter 'United Kingdom' in the 'location-autocomplete' field and click its associated 'Save and return' button
 
-  Then I click the summary list 'Change' link for 'Trading status'
+  Then I click the summary list 'Edit' link for 'Trading status'
   And I am on the 'What’s your trading status?' page
   And I choose 'public limited company (PLC)' radio button
   And I click 'Save and return'
 
-  Then I click the summary list 'Change' link for 'Company size'
+  Then I click the summary list 'Edit' link for 'Company size'
   And I am on the 'What size is your organisation?' page
   And I choose 'Large' radio button
   And I click 'Save and return'
