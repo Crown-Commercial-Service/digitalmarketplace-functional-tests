@@ -473,41 +473,30 @@ def create_user(user_role, custom_user_data = {})
   @user
 end
 
-def get_or_create_supplier(custom_supplier_data)
-  # This method is used to search for a supplier, and if it does not exist create that supplier. It will return
-  # that supplier and also set it to the global @supplier var.
-  # The possible argument combinations for the getting of a supplier are dependent on the available end points for
-  # suppliers.
-  # Therefore this method supports:
-  # id: being the supplier_id of the supplier (and should not be used with any other args as it's a primary key)
-  # name: name prefix of the supplier. This may result in unpredictable behaviour if the provided name is not unique.
-  # Should the supplier not be found we will attempt a post create with the provided supplier data.
-  if custom_supplier_data["id"] != nil
-    response = call_api(:get, "/suppliers/#{custom_supplier_data['id']}")
-    @supplier = JSON.parse(response.body)["suppliers"]
-    return @supplier if @supplier
-  end
-  if custom_supplier_data["name"] != nil
-    response = call_api(:get, '/suppliers', params: { prefix: custom_supplier_data['name'] })
-    @supplier = JSON.parse(response.body)['suppliers'][0]
-    return @supplier if @supplier
-  end
+def get_supplier_by_name_starting_with(name_prefix)
+  response = call_api(:get, '/suppliers', params: { prefix: name_prefix })
+  JSON.parse(response.body)["suppliers"][0]
+end
+
+def get_supplier_by_registered_name(registered_name)
+  response = call_api(:get, '/suppliers', params: { name: registered_name })
+  JSON.parse(response.body)["suppliers"][0]
+end
+
+def get_or_create_supplier_with_data(name_prefix, custom_supplier_data)
+  # Get the supplier by name or registered name if it exists. This may result in unpredictable behaviour if the provided name is not unique.
+  # registered_name is optional.
+  # Create the supplier if it does not exist.
+  # In any case, ensure the supplier has the supplied data. Return the supplier.
+  supplier = get_supplier_by_name_starting_with(name_prefix)
+
   if custom_supplier_data["registeredName"] != nil
-    registered_name = custom_supplier_data["registeredName"]
-    response = call_api(:get, '/suppliers', params: { name: registered_name })
-    @supplier = JSON.parse(response.body)['suppliers'][0]
-    if not @supplier
-      # Create supplier without registeredName as this will fail validation
-      custom_supplier_data.delete('registeredName')
-      @supplier = create_supplier(custom_supplier_data)
-      # Update supplier with registeredName afterwards
-      update_supplier(@supplier['id'], registeredName: registered_name)
-    end
+    supplier ||= get_supplier_by_registered_name(custom_supplier_data["registeredName"])
   end
-  if not @supplier
-    @supplier = create_supplier(custom_supplier_data)
-  end
-  @supplier
+
+  supplier ||= create_supplier
+
+  update_supplier(supplier['id'], custom_supplier_data)
 end
 
 def get_or_create_user(custom_user_data)
