@@ -57,7 +57,8 @@ Given /^I have a supplier$/ do
 end
 
 Given /^I have a supplier with:$/ do |table|
-  @supplier = get_or_create_supplier(table.rows_hash)
+  supplier_data = table.rows_hash
+  @supplier = get_or_create_supplier_with_data(supplier_data.fetch("name"), supplier_data)
   puts "supplier id: #{@supplier['id']}"
 end
 
