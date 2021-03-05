@@ -28,7 +28,7 @@ make install
 You will have to install `phantomjs` separately:
 
 ```bash
-brew cask install phantomjs
+brew install --cask phantomjs
 ```
 
 ## Running tests
