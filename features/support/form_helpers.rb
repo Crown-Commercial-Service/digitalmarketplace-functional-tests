@@ -401,7 +401,7 @@ module FormHelper
   end
 
   def answer_all_service_questions(prompt_text)
-    while find_elements_by_xpath("//a[text()='#{prompt_text}']").length > 0
+    while find_elements_by_xpath("//a[contains(text(), '#{prompt_text}')]").length > 0
       if is_service_complete
         return
       end
@@ -450,7 +450,7 @@ module FormHelper
   end
 
   def find_and_answer_next_question(prompt_text, index = 0)
-    next_answer_question_link = find_elements_by_xpath("//a[text()='#{prompt_text}']")[index]
+    next_answer_question_link = find_elements_by_xpath("//a[contains(text(),'#{prompt_text}')]")[index]
     next_answer_question_link.click
 
     # To debug particular section, use below line instead of above lines:
