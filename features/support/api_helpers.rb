@@ -504,18 +504,11 @@ def get_or_create_user(custom_user_data)
   # also sets it to the global @user var.
   # The possible argument combinations for the getting of a user are dependent on the available end points for users.
   # Therefore this method supports:
-  # id: being the id of the user (and should not be used with any other args as it's a primary key)
   # emailAddress: email_address of the account. This can be used independently.
   # supplierId: supplier id of the user. May result in unpredictable behaviour if there is more than one user with the
   #     supplierId and an emailAddress is not specified
   # Should the user not be found we will attempt a post create with the provided user data.
   custom_user_data = custom_user_data.camelize(:lower)
-  if custom_user_data["id"] != nil
-    response = call_api(:get, "/users/#{custom_user_data['id']}")
-    @user = JSON.parse(response.body)["users"]
-    @user['password'] = ENV["DM_#{@user['role'].upcase.gsub('-', '_')}_USER_PASSWORD"]
-    return @user
-  end
   if (custom_user_data["emailAddress"] != nil) || (custom_user_data["supplierId"] != nil)
     response = call_api(
       :get,
