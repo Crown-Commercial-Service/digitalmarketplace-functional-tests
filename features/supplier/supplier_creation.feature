@@ -1,11 +1,10 @@
 @smoulder-tests @supplier @supplier-creation
 Feature: User steps through supplier account creation process
 
-Background:
-  Given There is at least one framework that can be applied to
-
 Scenario: Create new supplier account (without duns flow) - summary lists
-  Given I visit the homepage
+  Given There is at least one framework that can be applied to
+  When I visit the homepage
+
   When I click 'Become a supplier'
   Then I am on the 'Become a supplier' page
 
@@ -63,7 +62,8 @@ Scenario: Create new supplier account (without duns flow) - summary lists
   # with DUNS number 000000001 and the test will never pass again.
 
 Scenario: Create new supplier account (with duns flow) - summary lists
-  Given I visit the homepage
+  Given There is at least one framework that can be applied to
+  When I visit the homepage
   When I click 'Become a supplier'
   And I click 'Create a supplier account'
   And I click 'Start'
