@@ -16,7 +16,7 @@ Scenario: Supplier submits a framework application
   And I fill in all the missing details
   And I click 'Save and confirm'
   Then I am on the 'Apply to framework' page for that framework application
-  And I see 'Done' text on the page
+  And I see 'COMPLETED' text on the page
 
   When I click 'Make your supplier declaration'
   Then I am on the 'Make your supplier declaration' page
@@ -27,7 +27,7 @@ Scenario: Supplier submits a framework application
   When I follow the first 'Edit' link and answer all questions on that page and those following until I'm back on the 'Your declaration overview' page
   Then I click 'Make declaration' button
   And I am on the 'Apply to framework' page for that framework application
-  And I see 'Done' text on the page
+  And I see 'COMPLETED' text on the page
 
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application

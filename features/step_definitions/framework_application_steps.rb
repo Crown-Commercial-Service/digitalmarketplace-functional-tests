@@ -180,5 +180,5 @@ end
 
 Then "I have submitted services for each lot" do
   lot_count = @framework['lots'].length
-  step "I see '#{lot_count} services' text on the page"
+  step "I see '#{lot_count} SERVICES' text on the page"
 end
