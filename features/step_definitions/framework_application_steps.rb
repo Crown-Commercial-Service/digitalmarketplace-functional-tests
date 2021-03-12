@@ -13,7 +13,8 @@ Then /^I click #{MAYBE_VAR} link for that framework application$/ do |link_title
 end
 
 Then(/^I follow the first 'Edit' link and answer all questions on that page and those following until I'm (?:back )?on #{MAYBE_VAR} page$/) do |terminating_page_name|
-  edit_links = page.all(:xpath, "//p[@class='summary-item-top-level-action']/a[text()='Edit']")
+  # TODO: We can remove the first branch of xpath when we've deployed the Declaration Overview changes
+  edit_links = page.all(:xpath, "//p[@class='summary-item-top-level-action']/a[text()='Edit'] | //div[@class='dm-section-action-link']/a[contains(text(),'Edit')]")
   edit_links[0].click
   page_name = nil
   until page.all(:xpath, "//h1")[0].text == terminating_page_name
