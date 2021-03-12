@@ -460,7 +460,8 @@ module FormHelper
   end
 
   def is_there_validation_header?
-    # Remove after all frontends use the validation mastheads from the toolkit (probably safe to remove any time after July 2018)
-    find_elements_by_xpath("//h1").length > 1 || find_elements_by_xpath("//h2[@class='validation-masthead-heading']").length > 0
+    # TODO: this can be simplified once all frontends are using govuk-frontend error summary component
+    # (not gonna put a date on that)
+    find_elements_by_xpath("//h2[@class='validation-masthead-heading'] | //div[contains(@class, 'govuk-error-summary')]").length > 0
   end
 end
