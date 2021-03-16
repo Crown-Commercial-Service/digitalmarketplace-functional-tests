@@ -118,8 +118,8 @@ Scenario: DUNS Number already exists
 Scenario: DUNS Number does not exist
   Given I visit the /suppliers/create/duns-number page
   And I am on the 'Enter your DUNS number' page
-  When I enter '111111111' in the 'duns_number' field
+  When I enter '333333333' in the 'duns_number' field
   And I click 'Continue'
   Then I am on the 'Enter your DUNS number' page
   And I see a validation message containing 'DUNS number not found'
-  And I see the 'DUNS number' field prefilled with '111111111'
+  And I see the 'DUNS number' field prefilled with '333333333'
