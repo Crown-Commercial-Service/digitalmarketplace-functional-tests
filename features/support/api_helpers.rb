@@ -464,13 +464,21 @@ def create_user(user_role, custom_user_data = {})
 
   if (custom_user_data['active'] || '').casecmp("false").zero?
     # this can't be specified at creation time so we need to follow up with an update to the user
-    response = call_api(:post, "/users/#{@user['id']}", payload: { users: { 'active': false }, updated_by: 'functional_tests' })
-    expect(response.code).to eq(200), response.body
-    @user = JSON.parse(response.body)["users"]
+    @user = update_user(@user['id'], 'active': false)
   end
   @user['password'] = password
   puts "Email address: #{@user['emailAddress']}"
   @user
+end
+
+def update_user(user_id, data)
+  response = call_api(
+    :post,
+    "/users/#{user_id}",
+    payload: { updated_by: "functional tests", users: data }
+  )
+  expect(response.code).to eq(200), _error(response, "Failed to update user")
+  JSON.parse(response.body)['users']
 end
 
 def get_supplier_by_name_starting_with(name_prefix)
