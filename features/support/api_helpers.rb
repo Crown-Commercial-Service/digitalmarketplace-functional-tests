@@ -535,14 +535,11 @@ def get_or_create_user(custom_user_data)
         v == nil || @user[k] == nil || detect_boolean_strings(v) == detect_boolean_strings(@user[k])
       end.to_h
 
-      if mismatched_properties.empty?
-        return @user
+      if mismatched_properties.any?
+        @user = update_user(@user['id'], mismatched_properties)
       end
 
-      expect(custom_user_data["emailAddress"]).to(
-        be(nil),
-        "User specified by email address exists but doesn't match requested properties (#{mismatched_properties})"
-      )
+      return @user
     end
   end
 
