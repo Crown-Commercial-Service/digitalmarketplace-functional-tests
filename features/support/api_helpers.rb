@@ -507,26 +507,24 @@ def get_or_create_supplier_with_data(name_prefix, custom_supplier_data)
   update_supplier(supplier['id'], custom_supplier_data)
 end
 
+def get_user_by_email_address(email_address)
+  response = call_api(
+    :get,
+    '/users',
+    params: { email_address: email_address }
+  )
+  JSON.parse(response.body)["users"][0]
+end
+
 def get_or_create_user(custom_user_data)
-  # This method is used to search for a user, and if it does not exist create that user. It will return that user and
-  # also sets it to the global @user var.
-  # The possible argument combinations for the getting of a user are dependent on the available end points for users.
-  # Therefore this method supports:
-  # emailAddress: email_address of the account. This can be used independently.
-  # supplierId: supplier id of the user. May result in unpredictable behaviour if there is more than one user with the
-  #     supplierId and an emailAddress is not specified
-  # Should the user not be found we will attempt a post create with the provided user data.
+  # Get the user by email address if they exist. Then ensure the user has
+  # the supplied custom data.
+  # Create a new user if they do not already exist or if the caller does
+  # not provide an email address.
+  # In both cases, return the user and set the global `@user` variable.
   custom_user_data = custom_user_data.camelize(:lower)
-  if (custom_user_data["emailAddress"] != nil) || (custom_user_data["supplierId"] != nil)
-    response = call_api(
-      :get,
-      "/users",
-      params: {
-        email_address: custom_user_data['emailAddress'],
-        supplier_id: custom_user_data['supplierId']
-      }
-    )
-    @user = response.code == 200 ? JSON.parse(response.body)["users"][0] : nil
+  if custom_user_data["emailAddress"] != nil
+    @user = get_user_by_email_address(custom_user_data["emailAddress"])
 
     if @user != nil
       @user['password'] = ENV["DM_#{@user['role'].upcase.gsub('-', '_')}_USER_PASSWORD"]
