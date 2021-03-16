@@ -266,7 +266,7 @@ Then /^I see a (success|warning|destructive|temporary-message) banner message co
   begin
     banner_message = page.find(:css, ".dm-banner, .banner-#{status}-without-action", wait: false)
   rescue Capybara::ElementNotFound => e
-    banner_message = page.find(:css, ".banner-#{status}-with-action", wait: false)
+    banner_message = page.find(:css, ".dm-alert--#{status}, .banner-#{status}-with-action", wait: false)
   end
   expect(banner_message).to have_content(message)
 end
