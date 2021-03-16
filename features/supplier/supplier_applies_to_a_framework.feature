@@ -31,8 +31,11 @@ Scenario: Supplier submits a framework application
 
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
+  And I click 'Add a service'
   Then I submit a service for each lot
-  And I see '1 service will be submitted' or '1 research studio will be submitted' text on the page
+  And I click 'Back to your framework services' link for that framework application
+  Then I am on the 'Your framework services' page for that framework application
+  And I see all my services are ready for submission
   And I click 'Back to framework application' link for that framework application
 
   Then I am on the 'Apply to framework' page for that framework application
@@ -78,7 +81,10 @@ Scenario: Supplier copies a service from a previous framework
 
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
-  Then I click on the lot link for the existing service
+  And I click 'Add a service'
+  Then I am on the 'What type of service do you want to add?' page
+  And I select the lot for the existing service
+  And I click 'Save and continue'
   And I click the link to view and add services from the previous framework
   Then I am on the 'Previous lot services' page for that lot
   And I see the existing service in the copyable services table
@@ -126,7 +132,10 @@ Scenario: Supplier copies a service for a lot limited to one service from a prev
   When I click 'Add, edit and complete services'
   Then I am on the 'Your framework services' page for that framework application
   
-  When I click on the lot link for the existing service
+  And I click 'Add a service'
+  Then I am on the 'What type of service do you want to add?' page
+  And I select the lot for the existing service
+  And I click 'Save and continue'
   Then I see 'Do you want to reuse your previous' text on the page
 
   When I choose the 'Yes' radio button
@@ -136,7 +145,10 @@ Scenario: Supplier copies a service for a lot limited to one service from a prev
   When I submit a copied service
   Then I see 'was marked as complete' text on the page
 
-  When I click on the lot link for the existing service
+  And I click 'Add a service'
+  Then I am on the 'What type of service do you want to add?' page
+  And I select the lot for the existing service
+  And I click 'Save and continue'
   And I click the 'Remove draft service' button
   Then I see 'Are you sure you want to remove' text on the page
 
