@@ -31,10 +31,12 @@ Then(/^I follow the first 'Edit' link and answer all questions on that page and 
 end
 
 Then(/^I submit a service for each lot$/) do
-  lots_links = find_elements_by_xpath("//ul[@class='browse-list']//a")
-  lots_links.each_with_index do |_link, index|
-    link = find_elements_by_xpath("//ul[@class='browse-list']//a")[index]
+  lots_options = find_elements_by_xpath("//input[@type='radio']")
+
+  lots_options.each_with_index do |_option, index|
+    link = find_elements_by_xpath("//input[@type='radio']")[index]
     link.click
+    click_on 'Save and continue', wait: false
     begin
       click_on 'Add a service', wait: false
     rescue Capybara::ElementNotFound => e
@@ -50,9 +52,7 @@ Then(/^I submit a service for each lot$/) do
       first(:button, "Mark as complete").click
       click_on "Back to application", wait: false
     end
-
-    # turn on when debugging to make a screenshot when a service for a lot is submitted:
-    # page.save_screenshot("screenshot#{index}.png")
+    click_on 'Add a service', wait: false
   end
 end
 
@@ -109,10 +109,11 @@ Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? e
 end
 
 
-Then 'I click on the lot link for the existing service' do
+Then 'I select the lot for the existing service' do
   lotSlug = @existing_service['lotSlug']
-  lot_link = page.all(:xpath, "//div[@class='govuk-grid-column-two-thirds framework-lots-table']//a[contains(@href, '#{lotSlug}')]")
-  lot_link[0].click
+  page.save_screenshot("select.png")
+  lot_option = find_elements_by_xpath("//input[@type='radio' and @value='#{lotSlug}']")
+  lot_option[0].click
 end
 
 
@@ -182,4 +183,10 @@ end
 Then "I have submitted services for each lot" do
   lot_count = @framework['lots'].length
   step "I see '#{lot_count} SERVICES' text on the page"
+end
+
+Then "I see all my services are ready for submission" do
+  lot_count = @framework['lots'].length
+
+  step "I see 'Ready for submission (#{lot_count})' text on the page"
 end
