@@ -235,7 +235,9 @@ end
 
 When /^I enter #{MAYBE_VAR} in the '(.*)' field and click the selected autocomplete option?$/ do |value, field_name|
   field_element = page.find_field field_name
-  field_element.set value
+  field_element.set ''  # clear the field before typing
+  field_element.click
+  field_element.send_keys value
   # Find the sibling <ul>'s focused autocomplete <li> and click it
   focused_dropdown_item = field_element.find(:xpath, "following-sibling::ul[contains(@class, 'autocomplete__menu')]/li[contains(@class, 'autocomplete__option--focused')]")
   focused_dropdown_item.click
