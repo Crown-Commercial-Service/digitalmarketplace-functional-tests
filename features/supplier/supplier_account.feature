@@ -33,7 +33,8 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I enter '101 Toys Street' in the 'Building and street' field
   And I enter 'Toytown' in the 'Town or city' field
   And I enter 'T0 YSZ' in the 'Postcode' field
-  And I enter 'United Kingdom' in the 'location-autocomplete' field and click its associated 'Save and return' button
+  And I enter 'United Kingdom' in the 'Country' field and click the selected autocomplete option
+  And I click the 'Save and return' button
 
   Then I click the summary list 'Answer required' link for 'Registration number'
   And I am on the 'Are you registered with Companies House?' page
@@ -74,7 +75,8 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I enter '101 Liquidation Street' in the 'Building and street' field
   And I enter 'Shutdown' in the 'Town or city' field
   And I enter 'N0 TOY' in the 'Postcode' field
-  And I enter 'France' in the 'location-autocomplete' field and click its associated 'Save and return' button
+  And I enter 'France' in the 'Country' field and click the selected autocomplete option
+  And I click the 'Save and return' button
 
   Then I click the summary list 'Edit' link for 'Registration number'
   And I am on the 'Are you registered with Companies House?' page
@@ -141,7 +143,8 @@ Scenario: Supplier user can provide and change supplier details before confirmin
   And I enter '188-196 Regent Street' in the 'Building and street' field
   And I enter 'London' in the 'Town or city' field
   And I enter 'W1B 5BT' in the 'Postcode' field
-  And I enter 'United Kingdom' in the 'location-autocomplete' field and click its associated 'Save and return' button
+  And I enter 'United Kingdom' in the 'Country' field and click the selected autocomplete option
+  And I click the 'Save and return' button
 
   Then I click the summary list 'Edit' link for 'Trading status'
   And I am on the 'What’s your trading status?' page
