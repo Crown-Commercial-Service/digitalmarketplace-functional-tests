@@ -513,7 +513,7 @@ def get_user_by_email_address(email_address)
     '/users',
     params: { email_address: email_address }
   )
-  JSON.parse(response.body)["users"][0]
+  JSON.parse(response.body).dig("users", 0)
 end
 
 def get_or_create_user(custom_user_data)
