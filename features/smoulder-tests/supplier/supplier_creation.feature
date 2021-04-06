@@ -105,7 +105,7 @@ Scenario: Create new supplier account (with duns flow) - summary lists
   # We can't ever click the "Create account" button to check the final page because this will create a supplier entry
   # with DUNS number 288305220 and the test will never pass again.
 
-@requires-credentials
+@requires-credentials @direct-plus
 Scenario: DUNS Number already exists
   # Uses DUNS Number for CCS
   Given I visit the /suppliers/create/duns-number page
@@ -116,7 +116,7 @@ Scenario: DUNS Number already exists
   And I see a validation message containing 'DUNS number already used'
   And I see the 'DUNS number' field prefilled with '232204180'
 
-@requires-credentials
+@requires-credentials @direct-plus
 Scenario: DUNS Number does not exist
   Given I visit the /suppliers/create/duns-number page
   And I am on the 'Enter your DUNS number' page

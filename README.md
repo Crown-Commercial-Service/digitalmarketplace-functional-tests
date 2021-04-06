@@ -8,7 +8,7 @@ A Ruby project using:
 
 ## Bootstrapping the project on Mac
 
-This installation assumes you're using [rbenv](https://github.com/rbenv/rbenv) to 
+This installation assumes you're using [rbenv](https://github.com/rbenv/rbenv) to
 manage your Ruby versions. If you're on macOS you can use [Homebrew](brew.sh).
 
 ```bash
@@ -83,6 +83,7 @@ Tags are used to include/exclude given tests on certain environments. The follow
 |-----------------------------|-------------------------------------------------------|
 | notify                      | Tests whether an email was sent.                      |
 | mailchimp                   | Tests updating a mailing list.                        |
+| direct-plus                 | Tests the Direct+ API.                                |
 | file-upload                 | Tests uploading files.                                |
 | file-download               | Tests downloading files                               |
 | requires-credentials        | All tests which require API tokens.                   |
@@ -111,7 +112,7 @@ the `config/` directory. There is an example file `config/local.example.sh`.  Co
 different experience depending on your setup.
 
 In order to run the functional tests against local apps you will need a reverse proxy
-that serves the application through the same host / port (if you are using 
+that serves the application through the same host / port (if you are using
 [dmrunner](https://github.com/alphagov/digitalmarketplace-runner) to run
 your local environment, then this will be done for you). There is an Nginx config provided
 with a bootstrap script at `nginx/bootstrap.sh`. Once this has been run and all the
