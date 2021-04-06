@@ -1,4 +1,4 @@
-@user @lock-account
+@user @lock-account @requires-credentials @notify
 Feature: Users are locked if they enter the wrong password too many times
 
 Scenario: User has 5 failed login attempts and is locked out of their account

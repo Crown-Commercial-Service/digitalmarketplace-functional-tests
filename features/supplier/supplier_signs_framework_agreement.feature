@@ -1,4 +1,4 @@
-@supplier @supplier_account @esignature @supplier_esignature
+@supplier @supplier_account @esignature @supplier_esignature @requires-credentials @notify
 Feature: Supplier can sign an agreement electronically
 
   Background:
