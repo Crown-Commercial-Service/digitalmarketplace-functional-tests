@@ -21,7 +21,7 @@ Scenario Outline: Correct users cannot view the link to download buyer user rese
     | admin-ccs-category        |
     | admin-ccs-data-controller |
 
-@file-download
+@file-download @skip-local
 Scenario Outline: Correct users can access the page to download supplier user research participants
   Given I am logged in as the existing <role> user
   And I click the 'Download potential user research participants (suppliers)' link
