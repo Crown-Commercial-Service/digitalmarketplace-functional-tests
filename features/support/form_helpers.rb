@@ -244,7 +244,7 @@ module FormHelper
 
   def pass_text_validation
     options = {}
-    questions = find_elements_by_xpath("//input[@class='text-box-with-error']")
+    questions = find_elements_by_xpath("//input[@class='text-box-with-error' or contains(@class, 'govuk-input--error')]")
     questions.each do |question|
       if question["name"] =~ /email/i
         options[question["name"]] = "lain@company.co.uk"
