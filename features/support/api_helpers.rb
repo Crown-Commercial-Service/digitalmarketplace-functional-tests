@@ -656,7 +656,12 @@ def get_draft_service_copied_from(old_service, framework_slug)
 
   expect(response.code).to eq(200), response.body
   all_services = JSON.parse(response.body)["services"]
-  all_services.find { |s| s['copiedFromServiceId'] == old_service['id'] }
+  copied_services = all_services.reverse.find_all { |s| s['copiedFromServiceId'] == old_service['id'] }
+
+  # there should only be one, if there are more let the dev know
+  expect(copied_services.length).to eq(1), "expected draft service to be copied only once, found #{copied_services.length} copies"
+
+  copied_services[0]
 end
 
 def get_direct_award_project(user, project_name)
