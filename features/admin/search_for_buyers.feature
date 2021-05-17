@@ -14,16 +14,3 @@ Scenario Outline: Correct users can search for buyers by brief id
     | role                    |
     | admin                   |
     | admin-ccs-category      |
-
-Scenario Outline: Correct users cannot search for buyers by brief id
-  Given I am logged in as the existing <role> user
-  Then I don't see the 'Find a buyer by opportunity ID' link
-  When I visit the /admin/buyers page
-  Then I am on the 'You don’t have permission to perform this action' page
-
-  Examples:
-    | role                      |
-    | admin-framework-manager   |
-    | admin-ccs-sourcing        |
-    | admin-manager             |
-    | admin-ccs-data-controller |
