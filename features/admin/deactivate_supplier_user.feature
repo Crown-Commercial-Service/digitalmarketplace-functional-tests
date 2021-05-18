@@ -49,14 +49,3 @@ Scenario Outline: Correct users can view but not deactivate suppliers users
   Examples:
     | role                    | link-name                   |
     | admin-framework-manager | View suppliers and services |
-
-Scenario Outline: Correct users cannot view suppliers users
-  Given I am logged in as the existing <role> user
-  When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Deactivate+a+supplier's+contributor+feature page
-  Then I don't see the 'Users' link
-
-  Examples:
-    | role                      |
-    | admin-ccs-sourcing        |
-    | admin-manager             |
-    | admin-ccs-data-controller |
