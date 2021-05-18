@@ -18,15 +18,6 @@ Scenario Outline: Correct users can invite a contributors to a supplier account
     | admin                   | Edit supplier accounts or view services |
     | admin-ccs-category      | Edit suppliers and services             |
 
-Scenario Outline: Prohibited user roles cannot manage supplier users
-  Given I am logged in as the existing <role> user
-  When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
-  Then I don't see the 'Users' link
-
-  Examples:
-    | role                    |
-    | admin-ccs-sourcing      |
-    | admin-manager           |
 
 Scenario Outline: Prohibited user roles cannot invite users to a supplier
   Given I am logged in as the existing <role> user
