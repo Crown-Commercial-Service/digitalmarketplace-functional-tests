@@ -48,6 +48,9 @@ clean:
 lint: install
 	bundle exec rubocop features
 
+parse: install
+	[ -f ${CONFIG} ] && . ${CONFIG} ; bundle exec cucumber --strict --dry-run
+
 index-services:
 	$(if ${FRAMEWORK},,$(error Must specify FRAMEWORK))
 	docker run --net=host digitalmarketplace/scripts scripts/index-to-search-service.py services dev --api-token=myToken --search-api-token=myToken --index=${FRAMEWORK} --frameworks=${FRAMEWORK}
