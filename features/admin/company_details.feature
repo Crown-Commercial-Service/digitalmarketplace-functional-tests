@@ -42,6 +42,4 @@ Scenario Outline: Correct admin roles can view a supplier's details
 
   Examples:
     | role                      | link-name                               | page-title                              |
-    | admin                     | Edit supplier accounts or view services | Edit supplier accounts or view services |
-    | admin-ccs-category        | Edit suppliers and services             | Edit suppliers and services             |
-    | admin-ccs-data-controller | View and edit suppliers                 | Search for suppliers                    |
+    | admin                     | Edit supplier accounts or view services | Edit supplier accounts or view services |          |
