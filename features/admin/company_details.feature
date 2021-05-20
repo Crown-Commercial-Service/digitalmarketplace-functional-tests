@@ -42,4 +42,4 @@ Scenario Outline: Correct admin roles can view a supplier's details
 
   Examples:
     | role                      | link-name                               | page-title                              |
-    | admin                     | Edit supplier accounts or view services | Edit supplier accounts or view services |          |
+    | admin                     | Edit supplier accounts or view services | Edit supplier accounts or view services |
