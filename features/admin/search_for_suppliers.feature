@@ -2,7 +2,7 @@
 Feature: Search for suppliers by registered name, DUNS number and companies house number
 
 @search-supplier-name
-Scenario Outline: Correct users search for a supplier by registered name
+Scenario Outline: Search for a supplier by registered name
   Given I am logged in as the existing <role> user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
@@ -17,9 +17,6 @@ Scenario Outline: Correct users search for a supplier by registered name
   Examples:
     | role                      | link-name                               |
     | admin                     | Edit supplier accounts or view services |
-    | admin-ccs-category        | Edit suppliers and services             |
-    | admin-ccs-data-controller | View and edit suppliers                 |
-
 
 @search-supplier-name @with-admin-ccs-sourcing-user
   Scenario: CCS Sourcing user can search for a supplier by registered name
