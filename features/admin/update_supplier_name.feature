@@ -24,8 +24,6 @@ Scenario Outline: Correct users can edit a supplier name
   Examples:
     | role                      | link-name                               |
     | admin                     | Edit supplier accounts or view services |
-    | admin-ccs-category        | Edit suppliers and services             |
-    | admin-ccs-data-controller | View and edit suppliers                 |
 
 Scenario Outline: Admin framework manager user can view but not update the supplier name
   Given I am logged in as the existing <role> user
