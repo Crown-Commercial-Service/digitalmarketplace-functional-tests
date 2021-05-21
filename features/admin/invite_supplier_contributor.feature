@@ -16,4 +16,3 @@ Scenario Outline: Correct users can invite a contributors to a supplier account
   Examples:
     | role                    | link-text                               |
     | admin                   | Edit supplier accounts or view services |
-    | admin-ccs-category      | Edit suppliers and services             |
