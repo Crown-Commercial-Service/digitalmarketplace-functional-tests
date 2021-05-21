@@ -27,14 +27,3 @@ Scenario Outline: Prohibited user roles cannot manage supplier users
     | role                    |
     | admin-ccs-sourcing      |
     | admin-manager           |
-
-Scenario Outline: Prohibited user roles cannot invite users to a supplier
-  Given I am logged in as the existing <role> user
-  When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Invite+a+contributor+feature page
-  And I click the summary table 'Users' link for the 'DM Functional Test Supplier - Invite a contributor feature' link
-  Then I don't see the 'Send invitation' button
-
-  Examples:
-    | role                      |
-    | admin-framework-manager   |
-    | admin-ccs-data-controller |
