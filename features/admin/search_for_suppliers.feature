@@ -2,24 +2,17 @@
 Feature: Search for suppliers by registered name, DUNS number and companies house number
 
 @search-supplier-name
-Scenario Outline: Correct users search for a supplier by registered name
-  Given I am logged in as the existing <role> user
+Scenario Outline: Search for a supplier by registered name
+  Given I am logged in as the existing 'admin' user
   And I have a supplier with:
     | name           | DM Functional Test Supplier - Search supplier name feature |
     | registeredName | DM Functional Test Supplier - Search registered supplier name |
-  And I click the '<link-name>' link
+  And I click the 'Edit supplier accounts or view services' link
   And I enter 'Functional Test Supplier - Search registered' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
   Then I see an entry in the 'Suppliers' table with:
     | Name                                                       | Users | Services |
     | DM Functional Test Supplier - Search supplier name feature | Users | Services |
-
-  Examples:
-    | role                      | link-name                               |
-    | admin                     | Edit supplier accounts or view services |
-    | admin-ccs-category        | Edit suppliers and services             |
-    | admin-ccs-data-controller | View and edit suppliers                 |
-
 
 @search-supplier-name @with-admin-ccs-sourcing-user
   Scenario: CCS Sourcing user can search for a supplier by registered name
