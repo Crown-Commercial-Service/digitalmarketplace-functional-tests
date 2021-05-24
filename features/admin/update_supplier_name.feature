@@ -24,28 +24,3 @@ Scenario Outline: Correct users can edit a supplier name
   Examples:
     | role                      | link-name                               |
     | admin                     | Edit supplier accounts or view services |
-    | admin-ccs-category        | Edit suppliers and services             |
-    | admin-ccs-data-controller | View and edit suppliers                 |
-
-Scenario Outline: Admin framework manager user can view but not update the supplier name
-  Given I am logged in as the existing <role> user
-  When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Update+supplier+name+feature page
-  When I click the 'DM Functional Test Supplier - Update supplier name feature' link
-  And I am on the 'DM Functional Test Supplier - Update supplier name feature' page
-  Then I don't see the 'Edit supplier name' link
-
-  Examples:
-    | role                      |
-    | admin-framework-manager   |
-
-Scenario Outline: Correct users cannot update the supplier name
-  Given I am logged in as the existing <role> user
-  When I visit the /admin/suppliers?supplier_name=DM+Functional+Test+Supplier+-+Update+supplier+name+feature page
-  Then I don't see the 'Change name' link
-
-  Examples:
-    | role                      |
-    | admin-framework-manager   |
-    | admin-ccs-sourcing        |
-    | admin-manager             |
-    | admin-ccs-data-controller |
