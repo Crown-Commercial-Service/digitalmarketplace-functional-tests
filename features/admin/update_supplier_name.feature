@@ -2,10 +2,10 @@
 Feature: Update supplier name
 
 Scenario Outline: Correct users can edit a supplier name
-  Given I am logged in as the existing <role> user
+  Given I am logged in as the existing admin user
   And I have a supplier with:
     | name          | DM Functional Test Supplier - Update supplier name feature |
-  And I click the '<link-name>' link
+  And I click the 'Edit supplier accounts or view services' link
   And I enter 'DM Functional Test Supplier - Update supplier name feature' in the 'Find a supplier by name' field
   And I click the 'find_supplier_by_name_search' button
   And I click the 'DM Functional Test Supplier - Update supplier name feature' link
@@ -20,7 +20,3 @@ Scenario Outline: Correct users can edit a supplier name
   And I enter 'DM Functional Test Supplier - Update supplier name feature' in the 'New name' field
   And I click the 'Save' button
   Then I am on the 'DM Functional Test Supplier - Update supplier name feature' page
-
-  Examples:
-    | role                      | link-name                               |
-    | admin                     | Edit supplier accounts or view services |
