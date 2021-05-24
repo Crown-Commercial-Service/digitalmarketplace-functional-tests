@@ -14,16 +14,3 @@ Scenario Outline: Admin Manager user can log in and invite admin users
   Examples:
     | role          |
     | admin-manager |
-
-Scenario Outline: Correct users cannot access the invite admin user page
-  Given I am logged in as the existing <role> user
-  And I visit the /admin/admin-users/invite page
-  Then I am on the 'You don’t have permission to perform this action' page
-
-  Examples:
-    | role                      |
-    | admin-framework-manager   |
-    | admin-ccs-sourcing        |
-    | admin-ccs-category        |
-    | admin                     |
-    | admin-ccs-data-controller |
