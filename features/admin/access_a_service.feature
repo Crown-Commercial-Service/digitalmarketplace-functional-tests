@@ -47,15 +47,3 @@ Scenario Outline: Admins with Framework Manager and Support roles can view, but 
     | role                    | link_name                                 |
     | admin-framework-manager | View suppliers and services               |
     | admin                   | Edit supplier accounts or view services   |
-
-
-Scenario Outline: Admins with Admin Manager and Auditor roles cannot access supplier services
-  Given I am logged in as the existing <role> user
-  And I visit the /admin/search page
-  Then I don't see 'Service ID' text on the page
-
-  Examples:
-    | role                      |
-    | admin-ccs-sourcing        |
-    | admin-manager             |
-    | admin-ccs-data-controller |
