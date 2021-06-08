@@ -111,7 +111,6 @@ end
 
 Then 'I select the lot for the existing service' do
   lotSlug = @existing_service['lotSlug']
-  page.save_screenshot("select.png")
   lot_option = find_elements_by_xpath("//input[@type='radio' and @value='#{lotSlug}']")
   lot_option[0].click
 end
