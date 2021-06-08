@@ -1,4 +1,4 @@
-@smoke-tests @homepage
+@smoke-tests @homepage @skip-staging @skip-production
 Feature: Check appropriate links on homepage
 
 Scenario: User can see the main links on the homepage
