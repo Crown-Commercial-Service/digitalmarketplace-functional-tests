@@ -12,8 +12,8 @@ Scenario: Supplier is not eligible as they are not on the framework
   Given I go to that brief page
   And I click 'Apply for this opportunity'
   Then I am on the 'You can’t apply for this opportunity' page
-  And I see 'You can’t apply for this opportunity because you’re not a Digital Outcomes and Specialists 5 supplier.' text on the page
-  And I see a 'data-reason' attribute with the value 'supplier-not-on-digital-outcomes-and-specialists-5'
+  And I see 'You can’t apply for this opportunity because you’re not a Digital Outcomes and Specialists \d supplier.' regex on the page
+  And I see a 'data-reason' attribute with the value starting with 'supplier-not-on-digital-outcomes-and-specialists'
 
 Scenario: Supplier is not eligible as they are not on the digital-specialists lot
   Given that supplier has applied to be on that framework
@@ -23,7 +23,7 @@ Scenario: Supplier is not eligible as they are not on the digital-specialists lo
   And I go to that brief page
   And I click 'Apply for this opportunity'
   Then I am on the 'You can’t apply for this opportunity' page
-  And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists 5 framework.' text on the page
+  And I see 'You can’t apply for this opportunity because you didn’t say you could provide services in this category when you applied to the Digital Outcomes and Specialists \d framework.' regex on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-lot'
 
 Scenario: Supplier is not eligible as they can not provide the developer role
@@ -34,7 +34,7 @@ Scenario: Supplier is not eligible as they can not provide the developer role
   And I go to that brief page
   And I click 'Apply for this opportunity'
   Then I am on the 'You can’t apply for this opportunity' page
-  And I see 'You can’t apply for this opportunity because you didn’t say you could provide this specialist role when you applied to the Digital Outcomes and Specialists 5 framework.' text on the page
+  And I see 'You can’t apply for this opportunity because you didn’t say you could provide this specialist role when you applied to the Digital Outcomes and Specialists \d framework.' regex on the page
   And I see a 'data-reason' attribute with the value 'supplier-not-on-role'
 
 Scenario: Supplier applies for a digital-specialists brief

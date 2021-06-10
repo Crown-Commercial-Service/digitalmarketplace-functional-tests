@@ -498,8 +498,17 @@ Then /^I (don't |)see '(.*?)'(?: or '(.*)')? text on the page/ do |negative, exp
   expect(result || alternative_result).to be true
 end
 
+Then /^I (don't |)see '(.*?)' regex on the page/ do |negative, expected_text|
+  step "I #{negative}see '#{Regexp.new(expected_text)}' text on the page"
+end
+
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
   place = "//*[@#{attribute_name} = \"#{attribute_value}\"]"
+  expect(all(:xpath, place).length).to eq(1)
+end
+
+Then /^I see a '(.*)' attribute with the value starting with '(.*)'/ do |attribute_name, attribute_value|
+  place = "//*[starts-with(@#{attribute_name}, \"#{attribute_value}\")]"
   expect(all(:xpath, place).length).to eq(1)
 end
 
