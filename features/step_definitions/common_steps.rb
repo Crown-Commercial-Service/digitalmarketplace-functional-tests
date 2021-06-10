@@ -499,7 +499,9 @@ Then /^I (don't |)see '(.*?)'(?: or '(.*)')? text on the page/ do |negative, exp
 end
 
 Then /^I (don't |)see '(.*?)' regex on the page/ do |negative, expected_text|
-  step "I #{negative}see '#{Regexp.new(expected_text)}' text on the page"
+  method = negative.empty? ? :has_content? : :has_no_content?
+
+  expect(page.send(method, Regexp.new(expected_text))).to be true
 end
 
 Then /^I see a '(.*)' attribute with the value '(.*)'/ do |attribute_name, attribute_value|
