@@ -65,6 +65,7 @@ Then /^I see the details of the brief match what was published$/ do
     Given I see the 'Overview' summary list filled with:
       | field                        | value                         |
       | Specialist role              | Developer                     |
+      | Off-payroll (IR35) determination | #{@brief['employmentStatus']} |
       | Summary of the work          | #{@brief['summary']}          |
       | Latest start date            | #{DateTime.strptime(@brief['startDate'], '%Y-%m-%d').strftime('%A %-d %B %Y')} |
       | Expected contract length     |                               |
