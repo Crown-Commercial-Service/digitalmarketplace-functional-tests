@@ -188,7 +188,8 @@ module Fixtures
       title: "Tea drinker",
       workingArrangements: "Hard work",
       workplaceAddress: "London",
-      questionAndAnswerSessionDetails: "Here be Q&A details"
+      questionAndAnswerSessionDetails: "Here be Q&A details",
+      employmentStatus: "Contracted out service: the off-payroll rules do not apply"
     }
   end
 
@@ -232,7 +233,8 @@ module Fixtures
       title: "Hide and seek ninjas",
       workingArrangements: "You work.",
       workplaceAddress: "Wherever we send you",
-      questionAndAnswerSessionDetails: "Here be Q&A details"
+      questionAndAnswerSessionDetails: "Here be Q&A details",
+      employmentStatus: "Contracted out service: the off-payroll rules do not apply"
     }
   end
 
