@@ -1,6 +1,7 @@
 @public-opportunity-view
 Feature: Published requirements can be viewed by the public
 
+@skip-local @skip-preview @skip-staging
 Scenario: Public views the publish requirements. Details presented matches what was published.
   Given I have the latest live digital-outcomes-and-specialists framework
   And I have a buyer user
