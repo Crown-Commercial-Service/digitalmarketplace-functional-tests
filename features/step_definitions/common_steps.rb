@@ -346,7 +346,7 @@ When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/
 end
 
 When /I click the summary (table|list) #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |table_or_list, link_name, elem_type, field_to_edit|
-  row = page.find(table_or_list == "table" ? "td" : "dt", exact_text: field_to_edit).ancestor(table_or_list == "table" ? "tr" : "dl > *")
+  row = page.find(:xpath, "//*/#{table_or_list == 'table' ? 'td' : 'dt'}[normalize-space(.) = '#{field_to_edit}']").ancestor(table_or_list == "table" ? "tr" : "dl > *")
   case elem_type
     when 'link'
       edit_link = row.find_link(link_name)
