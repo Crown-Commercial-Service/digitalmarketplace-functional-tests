@@ -4,7 +4,7 @@ Given /^I have a randomized file containing the eicar test signature$/ do
   @file = Fixtures.eicar_test_signature + SecureRandom.base64(129)
 end
 
-When /^I upload #{MAYBE_VAR} to the documents bucket under the key #{MAYBE_VAR}$/ do |file_contents, destination_key|
+When /^I upload (#{MAYBE_VAR}) to the documents bucket under the key (#{MAYBE_VAR})$/ do |file_contents, destination_key|
   s3 = Aws::S3::Resource.new(region: 'eu-west-1')  # actual region is unimportant
   @s3_obj = s3.bucket(dm_documents_bucket_name).object(destination_key)
   @s3_obj_response = @s3_obj.put(

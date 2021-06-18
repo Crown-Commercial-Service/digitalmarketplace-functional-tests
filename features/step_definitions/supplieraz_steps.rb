@@ -37,7 +37,7 @@ Then(/^I do not see any suppliers that don't begin with that letter$/) do
   end
 end
 
-Then (/^I see that supplier in one of the pages that follow from clicking #{MAYBE_VAR}$/) do |next_link_label|
+Then (/^I see that supplier in one of the pages that follow from clicking (#{MAYBE_VAR})$/) do |next_link_label|
   i = 1
   # @TODO: Remove else clause when DM-GOVUK search pages are released
   if page.has_css?('.app-search-result')

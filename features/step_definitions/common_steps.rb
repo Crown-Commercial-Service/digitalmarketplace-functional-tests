@@ -127,7 +127,7 @@ Given /^I have a random dos brief from the API$/ do
   puts "Brief name: #{ERB::Util.h @brief['title']}"
 end
 
-When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
+When /I click (#{MAYBE_VAR}) ?(button|link)?$/ do |button_link_name, elem_type|
   if elem_type == 'button'
     page.all(:xpath, "//input[@value='#{button_link_name}'] | //input[@name='#{button_link_name}'] | //button[contains(normalize-space(text()), '#{button_link_name}')] | //button[@name='#{button_link_name}']")[0].click
   elsif elem_type == 'link'
@@ -137,7 +137,7 @@ When /I click #{MAYBE_VAR} ?(button|link)?$/ do |button_link_name, elem_type|
   end
 end
 
-When /I click a( random)? link with text( containing)? #{MAYBE_VAR}(?: in #{MAYBE_VAR})?$/ do |maybe_random, maybe_containing, link_text, element|
+When /I click a( random)? link with text( containing)? (#{MAYBE_VAR})(?: in (#{MAYBE_VAR}))?$/ do |maybe_random, maybe_containing, link_text, element|
   expect(element).not_to be_a(String), "It's not yet decided what a plain String should mean in this context"
 
   region = element || page
@@ -174,7 +174,7 @@ When /I click the (Next|Previous) Page link$/ do |next_or_previous|
   page.find(:css, "#{klass} :link").click
 end
 
-When /I (un)?check #{MAYBE_VAR} checkbox$/ do |maybe_un, checkbox_label|
+When /I (un)?check (#{MAYBE_VAR}) checkbox$/ do |maybe_un, checkbox_label|
   if maybe_un
     uncheck_checkbox(checkbox_label)
   else
@@ -182,7 +182,7 @@ When /I (un)?check #{MAYBE_VAR} checkbox$/ do |maybe_un, checkbox_label|
   end
 end
 
-When /I choose #{MAYBE_VAR} radio button(?: for the '(.*)' question)?$/ do |radio_label, question|
+When /I choose (#{MAYBE_VAR}) radio button(?: for the '(.*)' question)?$/ do |radio_label, question|
   if question
     within("fieldset", text: question) do
       choose_radio(radio_label, wait: false)
@@ -224,7 +224,7 @@ When /^I enter a random value in the '(.*)' field( and click its associated '(.*
   step "I enter '#{@fields[field_name]}' in the '#{field_name}' field#{maybe_click_statement}"
 end
 
-When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
+When /^I enter (#{MAYBE_VAR}) in the '(.*)' field( and click its associated '(.*)' button)?$/ do |value, field_name, maybe_click_statement, click_button_name|
   field_element = page.find_field field_name
   field_element.set value
   if maybe_click_statement
@@ -233,7 +233,7 @@ When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)'
   end
 end
 
-When /^I enter #{MAYBE_VAR} in the '(.*)' field and click the selected autocomplete option?$/ do |value, field_name|
+When /^I enter (#{MAYBE_VAR}) in the '(.*)' field and click the selected autocomplete option?$/ do |value, field_name|
   field_element = page.find_field field_name
   field_element.set ''  # clear the field before typing
   field_element.click
@@ -254,7 +254,7 @@ When(/^I choose a random sentence$/) do
   puts "sentence: #{@random_sentence}"
 end
 
-Then /^I see a (success|error|notice) flash message containing #{MAYBE_VAR}$/ do |type, message|
+Then /^I see a (success|error|notice) flash message containing (#{MAYBE_VAR})$/ do |type, message|
   flash_message = page.find(:css, ".dm-alert.dm-alert--#{type}, div.flash-message-container", wait: false)
   expect(flash_message).to have_content(message)
 end
@@ -264,7 +264,7 @@ Then /^I don't see a flash message$/ do
 end
 
 # the rescue is used because if a banner cannot be found the function throws an exception and does not look for the other option
-Then /^I see a (success|warning|destructive|temporary-message) banner message containing #{MAYBE_VAR}$/ do |status, message|
+Then /^I see a (success|warning|destructive|temporary-message) banner message containing (#{MAYBE_VAR})$/ do |status, message|
   begin
     banner_message = page.find(:css, ".dm-banner, .banner-#{status}-without-action", wait: false)
   rescue Capybara::ElementNotFound => e
@@ -291,7 +291,7 @@ Then /^I wait to see (?:the|a) '(.*)' link with href '(.*)'$/ do |selector_text,
   find(:xpath, "//a[substring(@href, string-length(@href) - (string-length('#{href}')) + 1) = '#{href}'][normalize-space(text()) = '#{selector_text}']", wait: dm_custom_wait_time)
 end
 
-Then /^I am on #{MAYBE_VAR} page$/ do |page_name|
+Then /^I am on (#{MAYBE_VAR}) page$/ do |page_name|
   expect(page).to have_selector('h1', text: normalize_whitespace(page_name))
 end
 
@@ -299,15 +299,15 @@ Then /^I am at the (\/.*) url$/ do |page_url|
   expect(page.current_path).to include(page_url)
 end
 
-Then /^I see #{MAYBE_VAR} in the page's (.*)$/ do |page_name_fragment, selector|
+Then /^I see (#{MAYBE_VAR}) in the page's (.*)$/ do |page_name_fragment, selector|
   expect(page.find('main').find(selector).text).to include(normalize_whitespace(page_name_fragment))
 end
 
-Then(/^I see the page's h1 ends in #{MAYBE_VAR}$/) do |term|
+Then(/^I see the page's h1 ends in (#{MAYBE_VAR})$/) do |term|
   expect(find('h1').text).to end_with(term)
 end
 
-Then /I see #{MAYBE_VAR} as the value of the '(.*)' field$/ do |value, field|
+Then /I see (#{MAYBE_VAR}) as the value of the '(.*)' field$/ do |value, field|
   if page.has_field?(field, type: 'radio', visible: :all, wait: false) || page.has_field?(field, type: 'checkbox', visible: :all, wait: false)
     expect(first_field(field, checked: true).value).to eq(value)
   else
@@ -319,7 +319,7 @@ Then /^I do not see the '(.*)' field$/ do |field_name|
   expect(page).not_to have_field(field_name)
 end
 
-Then /I see #{MAYBE_VAR} as the value of the '(.*)' JSON field$/ do |value, field|
+Then /I see (git ) as the value of the '(.*)' JSON field$/ do |value, field|
   json = JSON.parse(@response)
   expect(json).to include(field)
   expect(json[field]).to eq(value)
@@ -331,7 +331,7 @@ Then /Display the value of the '(.*)' JSON field as '(.*)'$/ do |field, name|
   puts "#{name}: #{json[field]}"
 end
 
-Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
+Then(/^I see (#{MAYBE_VAR}) as the page header context$/) do |value|
   expect(page.find(:css, "header .context, [class*='govuk-caption']")).to have_text(value)
 end
 
@@ -345,7 +345,7 @@ When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/
   edit_link.click
 end
 
-When /I click the summary (table|list) #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |table_or_list, link_name, elem_type, field_to_edit|
+When /I click the summary (table|list) (#{MAYBE_VAR}) (link|button) for (#{MAYBE_VAR})$/ do |table_or_list, link_name, elem_type, field_to_edit|
   row = page.find(:xpath, "//*/#{table_or_list == 'table' ? 'td' : 'dt'}[normalize-space(.) = '#{field_to_edit}']").ancestor(table_or_list == "table" ? "tr" : "dl > *")
   case elem_type
     when 'link'
@@ -356,7 +356,7 @@ When /I click the summary (table|list) #{MAYBE_VAR} (link|button) for #{MAYBE_VA
   edit_link.click
 end
 
-When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR} link$/ do |link_name, elem_type, field_to_edit|
+When /I click the summary table (#{MAYBE_VAR}) (link|button) for (#{MAYBE_VAR}) link$/ do |link_name, elem_type, field_to_edit|
   row = page.find_link(exact_text: field_to_edit).ancestor("tr")
   case elem_type
     when 'link'
@@ -367,7 +367,7 @@ When /I click the summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR} link
   edit_link.click
 end
 
-When /I click a summary table #{MAYBE_VAR} (link|button) for #{MAYBE_VAR}$/ do |link_name, elem_type, field_to_edit|
+When /I click a summary table (#{MAYBE_VAR}) (link|button) for (#{MAYBE_VAR})$/ do |link_name, elem_type, field_to_edit|
   rows = page.all("td", exact_text: field_to_edit)
   case elem_type
     when 'link'
@@ -418,12 +418,12 @@ Then /^I see the '(.*)'(?: summary)? (table|list) filled with:$/ do |heading, ta
   end
 end
 
-Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' (?:summary )?table$/ do |negate, content, table_heading|
+Then /^I (don't |)see (#{MAYBE_VAR}) in the '(.*)' (?:summary )?table$/ do |negate, content, table_heading|
   result_table_rows = get_table_rows_by_caption(table_heading)
   expect(result_table_rows.any? { |row| row.text.include?(content) }).to be negate.empty?
 end
 
-Then /^I (don't |)see #{MAYBE_VAR} in the '(.*)' summary list$/ do |negate, content, table_heading|
+Then /^I (don't |)see (#{MAYBE_VAR}) in the '(.*)' summary list$/ do |negate, content, table_heading|
   result_table_rows = get_summary_list_rows_by_preceding_heading(table_heading)
   expect(result_table_rows.any? { |row| row.text.include?(content) }).to be negate.empty?
 end
@@ -556,7 +556,7 @@ Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)?
   end
 end
 
-Then(/^a filter checkbox's associated aria-live region contains #{MAYBE_VAR}$/) do |value|
+Then(/^a filter checkbox's associated aria-live region contains (#{MAYBE_VAR})$/) do |value|
   expect(
     page.find_by_id(
       page.all(
@@ -574,7 +574,7 @@ Then /^I see that the page has not been reloaded/ do
   expect(page).to have_selector("body.not-reloaded")
 end
 
-When /^I see the '(.*)' field prefilled with #{MAYBE_VAR}?$/ do |field_name, value|
+When /^I see the '(.*)' field prefilled with (#{MAYBE_VAR})?$/ do |field_name, value|
   field_element = page.find_field field_name
   expect(field_element.value).to include(normalize_whitespace(value))
 end

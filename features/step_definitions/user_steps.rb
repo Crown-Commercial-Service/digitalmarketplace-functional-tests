@@ -14,7 +14,7 @@ Given /^I have (?:an|the) existing ([a-z-]+) user$/ do |user_role|
   puts "Email address: #{@user['emailAddress']}"
 end
 
-Then /^I(?: can)? log ?in as #{MAYBE_VAR}$/ do |specified_user|
+Then /^I(?: can)? log ?in as (#{MAYBE_VAR})$/ do |specified_user|
   expect(specified_user).not_to be_a(String), "It's not yet decided what a plain String should mean in this context"
 
   @loginas_user = specified_user

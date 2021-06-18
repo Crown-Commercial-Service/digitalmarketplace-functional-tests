@@ -83,7 +83,7 @@ Given /^that service has( no)? unacknowledged update audit events$/ do |negate|
   end
 end
 
-Given /^user #{MAYBE_VAR} sets the (\w+) of that service to #{MAYBE_VAR}$/ do |editor_email, field_name, new_text|
+Given /^user (#{MAYBE_VAR}) sets the (\w+) of that service to (#{MAYBE_VAR})$/ do |editor_email, field_name, new_text|
   update_service(
     @service['id'],
     { field_name => new_text },

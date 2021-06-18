@@ -2,17 +2,17 @@ When /^I start that framework application$/ do
   page.all(:xpath, "//form[contains(@action, \"" + @framework["slug"] + "\")]//input[@type='submit']")[0].click
 end
 
-Then /^I am on #{MAYBE_VAR} page for that framework application$/ do |page_title|
+Then /^I am on (#{MAYBE_VAR}) page for that framework application$/ do |page_title|
   page_title.sub! "framework", @framework['name']
   step "I am on the '#{page_title}' page"
 end
 
-Then /^I click #{MAYBE_VAR} link for that framework application$/ do |link_title|
+Then /^I click (#{MAYBE_VAR}) link for that framework application$/ do |link_title|
   link_title.sub! "framework", @framework['name']
   step "I click a link with text '#{link_title}'"
 end
 
-Then(/^I follow the first 'Edit' link and answer all questions on that page and those following until I'm (?:back )?on #{MAYBE_VAR} page$/) do |terminating_page_name|
+Then(/^I follow the first 'Edit' link and answer all questions on that page and those following until I'm (?:back )?on (#{MAYBE_VAR}) page$/) do |terminating_page_name|
   # TODO: We can remove the first branch of xpath when we've deployed the Declaration Overview changes
   edit_links = page.all(:xpath, "//p[@class='summary-item-top-level-action']/a[text()='Edit'] | //div[@class='dm-section-action-link']/a[contains(text(),'Edit')]")
   edit_links[0].click
@@ -83,7 +83,7 @@ Given /^that supplier has not begun the declaration for that application$/ do
   set_supplier_framework_prefill_declaration(@supplier['id'], @framework['slug'], nil)
 end
 
-Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? email regarding that question for #{MAYBE_VAR}$/ do |negate, question_type, maybe_confirmation, target_address|
+Then /^I( don't)? receive a (follow-up|clarification) question( confirmation)? email regarding that question for (#{MAYBE_VAR})$/ do |negate, question_type, maybe_confirmation, target_address|
   ref_prefix = (
     case question_type
     when 'follow-up'
@@ -130,7 +130,7 @@ When 'I ensure I am on the services page' do
   end
 end
 
-Then /^I am on #{MAYBE_VAR} page for that lot$/ do |page_title|
+Then /^I am on (#{MAYBE_VAR}) page for that lot$/ do |page_title|
   page_title.sub! "lot", @existing_service['lotName'].downcase
   step "I am on the '#{page_title}' page"
 end

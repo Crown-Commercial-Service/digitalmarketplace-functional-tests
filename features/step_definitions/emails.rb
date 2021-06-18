@@ -24,7 +24,7 @@ module DMNotify
   end
 end
 
-Then /^I( don't)? receive a(?:n)? '([a-z-]+)' email for #{MAYBE_VAR}/ do |negate, message_type, email_address|
+Then /^I( don't)? receive a(?:n)? '([a-z-]+)' email for (#{MAYBE_VAR})/ do |negate, message_type, email_address|
   messages = DMNotify.get_email(message_type, email_address)
   if negate
     expect(messages.collection.length).to be(0)

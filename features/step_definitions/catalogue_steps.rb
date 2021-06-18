@@ -1,9 +1,9 @@
-When /^I search for #{MAYBE_VAR} using the search box$/ do |query|
+When /^I search for (#{MAYBE_VAR}) using the search box$/ do |query|
   page.fill_in "q", with: query
   page.click_button("Search")
 end
 
-When /^I see #{MAYBE_VAR} as the search query in the search box$/ do |query|
+When /^I see (#{MAYBE_VAR}) as the search query in the search box$/ do |query|
   expect(page.find_field("q").value).to eq(query)
 end
 
@@ -31,7 +31,7 @@ Then (/^I (don't )?see a search result$/) do |negate|
   end
 end
 
-Then (/^I continue clicking #{MAYBE_VAR} until I see that service in the search results$/) do |next_link_label|
+Then (/^I continue clicking (#{MAYBE_VAR}) until I see that service in the search results$/) do |next_link_label|
   i = 1
   until (search_results = CatalogueHelpers.get_service_search_results(page, @service)).length != 0
     # ^^^ note embedded assignment here ^^^
@@ -46,7 +46,7 @@ Then (/^I continue clicking #{MAYBE_VAR} until I see that service in the search 
   puts "Found service on page #{i}"
 end
 
-Then(/^I see #{MAYBE_VAR} in the search summary text$/) do |value|
+Then(/^I see (#{MAYBE_VAR}) in the search summary text$/) do |value|
   expect(find(:css, ".app-search-summary, .search-summary").text).to include(normalize_whitespace(value))
 end
 
@@ -139,7 +139,7 @@ Then(/^I am taken to page (\d+) of results$/) do |page_number|
   end
 end
 
-When(/^I visit(?: the)? page number(?: of)? #{MAYBE_VAR}/) do |page_number|
+When(/^I visit(?: the)? page number(?: of)? (#{MAYBE_VAR})/) do |page_number|
   current_url_uri = URI(current_url)
   query_hash = Hash[URI::decode_www_form(current_url_uri.query || "")]
   query_hash["page"] = page_number
