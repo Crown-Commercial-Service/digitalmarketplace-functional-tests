@@ -31,7 +31,7 @@ Given /^I am logged in as the buyer of a closed brief with responses$/ do
   submitted_brief_responses = iter_brief_responses('submitted', 'closed')
   submitted_brief_responses.each do |brief_response|
     @brief = get_brief(brief_response['brief']['id'])
-    @buyer_user = (@brief['users'].select { |u| u["active"] && !u["locked"] })[0]
+    @buyer_user = (@brief['users'].find { |u| u["active"] && !u["locked"] })
     break if @buyer_user
   end
   raise "could not find an active user for a closed #{framework} brief with responses" if not @buyer_user
