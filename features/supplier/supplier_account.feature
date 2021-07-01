@@ -53,12 +53,12 @@ Scenario: Supplier user can provide and change supplier details before confirmin
 
   # Not checking DUNS number here, as the value is random
   Then I see the 'Company details for your framework applications' summary list filled with:
-    | field                     |  value                                        |
-    | Registered company name   | Toys "ᴙ" Us                                   |
-    | Registered company address| 101 Toys Street Toytown T0 YSZ United Kingdom |
-    | Registration number       | 18092231                                      |
-    | Trading status            | Limited company (LTD)                         |
-    | Company size              | Large                                         |
+    | field                     |  value                                           |
+    | Registered company name   | Toys "ᴙ" Us                                      |
+    | Registered company address| 101 Toys Street\nToytown\nT0 YSZ\nUnited Kingdom |
+    | Registration number       | 18092231                                         |
+    | Trading status            | Limited company (LTD)                            |
+    | Company size              | Large                                            |
 
   # Can pull the dunsNumber from the supplier and use it with this step
   And I see 'that supplier.dunsNumber' text on the page
@@ -159,12 +159,12 @@ Scenario: Supplier user can provide and change supplier details before confirmin
 
   # Not checking DUNS number here, as the value is random
   Then I see the 'Company details for your framework applications' summary list filled with:
-    | field                     |  value                                                |
-    | Registered company name   | Toys "ᴙ" Not Us                                       |
-    | Registered company address| 188-196 Regent Street London W1B 5BT United Kingdom   |
-    | Registration number       | 18092232                                              |
-    | Trading status            | Public limited company (PLC)                          |
-    | Company size              | Large                                                 |
+    | field                     |  value                                                 |
+    | Registered company name   | Toys "ᴙ" Not Us                                        |
+    | Registered company address| 188-196 Regent Street\nLondon\nW1B 5BT\nUnited Kingdom |
+    | Registration number       | 18092232                                               |
+    | Trading status            | Public limited company (PLC)                           |
+    | Company size              | Large                                                  |
 
   # Can pull the dunsNumber from the supplier and use it with this step
   And I see 'that supplier.dunsNumber' text on the page
