@@ -150,7 +150,7 @@ When "I answer all summary questions" do
   }
 end
 
-Then "I see '$expected_text' text in the desktop preview panel" do |expected_text|
+Then /I see '(.*)' text in the desktop preview panel/ do |expected_text|
   within_frame(0) do
     expect(page).to have_content expected_text
   end
