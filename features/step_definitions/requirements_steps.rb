@@ -101,7 +101,7 @@ When "I answer all summary questions with:" do |table|
     end
   end
 
-  is_summary_table = page.first('tr.summary-item-row')
+  is_summary_table = page.first('tr.summary-item-row', minimum: 0)
 
   # Hack to make it work with both cases until we remove summary table
   if is_summary_table
