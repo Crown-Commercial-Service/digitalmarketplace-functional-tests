@@ -11,16 +11,33 @@ end
 # Based on http://jbusser.github.io/2014/11/01/integration-testing-google-analytics-with-capybara-and-rspec.html
 
 def inline_http_requests
-  page.driver.network_traffic.map do |traffic|
-    # Return all HTTP requests made by Poltergeist
-    URI.parse traffic.url
+
+    if ENV['CHROME']
+      # Chrome does not support network_traffic, instead we can extract this from the performance logs
+      logs = page.driver.browser.manage.logs.get(:performance)
+      messages_array = logs.each_with_object([]) do |entry, messages|
+        message = JSON.parse(entry.message)
+        messages << message
+      end
+      messages_array.select {|l| l.dig('message', 'params', 'headers')}
+    else
+      page.driver.network_traffic.map do |traffic|
+      # Return all HTTP requests made by Poltergeist
+      URI.parse traffic.url
+    end
   end
 end
 
 def google_analytics_requests
-  inline_http_requests.select do |request|
-    # Return all requests matching this host
-    request.host == 'www.google-analytics.com'
+    if ENV['CHROME']
+      requests = inline_http_requests
+      # Return all requests matching this host
+      requests.select {|l| l.dig('message', 'params', 'headers', ":authority") == 'www.google-analytics.com'}
+    else
+      inline_http_requests.select do |request|
+      # Return all requests matching this host
+      request.host == 'www.google-analytics.com'
+    end
   end
 end
 
