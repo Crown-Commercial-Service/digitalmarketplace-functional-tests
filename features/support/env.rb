@@ -32,11 +32,7 @@ if (ENV['BROWSER'] == 'true')
     http_client.timeout = 180
     Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
       "goog:loggingPrefs" => {
-        browser: "ALL",
-        client: "ALL",
-        driver: "ALL",
-        server: "ALL",
-        performance: "ALL"  
+        performance: "ALL"
       }
     )
   )

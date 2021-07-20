@@ -19,7 +19,7 @@ def inline_http_requests
         message = JSON.parse(entry.message)
         messages << message
       end
-      messages_array.select {|l| l.dig('message', 'params', 'headers')}
+      messages_array.map {|l| l.dig('message', 'params', 'headers')}.compact
     else
       page.driver.network_traffic.map do |traffic|
       # Return all HTTP requests made by Poltergeist
@@ -30,9 +30,7 @@ end
 
 def google_analytics_requests
     if ENV['CHROME']
-      requests = inline_http_requests
-      # Return all requests matching this host
-      requests.select {|l| l.dig('message', 'params', 'headers', ":authority") == 'www.google-analytics.com'}
+      inline_http_requests.select {|l| l.dig(":authority") == 'www.google-analytics.com'}
     else
       inline_http_requests.select do |request|
       # Return all requests matching this host
@@ -42,10 +40,15 @@ def google_analytics_requests
 end
 
 def google_analytics_request_with_param(param)
-  google_analytics_requests.detect do |request|
+  if ENV['CHROME']
+    collect_requests = google_analytics_requests{|r|  r[':path'].include? '/collect'}
+    collect_requests.find{|cq| cq[':path'].match param}
+  else
+    google_analytics_requests.detect do |request|
     # We're only interested in analytics requests with `/collect/` in the path
-    if request.path.match 'collect'
-      request.query.match param unless request.query.nil?
+      if request.path.match 'collect'
+        request.query.match param unless request.query.nil?
+      end
     end
   end
 end
