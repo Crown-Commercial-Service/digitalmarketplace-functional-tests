@@ -154,7 +154,7 @@ roles, remember to also set the corrent `AWS_PROFILE`.
 
 `make lint` runs the Rubocop linter on any Ruby files within the features directory before running the tests.
 
-Rubocop is also run by Travis CI as a check on a GitHub Pull Request before merging.
+Rubocop is also run by Github Actions as a check on a GitHub Pull Request before merging.
 
 To automagically correct any changes the linter suggests run `bundle exec rubocop features -a`.
 
