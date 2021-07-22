@@ -3,7 +3,6 @@ require 'securerandom'
 require 'uri'
 
 Given /^I (?:re-?)?visit the homepage$/ do
-  @timestamp = Time.now.to_i
   page.visit("#{dm_frontend_domain}")
   expect(page).to have_content("Digital Marketplace")
 end

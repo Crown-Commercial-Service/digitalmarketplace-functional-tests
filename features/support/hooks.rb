@@ -10,6 +10,8 @@ Before('@cookie-settings') do
   # We need to visit the domain before we can delete its cookies.
   # TODO remove once using Capybara 3.9.0+
   page.visit("#{dm_frontend_domain}")
+
+  @timestamp = Time.now.to_i
 end
 
 Before do
