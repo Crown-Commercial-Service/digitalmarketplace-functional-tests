@@ -15,11 +15,16 @@ def inline_http_requests
     if ENV['CHROME']
       # Chrome does not support network_traffic, instead we can extract this from the performance logs
       logs = page.driver.browser.manage.logs.get(:performance)
+      # Store messages in a structure which is easier to work with
       messages_array = logs.each_with_object([]) do |entry, messages|
         message = JSON.parse(entry.message)
+        timestamp = entry.timestamp
         messages << message
+        message.store(:timestamp, timestamp)
       end
-      messages_array.map {|l| l.dig('message', 'params', 'headers')}.compact
+      # Filter to only messages after test has started and requests with headers
+      messages_after_test_start = messages_array.select{|m| m[:timestamp] > @timestamp}
+      messages_after_test_start.map {|l| l.dig('message', 'params', 'headers')}.compact
     else
       page.driver.network_traffic.map do |traffic|
       # Return all HTTP requests made by Poltergeist
