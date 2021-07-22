@@ -17,9 +17,16 @@ if (ENV['BROWSER'] == 'true')
     if (ENV['CHROME'] == 'true')
       browser = :chrome
       browser_options = Selenium::WebDriver::Chrome::Options.new
+      browser_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+        "goog:loggingPrefs" => {
+          performance: "ALL"
+        }
+      )
+
     else
       browser = :firefox
       browser_options = Selenium::WebDriver::Firefox::Options.new
+      browser_capabilities = nil
     end
 
     if (ENV['HEADLESS'] == 'true')
@@ -28,7 +35,8 @@ if (ENV['BROWSER'] == 'true')
 
     http_client = Selenium::WebDriver::Remote::Http::Default.new
     http_client.timeout = 180
-    Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options)
+    Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: browser_capabilities
+  )
   end
 else
   Capybara.default_driver = :poltergeist
