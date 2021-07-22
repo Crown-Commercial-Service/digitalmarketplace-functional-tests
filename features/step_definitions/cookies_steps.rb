@@ -10,8 +10,12 @@ end
 
 # Based on http://jbusser.github.io/2014/11/01/integration-testing-google-analytics-with-capybara-and-rspec.html
 
+def is_chrome
+  ENV['CHROME']
+end
+
 def inline_http_requests
-  if ENV['CHROME']
+  if is_chrome
     # Chrome does not support network_traffic, instead we can extract this from the performance logs
     logs = page.driver.browser.manage.logs.get(:performance)
     # Store messages in a structure which is easier to work with
@@ -33,7 +37,7 @@ def inline_http_requests
 end
 
 def google_analytics_requests
-  if ENV['CHROME']
+  if is_chrome
     inline_http_requests.select { |l| l.dig(":authority") == 'www.google-analytics.com' }
   else
     inline_http_requests.select do |request|
@@ -44,7 +48,7 @@ def google_analytics_requests
 end
 
 def google_analytics_request_with_param(param)
-  if ENV['CHROME']
+  if is_chrome
     collect_requests = google_analytics_requests { |r|  r[':path'].include? '/collect' }
     collect_requests.find { |cq| cq[':path'].match param }
   else
