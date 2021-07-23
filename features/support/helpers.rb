@@ -240,3 +240,30 @@ def get_summary_list_rows_by_preceding_heading(heading)
   # some lists have a preceding paragraph
   page.all(:xpath, heading_xpath + dl_rows_xpath).any? ? page.all(:xpath, heading_xpath + dl_rows_xpath) : page.all(:xpath, heading_xpath + paragraph_xpath + dl_rows_xpath)
 end
+
+def is_chrome
+  ENV['CHROME']
+end
+
+def convert_log(log)
+  message = JSON.parse(log.message)
+  message.store(:timestamp, log.timestamp)
+  message
+end
+
+def inline_http_requests
+  if is_chrome
+    # Chrome does not support network_traffic, instead we can extract this from the performance logs
+    logs = page.driver.browser.manage.logs.get(:performance)
+    # Store messages in a structure which is easier to work with
+    messages_array = logs.map { |l| convert_log(l) }
+    # Filter to only messages after test has started and requests with headers
+    messages_after_test_start = messages_array.select { |m| m[:timestamp] > @timestamp }
+    messages_after_test_start.map { |l| l.dig('message', 'params', 'headers') }.compact
+  else
+    page.driver.network_traffic.map do |traffic|
+    # Return all HTTP requests made by Poltergeist
+      URI.parse traffic.url
+    end
+  end
+end
