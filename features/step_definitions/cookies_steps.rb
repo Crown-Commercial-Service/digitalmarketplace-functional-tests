@@ -1,4 +1,3 @@
-require_relative '../support/helpers.rb'
 Then(/^I (see|do not see) a '_ga' tracking ID query parameter on the URL$/) do |can_see_ga|
   current_url_uri = URI(current_url)
   query_hash = Hash[URI::decode_www_form(current_url_uri.query || "")]

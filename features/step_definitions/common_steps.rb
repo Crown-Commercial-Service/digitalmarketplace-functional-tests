@@ -1,7 +1,6 @@
 require 'date'
 require 'securerandom'
 require 'uri'
-require_relative '../support/helpers.rb'
 
 Given /^I (?:re-?)?visit the homepage$/ do
   page.visit("#{dm_frontend_domain}")
