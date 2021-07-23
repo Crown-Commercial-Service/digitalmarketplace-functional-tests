@@ -14,6 +14,11 @@ Before('@cookie-settings') do
   @timestamp = Time.now.to_i
 end
 
+Before('@file-download') do
+  # Set timestamp to use Chrome performance API
+  @timestamp = Time.now.to_i
+end
+
 Before do
   Capybara.reset_sessions!
 end

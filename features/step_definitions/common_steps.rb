@@ -543,9 +543,14 @@ Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)?
   else
     target_window = current_window
   end
-
-  within_window(target_window) do
-    disposition_parts = page.response_headers['Content-Disposition'].split(";")
+  if ENV['CHROME']
+    require_relative 'cookies_steps.rb'
+    requests = inline_http_requests
+    disposition_parts = requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
+  else
+    within_window(target_window) do
+      disposition_parts = page.response_headers['Content-Disposition'].split(";")
+    end
     expect(disposition_parts[0]).to eq(case download_inline when "download" then "attachment" else download_inline end)
     if ending
       expect(disposition_parts[1]).to match("^\s*filename=.*#{Regexp.escape(ending)}['\"]?\s*$")
