@@ -1,6 +1,7 @@
 require 'date'
 require 'securerandom'
 require 'uri'
+require_relative '../support/helpers.rb'
 
 Given /^I (?:re-?)?visit the homepage$/ do
   page.visit("#{dm_frontend_domain}")
@@ -543,10 +544,8 @@ Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)?
   else
     target_window = current_window
   end
-  if ENV['CHROME']
-    require_relative 'cookies_steps.rb'
-    requests = inline_http_requests
-    disposition_parts = requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
+  if is_chrome
+    disposition_parts = inline_http_requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
   else
     within_window(target_window) do
       disposition_parts = page.response_headers['Content-Disposition'].split(";")

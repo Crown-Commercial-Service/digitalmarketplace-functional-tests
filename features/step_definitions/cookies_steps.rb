@@ -1,3 +1,4 @@
+require_relative '../support/helpers.rb'
 Then(/^I (see|do not see) a '_ga' tracking ID query parameter on the URL$/) do |can_see_ga|
   current_url_uri = URI(current_url)
   query_hash = Hash[URI::decode_www_form(current_url_uri.query || "")]
@@ -9,32 +10,6 @@ Then(/^I (see|do not see) a '_ga' tracking ID query parameter on the URL$/) do |
 end
 
 # Based on http://jbusser.github.io/2014/11/01/integration-testing-google-analytics-with-capybara-and-rspec.html
-
-def is_chrome
-  ENV['CHROME']
-end
-
-def inline_http_requests
-  if is_chrome
-    # Chrome does not support network_traffic, instead we can extract this from the performance logs
-    logs = page.driver.browser.manage.logs.get(:performance)
-    # Store messages in a structure which is easier to work with
-    messages_array = logs.each_with_object([]) do |entry, messages|
-      message = JSON.parse(entry.message)
-      timestamp = entry.timestamp
-      messages << message
-      message.store(:timestamp, timestamp)
-    end
-    # Filter to only messages after test has started and requests with headers
-    messages_after_test_start = messages_array.select { |m| m[:timestamp] > @timestamp }
-    messages_after_test_start.map { |l| l.dig('message', 'params', 'headers') }.compact
-  else
-    page.driver.network_traffic.map do |traffic|
-    # Return all HTTP requests made by Poltergeist
-      URI.parse traffic.url
-    end
-  end
-end
 
 def google_analytics_requests
   if is_chrome
