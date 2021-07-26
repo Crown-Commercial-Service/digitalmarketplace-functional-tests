@@ -233,6 +233,12 @@ When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)'
   end
 end
 
+When /^I enter #{MAYBE_VAR} in the '(.*)' field and press the '(.*)' key?$/ do |value, field_name, key_name|
+  field_element = page.find_field field_name
+  field_element.set value
+  field_element.send_keys(key_name.to_sym)
+end
+
 When /^I enter #{MAYBE_VAR} in the '(.*)' field and click the selected autocomplete option?$/ do |value, field_name|
   field_element = page.find_field field_name
   field_element.click
