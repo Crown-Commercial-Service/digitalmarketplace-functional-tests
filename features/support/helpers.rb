@@ -251,6 +251,13 @@ def convert_log(log)
   message
 end
 
+def slow_type(element, text, delay = 0.01)
+  text.chars.each { |c|
+    element.send_keys(c)
+    sleep(delay)
+  }
+end
+
 def inline_http_requests
   if is_chrome
     # Chrome does not support network_traffic, instead we can extract this from the performance logs
