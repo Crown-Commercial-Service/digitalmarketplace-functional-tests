@@ -18,7 +18,9 @@ if (ENV['BROWSER'] == 'true')
       browser = :chrome
       browser_options = Selenium::WebDriver::Chrome::Options.new
       browser_options.add_preference(:download,
-                                     prompt_for_download: false)
+                                     prompt_for_download: false,
+                                     default_directory: '/tmp')
+      browser_options.add_argument('window-size=1400,1400')
       browser_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
         "goog:loggingPrefs" => {
           performance: "ALL"
