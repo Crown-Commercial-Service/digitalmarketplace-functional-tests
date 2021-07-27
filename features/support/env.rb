@@ -15,6 +15,7 @@ if (ENV['BROWSER'] == 'true')
 
   Capybara.register_driver :selenium do |app|
     if (ENV['CHROME'] == 'true')
+      require 'webdrivers/chromedriver'
       browser = :chrome
       browser_options = Selenium::WebDriver::Chrome::Options.new
       browser_options.add_preference(:download,
