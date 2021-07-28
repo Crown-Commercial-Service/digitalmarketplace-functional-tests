@@ -8,8 +8,8 @@ Given /^I (?:re-?)?visit the homepage$/ do
 end
 
 Given /^I (?:re-?)?visit the (.* )?(\/.*) page$/ do |app, url|
-  # If the app is set, then send the request using rest-client instead of capybara
-  # and store the result in @response. Otherwise, poltergeist/phantomjs try to wrap
+  # If the app is set, then send the request using rest-client instead of Capybara
+  # and store the result in @response. Otherwise, chromedriver tries to wrap
   # the response JSON in HTML.
   if app
     domain = domain_for_app(app.strip)
