@@ -2,46 +2,33 @@ require 'erb'
 require 'rspec'
 require 'capybara'
 require 'capybara/cucumber'
-require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
+require 'selenium-webdriver'
 
 RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = [:expect] }
 end
 
-if (ENV['BROWSER'] == 'true')
-  require 'selenium-webdriver'
-  Capybara.default_driver = :selenium
-
-  Capybara.register_driver :selenium do |app|
-    browser = :chrome
-    browser_options = Selenium::WebDriver::Chrome::Options.new
-    browser_options.add_preference(:download,
-                                    prompt_for_download: false,
-                                    default_directory: '/tmp')
-    browser_options.add_argument('window-size=1400,1400')
-    browser_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      "goog:loggingPrefs" => {
-        performance: "ALL"
-      }
-    )
-
-    if (ENV['HEADLESS'] == 'true')
-      browser_options.headless!
-    end
-
-    http_client = Selenium::WebDriver::Remote::Http::Default.new
-    http_client.timeout = 180
-    Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: browser_capabilities
+Capybara.default_driver = :selenium
+Capybara.register_driver :selenium do |app|
+  browser = :chrome
+  browser_options = Selenium::WebDriver::Chrome::Options.new
+  browser_options.add_preference(:download,
+                                 prompt_for_download: false,
+                                 default_directory: '/tmp')
+  browser_options.add_argument('window-size=1400,1400')
+  browser_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    "goog:loggingPrefs" => {
+      performance: "ALL"
+    }
   )
-  end
-else
-  Capybara.default_driver = :poltergeist
 
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(
-      app, timeout: 180, phantomjs_logger: File.open(File::NULL, "w"), phantomjs_options: ["--ssl-protocol=tlsv1.2"])
-  end
+  browser_options.headless! unless (ENV['BROWSER'] == 'true')
+
+  http_client = Selenium::WebDriver::Remote::Http::Default.new
+  http_client.timeout = 180
+  Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: browser_capabilities
+)
 end
 
 def domain_for_app(app)
