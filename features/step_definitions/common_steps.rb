@@ -549,24 +549,14 @@ Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)?
   else
     target_window = current_window
   end
-  if is_chrome
-    requests = inline_http_requests
-    disposition_parts = requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
-  else
-    within_window(target_window) do
-      disposition_parts = page.response_headers['Content-Disposition'].split(";")
-    end
-  end
+  requests = inline_http_requests
+  disposition_parts = requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
   expect(disposition_parts[0]).to eq(case download_inline when "download" then "attachment" else download_inline end)
   if ending
     expect(disposition_parts[1]).to match("^\s*filename=.*#{Regexp.escape(ending)}['\"]?\s*$")
   end
   if content_type
-    if is_chrome
-      expect(requests.find { |r| r['content-type'] == content_type }).not_to be_nil
-    else
-      expect(page.response_headers['Content-Type']).to eq(content_type)
-    end
+    expect(requests.find { |r| r['content-type'] == content_type }).not_to be_nil
   end
 end
 

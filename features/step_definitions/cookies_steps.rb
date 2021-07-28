@@ -11,28 +11,12 @@ end
 # Based on http://jbusser.github.io/2014/11/01/integration-testing-google-analytics-with-capybara-and-rspec.html
 
 def google_analytics_requests
-  if is_chrome
-    inline_http_requests.select { |l| l.dig(":authority") == 'www.google-analytics.com' }
-  else
-    inline_http_requests.select do |request|
-    # Return all requests matching this host
-      request.host == 'www.google-analytics.com'
-    end
-  end
+  inline_http_requests.select { |l| l.dig(":authority") == 'www.google-analytics.com' }
 end
 
 def google_analytics_request_with_param(param)
-  if is_chrome
-    collect_requests = google_analytics_requests { |r|  r[':path'].include? '/collect' }
-    collect_requests.find { |cq| cq[':path'].match param }
-  else
-    google_analytics_requests.detect do |request|
-    # We're only interested in analytics requests with `/collect/` in the path
-      if request.path.match 'collect'
-        request.query.match param unless request.query.nil?
-      end
-    end
-  end
+  collect_requests = google_analytics_requests { |r|  r[':path'].include? '/collect' }
+  collect_requests.find { |cq| cq[':path'].match param }
 end
 
 And(/^a tracking pageview (has been|has not been) fired(?: with (.+@.+) redacted)?$/) do |has_tracking, email|
