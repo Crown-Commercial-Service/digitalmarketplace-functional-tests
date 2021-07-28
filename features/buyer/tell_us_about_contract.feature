@@ -4,8 +4,6 @@ Feature: Direct Award flows
 Background:
   Given I have the latest live g-cloud framework
 
-# This test fails when run using PhantomJS/Poltergeist on remote environments. See https://trello.com/c/WPBGDSEA
-@skip-preview @skip-staging
 Scenario: Unauthenticated user can save a search after logging in
   Given I have an existing buyer user
   And I visit the /g-cloud/search page
