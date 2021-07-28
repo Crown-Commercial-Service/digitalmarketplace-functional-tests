@@ -47,7 +47,7 @@ Then (/^I see that supplier in one of the pages that follow from clicking #{MAYB
     result_class = 'search-result'
     result_heading_class = 'search-result-title'
   end
-  until search_result = page.first(:xpath, "//*[@class='#{result_class}'][.//h2//a[contains(@href, '#{@supplier['id']}')]]")
+  until search_result = page.first(:xpath, "//*[@class='#{result_class}'][.//h2//a[contains(@href, '#{@supplier['id']}')]]", minimum: 0)
     # ^^^ note assignment, not comparison here ^^^
     i += 1
     page.click_link(next_link_label)
