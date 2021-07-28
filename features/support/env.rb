@@ -14,24 +14,17 @@ if (ENV['BROWSER'] == 'true')
   Capybara.default_driver = :selenium
 
   Capybara.register_driver :selenium do |app|
-    if (ENV['CHROME'] == 'true')
-      browser = :chrome
-      browser_options = Selenium::WebDriver::Chrome::Options.new
-      browser_options.add_preference(:download,
-                                     prompt_for_download: false,
-                                     default_directory: '/tmp')
-      browser_options.add_argument('window-size=1400,1400')
-      browser_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        "goog:loggingPrefs" => {
-          performance: "ALL"
-        }
-      )
-
-    else
-      browser = :firefox
-      browser_options = Selenium::WebDriver::Firefox::Options.new
-      browser_capabilities = nil
-    end
+    browser = :chrome
+    browser_options = Selenium::WebDriver::Chrome::Options.new
+    browser_options.add_preference(:download,
+                                    prompt_for_download: false,
+                                    default_directory: '/tmp')
+    browser_options.add_argument('window-size=1400,1400')
+    browser_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      "goog:loggingPrefs" => {
+        performance: "ALL"
+      }
+    )
 
     if (ENV['HEADLESS'] == 'true')
       browser_options.headless!
