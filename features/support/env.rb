@@ -28,7 +28,8 @@ Capybara.register_driver :selenium do |app|
   http_client = Selenium::WebDriver::Remote::Http::Default.new
   http_client.read_timeout = 180
   http_client.open_timeout = 180
-  Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: browser_capabilities
+  url = 'http://localhost:4444/wd/hub' if ENV['DOCKER']
+  Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: browser_capabilities, url: url
 )
 end
 
