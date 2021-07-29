@@ -6,12 +6,6 @@ Before('@smoulder-tests') do
   @SMOULDER_TESTS = true
 end
 
-Before('@cookie-settings') do
-  # We need to visit the domain before we can delete its cookies.
-  # TODO remove once using Capybara 3.9.0+
-  page.visit("#{dm_frontend_domain}")
-end
-
 Before do
   Capybara.reset_sessions!
   @timestamp = Time.now.to_i

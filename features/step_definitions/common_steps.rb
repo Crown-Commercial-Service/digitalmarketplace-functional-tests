@@ -8,8 +8,8 @@ Given /^I (?:re-?)?visit the homepage$/ do
 end
 
 Given /^I (?:re-?)?visit the (.* )?(\/.*) page$/ do |app, url|
-  # If the app is set, then send the request using rest-client instead of capybara
-  # and store the result in @response. Otherwise, poltergeist/phantomjs try to wrap
+  # If the app is set, then send the request using rest-client instead of Capybara
+  # and store the result in @response. Otherwise, chromedriver tries to wrap
   # the response JSON in HTML.
   if app
     domain = domain_for_app(app.strip)
@@ -231,6 +231,12 @@ When /^I enter #{MAYBE_VAR} in the '(.*)' field( and click its associated '(.*)'
     form_element = field_element.find(:xpath, "ancestor::form")
     form_element.click_button(click_button_name)
   end
+end
+
+When /^I enter #{MAYBE_VAR} in the '(.*)' field and press the '(.*)' key?$/ do |value, field_name, key_name|
+  field_element = page.find_field field_name
+  field_element.set value
+  field_element.send_keys(key_name.to_sym)
 end
 
 When /^I enter #{MAYBE_VAR} in the '(.*)' field and click the selected autocomplete option?$/ do |value, field_name|
@@ -543,24 +549,14 @@ Then(/^I should get an? (download|inline) file(?: with file.?name ending(?: in)?
   else
     target_window = current_window
   end
-  if is_chrome
-    requests = inline_http_requests
-    disposition_parts = requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
-  else
-    within_window(target_window) do
-      disposition_parts = page.response_headers['Content-Disposition'].split(";")
-    end
-  end
+  requests = inline_http_requests
+  disposition_parts = requests.map { |r| r.dig('content-disposition') }.compact[0].split(";")
   expect(disposition_parts[0]).to eq(case download_inline when "download" then "attachment" else download_inline end)
   if ending
     expect(disposition_parts[1]).to match("^\s*filename=.*#{Regexp.escape(ending)}['\"]?\s*$")
   end
   if content_type
-    if is_chrome
-      expect(requests.find { |r| r['content-type'] == content_type }).not_to be_nil
-    else
-      expect(page.response_headers['Content-Type']).to eq(content_type)
-    end
+    expect(requests.find { |r| r['content-type'] == content_type }).not_to be_nil
   end
 end
 

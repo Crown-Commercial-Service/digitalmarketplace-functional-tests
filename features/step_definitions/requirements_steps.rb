@@ -101,7 +101,7 @@ When "I answer all summary questions with:" do |table|
     end
   end
 
-  is_summary_table = page.first('tr.summary-item-row')
+  is_summary_table = page.first('tr.summary-item-row', minimum: 0)
 
   # Hack to make it work with both cases until we remove summary table
   if is_summary_table
@@ -150,7 +150,7 @@ When "I answer all summary questions" do
   }
 end
 
-Then "I see '$expected_text' text in the desktop preview panel" do |expected_text|
+Then /I see '(.*)' text in the desktop preview panel/ do |expected_text|
   within_frame(0) do
     expect(page).to have_content expected_text
   end
