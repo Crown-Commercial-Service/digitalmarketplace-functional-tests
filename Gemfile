@@ -14,6 +14,7 @@ gem "rest-client", "2.0.2"
 gem "rspec", "3.8.0"
 gem "selenium-webdriver", "3.142.6"
 gem "test-unit", "3.3.3"
+gem 'webdriver_manager'
 
 group :test do
   gem "govuk-lint", "~> 3.11.4"

@@ -4,6 +4,7 @@ require 'capybara'
 require 'capybara/cucumber'
 require 'capybara-screenshot/cucumber'
 require 'selenium-webdriver'
+require 'webdriver_manager'
 
 RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = [:expect] }
