@@ -26,7 +26,8 @@ Capybara.register_driver :selenium do |app|
   browser_options.headless! unless (ENV['BROWSER'] == 'true')
 
   http_client = Selenium::WebDriver::Remote::Http::Default.new
-  http_client.timeout = 180
+  http_client.read_timeout = 180
+  http_client.open_timeout = 180
   Capybara::Selenium::Driver.new(app, browser: browser, http_client: http_client, options: browser_options, desired_capabilities: browser_capabilities
 )
 end
