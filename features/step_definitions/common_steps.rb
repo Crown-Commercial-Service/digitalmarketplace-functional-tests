@@ -342,7 +342,7 @@ Then(/^I see #{MAYBE_VAR} as the page header context$/) do |value|
 end
 
 When /^I choose file '(.*)' for the field '(.*)'$/ do |file, label|
-  attach_file(label, File.join(Dir.pwd, 'fixtures', file))
+  attach_file(label, File.join(Dir.pwd, 'fixtures', file), make_visible: true)
 end
 
 When /^I click the top\-level summary table '(.*)' link for the section '(.*)'$/ do |link_name, field_to_edit|
