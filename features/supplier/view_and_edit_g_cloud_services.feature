@@ -66,7 +66,7 @@ Scenario: Supplier user can edit the features and benefits of a service
   # tidy up
   Then I ensure that all update audit events for that service are acknowledged
 
-@requires-credentials @file-upload @skip-preview @skip-staging
+@requires-credentials @file-upload
 Scenario: Supplier user can replace the service definition document
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
@@ -78,7 +78,7 @@ Scenario: Supplier user can replace the service definition document
   # tidy up
   Then I ensure that all update audit events for that service are acknowledged
 
-@requires-credentials @file-upload @skip-preview @skip-staging
+@requires-credentials @file-upload
 Scenario: Supplier user can not replace the service definition document with a non-pdf file
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
@@ -88,7 +88,7 @@ Scenario: Supplier user can not replace the service definition document with a n
   And I see a validation message containing 'an Open Document Format (ODF) or PDF/A (eg .pdf, .odt).'
   And that service has no unacknowledged update audit events
 
-@requires-credentials @file-upload @skip-preview @skip-staging
+@requires-credentials @file-upload
 Scenario: Supplier user can not replace the service definition document with a file over 5MB
   When I click the top-level summary table 'Edit' link for the section 'Documents'
   Then I am on the 'Documents' page
