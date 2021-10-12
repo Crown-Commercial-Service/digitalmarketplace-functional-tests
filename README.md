@@ -31,6 +31,23 @@ You will have to install `chromedriver` separately:
 brew install chromedriver
 ```
 
+### Alternative `chromedriver` install for mac
+If `brew` does not work when installing `chromedriver`, try following these steps.
+
+Download `chromedriver` manually from the [ChromeDriver website](https://chromedriver.chromium.org/downloads).
+Make sure it [matches your version of Chrome](https://www.businessinsider.com/what-version-of-google-chrome-do-i-have?r=US&IR=T).
+
+To your `~/.bash_profile` (or equivalent) you need to add the path to the folder in which `chromedriver` is enclosed.
+This would look something like this:
+```
+export PATH=/<path_to_folder_with_chromedriver>:$PATH
+```
+Once you have refreshed your terminal, you may need to run this command:
+```bash
+xattr -d com.apple.quarantine $(which chromedriver)
+```
+This will make sure your Mac has the ability to open `chromedriver`.
+
 ## Running tests
 
 If you have an environment set up then tests can be run with `bundle exec cucumber`
