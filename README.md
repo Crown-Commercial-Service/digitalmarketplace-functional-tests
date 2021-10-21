@@ -123,7 +123,7 @@ different experience depending on your setup.
 
 In order to run the functional tests against local apps you will need a reverse proxy
 that serves the application through the same host / port (if you are using 
-[dmrunner](https://github.com/alphagov/digitalmarketplace-runner) to run
+[dmrunner](https://github.com/Crown-Commercial-Service/digitalmarketplace-runner) to run
 your local environment, then this will be done for you). There is an Nginx config provided
 with a bootstrap script at `nginx/bootstrap.sh`. Once this has been run and all the
 applications are running the functional tests can be run with
@@ -176,7 +176,7 @@ Further info about the linter can be found [here](https://docs.rubocop.org/en/st
 
 Setting up your local environment and database to run the functional tests against can be a pain. Wouldn't it be nice if you could get all the apps up and running, backed by a database in the correct state with just one command?
 
-[dmrunner](https://github.com/alphagov/digitalmarketplace-runner) is an experimental utility to run all the apps and services locally (see the README for setup details).
+[dmrunner](https://github.com/Crown-Commercial-Service/digitalmarketplace-runner) is an experimental utility to run all the apps and services locally (see the README for setup details).
 
 ## Principles to follow when writing functional tests
 
