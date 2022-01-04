@@ -5,13 +5,9 @@ module CatalogueHelpers
 
   def self.get_page_count(page)
     begin
-      /\s*(\d+)\s*of\s*(\d+)\s*/.match(page.find(:xpath, "//*[@class='next']//*[@class='page-numbers']").text)[2]
+      /\s*(\d+)\s*of\s*(\d+)\s*/.match(page.find(:xpath, "//*[@class='dm-pagination__link-label']").text)[2]
     rescue Capybara::ElementNotFound
-      begin
-        /\s*(\d+)\s*of\s*(\d+)\s*/.match(page.find(:xpath, "//*[@class='previous']//*[@class='page-numbers']").text)[2]
-      rescue Capybara::ElementNotFound
-        nil
-      end
+      nil
     end
   end
 
