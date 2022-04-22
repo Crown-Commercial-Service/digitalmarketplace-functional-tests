@@ -12,7 +12,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
     - name: Install dependencies
-      run: bundle install
+      run: make install
     - name: Lint Ruby
       run: make lint
     - name: Check features
