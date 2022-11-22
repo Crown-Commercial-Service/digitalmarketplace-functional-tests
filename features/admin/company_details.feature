@@ -2,7 +2,9 @@
 Feature: Company details page
 
 Background:
-  Given I have the latest live g-cloud framework with the cloud-support lot
+  # Now that G-Cloud 12 has expired, we cannot have G-Cloud 12 services
+  #
+  # Given I have the latest live g-cloud framework with the cloud-support lot
   And I have a supplier with:
       | name                 | DM Functional Test Supplier - Company details feature |
       | registeredName       | DM Functional Test Suppliers Ltd.                     |
@@ -10,10 +12,10 @@ Background:
   And that supplier has a user with:
       | name   | DM Functional Test - Supplier Mr Muffins |
       | email  | muffins@example.com |
-  And that supplier has applied to be on that framework
-  And we accepted that suppliers application to the framework
-  And that supplier has returned a signed framework agreement for the framework
-  And that supplier has a service on the cloud-support lot
+  # And that supplier has applied to be on that framework
+  # And we accepted that suppliers application to the framework
+  # And that supplier has returned a signed framework agreement for the framework
+  # And that supplier has a service on the cloud-support lot
 
 Scenario Outline: Correct admin roles can view a supplier's details
   Given I am logged in as the existing <role> user
@@ -33,7 +35,7 @@ Scenario Outline: Correct admin roles can view a supplier's details
     | Company registration number  | 87654321                             |
     | DUNS Number                  | <ANY>                                |
     | Address                      | 14 Duke Street Dublin H3 LY5 Ireland |
-  And I see the framework the supplier is on in the 'Frameworks' table
+  # And I see the framework the supplier is on in the 'Frameworks' table
   When I click the 'Users' link
   Then I am on the 'DM Functional Test Supplier - Company details feature' page
   And I see an entry in the 'Users' table with:

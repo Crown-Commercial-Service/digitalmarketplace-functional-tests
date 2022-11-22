@@ -2,7 +2,9 @@
 Feature: Editing company details
 
 Background:
-  Given I have the latest live g-cloud framework with the cloud-support lot
+  # Now that G-Cloud 12 has expired, we cannot have G-Cloud 12 services
+  #
+  # Given I have the latest live g-cloud framework with the cloud-support lot
   And I have a supplier with:
       | name                 | DM Functional Test Supplier - Edit company details feature |
       | registeredName       | We Edit Company Details Ltd.                               |
@@ -10,10 +12,10 @@ Background:
   And that supplier has a user with:
       | name   | DM Functional Test - Supplier Mr Muffins |
       | email  | muffins@example.com |
-  And that supplier has applied to be on that framework
-  And we accepted that suppliers application to the framework
-  And that supplier has returned a signed framework agreement for the framework
-  And that supplier has a service on the cloud-support lot
+  # And that supplier has applied to be on that framework
+  # And we accepted that suppliers application to the framework
+  # And that supplier has returned a signed framework agreement for the framework
+  # And that supplier has a service on the cloud-support lot
 
 @with-admin-ccs-data-controller-user
 Scenario: Admin CCS Data Controller can edit a supplier's details
