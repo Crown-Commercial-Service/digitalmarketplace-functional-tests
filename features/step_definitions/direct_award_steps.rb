@@ -24,13 +24,13 @@ When (/^I am ready to tell the outcome for the '(.*)' saved search$/) do |search
 end
 
 When (/^I have exported my results for the '(.*)' saved search$/) do |search_name|
+  export_direct_award_project
+
   steps %{
     Given I visit the /buyers/direct-award/g-cloud page
     And I click the '#{search_name}' link
-    And I click the 'Export your results' link
-    And I check 'I understand that I cannot edit my search after I export my results' checkbox
-    And I click the 'Export results and continue' button
-    Then I see a success flash message containing 'Results exported. Your files are ready to download.'
+    And I am on the '#{search_name}' page
+    And I click the 'Download your results' link
   }
 end
 

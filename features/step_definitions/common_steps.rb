@@ -37,7 +37,20 @@ Given /^I have the latest live (\S*) framework(?: with the (.*) lot)?$/ do |meta
     frameworks.delete_if { |framework| framework['lots'].select { |lot| lot["slug"] == lot_slug }.to_a.empty? }
   end
   expect(frameworks).not_to be_empty, _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
-  @framework = frameworks.sort_by! { |framework| framework[:id] }.reverse![0]
+  @framework = frameworks.max_by { |framework| framework['id'] }
+  puts "Framework: #{@framework['slug']}"
+end
+
+Given /^I have the latest expired (\S*) framework(?: with the (.*) lot)?$/ do |metaframework_slug, lot_slug|
+  response = call_api(:get, "/frameworks")
+  expect(response.code).to eq(200), _error(response, "Failed getting frameworks")
+  frameworks = JSON.parse(response.body)['frameworks']
+  frameworks.delete_if { |framework| framework['framework'] != metaframework_slug || framework['status'] != 'expired' }
+  if lot_slug
+    frameworks.delete_if { |framework| framework['lots'].select { |lot| lot["slug"] == lot_slug }.to_a.empty? }
+  end
+  expect(frameworks).not_to be_empty, _error(response, "No live '#{metaframework_slug}' frameworks found with lot '#{lot_slug}'")
+  @framework = frameworks.max_by { |framework| framework['id'] }
   puts "Framework: #{@framework['slug']}"
 end
 
@@ -581,4 +594,16 @@ end
 When /^I see the '(.*)' field prefilled with #{MAYBE_VAR}?$/ do |field_name, value|
   field_element = page.find_field field_name
   expect(field_element.value).to include(normalize_whitespace(value))
+end
+
+Then(/^I cannot see the link '(.*)'$/) do |link_text|
+  expect(page).not_to have_css('a', text: link_text)
+end
+
+Then('the following content should be displayed on the page:') do |table|
+  page_text = page.find('#main-content').text
+
+  table.raw.flatten.each do |item|
+    expect(page_text).to include(item)
+  end
 end
