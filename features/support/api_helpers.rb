@@ -711,3 +711,15 @@ def create_direct_award_project(user, project_name, search_query)
 
   project
 end
+
+def export_direct_award_project
+  response = call_api(
+    :post,
+    "/direct-award/projects/#{@project['id']}/lock",
+    payload: {
+      "updated_by": "functional tests"
+    }
+  )
+
+  expect(response.code).to eq(200), response
+end

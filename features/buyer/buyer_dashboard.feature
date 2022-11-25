@@ -1,10 +1,8 @@
 @buyer @buyer-dashboard
 Feature: Buyer Dashboard
 
-# Now that G-Cloud 12 has expired, we cannot procure G-Cloud 12 services
-#
-# Background:
-  # Given I have the latest live g-cloud framework
+Background:
+  Given I have the latest expired 'g-cloud' framework
 
 Scenario: Users should see new Dashboard
   Given I am logged in as a buyer user
@@ -12,13 +10,11 @@ Scenario: Users should see new Dashboard
   Then I see 'Cloud hosting, software and support' text on the page
   And I see 'Digital outcomes, specialists and user research' text on the page
 
-# Now that G-Cloud 12 has expired, we cannot procure G-Cloud 12 services
-#
-# Scenario: Users should see link when there are searches available to view
-  # Given I am logged in as a buyer user
-  # And I have created and saved a search called 'my cloud project'
-  # And I visit the /buyers page
-  # Then I see the 'View your saved searches' link
+Scenario: Users should see link when there are searches available to view
+  Given I am logged in as a buyer user
+  And I have created and saved a search called 'my cloud project'
+  And I visit the /buyers page
+  Then I see the 'View your saved searches' link
 
 Scenario: Users should see message when no searches are created
   Given I am logged in as a buyer user
