@@ -4,10 +4,7 @@ Feature: Create buyer account
 @requires-credentials @notify
 Scenario: Create a new buyer account when trying to create a requirement from the home page
   Given I visit the homepage
-  When I click 'Find an individual specialist'
-  Then I am on the 'Find an individual specialist' page
-
-  When I click the 'Create requirement' button
+  When I click 'Log in'
   Then I am on the 'Log in to the Digital Marketplace' page
 
   When I click the 'Create a buyer account' link
