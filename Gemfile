@@ -11,7 +11,7 @@ gem "parallel_tests", "2.18.0"
 gem "rake", "13.0.6"
 gem "report_builder", "0.1.4"
 gem "rest-client", "2.0.2"
-gem "rspec", "3.8.0"
+gem "rspec", "3.12.0"
 gem "selenium-webdriver", "3.142.6"
 gem "test-unit", "3.3.3"
 
