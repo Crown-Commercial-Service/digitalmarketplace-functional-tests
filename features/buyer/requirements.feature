@@ -195,29 +195,30 @@ Feature: Create and publish a requirement
 #     | draft     | Unpublished requirements |
 
 # Even though DOS5 is closed, buyers will still be able to edit any briefs they already have open
-Scenario: Delete a draft requirement
-  Given I am logged in as the buyer of a draft brief
-  And I go to that brief overview page
+# I've turned off the draft brief tests because they do not work now that buyers are not making briefs
+# Scenario: Delete a draft requirement
+#   Given I am logged in as the buyer of a draft brief
+#   And I go to that brief overview page
   
-  Then I see the 'Delete draft requirements' link
-  And I click 'Delete draft requirements'
-  Then I am on the 'Are you sure you want to delete these requirements?' page
-  Then I see the 'Yes, delete' button
-  And I click 'Yes, delete'
-  Then I am on the 'Your requirements' page
-  And I see a success flash message containing 'were deleted'
+#   Then I see the 'Delete draft requirements' link
+#   And I click 'Delete draft requirements'
+#   Then I am on the 'Are you sure you want to delete these requirements?' page
+#   Then I see the 'Yes, delete' button
+#   And I click 'Yes, delete'
+#   Then I am on the 'Your requirements' page
+#   And I see a success flash message containing 'were deleted'
 
 
-Scenario: Cancel a delete draft requirement request
-  Given I am logged in as the buyer of a draft brief
-  And I go to that brief overview page
+# Scenario: Cancel a delete draft requirement request
+#   Given I am logged in as the buyer of a draft brief
+#   And I go to that brief overview page
   
-  Then I see the 'Delete draft requirements' link
-  And I click 'Delete draft requirements'
-  Then I am on the 'Are you sure you want to delete these requirements?' page
-  Then I see the 'Cancel' link
-  And I click 'Cancel'
-  Then I am on that brief overview page
+#   Then I see the 'Delete draft requirements' link
+#   And I click 'Delete draft requirements'
+#   Then I am on the 'Are you sure you want to delete these requirements?' page
+#   Then I see the 'Cancel' link
+#   And I click 'Cancel'
+#   Then I am on that brief overview page
 
 
 Scenario: Withdraw live requirements
@@ -259,7 +260,7 @@ Scenario: Cancel a withdraw draft requirement request
 #   Then I am on the 'Green Tea Drinker' page
 
 
-Scenario: There is no 'Publish requirements' link for an incomplete requirement draft
-  Given I am logged in as the buyer of a draft brief
-  # And I have created an individual specialist requirement
-  Then I don't see the 'Publish requirements' link
+# Scenario: There is no 'Publish requirements' link for an incomplete requirement draft
+#   Given I am logged in as the buyer of a draft brief
+#   # And I have created an individual specialist requirement
+#   Then I don't see the 'Publish requirements' link
