@@ -220,34 +220,35 @@ Feature: Create and publish a requirement
 #   And I click 'Cancel'
 #   Then I am on that brief overview page
 
+# As DOS5 is closed, buyers will be unable to create new requirements so we need to remove these tests
+# as they wont be able to make use of a live brief
+# Scenario: Withdraw live requirements
+#   Given I am logged in as the buyer of a live brief
 
-Scenario: Withdraw live requirements
-  Given I am logged in as the buyer of a live brief
+#   When I click the 'View your account' link
+#   And I click the 'View your requirements' link
+#   Then I see that the 'Published requirements' summary table has 1 or more entries
 
-  When I click the 'View your account' link
-  And I click the 'View your requirements' link
-  Then I see that the 'Published requirements' summary table has 1 or more entries
-
-  When I go to that brief overview page
-  Then I see the 'Withdraw requirements' link
-  And I click 'Withdraw requirements'
-  Then I am on the 'Are you sure you want to withdraw these requirements?' page
-  Then I see the 'Withdraw requirements' button
-  And I click 'Withdraw requirements'
-  Then I am on the 'Your requirements' page
-  Then I see a success flash message containing 'withdrawn your requirements'
+#   When I go to that brief overview page
+#   Then I see the 'Withdraw requirements' link
+#   And I click 'Withdraw requirements'
+#   Then I am on the 'Are you sure you want to withdraw these requirements?' page
+#   Then I see the 'Withdraw requirements' button
+#   And I click 'Withdraw requirements'
+#   Then I am on the 'Your requirements' page
+#   Then I see a success flash message containing 'withdrawn your requirements'
 
 
-Scenario: Cancel a withdraw draft requirement request
-  Given I am logged in as the buyer of a live brief
-  And I go to that brief overview page
+# Scenario: Cancel a withdraw draft requirement request
+#   Given I am logged in as the buyer of a live brief
+#   And I go to that brief overview page
   
-  Then I see the 'Withdraw requirements' link
-  And I click 'Withdraw requirements'
-  Then I am on the 'Are you sure you want to withdraw these requirements?' page
-  Then I see the 'Cancel' link
-  And I click 'Cancel'
-  Then I am on that brief overview page
+#   Then I see the 'Withdraw requirements' link
+#   And I click 'Withdraw requirements'
+#   Then I am on the 'Are you sure you want to withdraw these requirements?' page
+#   Then I see the 'Cancel' link
+#   And I click 'Cancel'
+#   Then I am on that brief overview page
 
 
 # As DOS5 is closed, buyers will be unable to publish new requirements so will be unable to edit ones that have already been created
