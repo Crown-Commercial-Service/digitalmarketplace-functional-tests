@@ -13,7 +13,7 @@ gem "report_builder", "0.1.4"
 gem "rest-client", "2.0.2"
 gem "rspec", "3.12.0"
 gem "selenium-webdriver", "3.142.6"
-gem "test-unit", "3.3.3"
+gem "test-unit", "3.5.9"
 
 group :test do
   gem "govuk-lint", "~> 3.11.5"
