@@ -91,7 +91,7 @@ GEM
       parallel
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    power_assert (1.2.0)
+    power_assert (2.0.3)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -152,7 +152,7 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    test-unit (3.3.3)
+    test-unit (3.6.1)
       power_assert
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -185,7 +185,7 @@ DEPENDENCIES
   rubocop-rspec (= 1.39.0)
   ruby-prof (= 0.18.0)
   selenium-webdriver (= 3.142.6)
-  test-unit (= 3.3.3)
+  test-unit (= 3.6.1)
 
 BUNDLED WITH
    2.1.4
