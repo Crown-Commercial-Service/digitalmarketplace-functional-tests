@@ -51,6 +51,6 @@ Feature: Apps /_status is ok
 
   @status @admin-frontend
   Scenario: Check the admin frontend /_status
-    Given I visit the frontend /admin/_status page
+    Given I visit the admin-frontend /admin/_status page
     Then I see 'ok' as the value of the 'status' JSON field
     And Display the value of the 'version' JSON field as 'Release version'

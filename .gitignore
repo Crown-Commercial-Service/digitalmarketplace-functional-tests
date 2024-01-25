@@ -7,5 +7,7 @@ local.nix
 # config files
 config/local.sh
 config/preview.sh
+config/pre.sh
 config/staging.sh
+config/stg.sh
 config/production.sh

@@ -1,7 +1,16 @@
 require 'aws-sdk-s3'
 
 Given /^I have a randomized file containing the eicar test signature$/ do
-  @file = Fixtures.eicar_test_signature + SecureRandom.base64(129)
+  random = Random.new(Time.now.to_i)
+  available_characters = [
+    "\s",   # space
+    "\t",   # tab
+    "\n",   # CR
+    "\r",   # LF
+    "\x1A"  # SUB
+  ]
+
+  @file = Fixtures.eicar_test_signature + 60.times.map { available_characters[random.rand(5)] }.shuffle(random: random).join
 end
 
 When /^I upload #{MAYBE_VAR} to the documents bucket under the key #{MAYBE_VAR}$/ do |file_contents, destination_key|
@@ -18,7 +27,7 @@ Then /^I receive a notification regarding that file within ([0-9]+) minutes?$/ d
   etag = @s3_obj_response.etag.downcase.gsub(/[^a-z0-9]/, '')
   minutes = minutes_string.to_i
 
-  expected_ref = "eicar-found-#{etag}-#{dm_environment}"
+  expected_ref = "eicar-found-#{etag}-#{ENV.fetch('DM_AWS_ENVIRONMENT', 'native-aws')}"
   puts "Notify ref: #{expected_ref}"
 
   messages = nil
