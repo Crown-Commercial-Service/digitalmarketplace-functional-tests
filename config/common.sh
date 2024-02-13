@@ -7,6 +7,7 @@ export DM_SEARCH_API_ACCESS_TOKEN=${DM_SEARCH_API_ACCESS_TOKEN:=myToken}
 export DM_ANTIVIRUS_API_DOMAIN=${DM_ANTIVIRUS_API_DOMAIN:=https://antivirus-api.${DM_ENVIRONMENT}.marketplace.team}
 export DM_ASSETS_DOMAIN=${DM_ASSETS_DOMAIN:=https://assets.${DM_ENVIRONMENT}.marketplace.team}
 export DM_FRONTEND_DOMAIN=${DM_FRONTEND_DOMAIN:=https://www.${DM_ENVIRONMENT}.marketplace.team}
+export DM_ADMIN_FRONTEND_DOMAIN=${DM_ADMIN_FRONTEND_DOMAIN:=https://admin.${DM_ENVIRONMENT}.marketplace.team}
 
 export DM_NOTIFY_API_KEY=${DM_NOTIFY_API_KEY}
 

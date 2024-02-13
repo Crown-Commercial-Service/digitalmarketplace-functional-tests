@@ -42,6 +42,8 @@ def domain_for_app(app)
     dm_antivirus_api_domain
   when "assets"
     dm_assets_domain
+  when "admin-frontend"
+    dm_admin_frontend_domain
   when "frontend"
     dm_frontend_domain
   else
@@ -79,6 +81,10 @@ end
 
 def dm_frontend_domain
   ENV['DM_FRONTEND_DOMAIN']
+end
+
+def dm_admin_frontend_domain
+  ENV['DM_ADMIN_FRONTEND_DOMAIN']
 end
 
 def dm_pagination_limit
