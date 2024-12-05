@@ -23,5 +23,5 @@ end
 
 group :development do
   gem "pry", "0.14.2"
-  gem "ruby-prof", "0.18.0"
+  gem "ruby-prof", "1.6.3"
 end
