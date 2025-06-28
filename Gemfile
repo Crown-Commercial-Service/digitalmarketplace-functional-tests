@@ -1,8 +1,8 @@
 source "https://rubygems.org"
 
 gem "aws-sdk-s3", "1.94.1"
-gem "capybara", "3.35.3"
-gem "capybara-screenshot", "1.0.25"
+gem "capybara", "3.36.0"
+gem "capybara-screenshot", "1.0.26"
 gem "cucumber", "2.4.0"
 gem "json", "2.6.3"
 gem "launchy", "2.5.2"
@@ -16,7 +16,7 @@ gem "selenium-webdriver", "3.142.6"
 gem "test-unit", "3.3.3"
 
 group :test do
-  gem "govuk-lint", "~> 3.11.5"
+  gem "govuk-lint", "~> 4.0.0"
   gem "rubocop", "~> 0.74.0"
   gem "rubocop-rspec", "1.39.0"
 end
