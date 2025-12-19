@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "aws-sdk-s3", "1.94.1"
+gem "aws-sdk-s3", "1.208.0"
 gem "capybara", "3.35.3"
 gem "capybara-screenshot", "1.0.25"
 gem "cucumber", "2.4.0"
